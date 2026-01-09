@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+"<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -475,8 +475,7 @@
         });
 
         async function callGemini(question) {
-            const prompt = `You are not giving advice. You simulate a binary decision outcome. Reply only: "Yes" or "No". Only if forced: "Try again". Do not include any other text, explanation, or punctuation. ”should i” refers to people in general, not personal advice. The AI is prompted to give decisive answers, but refuses to unclear, inappropriate, or investment related questions as user actions must control outcomes. Answers may vary by user input depth.
-
+            const prompt = `You are not giving advice. You simulate a binary decision outcome. Reply only: "Yes", "No". Only if impossible to differentiate any leaning to a outrageous question, use: "Try again". Do not include any other text, explanation, or punctuation. ”should i” = hypothesized people in reality simulation.
 **Example: “**Should I go to Paris?” Answer: Yes / “Should I go to Paris with someone I hate?” A: No
 
 User's question: ${question}
