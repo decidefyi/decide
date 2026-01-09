@@ -475,7 +475,7 @@
         });
 
         async function callGemini(question) {
-            const prompt = `You are a decision-making assistant. The user will ask a yes/no question. You must respond with exactly one of these two words: "Yes", "No". Use "Try again" only when absolutely necessary. Do not include any other text, explanation, or punctuation.
+            const prompt = `You are not giving advice. You simulate a binary decision outcome. Reply only: "Yes" or "No". If inappropriate: "Try again". Do not include any other text, explanation, or punctuation.
 
 User's question: ${question}
 
