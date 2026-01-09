@@ -475,7 +475,7 @@
         });
 
         async function callGemini(question) {
-            const prompt = `You are not giving advice. You simulate a binary decision outcome. Reply only: "Yes" or "No". If inappropriate: "Try again". Do not include any other text, explanation, or punctuation.
+            const prompt = `You are not giving advice. You simulate a binary decision outcome. Reply only: "Yes" or "No". Only if forced: "Try again". Do not include any other text, explanation, or punctuation. ”should i” refers to people in general, not personal advice.
 
 User's question: ${question}
 
