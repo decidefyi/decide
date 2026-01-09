@@ -534,7 +534,7 @@ Output exactly one of: "Yes", "No", "Try again".`;
         }
 
         function updateTweetButton() {
-            const tweetText = `I asked @decidefyi: ${lastQuestion}\n\nThe answer was ${lastAnswer}.`;
+            const tweetText = `i asked @decidefyi: ${lastQuestion}\n\nthe answer was ${lastAnswer}.`;
             const encodedText = encodeURIComponent(tweetText);
             tweetBtn.href = `https://twitter.com/intent/tweet?text=${encodedText}`;
         }
