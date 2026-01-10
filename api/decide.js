@@ -34,11 +34,11 @@ module.exports = async (req, res) => {
     }
 
     const MODEL = "gemini-2.0-flash-lite";
-    const prompt = `You're a decisive oracle. Output only: Yes, No, or Try again. No other text.
+    const prompt = `You're a decisive oracle. You must commit and find the differentiation factor. Output only: "yes" or "no". No other text. No exceptions.
 
 User's question: ${q}
 
-Output exactly one of: Yes, No, Try again.`;
+Output exactly one of: yes, no`;
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
 
