@@ -686,10 +686,13 @@
             body: JSON.stringify({ question }),
         });
         const data = await response.json();
-        return data;
+return data;
     } catch (error) {
         console.error('Decide API error:', error);
-        return { c: 'unclear', v: 'try again' };
+        catch (error) {
+  console.error('Decide API error:', error);
+  return null;
+}
     }
 }
 
@@ -757,7 +760,8 @@ if (v === 'yes' || v === 'no') {
             
             const result = await decide(text);
             btn.disabled = false;
-            show(result, text);
+            if (!result) return; // ignored by server policy
+show(result, text);
         }
 
         function ask(t) {
