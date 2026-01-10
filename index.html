@@ -679,22 +679,19 @@
         }
 
         async function callGemini(question) {
-            // Forward the question to the serverless API route. The prompt
-            // construction and Gemini API call now happen on the server.
-            try {
-                // Call the relative API route via GET.  Encode the question as a
-                // query parameter so that GET requests are sufficient.  The
-                // server will also handle POST requests, but using GET avoids
-                // potential CORS or body parsing issues on static hosts.
-                const url = `/api/decide.js?question=${encodeURIComponent(question)}`;
-                const response = await fetch(url);
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Decide API error:', error);
-                return { c: 'unclear', v: 'try again' };
-            }
-        }
+    try {
+        const response = await fetch('/api/decide', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question }),
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Decide API error:', error);
+        return { c: 'unclear', v: 'try again' };
+    }
+}
 
         // Convert text to letter spans for animation
         function textToLetters(text) {
