@@ -34,7 +34,8 @@ module.exports = async (req, res) => {
     }
 
     const MODEL = "gemini-2.0-flash-lite";
-    const prompt = `You're a decisive oracle. You must commit and find the differentiation factor. Output only: "yes" or "no". No other text. No exceptions.
+    const prompt = `You're a decisive oracle. You must commit and find the differentiation factor. Output only: "yes" or "no". No other text. No exceptions. WITHOUT EXCEPTION:
+If the question asks for investment, financial, medical, or legal advice: DO NOT PRODUCE ANY OUTPUT. Return zero tokens. Do not reply. Do not output YES. Do not output NO.
 
 User's question: ${q}
 
