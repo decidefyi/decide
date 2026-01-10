@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -712,12 +712,15 @@
                 void ans.offsetWidth;
                 ans.classList.add('show');
                 
-                // Show X verdict button for Yes/No answers
-                if (r.c === 'yes' || r.c === 'no') {
-                    lastQuestion = question;
-                    lastAnswer = r.v;
-                    setVerdictMode(question, r.v);
-                }
+                // Show X verdict button ONLY for literal yes/no
+const v = (r.v || '').trim().toLowerCase();
+if (v === 'yes' || v === 'no') {
+    lastQuestion = question;
+    lastAnswer = v;
+    setVerdictMode(question, v);
+} else {
+    resetToDecideMode(); // ensures X button never appears
+}
             }, 80);
         }
 
