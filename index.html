@@ -458,7 +458,7 @@
                 <div class="chips">
                     <button class="chip" onclick="ask('prague worth a detour?')">prague worth detour?</button>
                     <button class="chip" onclick="ask('skip sleep again?')">skip sleep again?</button>
-                    <button class="chip" onclick="ask('1+1=2?')">text them back??</button>
+                    <button class="chip" onclick="ask('1+1=2?')">text them back?</button>
                 </div>
 
                 <!-- Single result area (ONLY ONE) -->
@@ -786,10 +786,16 @@
             }, 80);
 
             const result = await decide(text);
-            btn.disabled = false;
+btn.disabled = false;
 
-            if (!result) return; // ignored by server policy
-            show(result, text);
+// 🔴 HANDLE DENIED / BLOCKED / FAILED ANSWERS
+if (!result) {
+    show({ c: 'unclear', v: 'Try another question' }, text);
+    return;
+}
+
+show(result, text);
+
         }
 
         function ask(t) {
