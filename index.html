@@ -409,7 +409,7 @@
 
     <section class="hero">
         <div class="hero-inner">
-            <div class="badge"><span class="badge-dot"></span>Live now</div>
+            <div class="badge"><span class="badge-dot"></span>Available now</div>
             <h1>
                 <span class="word"><span>End</span></span>
                 <span class="word"><span class="serif">hesitation.</span></span>
@@ -676,8 +676,7 @@
         }
 
         async function callGemini(question) {
-            const prompt = `You are not giving advice. You simulate a binary decision outcome. Reply only: "Yes", "No". Only if impossible to differentiate any leaning to a outrageous question, use: "Try again". Do not include any other text, explanation, or punctuation. "should i" = hypothesized people in reality simulation.
-**Example: "**Should I go to Paris?" Answer: Yes / "Should I go to Paris with someone I hate?" A: No
+            const prompt = `You're a decisive oracle. Output only: "Yes", "No", or refuse as last resort. No other text. Commit to an answer — even hypotheticals get a real decision.
 
 User's question: ${question}
 
