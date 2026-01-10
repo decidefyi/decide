@@ -2,6 +2,30 @@
 // CommonJS export is the safest default on Vercel serverless for non-Next apps.
 
 module.exports = async (req, res) => {
+    // ---- Block F/M/L ADVICE (server-side, before Gemini) ----
+  const normalize = (s = "") => s.toLowerCase().replace(/\s+/g, " ").trim();
+
+  const wantsAdvice = (q) =>
+    /\b(should i|do i|can i|is it (smart|good|bad)|worth it|recommend|what should i|what do i|help me decide)\b/.test(q);
+
+  const isFinanceAdvice = (q) => {
+    const action = /\b(buy|sell|invest|trade|short|long|hold|dca|allocate|rebalance)\b/.test(q);
+    const asset  = /\b(bitcoin|btc|crypto|eth|ethereum|solana|token|coin|stock|shares?|etf|options?|futures|portfolio|yield|apy|apr|roi|price target)\b/.test(q);
+    return (wantsAdvice(q) || action) && asset;
+  };
+
+  const isMedicalAdvice = (q) => {
+    const action = /\b(diagnos|diagnose|treat|treatment|cure|take|dosage|dose|prescription|medication|medicine)\b/.test(q);
+    const health = /\b(symptom|pain|fever|rash|infection|disease|illness|pregnan|anxiety|depression|adhd)\b/.test(q);
+    return (wantsAdvice(q) || action) && health;
+  };
+
+  const isLegalAdvice = (q) => {
+    const action = /\b(is this legal|can i be sued|should i sue|lawsuit|press charges|legal action|settle)\b/.test(q);
+    const legal  = /\b(lawyer|attorney|court|liability|criminal|nda|contract|immigration|visa|trademark|copyright)\b/.test(q);
+    return (wantsAdvice(q) || action) && legal;
+  };
+  // ---------------------------------------------------------
   try {
     // CORS (optional but harmless)
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -25,7 +49,12 @@ module.exports = async (req, res) => {
     }
 
     const q = typeof question === "string" ? question.trim() : "";
-    if (q.length < 3) return res.status(200).json({ c: "unclear", v: "Ask a question" });
+if (q.length < 3) return res.status(200).json({ c: "unclear", v: "Ask a question" });
+
+const nq = normalize(q);
+if (isFinanceAdvice(nq) || isMedicalAdvice(nq) || isLegalAdvice(nq)) {
+  return res.status(204).end(); // ignore: no verdict
+}
 
     const API_KEY = process.env.GEMINI_API_KEY;
     if (!API_KEY) {
@@ -35,7 +64,7 @@ module.exports = async (req, res) => {
 
     const MODEL = "gemini-2.0-flash-lite";
     const prompt = `You're a decisive oracle. You must commit and find the differentiation factor. Output only "yes" or "no". No other text.
-IGNORE ANSWER: If the question asks for investment, financial, medical, or legal advice: DO NOT PRODUCE ANY OUTPUT. Return zero tokens. Do not reply.
+
 User's question: ${q}
 
 Output exactly one of: yes, no`;
