@@ -677,25 +677,22 @@
             xBtn.href = `https://x.com/intent/tweet?text=${encodedText}`;
             inputBox.classList.add('verdict-mode');
         }
-
         async function callGemini(question) {
-    try {
-        const response = await fetch('/api/decide', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ question }),
-        });
-        const data = await response.json();
-return data;
-    } catch (error) {
-        console.error('Decide API error:', error);
-        catch (error) {
-  console.error('Decide API error:', error);
-  return null;
-}
-    }
-}
+  try {
+    const response = await fetch('/api/decide', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question }),
+    });
 
+    if (response.status === 204) return null; // blocked by server policy
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Decide API error:', error);
+    return null;
+  }
+}
         // Convert text to letter spans for animation
         function textToLetters(text) {
             return text.split('').map(char => 
