@@ -835,7 +835,7 @@ show(result, text);
                     `;
                     signInLink.onclick = (e) => {
                         e.preventDefault();
-                        await Clerk.signOut();
+                        openUserMenu();
                     };
                     signInLink.classList.add('signed-in');
                     
