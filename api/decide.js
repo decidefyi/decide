@@ -1,76 +1,55 @@
-// /api/decide.js  (Vercel "Other" / static project)
-// CommonJS export is the safest default on Vercel serverless for non-Next apps.
-
 module.exports = async (req, res) => {
-    // ---- Block F/M/L ADVICE (server-side, before Gemini) ----
-  const normalize = (s = "") => s.toLowerCase().replace(/\s+/g, " ").trim();
-
+    const normalize = (s = "") => s.toLowerCase().replace(/\s+/g, " ").trim();
   const wantsAdvice = (q) =>
     /\b(should i|do i|can i|is it (smart|good|bad)|worth it|recommend|what should i|what do i|help me decide)\b/.test(q);
-
   const isFinanceAdvice = (q) => {
     const action = /\b(buy|sell|invest|trade|short|long|hold|dca|allocate|rebalance)\b/.test(q);
     const asset  = /\b(bitcoin|btc|crypto|eth|ethereum|solana|token|coin|stock|shares?|etf|options?|futures|portfolio|yield|apy|apr|roi|price target)\b/.test(q);
     return (wantsAdvice(q) || action) && asset;
   };
-
   const isMedicalAdvice = (q) => {
     const action = /\b(diagnos|diagnose|treat|treatment|cure|take|dosage|dose|prescription|medication|medicine)\b/.test(q);
     const health = /\b(symptom|pain|fever|rash|infection|disease|illness|pregnan|anxiety|depression|adhd)\b/.test(q);
     return (wantsAdvice(q) || action) && health;
   };
-
   const isLegalAdvice = (q) => {
     const action = /\b(is this legal|can i be sued|should i sue|lawsuit|press charges|legal action|settle)\b/.test(q);
     const legal  = /\b(lawyer|attorney|court|liability|criminal|nda|contract|immigration|visa|trademark|copyright)\b/.test(q);
     return (wantsAdvice(q) || action) && legal;
   };
-  // ---------------------------------------------------------
   try {
-    // CORS (optional but harmless)
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
     if (req.method === "OPTIONS") return res.status(204).end();
-
     let question = "";
-
     if (req.method === "GET") {
       const qp = req.query?.question ?? "";
       question = Array.isArray(qp) ? qp[0] : qp;
     } else if (req.method === "POST") {
-      // Vercel can give req.body as object OR string depending on setup
       const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
       question = body.question || "";
     } else {
       res.setHeader("Allow", ["GET", "POST", "OPTIONS"]);
       return res.status(405).json({ c: "unclear", v: "try again" });
     }
-
     const q = typeof question === "string" ? question.trim() : "";
 if (q.length < 3) return res.status(200).json({ c: "unclear", v: "Ask a question" });
-
 const nq = normalize(q);
 if (isFinanceAdvice(nq) || isMedicalAdvice(nq) || isLegalAdvice(nq)) {
   return res.status(204).end(); // ignore: no verdict
 }
-
     const API_KEY = process.env.GEMINI_API_KEY;
     if (!API_KEY) {
       console.error("GEMINI_API_KEY missing");
       return res.status(500).json({ c: "unclear", v: "try again" });
     }
-
     const MODEL = "gemini-2.0-flash-lite";
     const prompt = `You're a decisive oracle. You must commit and find the differentiation factor. Output only "yes" or "no". No other text. Answer metaphorical questions based on intent.
-
 User's question: ${q}
-
 Output exactly one of: yes, no`;
-
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
-
     const apiRes = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -79,21 +58,15 @@ Output exactly one of: yes, no`;
         generationConfig: { temperature: 0.7, maxOutputTokens: 10 },
       }),
     });
-
     const data = await apiRes.json();
-
     if (!apiRes.ok) {
       console.error("Gemini error:", data);
       return res.status(200).json({ c: "unclear", v: "try again" });
     }
-
     let out = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
-    // Normalize: lower, trim, remove quotes/punctuation
     out = out.toLowerCase().trim().replace(/^"+|"+$/g, "").replace(/[^\w\s]/g, "").trim();
-
     if (out === "yes") return res.status(200).json({ c: "yes", v: "yes" });
     if (out === "no") return res.status(200).json({ c: "no", v: "no" });
-
     return res.status(200).json({ c: "unclear", v: "try again" });
   } catch (err) {
     console.error("Decide API crash:", err);
