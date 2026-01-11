@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -433,7 +433,7 @@
                 <div class="chips">
                     <button class="chip" onclick="ask('prague worth a detour?')">prague worth detour?</button>
                     <button class="chip" onclick="ask('skip sleep again?')">skip sleep again?</button>
-                    <button class="chip" onclick="ask('1+1=2?')">text them back??</button>
+                    <button class="chip" onclick="ask('text them back?')">text them back?</button>
                 </div>
                 <div class="result">
                     <div class="ans" id="ans"></div>
@@ -835,7 +835,7 @@ show(result, text);
                     `;
                     signInLink.onclick = (e) => {
                         e.preventDefault();
-                        openUserMenu();
+                        await Clerk.signOut();
                     };
                     signInLink.classList.add('signed-in');
                     
