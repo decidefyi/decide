@@ -1,4 +1,4 @@
-import rules from "../../../rules/v1_us_individual.json" assert { type: "json" };
+const rules = require("../../../rules/v1_us_individual.json");
 
 function respond(res, status, payload) {
   res.statusCode = status;
