@@ -1,0 +1,18 @@
+{
+  "name": "RefundDecide Notary",
+  "version": "1.0.0",
+  "description": "Deterministic refund eligibility notary for US consumer subscriptions. Outputs ALLOWED, DENIED, or UNKNOWN.",
+  "url": "https://refund.decide.fyi",
+  "endpoint": "https://refund.decide.fyi/api/v1/refund/eligibility",
+  "capabilities": [
+    "dev.ucp.notary.refund"
+  ],
+  "execution": {
+    "mode": "stateless",
+    "side_effects": "none"
+  },
+  "auth": {
+    "type": "none",
+    "note": "Public v1 notary. No authentication required."
+  }
+}
