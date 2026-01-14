@@ -1,0 +1,24 @@
+{
+  "service": "refund.decide.fyi",
+  "type": "refund_eligibility_notary",
+  "version": "1.0.0",
+  "endpoint": {
+    "method": "POST",
+    "url": "https://refund.decide.fyi/api/v1/refund/eligibility"
+  },
+  "inputs": {
+    "vendor": "string",
+    "days_since_purchase": "number",
+    "region": "US",
+    "plan": "individual"
+  },
+  "outputs": {
+    "verdict": ["ALLOWED", "DENIED", "UNKNOWN"],
+    "code": "string",
+    "rules_version": "string"
+  },
+  "execution": {
+    "stateless": true,
+    "side_effects": "none"
+  }
+}
