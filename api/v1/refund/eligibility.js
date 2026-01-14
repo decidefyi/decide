@@ -1,6 +1,27 @@
 const rules = require("../../../rules/v1_us_individual.json");
 
 function respond(res, status, payload) {
+  try {
+    const req = res.req;
+
+    // Only log real API usage (POST), not random GET probes
+    if (req?.method === "POST") {
+      const ua = req.headers?.["user-agent"] || "unknown";
+      console.log(
+        JSON.stringify({
+          ts: new Date().toISOString(),
+          request_id: req.request_id || null,
+          path: req.url || null,
+          method: req.method || null,
+          vendor: payload?.vendor ?? null,
+          verdict: payload?.verdict ?? null,
+          code: payload?.code ?? null,
+          ua,
+        })
+      );
+    }
+  } catch (e) {}
+
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(payload));
@@ -17,6 +38,7 @@ function unknown(res, code, extra = {}) {
 }
 
 export default function handler(req, res) {
+  req.request_id = rid();
   // Only POST
   if (req.method !== "POST") {
     return respond(res, 405, {
