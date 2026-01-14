@@ -1,110 +1,109 @@
-const rules = require("../../../rules/v1_us_individual.json");
+import rules from "../../../rules/v1_us_individual.json";
 
-function respond(res, status, payload) {
-  try {
-    const req = res.req;
-
-    // Only log real API usage (POST), not random GET probes
-    if (req?.method === "POST") {
-      const ua = req.headers?.["user-agent"] || "unknown";
-      console.log(
-        JSON.stringify({
-          ts: new Date().toISOString(),
-          request_id: req.request_id || null,
-          path: req.url || null,
-          method: req.method || null,
-          vendor: payload?.vendor ?? null,
-          verdict: payload?.verdict ?? null,
-          code: payload?.code ?? null,
-          ua,
-        })
-      );
-    }
-  } catch (e) {}
-
-  res.statusCode = status;
+function json(res, statusCode, payload) {
+  res.statusCode = statusCode;
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(payload));
 }
 
-function unknown(res, code, extra = {}) {
-  return respond(res, 200, {
-    refundable: null,
-    verdict: "UNKNOWN",
-    code,
-    rules_version: rules.rules_version,
-    ...extra
-  });
+function rid() {
+  return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
 }
 
-export default function handler(req, res) {
-  req.request_id = rid();
-  // Only POST
-  if (req.method !== "POST") {
-    return respond(res, 405, {
-      refundable: null,
-      verdict: "UNKNOWN",
-      code: "METHOD_NOT_ALLOWED",
-      message: "Use POST",
-      rules_version: rules.rules_version
-    });
+async function readJson(req) {
+  // Works on Vercel Serverless + Next-style requests
+  if (req.body && typeof req.body === "object") return req.body;
+  if (req.body && typeof req.body === "string") return JSON.parse(req.body);
+
+  const chunks = [];
+  for await (const chunk of req) chunks.push(chunk);
+  const raw = Buffer.concat(chunks).toString("utf8");
+  if (!raw) return {};
+  return JSON.parse(raw);
+}
+
+function compute({ vendor, days_since_purchase, region, plan }) {
+  if (region !== "US") {
+    return { refundable: null, verdict: "UNKNOWN", code: "NON_US_REGION", rules_version: rules.rules_version };
+  }
+  if (plan !== "individual") {
+    return { refundable: null, verdict: "UNKNOWN", code: "NON_INDIVIDUAL_PLAN", rules_version: rules.rules_version };
   }
 
-  const { vendor, days_since_purchase, region, plan } = req.body || {};
-
-  // Strict input validation
-  if (!vendor || typeof vendor !== "string") {
-    return respond(res, 400, {
-      refundable: null,
-      verdict: "UNKNOWN",
-      code: "INVALID_VENDOR",
-      message: "vendor must be a string",
-      rules_version: rules.rules_version
-    });
+  const v = rules.vendors?.[vendor];
+  if (!v) {
+    return { refundable: null, verdict: "UNKNOWN", code: "UNSUPPORTED_VENDOR", rules_version: rules.rules_version, vendor };
   }
 
-  if (
-    typeof days_since_purchase !== "number" ||
-    !Number.isFinite(days_since_purchase) ||
-    days_since_purchase < 0
-  ) {
-    return respond(res, 400, {
-      refundable: null,
-      verdict: "UNKNOWN",
-      code: "INVALID_DAYS",
-      message: "days_since_purchase must be a non-negative number",
-      rules_version: rules.rules_version
-    });
+  // Special-cased unknowns
+  if (vendor === "amazon_prime") {
+    return { refundable: null, verdict: "UNKNOWN", code: "REQUIRES_BENEFITS_CHECK", rules_version: rules.rules_version, vendor, window_days: v.window_days };
   }
 
-  if (region !== "US") return unknown(res, "UNSUPPORTED_REGION", { vendor });
-  if (plan !== "individual") return unknown(res, "UNSUPPORTED_PLAN", { vendor });
-
-  const v = rules.vendors[vendor];
-  if (!v) return unknown(res, "UNKNOWN_VENDOR", { vendor });
-
-  if (v.mode === "requires_usage_verification") {
-    return unknown(res, "REQUIRES_USAGE_VERIFICATION", { vendor });
+  if (v.window_days === 0) {
+    return { refundable: false, verdict: "DENIED", code: "NO_REFUNDS", rules_version: rules.rules_version, vendor, window_days: v.window_days };
   }
 
-  if (v.window_days === 0 || v.mode === "no_refunds") {
-    return respond(res, 200, {
-      refundable: false,
-      verdict: "DENIED",
-      code: "NO_REFUNDS",
-      rules_version: rules.rules_version,
-      vendor
-    });
+  const d = Number(days_since_purchase);
+  if (!Number.isFinite(d) || d < 0) {
+    return { refundable: null, verdict: "UNKNOWN", code: "INVALID_DAYS_SINCE_PURCHASE", rules_version: rules.rules_version, vendor };
   }
 
-  const ok = days_since_purchase <= v.window_days;
-
-  return respond(res, 200, {
-    refundable: ok,
-    verdict: ok ? "ALLOWED" : "DENIED",
-    code: ok ? "WITHIN_WINDOW" : "OUT_OF_WINDOW",
+  const allowed = d <= v.window_days;
+  return {
+    refundable: allowed,
+    verdict: allowed ? "ALLOWED" : "DENIED",
+    code: allowed ? "WITHIN_WINDOW" : "OUTSIDE_WINDOW",
     rules_version: rules.rules_version,
     vendor,
-    window_days: v.window_days
-  });
+    window_days: v.window_days,
+  };
+}
+
+export default async function handler(req, res) {
+  const request_id = rid();
+  const ua = req.headers["user-agent"] || "unknown";
+
+  try {
+    // Make GET not noisy (helps scanners)
+    if (req.method === "GET") {
+      return json(res, 200, {
+        ok: true,
+        service: "refund.decide.fyi",
+        request_id,
+        message: "Use POST with JSON body.",
+        endpoint: "/api/v1/refund/eligibility",
+        rules_version: rules.rules_version,
+      });
+    }
+
+    if (req.method !== "POST") {
+      return json(res, 405, { ok: false, request_id, error: "METHOD_NOT_ALLOWED", allowed: ["GET", "POST"] });
+    }
+
+    const body = await readJson(req);
+    const payload = compute(body);
+
+    // lightweight structured log
+    console.log(JSON.stringify({
+      ts: new Date().toISOString(),
+      request_id,
+      method: req.method,
+      path: req.url,
+      vendor: body?.vendor ?? null,
+      verdict: payload?.verdict ?? null,
+      code: payload?.code ?? null,
+      ua,
+    }));
+
+    return json(res, 200, payload);
+  } catch (e) {
+    console.log(JSON.stringify({
+      ts: new Date().toISOString(),
+      request_id,
+      error: String(e?.message || e),
+      ua,
+    }));
+    return json(res, 500, { ok: false, request_id, error: "FUNCTION_INVOCATION_FAILED" });
+  }
 }
