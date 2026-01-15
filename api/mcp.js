@@ -1,4 +1,8 @@
 import { compute, getSupportedVendors } from "../lib/refund-compute.js";
+import { createRateLimiter, getClientIp, addRateLimitHeaders } from "../lib/rate-limit.js";
+
+// Rate limiter: 100 requests per minute per IP
+const rateLimiter = createRateLimiter(100, 60000);
 
 function send(res, status, payload) {
   res.statusCode = status;
@@ -75,6 +79,24 @@ export default async function handler(req, res) {
     res.end();
     return;
   }
+
+  // Rate limiting
+  const clientIp = getClientIp(req);
+  const rateLimitResult = rateLimiter(clientIp);
+
+  if (!rateLimitResult.allowed) {
+    res.setHeader("X-RateLimit-Limit", String(rateLimitResult.limit));
+    res.setHeader("X-RateLimit-Remaining", String(rateLimitResult.remaining));
+    res.setHeader("X-RateLimit-Reset", String(rateLimitResult.reset));
+    res.setHeader("Retry-After", String(rateLimitResult.retryAfter));
+    return send(res, 429, err(null, -32000, "Rate limit exceeded", {
+      retry_after: rateLimitResult.retryAfter,
+      message: `Too many requests. Try again in ${rateLimitResult.retryAfter} seconds.`
+    }));
+  }
+
+  // Add rate limit headers
+  addRateLimitHeaders(res, rateLimitResult);
 
   try {
     // MCP is POST for requests (SSE is optional; we're doing simplest viable)
