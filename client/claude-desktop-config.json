@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "refund-notary": {
+      "url": "https://refund.decide.fyi/api/mcp",
+      "description": "Deterministic refund eligibility notary for US subscriptions",
+      "transport": {
+        "type": "http"
+      }
+    }
+  }
+}
