@@ -1,4 +1,4 @@
-import { compute } from "../lib/refund-compute.js";
+import { compute, getSupportedVendors } from "../lib/refund-compute.js";
 
 function send(res, status, payload) {
   res.statusCode = status;
@@ -20,17 +20,21 @@ async function readJson(req) {
 // --- Minimal MCP (JSON-RPC 2.0 over HTTP POST) ---
 const SERVER_PROTOCOLS = ["2025-11-25", "2024-11-05"];
 
+// Dynamic vendor list
+const supportedVendors = getSupportedVendors();
+const vendorList = supportedVendors.join(", ");
+
 const TOOL = {
   name: "refund_eligibility",
   description:
-    "Deterministic refund eligibility notary for US consumer subscriptions. Returns ALLOWED / DENIED / UNKNOWN. Supported vendors: adobe, apple_app_store, canva, dropbox_us, google_play, microsoft_365, netflix, notion, spotify. US region and individual plans only.",
+    `Deterministic refund eligibility notary for US consumer subscriptions. Returns ALLOWED / DENIED / UNKNOWN. Supported vendors: ${vendorList}. US region and individual plans only.`,
   inputSchema: {
     type: "object",
     additionalProperties: false,
     properties: {
       vendor: {
         type: "string",
-        description: "Vendor identifier (lowercase, underscore-separated). Examples: adobe, spotify, netflix, microsoft_365, apple_app_store, google_play, notion, canva, dropbox_us"
+        description: `Vendor identifier (lowercase, underscore-separated). Supported: ${vendorList}`
       },
       days_since_purchase: {
         type: "number",
@@ -60,16 +64,22 @@ function err(id, code, message, data) {
 }
 
 export default async function handler(req, res) {
+  // CORS headers for browser clients
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Handle preflight
+  if (req.method === "OPTIONS") {
+    res.statusCode = 204;
+    res.end();
+    return;
+  }
+
   try {
-    // MCP is POST for requests (SSE is optional; we’re doing simplest viable)
+    // MCP is POST for requests (SSE is optional; we're doing simplest viable)
     if (req.method !== "POST") {
       return send(res, 405, { ok: false, error: "METHOD_NOT_ALLOWED", allowed: ["POST"] });
-    }
-
-    // Basic origin guard (optional but good hygiene)
-    const origin = req.headers.origin;
-    if (origin && origin !== "https://refund.decide.fyi" && origin !== "https://decide.fyi") {
-      return send(res, 403, { ok: false, error: "FORBIDDEN_ORIGIN" });
     }
 
     let msg;

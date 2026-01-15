@@ -2,8 +2,12 @@ import { compute, getRulesVersion } from "../../../lib/refund-compute.js";
 
 function json(res, statusCode, payload) {
   res.statusCode = statusCode;
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(payload));
+  if (payload !== null) {
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(payload));
+  } else {
+    res.end();
+  }
 }
 
 function rid() {
@@ -30,6 +34,16 @@ async function readJson(req) {
 export default async function handler(req, res) {
   const request_id = rid();
   const ua = req.headers["user-agent"] || "unknown";
+
+  // CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Handle preflight
+  if (req.method === "OPTIONS") {
+    return json(res, 204, null);
+  }
 
   try {
     if (req.method === "GET") {
