@@ -1,4 +1,4 @@
-import rules from "../rules/v1_us_individual.json";
+import { compute, getSupportedVendors } from "../lib/refund-compute.js";
 
 function send(res, status, payload) {
   res.statusCode = status;
@@ -17,59 +17,40 @@ async function readJson(req) {
   return JSON.parse(raw);
 }
 
-// --- Your existing refund logic (kept deterministic / stateless) ---
-function compute({ vendor, days_since_purchase, region, plan }) {
-  if (region !== "US") {
-    return { refundable: null, verdict: "UNKNOWN", code: "NON_US_REGION", rules_version: rules.rules_version };
-  }
-  if (plan !== "individual") {
-    return { refundable: null, verdict: "UNKNOWN", code: "NON_INDIVIDUAL_PLAN", rules_version: rules.rules_version };
-  }
-
-  const v = rules.vendors?.[vendor];
-  if (!v) {
-    return { refundable: null, verdict: "UNKNOWN", code: "UNSUPPORTED_VENDOR", rules_version: rules.rules_version, vendor };
-  }
-
-  if (vendor === "amazon_prime") {
-    return { refundable: null, verdict: "UNKNOWN", code: "REQUIRES_BENEFITS_CHECK", rules_version: rules.rules_version, vendor, window_days: v.window_days };
-  }
-
-  if (v.window_days === 0) {
-    return { refundable: false, verdict: "DENIED", code: "NO_REFUNDS", rules_version: rules.rules_version, vendor, window_days: v.window_days };
-  }
-
-  const d = Number(days_since_purchase);
-  if (!Number.isFinite(d) || d < 0) {
-    return { refundable: null, verdict: "UNKNOWN", code: "INVALID_DAYS_SINCE_PURCHASE", rules_version: rules.rules_version, vendor };
-  }
-
-  const allowed = d <= v.window_days;
-  return {
-    refundable: allowed,
-    verdict: allowed ? "ALLOWED" : "DENIED",
-    code: allowed ? "WITHIN_WINDOW" : "OUTSIDE_WINDOW",
-    rules_version: rules.rules_version,
-    vendor,
-    window_days: v.window_days,
-  };
-}
-
 // --- Minimal MCP (JSON-RPC 2.0 over HTTP POST) ---
 const SERVER_PROTOCOLS = ["2025-11-25", "2024-11-05"];
+
+// Dynamic vendor list
+const supportedVendors = getSupportedVendors();
+const vendorList = supportedVendors.join(", ");
 
 const TOOL = {
   name: "refund_eligibility",
   description:
-    "Deterministic refund eligibility notary for US consumer subscriptions. Returns ALLOWED / DENIED / UNKNOWN.",
+    `Deterministic refund eligibility notary for US consumer subscriptions. Returns ALLOWED / DENIED / UNKNOWN. Supported vendors: ${vendorList}. US region and individual plans only.`,
   inputSchema: {
     type: "object",
     additionalProperties: false,
     properties: {
-      vendor: { type: "string", description: "e.g. adobe, spotify, netflix" },
-      days_since_purchase: { type: "number" },
-      region: { type: "string", enum: ["US"] },
-      plan: { type: "string", enum: ["individual"] },
+      vendor: {
+        type: "string",
+        description: `Vendor identifier (lowercase, underscore-separated). Supported: ${vendorList}`
+      },
+      days_since_purchase: {
+        type: "number",
+        description: "Number of days since the subscription was purchased. Must be a non-negative number.",
+        minimum: 0
+      },
+      region: {
+        type: "string",
+        enum: ["US"],
+        description: "Region code. Currently only 'US' is supported."
+      },
+      plan: {
+        type: "string",
+        enum: ["individual"],
+        description: "Plan type. Currently only 'individual' plans are supported."
+      },
     },
     required: ["vendor", "days_since_purchase", "region", "plan"],
   },
@@ -83,22 +64,34 @@ function err(id, code, message, data) {
 }
 
 export default async function handler(req, res) {
+  // CORS headers for browser clients
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Handle preflight
+  if (req.method === "OPTIONS") {
+    res.statusCode = 204;
+    res.end();
+    return;
+  }
+
   try {
-    // MCP is POST for requests (SSE is optional; we’re doing simplest viable)
+    // MCP is POST for requests (SSE is optional; we're doing simplest viable)
     if (req.method !== "POST") {
       return send(res, 405, { ok: false, error: "METHOD_NOT_ALLOWED", allowed: ["POST"] });
     }
 
-    // Basic origin guard (optional but good hygiene)
-    const origin = req.headers.origin;
-    if (origin && origin !== "https://refund.decide.fyi" && origin !== "https://decide.fyi") {
-      return send(res, 403, { ok: false, error: "FORBIDDEN_ORIGIN" });
+    let msg;
+    try {
+      msg = await readJson(req);
+    } catch (parseError) {
+      return send(res, 200, err(null, -32700, "Parse error", { message: "Invalid JSON" }));
     }
 
-    const msg = await readJson(req);
     const { id = null, method, params } = msg || {};
 
-    if (!method) return send(res, 200, err(id, -32600, "Invalid Request"));
+    if (!method) return send(res, 200, err(id, -32600, "Invalid Request", { message: "method field is required" }));
 
     // initialize
     if (method === "initialize") {
@@ -139,20 +132,23 @@ export default async function handler(req, res) {
     if (method === "tools/call") {
       const name = params?.name;
       const args = params?.arguments || {};
-      if (name !== TOOL.name) return send(res, 200, err(id, -32602, "Unknown tool", { name }));
+      if (name !== TOOL.name) {
+        return send(res, 200, err(id, -32602, "Invalid params", { message: `Unknown tool: ${name}` }));
+      }
 
       const payload = compute(args);
+
+      // Format a human-readable message for text content
+      const textMessage = `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}`;
 
       return send(
         res,
         200,
         ok(id, {
           content: [
-            { type: "text", text: JSON.stringify(payload) }
+            { type: "text", text: textMessage }
           ],
-          // many clients like structured output; harmless to include
-          structuredContent: payload,
-          isError: false,
+          isError: payload.verdict === "UNKNOWN" && payload.code !== "NON_US_REGION" && payload.code !== "NON_INDIVIDUAL_PLAN",
         })
       );
     }

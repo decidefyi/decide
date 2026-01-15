@@ -1,9 +1,13 @@
-import rules from "../../../rules/v1_us_individual.json";
+import { compute, getRulesVersion } from "../../../lib/refund-compute.js";
 
 function json(res, statusCode, payload) {
   res.statusCode = statusCode;
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(payload));
+  if (payload !== null) {
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(payload));
+  } else {
+    res.end();
+  }
 }
 
 function rid() {
@@ -27,83 +31,19 @@ async function readJson(req) {
   return JSON.parse(raw);
 }
 
-function compute({ vendor, days_since_purchase, region, plan }) {
-  if (region !== "US") {
-    return {
-      refundable: null,
-      verdict: "UNKNOWN",
-      code: "NON_US_REGION",
-      rules_version: rules.rules_version,
-    };
-  }
-
-  if (plan !== "individual") {
-    return {
-      refundable: null,
-      verdict: "UNKNOWN",
-      code: "NON_INDIVIDUAL_PLAN",
-      rules_version: rules.rules_version,
-    };
-  }
-
-  const v = rules.vendors?.[vendor];
-  if (!v) {
-    return {
-      refundable: null,
-      verdict: "UNKNOWN",
-      code: "UNSUPPORTED_VENDOR",
-      rules_version: rules.rules_version,
-      vendor,
-    };
-  }
-
-  if (vendor === "amazon_prime") {
-    return {
-      refundable: null,
-      verdict: "UNKNOWN",
-      code: "REQUIRES_BENEFITS_CHECK",
-      rules_version: rules.rules_version,
-      vendor,
-      window_days: v.window_days,
-    };
-  }
-
-  if (v.window_days === 0) {
-    return {
-      refundable: false,
-      verdict: "DENIED",
-      code: "NO_REFUNDS",
-      rules_version: rules.rules_version,
-      vendor,
-      window_days: v.window_days,
-    };
-  }
-
-  const d = Number(days_since_purchase);
-  if (!Number.isFinite(d) || d < 0) {
-    return {
-      refundable: null,
-      verdict: "UNKNOWN",
-      code: "INVALID_DAYS_SINCE_PURCHASE",
-      rules_version: rules.rules_version,
-      vendor,
-    };
-  }
-
-  const allowed = d <= v.window_days;
-  return {
-    refundable: allowed,
-    verdict: allowed ? "ALLOWED" : "DENIED",
-    code: allowed ? "WITHIN_WINDOW" : "OUTSIDE_WINDOW",
-    rules_version: rules.rules_version,
-    vendor,
-    window_days: v.window_days,
-  };
-}
-
 export default async function handler(req, res) {
   const request_id = rid();
   const ua = req.headers["user-agent"] || "unknown";
+
+  // CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Handle preflight
+  if (req.method === "OPTIONS") {
+    return json(res, 204, null);
+  }
 
   try {
     if (req.method === "GET") {
@@ -113,7 +53,7 @@ export default async function handler(req, res) {
         request_id,
         message: "Use POST with JSON body.",
         endpoint: "/api/v1/refund/eligibility",
-        rules_version: rules.rules_version,
+        rules_version: getRulesVersion(),
       });
     }
 
@@ -126,7 +66,18 @@ export default async function handler(req, res) {
       });
     }
 
-    const body = await readJson(req);
+    let body;
+    try {
+      body = await readJson(req);
+    } catch (parseError) {
+      return json(res, 400, {
+        ok: false,
+        request_id,
+        error: "INVALID_JSON",
+        message: "Request body must be valid JSON",
+      });
+    }
+
     const payload = compute(body);
 
     // 🔍 external usage detector (this is the new part)
@@ -166,18 +117,20 @@ export default async function handler(req, res) {
 
     return json(res, 200, payload);
   } catch (e) {
-    console.log(
+    console.error(
       JSON.stringify({
         ts: new Date().toISOString(),
         request_id,
         error: String(e?.message || e),
+        stack: e?.stack,
         ua,
       })
     );
     return json(res, 500, {
       ok: false,
       request_id,
-      error: "FUNCTION_INVOCATION_FAILED",
+      error: "INTERNAL_SERVER_ERROR",
+      message: "An unexpected error occurred while processing your request",
     });
   }
 }
