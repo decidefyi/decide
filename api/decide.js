@@ -1,3 +1,8 @@
+import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../lib/rate-limit.js";
+
+// Rate limiter: 20 requests per minute per IP
+const rateLimiter = createRateLimiter(20, 60000);
+
 function rid() {
   return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
 }
@@ -43,6 +48,26 @@ export default async function handler(req, res) {
     res.end();
     return;
   }
+
+  // Rate limiting
+  const clientIp = getClientIp(req);
+  const rateLimitResult = rateLimiter(clientIp);
+
+  if (!rateLimitResult.allowed) {
+    console.log(
+      JSON.stringify({
+        ts: new Date().toISOString(),
+        request_id,
+        event: "rate_limit_exceeded",
+        ip: clientIp,
+        ua,
+      })
+    );
+    return sendRateLimitError(res, rateLimitResult, request_id);
+  }
+
+  // Add rate limit headers to successful responses
+  addRateLimitHeaders(res, rateLimitResult);
 
   try {
     // Extract question from GET or POST

@@ -1,4 +1,8 @@
 import { compute, getRulesVersion } from "../../../lib/refund-compute.js";
+import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../../../lib/rate-limit.js";
+
+// Rate limiter: 100 requests per minute per IP
+const rateLimiter = createRateLimiter(100, 60000);
 
 function json(res, statusCode, payload) {
   res.statusCode = statusCode;
@@ -44,6 +48,26 @@ export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     return json(res, 204, null);
   }
+
+  // Rate limiting
+  const clientIp = getClientIp(req);
+  const rateLimitResult = rateLimiter(clientIp);
+
+  if (!rateLimitResult.allowed) {
+    console.log(
+      JSON.stringify({
+        ts: new Date().toISOString(),
+        request_id,
+        event: "rate_limit_exceeded",
+        ip: clientIp,
+        ua,
+      })
+    );
+    return sendRateLimitError(res, rateLimitResult, request_id);
+  }
+
+  // Add rate limit headers
+  addRateLimitHeaders(res, rateLimitResult);
 
   try {
     if (req.method === "GET") {
