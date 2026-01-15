@@ -10,9 +10,7 @@
   "remotes": [
     {
       "url": "https://refund.decide.fyi/api/mcp",
-      "transport": {
-        "type": "streamable-http"
-      }
+      "type": "streamable-http"
     }
   ]
 }
