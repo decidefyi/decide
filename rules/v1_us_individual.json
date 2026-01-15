@@ -1,16 +1,15 @@
 {
-  "rules_version": "2026-01-14",
+  "rules_version": "2026-01-15",
   "scope": { "region": "US", "plan": "individual" },
   "vendors": {
-    "adobe": { "window_days": 14, "mode": "calendar_only" },
-    "spotify": { "window_days": 0, "mode": "no_refunds" },
-    "apple_app_store": { "window_days": 14, "mode": "calendar_only" },
-    "google_play": { "window_days": 2, "mode": "calendar_only" },
-    "amazon_prime": { "window_days": 7, "mode": "requires_usage_verification" },
-    "microsoft_365": { "window_days": 30, "mode": "calendar_only" },
-    "netflix": { "window_days": 0, "mode": "no_refunds" },
-    "canva": { "window_days": 0, "mode": "no_refunds" },
-    "dropbox_us": { "window_days": 0, "mode": "no_refunds" },
-    "notion": { "window_days": 3, "mode": "calendar_only" }
+    "adobe": { "window_days": 14 },
+    "spotify": { "window_days": 0 },
+    "apple_app_store": { "window_days": 14 },
+    "google_play": { "window_days": 2 },
+    "microsoft_365": { "window_days": 30 },
+    "netflix": { "window_days": 0 },
+    "canva": { "window_days": 0 },
+    "dropbox_us": { "window_days": 0 },
+    "notion": { "window_days": 3 }
   }
 }
