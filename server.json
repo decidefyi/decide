@@ -1,0 +1,19 @@
+{
+  "$schema": "https://registry.modelcontextprotocol.io/schemas/server-config.json",
+  "name": "io.github.ndkasndakn/refund-decide",
+  "description": "Deterministic refund eligibility notary for US consumer subscriptions. Returns ALLOWED/DENIED/UNKNOWN for subscription refunds via a rules-based engine. Stateless, no auth required.",
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://refund.decide.fyi/api/mcp",
+      "transport": "streamable-http"
+    }
+  ],
+  "vendor": {
+    "name": "decide.fyi",
+    "url": "https://decide.fyi"
+  },
+  "sourceUrl": "https://github.com/ndkasndakn/decade",
+  "homepage": "https://refund.decide.fyi"
+}
