@@ -74,7 +74,7 @@ If you see 1-2 external calls within 7 days, you're on the right track.
 
 ## ⏰ Timing
 
-- Submit to MCP registry today
-- Submit to smithery.ai tomorrow
+- ✅ MCP Registry - Completed 16/01/2026
+- smithery.ai - Submit today
 - Then stop distributing for 7-10 days
 - Focus on watching logs instead of marketing
