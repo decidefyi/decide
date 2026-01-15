@@ -7,53 +7,11 @@ Next 1-2 high-signal places to submit the refund notary.
 ## ✅ Already Submitted
 
 - **awesome-mcp-servers** - PR #1678 submitted, awaiting merge
+- **Official MCP Registry** - Published v1.0.0 on 16/01/2026
 
 ---
 
-## 🎯 Next Target #1: Official MCP Registry
-
-**URL:** https://registry.modelcontextprotocol.io
-
-**Why:** This is the official MCP Registry maintained by Anthropic. Clients like Claude Desktop pull from here.
-
-**How to Submit:**
-
-1. **Install the MCP Publisher CLI:**
-   ```bash
-   # macOS
-   brew install mcp-publisher
-
-   # Or download from: https://github.com/modelcontextprotocol/registry/releases
-   ```
-
-2. **Authenticate with GitHub:**
-   ```bash
-   cd /home/user/decade
-   mcp-publisher login
-   ```
-
-   This will open a browser for GitHub OAuth (required for `io.github.*` namespace).
-
-3. **Publish your server:**
-   ```bash
-   mcp-publisher publish
-   ```
-
-   This reads `server.json` in the current directory and publishes to the registry.
-
-4. **Verify publication:**
-   ```bash
-   # Check that your server appears
-   curl https://registry.modelcontextprotocol.io/servers/io.github.ndkasndakn/refund-decide
-   ```
-
-**Expected Impact:** Official registry = highest authority. Claude Desktop and other MCP clients pull from here.
-
-**Note:** The `server.json` file is already created and committed in the repo root.
-
----
-
-## 🎯 Next Target #2: smithery.ai (MCP Server Directory)
+## 🎯 Next Target: smithery.ai (MCP Server Directory)
 
 **URL:** https://smithery.ai/submit
 
