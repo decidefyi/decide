@@ -2,7 +2,80 @@
 
 Copy-paste examples for integrating the refund eligibility API into agents.
 
-## Quick Start
+---
+
+## Fastest Start (cURL)
+
+Test it right now in your terminal:
+
+```bash
+curl -X POST https://refund.decide.fyi/api/v1/refund/eligibility \
+  -H "Content-Type: application/json" \
+  -d '{
+    "vendor": "adobe",
+    "days_since_purchase": 12,
+    "region": "US",
+    "plan": "individual"
+  }'
+```
+
+**Output:**
+```json
+{
+  "refundable": true,
+  "verdict": "ALLOWED",
+  "code": "WITHIN_WINDOW",
+  "message": "Refund is allowed. Purchase is 12 day(s) old, within 14 day window.",
+  "rules_version": "2026-01-15",
+  "vendor": "adobe",
+  "window_days": 14,
+  "days_since_purchase": 12
+}
+```
+
+---
+
+## Inline Code (Copy-Paste)
+
+Drop these directly into your code. No files, no setup.
+
+### JavaScript (Node 18+)
+
+```javascript
+const result = await fetch("https://refund.decide.fyi/api/v1/refund/eligibility", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    vendor: "adobe",
+    days_since_purchase: 12,
+    region: "US",
+    plan: "individual"
+  })
+}).then(r => r.json());
+
+console.log(result.verdict); // "ALLOWED" | "DENIED" | "UNKNOWN"
+```
+
+### Python
+
+```python
+import requests
+
+result = requests.post("https://refund.decide.fyi/api/v1/refund/eligibility", json={
+    "vendor": "adobe",
+    "days_since_purchase": 12,
+    "region": "US",
+    "plan": "individual"
+}).json()
+
+print(result["verdict"])  # "ALLOWED" | "DENIED" | "UNKNOWN"
+```
+
+---
+
+## CLI Tools (Optional)
+
+If you want standalone command-line tools:
 
 ### Node.js (Zero Dependencies)
 
@@ -76,57 +149,6 @@ Now you can ask Claude:
 ```
 
 Claude will call the `refund_eligibility` tool automatically.
-
----
-
-## Raw API Call (cURL)
-
-```bash
-curl -X POST https://refund.decide.fyi/api/v1/refund/eligibility \
-  -H "Content-Type: application/json" \
-  -d '{
-    "vendor": "adobe",
-    "days_since_purchase": 12,
-    "region": "US",
-    "plan": "individual"
-  }'
-```
-
----
-
-## Inline Usage (No Files)
-
-### JavaScript (Node 18+)
-
-```javascript
-const result = await fetch("https://refund.decide.fyi/api/v1/refund/eligibility", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    vendor: "adobe",
-    days_since_purchase: 12,
-    region: "US",
-    plan: "individual"
-  })
-}).then(r => r.json());
-
-console.log(result.verdict); // "ALLOWED" | "DENIED" | "UNKNOWN"
-```
-
-### Python
-
-```python
-import requests
-
-result = requests.post("https://refund.decide.fyi/api/v1/refund/eligibility", json={
-    "vendor": "adobe",
-    "days_since_purchase": 12,
-    "region": "US",
-    "plan": "individual"
-}).json()
-
-print(result["verdict"])  # "ALLOWED" | "DENIED" | "UNKNOWN"
-```
 
 ---
 

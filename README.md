@@ -5,6 +5,20 @@
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://refund.decide.fyi)
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
 
+## Quick Start
+
+```bash
+curl -X POST https://refund.decide.fyi/api/v1/refund/eligibility \
+  -H "Content-Type: application/json" \
+  -d '{"vendor":"adobe","days_since_purchase":12,"region":"US","plan":"individual"}'
+```
+
+**Response:** `{"refundable":true,"verdict":"ALLOWED","code":"WITHIN_WINDOW",...}`
+
+No auth required. 100 req/min rate limit. [See all examples →](client/EXAMPLES.md)
+
+---
+
 ## Overview
 
 **refund.decide.fyi** is a stateless, deterministic API that provides authoritative refund eligibility signals for US consumer subscriptions. It returns one of three verdicts:
@@ -250,11 +264,13 @@ Found incorrect refund policy data? Want to add a new vendor?
 2. Open an issue with the policy details and source links
 3. We'll verify and update the rules file
 
-## API for Businesses
+## Free API (No Auth)
 
-Need higher rate limits? Want to add custom vendors? Looking for additional regions or plan types?
+**This API is currently free to use. No authentication. No API keys.**
 
-Contact us: [hi@decide.fyi](mailto:hi@decide.fyi) or [@decidefyi on X](https://x.com/decidefyi)
+Rate limit: 100 requests/minute per IP.
+
+Questions? [decidefyi@gmail.com](mailto:decidefyi@gmail.com) or [@decidefyi on X](https://x.com/decidefyi)
 
 ## License
 
