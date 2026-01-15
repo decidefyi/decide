@@ -11,7 +11,7 @@
     {
       "url": "https://refund.decide.fyi/api/mcp",
       "transport": {
-        "type": "http"
+        "type": "streamable-http"
       }
     }
   ]
