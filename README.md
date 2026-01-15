@@ -264,17 +264,13 @@ Found incorrect refund policy data? Want to add a new vendor?
 2. Open an issue with the policy details and source links
 3. We'll verify and update the rules file
 
-## Free & Open API
+## Free API (No Auth)
 
-**This API is completely free to use. No authentication. No API keys. No rate limits for normal use.**
+**This API is currently free to use. No authentication. No API keys.**
 
 Rate limit: 100 requests/minute per IP.
 
-### Need Custom Support?
-
-Want higher rate limits? Custom vendors? Additional regions or enterprise support?
-
-Contact: [hi@decide.fyi](mailto:hi@decide.fyi) or [@decidefyi on X](https://x.com/decidefyi)
+Questions? [decidefyi@gmail.com](mailto:decidefyi@gmail.com) or [@decidefyi on X](https://x.com/decidefyi)
 
 ## License
 
