@@ -80,6 +80,20 @@ export default async function handler(req, res) {
     return;
   }
 
+  // Handle GET with helpful message
+  if (req.method === "GET") {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({
+      ok: true,
+      message: "This is an MCP (Model Context Protocol) endpoint. Use POST for JSON-RPC 2.0 requests.",
+      documentation: "https://refund.decide.fyi",
+      mcp_version: "2025-11-25",
+      method_required: "POST"
+    }));
+    return;
+  }
+
   // Rate limiting
   const clientIp = getClientIp(req);
   const rateLimitResult = rateLimiter(clientIp);
