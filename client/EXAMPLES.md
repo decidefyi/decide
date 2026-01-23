@@ -81,7 +81,7 @@ If you want standalone command-line tools:
 
 ```bash
 # Download the client
-curl -O https://raw.githubusercontent.com/ndkasndakn/decade/main/client/refund-auditor.js
+curl -O https://raw.githubusercontent.com/decidefyi/decide/main/client/refund-auditor.js
 
 # Run it (requires Node.js 18+)
 node refund-auditor.js adobe 12
@@ -99,7 +99,7 @@ node refund-auditor.js adobe 12
 
 ```bash
 # Download the client
-curl -O https://raw.githubusercontent.com/ndkasndakn/decade/main/client/refund-check.py
+curl -O https://raw.githubusercontent.com/decidefyi/decide/main/client/refund-check.py
 
 # Install requests (if needed)
 pip install requests

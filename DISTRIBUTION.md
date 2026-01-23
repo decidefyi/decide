@@ -23,7 +23,7 @@ Next 1-2 high-signal places to submit the refund notary.
 2. Fill out form:
    - **Server Name:** refund.decide.fyi
    - **Description:** Deterministic refund eligibility notary for US consumer subscriptions. Returns ALLOWED, DENIED, or UNKNOWN based on vendor refund policies.
-   - **GitHub URL:** https://github.com/ndkasndakn/decade
+   - **GitHub URL:** https://github.com/decidefyi/decide
    - **MCP Endpoint:** https://refund.decide.fyi/api/mcp
    - **Categories:** Developer Tools, Finance, Utilities
    - **Tags:** refund, subscription, notary, mcp, deterministic

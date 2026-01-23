@@ -1,9 +1,9 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.ndkasndakn/refund-decide",
+  "name": "io.github.decidefyi/refund-decide",
   "description": "Refund eligibility notary for US subscriptions. Returns ALLOWED/DENIED/UNKNOWN.",
   "repository": {
-    "url": "https://github.com/ndkasndakn/decade",
+    "url": "https://github.com/decidefyi/decide",
     "source": "github"
   },
   "version": "1.0.0",
