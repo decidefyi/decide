@@ -4,7 +4,7 @@
   "description": "Deterministic refund eligibility notary for US consumer subscriptions. Stateless.",
   "transports": [
     {
-      "type": "streamable_http",
+      "type": "streamable-http",
       "url": "https://refund.decide.fyi/api/mcp"
     }
   ],
