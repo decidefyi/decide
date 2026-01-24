@@ -30,3 +30,6 @@ logs/
 
 # Vercel
 .vercel
+
+# MCP Registry tokens (sensitive credentials)
+.mcpregistry_*

@@ -172,6 +172,14 @@ export default async function handler(req, res) {
         return send(res, 200, err(id, -32602, "Invalid params", { message: `Unknown tool: ${name}` }));
       }
 
+      // Log query details for analytics
+      console.log('[MCP Query]', {
+        vendor: args.vendor,
+        days_since_purchase: args.days_since_purchase,
+        region: args.region,
+        plan: args.plan
+      });
+
       const payload = compute(args);
 
       // Format a human-readable message for text content
