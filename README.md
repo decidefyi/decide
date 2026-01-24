@@ -280,6 +280,7 @@ Rules data is provided as-is for informational purposes only. Always verify refu
 
 - **Website:** [https://decide.fyi](https://decide.fyi)
 - **Refund API:** [https://refund.decide.fyi](https://refund.decide.fyi)
+- **Smithery:** [https://smithery.ai/server/refund-decide/notary](https://smithery.ai/server/refund-decide/notary)
 - **X/Twitter:** [@decidefyi](https://x.com/decidefyi)
 - **MCP Spec:** [https://modelcontextprotocol.io](https://modelcontextprotocol.io)
 

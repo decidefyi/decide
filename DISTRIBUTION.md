@@ -8,29 +8,7 @@ Next 1-2 high-signal places to submit the refund notary.
 
 - **awesome-mcp-servers** - PR #1678 submitted, awaiting merge
 - **Official MCP Registry** - Published v1.0.0 on 16/01/2026
-
----
-
-## 🎯 Next Target: smithery.ai (MCP Server Directory)
-
-**URL:** https://smithery.ai/submit
-
-**Why:** Dedicated MCP server directory with web UI for discovery. Users browse here to find servers.
-
-**How to Submit:**
-
-1. Go to https://smithery.ai/submit
-2. Fill out form:
-   - **Server Name:** refund.decide.fyi
-   - **Description:** Deterministic refund eligibility notary for US consumer subscriptions. Returns ALLOWED, DENIED, or UNKNOWN based on vendor refund policies.
-   - **GitHub URL:** https://github.com/decidefyi/decide
-   - **MCP Endpoint:** https://refund.decide.fyi/api/mcp
-   - **Categories:** Developer Tools, Finance, Utilities
-   - **Tags:** refund, subscription, notary, mcp, deterministic
-
-3. Submit and wait for approval
-
-**Expected Impact:** Moderate. Not as high-signal as official MCP org, but good for human discovery.
+- **Smithery.ai** - Published on 16/01/2026 at https://smithery.ai/server/refund-decide/notary
 
 ---
 
@@ -75,6 +53,6 @@ If you see 1-2 external calls within 7 days, you're on the right track.
 ## ⏰ Timing
 
 - ✅ MCP Registry - Completed 16/01/2026
-- smithery.ai - Submit today
-- Then stop distributing for 7-10 days
-- Focus on watching logs instead of marketing
+- ✅ Smithery.ai - Completed 16/01/2026
+- ⏸️  Now: Stop distributing for 7-10 days
+- 📊 Focus on watching logs instead of marketing
