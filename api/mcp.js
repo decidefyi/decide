@@ -209,7 +209,19 @@ export default async function handler(req, res) {
       // Format a human-readable message for text content
       const textMessage = `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}`;
 
-      // Log everything in mcp_request (single event with all data)
+      // Send response first (fast for user)
+      send(
+        res,
+        200,
+        ok(id, {
+          content: [
+            { type: "text", text: textMessage }
+          ],
+          isError: payload.verdict === "UNKNOWN" && payload.code !== "NON_US_REGION" && payload.code !== "NON_INDIVIDUAL_PLAN",
+        })
+      );
+
+      // Log after response (await ensures completion before function exits)
       const fullLog = {
         method,
         ip: clientIp,
@@ -221,18 +233,8 @@ export default async function handler(req, res) {
         code: payload.code
       };
       console.log('[MCP Request]', JSON.stringify(fullLog));
-      persistLog('mcp_request', fullLog);
-
-      return send(
-        res,
-        200,
-        ok(id, {
-          content: [
-            { type: "text", text: textMessage }
-          ],
-          isError: payload.verdict === "UNKNOWN" && payload.code !== "NON_US_REGION" && payload.code !== "NON_INDIVIDUAL_PLAN",
-        })
-      );
+      await persistLog('mcp_request', fullLog);
+      return;
     }
 
     // default
