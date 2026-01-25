@@ -18,7 +18,9 @@ function persistLog(event, data) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify([{ _time: new Date().toISOString(), event, ...data }])
-  }).catch(() => {}); // fire and forget
+  }).then(r => {
+    if (!r.ok) r.text().then(t => console.log('[Axiom Error]', r.status, t));
+  }).catch(e => console.log('[Axiom Error]', e.message));
 }
 
 function send(res, status, payload) {
