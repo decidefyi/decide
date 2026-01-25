@@ -128,7 +128,7 @@ export default async function handler(req, res) {
     const { id = null, method, params } = msg || {};
 
     // Log all incoming MCP requests
-    console.error('[MCP Request]', JSON.stringify({
+    console.log('[MCP Request]', JSON.stringify({
       method,
       timestamp: new Date().toISOString(),
       ip: clientIp
@@ -179,8 +179,8 @@ export default async function handler(req, res) {
         return send(res, 200, err(id, -32602, "Invalid params", { message: `Unknown tool: ${name}` }));
       }
 
-      // Log query details for analytics (using console.error for Vercel visibility)
-      console.error('[MCP Query]', JSON.stringify({
+      // Log query details for analytics
+      console.log('[MCP Query]', JSON.stringify({
         vendor: args.vendor,
         days_since_purchase: args.days_since_purchase,
         region: args.region,
