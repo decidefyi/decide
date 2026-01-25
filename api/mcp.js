@@ -156,7 +156,8 @@ export default async function handler(req, res) {
     const vendor = method === 'tools/call' ? params?.arguments?.vendor : undefined;
     const reqLog = { method, ip: clientIp, ...(vendor && { vendor }) };
     console.log('[MCP Request]', JSON.stringify(reqLog));
-    await persistLog('mcp_request', reqLog);
+    // Fire-and-forget for non-critical request logging
+    persistLog('mcp_request', reqLog);
 
     if (!method) return send(res, 200, err(id, -32600, "Invalid Request", { message: "method field is required" }));
 
@@ -205,7 +206,22 @@ export default async function handler(req, res) {
 
       const payload = compute(args);
 
-      // Log query details + result for analytics
+      // Format a human-readable message for text content
+      const textMessage = `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}`;
+
+      // Send response first (fast for user)
+      send(
+        res,
+        200,
+        ok(id, {
+          content: [
+            { type: "text", text: textMessage }
+          ],
+          isError: payload.verdict === "UNKNOWN" && payload.code !== "NON_US_REGION" && payload.code !== "NON_INDIVIDUAL_PLAN",
+        })
+      );
+
+      // Log after response sent (await ensures it completes before function terminates)
       const queryLog = {
         vendor: args.vendor,
         days_since_purchase: args.days_since_purchase,
@@ -216,20 +232,7 @@ export default async function handler(req, res) {
       };
       console.log('[MCP Query]', JSON.stringify(queryLog));
       await persistLog('mcp_query', queryLog);
-
-      // Format a human-readable message for text content
-      const textMessage = `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}`;
-
-      return send(
-        res,
-        200,
-        ok(id, {
-          content: [
-            { type: "text", text: textMessage }
-          ],
-          isError: payload.verdict === "UNKNOWN" && payload.code !== "NON_US_REGION" && payload.code !== "NON_INDIVIDUAL_PLAN",
-        })
-      );
+      return;
     }
 
     // default
