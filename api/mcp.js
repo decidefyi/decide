@@ -146,8 +146,9 @@ export default async function handler(req, res) {
 
     const { id = null, method, params } = msg || {};
 
-    // Log all incoming MCP requests
-    const reqLog = { method, ip: clientIp };
+    // Log all incoming MCP requests (include vendor for tools/call)
+    const vendor = method === 'tools/call' ? params?.arguments?.vendor : undefined;
+    const reqLog = { method, ip: clientIp, ...(vendor && { vendor }) };
     console.log('[MCP Request]', JSON.stringify(reqLog));
     persistLog('mcp_request', reqLog);
 
