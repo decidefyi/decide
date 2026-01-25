@@ -197,17 +197,19 @@ export default async function handler(req, res) {
         return send(res, 200, err(id, -32602, "Invalid params", { message: `Unknown tool: ${name}` }));
       }
 
-      // Log query details for analytics
+      const payload = compute(args);
+
+      // Log query details + result for analytics
       const queryLog = {
         vendor: args.vendor,
         days_since_purchase: args.days_since_purchase,
         region: args.region,
-        plan: args.plan
+        plan: args.plan,
+        verdict: payload.verdict,
+        code: payload.code
       };
       console.log('[MCP Query]', JSON.stringify(queryLog));
       persistLog('mcp_query', queryLog);
-
-      const payload = compute(args);
 
       // Format a human-readable message for text content
       const textMessage = `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}`;
