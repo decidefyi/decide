@@ -127,6 +127,13 @@ export default async function handler(req, res) {
 
     const { id = null, method, params } = msg || {};
 
+    // Log all incoming MCP requests
+    console.error('[MCP Request]', JSON.stringify({
+      method,
+      timestamp: new Date().toISOString(),
+      ip: clientIp
+    }));
+
     if (!method) return send(res, 200, err(id, -32600, "Invalid Request", { message: "method field is required" }));
 
     // initialize
