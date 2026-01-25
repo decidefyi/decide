@@ -4,6 +4,23 @@ import { createRateLimiter, getClientIp, addRateLimitHeaders } from "../lib/rate
 // Rate limiter: 100 requests per minute per IP
 const rateLimiter = createRateLimiter(100, 60000);
 
+// Optional: Persist logs to Axiom (free tier)
+// Set AXIOM_DATASET and AXIOM_TOKEN in Vercel env vars
+function persistLog(event, data) {
+  const dataset = process.env.AXIOM_DATASET;
+  const token = process.env.AXIOM_TOKEN;
+  if (!dataset || !token) return;
+
+  fetch(`https://api.axiom.co/v1/datasets/${dataset}/ingest`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify([{ _time: new Date().toISOString(), event, ...data }])
+  }).catch(() => {}); // fire and forget
+}
+
 function send(res, status, payload) {
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -128,11 +145,9 @@ export default async function handler(req, res) {
     const { id = null, method, params } = msg || {};
 
     // Log all incoming MCP requests
-    console.log('[MCP Request]', JSON.stringify({
-      method,
-      timestamp: new Date().toISOString(),
-      ip: clientIp
-    }));
+    const reqLog = { method, ip: clientIp };
+    console.log('[MCP Request]', JSON.stringify(reqLog));
+    persistLog('mcp_request', reqLog);
 
     if (!method) return send(res, 200, err(id, -32600, "Invalid Request", { message: "method field is required" }));
 
@@ -180,13 +195,14 @@ export default async function handler(req, res) {
       }
 
       // Log query details for analytics
-      console.log('[MCP Query]', JSON.stringify({
+      const queryLog = {
         vendor: args.vendor,
         days_since_purchase: args.days_since_purchase,
         region: args.region,
-        plan: args.plan,
-        timestamp: new Date().toISOString()
-      }));
+        plan: args.plan
+      };
+      console.log('[MCP Query]', JSON.stringify(queryLog));
+      persistLog('mcp_query', queryLog);
 
       const payload = compute(args);
 
