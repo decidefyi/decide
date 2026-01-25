@@ -152,12 +152,12 @@ export default async function handler(req, res) {
 
     const { id = null, method, params } = msg || {};
 
-    // Log all incoming MCP requests (include vendor for tools/call)
-    const vendor = method === 'tools/call' ? params?.arguments?.vendor : undefined;
-    const reqLog = { method, ip: clientIp, ...(vendor && { vendor }) };
-    console.log('[MCP Request]', JSON.stringify(reqLog));
-    // Fire-and-forget for non-critical request logging
-    persistLog('mcp_request', reqLog);
+    // Log non-tools/call requests here (tools/call logs separately with full data)
+    if (method !== 'tools/call') {
+      const reqLog = { method, ip: clientIp };
+      console.log('[MCP Request]', JSON.stringify(reqLog));
+      persistLog('mcp_request', reqLog);
+    }
 
     if (!method) return send(res, 200, err(id, -32600, "Invalid Request", { message: "method field is required" }));
 
@@ -209,8 +209,21 @@ export default async function handler(req, res) {
       // Format a human-readable message for text content
       const textMessage = `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}`;
 
-      // Send response first (fast for user)
-      send(
+      // Log everything in mcp_request (single event with all data)
+      const fullLog = {
+        method,
+        ip: clientIp,
+        vendor: args.vendor,
+        days_since_purchase: args.days_since_purchase,
+        region: args.region,
+        plan: args.plan,
+        verdict: payload.verdict,
+        code: payload.code
+      };
+      console.log('[MCP Request]', JSON.stringify(fullLog));
+      persistLog('mcp_request', fullLog);
+
+      return send(
         res,
         200,
         ok(id, {
@@ -220,19 +233,6 @@ export default async function handler(req, res) {
           isError: payload.verdict === "UNKNOWN" && payload.code !== "NON_US_REGION" && payload.code !== "NON_INDIVIDUAL_PLAN",
         })
       );
-
-      // Log after response sent (await ensures it completes before function terminates)
-      const queryLog = {
-        vendor: args.vendor,
-        days_since_purchase: args.days_since_purchase,
-        region: args.region,
-        plan: args.plan,
-        verdict: payload.verdict,
-        code: payload.code
-      };
-      console.log('[MCP Query]', JSON.stringify(queryLog));
-      await persistLog('mcp_query', queryLog);
-      return;
     }
 
     // default
