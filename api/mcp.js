@@ -6,21 +6,27 @@ const rateLimiter = createRateLimiter(100, 60000);
 
 // Optional: Persist logs to Axiom (free tier)
 // Set AXIOM_DATASET and AXIOM_TOKEN in Vercel env vars
-function persistLog(event, data) {
+async function persistLog(event, data) {
   const dataset = process.env.AXIOM_DATASET;
   const token = process.env.AXIOM_TOKEN;
   if (!dataset || !token) return;
 
-  fetch(`https://api.axiom.co/v1/datasets/${dataset}/ingest`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify([{ _time: new Date().toISOString(), event, ...data }])
-  }).then(r => {
-    if (!r.ok) r.text().then(t => console.log('[Axiom Error]', r.status, t));
-  }).catch(e => console.log('[Axiom Error]', e.message));
+  try {
+    const r = await fetch(`https://api.axiom.co/v1/datasets/${dataset}/ingest`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify([{ _time: new Date().toISOString(), event, ...data }])
+    });
+    if (!r.ok) {
+      const t = await r.text();
+      console.log('[Axiom Error]', r.status, t);
+    }
+  } catch (e) {
+    console.log('[Axiom Error]', e.message);
+  }
 }
 
 function send(res, status, payload) {
@@ -150,6 +156,7 @@ export default async function handler(req, res) {
     const vendor = method === 'tools/call' ? params?.arguments?.vendor : undefined;
     const reqLog = { method, ip: clientIp, ...(vendor && { vendor }) };
     console.log('[MCP Request]', JSON.stringify(reqLog));
+    // Fire-and-forget for non-critical request logging
     persistLog('mcp_request', reqLog);
 
     if (!method) return send(res, 200, err(id, -32600, "Invalid Request", { message: "method field is required" }));
@@ -199,22 +206,11 @@ export default async function handler(req, res) {
 
       const payload = compute(args);
 
-      // Log query details + result for analytics
-      const queryLog = {
-        vendor: args.vendor,
-        days_since_purchase: args.days_since_purchase,
-        region: args.region,
-        plan: args.plan,
-        verdict: payload.verdict,
-        code: payload.code
-      };
-      console.log('[MCP Query]', JSON.stringify(queryLog));
-      persistLog('mcp_query', queryLog);
-
       // Format a human-readable message for text content
       const textMessage = `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}`;
 
-      return send(
+      // Send response first (fast for user)
+      send(
         res,
         200,
         ok(id, {
@@ -224,6 +220,19 @@ export default async function handler(req, res) {
           isError: payload.verdict === "UNKNOWN" && payload.code !== "NON_US_REGION" && payload.code !== "NON_INDIVIDUAL_PLAN",
         })
       );
+
+      // Log after response sent (await ensures it completes before function terminates)
+      const queryLog = {
+        vendor: args.vendor,
+        days_since_purchase: args.days_since_purchase,
+        region: args.region,
+        plan: args.plan,
+        verdict: payload.verdict,
+        code: payload.code
+      };
+      console.log('[MCP Query]', JSON.stringify(queryLog));
+      await persistLog('mcp_query', queryLog);
+      return;
     }
 
     // default
