@@ -64,8 +64,9 @@ export default async function handler(req, res) {
         ua,
       })
     );
-    persistLog('decide_request', { request_id, event: 'rate_limit_exceeded', ip: clientIp, ua });
-    return sendRateLimitError(res, rateLimitResult, request_id);
+    sendRateLimitError(res, rateLimitResult, request_id);
+    await persistLog('decide_request', { request_id, event: 'rate_limit_exceeded', ip: clientIp, ua });
+    return;
   }
 
   // Add rate limit headers to successful responses
@@ -130,7 +131,6 @@ export default async function handler(req, res) {
           ua,
         })
       );
-      persistLog('decide_request', { request_id, event: 'filtered_question', category, ip: clientIp, ua });
       res.statusCode = 200;
       res.setHeader("Content-Type", "application/json");
       res.end(
@@ -140,6 +140,7 @@ export default async function handler(req, res) {
           request_id,
         })
       );
+      await persistLog('decide_request', { request_id, event: 'filtered_question', category, ip: clientIp, ua });
       return;
     }
 
@@ -209,22 +210,19 @@ Output exactly one of: yes, no`;
         ua,
       })
     );
-    persistLog('decide_request', { request_id, method: req.method, verdict: out, ip: clientIp, ua });
-
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
 
     if (out === "yes") {
       res.end(JSON.stringify({ c: "yes", v: "yes", request_id }));
-      return;
-    }
-
-    if (out === "no") {
+    } else if (out === "no") {
       res.end(JSON.stringify({ c: "no", v: "no", request_id }));
-      return;
+    } else {
+      res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
     }
 
-    res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
+    await persistLog('decide_request', { request_id, method: req.method, verdict: out, ip: clientIp, ua });
+    return;
   } catch (err) {
     console.error(
       JSON.stringify({

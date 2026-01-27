@@ -64,8 +64,9 @@ export default async function handler(req, res) {
         ua,
       })
     );
-    persistLog('refund_request', { request_id, event: 'rate_limit_exceeded', ip: clientIp, ua });
-    return sendRateLimitError(res, rateLimitResult, request_id);
+    sendRateLimitError(res, rateLimitResult, request_id);
+    await persistLog('refund_request', { request_id, event: 'rate_limit_exceeded', ip: clientIp, ua });
+    return;
   }
 
   // Add rate limit headers
@@ -140,7 +141,8 @@ export default async function handler(req, res) {
         ua,
       })
     );
-    persistLog('refund_request', {
+    json(res, 200, payload);
+    await persistLog('refund_request', {
       request_id,
       method: req.method,
       vendor: body?.vendor ?? null,
@@ -152,8 +154,7 @@ export default async function handler(req, res) {
       ip: clientIp,
       ua,
     });
-
-    return json(res, 200, payload);
+    return;
   } catch (e) {
     console.error(
       JSON.stringify({
