@@ -1,0 +1,7 @@
+{
+  "name": "decide",
+  "private": true,
+  "dependencies": {
+    "@vercel/functions": "^3.4.0"
+  }
+}

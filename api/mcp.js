@@ -132,7 +132,7 @@ export default async function handler(req, res) {
     if (method !== 'tools/call') {
       const reqLog = { method, ip: clientIp };
       console.log('[MCP Request]', JSON.stringify(reqLog));
-      await persistLog('mcp_request', reqLog);
+      persistLog('mcp_request', reqLog);
     }
 
     if (!method) return send(res, 200, err(id, -32600, "Invalid Request", { message: "method field is required" }));
@@ -197,7 +197,7 @@ export default async function handler(req, res) {
         code: payload.code
       };
       console.log('[MCP Request]', JSON.stringify(fullLog));
-      await persistLog('mcp_request', fullLog);
+      persistLog('mcp_request', fullLog);
 
       return send(
         res,
