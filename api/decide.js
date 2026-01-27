@@ -64,8 +64,8 @@ export default async function handler(req, res) {
         ua,
       })
     );
-    sendRateLimitError(res, rateLimitResult, request_id);
     await persistLog('decide_request', { request_id, event: 'rate_limit_exceeded', ip: clientIp, ua });
+    sendRateLimitError(res, rateLimitResult, request_id);
     return;
   }
 
@@ -131,6 +131,7 @@ export default async function handler(req, res) {
           ua,
         })
       );
+      await persistLog('decide_request', { request_id, event: 'filtered_question', category, ip: clientIp, ua });
       res.statusCode = 200;
       res.setHeader("Content-Type", "application/json");
       res.end(
@@ -140,7 +141,6 @@ export default async function handler(req, res) {
           request_id,
         })
       );
-      await persistLog('decide_request', { request_id, event: 'filtered_question', category, ip: clientIp, ua });
       return;
     }
 
@@ -210,6 +210,8 @@ Output exactly one of: yes, no`;
         ua,
       })
     );
+    await persistLog('decide_request', { request_id, method: req.method, verdict: out, ip: clientIp, ua });
+
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
 
@@ -220,9 +222,6 @@ Output exactly one of: yes, no`;
     } else {
       res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
     }
-
-    await persistLog('decide_request', { request_id, method: req.method, verdict: out, ip: clientIp, ua });
-    return;
   } catch (err) {
     console.error(
       JSON.stringify({

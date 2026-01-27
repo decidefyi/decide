@@ -132,7 +132,7 @@ export default async function handler(req, res) {
     if (method !== 'tools/call') {
       const reqLog = { method, ip: clientIp };
       console.log('[MCP Request]', JSON.stringify(reqLog));
-      persistLog('mcp_request', reqLog);
+      await persistLog('mcp_request', reqLog);
     }
 
     if (!method) return send(res, 200, err(id, -32600, "Invalid Request", { message: "method field is required" }));
@@ -185,19 +185,7 @@ export default async function handler(req, res) {
       // Format a human-readable message for text content
       const textMessage = `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}`;
 
-      // Send response first (fast for user)
-      send(
-        res,
-        200,
-        ok(id, {
-          content: [
-            { type: "text", text: textMessage }
-          ],
-          isError: payload.verdict === "UNKNOWN" && payload.code !== "NON_US_REGION" && payload.code !== "NON_INDIVIDUAL_PLAN",
-        })
-      );
-
-      // Log after response (await ensures completion before function exits)
+      // Log before response to ensure Axiom persistence
       const fullLog = {
         method,
         ip: clientIp,
@@ -210,7 +198,17 @@ export default async function handler(req, res) {
       };
       console.log('[MCP Request]', JSON.stringify(fullLog));
       await persistLog('mcp_request', fullLog);
-      return;
+
+      return send(
+        res,
+        200,
+        ok(id, {
+          content: [
+            { type: "text", text: textMessage }
+          ],
+          isError: payload.verdict === "UNKNOWN" && payload.code !== "NON_US_REGION" && payload.code !== "NON_INDIVIDUAL_PLAN",
+        })
+      );
     }
 
     // default
