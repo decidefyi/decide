@@ -1,33 +1,9 @@
 import { compute, getSupportedVendors } from "../lib/refund-compute.js";
 import { createRateLimiter, getClientIp, addRateLimitHeaders } from "../lib/rate-limit.js";
+import { persistLog } from "../lib/log.js";
 
 // Rate limiter: 100 requests per minute per IP
 const rateLimiter = createRateLimiter(100, 60000);
-
-// Optional: Persist logs to Axiom (free tier)
-// Set AXIOM_DATASET and AXIOM_TOKEN in Vercel env vars
-async function persistLog(event, data) {
-  const dataset = process.env.AXIOM_DATASET;
-  const token = process.env.AXIOM_TOKEN;
-  if (!dataset || !token) return;
-
-  try {
-    const r = await fetch(`https://api.axiom.co/v1/datasets/${dataset}/ingest`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify([{ _time: new Date().toISOString(), event, ...data }])
-    });
-    if (!r.ok) {
-      const t = await r.text();
-      console.log('[Axiom Error]', r.status, t);
-    }
-  } catch (e) {
-    console.log('[Axiom Error]', e.message);
-  }
-}
 
 function send(res, status, payload) {
   res.statusCode = status;

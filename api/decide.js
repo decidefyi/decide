@@ -1,4 +1,5 @@
 import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../lib/rate-limit.js";
+import { persistLog } from "../lib/log.js";
 
 // Rate limiter: 20 requests per minute per IP
 const rateLimiter = createRateLimiter(20, 60000);
@@ -63,6 +64,7 @@ export default async function handler(req, res) {
         ua,
       })
     );
+    persistLog('decide_request', { request_id, event: 'rate_limit_exceeded', ip: clientIp, ua });
     return sendRateLimitError(res, rateLimitResult, request_id);
   }
 
@@ -128,6 +130,7 @@ export default async function handler(req, res) {
           ua,
         })
       );
+      persistLog('decide_request', { request_id, event: 'filtered_question', category, ip: clientIp, ua });
       res.statusCode = 200;
       res.setHeader("Content-Type", "application/json");
       res.end(
@@ -206,6 +209,7 @@ Output exactly one of: yes, no`;
         ua,
       })
     );
+    persistLog('decide_request', { request_id, method: req.method, verdict: out, ip: clientIp, ua });
 
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
