@@ -1,5 +1,6 @@
 import { compute, getRulesVersion } from "../../../lib/refund-compute.js";
 import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../../../lib/rate-limit.js";
+import { persistLog } from "../../../lib/log.js";
 
 // Rate limiter: 100 requests per minute per IP
 const rateLimiter = createRateLimiter(100, 60000);
@@ -63,6 +64,7 @@ export default async function handler(req, res) {
         ua,
       })
     );
+    persistLog('refund_request', { request_id, event: 'rate_limit_exceeded', ip: clientIp, ua });
     return sendRateLimitError(res, rateLimitResult, request_id);
   }
 
@@ -138,6 +140,18 @@ export default async function handler(req, res) {
         ua,
       })
     );
+    persistLog('refund_request', {
+      request_id,
+      method: req.method,
+      vendor: body?.vendor ?? null,
+      days_since_purchase: body?.days_since_purchase ?? null,
+      region: body?.region ?? null,
+      plan: body?.plan ?? null,
+      verdict: payload?.verdict ?? null,
+      code: payload?.code ?? null,
+      ip: clientIp,
+      ua,
+    });
 
     return json(res, 200, payload);
   } catch (e) {
