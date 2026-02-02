@@ -54,13 +54,13 @@
       "url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
       "notes": "Non-refundable except as required by law"
     },
-    "crunchyroll": {
-      "url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-      "notes": "Non-refundable; digital memberships excluded from returns"
-    },
     "coursera_plus": {
       "url": "https://www.coursera.support/s/article/208280266-Refund-policies",
       "notes": "14-day refund window for annual plan"
+    },
+    "crunchyroll": {
+      "url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
+      "notes": "Non-refundable; digital memberships excluded from returns"
     },
     "deezer": {
       "url": "https://www.deezer.com/legal/cgu",
@@ -186,6 +186,10 @@
       "url": "https://www.onepeloton.com/membership-terms",
       "notes": "Non-refundable; no prorated refunds"
     },
+    "playstation_plus": {
+      "url": "https://www.playstation.com/en-us/legal/playstation-store-cancellation-policy/",
+      "notes": "14-day cancellation window, pro-rated refund"
+    },
     "scribd": {
       "url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
       "notes": "30-day refund window if subscription unused"
@@ -194,33 +198,29 @@
       "url": "https://www.shutterstock.com/help/en/articles/10594851-can-i-get-a-refund-if-i-cancel-my-plan",
       "notes": "Non-refundable; 50% early termination fee on annual plans"
     },
-    "sling_tv": {
-      "url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
-      "notes": "Non-refundable; no partial month refunds"
-    },
-    "playstation_plus": {
-      "url": "https://www.playstation.com/en-us/legal/playstation-store-cancellation-policy/",
-      "notes": "14-day cancellation window, pro-rated refund"
-    },
     "slack": {
       "url": "https://slack.com/help/articles/218915077-Slacks-Fair-Billing-Policy",
       "notes": "No refunds for unused time"
     },
-    "strava": {
-      "url": "https://www.strava.com/legal/terms",
-      "notes": "14-day full refund window from date of purchase"
+    "sling_tv": {
+      "url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
+      "notes": "Non-refundable; no partial month refunds"
+    },
+    "spotify": {
+      "url": "https://www.spotify.com/us/legal/end-user-agreement/",
+      "notes": "No refunds"
     },
     "squarespace": {
       "url": "https://support.squarespace.com/hc/en-us/articles/360000623648-Refund-policies",
       "notes": "14-day refund window for annual website plans (first payment only)"
     },
+    "strava": {
+      "url": "https://www.strava.com/legal/terms",
+      "notes": "14-day full refund window from date of purchase"
+    },
     "surfshark": {
       "url": "https://support.surfshark.com/hc/en-us/articles/360003103653-What-is-Surfshark-s-refund-policy",
       "notes": "30-day money-back guarantee for initial purchase"
-    },
-    "spotify": {
-      "url": "https://www.spotify.com/us/legal/end-user-agreement/",
-      "notes": "No refunds"
     },
     "tidal": {
       "url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
