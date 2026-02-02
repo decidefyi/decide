@@ -247,6 +247,71 @@
         .mode-toggle button.active{background:var(--fg);color:var(--bg);box-shadow:0 2px 8px rgba(0,0,0,0.15)}
         .mode-toggle button:not(.active):hover{color:var(--fg)}
 
+        /* NAV TOGGLES */
+        .nav-toggles{display:flex;align-items:center;gap:0.5rem}
+
+        /* THEME TOGGLE */
+        .theme-toggle{background:none;border:1px solid rgba(17,17,17,0.1);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s var(--ease);color:var(--gray);flex-shrink:0}
+        .theme-toggle:hover{border-color:var(--fg);color:var(--fg);transform:scale(1.1)}
+        .theme-toggle svg{width:15px;height:15px}
+        .theme-toggle .icon-moon{display:none}
+        body.dark .theme-toggle .icon-sun{display:none}
+        body.dark .theme-toggle .icon-moon{display:block}
+        body.dark .theme-toggle{border-color:rgba(245,245,245,0.12)}
+        body.dark .theme-toggle:hover{border-color:var(--fg)}
+
+        /* DARK MODE */
+        body.dark{--bg:#0d0d0d;--bg-dark:#181818;--fg:#e8e8e8;--fg-light:#e8e8e8;--gray:#888;--gray-light:#555}
+        body.dark{background:var(--bg);color:var(--fg)}
+        body.dark ::selection{background:rgba(245,245,245,0.15)}
+        body.dark .grain{opacity:0.02}
+        body.dark .glow{background:radial-gradient(circle,rgba(245,245,245,0.03) 0%,transparent 60%)}
+        body.dark nav.scrolled .nav-wrap{background:rgba(13,13,13,0.85);border-color:rgba(245,245,245,0.06);box-shadow:0 4px 30px rgba(0,0,0,0.4)}
+        body.dark .badge{background:rgba(245,245,245,0.05);border-color:rgba(245,245,245,0.1)}
+        body.dark .mode-toggle{background:rgba(245,245,245,0.08)}
+        body.dark .nav-links a:hover{background:rgba(245,245,245,0.06)}
+        body.dark .nav-links a.signed-in:hover{background:rgba(245,245,245,0.08)}
+        body.dark .nav-cta{background:var(--fg)!important;color:var(--bg)!important}
+        body.dark .input-field::placeholder{color:#666}
+        body.dark .chip{border-color:rgba(245,245,245,0.1)}
+        body.dark .chip:hover{border-color:var(--fg);background:rgba(245,245,245,0.05)}
+        body.dark .logos{border-color:rgba(245,245,245,0.06)}
+        body.dark .logos-track span{color:rgba(245,245,245,0.4)}
+        body.dark .logos-track span::after{opacity:0.4}
+        body.dark .sec-dark{background:var(--bg-dark)}
+        body.dark .feat{background:rgba(245,245,245,0.02);border-color:rgba(245,245,245,0.06)}
+        body.dark .feat:hover{border-color:rgba(245,245,245,0.12);box-shadow:0 40px 80px rgba(0,0,0,0.5)}
+        body.dark .feat::before{background:conic-gradient(from 0deg,transparent,rgba(245,245,245,0.03),transparent 30%)}
+        body.dark .how-card{border-color:rgba(245,245,245,0.08)}
+        body.dark .how-card:hover{border-color:rgba(245,245,245,0.15);box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+        body.dark .how-card::after{color:rgba(245,245,245,0.2)}
+        body.dark .how-num{color:rgba(245,245,245,0.08)}
+        body.dark .cta::before{background:radial-gradient(circle,rgba(245,245,245,0.03) 0%,transparent 50%)}
+        body.dark .mcp-card{border-color:rgba(245,245,245,0.08)}
+        body.dark .mcp-card:hover{border-color:rgba(245,245,245,0.15);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+        body.dark .mcp-meta-tag{background:rgba(245,245,245,0.06)}
+        body.dark .mcp-btn-secondary{background:rgba(245,245,245,0.08)}
+        body.dark .mcp-btn-secondary:hover{background:rgba(245,245,245,0.12)}
+        body.dark .agent-feat{background:rgba(245,245,245,0.02);border-color:rgba(245,245,245,0.08)}
+        body.dark .agent-feat:hover{border-color:rgba(245,245,245,0.12);box-shadow:0 15px 40px rgba(0,0,0,0.3)}
+        body.dark .refresh-btn{background:var(--bg);border-color:rgba(245,245,245,0.15)}
+        body.dark .refresh-btn:hover{border-color:var(--fg)}
+        body.dark footer{border-color:rgba(245,245,245,0.06)}
+        body.dark .foot-x a{background:rgba(245,245,245,0.05);border-color:rgba(245,245,245,0.08)}
+        body.dark .foot-x a:hover{background:var(--fg);border-color:var(--fg)}
+        body.dark .foot-x svg{fill:var(--gray)}
+        body.dark .foot-x a:hover svg{fill:var(--bg)}
+        body.dark .m-bg{background:rgba(13,13,13,0.95)}
+        body.dark .modal{background:var(--bg);border-color:rgba(245,245,245,0.1);box-shadow:0 40px 80px rgba(0,0,0,0.6)}
+        body.dark .m-head{border-color:rgba(245,245,245,0.06)}
+        body.dark .m-x{background:rgba(245,245,245,0.08)}
+        body.dark .m-x:hover{background:rgba(245,245,245,0.12)}
+        body.dark .mobile-menu{background:var(--bg);box-shadow:-10px 0 40px rgba(0,0,0,0.5)}
+        body.dark .mobile-menu a{color:var(--fg);border-color:rgba(245,245,245,0.06)}
+        body.dark .mobile-menu a.nav-cta{background:var(--fg);color:var(--bg)}
+        body.dark .mobile-overlay{background:rgba(0,0,0,0.5)}
+        body.dark .mob span{background:var(--fg)}
+
         /* MODE CONTAINERS */
         #human-mode,#agent-mode{transition:opacity 0.4s var(--ease)}
         #agent-mode{display:none}
@@ -429,9 +494,15 @@
                 </div>
                 <span>decide</span>
             </a>
-            <div class="mode-toggle" id="modeToggle">
-                <button class="active" data-mode="humans" onclick="setMode('humans')">Humans</button>
-                <button data-mode="agents" onclick="setMode('agents')">Agents</button>
+            <div class="nav-toggles">
+                <div class="mode-toggle" id="modeToggle">
+                    <button class="active" data-mode="humans" onclick="setMode('humans')">Humans</button>
+                    <button data-mode="agents" onclick="setMode('agents')">Agents</button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                </button>
             </div>
             <div class="nav-links" id="navLinksHuman">
                 <a href="#features">Features</a>
@@ -794,7 +865,8 @@
             }
             draw(){
                 const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r);
-                g.addColorStop(0,'rgba(17,17,17,0.015)');
+                const c=window._particleDark?'rgba(245,245,245,0.015)':'rgba(17,17,17,0.015)';
+                g.addColorStop(0,c);
                 g.addColorStop(1,'transparent');
                 ctx.fillStyle=g;
                 ctx.beginPath();
@@ -1211,6 +1283,41 @@ show(result, text);
             } else if (hash === '#humans' || hash === '') {
                 if (saved === 'agents' && !hash) setMode('agents');
             }
+        })();
+
+        // Theme toggle (light/dark)
+        function setTheme(dark) {
+            document.body.classList.toggle('dark', dark);
+            document.querySelector('meta[name="theme-color"]').content = dark ? '#0d0d0d' : '#f5f5f5';
+            localStorage.setItem('decide-theme', dark ? 'dark' : 'light');
+            // Update canvas particle colors
+            updateParticleTheme(dark);
+        }
+
+        function updateParticleTheme(dark) {
+            window._particleDark = dark;
+        }
+
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            setTheme(!document.body.classList.contains('dark'));
+        });
+
+        // Init theme from localStorage or system preference
+        (function() {
+            const saved = localStorage.getItem('decide-theme');
+            if (saved === 'dark') {
+                setTheme(true);
+            } else if (saved === 'light') {
+                setTheme(false);
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                setTheme(true);
+            }
+            // Listen for system preference changes (only if no manual override)
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                if (!localStorage.getItem('decide-theme')) {
+                    setTheme(e.matches);
+                }
+            });
         })();
 
         // Sign In function
