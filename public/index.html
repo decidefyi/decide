@@ -241,6 +241,75 @@
         .cta-btn svg{width:18px;height:18px;transition:transform 0.3s}
         .cta-btn:hover svg{transform:translateX(5px)}
 
+        /* MODE TOGGLE */
+        .mode-toggle{display:flex;background:rgba(17,17,17,0.06);border-radius:100px;padding:3px;gap:2px}
+        .mode-toggle button{background:none;border:none;padding:0.4rem 0.9rem;border-radius:100px;font-family:inherit;font-size:0.7rem;font-weight:600;color:var(--gray);cursor:pointer;transition:all 0.3s var(--ease);white-space:nowrap}
+        .mode-toggle button.active{background:var(--fg);color:var(--bg);box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+        .mode-toggle button:not(.active):hover{color:var(--fg)}
+
+        /* MODE CONTAINERS */
+        #human-mode,#agent-mode{transition:opacity 0.4s var(--ease)}
+        #agent-mode{display:none}
+        body.agents #human-mode{display:none}
+        body.agents #agent-mode{display:block}
+
+        /* AGENT MODE */
+        .agent-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:8rem 1.5rem 4rem;text-align:center;position:relative;z-index:2;background:var(--bg)}
+        .agent-hero-inner{max-width:700px}
+        .agent-hero h1{font-size:clamp(2.5rem,10vw,5.5rem);font-weight:800;letter-spacing:-0.05em;line-height:0.9;margin-bottom:1rem;color:var(--fg)}
+        .agent-hero .sub{margin-bottom:3rem}
+
+        /* MCP CATALOG */
+        .mcp-catalog{max-width:800px;margin:0 auto;width:100%}
+        .mcp-card{background:var(--bg);border:2px solid rgba(17,17,17,0.08);border-radius:24px;padding:2rem;transition:all 0.4s var(--ease);position:relative;overflow:hidden}
+        .mcp-card:hover{border-color:rgba(17,17,17,0.15);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.08)}
+        .mcp-card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem;gap:1rem}
+        .mcp-card-info h3{font-size:1.25rem;font-weight:700;margin-bottom:0.2rem;color:var(--fg)}
+        .mcp-card-info .mcp-url{font-size:0.75rem;color:var(--gray);font-family:'SF Mono',Monaco,Consolas,monospace;font-weight:500}
+        .mcp-card-status{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(22,163,74,0.08);color:var(--g);padding:0.3rem 0.75rem;border-radius:100px;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0}
+        .mcp-card-status .status-dot{width:6px;height:6px;background:var(--g);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+        .mcp-card-desc{color:var(--gray);font-size:0.9rem;line-height:1.6;margin-bottom:1.25rem}
+        .mcp-card-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+        .mcp-meta-tag{display:inline-flex;align-items:center;gap:0.35rem;background:rgba(17,17,17,0.04);padding:0.35rem 0.75rem;border-radius:100px;font-size:0.7rem;font-weight:600;color:var(--gray)}
+        .mcp-meta-tag svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+        .mcp-card-actions{display:flex;gap:0.75rem;flex-wrap:wrap}
+        .mcp-btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.65rem 1.25rem;border-radius:14px;font-family:inherit;font-size:0.8rem;font-weight:600;text-decoration:none;cursor:pointer;transition:all 0.3s var(--ease-out);border:none}
+        .mcp-btn-primary{background:var(--fg);color:var(--bg)}
+        .mcp-btn-primary:hover{transform:scale(1.05);box-shadow:0 10px 30px rgba(17,17,17,0.2)}
+        .mcp-btn-secondary{background:rgba(17,17,17,0.06);color:var(--fg)}
+        .mcp-btn-secondary:hover{background:rgba(17,17,17,0.1);transform:scale(1.03)}
+        .mcp-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+        /* CONNECT SECTION */
+        .connect{padding:6rem 1.5rem;position:relative;z-index:2;background:var(--bg)}
+        .connect-inner{max-width:800px;margin:0 auto}
+        .connect h2{font-size:clamp(1.5rem,4vw,2.25rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:0.5rem;color:var(--fg)}
+        .connect>p,.connect-inner>p{color:var(--gray);font-size:0.9rem;margin-bottom:2rem}
+        .code-block{background:var(--bg-dark);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;position:relative;overflow-x:auto}
+        .code-block-label{font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-light);margin-bottom:0.75rem;display:flex;justify-content:space-between;align-items:center}
+        .code-copy{background:rgba(245,245,245,0.1);border:none;padding:0.3rem 0.7rem;border-radius:8px;color:var(--gray-light);font-family:inherit;font-size:0.6rem;font-weight:600;cursor:pointer;transition:all 0.3s}
+        .code-copy:hover{background:rgba(245,245,245,0.2);color:var(--fg-light)}
+        .code-block pre{margin:0;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:0.78rem;line-height:1.7;color:var(--fg-light);white-space:pre;overflow-x:auto}
+        .code-block .k{color:#c084fc}
+        .code-block .s{color:#86efac}
+        .code-block .n{color:#93c5fd}
+        .code-block .c{color:#6b7280}
+
+        /* AGENT FEATURES */
+        .agent-features{padding:6rem 1.5rem;position:relative;z-index:2}
+        .agent-feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:800px;margin:0 auto}
+        .agent-feat{background:rgba(17,17,17,0.02);border:1px solid rgba(17,17,17,0.08);border-radius:20px;padding:1.75rem;transition:all 0.4s var(--ease)}
+        .agent-feat:hover{border-color:rgba(17,17,17,0.15);transform:translateY(-4px);box-shadow:0 15px 40px rgba(0,0,0,0.06)}
+        .agent-feat h3{font-size:0.95rem;font-weight:600;margin-bottom:0.3rem;color:var(--fg)}
+        .agent-feat p{color:var(--gray);font-size:0.8rem;line-height:1.5}
+
+        @media(max-width:768px){
+            .mcp-card-head{flex-direction:column}
+            .agent-feat-grid{grid-template-columns:1fr}
+            .agent-hero{padding:6rem 1.25rem 3rem}
+            .agent-hero h1{font-size:clamp(2rem,12vw,3.5rem)}
+        }
+
         /* FOOTER */
         footer{padding:2.5rem 1.5rem;border-top:1px solid rgba(17,17,17,0.06);position:relative;z-index:2;background:var(--bg)}
         .foot-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
@@ -360,10 +429,17 @@
                 </div>
                 <span>decide</span>
             </a>
-            <div class="nav-links">
-                <a href="#features">Why Decide</a>
+            <div class="mode-toggle" id="modeToggle">
+                <button class="active" data-mode="humans" onclick="setMode('humans')">Humans</button>
+                <button data-mode="agents" onclick="setMode('agents')">Agents</button>
+            </div>
+            <div class="nav-links" id="navLinksHuman">
                 <a href="#features">Features</a>
                 <a href="#" class="nav-signin nav-cta" onclick="event.preventDefault(); openSignIn();">Sign In</a>
+            </div>
+            <div class="nav-links" id="navLinksAgent" style="display:none">
+                <a href="#mcp-connect">Connect</a>
+                <a href="https://github.com/decidefyi/decide" target="_blank">GitHub</a>
             </div>
             <button class="mob" id="mobBtn"><span></span><span></span><span></span></button>
         </div>
@@ -372,11 +448,18 @@
     <!-- Mobile Menu -->
     <div class="mobile-overlay" id="mobileOverlay"></div>
     <div class="mobile-menu" id="mobileMenu">
-        <a href="#features" class="mobile-link">Why Decide</a>
-        <a href="#features" class="mobile-link">Features</a>
-        <a href="#" class="nav-cta mobile-link" onclick="event.preventDefault(); openSignIn();">Sign In</a>
+        <div id="mobileHumanLinks">
+            <a href="#features" class="mobile-link">Features</a>
+            <a href="#" class="nav-cta mobile-link" onclick="event.preventDefault(); openSignIn();">Sign In</a>
+        </div>
+        <div id="mobileAgentLinks" style="display:none">
+            <a href="#mcp-connect" class="mobile-link">Connect</a>
+            <a href="https://github.com/decidefyi/decide" class="mobile-link" target="_blank">GitHub</a>
+        </div>
     </div>
 
+    <!-- HUMAN MODE -->
+    <div id="human-mode">
     <section class="hero">
         <div class="hero-inner">
             <div class="badge"><span class="badge-dot"></span>Available now</div>
@@ -469,6 +552,128 @@
             <a href="#" class="cta-btn" onclick="document.getElementById('q').focus();window.scrollTo({top:0,behavior:'smooth'});return false;">Try it now</a>
         </div>
     </section>
+    </div>
+
+    <!-- AGENT MODE -->
+    <div id="agent-mode">
+    <section class="agent-hero">
+        <div class="agent-hero-inner">
+            <div class="badge"><span class="badge-dot"></span>MCP Servers</div>
+            <h1>Decision tools for <span class="serif">agents.</span></h1>
+            <p class="sub">Deterministic MCP servers that give your AI agents clear, auditable answers.</p>
+
+            <div class="mcp-catalog">
+                <div class="mcp-card">
+                    <div class="mcp-card-head">
+                        <div class="mcp-card-info">
+                            <h3>Refund Notary</h3>
+                            <span class="mcp-url">refund.decide.fyi</span>
+                        </div>
+                        <div class="mcp-card-status"><span class="status-dot"></span> Live</div>
+                    </div>
+                    <p class="mcp-card-desc">Deterministic refund eligibility checker for US consumer subscriptions. Returns ALLOWED, DENIED, or UNKNOWN based on each vendor's official refund policy window.</p>
+                    <div class="mcp-card-meta">
+                        <span class="mcp-meta-tag"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>64 vendors</span>
+                        <span class="mcp-meta-tag"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Stateless</span>
+                        <span class="mcp-meta-tag"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Updated daily</span>
+                        <span class="mcp-meta-tag"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Free / No auth</span>
+                    </div>
+                    <div class="mcp-card-actions">
+                        <a href="https://refund.decide.fyi" target="_blank" class="mcp-btn mcp-btn-primary">Visit<svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
+                        <button class="mcp-btn mcp-btn-secondary" onclick="document.getElementById('mcp-connect').scrollIntoView({behavior:'smooth'})">Connect<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>
+                        <a href="https://github.com/decidefyi/decide" target="_blank" class="mcp-btn mcp-btn-secondary">GitHub<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="connect" id="mcp-connect">
+        <div class="connect-inner">
+            <h2>Connect your agent</h2>
+            <p>Add the refund notary to any MCP-compatible client in seconds.</p>
+
+            <div class="code-block">
+                <div class="code-block-label"><span>Claude Desktop / Cursor / Windsurf</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+<pre>{
+  <span class="s">"mcpServers"</span>: {
+    <span class="s">"refund-decide"</span>: {
+      <span class="s">"url"</span>: <span class="s">"https://refund.decide.fyi/api/mcp"</span>
+    }
+  }
+}</pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-block-label"><span>JSON-RPC &mdash; tools/call</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+<pre>curl -X POST https://refund.decide.fyi/api/mcp \
+  -H <span class="s">"Content-Type: application/json"</span> \
+  -d <span class="s">'{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "refund_eligibility",
+      "arguments": {
+        "vendor": "adobe",
+        "days_since_purchase": 12,
+        "region": "US",
+        "plan": "individual"
+      }
+    }
+  }'</span></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-block-label"><span>REST API</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+<pre>curl -X POST https://refund.decide.fyi/api/v1/refund/eligibility \
+  -H <span class="s">"Content-Type: application/json"</span> \
+  -d <span class="s">'{"vendor":"spotify","days_since_purchase":5,"region":"US","plan":"individual"}'</span></pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="agent-features sec-light">
+        <div class="sec-head">
+            <h2>Built for <span class="serif">agents</span></h2>
+            <p>No API keys. No databases. No side effects.</p>
+        </div>
+        <div class="agent-feat-grid">
+            <div class="agent-feat">
+                <h3>Deterministic</h3>
+                <p>Same input, same output. Every time. Fully auditable decisions your agent can cite.</p>
+            </div>
+            <div class="agent-feat">
+                <h3>Stateless</h3>
+                <p>No sessions, no tokens, no stored data. Pure function over HTTP.</p>
+            </div>
+            <div class="agent-feat">
+                <h3>MCP Native</h3>
+                <p>JSON-RPC 2.0 over HTTP POST. Works with Claude Desktop, Cursor, and any MCP client.</p>
+            </div>
+            <div class="agent-feat">
+                <h3>64 Vendors</h3>
+                <p>Adobe, Netflix, Spotify, Microsoft 365, and 60 more. Updated daily via automated checks.</p>
+            </div>
+            <div class="agent-feat">
+                <h3>Zero Config</h3>
+                <p>No API keys, no auth, no sign-up. Point your agent at the endpoint and go.</p>
+            </div>
+            <div class="agent-feat">
+                <h3>Open Source</h3>
+                <p>Full rules, policy sources, and server code on GitHub. Verify everything.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta sec-light">
+        <div class="cta-inner">
+            <h2>Ship <span class="serif">decisions.</span></h2>
+            <p>Give your agents the tools to stop hedging.</p>
+            <a href="https://github.com/decidefyi/decide" target="_blank" class="cta-btn">View on GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
+        </div>
+    </section>
+    </div>
 
     <footer>
         <div class="foot-inner">
@@ -886,6 +1091,55 @@ show(result, text);
                 });
             }
         });
+
+        // Mode toggle (Humans / Agents)
+        function setMode(mode) {
+            const isAgents = mode === 'agents';
+            document.body.classList.toggle('agents', isAgents);
+
+            // Toggle nav links
+            document.getElementById('navLinksHuman').style.display = isAgents ? 'none' : 'flex';
+            document.getElementById('navLinksAgent').style.display = isAgents ? 'flex' : 'none';
+
+            // Toggle mobile links
+            document.getElementById('mobileHumanLinks').style.display = isAgents ? 'none' : 'block';
+            document.getElementById('mobileAgentLinks').style.display = isAgents ? 'block' : 'none';
+
+            // Update toggle buttons
+            document.querySelectorAll('.mode-toggle button').forEach(b => {
+                b.classList.toggle('active', b.dataset.mode === mode);
+            });
+
+            // Update URL hash
+            history.replaceState(null, '', isAgents ? '#agents' : window.location.pathname);
+
+            // Persist
+            localStorage.setItem('decide-mode', mode);
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        // Copy code blocks
+        function copyCode(btn) {
+            const pre = btn.closest('.code-block').querySelector('pre');
+            const text = pre.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                btn.textContent = 'Copied!';
+                setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+            });
+        }
+
+        // Init mode from hash or localStorage
+        (function() {
+            const hash = window.location.hash;
+            const saved = localStorage.getItem('decide-mode');
+            if (hash === '#agents') {
+                setMode('agents');
+            } else if (hash === '#humans' || hash === '') {
+                if (saved === 'agents' && !hash) setMode('agents');
+            }
+        })();
 
         // Sign In function
         async function openSignIn() {
