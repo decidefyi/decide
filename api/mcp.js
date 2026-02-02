@@ -27,23 +27,23 @@ const SERVER_PROTOCOLS = ["2025-11-25", "2024-11-05"];
 
 // Dynamic vendor list
 const supportedVendors = getSupportedVendors();
-const vendorList = supportedVendors.join(", ");
 
 const TOOL = {
   name: "refund_eligibility",
   description:
-    `Deterministic refund eligibility notary for US consumer subscriptions. Returns ALLOWED / DENIED / UNKNOWN. Supported vendors: ${vendorList}. US region and individual plans only.`,
+    "Check if a US consumer subscription purchase is eligible for a refund. Returns ALLOWED, DENIED, or UNKNOWN based on the vendor's refund policy window.",
   inputSchema: {
     type: "object",
     additionalProperties: false,
     properties: {
       vendor: {
         type: "string",
-        description: `Vendor identifier (lowercase, underscore-separated). Supported: ${vendorList}`
+        enum: supportedVendors,
+        description: "Vendor identifier (lowercase, underscore-separated)."
       },
       days_since_purchase: {
         type: "number",
-        description: "Number of days since the subscription was purchased. Must be a non-negative number.",
+        description: "Number of days since the subscription was purchased.",
         minimum: 0
       },
       region: {
