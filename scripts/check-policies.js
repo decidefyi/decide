@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Daily policy checker — fetches each vendor's refund policy page,
+ * Daily policy checker — fetches each vendor's policy pages (refund, cancel, return),
  * hashes the text content, and compares against stored hashes.
  * If any page has changed, outputs a list of changed vendors.
  *
@@ -16,13 +16,27 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const SOURCES_PATH = join(__dirname, "..", "rules", "policy-sources.json");
-const HASHES_PATH = join(__dirname, "..", "rules", "policy-hashes.json");
 
-const sources = JSON.parse(readFileSync(SOURCES_PATH, "utf8"));
-const storedHashes = existsSync(HASHES_PATH)
-  ? JSON.parse(readFileSync(HASHES_PATH, "utf8"))
-  : {};
+const POLICY_SETS = [
+  {
+    name: "refund",
+    sourcesPath: join(__dirname, "..", "rules", "policy-sources.json"),
+    hashesPath: join(__dirname, "..", "rules", "policy-hashes.json"),
+    rulesFile: "v1_us_individual.json",
+  },
+  {
+    name: "cancel",
+    sourcesPath: join(__dirname, "..", "rules", "cancel-policy-sources.json"),
+    hashesPath: join(__dirname, "..", "rules", "cancel-policy-hashes.json"),
+    rulesFile: "v1_us_individual_cancel.json",
+  },
+  {
+    name: "return",
+    sourcesPath: join(__dirname, "..", "rules", "return-policy-sources.json"),
+    hashesPath: join(__dirname, "..", "rules", "return-policy-hashes.json"),
+    rulesFile: "v1_us_individual_return.json",
+  },
+];
 
 const isUpdate = process.argv.includes("--update");
 
@@ -38,7 +52,7 @@ async function fetchText(url) {
       signal: controller.signal,
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (compatible; RefundPolicyChecker/1.0; +https://refund.decide.fyi)",
+          "Mozilla/5.0 (compatible; DecidePolicyChecker/1.0; +https://decide.fyi)",
       },
     });
     if (!res.ok) return null;
@@ -50,7 +64,17 @@ async function fetchText(url) {
   }
 }
 
-async function main() {
+async function checkPolicySet({ name, sourcesPath, hashesPath, rulesFile }) {
+  if (!existsSync(sourcesPath)) {
+    console.log(`::warning::Sources file not found for ${name}: ${sourcesPath}`);
+    return { name, changed: [], errors: [] };
+  }
+
+  const sources = JSON.parse(readFileSync(sourcesPath, "utf8"));
+  const storedHashes = existsSync(hashesPath)
+    ? JSON.parse(readFileSync(hashesPath, "utf8"))
+    : {};
+
   const vendors = Object.entries(sources.vendors);
   const changed = [];
   const errors = [];
@@ -59,7 +83,7 @@ async function main() {
   // Process in batches of 5 to avoid hammering
   for (let i = 0; i < vendors.length; i += 5) {
     const batch = vendors.slice(i, i + 5);
-    const results = await Promise.all(
+    await Promise.all(
       batch.map(async ([vendor, { url }]) => {
         const text = await fetchText(url);
         if (!text) {
@@ -77,26 +101,42 @@ async function main() {
   }
 
   // Write updated hashes
-  writeFileSync(HASHES_PATH, JSON.stringify(newHashes, null, 2) + "\n");
+  writeFileSync(hashesPath, JSON.stringify(newHashes, null, 2) + "\n");
 
-  // Output results
+  return { name, changed, errors, rulesFile };
+}
+
+async function main() {
+  const allChanged = [];
+  const allErrors = [];
+
+  for (const policySet of POLICY_SETS) {
+    const result = await checkPolicySet(policySet);
+
+    if (result.errors.length > 0) {
+      console.log(`::warning::Could not fetch ${result.errors.length} ${result.name} vendor(s): ${result.errors.join(", ")}`);
+      allErrors.push(...result.errors.map((v) => `${result.name}:${v}`));
+    }
+
+    for (const c of result.changed) {
+      allChanged.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
+    }
+  }
+
   if (isUpdate) {
-    console.log(`Hashes updated for ${Object.keys(newHashes).length} vendors.`);
+    console.log(`Hashes updated for all policy sets.`);
     return;
   }
 
-  if (errors.length > 0) {
-    console.log(`::warning::Could not fetch ${errors.length} vendor(s): ${errors.join(", ")}`);
-  }
-
-  if (changed.length === 0) {
+  if (allChanged.length === 0) {
     console.log("No policy page changes detected.");
     process.exitCode = 0;
   } else {
-    console.log(`CHANGED_VENDORS=${changed.map((c) => c.vendor).join(",")}`);
+    const vendorNames = allChanged.map((c) => `${c.policyType}:${c.vendor}`).join(",");
+    console.log(`CHANGED_VENDORS=${vendorNames}`);
     // Build issue body for the GitHub Action
-    const body = changed
-      .map((c) => `- **${c.vendor}**: [policy page](${c.url})`)
+    const body = allChanged
+      .map((c) => `- **[${c.policyType}] ${c.vendor}**: [policy page](${c.url}) — update \`rules/${c.rulesFile}\``)
       .join("\n");
     console.log(`ISSUE_BODY<<EOF\n${body}\nEOF`);
     process.exitCode = 0;
