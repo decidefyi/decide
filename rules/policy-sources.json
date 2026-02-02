@@ -30,6 +30,10 @@
       "url": "https://www.audible.com/legal/conditions-of-use",
       "notes": "Membership fees non-refundable"
     },
+    "bitwarden": {
+      "url": "https://bitwarden.com/help/cancel-a-subscription/",
+      "notes": "30-day refund window from subscription creation"
+    },
     "bumble": {
       "url": "https://bumble.com/en-us/terms",
       "notes": "Non-refundable; no prorated refunds"
@@ -50,9 +54,17 @@
       "url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
       "notes": "Non-refundable except as required by law"
     },
+    "crunchyroll": {
+      "url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
+      "notes": "Non-refundable; digital memberships excluded from returns"
+    },
     "coursera_plus": {
       "url": "https://www.coursera.support/s/article/208280266-Refund-policies",
       "notes": "14-day refund window for annual plan"
+    },
+    "deezer": {
+      "url": "https://www.deezer.com/legal/cgu",
+      "notes": "Non-refundable in US; 14-day window if service unused"
     },
     "disney_plus": {
       "url": "https://help.disneyplus.com/article/disneyplus-refund",
@@ -78,6 +90,14 @@
       "url": "https://www.expressvpn.com/support/manage-account/what-is-expressvpns-refund-policy/",
       "notes": "30-day money-back guarantee for first-time users"
     },
+    "figma": {
+      "url": "https://www.figma.com/legal/renewal-and-cancellation/",
+      "notes": "Non-refundable; exceptions for price changes or service discontinuation"
+    },
+    "fubo_tv": {
+      "url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
+      "notes": "Non-refundable; no partial month refunds"
+    },
     "github_pro": {
       "url": "https://docs.github.com/en/billing/managing-the-plan-for-your-github-account/downgrading-your-accounts-plan",
       "notes": "No standard refund policy; case-by-case via support"
@@ -94,6 +114,10 @@
       "url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
       "notes": "Non-refundable; case-by-case exceptions via email"
     },
+    "hellofresh": {
+      "url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
+      "notes": "Non-refundable; case-by-case for quality/delivery issues only"
+    },
     "hinge": {
       "url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
       "notes": "Non-refundable in US; 3-day right-to-cancel in some states"
@@ -101,6 +125,10 @@
     "hulu": {
       "url": "https://www.hulu.com/subscriber_agreement",
       "notes": "No refunds for partial months"
+    },
+    "icloud_plus": {
+      "url": "https://support.apple.com/en-us/118223",
+      "notes": "14-day refund window via Apple Report a Problem"
     },
     "instacart_plus": {
       "url": "https://www.instacart.com/help/section/360007797952/4408784716820",
@@ -134,6 +162,10 @@
       "url": "https://www.nintendo.com/us/refund-return-policy/digital-products/",
       "notes": "All payments final and non-refundable"
     },
+    "noom": {
+      "url": "https://www.noom.com/support/faqs/programs/2025/10/noom-refund-policy/",
+      "notes": "14-day refund window from first charge; renewals non-refundable"
+    },
     "nordvpn": {
       "url": "https://support.nordvpn.com/hc/en-us/articles/19476991311121-What-is-your-refund-policy",
       "notes": "30-day money-back guarantee for first purchase"
@@ -154,6 +186,18 @@
       "url": "https://www.onepeloton.com/membership-terms",
       "notes": "Non-refundable; no prorated refunds"
     },
+    "scribd": {
+      "url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
+      "notes": "30-day refund window if subscription unused"
+    },
+    "shutterstock": {
+      "url": "https://www.shutterstock.com/help/en/articles/10594851-can-i-get-a-refund-if-i-cancel-my-plan",
+      "notes": "Non-refundable; 50% early termination fee on annual plans"
+    },
+    "sling_tv": {
+      "url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
+      "notes": "Non-refundable; no partial month refunds"
+    },
     "playstation_plus": {
       "url": "https://www.playstation.com/en-us/legal/playstation-store-cancellation-policy/",
       "notes": "14-day cancellation window, pro-rated refund"
@@ -165,6 +209,14 @@
     "strava": {
       "url": "https://www.strava.com/legal/terms",
       "notes": "14-day full refund window from date of purchase"
+    },
+    "squarespace": {
+      "url": "https://support.squarespace.com/hc/en-us/articles/360000623648-Refund-policies",
+      "notes": "14-day refund window for annual website plans (first payment only)"
+    },
+    "surfshark": {
+      "url": "https://support.surfshark.com/hc/en-us/articles/360003103653-What-is-Surfshark-s-refund-policy",
+      "notes": "30-day money-back guarantee for initial purchase"
     },
     "spotify": {
       "url": "https://www.spotify.com/us/legal/end-user-agreement/",
@@ -178,9 +230,21 @@
       "url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
       "notes": "Non-refundable in US; 14-day window EU only"
     },
+    "todoist": {
+      "url": "https://www.todoist.com/help/articles/request-a-refund-P1PoqD3J",
+      "notes": "30-day refund window for yearly plans; monthly non-refundable"
+    },
+    "twitch": {
+      "url": "https://www.twitch.tv/p/en/legal/terms-of-sale/",
+      "notes": "Non-refundable; exceptions at Twitch's discretion"
+    },
     "walmart_plus": {
       "url": "https://www.walmart.com/help/article/walmart-terms-of-use/de696dfa1dd4423bb1005668dd19b845",
       "notes": "Non-refundable; benefits continue until end of billing cycle"
+    },
+    "wix": {
+      "url": "https://support.wix.com/en/article/requesting-a-refund-for-a-premium-plan",
+      "notes": "14-day money-back guarantee for new Premium/Studio plans"
     },
     "xbox_game_pass": {
       "url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
