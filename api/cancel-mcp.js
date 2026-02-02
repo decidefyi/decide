@@ -137,7 +137,7 @@ export default async function handler(req, res) {
           serverInfo: {
             name: "cancel.decide.fyi",
             title: "CancelDecide Notary",
-            version: "1.0.0",
+            version: "1.2.0",
             description: "Deterministic cancellation penalty checker (stateless).",
             websiteUrl: "https://cancel.decide.fyi",
           },

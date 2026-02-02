@@ -6,6 +6,27 @@
       "transport": {
         "type": "http"
       }
+    },
+    "cancel-notary": {
+      "url": "https://cancel.decide.fyi/api/mcp",
+      "description": "Deterministic cancellation penalty notary for US subscriptions",
+      "transport": {
+        "type": "http"
+      }
+    },
+    "return-notary": {
+      "url": "https://return.decide.fyi/api/mcp",
+      "description": "Deterministic return eligibility notary for US subscriptions",
+      "transport": {
+        "type": "http"
+      }
+    },
+    "trial-notary": {
+      "url": "https://trial.decide.fyi/api/mcp",
+      "description": "Deterministic free trial terms notary for US subscriptions",
+      "transport": {
+        "type": "http"
+      }
     }
   }
 }

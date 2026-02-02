@@ -142,7 +142,7 @@ export default async function handler(req, res) {
           serverInfo: {
             name: "return.decide.fyi",
             title: "ReturnDecide Notary",
-            version: "1.0.0",
+            version: "1.2.0",
             description: "Deterministic return eligibility checker (stateless).",
             websiteUrl: "https://return.decide.fyi",
           },

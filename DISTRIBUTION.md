@@ -7,7 +7,7 @@ Next 1-2 high-signal places to submit the refund notary.
 ## ✅ Already Submitted
 
 - **awesome-mcp-servers** - PR #1678 submitted, awaiting merge
-- **Official MCP Registry** - Published v1.0.0 on 16/01/2026
+- **Official MCP Registry** - Published v1.2.0 on 16/01/2026
 - **Smithery.ai** - Published on 16/01/2026 at https://smithery.ai/server/refund-decide/notary
 
 ---
