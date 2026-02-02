@@ -13,7 +13,7 @@ EXAMPLES:
     python refund-check.py spotify 1         # No refunds -> DENIED
     python refund-check.py microsoft_365 25  # Within 30-day window -> ALLOWED
 
-SUPPORTED VENDORS (65+):
+SUPPORTED VENDORS (64):
     See https://refund.decide.fyi or README.md for the full list.
     Includes: adobe, amazon_prime, apple_app_store, expressvpn,
     google_play, microsoft_365, netflix, spotify, and many more.

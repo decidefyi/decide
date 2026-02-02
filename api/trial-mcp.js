@@ -137,7 +137,7 @@ export default async function handler(req, res) {
           serverInfo: {
             name: "trial.decide.fyi",
             title: "TrialDecide Notary",
-            version: "1.0.0",
+            version: "1.2.0",
             description: "Deterministic free trial terms checker (stateless).",
             websiteUrl: "https://trial.decide.fyi",
           },
