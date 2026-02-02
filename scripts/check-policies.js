@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Daily policy checker — fetches each vendor's policy pages (refund, cancel, return),
+ * Daily policy checker — fetches each vendor's policy pages (refund, cancel, return, trial),
  * hashes the text content, and compares against stored hashes.
  * If any page has changed, outputs a list of changed vendors.
  *
@@ -35,6 +35,12 @@ const POLICY_SETS = [
     sourcesPath: join(__dirname, "..", "rules", "return-policy-sources.json"),
     hashesPath: join(__dirname, "..", "rules", "return-policy-hashes.json"),
     rulesFile: "v1_us_individual_return.json",
+  },
+  {
+    name: "trial",
+    sourcesPath: join(__dirname, "..", "rules", "trial-policy-sources.json"),
+    hashesPath: join(__dirname, "..", "rules", "trial-policy-hashes.json"),
+    rulesFile: "v1_us_individual_trial.json",
   },
 ];
 
