@@ -1,16 +1,16 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.decidefyi/refund-decide",
-  "description": "Refund eligibility notary for US subscriptions. Returns ALLOWED/DENIED/UNKNOWN.",
+  "name": "io.github.decidefyi/decide",
+  "description": "Subscription decision notaries for US consumers. 4 tools: refund, cancel, return, trial.",
   "repository": {
     "url": "https://github.com/decidefyi/decide",
     "source": "github"
   },
-  "version": "1.1.0",
+  "version": "1.2.0",
   "remotes": [
-    {
-      "url": "https://refund.decide.fyi/api/mcp",
-      "type": "streamable-http"
-    }
+    { "url": "https://refund.decide.fyi/api/mcp", "type": "streamable-http" },
+    { "url": "https://cancel.decide.fyi/api/mcp", "type": "streamable-http" },
+    { "url": "https://return.decide.fyi/api/mcp", "type": "streamable-http" },
+    { "url": "https://trial.decide.fyi/api/mcp", "type": "streamable-http" }
   ]
 }
