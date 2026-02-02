@@ -1,17 +1,26 @@
-import { NextResponse } from "next/server";
-
-export function middleware(request) {
-  const host = request.headers.get("host") || "";
-  const { pathname } = request.nextUrl;
-
-  // Route cancel.decide.fyi/api/mcp → /api/cancel-mcp
-  if (host.startsWith("cancel.") && pathname === "/api/mcp") {
-    return NextResponse.rewrite(new URL("/api/cancel-mcp", request.url));
+function withBasePath(url, basePath) {
+  if (url.pathname.startsWith(`${basePath}/`) || url.pathname === basePath) {
+    return url;
   }
 
-  return NextResponse.next();
+  const nextUrl = new URL(url);
+  nextUrl.pathname = `${basePath}${url.pathname}`;
+  return nextUrl;
 }
 
-export const config = {
-  matcher: ["/api/mcp"],
-};
+export default async function middleware(request) {
+  const url = new URL(request.url);
+  const host = request.headers.get("host") || "";
+
+  if (host.startsWith("cancel.")) {
+    const nextUrl = withBasePath(url, "/cancel");
+    return fetch(nextUrl, request);
+  }
+
+  if (host.startsWith("refund.")) {
+    const nextUrl = withBasePath(url, "/refund");
+    return fetch(nextUrl, request);
+  }
+
+  return fetch(request);
+}
