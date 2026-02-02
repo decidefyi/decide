@@ -626,6 +626,27 @@
                         <a href="https://github.com/decidefyi/decide" target="_blank" class="mcp-btn mcp-btn-secondary">GitHub<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></a>
                     </div>
                 </div>
+
+                <div class="mcp-card">
+                    <div class="mcp-card-head">
+                        <div class="mcp-card-info">
+                            <h3>Trial Notary</h3>
+                            <span class="mcp-url">trial.decide.fyi</span>
+                        </div>
+                        <div class="mcp-card-status"><span class="status-dot"></span> Live</div>
+                    </div>
+                    <p class="mcp-card-desc">Free trial availability and terms checker for US consumer subscriptions. Returns TRIAL_AVAILABLE or NO_TRIAL with trial length, card requirement, and auto-conversion status.</p>
+                    <div class="mcp-card-meta">
+                        <span class="mcp-meta-tag"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>64 vendors</span>
+                        <span class="mcp-meta-tag"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Stateless</span>
+                        <span class="mcp-meta-tag"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Card &amp; auto-convert</span>
+                        <span class="mcp-meta-tag"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Free / No auth</span>
+                    </div>
+                    <div class="mcp-card-actions">
+                        <button class="mcp-btn mcp-btn-primary" onclick="document.getElementById('mcp-connect').scrollIntoView({behavior:'smooth'})">Connect<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>
+                        <a href="https://github.com/decidefyi/decide" target="_blank" class="mcp-btn mcp-btn-secondary">GitHub<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -647,6 +668,9 @@
     },
     <span class="s">"return-decide"</span>: {
       <span class="s">"url"</span>: <span class="s">"https://return.decide.fyi/api/mcp"</span>
+    },
+    <span class="s">"trial-decide"</span>: {
+      <span class="s">"url"</span>: <span class="s">"https://trial.decide.fyi/api/mcp"</span>
     }
   }
 }</pre>

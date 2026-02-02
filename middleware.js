@@ -15,6 +15,12 @@ export default async function middleware(request) {
     return fetch(dest, request);
   }
 
+  // trial.decide.fyi/api/mcp → /api/trial-mcp
+  if (host.startsWith("trial.") && pathname === "/api/mcp") {
+    const dest = new URL("/api/trial-mcp", url.origin);
+    return fetch(dest, request);
+  }
+
   // refund.decide.fyi routes pass through (api/mcp.js already handles refund)
   // All other routes pass through unchanged
   return fetch(request);
