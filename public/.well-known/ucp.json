@@ -1,44 +1,62 @@
 {
-  "name": "refund.decide.fyi",
-  "type": "refund_eligibility_notary",
-  "version": "1.1.0",
-  "description": "Deterministic refund eligibility notary for US consumer subscriptions. Returns ALLOWED, DENIED, or UNKNOWN.",
-  "endpoint": {
-    "method": "POST",
-    "url": "https://refund.decide.fyi/api/v1/refund/eligibility",
-    "content_type": "application/json"
-  },
-  "inputs": {
-    "vendor": {
-      "type": "string",
-      "required": true,
-      "enum": ["1password", "adobe", "amazon_prime", "apple_app_store", "apple_music", "apple_tv_plus", "audible", "bitwarden", "bumble", "calm", "canva", "chatgpt_plus", "claude_pro", "coursera_plus", "crunchyroll", "deezer", "disney_plus", "doordash_dashpass", "dropbox_us", "duolingo", "evernote", "expressvpn", "figma", "fubo_tv", "github_pro", "google_play", "grammarly", "headspace", "hellofresh", "hinge", "hulu", "icloud_plus", "instacart_plus", "linkedin_premium", "masterclass", "max", "microsoft_365", "midjourney", "netflix", "nintendo_switch_online", "noom", "nordvpn", "notion", "paramount_plus", "peacock", "peloton", "playstation_plus", "scribd", "shutterstock", "slack", "sling_tv", "spotify", "squarespace", "strava", "surfshark", "tidal", "tinder", "todoist", "twitch", "walmart_plus", "wix", "xbox_game_pass", "youtube_premium", "zoom"]
+  "name": "decide.fyi",
+  "version": "1.2.0",
+  "description": "Deterministic subscription decision notaries for US consumers.",
+  "services": [
+    {
+      "name": "refund.decide.fyi",
+      "type": "refund_eligibility_notary",
+      "endpoint": { "method": "POST", "url": "https://refund.decide.fyi/api/v1/refund/eligibility" },
+      "mcp_url": "https://refund.decide.fyi/api/mcp",
+      "tool_name": "refund_eligibility",
+      "inputs": {
+        "vendor": { "type": "string", "required": true, "enum": ["1password","adobe","amazon_prime","apple_app_store","apple_music","apple_tv_plus","audible","bitwarden","bumble","calm","canva","chatgpt_plus","claude_pro","coursera_plus","crunchyroll","deezer","disney_plus","doordash_dashpass","dropbox_us","duolingo","evernote","expressvpn","figma","fubo_tv","github_pro","google_play","grammarly","headspace","hellofresh","hinge","hulu","icloud_plus","instacart_plus","linkedin_premium","masterclass","max","microsoft_365","midjourney","netflix","nintendo_switch_online","noom","nordvpn","notion","paramount_plus","peacock","peloton","playstation_plus","scribd","shutterstock","slack","sling_tv","spotify","squarespace","strava","surfshark","tidal","tinder","todoist","twitch","walmart_plus","wix","xbox_game_pass","youtube_premium","zoom"] },
+        "days_since_purchase": { "type": "number", "required": true, "minimum": 0 },
+        "region": { "type": "string", "required": true, "enum": ["US"] },
+        "plan": { "type": "string", "required": true, "enum": ["individual"] }
+      },
+      "outputs": { "verdict": ["ALLOWED", "DENIED", "UNKNOWN"] }
     },
-    "days_since_purchase": {
-      "type": "number",
-      "required": true,
-      "minimum": 0
+    {
+      "name": "cancel.decide.fyi",
+      "type": "cancellation_penalty_notary",
+      "endpoint": { "method": "POST", "url": "https://cancel.decide.fyi/api/v1/cancel/penalty" },
+      "mcp_url": "https://cancel.decide.fyi/api/mcp",
+      "tool_name": "cancellation_penalty",
+      "inputs": {
+        "vendor": { "type": "string", "required": true, "enum": ["1password","adobe","amazon_prime","apple_app_store","apple_music","apple_tv_plus","audible","bitwarden","bumble","calm","canva","chatgpt_plus","claude_pro","coursera_plus","crunchyroll","deezer","disney_plus","doordash_dashpass","dropbox_us","duolingo","evernote","expressvpn","figma","fubo_tv","github_pro","google_play","grammarly","headspace","hellofresh","hinge","hulu","icloud_plus","instacart_plus","linkedin_premium","masterclass","max","microsoft_365","midjourney","netflix","nintendo_switch_online","noom","nordvpn","notion","paramount_plus","peacock","peloton","playstation_plus","scribd","shutterstock","slack","sling_tv","spotify","squarespace","strava","surfshark","tidal","tinder","todoist","twitch","walmart_plus","wix","xbox_game_pass","youtube_premium","zoom"] },
+        "region": { "type": "string", "required": true, "enum": ["US"] },
+        "plan": { "type": "string", "required": true, "enum": ["individual"] }
+      },
+      "outputs": { "verdict": ["FREE_CANCEL", "PENALTY", "LOCKED", "UNKNOWN"] }
     },
-    "region": {
-      "type": "string",
-      "required": true,
-      "enum": ["US"]
+    {
+      "name": "return.decide.fyi",
+      "type": "return_eligibility_notary",
+      "endpoint": { "method": "POST", "url": "https://return.decide.fyi/api/v1/return/eligibility" },
+      "mcp_url": "https://return.decide.fyi/api/mcp",
+      "tool_name": "return_eligibility",
+      "inputs": {
+        "vendor": { "type": "string", "required": true, "enum": ["1password","adobe","amazon_prime","apple_app_store","apple_music","apple_tv_plus","audible","bitwarden","bumble","calm","canva","chatgpt_plus","claude_pro","coursera_plus","crunchyroll","deezer","disney_plus","doordash_dashpass","dropbox_us","duolingo","evernote","expressvpn","figma","fubo_tv","github_pro","google_play","grammarly","headspace","hellofresh","hinge","hulu","icloud_plus","instacart_plus","linkedin_premium","masterclass","max","microsoft_365","midjourney","netflix","nintendo_switch_online","noom","nordvpn","notion","paramount_plus","peacock","peloton","playstation_plus","scribd","shutterstock","slack","sling_tv","spotify","squarespace","strava","surfshark","tidal","tinder","todoist","twitch","walmart_plus","wix","xbox_game_pass","youtube_premium","zoom"] },
+        "days_since_purchase": { "type": "number", "required": true, "minimum": 0 },
+        "region": { "type": "string", "required": true, "enum": ["US"] },
+        "plan": { "type": "string", "required": true, "enum": ["individual"] }
+      },
+      "outputs": { "verdict": ["RETURNABLE", "EXPIRED", "NON_RETURNABLE", "UNKNOWN"] }
     },
-    "plan": {
-      "type": "string",
-      "required": true,
-      "enum": ["individual"]
+    {
+      "name": "trial.decide.fyi",
+      "type": "trial_terms_notary",
+      "endpoint": { "method": "POST", "url": "https://trial.decide.fyi/api/v1/trial/terms" },
+      "mcp_url": "https://trial.decide.fyi/api/mcp",
+      "tool_name": "trial_terms",
+      "inputs": {
+        "vendor": { "type": "string", "required": true, "enum": ["1password","adobe","amazon_prime","apple_app_store","apple_music","apple_tv_plus","audible","bitwarden","bumble","calm","canva","chatgpt_plus","claude_pro","coursera_plus","crunchyroll","deezer","disney_plus","doordash_dashpass","dropbox_us","duolingo","evernote","expressvpn","figma","fubo_tv","github_pro","google_play","grammarly","headspace","hellofresh","hinge","hulu","icloud_plus","instacart_plus","linkedin_premium","masterclass","max","microsoft_365","midjourney","netflix","nintendo_switch_online","noom","nordvpn","notion","paramount_plus","peacock","peloton","playstation_plus","scribd","shutterstock","slack","sling_tv","spotify","squarespace","strava","surfshark","tidal","tinder","todoist","twitch","walmart_plus","wix","xbox_game_pass","youtube_premium","zoom"] },
+        "region": { "type": "string", "required": true, "enum": ["US"] },
+        "plan": { "type": "string", "required": true, "enum": ["individual"] }
+      },
+      "outputs": { "verdict": ["TRIAL_AVAILABLE", "NO_TRIAL", "UNKNOWN"] }
     }
-  },
-  "outputs": {
-    "verdict": ["ALLOWED", "DENIED", "UNKNOWN"],
-    "code": "string",
-    "message": "string",
-    "rules_version": "string",
-    "window_days": "number"
-  },
-  "auth": {
-    "type": "none",
-    "rate_limit": "100 requests/minute per IP"
-  }
+  ],
+  "auth": { "type": "none", "rate_limit": "100 requests/minute per IP" }
 }

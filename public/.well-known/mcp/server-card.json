@@ -1,12 +1,12 @@
 {
-  "name": "RefundDecide Notary",
-  "version": "1.1.0",
-  "description": "Deterministic refund eligibility notary for US consumer subscriptions. Stateless.",
+  "name": "decide.fyi",
+  "version": "1.2.0",
+  "description": "Deterministic subscription decision notaries for US consumers. Stateless.",
   "transports": [
-    {
-      "type": "streamable-http",
-      "url": "https://refund.decide.fyi/api/mcp"
-    }
+    { "type": "streamable-http", "url": "https://refund.decide.fyi/api/mcp" },
+    { "type": "streamable-http", "url": "https://cancel.decide.fyi/api/mcp" },
+    { "type": "streamable-http", "url": "https://return.decide.fyi/api/mcp" },
+    { "type": "streamable-http", "url": "https://trial.decide.fyi/api/mcp" }
   ],
   "capabilities": {
     "tools": true

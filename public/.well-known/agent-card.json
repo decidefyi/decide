@@ -1,11 +1,33 @@
 {
-  "name": "RefundDecide Notary",
-  "version": "1.1.0",
-  "description": "Deterministic refund eligibility notary for US consumer subscriptions. Outputs ALLOWED, DENIED, or UNKNOWN.",
-  "url": "https://refund.decide.fyi",
-  "endpoint": "https://refund.decide.fyi/api/v1/refund/eligibility",
-  "capabilities": [
-    "dev.ucp.notary.refund"
+  "name": "decide.fyi",
+  "version": "1.2.0",
+  "description": "Deterministic subscription decision notaries for US consumers. Four stateless MCP servers: refund, cancel, return, trial.",
+  "url": "https://decide.fyi",
+  "services": [
+    {
+      "name": "RefundDecide Notary",
+      "endpoint": "https://refund.decide.fyi/api/v1/refund/eligibility",
+      "mcp_url": "https://refund.decide.fyi/api/mcp",
+      "capabilities": ["dev.ucp.notary.refund"]
+    },
+    {
+      "name": "CancelDecide Notary",
+      "endpoint": "https://cancel.decide.fyi/api/v1/cancel/penalty",
+      "mcp_url": "https://cancel.decide.fyi/api/mcp",
+      "capabilities": ["dev.ucp.notary.cancel"]
+    },
+    {
+      "name": "ReturnDecide Notary",
+      "endpoint": "https://return.decide.fyi/api/v1/return/eligibility",
+      "mcp_url": "https://return.decide.fyi/api/mcp",
+      "capabilities": ["dev.ucp.notary.return"]
+    },
+    {
+      "name": "TrialDecide Notary",
+      "endpoint": "https://trial.decide.fyi/api/v1/trial/terms",
+      "mcp_url": "https://trial.decide.fyi/api/mcp",
+      "capabilities": ["dev.ucp.notary.trial"]
+    }
   ],
   "execution": {
     "mode": "stateless",
@@ -13,6 +35,6 @@
   },
   "auth": {
     "type": "none",
-    "note": "Public v1 notary. No authentication required."
+    "note": "Public v1 notaries. No authentication required."
   }
 }
