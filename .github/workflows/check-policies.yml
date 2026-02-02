@@ -7,6 +7,7 @@ on:
   workflow_dispatch: # Allow manual trigger
 
 permissions:
+  contents: write
   issues: write
 
 jobs:
@@ -42,7 +43,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add rules/policy-hashes.json rules/cancel-policy-hashes.json rules/return-policy-hashes.json
-          git diff --cached --quiet || git commit -m "chore: update policy page hashes [skip ci]" && git push
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update policy page hashes [skip ci]"
+            git push
+          else
+            echo "No hash changes to commit."
+          fi
 
       - name: Open issue if policies changed
         if: steps.check.outputs.changed
