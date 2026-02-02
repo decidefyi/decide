@@ -228,36 +228,6 @@
         .how-card h3{font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;color:var(--fg)}
         .how-card p{color:var(--gray);font-size:0.85rem}
 
-        /* PRICING - DARK */
-        .pricing{padding:8rem 1.5rem}
-        .price-grid{display:flex;justify-content:center;gap:1.25rem;max-width:750px;margin:0 auto}
-        .price{flex:1;max-width:360px;background:rgba(245,245,245,0.03);border:1px solid rgba(245,245,245,0.08);border-radius:36px;padding:2.75rem 2.25rem;position:relative;transition:all 0.4s var(--ease)}
-        .price:hover{border-color:rgba(245,245,245,0.12);transform:translateY(-4px);box-shadow:0 30px 60px rgba(0,0,0,0.3)}
-        .price.pop{background:var(--fg-light);color:var(--bg-dark)}
-        .price.pop:hover{box-shadow:0 40px 80px rgba(0,0,0,0.4)}
-        .price.pop .price-desc{color:var(--gray)}
-        .price.pop .price-list li{color:var(--gray)}
-        .price.pop .price-cost span{color:var(--gray);letter-spacing:0.02em}
-        .price-tag{position:absolute;top:-12px;right:20px;background:var(--fg-light);color:var(--bg-dark);padding:0.4rem 1rem;border-radius:100px;font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em}
-        .price.pop .price-tag{background:var(--bg-dark);color:var(--fg-light)}
-        .price-tag.soon{background:rgba(245,245,245,0.15);color:rgba(245,245,245,0.7)}
-        .price.pop .price-tag.soon{background:rgba(17,17,17,0.85);color:rgba(255,255,255,0.9)}
-        .price-name{font-size:1.25rem;font-weight:600;margin-bottom:0.15rem}
-        .price-desc{color:var(--gray-light);font-size:0.75rem;margin-bottom:1.5rem}
-        .price-cost{font-size:4rem;font-weight:900;letter-spacing:-0.05em;line-height:1;margin-bottom:2rem}
-        .price-cost span{font-size:1rem;font-weight:400;color:var(--gray-light);letter-spacing:0.02em;margin-left:0.25rem}
-        .price-list{list-style:none;margin-bottom:2rem}
-        .price-list li{padding:0.6rem 0;font-size:0.85rem;color:var(--gray-light);display:flex;align-items:center;gap:0.6rem}
-        .price-list li::before{content:'';width:18px;height:18px;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='9' cy='9' r='8' stroke='%2316a34a' stroke-width='1.5'/%3E%3Cpath d='M5.5 9l2.5 2.5 4.5-5' stroke='%2316a34a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
-        .price-btn{display:block;width:100%;padding:1.1rem;border:none;border-radius:18px;font-family:inherit;font-size:0.95rem;font-weight:600;text-align:center;text-decoration:none;cursor:pointer;transition:all 0.3s var(--ease-out)}
-        .price .price-btn{background:var(--fg-light);color:var(--bg-dark)}
-        .price.pop .price-btn{background:var(--bg-dark);color:var(--fg-light)}
-        .price .price-btn:hover{transform:scale(1.03);box-shadow:0 15px 40px rgba(0,0,0,0.3)}
-        .price.pop .price-btn:hover{box-shadow:0 15px 40px rgba(17,17,17,0.25)}
-        .price-btn.off{background:rgba(245,245,245,0.1);color:var(--gray-light);cursor:not-allowed}
-        .price.pop .price-btn.off{background:rgba(17,17,17,0.08);color:var(--gray)}
-        .price-btn.off:hover{transform:none;box-shadow:none}
-
         /* CTA - LIGHT */
         .cta{padding:14rem 1.5rem;text-align:center;position:relative;overflow:hidden}
         .cta::before{content:'';position:absolute;top:50%;left:50%;width:1000px;height:1000px;background:radial-gradient(circle,rgba(17,17,17,0.03) 0%,transparent 50%);transform:translate(-50%,-50%);animation:ctaGlow 5s ease-in-out infinite}
@@ -361,7 +331,6 @@
             .feat.c4,.feat.c3,.feat.c2{grid-column:span 1}
             .how-grid{flex-direction:column;max-width:380px}
             .how-card::after{display:none}
-            .price-grid{flex-direction:column;align-items:center}
         }
         @media(max-width:768px){
             .nav-links{display:none}
@@ -393,7 +362,7 @@
             </a>
             <div class="nav-links">
                 <a href="#features">Why Decide</a>
-                <a href="#pricing">Get Started</a>
+                <a href="#features">Features</a>
                 <a href="#" class="nav-signin nav-cta" onclick="event.preventDefault(); openSignIn();">Sign In</a>
             </div>
             <button class="mob" id="mobBtn"><span></span><span></span><span></span></button>
@@ -404,7 +373,7 @@
     <div class="mobile-overlay" id="mobileOverlay"></div>
     <div class="mobile-menu" id="mobileMenu">
         <a href="#features" class="mobile-link">Why Decide</a>
-        <a href="#pricing" class="mobile-link">Get Started</a>
+        <a href="#features" class="mobile-link">Features</a>
         <a href="#" class="nav-cta mobile-link" onclick="event.preventDefault(); openSignIn();">Sign In</a>
     </div>
 
@@ -492,45 +461,12 @@
         </div>
     </section>
 
-    <section class="pricing sec-dark" id="pricing">
-        <div class="sec-head">
-            <h2>Simple <span class="serif">pricing</span></h2>
-        </div>
-        <div class="price-grid">
-            <div class="price" id="lite">
-                <div class="price-tag soon">Coming Soon</div>
-                <div class="price-name">Lite</div>
-                <div class="price-desc">One-time purchase</div>
-                <div class="price-cost">$29 <span>forever</span></div>
-                <ul class="price-list">
-                    <li>Unlimited decisions</li>
-                    <li>Instant responses</li>
-                    <li>No history</li>
-                    <li>3 month Pro voucher</li>
-                </ul>
-                <a href="#" class="price-btn off" onclick="return false">Stay Tuned</a>
-            </div>
-            <div class="price pop">
-                <div class="price-tag soon">Coming Soon</div>
-                <div class="price-name">Pro</div>
-                <div class="price-desc">Monthly</div>
-                <div class="price-cost">$10 <span>/ month</span></div>
-                <ul class="price-list">
-                    <li>Everything in Lite</li>
-                    <li>Decide Journal</li>
-                    <li>Decide Verdicts</li>
-                    <li>Decide Votes</li>
-                </ul>
-                <a href="#" class="price-btn off" onclick="return false">Stay Tuned</a>
-            </div>
-        </div>
-    </section>
 
     <section class="cta sec-light">
         <div class="cta-inner">
             <h2>Just <span class="serif">decide.</span></h2>
             <p>The best answer is never maybe.</p>
-            <a href="#lite" class="cta-btn">Get Started</a>
+            <a href="#" class="cta-btn" onclick="document.getElementById('q').focus();window.scrollTo({top:0,behavior:'smooth'});return false;">Try it now</a>
         </div>
     </section>
 
@@ -554,7 +490,7 @@
 
     <div class="m-bg" id="mbg" onclick="closeM()"></div>
     <div class="modal" id="privacy"><div class="m-head"><h3>Privacy Policy</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>Last updated:</strong> January 2026</p><p>At decide, we believe in simplicity, including how we handle your data.</p><p><strong>What we collect:</strong> When you use decide, we process your questions to provide answers. We don't store your questions or answers unless you choose to save them.</p><p><strong>What we don't do:</strong> We don't sell your data. We don't track you across the web. We don't use your questions to train AI models.</p><p><strong>Payments:</strong> Processed securely through Stripe. We never see or store your full card details.</p><p><strong>Questions?</strong> Email us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3054555359545556495970575d51595c1e535f5d">[email&#160;protected]</a>.</p></div></div>
-    <div class="modal" id="terms"><div class="m-head"><h3>Terms of Service</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>Last updated:</strong> January 2026</p><p><strong>The service:</strong> decide provides AI-generated yes/no answers to help you make decisions. These answers are suggestions, not professional advice.</p><p><strong>What decide won't answer:</strong> Investment/financial decisions, medical questions, legal matters, or anything where professional advice is required. For these, please consult qualified professionals.</p><p><strong>Your responsibility:</strong> You control the outcomes. decide helps you move past hesitation, but the actions you take are yours.</p><p><strong>Payments:</strong> Lite ($29) is a one-time payment with lifetime access. Pro ($10/month) is a recurring subscription you can cancel anytime.</p></div></div>
+    <div class="modal" id="terms"><div class="m-head"><h3>Terms of Service</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>Last updated:</strong> January 2026</p><p><strong>The service:</strong> decide provides AI-generated yes/no answers to help you make decisions. These answers are suggestions, not professional advice.</p><p><strong>What decide won't answer:</strong> Investment/financial decisions, medical questions, legal matters, or anything where professional advice is required. For these, please consult qualified professionals.</p><p><strong>Your responsibility:</strong> You control the outcomes. decide helps you move past hesitation, but the actions you take are yours.</p><p><strong>Cost:</strong> decide is currently free to use.</p></div></div>
     <div class="modal" id="api"><div class="m-head"><h3>Decide API</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>For businesses and developers</strong></p><p>Connect your AI agents to the Decide API when they need a final decision call. Perfect for:</p><p>• AI assistants that get stuck in analysis loops<br>• Automated workflows requiring binary decisions<br>• Applications where users need quick yes/no guidance</p><p><strong>Interested?</strong> Email us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b9dddcdad0dddcdfc0d0f9ded4d8d0d597dad6d4">[email&#160;protected]</a> to discuss your use case.</p></div></div>
     <div class="modal" id="contact"><div class="m-head"><h3>Contact</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p>Reach out on X: <a href="https://x.com/decidefyi" target="_blank">@decidefyi</a> or email us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7115141218151417081831161c10181d5f121e1c">[email&#160;protected]</a>.</p></div></div>
 
