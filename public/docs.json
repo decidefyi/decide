@@ -2,23 +2,92 @@
   "service": "refund.decide.fyi",
   "type": "refund_eligibility_notary",
   "version": "1.1.0",
+  "description": "Deterministic refund eligibility notary for US consumer subscriptions. Returns ALLOWED, DENIED, or UNKNOWN.",
   "endpoint": {
     "method": "POST",
-    "url": "https://refund.decide.fyi/api/v1/refund/eligibility"
+    "url": "https://refund.decide.fyi/api/v1/refund/eligibility",
+    "content_type": "application/json"
+  },
+  "mcp_endpoint": {
+    "method": "POST",
+    "url": "https://refund.decide.fyi/api/mcp",
+    "protocol": "JSON-RPC 2.0 (Model Context Protocol)",
+    "tool_name": "refund_eligibility"
   },
   "inputs": {
-    "vendor": "string",
-    "days_since_purchase": "number",
-    "region": "US",
-    "plan": "individual"
+    "vendor": {
+      "type": "string",
+      "required": true,
+      "description": "Vendor identifier (lowercase, underscore-separated).",
+      "enum": ["1password", "adobe", "amazon_prime", "apple_app_store", "apple_music", "apple_tv_plus", "audible", "bitwarden", "bumble", "calm", "canva", "chatgpt_plus", "claude_pro", "coursera_plus", "crunchyroll", "deezer", "disney_plus", "doordash_dashpass", "dropbox_us", "duolingo", "evernote", "expressvpn", "figma", "fubo_tv", "github_pro", "google_play", "grammarly", "headspace", "hellofresh", "hinge", "hulu", "icloud_plus", "instacart_plus", "linkedin_premium", "masterclass", "max", "microsoft_365", "midjourney", "netflix", "nintendo_switch_online", "noom", "nordvpn", "notion", "paramount_plus", "peacock", "peloton", "playstation_plus", "scribd", "shutterstock", "slack", "sling_tv", "spotify", "squarespace", "strava", "surfshark", "tidal", "tinder", "todoist", "twitch", "walmart_plus", "wix", "xbox_game_pass", "youtube_premium", "zoom"]
+    },
+    "days_since_purchase": {
+      "type": "number",
+      "required": true,
+      "description": "Number of days since the subscription was purchased. Must be a non-negative integer.",
+      "minimum": 0
+    },
+    "region": {
+      "type": "string",
+      "required": true,
+      "description": "Region code.",
+      "enum": ["US"]
+    },
+    "plan": {
+      "type": "string",
+      "required": true,
+      "description": "Plan type.",
+      "enum": ["individual"]
+    }
   },
   "outputs": {
-    "verdict": ["ALLOWED", "DENIED", "UNKNOWN"],
-    "code": "string",
-    "rules_version": "string"
+    "verdict": {
+      "type": "string",
+      "enum": ["ALLOWED", "DENIED", "UNKNOWN"],
+      "description": "Refund eligibility verdict."
+    },
+    "code": {
+      "type": "string",
+      "enum": ["WITHIN_WINDOW", "OUTSIDE_WINDOW", "NO_REFUNDS", "UNSUPPORTED_VENDOR", "NON_US_REGION", "NON_INDIVIDUAL_PLAN", "INVALID_DAYS_SINCE_PURCHASE", "MISSING_VENDOR", "MISSING_REGION", "MISSING_PLAN"],
+      "description": "Machine-readable result code."
+    },
+    "message": {
+      "type": "string",
+      "description": "Human-readable explanation of the result."
+    },
+    "rules_version": {
+      "type": "string",
+      "description": "Version of the rules data used for this response."
+    },
+    "window_days": {
+      "type": "number",
+      "description": "Refund window in days for the vendor (0 means no refunds)."
+    }
   },
   "execution": {
     "stateless": true,
     "side_effects": "none"
+  },
+  "auth": {
+    "type": "none",
+    "rate_limit": "100 requests/minute per IP"
+  },
+  "example": {
+    "request": {
+      "vendor": "adobe",
+      "days_since_purchase": 12,
+      "region": "US",
+      "plan": "individual"
+    },
+    "response": {
+      "refundable": true,
+      "verdict": "ALLOWED",
+      "code": "WITHIN_WINDOW",
+      "message": "Refund is allowed. Purchase is 12 day(s) old, within 14 day window.",
+      "rules_version": "2026-02-01",
+      "vendor": "adobe",
+      "window_days": 14,
+      "days_since_purchase": 12
+    }
   }
 }

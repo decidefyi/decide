@@ -2,13 +2,43 @@
   "name": "refund.decide.fyi",
   "type": "refund_eligibility_notary",
   "version": "1.1.0",
+  "description": "Deterministic refund eligibility notary for US consumer subscriptions. Returns ALLOWED, DENIED, or UNKNOWN.",
   "endpoint": {
     "method": "POST",
-    "url": "https://refund.decide.fyi/api/v1/refund/eligibility"
+    "url": "https://refund.decide.fyi/api/v1/refund/eligibility",
+    "content_type": "application/json"
+  },
+  "inputs": {
+    "vendor": {
+      "type": "string",
+      "required": true,
+      "enum": ["1password", "adobe", "amazon_prime", "apple_app_store", "apple_music", "apple_tv_plus", "audible", "bitwarden", "bumble", "calm", "canva", "chatgpt_plus", "claude_pro", "coursera_plus", "crunchyroll", "deezer", "disney_plus", "doordash_dashpass", "dropbox_us", "duolingo", "evernote", "expressvpn", "figma", "fubo_tv", "github_pro", "google_play", "grammarly", "headspace", "hellofresh", "hinge", "hulu", "icloud_plus", "instacart_plus", "linkedin_premium", "masterclass", "max", "microsoft_365", "midjourney", "netflix", "nintendo_switch_online", "noom", "nordvpn", "notion", "paramount_plus", "peacock", "peloton", "playstation_plus", "scribd", "shutterstock", "slack", "sling_tv", "spotify", "squarespace", "strava", "surfshark", "tidal", "tinder", "todoist", "twitch", "walmart_plus", "wix", "xbox_game_pass", "youtube_premium", "zoom"]
+    },
+    "days_since_purchase": {
+      "type": "number",
+      "required": true,
+      "minimum": 0
+    },
+    "region": {
+      "type": "string",
+      "required": true,
+      "enum": ["US"]
+    },
+    "plan": {
+      "type": "string",
+      "required": true,
+      "enum": ["individual"]
+    }
   },
   "outputs": {
     "verdict": ["ALLOWED", "DENIED", "UNKNOWN"],
     "code": "string",
-    "rules_version": "string"
+    "message": "string",
+    "rules_version": "string",
+    "window_days": "number"
+  },
+  "auth": {
+    "type": "none",
+    "rate_limit": "100 requests/minute per IP"
   }
-} 
+}
