@@ -6,7 +6,7 @@
     "url": "https://github.com/decidefyi/decide",
     "source": "github"
   },
-  "version": "1.0.0",
+  "version": "1.1.0",
   "remotes": [
     {
       "url": "https://refund.decide.fyi/api/mcp",

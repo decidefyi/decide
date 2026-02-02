@@ -1,7 +1,7 @@
 {
   "service": "refund.decide.fyi",
   "type": "refund_eligibility_notary",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "endpoint": {
     "method": "POST",
     "url": "https://refund.decide.fyi/api/v1/refund/eligibility"
