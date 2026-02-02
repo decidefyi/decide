@@ -201,21 +201,21 @@
         .sec-head h2 .serif{font-family:'DM Serif Display',serif;font-style:italic}
         .sec-head p{color:var(--gray);font-size:0.95rem}
 
-        /* FEATURES - DARK */
+        /* FEATURES */
         .features{padding:8rem 1.5rem}
         .feat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;max-width:1000px;margin:0 auto}
-        .feat{background:rgba(245,245,245,0.03);border:1px solid rgba(245,245,245,0.08);border-radius:28px;padding:2rem;transition:all 0.5s var(--ease);position:relative;overflow:hidden}
-        .feat::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(245,245,245,0.03),transparent 30%);opacity:0;transition:opacity 0.5s;animation:rotate 6s linear infinite paused}
+        .feat{background:rgba(17,17,17,0.03);border:1px solid rgba(17,17,17,0.08);border-radius:28px;padding:2rem;transition:all 0.5s var(--ease);position:relative;overflow:hidden}
+        .feat::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(17,17,17,0.03),transparent 30%);opacity:0;transition:opacity 0.5s;animation:rotate 6s linear infinite paused}
         @keyframes rotate{to{transform:rotate(360deg)}}
         .feat:hover::before{opacity:1;animation-play-state:running}
-        .feat:hover{border-color:rgba(245,245,245,0.15);transform:translateY(-8px) scale(1.02);box-shadow:0 40px 80px rgba(0,0,0,0.3)}
+        .feat:hover{border-color:rgba(17,17,17,0.15);transform:translateY(-8px) scale(1.02);box-shadow:0 40px 80px rgba(0,0,0,0.08)}
         .feat.c4{grid-column:span 4}
         .feat.c3{grid-column:span 3}
         .feat.c2{grid-column:span 2}
-        .feat-icon{width:52px;height:52px;background:var(--fg-light);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;position:relative;z-index:1}
-        .feat-icon svg{width:24px;height:24px;stroke:var(--bg-dark)}
-        .feat h3{font-size:1.1rem;font-weight:600;margin-bottom:0.4rem;position:relative;z-index:1;color:var(--fg-light)}
-        .feat p{color:var(--gray-light);font-size:0.85rem;line-height:1.6;position:relative;z-index:1}
+        .feat-icon{width:52px;height:52px;background:var(--fg);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;position:relative;z-index:1}
+        .feat-icon svg{width:24px;height:24px;stroke:var(--bg)}
+        .feat h3{font-size:1.1rem;font-weight:600;margin-bottom:0.4rem;position:relative;z-index:1;color:var(--fg)}
+        .feat p{color:var(--gray);font-size:0.85rem;line-height:1.6;position:relative;z-index:1}
 
         /* HOW - LIGHT */
         .how{padding:8rem 1.5rem}
@@ -247,21 +247,18 @@
         .mode-toggle button.active{background:var(--fg);color:var(--bg);box-shadow:0 2px 8px rgba(0,0,0,0.15)}
         .mode-toggle button:not(.active):hover{color:var(--fg)}
 
-        /* NAV TOGGLES */
-        .nav-toggles{display:flex;align-items:center;gap:0.5rem}
-
-        /* THEME TOGGLE */
-        .theme-toggle{background:none;border:1px solid rgba(17,17,17,0.1);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s var(--ease);color:var(--gray);flex-shrink:0}
-        .theme-toggle:hover{border-color:var(--fg);color:var(--fg);transform:scale(1.1)}
-        .theme-toggle svg{width:15px;height:15px}
+        /* THEME TOGGLE - floating side button */
+        .theme-toggle{position:fixed;right:1.25rem;bottom:1.25rem;z-index:999;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s var(--ease);color:var(--gray);background:var(--bg);border:1px solid rgba(17,17,17,0.12);box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+        .theme-toggle:hover{border-color:var(--fg);color:var(--fg);transform:scale(1.1);box-shadow:0 6px 25px rgba(0,0,0,0.12)}
+        .theme-toggle svg{width:16px;height:16px}
         .theme-toggle .icon-moon{display:none}
         body.dark .theme-toggle .icon-sun{display:none}
         body.dark .theme-toggle .icon-moon{display:block}
-        body.dark .theme-toggle{border-color:rgba(245,245,245,0.12)}
-        body.dark .theme-toggle:hover{border-color:var(--fg)}
+        body.dark .theme-toggle{border-color:rgba(245,245,245,0.12);box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+        body.dark .theme-toggle:hover{border-color:var(--fg);box-shadow:0 6px 25px rgba(0,0,0,0.4)}
 
-        /* DARK MODE */
-        body.dark{--bg:#0d0d0d;--bg-dark:#181818;--fg:#e8e8e8;--fg-light:#e8e8e8;--gray:#888;--gray-light:#555}
+        /* DARK MODE — single uniform shade */
+        body.dark{--bg:#0d0d0d;--bg-dark:#0d0d0d;--fg:#e8e8e8;--fg-light:#e8e8e8;--gray:#888;--gray-light:#555}
         body.dark{background:var(--bg);color:var(--fg)}
         body.dark ::selection{background:rgba(245,245,245,0.15)}
         body.dark .grain{opacity:0.02}
@@ -278,11 +275,10 @@
         body.dark .logos{border-color:rgba(245,245,245,0.06)}
         body.dark .logos-track span{color:rgba(245,245,245,0.4)}
         body.dark .logos-track span::after{opacity:0.4}
-        body.dark .sec-dark{background:var(--bg-dark)}
-        body.dark .feat{background:rgba(245,245,245,0.02);border-color:rgba(245,245,245,0.06)}
+        body.dark .feat{background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.06)}
         body.dark .feat:hover{border-color:rgba(245,245,245,0.12);box-shadow:0 40px 80px rgba(0,0,0,0.5)}
         body.dark .feat::before{background:conic-gradient(from 0deg,transparent,rgba(245,245,245,0.03),transparent 30%)}
-        body.dark .how-card{border-color:rgba(245,245,245,0.08)}
+        body.dark .how-card{background:var(--bg);border-color:rgba(245,245,245,0.08)}
         body.dark .how-card:hover{border-color:rgba(245,245,245,0.15);box-shadow:0 20px 60px rgba(0,0,0,0.3)}
         body.dark .how-card::after{color:rgba(245,245,245,0.2)}
         body.dark .how-num{color:rgba(245,245,245,0.08)}
@@ -292,7 +288,7 @@
         body.dark .mcp-meta-tag{background:rgba(245,245,245,0.06)}
         body.dark .mcp-btn-secondary{background:rgba(245,245,245,0.08)}
         body.dark .mcp-btn-secondary:hover{background:rgba(245,245,245,0.12)}
-        body.dark .agent-feat{background:rgba(245,245,245,0.02);border-color:rgba(245,245,245,0.08)}
+        body.dark .agent-feat{background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.08)}
         body.dark .agent-feat:hover{border-color:rgba(245,245,245,0.12);box-shadow:0 15px 40px rgba(0,0,0,0.3)}
         body.dark .refresh-btn{background:var(--bg);border-color:rgba(245,245,245,0.15)}
         body.dark .refresh-btn:hover{border-color:var(--fg)}
@@ -311,6 +307,7 @@
         body.dark .mobile-menu a.nav-cta{background:var(--fg);color:var(--bg)}
         body.dark .mobile-overlay{background:rgba(0,0,0,0.5)}
         body.dark .mob span{background:var(--fg)}
+        body.dark .code-block{background:#141414}
 
         /* MODE CONTAINERS */
         #human-mode,#agent-mode{transition:opacity 0.4s var(--ease)}
@@ -494,15 +491,9 @@
                 </div>
                 <span>decide</span>
             </a>
-            <div class="nav-toggles">
-                <div class="mode-toggle" id="modeToggle">
-                    <button class="active" data-mode="humans" onclick="setMode('humans')">Humans</button>
-                    <button data-mode="agents" onclick="setMode('agents')">Agents</button>
-                </div>
-                <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
-                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-                </button>
+            <div class="mode-toggle" id="modeToggle">
+                <button class="active" data-mode="humans" onclick="setMode('humans')">Humans</button>
+                <button data-mode="agents" onclick="setMode('agents')">Agents</button>
             </div>
             <div class="nav-links" id="navLinksHuman">
                 <a href="#features">Features</a>
@@ -572,7 +563,7 @@
         </div>
     </div>
 
-    <section class="features sec-dark" id="features">
+    <section class="features sec-light" id="features">
         <div class="sec-head">
             <h2>Why <span class="serif">decide?</span></h2>
             <p>A magic 8 ball that thinks.</p>
@@ -841,6 +832,12 @@
     <div class="modal" id="terms"><div class="m-head"><h3>Terms of Service</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>Last updated:</strong> January 2026</p><p><strong>The service:</strong> decide provides AI-generated yes/no answers to help you make decisions. These answers are suggestions, not professional advice.</p><p><strong>What decide won't answer:</strong> Investment/financial decisions, medical questions, legal matters, or anything where professional advice is required. For these, please consult qualified professionals.</p><p><strong>Your responsibility:</strong> You control the outcomes. decide helps you move past hesitation, but the actions you take are yours.</p><p><strong>Cost:</strong> decide is currently free to use.</p></div></div>
     <div class="modal" id="api"><div class="m-head"><h3>Decide API</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>For businesses and developers</strong></p><p>Connect your AI agents to the Decide API when they need a final decision call. Perfect for:</p><p>• AI assistants that get stuck in analysis loops<br>• Automated workflows requiring binary decisions<br>• Applications where users need quick yes/no guidance</p><p><strong>Interested?</strong> Email us at <a href="mailto:decidefyi@gmail.com">decidefyi@gmail.com</a> to discuss your use case.</p></div></div>
     <div class="modal" id="contact"><div class="m-head"><h3>Contact</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p>Reach out on X: <a href="https://x.com/decidefyi" target="_blank">@decidefyi</a> or email us at <a href="mailto:decidefyi@gmail.com">decidefyi@gmail.com</a>.</p></div></div>
+
+    <!-- Theme toggle (floating) -->
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+    </button>
 
     <script>
         // Canvas gradient mesh - light theme
