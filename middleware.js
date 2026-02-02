@@ -1,26 +1,15 @@
-function withBasePath(url, basePath) {
-  if (url.pathname.startsWith(`${basePath}/`) || url.pathname === basePath) {
-    return url;
-  }
-
-  const nextUrl = new URL(url);
-  nextUrl.pathname = `${basePath}${url.pathname}`;
-  return nextUrl;
-}
-
 export default async function middleware(request) {
   const url = new URL(request.url);
   const host = request.headers.get("host") || "";
+  const { pathname } = url;
 
-  if (host.startsWith("cancel.")) {
-    const nextUrl = withBasePath(url, "/cancel");
-    return fetch(nextUrl, request);
+  // cancel.decide.fyi/api/mcp → /api/cancel-mcp
+  if (host.startsWith("cancel.") && pathname === "/api/mcp") {
+    const dest = new URL("/api/cancel-mcp", url.origin);
+    return fetch(dest, request);
   }
 
-  if (host.startsWith("refund.")) {
-    const nextUrl = withBasePath(url, "/refund");
-    return fetch(nextUrl, request);
-  }
-
+  // refund.decide.fyi routes pass through (api/mcp.js already handles refund)
+  // All other routes pass through unchanged
   return fetch(request);
 }
