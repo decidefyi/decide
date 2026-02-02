@@ -14,9 +14,10 @@
  *   node refund-auditor.js microsoft_365 25  # Within 30-day window -> ALLOWED
  *   node refund-auditor.js notion 5          # Outside 3-day window -> DENIED
  *
- * SUPPORTED VENDORS:
- *   adobe, spotify, apple_app_store, google_play, microsoft_365,
- *   netflix, canva, dropbox_us, notion
+ * SUPPORTED VENDORS (65+):
+ *   See https://refund.decide.fyi or README.md for the full list.
+ *   Includes: adobe, amazon_prime, apple_app_store, expressvpn,
+ *   google_play, microsoft_365, netflix, spotify, and many more.
  *
  * REQUIREMENTS:
  *   Node.js 18+ (for native fetch)

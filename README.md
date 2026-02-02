@@ -4,7 +4,7 @@
 
 [![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://refund.decide.fyi)
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
-[![Vendors](https://img.shields.io/badge/vendors-65-orange.svg)](https://refund.decide.fyi)
+[![Vendors](https://img.shields.io/badge/vendors-64-orange.svg)](https://refund.decide.fyi)
 
 ## Quick Start
 
@@ -116,7 +116,7 @@ The MCP server implements the full MCP specification with the following methods:
 - `tools/list` - List available tools
 - `tools/call` - Execute refund eligibility check
 
-## Supported Vendors (65)
+## Supported Vendors (64)
 
 | Vendor | Identifier | Refund Window |
 |--------|-----------|---------------|
@@ -303,7 +303,7 @@ print(f"Verdict: {result['verdict']}")
 ### v1.1.0 (2026-02-01)
 
 **Added:**
-- Expanded from 9 to 65 supported vendors
+- Expanded from 9 to 64 supported vendors
 - Daily policy-check GitHub Action (cron at 08:00 UTC) that detects vendor policy page changes and opens issues automatically
 - Policy source URLs tracked in `rules/policy-sources.json` for every vendor
 - New categories: streaming, dating, delivery, education, wellness, fitness, AI, VPN, security, design, food

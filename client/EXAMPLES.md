@@ -26,7 +26,7 @@ curl -X POST https://refund.decide.fyi/api/v1/refund/eligibility \
   "verdict": "ALLOWED",
   "code": "WITHIN_WINDOW",
   "message": "Refund is allowed. Purchase is 12 day(s) old, within 14 day window.",
-  "rules_version": "2026-01-15",
+  "rules_version": "2026-02-01",
   "vendor": "adobe",
   "window_days": 14,
   "days_since_purchase": 12
@@ -92,7 +92,7 @@ node refund-auditor.js adobe 12
 ✅ ALLOWED
    Refund is allowed. Purchase is 12 day(s) old, within 14 day window.
    Window: 14 days
-   Rules version: 2026-01-15
+   Rules version: 2026-02-01
 ```
 
 ### Python (One Command)
@@ -113,7 +113,7 @@ python refund-check.py spotify 5
 ❌ DENIED
    spotify does not offer refunds for individual plans
    Window: 0 days
-   Rules version: 2026-01-15
+   Rules version: 2026-02-01
 ```
 
 ---
@@ -152,19 +152,22 @@ Claude will call the `refund_eligibility` tool automatically.
 
 ---
 
-## Supported Vendors
+## Supported Vendors (64)
+
+See the full vendor table in the [README](../README.md#supported-vendors-64). A few highlights:
 
 | Vendor | ID | Refund Window |
 |--------|-----|---------------|
 | Adobe | `adobe` | 14 days |
+| Amazon Prime | `amazon_prime` | 3 days |
 | Apple App Store | `apple_app_store` | 14 days |
-| Canva | `canva` | No refunds |
-| Dropbox (US) | `dropbox_us` | No refunds |
+| ExpressVPN | `expressvpn` | 30 days |
 | Google Play | `google_play` | 2 days |
 | Microsoft 365 | `microsoft_365` | 30 days |
 | Netflix | `netflix` | No refunds |
-| Notion | `notion` | 3 days |
 | Spotify | `spotify` | No refunds |
+
+...and 57 more. Vendor list updates daily via automated policy checks.
 
 ---
 
@@ -184,7 +187,7 @@ Every response includes:
   "verdict": "ALLOWED",
   "code": "WITHIN_WINDOW",
   "message": "Refund is allowed. Purchase is 12 day(s) old, within 14 day window.",
-  "rules_version": "2026-01-15",
+  "rules_version": "2026-02-01",
   "vendor": "adobe",
   "window_days": 14,
   "days_since_purchase": 12
