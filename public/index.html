@@ -1363,7 +1363,7 @@ show(result, text);
             let bestIdx = 0;
             let bestDist = Infinity;
             wheelCenters.forEach((center, idx) => {
-                const displayedCenter = (center + normalized) % 360;
+                const displayedCenter = ((center - normalized) % 360 + 360) % 360;
                 const dist = Math.abs(((displayedCenter + 180) % 360) - 180); // distance to top (0deg)
                 if (dist < bestDist) {
                     bestDist = dist;
