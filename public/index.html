@@ -1386,9 +1386,11 @@ show(result, text);
 
             const jitter = (Math.random() - 0.5) * step * 0.6;
             const targetCenter = picked * step + step / 2 + jitter;
-            const targetRotation = 360 - targetCenter;
+            const targetRotation = ((360 - targetCenter) % 360 + 360) % 360;
+            const currentRotation = ((wheelRotation % 360) + 360) % 360;
+            const deltaToTarget = (targetRotation - currentRotation + 360) % 360;
             const extraTurns = 1080 + Math.floor(Math.random() * 1800); // 3 to ~8 extra turns
-            wheelRotation = wheelRotation + extraTurns + targetRotation;
+            wheelRotation = wheelRotation + extraTurns + deltaToTarget;
             wheelDisc.style.transform = `rotate(${wheelRotation}deg)`;
             wheelLabels.style.transform = `rotate(${wheelRotation}deg)`;
 
