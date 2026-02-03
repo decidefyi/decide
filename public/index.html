@@ -390,6 +390,7 @@
         body.dark .playground-card{background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.14)}
         body.dark .pg-field select,body.dark .pg-field textarea{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .pg-btn.secondary{background:rgba(245,245,245,0.1);color:var(--fg)}
+        body.dark .trail-filter{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .trail-wrap{border-color:rgba(245,245,245,0.16)}
         body.dark .trail-table th,body.dark .trail-table td{border-bottom-color:rgba(245,245,245,0.08)}
 
@@ -445,20 +446,32 @@
         .code-block .n{color:#93c5fd}
         .code-block .c{color:#6b7280}
         .playground-card{background:rgba(17,17,17,0.02);border:1px solid rgba(17,17,17,0.1);border-radius:18px;padding:1rem;margin-bottom:1rem}
-        .pg-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem}
+        .pg-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.85rem}
         .pg-field{display:flex;flex-direction:column;gap:0.35rem}
         .pg-field label{font-size:0.72rem;font-weight:600;color:var(--gray)}
         .pg-field select,.pg-field textarea{font:inherit;font-size:0.85rem;padding:0.7rem 0.8rem;border-radius:12px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
         .pg-field textarea{min-height:150px;resize:vertical;font-family:'SF Mono',Monaco,Consolas,monospace}
+        .pg-inline{display:flex;gap:0.5rem}
+        .pg-inline select{flex:1}
+        .pg-mini{padding:0.6rem 0.8rem;white-space:nowrap}
         .pg-actions{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.5rem}
         .pg-btn{border:none;border-radius:12px;padding:0.65rem 1rem;font:inherit;font-size:0.8rem;font-weight:600;cursor:pointer}
         .pg-btn.primary{background:var(--fg);color:var(--bg)}
         .pg-btn.secondary{background:rgba(17,17,17,0.08);color:var(--fg)}
         .pg-note{font-size:0.75rem;color:var(--gray);margin-top:0.6rem}
+        .trail-controls{margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap}
+        .trail-filter{font:inherit;font-size:0.74rem;padding:0.5rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
+        .trail-meta{font-size:0.72rem;color:var(--gray);margin-top:0.45rem}
         .trail-wrap{margin-top:1rem;border:1px solid rgba(17,17,17,0.12);border-radius:14px;overflow:hidden}
         .trail-table{width:100%;border-collapse:collapse;font-size:0.76rem}
         .trail-table th,.trail-table td{padding:0.55rem 0.6rem;border-bottom:1px solid rgba(17,17,17,0.08);text-align:left;vertical-align:top}
         .trail-table th{font-size:0.67rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray)}
+        .trail-table tr.status-row-network td{background:rgba(220,38,38,0.05)}
+        .status-chip{display:inline-flex;align-items:center;justify-content:center;min-width:56px;padding:0.2rem 0.45rem;border-radius:999px;font-size:0.66rem;font-weight:700;border:1px solid transparent}
+        .status-chip.success{background:rgba(22,163,74,0.12);color:#15803d;border-color:rgba(22,163,74,0.3)}
+        .status-chip.client{background:rgba(217,119,6,0.12);color:#b45309;border-color:rgba(217,119,6,0.3)}
+        .status-chip.server,.status-chip.network{background:rgba(220,38,38,0.12);color:#b91c1c;border-color:rgba(220,38,38,0.3)}
+        .status-chip.other{background:rgba(17,17,17,0.08);color:var(--gray);border-color:rgba(17,17,17,0.2)}
         .trail-empty{padding:0.8rem;color:var(--gray);font-size:0.78rem}
 
         /* AGENT FEATURES */
@@ -633,6 +646,7 @@
             .code-block{padding:1rem}
             .code-block pre{font-size:0.72rem;line-height:1.55}
             .pg-grid{grid-template-columns:1fr}
+            .pg-inline{flex-direction:column}
             .wheel-wrap{grid-template-columns:1fr;gap:1.2rem}
             .wheel-shell{width:280px;height:280px}
             .theme-toggle{right:0.8rem;bottom:0.8rem;width:38px;height:38px}
@@ -954,6 +968,13 @@
                             <option value="rest">REST</option>
                         </select>
                     </div>
+                    <div class="pg-field">
+                        <label for="pgPreset">Preset</label>
+                        <div class="pg-inline">
+                            <select id="pgPreset"></select>
+                            <button class="pg-btn secondary pg-mini" id="pgLoadPresetBtn" type="button">Load preset</button>
+                        </div>
+                    </div>
                     <div class="pg-field" style="grid-column:1/-1">
                         <label for="pgPayload">Request payload (JSON)</label>
                         <textarea id="pgPayload"></textarea>
@@ -974,6 +995,32 @@
             </div>
 
             <div class="trail-wrap">
+                <div class="trail-controls">
+                    <select class="trail-filter" id="pgFilterStatus">
+                        <option value="all">All statuses</option>
+                        <option value="success">Success (2xx)</option>
+                        <option value="client">Client error (4xx)</option>
+                        <option value="server">Server error (5xx)</option>
+                        <option value="network">Network / failed</option>
+                    </select>
+                    <select class="trail-filter" id="pgFilterNotary">
+                        <option value="all">All notaries</option>
+                        <option value="refund">Refund</option>
+                        <option value="cancel">Cancel</option>
+                        <option value="return">Return</option>
+                        <option value="trial">Trial</option>
+                    </select>
+                    <select class="trail-filter" id="pgFilterMode">
+                        <option value="all">All modes</option>
+                        <option value="mcp">MCP</option>
+                        <option value="rest">REST</option>
+                    </select>
+                    <select class="trail-filter" id="pgFilterLatency">
+                        <option value="all">Any latency</option>
+                        <option value="slow">Slow (&gt; 500ms)</option>
+                    </select>
+                </div>
+                <div class="trail-meta" id="pgTrailMeta">Showing 0 of 0 runs.</div>
                 <table class="trail-table">
                     <thead>
                         <tr>
@@ -1834,6 +1881,8 @@ if (v === 'yes' || v === 'no') {
         // MCP playground + audit trail
         const pgNotary = document.getElementById('pgNotary');
         const pgMode = document.getElementById('pgMode');
+        const pgPreset = document.getElementById('pgPreset');
+        const pgLoadPresetBtn = document.getElementById('pgLoadPresetBtn');
         const pgPayload = document.getElementById('pgPayload');
         const pgRunBtn = document.getElementById('pgRunBtn');
         const pgCopyRespBtn = document.getElementById('pgCopyRespBtn');
@@ -1843,6 +1892,11 @@ if (v === 'yes' || v === 'no') {
         const pgScopeNote = document.getElementById('pgScopeNote');
         const pgTrailBody = document.getElementById('pgTrailBody');
         const pgTrailEmpty = document.getElementById('pgTrailEmpty');
+        const pgTrailMeta = document.getElementById('pgTrailMeta');
+        const pgFilterStatus = document.getElementById('pgFilterStatus');
+        const pgFilterNotary = document.getElementById('pgFilterNotary');
+        const pgFilterMode = document.getElementById('pgFilterMode');
+        const pgFilterLatency = document.getElementById('pgFilterLatency');
 
         const PLAYGROUND_CONFIG = {
             refund: {
@@ -1860,6 +1914,51 @@ if (v === 'yes' || v === 'no') {
             trial: {
                 mcp: { endpoint: '/api/trial-mcp', template: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'trial_terms', arguments: { vendor: 'adobe', region: 'US', plan: 'individual' } } } },
                 rest: { endpoint: '/api/v1/trial/terms', template: { vendor: 'adobe', region: 'US', plan: 'individual' } }
+            }
+        };
+
+        const PLAYGROUND_PRESETS = {
+            refund: {
+                mcp: [
+                    { label: 'Adobe allowed (5 days)', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'refund_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 5, region: 'US', plan: 'individual' } } } },
+                    { label: 'Adobe denied (40 days)', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'refund_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 40, region: 'US', plan: 'individual' } } } },
+                    { label: 'Unknown vendor fallback', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'refund_eligibility', arguments: { vendor: 'unknownco', days_since_purchase: 7, region: 'US', plan: 'individual' } } } }
+                ],
+                rest: [
+                    { label: 'Adobe allowed (5 days)', payload: { vendor: 'adobe', days_since_purchase: 5, region: 'US', plan: 'individual' } },
+                    { label: 'Adobe denied (40 days)', payload: { vendor: 'adobe', days_since_purchase: 40, region: 'US', plan: 'individual' } },
+                    { label: 'Missing field validation', payload: { vendor: 'adobe', region: 'US', plan: 'individual' } }
+                ]
+            },
+            cancel: {
+                mcp: [
+                    { label: 'Annual plan with ETF', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'adobe', region: 'US', plan: 'annual' } } } },
+                    { label: 'Monthly no-penalty path', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'adobe', region: 'US', plan: 'monthly' } } } }
+                ],
+                rest: [
+                    { label: 'Annual plan with ETF', payload: { vendor: 'adobe', region: 'US', plan: 'annual' } },
+                    { label: 'Monthly no-penalty path', payload: { vendor: 'adobe', region: 'US', plan: 'monthly' } }
+                ]
+            },
+            return: {
+                mcp: [
+                    { label: 'Returnable (5 days)', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'return_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 5, region: 'US', plan: 'individual' } } } },
+                    { label: 'Expired return window', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'return_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 45, region: 'US', plan: 'individual' } } } }
+                ],
+                rest: [
+                    { label: 'Returnable (5 days)', payload: { vendor: 'adobe', days_since_purchase: 5, region: 'US', plan: 'individual' } },
+                    { label: 'Expired return window', payload: { vendor: 'adobe', days_since_purchase: 45, region: 'US', plan: 'individual' } }
+                ]
+            },
+            trial: {
+                mcp: [
+                    { label: 'Card-required trial', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'trial_terms', arguments: { vendor: 'adobe', region: 'US', plan: 'individual' } } } },
+                    { label: 'No-trial style check', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'trial_terms', arguments: { vendor: 'legacy_service', region: 'US', plan: 'individual' } } } }
+                ],
+                rest: [
+                    { label: 'Card-required trial', payload: { vendor: 'adobe', region: 'US', plan: 'individual' } },
+                    { label: 'No-trial style check', payload: { vendor: 'legacy_service', region: 'US', plan: 'individual' } }
+                ]
             }
         };
 
@@ -1882,13 +1981,38 @@ if (v === 'yes' || v === 'no') {
             localStorage.setItem(getPlaygroundAuditKey(), JSON.stringify(entries.slice(0, 50)));
         }
 
+        function classifyTrailStatus(entry) {
+            const status = Number(entry.status);
+            if (entry.error || !Number.isFinite(status) || status <= 0) return 'network';
+            if (status >= 200 && status < 300) return 'success';
+            if (status >= 400 && status < 500) return 'client';
+            if (status >= 500) return 'server';
+            return 'other';
+        }
+
+        function getFilteredTrail(entries) {
+            return entries.filter((entry) => {
+                const statusClass = classifyTrailStatus(entry);
+                if ((pgFilterStatus?.value || 'all') !== 'all' && statusClass !== pgFilterStatus.value) return false;
+                if ((pgFilterNotary?.value || 'all') !== 'all' && entry.notary !== pgFilterNotary.value) return false;
+                if ((pgFilterMode?.value || 'all') !== 'all' && entry.mode !== pgFilterMode.value) return false;
+                if ((pgFilterLatency?.value || 'all') === 'slow' && Number(entry.latency || 0) <= 500) return false;
+                return true;
+            });
+        }
+
         function renderTrail() {
             const entries = loadTrail();
+            const filtered = getFilteredTrail(entries);
             pgTrailBody.innerHTML = '';
-            pgTrailEmpty.style.display = entries.length ? 'none' : 'block';
-            entries.forEach((e) => {
+            pgTrailEmpty.style.display = filtered.length ? 'none' : 'block';
+            pgTrailMeta.textContent = `Showing ${filtered.length} of ${entries.length} runs.`;
+            filtered.forEach((e) => {
+                const statusClass = classifyTrailStatus(e);
+                const statusText = statusClass === 'network' ? 'failed' : String(e.status || 'n/a');
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${new Date(e.ts).toLocaleString()}</td><td>${e.notary}</td><td>${e.mode}</td><td>${e.status}</td><td>${e.latency}ms</td><td>${e.reqHash.slice(0, 10)}…</td>`;
+                tr.className = `status-row-${statusClass}`;
+                tr.innerHTML = `<td>${new Date(e.ts).toLocaleString()}</td><td>${e.notary}</td><td>${e.mode}</td><td><span class="status-chip ${statusClass}">${statusText}</span></td><td>${Number(e.latency || 0)}ms</td><td>${(e.reqHash || '').slice(0, 10)}…</td>`;
                 pgTrailBody.appendChild(tr);
             });
         }
@@ -1900,9 +2024,41 @@ if (v === 'yes' || v === 'no') {
             return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
         }
 
+        function setPlaygroundPayload(payload) {
+            pgPayload.value = JSON.stringify(payload, null, 2);
+        }
+
+        function getPresetList() {
+            return PLAYGROUND_PRESETS[pgNotary.value]?.[pgMode.value] || [];
+        }
+
+        function renderPresetOptions() {
+            const presets = getPresetList();
+            pgPreset.innerHTML = '';
+            if (!presets.length) {
+                const opt = document.createElement('option');
+                opt.value = 'none';
+                opt.textContent = 'Default template';
+                pgPreset.appendChild(opt);
+                return;
+            }
+            presets.forEach((preset, i) => {
+                const opt = document.createElement('option');
+                opt.value = String(i);
+                opt.textContent = preset.label;
+                pgPreset.appendChild(opt);
+            });
+            pgPreset.value = '0';
+        }
+
         function setPlaygroundTemplate() {
+            const preset = getPresetList()[Number(pgPreset.value || 0)];
+            if (preset?.payload) {
+                setPlaygroundPayload(preset.payload);
+                return;
+            }
             const cfg = PLAYGROUND_CONFIG[pgNotary.value][pgMode.value];
-            pgPayload.value = JSON.stringify(cfg.template, null, 2);
+            setPlaygroundPayload(cfg.template);
         }
 
         async function runPlayground() {
@@ -1944,6 +2100,20 @@ if (v === 'yes' || v === 'no') {
                 renderTrail();
             } catch (error) {
                 pgResponse.textContent = `Request failed: ${error.message}`;
+                const fallbackEntry = {
+                    ts: new Date().toISOString(),
+                    notary: pgNotary.value,
+                    mode: pgMode.value,
+                    status: 0,
+                    latency: Math.round(performance.now() - started),
+                    requestId: '',
+                    reqHash: await hashString(JSON.stringify(payload)),
+                    resHash: await hashString(String(error.message || 'request failed')),
+                    error: error.message || 'request failed'
+                };
+                const entries = [fallbackEntry, ...loadTrail()];
+                saveTrail(entries);
+                renderTrail();
             } finally {
                 pgRunBtn.disabled = false;
             }
@@ -1964,8 +2134,10 @@ if (v === 'yes' || v === 'no') {
             URL.revokeObjectURL(url);
         }
 
-        pgNotary.addEventListener('change', setPlaygroundTemplate);
-        pgMode.addEventListener('change', setPlaygroundTemplate);
+        pgNotary.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); });
+        pgMode.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); });
+        pgPreset.addEventListener('change', setPlaygroundTemplate);
+        pgLoadPresetBtn.addEventListener('click', setPlaygroundTemplate);
         pgRunBtn.addEventListener('click', runPlayground);
         pgCopyRespBtn.addEventListener('click', async () => {
             await navigator.clipboard.writeText(pgResponse.textContent || '');
@@ -1973,10 +2145,14 @@ if (v === 'yes' || v === 'no') {
             setTimeout(() => { pgCopyRespBtn.textContent = 'Copy response'; }, 1500);
         });
         pgExportBtn.addEventListener('click', exportTrailCsv);
+        [pgFilterStatus, pgFilterNotary, pgFilterMode, pgFilterLatency].forEach((el) => {
+            el?.addEventListener('change', renderTrail);
+        });
         pgClearTrailBtn.addEventListener('click', () => {
             localStorage.removeItem(getPlaygroundAuditKey());
             renderTrail();
         });
+        renderPresetOptions();
         setPlaygroundTemplate();
         updatePlaygroundScopeNote();
         renderTrail();
