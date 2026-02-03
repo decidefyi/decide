@@ -1277,6 +1277,7 @@ show(result, text);
         let wheelOptions = ['pizza', 'sushi', 'burgers'];
         let wheelRotation = 0;
         let wheelSpinning = false;
+        let lastWheelPick = -1;
 
         function randomWheelColor(i) {
             const palette = [
@@ -1352,16 +1353,22 @@ show(result, text);
 
             const n = wheelOptions.length;
             const step = 360 / n;
-            const picked = Math.floor(Math.random() * n);
-            const targetCenter = picked * step + step / 2;
-            const targetRotation = 360 - targetCenter;
+            let picked = Math.floor(Math.random() * n);
+            if (n > 2 && picked === lastWheelPick) {
+                picked = (picked + 1 + Math.floor(Math.random() * (n - 1))) % n;
+            }
 
-            wheelRotation = wheelRotation + 1440 + targetRotation;
+            const jitter = (Math.random() - 0.5) * step * 0.6;
+            const targetCenter = picked * step + step / 2 + jitter;
+            const targetRotation = 360 - targetCenter;
+            const extraTurns = 1080 + Math.floor(Math.random() * 1800); // 3 to ~8 extra turns
+            wheelRotation = wheelRotation + extraTurns + targetRotation;
             wheelDisc.style.transform = `rotate(${wheelRotation}deg)`;
             wheelLabels.style.transform = `rotate(${wheelRotation}deg)`;
 
             setTimeout(() => {
                 wheelSpinning = false;
+                lastWheelPick = picked;
                 wheelResult.textContent = `Decision made: ${wheelOptions[picked]}`;
             }, 4100);
         }
@@ -1369,6 +1376,7 @@ show(result, text);
         function resetWheel() {
             wheelOptions = ['pizza', 'sushi', 'burgers'];
             wheelRotation = 0;
+            lastWheelPick = -1;
             wheelDisc.style.transform = 'rotate(0deg)';
             wheelLabels.style.transform = 'rotate(0deg)';
             wheelResult.textContent = '';
