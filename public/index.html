@@ -1123,13 +1123,14 @@
         // to Gemini. This keeps the key secret.
         const API_ENDPOINT = '/api/decide';
         const MODEL = 'gemini-2.0-flash-lite';
-        const q=document.getElementById('q'),btn=document.getElementById('btn'),ans=document.getElementById('ans'),xBtn=document.getElementById('xBtn'),refreshBtn=document.getElementById('refreshBtn'),charCount=document.getElementById('charCount'),inputBox=document.getElementById('inputBox');
+        const q=document.getElementById('q'),btn=document.getElementById('btn'),ans=document.getElementById('ans'),xBtn=document.getElementById('xBtn'),refreshBtn=document.getElementById('refreshBtn'),charCount=document.getElementById('charCount'),inputBox=document.getElementById('inputBox'),inputInnerEl=document.getElementById('inputInner');
         
         let lastQuestion = '';
         let lastAnswer = '';
         let decideRequestSeq = 0;
         let thinkingTimer = null;
         let answerTimer = null;
+        let decideInFlight = false;
         const DEFAULT_PLACEHOLDER = 'should i get shit done?';
         const RETRY_PLACEHOLDER = 'Try another question.';
         function showRetryPlaceholder() {
@@ -1162,6 +1163,8 @@
 
         function resetToDecideMode() {
             inputBox.classList.remove('verdict-mode');
+            inputInnerEl.style.display = 'flex';
+            xBtn.style.display = 'none';
         }
 
         function clearDecisionUiTimers() {
@@ -1177,10 +1180,17 @@
 
         function forceUnlockDecisionUi() {
             clearDecisionUiTimers();
+            decideInFlight = false;
             btn.disabled = false;
+            btn.removeAttribute('aria-busy');
             q.disabled = false;
             q.readOnly = false;
+            q.style.pointerEvents = 'auto';
+            btn.style.pointerEvents = 'auto';
+            inputInnerEl.style.pointerEvents = 'auto';
             inputBox.classList.remove('verdict-mode');
+            inputInnerEl.style.display = 'flex';
+            xBtn.style.display = 'none';
             // Failsafe: if any overlays got stuck, clear them.
             document.getElementById('mbg').classList.remove('on');
             mobileOverlay.classList.remove('open');
@@ -1195,6 +1205,8 @@
             const encodedText = encodeURIComponent(tweetText);
             xBtn.href = `https://x.com/intent/tweet?text=${encodedText}`;
             inputBox.classList.add('verdict-mode');
+            inputInnerEl.style.display = 'none';
+            xBtn.style.display = 'flex';
         }
         async function callGemini(question) {
   try {
@@ -1261,7 +1273,7 @@ if (v === 'yes' || v === 'no') {
         }
 
         async function handleDecide() {
-            if (btn.disabled) return;
+            if (decideInFlight) return;
             const seq = ++decideRequestSeq;
             const text = q.value.trim();
             if (text.length < 3) {
@@ -1271,7 +1283,8 @@ if (v === 'yes' || v === 'no') {
             
             forceUnlockDecisionUi();
             resetPlaceholder();
-            btn.disabled = true;
+            decideInFlight = true;
+            btn.setAttribute('aria-busy', 'true');
             ans.className = 'ans';
             ans.innerHTML = '';
             resetToDecideMode();
