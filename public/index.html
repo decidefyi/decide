@@ -1125,6 +1125,9 @@
         
         let lastQuestion = '';
         let lastAnswer = '';
+        let decideRequestSeq = 0;
+        let thinkingTimer = null;
+        let answerTimer = null;
         const DEFAULT_PLACEHOLDER = 'should i get shit done?';
         const RETRY_PLACEHOLDER = 'Try another question.';
         function showRetryPlaceholder() {
@@ -1159,6 +1162,17 @@
             inputBox.classList.remove('verdict-mode');
         }
 
+        function clearDecisionUiTimers() {
+            if (thinkingTimer) {
+                clearTimeout(thinkingTimer);
+                thinkingTimer = null;
+            }
+            if (answerTimer) {
+                clearTimeout(answerTimer);
+                answerTimer = null;
+            }
+        }
+
         function setVerdictMode(question, answer) {
             const tweetText = `i asked @decidefyi: ${question}\n\nthe answer was ${answer}.`;
             const encodedText = encodeURIComponent(tweetText);
@@ -1188,11 +1202,13 @@
             ).join('');
         }
 
-        function show(r, question) {
+        function show(r, question, seq) {
             ans.className = 'ans';
             ans.innerHTML = '';
             
-            setTimeout(() => {
+            if (answerTimer) clearTimeout(answerTimer);
+            answerTimer = setTimeout(() => {
+                if (seq !== decideRequestSeq) return;
                 ans.innerHTML = textToLetters(r.v);
                 ans.classList.add(r.c);
                 
@@ -1209,6 +1225,7 @@ if (v === 'yes' || v === 'no') {
 } else {
     resetToDecideMode(); // ensures X button never appears
 }
+                answerTimer = null;
             }, 80);
         }
 
@@ -1227,23 +1244,31 @@ if (v === 'yes' || v === 'no') {
         }
 
         async function handleDecide() {
+            if (btn.disabled) return;
+            const seq = ++decideRequestSeq;
             const text = q.value.trim();
             if (text.length < 3) {
-                show({ c: 'unclear', v: 'Ask a question' }, text);
+                show({ c: 'unclear', v: 'Ask a question' }, text, seq);
                 return;
             }
             
+            clearDecisionUiTimers();
+            resetPlaceholder();
             btn.disabled = true;
             ans.className = 'ans';
             ans.innerHTML = '';
             resetToDecideMode();
             
-            setTimeout(() => {
+            thinkingTimer = setTimeout(() => {
+                if (seq !== decideRequestSeq) return;
                 ans.innerHTML = textToLetters('Thinking...');
                 ans.classList.add('loading', 'show');
+                thinkingTimer = null;
             }, 80);
             
             const result = await decide(text);
+            if (seq !== decideRequestSeq) return;
+            clearDecisionUiTimers();
             btn.disabled = false;
             
             // Only show "Try another question" for blocked questions (status 204)
@@ -1257,11 +1282,11 @@ if (v === 'yes' || v === 'no') {
             
             // For errors or missing data, show a generic error but keep default placeholder
             if (!result || result.error || !result.v) {
-                show({ c: 'unclear', v: 'Something went wrong' }, text);
+                show({ c: 'unclear', v: 'Something went wrong' }, text, seq);
                 return;
             }
             
-show(result, text);
+show(result, text, seq);
         }
 
         function ask(t) {
@@ -1456,6 +1481,9 @@ show(result, text);
         
         // Refresh button - clear and start over
         refreshBtn.addEventListener('click', () => {
+            clearDecisionUiTimers();
+            decideRequestSeq += 1;
+            btn.disabled = false;
             q.value = '';
             ans.className = 'ans';
             ans.innerHTML = '';
