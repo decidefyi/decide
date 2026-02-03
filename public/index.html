@@ -395,6 +395,8 @@
         body.dark .pg-redact-label{background:rgba(245,245,245,0.07);border-color:rgba(245,245,245,0.2)}
         body.dark .pg-assert-input{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .pg-assert-chip{background:rgba(245,245,245,0.08);border-color:rgba(245,245,245,0.2)}
+        body.dark .pg-advanced{background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.14)}
+        body.dark .pg-advanced[open] summary{border-bottom-color:rgba(245,245,245,0.1)}
         body.dark .trail-action{background:rgba(245,245,245,0.12);color:var(--fg)}
         body.dark .trail-action.active{background:rgba(22,163,74,0.22)}
         body.dark .trail-wrap{border-color:rgba(245,245,245,0.16)}
@@ -452,6 +454,9 @@
         .code-block .n{color:#93c5fd}
         .code-block .c{color:#6b7280}
         .playground-card{background:rgba(17,17,17,0.02);border:1px solid rgba(17,17,17,0.1);border-radius:18px;padding:1rem;margin-bottom:1rem}
+        .playground-stack{display:grid;gap:1rem}
+        .playground-split{display:grid;grid-template-columns:1.25fr 0.75fr;gap:1rem}
+        .pg-section-title{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray);margin-bottom:0.6rem}
         .pg-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.85rem}
         .pg-field{display:flex;flex-direction:column;gap:0.35rem}
         .pg-field label{font-size:0.72rem;font-weight:600;color:var(--gray)}
@@ -461,10 +466,16 @@
         .pg-inline select{flex:1}
         .pg-mini{padding:0.6rem 0.8rem;white-space:nowrap}
         .pg-actions{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.5rem}
+        .pg-actions-primary .pg-btn.primary{min-width:140px}
         .pg-btn{border:none;border-radius:12px;padding:0.65rem 1rem;font:inherit;font-size:0.8rem;font-weight:600;cursor:pointer}
         .pg-btn.primary{background:var(--fg);color:var(--bg)}
         .pg-btn.secondary{background:rgba(17,17,17,0.08);color:var(--fg)}
         .pg-btn:disabled{opacity:0.6;cursor:not-allowed}
+        .pg-advanced{margin-top:0.85rem;border:1px solid rgba(17,17,17,0.12);border-radius:12px;background:rgba(17,17,17,0.02)}
+        .pg-advanced summary{list-style:none;cursor:pointer;padding:0.65rem 0.8rem;font-size:0.78rem;font-weight:600;color:var(--gray)}
+        .pg-advanced summary::-webkit-details-marker{display:none}
+        .pg-advanced[open] summary{border-bottom:1px solid rgba(17,17,17,0.08)}
+        .pg-advanced-body{padding:0.8rem}
         .pg-case-row{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin-top:0.6rem}
         .pg-select{font:inherit;font-size:0.78rem;padding:0.58rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg);min-width:220px}
         .pg-redact-row{display:flex;gap:0.45rem;flex-wrap:wrap;align-items:center;margin-top:0.55rem}
@@ -499,6 +510,7 @@
         .trail-action{border:none;border-radius:8px;padding:0.25rem 0.5rem;font:inherit;font-size:0.66rem;font-weight:600;cursor:pointer;background:rgba(17,17,17,0.08);color:var(--fg);margin-right:0.25rem}
         .trail-action.active{background:rgba(22,163,74,0.16);color:#15803d}
         .trail-empty{padding:0.8rem;color:var(--gray);font-size:0.78rem}
+        .output-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 
         /* AGENT FEATURES */
         .agent-features{padding:6rem 1.5rem;position:relative;z-index:2}
@@ -513,6 +525,7 @@
             .agent-feat-grid{grid-template-columns:1fr}
             .agent-hero{padding:6rem 1.25rem 3rem}
             .agent-hero h1{font-size:clamp(2rem,12vw,3.5rem)}
+            .playground-split,.output-grid{grid-template-columns:1fr}
         }
 
         /* FOOTER */
@@ -982,133 +995,154 @@
         <div class="connect-inner">
             <h2>Live playground + audit trail</h2>
             <p>Run real MCP calls, inspect responses, and keep a scoped trail of recent runs.</p>
-            <div class="playground-card">
-                <div class="pg-grid">
-                    <div class="pg-field">
-                        <label for="pgNotary">Notary</label>
-                        <select id="pgNotary">
-                            <option value="refund">Refund Notary</option>
-                            <option value="cancel">Cancel Notary</option>
-                            <option value="return">Return Notary</option>
-                            <option value="trial">Trial Notary</option>
-                        </select>
-                    </div>
-                    <div class="pg-field">
-                        <label for="pgMode">Mode</label>
-                        <select id="pgMode">
-                            <option value="mcp">MCP (JSON-RPC tools/call)</option>
-                            <option value="rest">REST</option>
-                        </select>
-                    </div>
-                    <div class="pg-field">
-                        <label for="pgPreset">Preset</label>
-                        <div class="pg-inline">
-                            <select id="pgPreset"></select>
-                            <button class="pg-btn secondary pg-mini" id="pgLoadPresetBtn" type="button">Load preset</button>
+            <div class="playground-stack">
+                <div class="playground-split">
+                    <div class="playground-card">
+                        <div class="pg-section-title">Run Request</div>
+                        <div class="pg-grid">
+                            <div class="pg-field">
+                                <label for="pgNotary">Notary</label>
+                                <select id="pgNotary">
+                                    <option value="refund">Refund Notary</option>
+                                    <option value="cancel">Cancel Notary</option>
+                                    <option value="return">Return Notary</option>
+                                    <option value="trial">Trial Notary</option>
+                                </select>
+                            </div>
+                            <div class="pg-field">
+                                <label for="pgMode">Mode</label>
+                                <select id="pgMode">
+                                    <option value="mcp">MCP (JSON-RPC tools/call)</option>
+                                    <option value="rest">REST</option>
+                                </select>
+                            </div>
+                            <div class="pg-field">
+                                <label for="pgPreset">Preset</label>
+                                <div class="pg-inline">
+                                    <select id="pgPreset"></select>
+                                    <button class="pg-btn secondary pg-mini" id="pgLoadPresetBtn" type="button">Load preset</button>
+                                </div>
+                            </div>
+                            <div class="pg-field" style="grid-column:1/-1">
+                                <label for="pgPayload">Request payload (JSON)</label>
+                                <textarea id="pgPayload"></textarea>
+                            </div>
                         </div>
+                        <div class="pg-actions pg-actions-primary">
+                            <button class="pg-btn primary" id="pgRunBtn" type="button">Run request</button>
+                            <button class="pg-btn secondary" id="pgCopyRespBtn" type="button">Copy response</button>
+                            <button class="pg-btn secondary" id="pgShareRunBtn" type="button">Copy share link</button>
+                        </div>
+                        <details class="pg-advanced">
+                            <summary>Advanced tools</summary>
+                            <div class="pg-advanced-body">
+                                <div class="pg-actions pg-actions-secondary">
+                                    <button class="pg-btn secondary" id="pgExportBtn" type="button">Export CSV</button>
+                                    <button class="pg-btn secondary" id="pgClearTrailBtn" type="button">Clear trail</button>
+                                </div>
+                                <div class="pg-case-row">
+                                    <button class="pg-btn secondary" id="pgSaveCaseBtn" type="button">Save case</button>
+                                    <select class="pg-select" id="pgSavedCases">
+                                        <option value="">No saved cases</option>
+                                    </select>
+                                    <button class="pg-btn secondary" id="pgLoadCaseBtn" type="button">Load case</button>
+                                    <button class="pg-btn secondary" id="pgDeleteCaseBtn" type="button">Delete case</button>
+                                    <button class="pg-btn secondary" id="pgRunSuiteBtn" type="button">Run saved suite</button>
+                                </div>
+                                <div class="pg-redact-row" id="pgRedactRow">
+                                    <span class="pg-redact-title">Share redaction:</span>
+                                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="vendor" checked>vendor</label>
+                                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="region">region</label>
+                                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="plan">plan</label>
+                                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="days_since_purchase">days</label>
+                                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="requestId" checked>request id</label>
+                                </div>
+                            </div>
+                        </details>
+                        <div class="pg-note" id="pgScopeNote">Audit scope: loading…</div>
                     </div>
-                    <div class="pg-field" style="grid-column:1/-1">
-                        <label for="pgPayload">Request payload (JSON)</label>
-                        <textarea id="pgPayload"></textarea>
+
+                    <div class="playground-card">
+                        <div class="pg-section-title">Assertions</div>
+                        <div class="pg-assert-row">
+                            <select class="pg-assert-input pg-assert-template" id="pgAssertTemplate">
+                                <option value="">Assertion template</option>
+                            </select>
+                            <button class="pg-btn secondary" id="pgUseAssertTemplateBtn" type="button">Use template</button>
+                            <input class="pg-assert-input path" id="pgAssertPath" type="text" placeholder="assert path (e.g. result.verdict or status)">
+                            <select class="pg-assert-input" id="pgAssertOp">
+                                <option value="eq">= equals</option>
+                                <option value="neq">!= not equal</option>
+                                <option value="contains">contains</option>
+                                <option value="gt">&gt; greater than</option>
+                                <option value="lt">&lt; less than</option>
+                                <option value="exists">exists</option>
+                            </select>
+                            <input class="pg-assert-input expected" id="pgAssertExpected" type="text" placeholder="expected value">
+                            <button class="pg-btn secondary" id="pgAddAssertBtn" type="button">Add assertion</button>
+                        </div>
+                        <div class="pg-assert-list" id="pgAssertList"></div>
                     </div>
                 </div>
-                <div class="pg-actions">
-                    <button class="pg-btn primary" id="pgRunBtn" type="button">Run request</button>
-                    <button class="pg-btn secondary" id="pgCopyRespBtn" type="button">Copy response</button>
-                    <button class="pg-btn secondary" id="pgShareRunBtn" type="button">Copy share link</button>
-                    <button class="pg-btn secondary" id="pgExportBtn" type="button">Export CSV</button>
-                    <button class="pg-btn secondary" id="pgClearTrailBtn" type="button">Clear trail</button>
-                </div>
-                <div class="pg-case-row">
-                    <button class="pg-btn secondary" id="pgSaveCaseBtn" type="button">Save case</button>
-                    <select class="pg-select" id="pgSavedCases">
-                        <option value="">No saved cases</option>
-                    </select>
-                    <button class="pg-btn secondary" id="pgLoadCaseBtn" type="button">Load case</button>
-                    <button class="pg-btn secondary" id="pgDeleteCaseBtn" type="button">Delete case</button>
-                    <button class="pg-btn secondary" id="pgRunSuiteBtn" type="button">Run saved suite</button>
-                </div>
-                <div class="pg-redact-row" id="pgRedactRow">
-                    <span class="pg-redact-title">Share redaction:</span>
-                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="vendor" checked>vendor</label>
-                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="region">region</label>
-                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="plan">plan</label>
-                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="days_since_purchase">days</label>
-                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="requestId" checked>request id</label>
-                </div>
-                <div class="pg-assert-row">
-                    <select class="pg-assert-input pg-assert-template" id="pgAssertTemplate">
-                        <option value="">Assertion template</option>
-                    </select>
-                    <button class="pg-btn secondary" id="pgUseAssertTemplateBtn" type="button">Use template</button>
-                    <input class="pg-assert-input path" id="pgAssertPath" type="text" placeholder="assert path (e.g. result.verdict or status)">
-                    <select class="pg-assert-input" id="pgAssertOp">
-                        <option value="eq">= equals</option>
-                        <option value="neq">!= not equal</option>
-                        <option value="contains">contains</option>
-                        <option value="gt">&gt; greater than</option>
-                        <option value="lt">&lt; less than</option>
-                        <option value="exists">exists</option>
-                    </select>
-                    <input class="pg-assert-input expected" id="pgAssertExpected" type="text" placeholder="expected value">
-                    <button class="pg-btn secondary" id="pgAddAssertBtn" type="button">Add assertion</button>
-                </div>
-                <div class="pg-assert-list" id="pgAssertList"></div>
-                <div class="pg-note" id="pgScopeNote">Audit scope: loading…</div>
-            </div>
 
-            <div class="code-block">
-                <div class="code-block-label"><span>Latest response</span></div>
-                <pre id="pgResponse">Run a request to see output.</pre>
-            </div>
-            <div class="code-block">
-                <div class="code-block-label"><span>Diff vs previous response</span></div>
-                <pre id="pgDiff">Run twice to compare output changes.</pre>
-            </div>
-
-            <div class="trail-wrap">
-                <div class="trail-controls">
-                    <select class="trail-filter" id="pgFilterStatus">
-                        <option value="all">All statuses</option>
-                        <option value="success">Success (2xx)</option>
-                        <option value="client">Client error (4xx)</option>
-                        <option value="server">Server error (5xx)</option>
-                        <option value="network">Network / failed</option>
-                    </select>
-                    <select class="trail-filter" id="pgFilterNotary">
-                        <option value="all">All notaries</option>
-                        <option value="refund">Refund</option>
-                        <option value="cancel">Cancel</option>
-                        <option value="return">Return</option>
-                        <option value="trial">Trial</option>
-                    </select>
-                    <select class="trail-filter" id="pgFilterMode">
-                        <option value="all">All modes</option>
-                        <option value="mcp">MCP</option>
-                        <option value="rest">REST</option>
-                    </select>
-                    <select class="trail-filter" id="pgFilterLatency">
-                        <option value="all">Any latency</option>
-                        <option value="slow">Slow (&gt; 500ms)</option>
-                    </select>
+                <div class="output-grid">
+                    <div class="code-block">
+                        <div class="code-block-label"><span>Latest response</span></div>
+                        <pre id="pgResponse">Run a request to see output.</pre>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-block-label"><span>Diff vs previous response</span></div>
+                        <pre id="pgDiff">Run twice to compare output changes.</pre>
+                    </div>
                 </div>
-                <div class="trail-meta" id="pgTrailMeta">Showing 0 of 0 runs.</div>
-                <table class="trail-table">
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Notary</th>
-                            <th>Mode</th>
-                            <th>Status</th>
-                            <th>Assert</th>
-                            <th>Latency</th>
-                            <th>Req hash</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pgTrailBody"></tbody>
-                </table>
-                <div class="trail-empty" id="pgTrailEmpty">No runs yet.</div>
+
+                <div class="playground-card">
+                    <div class="pg-section-title">Audit Trail</div>
+                    <div class="trail-wrap">
+                        <div class="trail-controls">
+                            <select class="trail-filter" id="pgFilterStatus">
+                                <option value="all">All statuses</option>
+                                <option value="success">Success (2xx)</option>
+                                <option value="client">Client error (4xx)</option>
+                                <option value="server">Server error (5xx)</option>
+                                <option value="network">Network / failed</option>
+                            </select>
+                            <select class="trail-filter" id="pgFilterNotary">
+                                <option value="all">All notaries</option>
+                                <option value="refund">Refund</option>
+                                <option value="cancel">Cancel</option>
+                                <option value="return">Return</option>
+                                <option value="trial">Trial</option>
+                            </select>
+                            <select class="trail-filter" id="pgFilterMode">
+                                <option value="all">All modes</option>
+                                <option value="mcp">MCP</option>
+                                <option value="rest">REST</option>
+                            </select>
+                            <select class="trail-filter" id="pgFilterLatency">
+                                <option value="all">Any latency</option>
+                                <option value="slow">Slow (&gt; 500ms)</option>
+                            </select>
+                        </div>
+                        <div class="trail-meta" id="pgTrailMeta">Showing 0 of 0 runs.</div>
+                        <table class="trail-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Notary</th>
+                                    <th>Mode</th>
+                                    <th>Status</th>
+                                    <th>Assert</th>
+                                    <th>Latency</th>
+                                    <th>Req hash</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pgTrailBody"></tbody>
+                        </table>
+                        <div class="trail-empty" id="pgTrailEmpty">No runs yet. Run your first request.</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
