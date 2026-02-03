@@ -387,6 +387,11 @@
         body.dark .install-badge{background:rgba(245,245,245,0.04);border-color:rgba(245,245,245,0.16)}
         body.dark .install-badge:hover{border-color:rgba(245,245,245,0.28)}
         body.dark .code-block{background:#111111;border-color:rgba(245,245,245,0.16)}
+        body.dark .playground-card{background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.14)}
+        body.dark .pg-field select,body.dark .pg-field textarea{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
+        body.dark .pg-btn.secondary{background:rgba(245,245,245,0.1);color:var(--fg)}
+        body.dark .trail-wrap{border-color:rgba(245,245,245,0.16)}
+        body.dark .trail-table th,body.dark .trail-table td{border-bottom-color:rgba(245,245,245,0.08)}
 
         /* MODE CONTAINERS */
         #human-mode,#agent-mode{transition:none}
@@ -439,6 +444,22 @@
         .code-block .s{color:#86efac}
         .code-block .n{color:#93c5fd}
         .code-block .c{color:#6b7280}
+        .playground-card{background:rgba(17,17,17,0.02);border:1px solid rgba(17,17,17,0.1);border-radius:18px;padding:1rem;margin-bottom:1rem}
+        .pg-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem}
+        .pg-field{display:flex;flex-direction:column;gap:0.35rem}
+        .pg-field label{font-size:0.72rem;font-weight:600;color:var(--gray)}
+        .pg-field select,.pg-field textarea{font:inherit;font-size:0.85rem;padding:0.7rem 0.8rem;border-radius:12px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
+        .pg-field textarea{min-height:150px;resize:vertical;font-family:'SF Mono',Monaco,Consolas,monospace}
+        .pg-actions{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.5rem}
+        .pg-btn{border:none;border-radius:12px;padding:0.65rem 1rem;font:inherit;font-size:0.8rem;font-weight:600;cursor:pointer}
+        .pg-btn.primary{background:var(--fg);color:var(--bg)}
+        .pg-btn.secondary{background:rgba(17,17,17,0.08);color:var(--fg)}
+        .pg-note{font-size:0.75rem;color:var(--gray);margin-top:0.6rem}
+        .trail-wrap{margin-top:1rem;border:1px solid rgba(17,17,17,0.12);border-radius:14px;overflow:hidden}
+        .trail-table{width:100%;border-collapse:collapse;font-size:0.76rem}
+        .trail-table th,.trail-table td{padding:0.55rem 0.6rem;border-bottom:1px solid rgba(17,17,17,0.08);text-align:left;vertical-align:top}
+        .trail-table th{font-size:0.67rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray)}
+        .trail-empty{padding:0.8rem;color:var(--gray);font-size:0.78rem}
 
         /* AGENT FEATURES */
         .agent-features{padding:6rem 1.5rem;position:relative;z-index:2}
@@ -611,6 +632,7 @@
             .mcp-meta-tag{font-size:0.64rem;padding:0.28rem 0.6rem}
             .code-block{padding:1rem}
             .code-block pre{font-size:0.72rem;line-height:1.55}
+            .pg-grid{grid-template-columns:1fr}
             .wheel-wrap{grid-template-columns:1fr;gap:1.2rem}
             .wheel-shell{width:280px;height:280px}
             .theme-toggle{right:0.8rem;bottom:0.8rem;width:38px;height:38px}
@@ -661,6 +683,7 @@
                 <a href="#" class="nav-signin nav-cta" onclick="event.preventDefault(); openSignIn();">Sign In</a>
             </div>
             <div class="nav-links" id="navLinksAgent" style="display:none">
+                <a href="#mcp-playground">Playground</a>
                 <a href="#mcp-connect">Connect</a>
                 <a href="https://github.com/decidefyi/decide" target="_blank">GitHub</a>
             </div>
@@ -676,6 +699,7 @@
             <a href="#" class="nav-cta mobile-link" onclick="event.preventDefault(); openSignIn();">Sign In</a>
         </div>
         <div id="mobileAgentLinks" style="display:none">
+            <a href="#mcp-playground" class="mobile-link">Playground</a>
             <a href="#mcp-connect" class="mobile-link">Connect</a>
             <a href="https://github.com/decidefyi/decide" class="mobile-link" target="_blank">GitHub</a>
         </div>
@@ -904,6 +928,66 @@
                         <a href="https://github.com/decidefyi/decide" target="_blank" class="mcp-btn mcp-btn-secondary">GitHub<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="connect" id="mcp-playground">
+        <div class="connect-inner">
+            <h2>Live playground + audit trail</h2>
+            <p>Run real MCP calls, inspect responses, and keep a scoped trail of recent runs.</p>
+            <div class="playground-card">
+                <div class="pg-grid">
+                    <div class="pg-field">
+                        <label for="pgNotary">Notary</label>
+                        <select id="pgNotary">
+                            <option value="refund">Refund Notary</option>
+                            <option value="cancel">Cancel Notary</option>
+                            <option value="return">Return Notary</option>
+                            <option value="trial">Trial Notary</option>
+                        </select>
+                    </div>
+                    <div class="pg-field">
+                        <label for="pgMode">Mode</label>
+                        <select id="pgMode">
+                            <option value="mcp">MCP (JSON-RPC tools/call)</option>
+                            <option value="rest">REST</option>
+                        </select>
+                    </div>
+                    <div class="pg-field" style="grid-column:1/-1">
+                        <label for="pgPayload">Request payload (JSON)</label>
+                        <textarea id="pgPayload"></textarea>
+                    </div>
+                </div>
+                <div class="pg-actions">
+                    <button class="pg-btn primary" id="pgRunBtn" type="button">Run request</button>
+                    <button class="pg-btn secondary" id="pgCopyRespBtn" type="button">Copy response</button>
+                    <button class="pg-btn secondary" id="pgExportBtn" type="button">Export CSV</button>
+                    <button class="pg-btn secondary" id="pgClearTrailBtn" type="button">Clear trail</button>
+                </div>
+                <div class="pg-note" id="pgScopeNote">Audit scope: loading…</div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-block-label"><span>Latest response</span></div>
+                <pre id="pgResponse">Run a request to see output.</pre>
+            </div>
+
+            <div class="trail-wrap">
+                <table class="trail-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Notary</th>
+                            <th>Mode</th>
+                            <th>Status</th>
+                            <th>Latency</th>
+                            <th>Req hash</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pgTrailBody"></tbody>
+                </table>
+                <div class="trail-empty" id="pgTrailEmpty">No runs yet.</div>
             </div>
         </div>
     </section>
@@ -1670,6 +1754,8 @@ if (v === 'yes' || v === 'no') {
                     };
                 }
             }
+            updatePlaygroundScopeNote();
+            renderTrail();
         }
         
         // Open user menu/profile
@@ -1744,6 +1830,156 @@ if (v === 'yes' || v === 'no') {
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'instant' });
         }
+
+        // MCP playground + audit trail
+        const pgNotary = document.getElementById('pgNotary');
+        const pgMode = document.getElementById('pgMode');
+        const pgPayload = document.getElementById('pgPayload');
+        const pgRunBtn = document.getElementById('pgRunBtn');
+        const pgCopyRespBtn = document.getElementById('pgCopyRespBtn');
+        const pgExportBtn = document.getElementById('pgExportBtn');
+        const pgClearTrailBtn = document.getElementById('pgClearTrailBtn');
+        const pgResponse = document.getElementById('pgResponse');
+        const pgScopeNote = document.getElementById('pgScopeNote');
+        const pgTrailBody = document.getElementById('pgTrailBody');
+        const pgTrailEmpty = document.getElementById('pgTrailEmpty');
+
+        const PLAYGROUND_CONFIG = {
+            refund: {
+                mcp: { endpoint: '/api/mcp', template: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'refund_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 5, region: 'US', plan: 'individual' } } } },
+                rest: { endpoint: '/api/v1/refund/eligibility', template: { vendor: 'adobe', days_since_purchase: 5, region: 'US', plan: 'individual' } }
+            },
+            cancel: {
+                mcp: { endpoint: '/api/cancel-mcp', template: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'adobe', region: 'US', plan: 'individual' } } } },
+                rest: { endpoint: '/api/v1/cancel/penalty', template: { vendor: 'adobe', region: 'US', plan: 'individual' } }
+            },
+            return: {
+                mcp: { endpoint: '/api/return-mcp', template: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'return_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 5, region: 'US', plan: 'individual' } } } },
+                rest: { endpoint: '/api/v1/return/eligibility', template: { vendor: 'adobe', days_since_purchase: 5, region: 'US', plan: 'individual' } }
+            },
+            trial: {
+                mcp: { endpoint: '/api/trial-mcp', template: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'trial_terms', arguments: { vendor: 'adobe', region: 'US', plan: 'individual' } } } },
+                rest: { endpoint: '/api/v1/trial/terms', template: { vendor: 'adobe', region: 'US', plan: 'individual' } }
+            }
+        };
+
+        function getPlaygroundAuditKey() {
+            const uid = window.Clerk?.user?.id;
+            return uid ? `decide_playground_audit_${uid}` : 'decide_playground_audit_guest';
+        }
+
+        function updatePlaygroundScopeNote() {
+            if (!pgScopeNote) return;
+            const uid = window.Clerk?.user?.id;
+            pgScopeNote.textContent = uid ? `Audit scope: signed-in account (${uid.slice(0, 8)}…)` : 'Audit scope: this browser (guest). Sign in to scope trail to your account.';
+        }
+
+        function loadTrail() {
+            try { return JSON.parse(localStorage.getItem(getPlaygroundAuditKey()) || '[]'); } catch { return []; }
+        }
+
+        function saveTrail(entries) {
+            localStorage.setItem(getPlaygroundAuditKey(), JSON.stringify(entries.slice(0, 50)));
+        }
+
+        function renderTrail() {
+            const entries = loadTrail();
+            pgTrailBody.innerHTML = '';
+            pgTrailEmpty.style.display = entries.length ? 'none' : 'block';
+            entries.forEach((e) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${new Date(e.ts).toLocaleString()}</td><td>${e.notary}</td><td>${e.mode}</td><td>${e.status}</td><td>${e.latency}ms</td><td>${e.reqHash.slice(0, 10)}…</td>`;
+                pgTrailBody.appendChild(tr);
+            });
+        }
+
+        async function hashString(input) {
+            if (!window.crypto?.subtle) return 'nohash';
+            const bytes = new TextEncoder().encode(input);
+            const buf = await crypto.subtle.digest('SHA-256', bytes);
+            return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function setPlaygroundTemplate() {
+            const cfg = PLAYGROUND_CONFIG[pgNotary.value][pgMode.value];
+            pgPayload.value = JSON.stringify(cfg.template, null, 2);
+        }
+
+        async function runPlayground() {
+            const cfg = PLAYGROUND_CONFIG[pgNotary.value][pgMode.value];
+            let payload;
+            try {
+                payload = JSON.parse(pgPayload.value);
+            } catch {
+                pgResponse.textContent = 'Invalid JSON payload.';
+                return;
+            }
+
+            pgRunBtn.disabled = true;
+            const started = performance.now();
+            try {
+                const res = await fetch(cfg.endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const text = await res.text();
+                let parsed;
+                try { parsed = JSON.parse(text); } catch { parsed = { raw: text }; }
+                const latency = Math.round(performance.now() - started);
+                pgResponse.textContent = JSON.stringify(parsed, null, 2);
+
+                const entry = {
+                    ts: new Date().toISOString(),
+                    notary: pgNotary.value,
+                    mode: pgMode.value,
+                    status: res.status,
+                    latency,
+                    requestId: res.headers.get('x-vercel-id') || '',
+                    reqHash: await hashString(JSON.stringify(payload)),
+                    resHash: await hashString(text)
+                };
+                const entries = [entry, ...loadTrail()];
+                saveTrail(entries);
+                renderTrail();
+            } catch (error) {
+                pgResponse.textContent = `Request failed: ${error.message}`;
+            } finally {
+                pgRunBtn.disabled = false;
+            }
+        }
+
+        function exportTrailCsv() {
+            const entries = loadTrail();
+            if (!entries.length) return;
+            const rows = [['timestamp', 'notary', 'mode', 'status', 'latency_ms', 'request_id', 'request_hash', 'response_hash']];
+            entries.forEach((e) => rows.push([e.ts, e.notary, e.mode, String(e.status), String(e.latency), e.requestId || '', e.reqHash, e.resHash]));
+            const csv = rows.map((r) => r.map((v) => `"${String(v).replaceAll('"', '""')}"`).join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `decide-playground-audit-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        pgNotary.addEventListener('change', setPlaygroundTemplate);
+        pgMode.addEventListener('change', setPlaygroundTemplate);
+        pgRunBtn.addEventListener('click', runPlayground);
+        pgCopyRespBtn.addEventListener('click', async () => {
+            await navigator.clipboard.writeText(pgResponse.textContent || '');
+            pgCopyRespBtn.textContent = 'Copied!';
+            setTimeout(() => { pgCopyRespBtn.textContent = 'Copy response'; }, 1500);
+        });
+        pgExportBtn.addEventListener('click', exportTrailCsv);
+        pgClearTrailBtn.addEventListener('click', () => {
+            localStorage.removeItem(getPlaygroundAuditKey());
+            renderTrail();
+        });
+        setPlaygroundTemplate();
+        updatePlaygroundScopeNote();
+        renderTrail();
 
         // Copy code blocks
         function copyCode(btn) {
