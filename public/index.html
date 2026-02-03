@@ -2062,19 +2062,36 @@ if (v === 'yes' || v === 'no') {
                 { label: 'HTTP status is 200', path: 'status', op: 'eq', expected: '200' },
                 { label: 'Latency under 500ms', path: 'latency', op: 'lt', expected: '500' }
             ],
-            refund: [
-                { label: 'Verdict = ALLOWED', path: 'result.content[0].text', op: 'contains', expected: 'ALLOWED' },
-                { label: 'Code = WITHIN_WINDOW', path: 'result.content[0].text', op: 'contains', expected: 'WITHIN_WINDOW' }
-            ],
-            cancel: [
-                { label: 'Contains PENALTY', path: 'result.content[0].text', op: 'contains', expected: 'PENALTY' }
-            ],
-            return: [
-                { label: 'Contains RETURNABLE', path: 'result.content[0].text', op: 'contains', expected: 'RETURNABLE' }
-            ],
-            trial: [
-                { label: 'Contains TRIAL_AVAILABLE', path: 'result.content[0].text', op: 'contains', expected: 'TRIAL_AVAILABLE' }
-            ]
+            mcp: {
+                refund: [
+                    { label: 'Refund text contains ALLOWED', path: 'result.content[0].text', op: 'contains', expected: 'ALLOWED' },
+                    { label: 'Refund text contains WITHIN_WINDOW', path: 'result.content[0].text', op: 'contains', expected: 'WITHIN_WINDOW' }
+                ],
+                cancel: [
+                    { label: 'Cancel text contains PENALTY', path: 'result.content[0].text', op: 'contains', expected: 'PENALTY' }
+                ],
+                return: [
+                    { label: 'Return text contains RETURNABLE', path: 'result.content[0].text', op: 'contains', expected: 'RETURNABLE' }
+                ],
+                trial: [
+                    { label: 'Trial text contains TRIAL_AVAILABLE', path: 'result.content[0].text', op: 'contains', expected: 'TRIAL_AVAILABLE' }
+                ]
+            },
+            rest: {
+                refund: [
+                    { label: 'Verdict = ALLOWED', path: 'verdict', op: 'eq', expected: 'ALLOWED' },
+                    { label: 'Code = WITHIN_WINDOW', path: 'code', op: 'eq', expected: 'WITHIN_WINDOW' }
+                ],
+                cancel: [
+                    { label: 'Verdict = PENALTY', path: 'verdict', op: 'eq', expected: 'PENALTY' }
+                ],
+                return: [
+                    { label: 'Verdict = RETURNABLE', path: 'verdict', op: 'eq', expected: 'RETURNABLE' }
+                ],
+                trial: [
+                    { label: 'Verdict = TRIAL_AVAILABLE', path: 'verdict', op: 'eq', expected: 'TRIAL_AVAILABLE' }
+                ]
+            }
         };
 
         function getPlaygroundAuditKey() {
@@ -2155,7 +2172,8 @@ if (v === 'yes' || v === 'no') {
         }
 
         function getAssertionTemplateList() {
-            return [...(ASSERTION_TEMPLATES.all || []), ...(ASSERTION_TEMPLATES[pgNotary.value] || [])];
+            const modeTemplates = ASSERTION_TEMPLATES[pgMode.value] || {};
+            return [...(ASSERTION_TEMPLATES.all || []), ...(modeTemplates[pgNotary.value] || [])];
         }
 
         function renderAssertionTemplates() {
