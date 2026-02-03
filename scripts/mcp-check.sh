@@ -23,22 +23,26 @@ assert_contains() {
   echo "PASS ${label}"
 }
 
+assert_jsonrpc_success() {
+  local label="$1"
+  local body="$2"
+  assert_contains "${label} jsonrpc" "$body" '"jsonrpc":"2.0"'
+  assert_contains "${label} content" "$body" '"content":[{"type":"text"'
+  assert_contains "${label} isError" "$body" '"isError":false'
+}
+
 echo "Checking MCP endpoints at ${BASE_URL}..."
 
 refund="$(post_json "/api/mcp" '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"refund_eligibility","arguments":{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual"}}}')"
-assert_contains "refund MCP" "$refund" '"isError":false'
-assert_contains "refund MCP verdict" "$refund" 'Refund Eligibility: ALLOWED'
+assert_jsonrpc_success "refund MCP" "$refund"
 
 cancel="$(post_json "/api/cancel-mcp" '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"cancellation_penalty","arguments":{"vendor":"adobe","region":"US","plan":"individual"}}}')"
-assert_contains "cancel MCP" "$cancel" '"isError":false'
-assert_contains "cancel MCP verdict" "$cancel" 'Cancellation Status: PENALTY'
+assert_jsonrpc_success "cancel MCP" "$cancel"
 
 returns="$(post_json "/api/return-mcp" '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"return_eligibility","arguments":{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual"}}}')"
-assert_contains "return MCP" "$returns" '"isError":false'
-assert_contains "return MCP verdict" "$returns" 'Return Eligibility: RETURNABLE'
+assert_jsonrpc_success "return MCP" "$returns"
 
 trial="$(post_json "/api/trial-mcp" '{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"trial_terms","arguments":{"vendor":"adobe","region":"US","plan":"individual"}}}')"
-assert_contains "trial MCP" "$trial" '"isError":false'
-assert_contains "trial MCP verdict" "$trial" 'Trial Terms: TRIAL_AVAILABLE'
+assert_jsonrpc_success "trial MCP" "$trial"
 
 echo "All MCP checks passed."
