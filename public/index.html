@@ -260,10 +260,11 @@
         /* DARK MODE — single uniform shade */
         body.dark{--bg:#0d0d0d;--bg-dark:#0d0d0d;--fg:#e8e8e8;--fg-light:#e8e8e8;--gray:#888;--gray-light:#555}
         body.dark{background:var(--bg);color:var(--fg)}
-        /* Keep dark mode visually uniform (no animated canvas shading bands). */
-        body.dark #canvas{opacity:0}
+        /* Keep dark mode visually uniform and avoid GPU/compositing banding artifacts. */
+        body.dark #canvas{display:none}
+        body.dark .grain{display:none}
+        body.dark .glow{display:none}
         body.dark ::selection{background:rgba(245,245,245,0.15)}
-        body.dark .grain{opacity:0.02}
         body.dark .glow{background:radial-gradient(circle,rgba(245,245,245,0.03) 0%,transparent 60%)}
         body.dark nav.scrolled .nav-wrap{background:rgba(13,13,13,0.85);border-color:rgba(245,245,245,0.06);box-shadow:0 4px 30px rgba(0,0,0,0.4)}
         body.dark .badge{background:rgba(245,245,245,0.05);border-color:rgba(245,245,245,0.1)}
