@@ -1387,10 +1387,10 @@ show(result, text);
             }
             const targetCenter = wheelCenters[picked];
             const targetRotation = ((360 - targetCenter) % 360 + 360) % 360;
-            const baseRotation = ((wheelRotation % 360) + 360) % 360;
-            const deltaToTarget = (targetRotation - baseRotation + 360) % 360;
-            const extraTurns = (3 + Math.floor(Math.random() * 6)) * 360; // 3 to 8 full turns
-            wheelRotation = baseRotation + extraTurns + deltaToTarget;
+            const currentRotation = ((wheelRotation % 360) + 360) % 360;
+            const deltaToTarget = (targetRotation - currentRotation + 360) % 360;
+            const extraTurns = (1 + Math.floor(Math.random() * 4)) * 360; // 1 to 4 full turns
+            wheelRotation = wheelRotation + extraTurns + deltaToTarget;
             wheelDisc.style.transform = `rotate(${wheelRotation}deg)`;
             wheelLabels.style.transform = `rotate(${wheelRotation}deg)`;
 
