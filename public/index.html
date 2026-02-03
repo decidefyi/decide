@@ -473,6 +473,7 @@
         .pg-redact-label input{accent-color:var(--fg);width:12px;height:12px}
         .pg-assert-row{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin-top:0.65rem}
         .pg-assert-input{font:inherit;font-size:0.74rem;padding:0.55rem 0.65rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
+        .pg-assert-template{min-width:220px}
         .pg-assert-input.path{min-width:220px}
         .pg-assert-input.expected{min-width:180px}
         .pg-assert-list{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.5rem}
@@ -676,6 +677,7 @@
             .pg-select{min-width:0;width:100%}
             .pg-redact-row{align-items:flex-start}
             .pg-assert-row{flex-direction:column;align-items:stretch}
+            .pg-assert-template{min-width:0;width:100%}
             .pg-assert-input.path,.pg-assert-input.expected{min-width:0;width:100%}
             .wheel-wrap{grid-template-columns:1fr;gap:1.2rem}
             .wheel-shell{width:280px;height:280px}
@@ -1035,6 +1037,10 @@
                     <label class="pg-redact-label"><input type="checkbox" data-redact-field="requestId" checked>request id</label>
                 </div>
                 <div class="pg-assert-row">
+                    <select class="pg-assert-input pg-assert-template" id="pgAssertTemplate">
+                        <option value="">Assertion template</option>
+                    </select>
+                    <button class="pg-btn secondary" id="pgUseAssertTemplateBtn" type="button">Use template</button>
                     <input class="pg-assert-input path" id="pgAssertPath" type="text" placeholder="assert path (e.g. result.verdict or status)">
                     <select class="pg-assert-input" id="pgAssertOp">
                         <option value="eq">= equals</option>
@@ -1874,6 +1880,7 @@ if (v === 'yes' || v === 'no') {
             renderSavedCases();
             loadShareRedactionPrefs();
             renderAssertions();
+            renderAssertionTemplates();
         }
         
         // Open user menu/profile
@@ -1966,6 +1973,8 @@ if (v === 'yes' || v === 'no') {
         const pgDeleteCaseBtn = document.getElementById('pgDeleteCaseBtn');
         const pgRunSuiteBtn = document.getElementById('pgRunSuiteBtn');
         const pgRedactChecks = Array.from(document.querySelectorAll('#pgRedactRow [data-redact-field]'));
+        const pgAssertTemplate = document.getElementById('pgAssertTemplate');
+        const pgUseAssertTemplateBtn = document.getElementById('pgUseAssertTemplateBtn');
         const pgAssertPath = document.getElementById('pgAssertPath');
         const pgAssertOp = document.getElementById('pgAssertOp');
         const pgAssertExpected = document.getElementById('pgAssertExpected');
@@ -2048,6 +2057,26 @@ if (v === 'yes' || v === 'no') {
             }
         };
 
+        const ASSERTION_TEMPLATES = {
+            all: [
+                { label: 'HTTP status is 200', path: 'status', op: 'eq', expected: '200' },
+                { label: 'Latency under 500ms', path: 'latency', op: 'lt', expected: '500' }
+            ],
+            refund: [
+                { label: 'Verdict = ALLOWED', path: 'result.content[0].text', op: 'contains', expected: 'ALLOWED' },
+                { label: 'Code = WITHIN_WINDOW', path: 'result.content[0].text', op: 'contains', expected: 'WITHIN_WINDOW' }
+            ],
+            cancel: [
+                { label: 'Contains PENALTY', path: 'result.content[0].text', op: 'contains', expected: 'PENALTY' }
+            ],
+            return: [
+                { label: 'Contains RETURNABLE', path: 'result.content[0].text', op: 'contains', expected: 'RETURNABLE' }
+            ],
+            trial: [
+                { label: 'Contains TRIAL_AVAILABLE', path: 'result.content[0].text', op: 'contains', expected: 'TRIAL_AVAILABLE' }
+            ]
+        };
+
         function getPlaygroundAuditKey() {
             const uid = window.Clerk?.user?.id;
             return uid ? `decide_playground_audit_${uid}` : 'decide_playground_audit_guest';
@@ -2123,6 +2152,36 @@ if (v === 'yes' || v === 'no') {
                 });
                 pgAssertList.appendChild(chip);
             });
+        }
+
+        function getAssertionTemplateList() {
+            return [...(ASSERTION_TEMPLATES.all || []), ...(ASSERTION_TEMPLATES[pgNotary.value] || [])];
+        }
+
+        function renderAssertionTemplates() {
+            const templates = getAssertionTemplateList();
+            pgAssertTemplate.innerHTML = '';
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = 'Assertion template';
+            pgAssertTemplate.appendChild(placeholder);
+            templates.forEach((tpl, idx) => {
+                const opt = document.createElement('option');
+                opt.value = String(idx);
+                opt.textContent = tpl.label;
+                pgAssertTemplate.appendChild(opt);
+            });
+        }
+
+        function applyAssertionTemplate() {
+            const idx = Number(pgAssertTemplate.value);
+            if (!Number.isFinite(idx)) return;
+            const tpl = getAssertionTemplateList()[idx];
+            if (!tpl) return;
+            pgAssertPath.value = tpl.path;
+            pgAssertOp.value = tpl.op;
+            pgAssertExpected.value = tpl.expected;
+            pgAssertExpected.focus();
         }
 
         function getSelectedRedactions() {
@@ -2688,8 +2747,8 @@ if (v === 'yes' || v === 'no') {
             URL.revokeObjectURL(url);
         }
 
-        pgNotary.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); renderSavedCases(); renderAssertions(); });
-        pgMode.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); renderSavedCases(); renderAssertions(); });
+        pgNotary.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); renderSavedCases(); renderAssertions(); renderAssertionTemplates(); });
+        pgMode.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); renderSavedCases(); renderAssertions(); renderAssertionTemplates(); });
         pgPreset.addEventListener('change', setPlaygroundTemplate);
         pgLoadPresetBtn.addEventListener('click', setPlaygroundTemplate);
         pgRunBtn.addEventListener('click', () => runPlayground());
@@ -2705,6 +2764,8 @@ if (v === 'yes' || v === 'no') {
         pgDeleteCaseBtn.addEventListener('click', deleteSelectedCase);
         pgRunSuiteBtn.addEventListener('click', runSavedSuite);
         pgAddAssertBtn.addEventListener('click', addAssertion);
+        pgUseAssertTemplateBtn.addEventListener('click', applyAssertionTemplate);
+        pgAssertTemplate.addEventListener('change', applyAssertionTemplate);
         pgAssertExpected.addEventListener('keydown', (e) => { if (e.key === 'Enter') addAssertion(); });
         pgTrailBody.addEventListener('click', (event) => {
             const button = event.target.closest('[data-trail-action]');
@@ -2729,6 +2790,7 @@ if (v === 'yes' || v === 'no') {
         renderSavedCases();
         loadShareRedactionPrefs();
         renderAssertions();
+        renderAssertionTemplates();
         maybeLoadSharedSnapshot();
         updatePlaygroundScopeNote();
         renderTrail();
