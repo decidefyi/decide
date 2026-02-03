@@ -8,21 +8,9 @@
 
 ## One-Click Install
 
-**Refund Notary** — refund eligibility checker
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.png)](cursor://anysphere.cursor-deeplink/mcp/install?name=refund-decide&config=eyJ1cmwiOiAiaHR0cHM6Ly9yZWZ1bmQuZGVjaWRlLmZ5aS9hcGkvbWNwIn0=) [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=refund-decide&config=%7B%22type%22%3A%20%22http%22%2C%20%22url%22%3A%20%22https%3A//refund.decide.fyi/api/mcp%22%7D) [![Add to Claude](https://fastmcp.me/badges/claude_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to ChatGPT](https://fastmcp.me/badges/chatgpt_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to Codex](https://fastmcp.me/badges/codex_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to Gemini](https://fastmcp.me/badges/gemini_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients)
 
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.png)](cursor://anysphere.cursor-deeplink/mcp/install?name=refund-decide&config=eyJ1cmwiOiAiaHR0cHM6Ly9yZWZ1bmQuZGVjaWRlLmZ5aS9hcGkvbWNwIn0=) [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=refund-decide&config=%7B%22type%22%3A%20%22http%22%2C%20%22url%22%3A%20%22https%3A//refund.decide.fyi/api/mcp%22%7D)
-
-**Cancel Notary** — cancellation penalty checker
-
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.png)](cursor://anysphere.cursor-deeplink/mcp/install?name=cancel-decide&config=eyJ1cmwiOiAiaHR0cHM6Ly9jYW5jZWwuZGVjaWRlLmZ5aS9hcGkvbWNwIn0=) [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=cancel-decide&config=%7B%22type%22%3A%20%22http%22%2C%20%22url%22%3A%20%22https%3A//cancel.decide.fyi/api/mcp%22%7D)
-
-**Return Notary** — return eligibility checker
-
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.png)](cursor://anysphere.cursor-deeplink/mcp/install?name=return-decide&config=eyJ1cmwiOiAiaHR0cHM6Ly9yZXR1cm4uZGVjaWRlLmZ5aS9hcGkvbWNwIn0=) [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=return-decide&config=%7B%22type%22%3A%20%22http%22%2C%20%22url%22%3A%20%22https%3A//return.decide.fyi/api/mcp%22%7D)
-
-**Trial Notary** — free trial terms checker
-
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.png)](cursor://anysphere.cursor-deeplink/mcp/install?name=trial-decide&config=eyJ1cmwiOiAiaHR0cHM6Ly90cmlhbC5kZWNpZGUuZnlpL2FwaS9tY3AifQ==) [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=trial-decide&config=%7B%22type%22%3A%20%22http%22%2C%20%22url%22%3A%20%22https%3A//trial.decide.fyi/api/mcp%22%7D)
+> Buttons install the **Refund Notary** server. To add all 4 servers, use the [JSON config below](#connect-via-mcp-claude-desktop--windsurf--other-clients).
 
 ## MCP Servers
 
