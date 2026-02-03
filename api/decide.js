@@ -79,7 +79,17 @@ export default async function handler(req, res) {
       const qp = req.query?.question ?? "";
       question = Array.isArray(qp) ? qp[0] : qp;
     } else if (req.method === "POST") {
-      const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
+      let body = req.body || {};
+      if (typeof req.body === "string") {
+        try {
+          body = JSON.parse(req.body);
+        } catch {
+          res.statusCode = 400;
+          res.setHeader("Content-Type", "application/json");
+          res.end(JSON.stringify({ c: "unclear", v: "Invalid JSON body", request_id }));
+          return;
+        }
+      }
       question = body.question || "";
     } else {
       res.setHeader("Allow", ["GET", "POST", "OPTIONS"]);
