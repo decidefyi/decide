@@ -377,7 +377,9 @@
         body.dark .mobile-menu a.nav-cta{background:var(--fg);color:var(--bg)}
         body.dark .mobile-overlay{background:rgba(0,0,0,0.5)}
         body.dark .mob span{background:var(--fg)}
-        body.dark .code-block{background:#111111}
+        body.dark .install-badge{background:rgba(245,245,245,0.04);border-color:rgba(245,245,245,0.16)}
+        body.dark .install-badge:hover{border-color:rgba(245,245,245,0.28)}
+        body.dark .code-block{background:#111111;border-color:rgba(245,245,245,0.16)}
 
         /* MODE CONTAINERS */
         #human-mode,#agent-mode{transition:none}
@@ -414,14 +416,14 @@
 
         /* CONNECT SECTION */
         .install-badges{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin:2rem 0}
-        .install-badge{display:inline-block;transition:transform 0.2s var(--ease),opacity 0.2s}
-        .install-badge:hover{transform:translateY(-2px);opacity:0.85}
-        .install-badge img{height:32px;border-radius:6px}
+        .install-badge{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0.34rem 0.5rem;border-radius:10px;background:rgba(17,17,17,0.04);border:1px solid rgba(17,17,17,0.1);transition:transform 0.2s var(--ease),opacity 0.2s,border-color 0.2s var(--ease)}
+        .install-badge:hover{transform:translateY(-2px);opacity:0.92;border-color:rgba(17,17,17,0.2)}
+        .install-badge img{display:block;height:32px;border-radius:6px}
         .connect{padding:6rem 1.5rem;position:relative;z-index:2;background:var(--bg)}
         .connect-inner{max-width:800px;margin:0 auto}
         .connect h2{font-size:clamp(1.5rem,4vw,2.25rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:0.5rem;color:var(--fg)}
         .connect>p,.connect-inner>p{color:var(--gray);font-size:0.9rem;margin-bottom:2rem}
-        .code-block{background:var(--bg-dark);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;position:relative;overflow-x:auto}
+        .code-block{background:var(--bg-dark);border:1px solid rgba(17,17,17,0.1);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;position:relative;overflow-x:auto}
         .code-block-label{font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-light);margin-bottom:0.75rem;display:flex;justify-content:space-between;align-items:center}
         .code-copy{background:rgba(245,245,245,0.1);border:none;padding:0.3rem 0.7rem;border-radius:8px;color:var(--gray-light);font-family:inherit;font-size:0.6rem;font-weight:600;cursor:pointer;transition:all 0.3s}
         .code-copy:hover{background:rgba(245,245,245,0.2);color:var(--fg-light)}
