@@ -392,6 +392,7 @@
         body.dark .pg-btn.secondary{background:rgba(245,245,245,0.1);color:var(--fg)}
         body.dark .pg-select{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .trail-filter{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
+        body.dark .pg-redact-label{background:rgba(245,245,245,0.07);border-color:rgba(245,245,245,0.2)}
         body.dark .trail-wrap{border-color:rgba(245,245,245,0.16)}
         body.dark .trail-table th,body.dark .trail-table td{border-bottom-color:rgba(245,245,245,0.08)}
 
@@ -462,6 +463,10 @@
         .pg-btn:disabled{opacity:0.6;cursor:not-allowed}
         .pg-case-row{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin-top:0.6rem}
         .pg-select{font:inherit;font-size:0.78rem;padding:0.58rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg);min-width:220px}
+        .pg-redact-row{display:flex;gap:0.45rem;flex-wrap:wrap;align-items:center;margin-top:0.55rem}
+        .pg-redact-title{font-size:0.72rem;color:var(--gray);margin-right:0.1rem}
+        .pg-redact-label{display:inline-flex;align-items:center;gap:0.3rem;padding:0.3rem 0.55rem;border-radius:999px;border:1px solid rgba(17,17,17,0.14);background:rgba(17,17,17,0.04);font-size:0.7rem;color:var(--fg)}
+        .pg-redact-label input{accent-color:var(--fg);width:12px;height:12px}
         .pg-note{font-size:0.75rem;color:var(--gray);margin-top:0.6rem}
         .trail-controls{margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap}
         .trail-filter{font:inherit;font-size:0.74rem;padding:0.5rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
@@ -653,6 +658,7 @@
             .pg-inline{flex-direction:column}
             .pg-case-row{flex-direction:column;align-items:stretch}
             .pg-select{min-width:0;width:100%}
+            .pg-redact-row{align-items:flex-start}
             .wheel-wrap{grid-template-columns:1fr;gap:1.2rem}
             .wheel-shell{width:280px;height:280px}
             .theme-toggle{right:0.8rem;bottom:0.8rem;width:38px;height:38px}
@@ -1000,6 +1006,14 @@
                     </select>
                     <button class="pg-btn secondary" id="pgLoadCaseBtn" type="button">Load case</button>
                     <button class="pg-btn secondary" id="pgDeleteCaseBtn" type="button">Delete case</button>
+                </div>
+                <div class="pg-redact-row" id="pgRedactRow">
+                    <span class="pg-redact-title">Share redaction:</span>
+                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="vendor" checked>vendor</label>
+                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="region">region</label>
+                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="plan">plan</label>
+                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="days_since_purchase">days</label>
+                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="requestId" checked>request id</label>
                 </div>
                 <div class="pg-note" id="pgScopeNote">Audit scope: loading…</div>
             </div>
@@ -1823,6 +1837,7 @@ if (v === 'yes' || v === 'no') {
             updatePlaygroundScopeNote();
             renderTrail();
             renderSavedCases();
+            loadShareRedactionPrefs();
         }
         
         // Open user menu/profile
@@ -1913,6 +1928,7 @@ if (v === 'yes' || v === 'no') {
         const pgSavedCases = document.getElementById('pgSavedCases');
         const pgLoadCaseBtn = document.getElementById('pgLoadCaseBtn');
         const pgDeleteCaseBtn = document.getElementById('pgDeleteCaseBtn');
+        const pgRedactChecks = Array.from(document.querySelectorAll('#pgRedactRow [data-redact-field]'));
         const pgResponse = document.getElementById('pgResponse');
         const pgDiff = document.getElementById('pgDiff');
         const pgScopeNote = document.getElementById('pgScopeNote');
@@ -2000,6 +2016,11 @@ if (v === 'yes' || v === 'no') {
             return uid ? `decide_playground_cases_${uid}` : 'decide_playground_cases_guest';
         }
 
+        function getPlaygroundRedactKey() {
+            const uid = window.Clerk?.user?.id;
+            return uid ? `decide_playground_redact_${uid}` : 'decide_playground_redact_guest';
+        }
+
         function updatePlaygroundScopeNote() {
             if (!pgScopeNote) return;
             const uid = window.Clerk?.user?.id;
@@ -2020,6 +2041,27 @@ if (v === 'yes' || v === 'no') {
 
         function saveSavedCases(cases) {
             localStorage.setItem(getPlaygroundCasesKey(), JSON.stringify(cases.slice(0, 100)));
+        }
+
+        function getSelectedRedactions() {
+            return new Set(pgRedactChecks.filter((el) => el.checked).map((el) => el.dataset.redactField));
+        }
+
+        function saveShareRedactionPrefs() {
+            const selected = Array.from(getSelectedRedactions());
+            localStorage.setItem(getPlaygroundRedactKey(), JSON.stringify(selected));
+        }
+
+        function loadShareRedactionPrefs() {
+            let selected = ['vendor', 'requestId'];
+            try {
+                const parsed = JSON.parse(localStorage.getItem(getPlaygroundRedactKey()) || 'null');
+                if (Array.isArray(parsed)) selected = parsed;
+            } catch {}
+            const selectedSet = new Set(selected);
+            pgRedactChecks.forEach((el) => {
+                el.checked = selectedSet.has(el.dataset.redactField);
+            });
         }
 
         function renderSavedCases() {
@@ -2113,6 +2155,56 @@ if (v === 'yes' || v === 'no') {
             pgPreviousResponseText = currentText;
         }
 
+        function redactObject(value, fields) {
+            if (Array.isArray(value)) return value.map((item) => redactObject(item, fields));
+            if (!value || typeof value !== 'object') return value;
+            const copy = {};
+            Object.entries(value).forEach(([key, raw]) => {
+                if (fields.has(key)) {
+                    copy[key] = '[REDACTED]';
+                } else {
+                    copy[key] = redactObject(raw, fields);
+                }
+            });
+            return copy;
+        }
+
+        function redactResponseText(text, fields) {
+            if (!text || !fields.size) return text;
+            try {
+                const parsed = JSON.parse(text);
+                return JSON.stringify(redactObject(parsed, fields), null, 2);
+            } catch {}
+            let output = text;
+            const jsonReplacements = [
+                { key: 'vendor', regex: /("vendor"\s*:\s*)(".*?"|-?\d+(?:\.\d+)?|true|false|null)/gi },
+                { key: 'region', regex: /("region"\s*:\s*)(".*?"|-?\d+(?:\.\d+)?|true|false|null)/gi },
+                { key: 'plan', regex: /("plan"\s*:\s*)(".*?"|-?\d+(?:\.\d+)?|true|false|null)/gi },
+                { key: 'days_since_purchase', regex: /("days_since_purchase"\s*:\s*)(".*?"|-?\d+(?:\.\d+)?|true|false|null)/gi },
+                { key: 'requestId', regex: /("requestId"\s*:\s*)(".*?"|-?\d+(?:\.\d+)?|true|false|null)/gi }
+            ];
+            jsonReplacements.forEach(({ key, regex }) => {
+                if (!fields.has(key)) return;
+                output = output.replace(regex, '$1"[REDACTED]"');
+            });
+            if (fields.has('vendor')) output = output.replace(/(\bVendor:\s*)([^\n\r]+)/gi, '$1[REDACTED]');
+            if (fields.has('region')) output = output.replace(/(\bRegion:\s*)([^\n\r]+)/gi, '$1[REDACTED]');
+            if (fields.has('plan')) output = output.replace(/(\bPlan:\s*)([^\n\r]+)/gi, '$1[REDACTED]');
+            if (fields.has('days_since_purchase')) output = output.replace(/(\bdays_since_purchase\b[^0-9-]*)(-?\d+)/gi, '$1[REDACTED]');
+            if (fields.has('requestId')) output = output.replace(/(\bRequest ID:\s*)([^\s]+)/gi, '$1[REDACTED]');
+            return output;
+        }
+
+        function getRedactedSnapshot(snapshot) {
+            const fields = getSelectedRedactions();
+            if (!fields.size) return snapshot;
+            const payload = redactObject(snapshot.payload, fields);
+            const redacted = { ...snapshot, payload };
+            redacted.responseText = redactResponseText(snapshot.responseText, fields);
+            if (fields.has('requestId') && redacted.requestId) redacted.requestId = '[REDACTED]';
+            return redacted;
+        }
+
         function encodeSnapshot(snapshot) {
             try {
                 const json = JSON.stringify(snapshot);
@@ -2146,7 +2238,7 @@ if (v === 'yes' || v === 'no') {
                 setShareButtonState('Run first');
                 return;
             }
-            const encoded = encodeSnapshot(pgLastRunSnapshot);
+            const encoded = encodeSnapshot(getRedactedSnapshot(pgLastRunSnapshot));
             if (!encoded) {
                 setShareButtonState('Share failed');
                 return;
@@ -2252,7 +2344,8 @@ if (v === 'yes' || v === 'no') {
                     payload,
                     responseText: renderedText,
                     status: res.status,
-                    latency
+                    latency,
+                    requestId: res.headers.get('x-vercel-id') || ''
                 };
 
                 const entry = {
@@ -2382,6 +2475,9 @@ if (v === 'yes' || v === 'no') {
         pgSaveCaseBtn.addEventListener('click', saveCurrentCase);
         pgLoadCaseBtn.addEventListener('click', loadSelectedCase);
         pgDeleteCaseBtn.addEventListener('click', deleteSelectedCase);
+        pgRedactChecks.forEach((el) => {
+            el.addEventListener('change', saveShareRedactionPrefs);
+        });
         [pgFilterStatus, pgFilterNotary, pgFilterMode, pgFilterLatency].forEach((el) => {
             el?.addEventListener('change', renderTrail);
         });
@@ -2392,6 +2488,7 @@ if (v === 'yes' || v === 'no') {
         renderPresetOptions();
         setPlaygroundTemplate();
         renderSavedCases();
+        loadShareRedactionPrefs();
         maybeLoadSharedSnapshot();
         updatePlaygroundScopeNote();
         renderTrail();
