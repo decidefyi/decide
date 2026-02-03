@@ -1287,6 +1287,7 @@ show(result, text);
         const wheelResult = document.getElementById('wheelResult');
 
         let wheelOptions = ['pizza', 'sushi', 'burgers'];
+        let wheelCenters = [];
         let wheelRotation = 0;
         let wheelSpinning = false;
         let lastWheelPick = -1;
@@ -1313,6 +1314,7 @@ show(result, text);
             const n = wheelOptions.length;
             const labelRadius = Math.max(78, (wheelDisc.clientWidth / 2) - 48);
             if (n < 2) {
+                wheelCenters = [];
                 wheelDisc.style.setProperty('--wheel-face-gradient', 'conic-gradient(#e5e7eb 0deg 180deg,#f3f4f6 180deg 360deg)');
                 wheelDisc.style.setProperty('--wheel-ring-gradient', 'conic-gradient(#d1d5db 0deg 180deg,#e5e7eb 180deg 360deg)');
                 wheelLabels.innerHTML = '';
@@ -1320,6 +1322,7 @@ show(result, text);
             }
 
             const step = 360 / n;
+            wheelCenters = wheelOptions.map((_, i) => i * step + step / 2);
             const colors = wheelOptions.map((_, i) => randomWheelColor(i));
             const faceStops = colors.map((c, i) => `${c} ${Math.round(i * step)}deg ${Math.round((i + 1) * step)}deg`);
             const ringStops = colors.map((c, i) => `${darkenHex(c)} ${Math.round(i * step)}deg ${Math.round((i + 1) * step)}deg`);
@@ -1355,32 +1358,19 @@ show(result, text);
         function getWheelLandedIndex() {
             const n = wheelOptions.length;
             if (n < 1) return -1;
-            const labels = Array.from(wheelLabels.querySelectorAll('.wheel-label'));
-            if (labels.length === n) {
-                const discRect = wheelDisc.getBoundingClientRect();
-                const cx = discRect.left + discRect.width / 2;
-                const cy = discRect.top + discRect.height / 2;
-
-                let bestIdx = 0;
-                let bestScore = -Infinity;
-                labels.forEach((label, idx) => {
-                    const rect = label.getBoundingClientRect();
-                    const lx = rect.left + rect.width / 2 - cx;
-                    const ly = rect.top + rect.height / 2 - cy;
-                    const len = Math.hypot(lx, ly) || 1;
-                    const score = -ly / len; // projection on "up" vector
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestIdx = idx;
-                    }
-                });
-                return bestIdx;
-            }
-
-            const step = 360 / n;
+            if (wheelCenters.length !== n) return 0;
             const normalized = ((wheelRotation % 360) + 360) % 360;
-            const pointerAngle = (360 - normalized + 360) % 360;
-            return Math.floor((pointerAngle + 0.0001) / step) % n;
+            let bestIdx = 0;
+            let bestDist = Infinity;
+            wheelCenters.forEach((center, idx) => {
+                const displayedCenter = (center + normalized) % 360;
+                const dist = Math.abs(((displayedCenter + 180) % 360) - 180); // distance to top (0deg)
+                if (dist < bestDist) {
+                    bestDist = dist;
+                    bestIdx = idx;
+                }
+            });
+            return bestIdx;
         }
 
         function addWheelOption() {
