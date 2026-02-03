@@ -343,6 +343,10 @@
         .mcp-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
 
         /* CONNECT SECTION */
+        .install-badges{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin:2rem 0}
+        .install-badge{display:inline-block;transition:transform 0.2s var(--ease),opacity 0.2s}
+        .install-badge:hover{transform:translateY(-2px);opacity:0.85}
+        .install-badge img{height:32px;border-radius:6px}
         .connect{padding:6rem 1.5rem;position:relative;z-index:2;background:var(--bg)}
         .connect-inner{max-width:800px;margin:0 auto}
         .connect h2{font-size:clamp(1.5rem,4vw,2.25rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:0.5rem;color:var(--fg)}
@@ -717,6 +721,15 @@
         <div class="connect-inner">
             <h2>Connect your agent</h2>
             <p>Add decide notaries to any MCP-compatible client in seconds.</p>
+
+            <div class="install-badges">
+                <a href="cursor://anysphere.cursor-deeplink/mcp/install?name=refund-decide&config=eyJ1cmwiOiAiaHR0cHM6Ly9yZWZ1bmQuZGVjaWRlLmZ5aS9hcGkvbWNwIn0=" class="install-badge" title="Add Refund Notary to Cursor"><img src="https://cursor.com/deeplink/mcp-install-dark.png" alt="Add to Cursor" height="32"></a>
+                <a href="https://insiders.vscode.dev/redirect/mcp/install?name=refund-decide&config=%7B%22type%22%3A%20%22http%22%2C%20%22url%22%3A%20%22https%3A//refund.decide.fyi/api/mcp%22%7D" class="install-badge" title="Add Refund Notary to VS Code"><img src="https://fastmcp.me/badges/vscode_dark.svg" alt="Add to VS Code" height="32"></a>
+                <a href="#" class="install-badge" onclick="event.preventDefault();document.querySelector('.code-block .code-copy').click();alert('JSON config copied! Paste into your Claude Desktop MCP settings.')" title="Copy config for Claude Desktop"><img src="https://fastmcp.me/badges/claude_dark.svg" alt="Add to Claude" height="32"></a>
+                <a href="#" class="install-badge" onclick="event.preventDefault();document.querySelector('.code-block .code-copy').click();alert('JSON config copied! Paste into ChatGPT Settings → Connectors → Developer mode.')" title="Copy config for ChatGPT"><img src="https://fastmcp.me/badges/chatgpt_dark.svg" alt="Add to ChatGPT" height="32"></a>
+                <a href="#" class="install-badge" onclick="event.preventDefault();document.querySelector('.code-block .code-copy').click();alert('JSON config copied! Paste into your Codex MCP settings.')" title="Copy config for Codex"><img src="https://fastmcp.me/badges/codex_dark.svg" alt="Add to Codex" height="32"></a>
+                <a href="#" class="install-badge" onclick="event.preventDefault();document.querySelector('.code-block .code-copy').click();alert('JSON config copied! Paste into your Gemini MCP settings.')" title="Copy config for Gemini"><img src="https://fastmcp.me/badges/gemini_dark.svg" alt="Add to Gemini" height="32"></a>
+            </div>
 
             <div class="code-block">
                 <div class="code-block-label"><span>Claude Desktop / Cursor / Windsurf</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
