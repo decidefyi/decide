@@ -393,6 +393,10 @@
         body.dark .pg-select{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .trail-filter{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .pg-redact-label{background:rgba(245,245,245,0.07);border-color:rgba(245,245,245,0.2)}
+        body.dark .pg-assert-input{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
+        body.dark .pg-assert-chip{background:rgba(245,245,245,0.08);border-color:rgba(245,245,245,0.2)}
+        body.dark .trail-action{background:rgba(245,245,245,0.12);color:var(--fg)}
+        body.dark .trail-action.active{background:rgba(22,163,74,0.22)}
         body.dark .trail-wrap{border-color:rgba(245,245,245,0.16)}
         body.dark .trail-table th,body.dark .trail-table td{border-bottom-color:rgba(245,245,245,0.08)}
 
@@ -467,6 +471,13 @@
         .pg-redact-title{font-size:0.72rem;color:var(--gray);margin-right:0.1rem}
         .pg-redact-label{display:inline-flex;align-items:center;gap:0.3rem;padding:0.3rem 0.55rem;border-radius:999px;border:1px solid rgba(17,17,17,0.14);background:rgba(17,17,17,0.04);font-size:0.7rem;color:var(--fg)}
         .pg-redact-label input{accent-color:var(--fg);width:12px;height:12px}
+        .pg-assert-row{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin-top:0.65rem}
+        .pg-assert-input{font:inherit;font-size:0.74rem;padding:0.55rem 0.65rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
+        .pg-assert-input.path{min-width:220px}
+        .pg-assert-input.expected{min-width:180px}
+        .pg-assert-list{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.5rem}
+        .pg-assert-chip{display:inline-flex;align-items:center;gap:0.35rem;background:rgba(17,17,17,0.05);border:1px solid rgba(17,17,17,0.12);border-radius:999px;padding:0.32rem 0.6rem;font-size:0.7rem}
+        .pg-assert-chip button{border:none;background:transparent;color:var(--gray);cursor:pointer;font-size:0.9rem;line-height:1}
         .pg-note{font-size:0.75rem;color:var(--gray);margin-top:0.6rem}
         .trail-controls{margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap}
         .trail-filter{font:inherit;font-size:0.74rem;padding:0.5rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
@@ -481,6 +492,11 @@
         .status-chip.client{background:rgba(217,119,6,0.12);color:#b45309;border-color:rgba(217,119,6,0.3)}
         .status-chip.server,.status-chip.network{background:rgba(220,38,38,0.12);color:#b91c1c;border-color:rgba(220,38,38,0.3)}
         .status-chip.other{background:rgba(17,17,17,0.08);color:var(--gray);border-color:rgba(17,17,17,0.2)}
+        .status-chip.assert-pass{background:rgba(22,163,74,0.12);color:#15803d;border-color:rgba(22,163,74,0.3)}
+        .status-chip.assert-fail{background:rgba(220,38,38,0.12);color:#b91c1c;border-color:rgba(220,38,38,0.3)}
+        .status-chip.assert-na{background:rgba(17,17,17,0.08);color:var(--gray);border-color:rgba(17,17,17,0.2)}
+        .trail-action{border:none;border-radius:8px;padding:0.25rem 0.5rem;font:inherit;font-size:0.66rem;font-weight:600;cursor:pointer;background:rgba(17,17,17,0.08);color:var(--fg);margin-right:0.25rem}
+        .trail-action.active{background:rgba(22,163,74,0.16);color:#15803d}
         .trail-empty{padding:0.8rem;color:var(--gray);font-size:0.78rem}
 
         /* AGENT FEATURES */
@@ -659,6 +675,8 @@
             .pg-case-row{flex-direction:column;align-items:stretch}
             .pg-select{min-width:0;width:100%}
             .pg-redact-row{align-items:flex-start}
+            .pg-assert-row{flex-direction:column;align-items:stretch}
+            .pg-assert-input.path,.pg-assert-input.expected{min-width:0;width:100%}
             .wheel-wrap{grid-template-columns:1fr;gap:1.2rem}
             .wheel-shell{width:280px;height:280px}
             .theme-toggle{right:0.8rem;bottom:0.8rem;width:38px;height:38px}
@@ -1006,6 +1024,7 @@
                     </select>
                     <button class="pg-btn secondary" id="pgLoadCaseBtn" type="button">Load case</button>
                     <button class="pg-btn secondary" id="pgDeleteCaseBtn" type="button">Delete case</button>
+                    <button class="pg-btn secondary" id="pgRunSuiteBtn" type="button">Run saved suite</button>
                 </div>
                 <div class="pg-redact-row" id="pgRedactRow">
                     <span class="pg-redact-title">Share redaction:</span>
@@ -1015,6 +1034,20 @@
                     <label class="pg-redact-label"><input type="checkbox" data-redact-field="days_since_purchase">days</label>
                     <label class="pg-redact-label"><input type="checkbox" data-redact-field="requestId" checked>request id</label>
                 </div>
+                <div class="pg-assert-row">
+                    <input class="pg-assert-input path" id="pgAssertPath" type="text" placeholder="assert path (e.g. result.verdict or status)">
+                    <select class="pg-assert-input" id="pgAssertOp">
+                        <option value="eq">= equals</option>
+                        <option value="neq">!= not equal</option>
+                        <option value="contains">contains</option>
+                        <option value="gt">&gt; greater than</option>
+                        <option value="lt">&lt; less than</option>
+                        <option value="exists">exists</option>
+                    </select>
+                    <input class="pg-assert-input expected" id="pgAssertExpected" type="text" placeholder="expected value">
+                    <button class="pg-btn secondary" id="pgAddAssertBtn" type="button">Add assertion</button>
+                </div>
+                <div class="pg-assert-list" id="pgAssertList"></div>
                 <div class="pg-note" id="pgScopeNote">Audit scope: loading…</div>
             </div>
 
@@ -1061,8 +1094,10 @@
                             <th>Notary</th>
                             <th>Mode</th>
                             <th>Status</th>
+                            <th>Assert</th>
                             <th>Latency</th>
                             <th>Req hash</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="pgTrailBody"></tbody>
@@ -1838,6 +1873,7 @@ if (v === 'yes' || v === 'no') {
             renderTrail();
             renderSavedCases();
             loadShareRedactionPrefs();
+            renderAssertions();
         }
         
         // Open user menu/profile
@@ -1928,7 +1964,13 @@ if (v === 'yes' || v === 'no') {
         const pgSavedCases = document.getElementById('pgSavedCases');
         const pgLoadCaseBtn = document.getElementById('pgLoadCaseBtn');
         const pgDeleteCaseBtn = document.getElementById('pgDeleteCaseBtn');
+        const pgRunSuiteBtn = document.getElementById('pgRunSuiteBtn');
         const pgRedactChecks = Array.from(document.querySelectorAll('#pgRedactRow [data-redact-field]'));
+        const pgAssertPath = document.getElementById('pgAssertPath');
+        const pgAssertOp = document.getElementById('pgAssertOp');
+        const pgAssertExpected = document.getElementById('pgAssertExpected');
+        const pgAddAssertBtn = document.getElementById('pgAddAssertBtn');
+        const pgAssertList = document.getElementById('pgAssertList');
         const pgResponse = document.getElementById('pgResponse');
         const pgDiff = document.getElementById('pgDiff');
         const pgScopeNote = document.getElementById('pgScopeNote');
@@ -2021,6 +2063,11 @@ if (v === 'yes' || v === 'no') {
             return uid ? `decide_playground_redact_${uid}` : 'decide_playground_redact_guest';
         }
 
+        function getPlaygroundAssertKey() {
+            const uid = window.Clerk?.user?.id;
+            return uid ? `decide_playground_assert_${uid}` : 'decide_playground_assert_guest';
+        }
+
         function updatePlaygroundScopeNote() {
             if (!pgScopeNote) return;
             const uid = window.Clerk?.user?.id;
@@ -2041,6 +2088,41 @@ if (v === 'yes' || v === 'no') {
 
         function saveSavedCases(cases) {
             localStorage.setItem(getPlaygroundCasesKey(), JSON.stringify(cases.slice(0, 100)));
+        }
+
+        function loadAssertions() {
+            try { return JSON.parse(localStorage.getItem(getPlaygroundAssertKey()) || '[]'); } catch { return []; }
+        }
+
+        function saveAssertions(assertions) {
+            localStorage.setItem(getPlaygroundAssertKey(), JSON.stringify(assertions.slice(0, 100)));
+        }
+
+        function getScopedAssertions(notary = pgNotary.value, mode = pgMode.value) {
+            return loadAssertions().filter((a) => a.notary === notary && a.mode === mode);
+        }
+
+        function renderAssertions() {
+            const assertions = getScopedAssertions();
+            pgAssertList.innerHTML = '';
+            if (!assertions.length) {
+                const empty = document.createElement('span');
+                empty.className = 'pg-note';
+                empty.textContent = 'No assertions yet.';
+                pgAssertList.appendChild(empty);
+                return;
+            }
+            assertions.forEach((rule) => {
+                const chip = document.createElement('span');
+                chip.className = 'pg-assert-chip';
+                chip.innerHTML = `${rule.path} ${rule.op} ${rule.expected || ''} <button type="button" aria-label="Remove assertion">×</button>`;
+                chip.querySelector('button').addEventListener('click', () => {
+                    const next = loadAssertions().filter((a) => a.id !== rule.id);
+                    saveAssertions(next);
+                    renderAssertions();
+                });
+                pgAssertList.appendChild(chip);
+            });
         }
 
         function getSelectedRedactions() {
@@ -2108,16 +2190,23 @@ if (v === 'yes' || v === 'no') {
 
         function renderTrail() {
             const entries = loadTrail();
-            const filtered = getFilteredTrail(entries);
+            const filtered = getFilteredTrail(entries).sort((a, b) => {
+                const pinA = a.pinned ? 1 : 0;
+                const pinB = b.pinned ? 1 : 0;
+                if (pinA !== pinB) return pinB - pinA;
+                return new Date(b.ts).getTime() - new Date(a.ts).getTime();
+            });
             pgTrailBody.innerHTML = '';
             pgTrailEmpty.style.display = filtered.length ? 'none' : 'block';
             pgTrailMeta.textContent = `Showing ${filtered.length} of ${entries.length} runs.`;
             filtered.forEach((e) => {
                 const statusClass = classifyTrailStatus(e);
                 const statusText = statusClass === 'network' ? 'failed' : String(e.status || 'n/a');
+                const assertClass = e.assertPass === true ? 'assert-pass' : (e.assertPass === false ? 'assert-fail' : 'assert-na');
+                const assertText = e.assertPass === true ? 'pass' : (e.assertPass === false ? 'fail' : 'n/a');
                 const tr = document.createElement('tr');
                 tr.className = `status-row-${statusClass}`;
-                tr.innerHTML = `<td>${new Date(e.ts).toLocaleString()}</td><td>${e.notary}</td><td>${e.mode}</td><td><span class="status-chip ${statusClass}">${statusText}</span></td><td>${Number(e.latency || 0)}ms</td><td>${(e.reqHash || '').slice(0, 10)}…</td>`;
+                tr.innerHTML = `<td>${new Date(e.ts).toLocaleString()}</td><td>${e.notary}</td><td>${e.mode}</td><td><span class="status-chip ${statusClass}">${statusText}</span></td><td><span class="status-chip ${assertClass}" title="${e.assertSummary || ''}">${assertText}</span></td><td>${Number(e.latency || 0)}ms</td><td>${(e.reqHash || '').slice(0, 10)}…</td><td><button class="trail-action ${e.pinned ? 'active' : ''}" data-trail-action="pin" data-id="${e.id}">${e.pinned ? 'Pinned' : 'Pin'}</button><button class="trail-action" data-trail-action="replay" data-id="${e.id}">Replay</button></td>`;
                 pgTrailBody.appendChild(tr);
             });
         }
@@ -2203,6 +2292,48 @@ if (v === 'yes' || v === 'no') {
             redacted.responseText = redactResponseText(snapshot.responseText, fields);
             if (fields.has('requestId') && redacted.requestId) redacted.requestId = '[REDACTED]';
             return redacted;
+        }
+
+        function getByPath(obj, path) {
+            if (!path) return undefined;
+            const normalized = path.replace(/\[(\d+)\]/g, '.$1');
+            return normalized.split('.').filter(Boolean).reduce((acc, part) => (acc == null ? undefined : acc[part]), obj);
+        }
+
+        function parseExpectedValue(raw) {
+            const value = String(raw || '').trim();
+            if (!value) return '';
+            if (value === 'true') return true;
+            if (value === 'false') return false;
+            if (value === 'null') return null;
+            if (!Number.isNaN(Number(value)) && value !== '') return Number(value);
+            try { return JSON.parse(value); } catch {}
+            return value;
+        }
+
+        function evaluateAssertions(assertions, context) {
+            if (!assertions.length) return { pass: null, summary: 'n/a' };
+            const failures = [];
+            assertions.forEach((rule) => {
+                const lhs = rule.path === 'status'
+                    ? context.status
+                    : (rule.path === 'latency' ? context.latency : getByPath(context.body, rule.path));
+                const rhs = parseExpectedValue(rule.expected);
+                let ok = false;
+                switch (rule.op) {
+                    case 'eq': ok = lhs === rhs; break;
+                    case 'neq': ok = lhs !== rhs; break;
+                    case 'contains': ok = String(lhs ?? '').toLowerCase().includes(String(rhs ?? '').toLowerCase()); break;
+                    case 'gt': ok = Number(lhs) > Number(rhs); break;
+                    case 'lt': ok = Number(lhs) < Number(rhs); break;
+                    case 'exists': ok = lhs !== undefined && lhs !== null; break;
+                    default: ok = false;
+                }
+                if (!ok) failures.push(rule.path);
+            });
+            return failures.length
+                ? { pass: false, summary: `fail (${failures.join(', ')})` }
+                : { pass: true, summary: 'pass' };
         }
 
         function encodeSnapshot(snapshot) {
@@ -2312,17 +2443,8 @@ if (v === 'yes' || v === 'no') {
             setPlaygroundPayload(cfg.template);
         }
 
-        async function runPlayground() {
-            const cfg = PLAYGROUND_CONFIG[pgNotary.value][pgMode.value];
-            let payload;
-            try {
-                payload = JSON.parse(pgPayload.value);
-            } catch {
-                pgResponse.textContent = 'Invalid JSON payload.';
-                return;
-            }
-
-            pgRunBtn.disabled = true;
+        async function executePlaygroundRequest(notary, mode, payload) {
+            const cfg = PLAYGROUND_CONFIG[notary][mode];
             const started = performance.now();
             try {
                 const res = await fetch(cfg.endpoint, {
@@ -2333,63 +2455,99 @@ if (v === 'yes' || v === 'no') {
                 const text = await res.text();
                 let parsed;
                 try { parsed = JSON.parse(text); } catch { parsed = { raw: text }; }
-                const latency = Math.round(performance.now() - started);
-                const renderedText = JSON.stringify(parsed, null, 2);
-                pgResponse.textContent = renderedText;
-                setPlaygroundDiff(renderedText);
-                pgLastRunSnapshot = {
-                    ts: new Date().toISOString(),
-                    notary: pgNotary.value,
-                    mode: pgMode.value,
-                    payload,
-                    responseText: renderedText,
+                return {
+                    ok: true,
                     status: res.status,
-                    latency,
-                    requestId: res.headers.get('x-vercel-id') || ''
-                };
-
-                const entry = {
-                    ts: new Date().toISOString(),
-                    notary: pgNotary.value,
-                    mode: pgMode.value,
-                    status: res.status,
-                    latency,
+                    latency: Math.round(performance.now() - started),
                     requestId: res.headers.get('x-vercel-id') || '',
-                    reqHash: await hashString(JSON.stringify(payload)),
-                    resHash: await hashString(text)
+                    parsed,
+                    responseText: JSON.stringify(parsed, null, 2),
+                    rawText: text
                 };
-                const entries = [entry, ...loadTrail()];
-                saveTrail(entries);
-                renderTrail();
             } catch (error) {
-                const renderedError = `Request failed: ${error.message}`;
-                pgResponse.textContent = renderedError;
-                setPlaygroundDiff(renderedError);
-                pgLastRunSnapshot = {
-                    ts: new Date().toISOString(),
-                    notary: pgNotary.value,
-                    mode: pgMode.value,
-                    payload,
-                    responseText: renderedError,
-                    status: 0,
-                    latency: Math.round(performance.now() - started)
-                };
-                const fallbackEntry = {
-                    ts: new Date().toISOString(),
-                    notary: pgNotary.value,
-                    mode: pgMode.value,
+                const responseText = `Request failed: ${error.message}`;
+                return {
+                    ok: false,
                     status: 0,
                     latency: Math.round(performance.now() - started),
                     requestId: '',
-                    reqHash: await hashString(JSON.stringify(payload)),
-                    resHash: await hashString(String(error.message || 'request failed')),
+                    parsed: { error: error.message || 'request failed' },
+                    responseText,
+                    rawText: responseText,
                     error: error.message || 'request failed'
                 };
-                const entries = [fallbackEntry, ...loadTrail()];
-                saveTrail(entries);
-                renderTrail();
+            }
+        }
+
+        async function persistTrailEntry(baseEntry) {
+            const reqHash = await hashString(JSON.stringify(baseEntry.payload || {}));
+            const resHash = await hashString(String(baseEntry.rawText || baseEntry.responseText || ''));
+            const entry = {
+                ...baseEntry,
+                id: baseEntry.id || `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+                reqHash,
+                resHash
+            };
+            const entries = [entry, ...loadTrail()];
+            saveTrail(entries);
+            renderTrail();
+            return entry;
+        }
+
+        async function runPlayground(options = {}) {
+            const notary = options.notary || pgNotary.value;
+            const mode = options.mode || pgMode.value;
+            let payload = options.payload;
+            if (!payload) {
+                try {
+                    payload = JSON.parse(pgPayload.value);
+                } catch {
+                    pgResponse.textContent = 'Invalid JSON payload.';
+                    return null;
+                }
+            }
+
+            if (!options.silentUi) pgRunBtn.disabled = true;
+            try {
+                const result = await executePlaygroundRequest(notary, mode, payload);
+                pgResponse.textContent = result.responseText;
+                setPlaygroundDiff(result.responseText);
+                const assertions = getScopedAssertions(notary, mode);
+                const assertResult = evaluateAssertions(assertions, {
+                    status: result.status,
+                    latency: result.latency,
+                    body: result.parsed
+                });
+                pgLastRunSnapshot = {
+                    ts: new Date().toISOString(),
+                    notary,
+                    mode,
+                    payload,
+                    responseText: result.responseText,
+                    status: result.status,
+                    latency: result.latency,
+                    requestId: result.requestId
+                };
+
+                const saved = await persistTrailEntry({
+                    ts: new Date().toISOString(),
+                    notary,
+                    mode,
+                    payload,
+                    status: result.status,
+                    latency: result.latency,
+                    requestId: result.requestId,
+                    responseText: result.responseText,
+                    rawText: result.rawText,
+                    error: result.error || '',
+                    assertPass: assertResult.pass,
+                    assertSummary: assertResult.summary,
+                    caseName: options.caseName || '',
+                    pinned: false
+                });
+                return saved;
             } finally {
-                pgRunBtn.disabled = false;
+                if (!options.silentUi) pgRunBtn.disabled = false;
             }
         }
 
@@ -2445,11 +2603,81 @@ if (v === 'yes' || v === 'no') {
             renderSavedCases();
         }
 
+        function addAssertion() {
+            const path = (pgAssertPath.value || '').trim();
+            const op = pgAssertOp.value;
+            const expected = (pgAssertExpected.value || '').trim();
+            if (!path) return;
+            if (op !== 'exists' && !expected) return;
+            const assertions = loadAssertions();
+            assertions.unshift({
+                id: `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+                notary: pgNotary.value,
+                mode: pgMode.value,
+                path,
+                op,
+                expected
+            });
+            saveAssertions(assertions);
+            pgAssertPath.value = '';
+            pgAssertExpected.value = '';
+            renderAssertions();
+        }
+
+        function toggleTrailPin(id) {
+            if (!id) return;
+            const entries = loadTrail();
+            const target = entries.find((e) => e.id === id);
+            if (!target) return;
+            target.pinned = !target.pinned;
+            saveTrail(entries);
+            renderTrail();
+        }
+
+        async function replayTrailEntry(id) {
+            if (!id) return;
+            const target = loadTrail().find((e) => e.id === id);
+            if (!target || !target.payload || !target.notary || !target.mode) return;
+            pgNotary.value = target.notary;
+            pgMode.value = target.mode;
+            renderPresetOptions();
+            renderSavedCases();
+            renderAssertions();
+            setPlaygroundPayload(target.payload);
+            await runPlayground({ notary: target.notary, mode: target.mode, payload: target.payload, caseName: target.caseName || '' });
+        }
+
+        async function runSavedSuite() {
+            const suite = loadSavedCases().filter((c) => c.notary === pgNotary.value && c.mode === pgMode.value);
+            if (!suite.length) {
+                pgScopeNote.textContent = 'No saved cases to run in this notary/mode.';
+                return;
+            }
+            pgRunSuiteBtn.disabled = true;
+            pgRunBtn.disabled = true;
+            let pass = 0;
+            let fail = 0;
+            for (const testCase of suite) {
+                const entry = await runPlayground({
+                    notary: testCase.notary,
+                    mode: testCase.mode,
+                    payload: testCase.payload,
+                    caseName: testCase.name,
+                    silentUi: true
+                });
+                if (entry?.assertPass === false) fail += 1;
+                else pass += 1;
+            }
+            pgRunSuiteBtn.disabled = false;
+            pgRunBtn.disabled = false;
+            pgScopeNote.textContent = `Suite complete: ${suite.length} case(s), ${pass} pass, ${fail} fail.`;
+        }
+
         function exportTrailCsv() {
             const entries = loadTrail();
             if (!entries.length) return;
-            const rows = [['timestamp', 'notary', 'mode', 'status', 'latency_ms', 'request_id', 'request_hash', 'response_hash']];
-            entries.forEach((e) => rows.push([e.ts, e.notary, e.mode, String(e.status), String(e.latency), e.requestId || '', e.reqHash, e.resHash]));
+            const rows = [['timestamp', 'notary', 'mode', 'status', 'assert_pass', 'assert_summary', 'latency_ms', 'request_id', 'request_hash', 'response_hash', 'pinned', 'case_name']];
+            entries.forEach((e) => rows.push([e.ts, e.notary, e.mode, String(e.status), String(e.assertPass), e.assertSummary || '', String(e.latency), e.requestId || '', e.reqHash, e.resHash, String(Boolean(e.pinned)), e.caseName || '']));
             const csv = rows.map((r) => r.map((v) => `"${String(v).replaceAll('"', '""')}"`).join(',')).join('\n');
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
@@ -2460,11 +2688,11 @@ if (v === 'yes' || v === 'no') {
             URL.revokeObjectURL(url);
         }
 
-        pgNotary.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); renderSavedCases(); });
-        pgMode.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); renderSavedCases(); });
+        pgNotary.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); renderSavedCases(); renderAssertions(); });
+        pgMode.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); renderSavedCases(); renderAssertions(); });
         pgPreset.addEventListener('change', setPlaygroundTemplate);
         pgLoadPresetBtn.addEventListener('click', setPlaygroundTemplate);
-        pgRunBtn.addEventListener('click', runPlayground);
+        pgRunBtn.addEventListener('click', () => runPlayground());
         pgCopyRespBtn.addEventListener('click', async () => {
             await navigator.clipboard.writeText(pgResponse.textContent || '');
             pgCopyRespBtn.textContent = 'Copied!';
@@ -2475,6 +2703,17 @@ if (v === 'yes' || v === 'no') {
         pgSaveCaseBtn.addEventListener('click', saveCurrentCase);
         pgLoadCaseBtn.addEventListener('click', loadSelectedCase);
         pgDeleteCaseBtn.addEventListener('click', deleteSelectedCase);
+        pgRunSuiteBtn.addEventListener('click', runSavedSuite);
+        pgAddAssertBtn.addEventListener('click', addAssertion);
+        pgAssertExpected.addEventListener('keydown', (e) => { if (e.key === 'Enter') addAssertion(); });
+        pgTrailBody.addEventListener('click', (event) => {
+            const button = event.target.closest('[data-trail-action]');
+            if (!button) return;
+            const action = button.dataset.trailAction;
+            const id = button.dataset.id;
+            if (action === 'pin') toggleTrailPin(id);
+            if (action === 'replay') replayTrailEntry(id);
+        });
         pgRedactChecks.forEach((el) => {
             el.addEventListener('change', saveShareRedactionPrefs);
         });
@@ -2489,6 +2728,7 @@ if (v === 'yes' || v === 'no') {
         setPlaygroundTemplate();
         renderSavedCases();
         loadShareRedactionPrefs();
+        renderAssertions();
         maybeLoadSharedSnapshot();
         updatePlaygroundScopeNote();
         renderTrail();
