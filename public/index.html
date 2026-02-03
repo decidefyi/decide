@@ -227,6 +227,29 @@
         .how-card h3{font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;color:var(--fg)}
         .how-card p{color:var(--gray);font-size:0.85rem}
 
+        /* WHEEL */
+        .wheel{padding:6rem 1.5rem}
+        .wheel-wrap{max-width:900px;margin:0 auto;display:grid;grid-template-columns:360px 1fr;gap:2rem;align-items:start}
+        .wheel-stage{display:flex;justify-content:center}
+        .wheel-shell{position:relative;width:320px;height:320px}
+        .wheel-disc{width:100%;height:100%;border-radius:50%;border:8px solid rgba(17,17,17,0.12);box-shadow:0 20px 50px rgba(0,0,0,0.08);background:conic-gradient(#e5e7eb 0deg 180deg,#f3f4f6 180deg 360deg);transition:transform 4s cubic-bezier(0.12,0.8,0.22,1)}
+        .wheel-pointer{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid var(--fg)}
+        .wheel-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:var(--fg);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;letter-spacing:0.03em}
+        .wheel-labels{position:absolute;inset:0;pointer-events:none;transition:transform 4s cubic-bezier(0.12,0.8,0.22,1)}
+        .wheel-label{position:absolute;left:50%;top:50%;transform-origin:0 0;font-size:0.72rem;font-weight:600;color:#1f2937;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .wheel-panel{display:flex;flex-direction:column;gap:0.9rem}
+        .wheel-panel p{color:var(--gray);font-size:0.9rem}
+        .wheel-add{display:flex;gap:0.5rem}
+        .wheel-input{flex:1;padding:0.75rem 0.9rem;border-radius:12px;border:1px solid rgba(17,17,17,0.15);background:var(--bg);color:var(--fg);font:inherit}
+        .wheel-add-btn,.wheel-spin-btn,.wheel-reset-btn{border:none;border-radius:12px;padding:0.75rem 1rem;font:inherit;font-size:0.85rem;font-weight:600;cursor:pointer}
+        .wheel-add-btn,.wheel-spin-btn{background:var(--fg);color:var(--bg)}
+        .wheel-reset-btn{background:rgba(17,17,17,0.08);color:var(--fg)}
+        .wheel-options{display:flex;flex-wrap:wrap;gap:0.45rem}
+        .wheel-chip{display:inline-flex;align-items:center;gap:0.35rem;background:rgba(17,17,17,0.04);border:1px solid rgba(17,17,17,0.1);border-radius:999px;padding:0.35rem 0.65rem;font-size:0.78rem}
+        .wheel-chip button{border:none;background:none;color:var(--gray);cursor:pointer;font-size:0.95rem;line-height:1}
+        .wheel-actions{display:flex;gap:0.6rem}
+        .wheel-result{min-height:40px;font-size:0.95rem;font-weight:600;color:var(--fg)}
+
         /* CTA - LIGHT */
         .cta{padding:14rem 1.5rem;text-align:center;position:relative;overflow:hidden}
         .cta::before{content:'';position:absolute;top:50%;left:50%;width:1000px;height:1000px;background:radial-gradient(circle,rgba(17,17,17,0.03) 0%,transparent 50%);transform:translate(-50%,-50%);animation:ctaGlow 5s ease-in-out infinite}
@@ -311,6 +334,11 @@
         body.dark .how-card:hover{border-color:rgba(245,245,245,0.15);box-shadow:0 20px 60px rgba(0,0,0,0.3)}
         body.dark .how-card::after{color:rgba(245,245,245,0.2)}
         body.dark .how-num{color:rgba(245,245,245,0.08)}
+        body.dark .wheel-input{background:#111111;border-color:rgba(245,245,245,0.14);color:var(--fg)}
+        body.dark .wheel-reset-btn{background:rgba(245,245,245,0.1);color:var(--fg)}
+        body.dark .wheel-chip{background:rgba(245,245,245,0.05);border-color:rgba(245,245,245,0.14)}
+        body.dark .wheel-disc{border-color:rgba(245,245,245,0.18);box-shadow:0 20px 60px rgba(0,0,0,0.45)}
+        body.dark .wheel-label{color:#f3f4f6}
         body.dark .cta::before{background:radial-gradient(circle,rgba(245,245,245,0.03) 0%,transparent 50%)}
         body.dark .cta::before,
         body.dark .feat::before{display:none}
@@ -551,7 +579,7 @@
             .refresh-btn:active{transform:scale(0.96)}
             .ans{font-size:clamp(4rem,20vw,7rem)}
             .logos{padding:1.5rem 1rem}
-            .features,.how,.connect,.agent-features{padding:4.5rem 1rem}
+            .features,.how,.wheel,.connect,.agent-features{padding:4.5rem 1rem}
             .cta{padding:6rem 1rem}
             .sec-head{margin:0 auto 2.5rem}
             .sec-head p{font-size:0.9rem}
@@ -563,6 +591,8 @@
             .mcp-meta-tag{font-size:0.64rem;padding:0.28rem 0.6rem}
             .code-block{padding:1rem}
             .code-block pre{font-size:0.72rem;line-height:1.55}
+            .wheel-wrap{grid-template-columns:1fr;gap:1.2rem}
+            .wheel-shell{width:280px;height:280px}
             .theme-toggle{right:0.8rem;bottom:0.8rem;width:38px;height:38px}
             .foot-inner{flex-direction:column;gap:1.25rem}
             /* Fix result height on mobile - use fixed height instead of clamp with vw */
@@ -714,6 +744,36 @@
             <div class="how-card"><div class="how-num">1</div><h3>Ask</h3><p>Type your question</p></div>
             <div class="how-card"><div class="how-num">2</div><h3>Decide</h3><p>AI commits instantly</p></div>
             <div class="how-card"><div class="how-num">3</div><h3>Act</h3><p>Move forward</p></div>
+        </div>
+    </section>
+
+    <section class="wheel sec-light" id="wheel">
+        <div class="sec-head">
+            <h2>Or let <span class="serif">chance</span> pick.</h2>
+            <p>Low-stakes call? Add options and spin once.</p>
+        </div>
+        <div class="wheel-wrap">
+            <div class="wheel-stage">
+                <div class="wheel-shell">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel-disc" id="wheelDisc"></div>
+                    <div class="wheel-labels" id="wheelLabels"></div>
+                    <div class="wheel-center">spin</div>
+                </div>
+            </div>
+            <div class="wheel-panel">
+                <p>Add 2-12 options (food, people, plans, anything).</p>
+                <div class="wheel-add">
+                    <input id="wheelInput" class="wheel-input" type="text" placeholder="e.g. sushi">
+                    <button id="wheelAddBtn" class="wheel-add-btn" type="button">Add</button>
+                </div>
+                <div class="wheel-options" id="wheelOptions"></div>
+                <div class="wheel-actions">
+                    <button id="wheelSpinBtn" class="wheel-spin-btn" type="button">Spin</button>
+                    <button id="wheelResetBtn" class="wheel-reset-btn" type="button">Reset</button>
+                </div>
+                <div class="wheel-result" id="wheelResult"></div>
+            </div>
         </div>
     </section>
 
@@ -1203,6 +1263,121 @@ show(result, text);
             }
             q.focus();
         }
+
+        // Randomization wheel (human mode)
+        const wheelDisc = document.getElementById('wheelDisc');
+        const wheelLabels = document.getElementById('wheelLabels');
+        const wheelInput = document.getElementById('wheelInput');
+        const wheelAddBtn = document.getElementById('wheelAddBtn');
+        const wheelSpinBtn = document.getElementById('wheelSpinBtn');
+        const wheelResetBtn = document.getElementById('wheelResetBtn');
+        const wheelOptionsEl = document.getElementById('wheelOptions');
+        const wheelResult = document.getElementById('wheelResult');
+
+        let wheelOptions = ['pizza', 'sushi', 'burgers'];
+        let wheelRotation = 0;
+        let wheelSpinning = false;
+
+        function randomWheelColor(i) {
+            const palette = ['#e5e7eb', '#d4d4d8', '#e2e8f0', '#ddd6fe', '#d1fae5', '#fde68a', '#fecaca', '#bfdbfe'];
+            return palette[i % palette.length];
+        }
+
+        function renderWheel() {
+            const n = wheelOptions.length;
+            if (n < 2) {
+                wheelDisc.style.background = 'conic-gradient(#e5e7eb 0deg 180deg,#f3f4f6 180deg 360deg)';
+                wheelLabels.innerHTML = '';
+                return;
+            }
+
+            const step = 360 / n;
+            const stops = wheelOptions.map((_, i) => `${randomWheelColor(i)} ${Math.round(i * step)}deg ${Math.round((i + 1) * step)}deg`);
+            wheelDisc.style.background = `conic-gradient(${stops.join(',')})`;
+
+            wheelLabels.innerHTML = '';
+            wheelOptions.forEach((opt, i) => {
+                const a = i * step + step / 2 - 90;
+                const label = document.createElement('div');
+                label.className = 'wheel-label';
+                label.style.transform = `rotate(${a}deg) translate(108px) rotate(${90 - a}deg)`;
+                label.textContent = opt;
+                wheelLabels.appendChild(label);
+            });
+        }
+
+        function renderWheelOptions() {
+            wheelOptionsEl.innerHTML = '';
+            wheelOptions.forEach((opt, idx) => {
+                const chip = document.createElement('span');
+                chip.className = 'wheel-chip';
+                chip.innerHTML = `${opt} <button type="button" aria-label="Remove ${opt}">×</button>`;
+                chip.querySelector('button').addEventListener('click', () => {
+                    wheelOptions.splice(idx, 1);
+                    renderWheelOptions();
+                    renderWheel();
+                });
+                wheelOptionsEl.appendChild(chip);
+            });
+        }
+
+        function addWheelOption() {
+            const value = (wheelInput.value || '').trim();
+            if (!value) return;
+            if (wheelOptions.length >= 12) {
+                wheelResult.textContent = 'Max 12 options.';
+                return;
+            }
+            wheelOptions.push(value);
+            wheelInput.value = '';
+            wheelResult.textContent = '';
+            renderWheelOptions();
+            renderWheel();
+            wheelInput.focus();
+        }
+
+        function spinWheel() {
+            if (wheelSpinning) return;
+            if (wheelOptions.length < 2) {
+                wheelResult.textContent = 'Add at least 2 options.';
+                return;
+            }
+
+            wheelSpinning = true;
+            wheelResult.textContent = 'Spinning...';
+
+            const n = wheelOptions.length;
+            const step = 360 / n;
+            const picked = Math.floor(Math.random() * n);
+            const targetCenter = picked * step + step / 2;
+            const targetRotation = 360 - targetCenter;
+
+            wheelRotation = wheelRotation + 1440 + targetRotation;
+            wheelDisc.style.transform = `rotate(${wheelRotation}deg)`;
+            wheelLabels.style.transform = `rotate(${wheelRotation}deg)`;
+
+            setTimeout(() => {
+                wheelSpinning = false;
+                wheelResult.textContent = `Decision made: ${wheelOptions[picked]}`;
+            }, 4100);
+        }
+
+        function resetWheel() {
+            wheelOptions = ['pizza', 'sushi', 'burgers'];
+            wheelRotation = 0;
+            wheelDisc.style.transform = 'rotate(0deg)';
+            wheelLabels.style.transform = 'rotate(0deg)';
+            wheelResult.textContent = '';
+            renderWheelOptions();
+            renderWheel();
+        }
+
+        wheelAddBtn.addEventListener('click', addWheelOption);
+        wheelInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') addWheelOption(); });
+        wheelSpinBtn.addEventListener('click', spinWheel);
+        wheelResetBtn.addEventListener('click', resetWheel);
+        renderWheelOptions();
+        renderWheel();
 
         btn.addEventListener('click', handleDecide);
         q.addEventListener('keydown', e => { if (e.key === 'Enter') handleDecide(); });
