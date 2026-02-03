@@ -24,13 +24,13 @@ Next 1-2 high-signal places to submit the refund notary.
 
 ## 📊 Priority
 
-**Do these in order:**
+**Current mode:**
 
-1. **modelcontextprotocol/servers** (highest signal)
-2. **smithery.ai** (good discovery)
-3. **Stop. Wait 7-10 days. Check logs.**
+1. **Stop. Wait 7-10 days. Check logs.**
+2. If external calls appear, iterate on docs/tooling before further distribution.
+3. If no calls appear, revisit one new high-signal channel.
 
-Do not spam more registries. Quality over quantity.
+Do not spam registries. Quality over quantity.
 
 ---
 

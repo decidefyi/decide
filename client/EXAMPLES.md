@@ -199,7 +199,7 @@ Every response includes:
 ## Why Use This?
 
 - **Deterministic** - Same input always returns same output
-- **Stateless** - No accounts, no API keys, no rate limits
+- **Stateless** - No accounts, no API keys (rate limit: 100 req/min per IP)
 - **Fast** - ~50ms response time globally
 - **Authoritative** - Single source of truth for refund policies
 - **Agent-Ready** - MCP + REST, works in any agent framework
