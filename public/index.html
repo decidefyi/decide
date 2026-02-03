@@ -1173,6 +1173,21 @@
             }
         }
 
+        function forceUnlockDecisionUi() {
+            clearDecisionUiTimers();
+            btn.disabled = false;
+            q.disabled = false;
+            q.readOnly = false;
+            inputBox.classList.remove('verdict-mode');
+            // Failsafe: if any overlays got stuck, clear them.
+            document.getElementById('mbg').classList.remove('on');
+            mobileOverlay.classList.remove('open');
+            mobileMenu.classList.remove('open');
+            mobBtn.classList.remove('open');
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('on'));
+            document.body.style.overflow = '';
+        }
+
         function setVerdictMode(question, answer) {
             const tweetText = `i asked @decidefyi: ${question}\n\nthe answer was ${answer}.`;
             const encodedText = encodeURIComponent(tweetText);
@@ -1252,7 +1267,7 @@ if (v === 'yes' || v === 'no') {
                 return;
             }
             
-            clearDecisionUiTimers();
+            forceUnlockDecisionUi();
             resetPlaceholder();
             btn.disabled = true;
             ans.className = 'ans';
@@ -1266,10 +1281,19 @@ if (v === 'yes' || v === 'no') {
                 thinkingTimer = null;
             }, 80);
             
-            const result = await decide(text);
+            const unlockWatchdog = setTimeout(() => {
+                if (seq === decideRequestSeq) forceUnlockDecisionUi();
+            }, 8000);
+
+            let result;
+            try {
+                result = await decide(text);
+            } finally {
+                clearTimeout(unlockWatchdog);
+            }
+
             if (seq !== decideRequestSeq) return;
-            clearDecisionUiTimers();
-            btn.disabled = false;
+            forceUnlockDecisionUi();
             
             // Only show "Try another question" for blocked questions (status 204)
             if (result && result.blocked) {
@@ -1483,7 +1507,7 @@ show(result, text, seq);
         refreshBtn.addEventListener('click', () => {
             clearDecisionUiTimers();
             decideRequestSeq += 1;
-            btn.disabled = false;
+            forceUnlockDecisionUi();
             q.value = '';
             ans.className = 'ans';
             ans.innerHTML = '';
