@@ -1355,23 +1355,6 @@ show(result, text);
             });
         }
 
-        function getLandedIndexForRotation(rotation) {
-            const n = wheelOptions.length;
-            if (n < 1 || wheelCenters.length !== n) return 0;
-            const normalized = ((rotation % 360) + 360) % 360;
-            let bestIdx = 0;
-            let bestDist = Infinity;
-            wheelCenters.forEach((center, idx) => {
-                const displayedCenter = (center + normalized) % 360;
-                const dist = Math.abs(((displayedCenter + 180) % 360) - 180);
-                if (dist < bestDist) {
-                    bestDist = dist;
-                    bestIdx = idx;
-                }
-            });
-            return bestIdx;
-        }
-
         function addWheelOption() {
             const value = (wheelInput.value || '').trim();
             if (!value) return;
@@ -1406,7 +1389,7 @@ show(result, text);
             const targetRotation = ((360 - targetCenter) % 360 + 360) % 360;
             const baseRotation = ((wheelRotation % 360) + 360) % 360;
             const deltaToTarget = (targetRotation - baseRotation + 360) % 360;
-            const extraTurns = 1080 + Math.floor(Math.random() * 1800); // 3 to ~8 extra turns
+            const extraTurns = (3 + Math.floor(Math.random() * 6)) * 360; // 3 to 8 full turns
             wheelRotation = baseRotation + extraTurns + deltaToTarget;
             wheelDisc.style.transform = `rotate(${wheelRotation}deg)`;
             wheelLabels.style.transform = `rotate(${wheelRotation}deg)`;
@@ -1415,7 +1398,7 @@ show(result, text);
                 if (event.propertyName !== 'transform') return;
                 wheelDisc.removeEventListener('transitionend', onSpinEnd);
                 wheelSpinning = false;
-                const finalPick = getLandedIndexForRotation(wheelRotation);
+                const finalPick = picked;
                 lastWheelPick = finalPick;
                 wheelResult.textContent = `Decision made: ${wheelOptions[finalPick]}`;
             };
