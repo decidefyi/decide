@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "smoke": "node scripts/smoke-test.js"
+    "smoke": "node scripts/smoke-test.js",
+    "mcp:check": "bash scripts/mcp-check.sh"
   }
 }
