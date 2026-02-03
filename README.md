@@ -62,6 +62,24 @@ curl -X POST https://trial.decide.fyi/api/v1/trial/terms \
   -d '{"vendor":"adobe","region":"US","plan":"individual"}'
 ```
 
+### Local Dev Checks
+
+Start local dev server:
+
+```bash
+npx vercel dev
+```
+
+In a separate terminal:
+
+```bash
+# Handler-level smoke checks (no running server required)
+npm run smoke
+
+# MCP endpoint checks (requires vercel dev running on localhost:3000)
+npm run mcp:check
+```
+
 ---
 
 ## Refund Notary
