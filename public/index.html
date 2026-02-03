@@ -1141,7 +1141,6 @@
         let decideRequestSeq = 0;
         let thinkingTimer = null;
         let answerTimer = null;
-        let decideInFlight = false;
         const DEFAULT_PLACEHOLDER = 'should i get shit done?';
         const RETRY_PLACEHOLDER = 'Try another question.';
         function showRetryPlaceholder() {
@@ -1164,6 +1163,17 @@
         function setDecisionStatus(message, tone = 'warn') {
             decisionStatus.textContent = message;
             decisionStatus.className = `decision-status ${tone} show`;
+        }
+
+        function isPolicySensitiveQuestion(text) {
+            const t = text.toLowerCase();
+            const patterns = [
+                /\b(bitcoin|btc|crypto|ethereum|eth)\b/,
+                /\b(invest|investment|stock|stocks|trading|trade|portfolio)\b/,
+                /\b(legal|lawsuit|sue|contract law|attorney|lawyer)\b/,
+                /\b(medical|diagnose|diagnosis|prescription|medication|treatment)\b/
+            ];
+            return patterns.some((re) => re.test(t));
         }
 
         // Character countdown - only show when 20 chars remaining
@@ -1202,9 +1212,7 @@
 
         function forceUnlockDecisionUi() {
             clearDecisionUiTimers();
-            decideInFlight = false;
             btn.disabled = false;
-            btn.removeAttribute('aria-busy');
             q.disabled = false;
             q.readOnly = false;
             q.style.pointerEvents = 'auto';
@@ -1299,7 +1307,6 @@ if (v === 'yes' || v === 'no') {
         }
 
         async function handleDecide() {
-            if (decideInFlight) return;
             const seq = ++decideRequestSeq;
             const text = q.value.trim();
             if (text.length < 3) {
@@ -1311,8 +1318,13 @@ if (v === 'yes' || v === 'no') {
             forceUnlockDecisionUi();
             resetPlaceholder();
             clearDecisionStatus();
-            decideInFlight = true;
-            btn.setAttribute('aria-busy', 'true');
+            if (isPolicySensitiveQuestion(text)) {
+                ans.className = 'ans';
+                ans.innerHTML = '';
+                showRetryPlaceholder();
+                setDecisionStatus('Can’t answer financial / legal / medical decisions. Try another question.', 'warn');
+                return;
+            }
             ans.className = 'ans';
             ans.innerHTML = '';
             resetToDecideMode();
