@@ -1355,6 +1355,28 @@ show(result, text);
         function getWheelLandedIndex() {
             const n = wheelOptions.length;
             if (n < 1) return -1;
+            const labels = Array.from(wheelLabels.querySelectorAll('.wheel-label'));
+            if (labels.length === n) {
+                const discRect = wheelDisc.getBoundingClientRect();
+                const cx = discRect.left + discRect.width / 2;
+                const cy = discRect.top + discRect.height / 2;
+
+                let bestIdx = 0;
+                let bestScore = -Infinity;
+                labels.forEach((label, idx) => {
+                    const rect = label.getBoundingClientRect();
+                    const lx = rect.left + rect.width / 2 - cx;
+                    const ly = rect.top + rect.height / 2 - cy;
+                    const len = Math.hypot(lx, ly) || 1;
+                    const score = -ly / len; // projection on "up" vector
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestIdx = idx;
+                    }
+                });
+                return bestIdx;
+            }
+
             const step = 360 / n;
             const normalized = ((wheelRotation % 360) + 360) % 360;
             const pointerAngle = (360 - normalized + 360) % 360;
