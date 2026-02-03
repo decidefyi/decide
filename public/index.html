@@ -506,8 +506,8 @@
         .trail-controls{margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap}
         .trail-filter{font:inherit;font-size:0.74rem;padding:0.5rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
         .trail-meta{font-size:0.72rem;color:var(--gray);margin-top:0.45rem}
-        .trail-wrap{margin-top:1rem;border:1px solid rgba(17,17,17,0.12);border-radius:14px;overflow:hidden}
-        .trail-table{width:100%;border-collapse:collapse;font-size:0.76rem}
+        .trail-wrap{margin-top:1rem;border:1px solid rgba(17,17,17,0.12);border-radius:14px;overflow:auto}
+        .trail-table{width:100%;border-collapse:collapse;font-size:0.76rem;min-width:780px}
         .trail-table th,.trail-table td{padding:0.55rem 0.6rem;border-bottom:1px solid rgba(17,17,17,0.08);text-align:left;vertical-align:top}
         .trail-table th{font-size:0.67rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray)}
         .trail-table thead th{position:sticky;top:0;background:var(--bg);z-index:1}
@@ -552,6 +552,11 @@
             .pg-inline{grid-template-columns:1fr}
             .pg-inline .pg-mini{width:100%}
             .pg-actions .pg-btn{flex:1 1 calc(50% - 0.4rem)}
+            .pg-assert-row{display:grid;grid-template-columns:1fr}
+            .pg-assert-row .pg-btn,.pg-assert-row .pg-assert-input{width:100%}
+            .pg-case-row .pg-btn,.pg-case-row .pg-select{width:100%;min-width:0}
+            .trail-controls{display:grid;grid-template-columns:1fr 1fr}
+            .trail-controls .trail-filter{width:100%}
         }
 
         @media(max-width:768px){
