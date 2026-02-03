@@ -1390,16 +1390,18 @@ show(result, text);
             const targetRotation = ((360 - targetCenter) % 360 + 360) % 360;
             const currentRotation = ((wheelRotation % 360) + 360) % 360;
             const deltaToTarget = (targetRotation - currentRotation + 360) % 360;
-            const extraTurns = (1 + Math.floor(Math.random() * 4)) * 360; // 1 to 4 full turns
-            const startRotation = wheelRotation;
-            const endRotation = wheelRotation + extraTurns + deltaToTarget;
+            const extraTurns = (2 + Math.floor(Math.random() * 4)) * 360; // 2 to 5 full turns
+            const startRotation = Number.isFinite(wheelRotation) ? wheelRotation : 0;
+            let endRotation = startRotation + extraTurns + deltaToTarget;
+            if (endRotation <= startRotation) endRotation = startRotation + 360;
+            if ((endRotation - startRotation) < 360) endRotation += 360;
             const duration = 4000;
             const start = performance.now();
 
             if (wheelAnimFrame) cancelAnimationFrame(wheelAnimFrame);
             const animate = (now) => {
                 const t = Math.min(1, (now - start) / duration);
-                // Ease-out cubic for natural deceleration.
+                // Monotonic easing, clockwise only.
                 const eased = 1 - Math.pow(1 - t, 3);
                 const current = startRotation + (endRotation - startRotation) * eased;
                 wheelDisc.style.transform = `rotate(${current}deg)`;
