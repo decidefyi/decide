@@ -1040,7 +1040,7 @@
                             <button class="pg-btn secondary" id="pgCopyRespBtn" type="button">Copy response</button>
                             <button class="pg-btn secondary" id="pgShareRunBtn" type="button">Copy share link</button>
                         </div>
-                        <details class="pg-advanced">
+                        <details class="pg-advanced" id="pgAdvancedTools">
                             <summary>Advanced tools</summary>
                             <div class="pg-advanced-body">
                                 <div class="pg-actions pg-actions-secondary">
@@ -2013,6 +2013,7 @@ if (v === 'yes' || v === 'no') {
         const pgLoadCaseBtn = document.getElementById('pgLoadCaseBtn');
         const pgDeleteCaseBtn = document.getElementById('pgDeleteCaseBtn');
         const pgRunSuiteBtn = document.getElementById('pgRunSuiteBtn');
+        const pgAdvancedTools = document.getElementById('pgAdvancedTools');
         const pgRedactChecks = Array.from(document.querySelectorAll('#pgRedactRow [data-redact-field]'));
         const pgAssertTemplate = document.getElementById('pgAssertTemplate');
         const pgUseAssertTemplateBtn = document.getElementById('pgUseAssertTemplateBtn');
@@ -2057,43 +2058,57 @@ if (v === 'yes' || v === 'no') {
             refund: {
                 mcp: [
                     { label: 'Adobe allowed (5 days)', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'refund_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 5, region: 'US', plan: 'individual' } } } },
-                    { label: 'Adobe denied (40 days)', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'refund_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 40, region: 'US', plan: 'individual' } } } },
-                    { label: 'Unknown vendor fallback', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'refund_eligibility', arguments: { vendor: 'unknownco', days_since_purchase: 7, region: 'US', plan: 'individual' } } } }
+                    { label: 'Boundary day 14 (allowed)', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'refund_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 14, region: 'US', plan: 'individual' } } } },
+                    { label: 'Boundary day 15 (denied)', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'refund_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 15, region: 'US', plan: 'individual' } } } },
+                    { label: 'Unknown vendor fallback', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'refund_eligibility', arguments: { vendor: 'unknownco', days_since_purchase: 7, region: 'US', plan: 'individual' } } } },
+                    { label: 'Diagnostic: missing vendor', tier: 'diag', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'refund_eligibility', arguments: { days_since_purchase: 5, region: 'US', plan: 'individual' } } } }
                 ],
                 rest: [
                     { label: 'Adobe allowed (5 days)', payload: { vendor: 'adobe', days_since_purchase: 5, region: 'US', plan: 'individual' } },
-                    { label: 'Adobe denied (40 days)', payload: { vendor: 'adobe', days_since_purchase: 40, region: 'US', plan: 'individual' } },
-                    { label: 'Missing field validation', payload: { vendor: 'adobe', region: 'US', plan: 'individual' } }
+                    { label: 'Boundary day 14 (allowed)', payload: { vendor: 'adobe', days_since_purchase: 14, region: 'US', plan: 'individual' } },
+                    { label: 'Boundary day 15 (denied)', payload: { vendor: 'adobe', days_since_purchase: 15, region: 'US', plan: 'individual' } },
+                    { label: 'Unknown vendor fallback', payload: { vendor: 'unknownco', days_since_purchase: 7, region: 'US', plan: 'individual' } },
+                    { label: 'Diagnostic: missing vendor', tier: 'diag', payload: { days_since_purchase: 5, region: 'US', plan: 'individual' } }
                 ]
             },
             cancel: {
                 mcp: [
                     { label: 'Annual plan with ETF', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'adobe', region: 'US', plan: 'annual' } } } },
-                    { label: 'Monthly no-penalty path', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'adobe', region: 'US', plan: 'monthly' } } } }
+                    { label: 'Monthly no-penalty path', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'adobe', region: 'US', plan: 'monthly' } } } },
+                    { label: 'Unknown vendor fallback', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'unknownco', region: 'US', plan: 'individual' } } } },
+                    { label: 'Diagnostic: invalid plan', tier: 'diag', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'adobe', region: 'US', plan: 'weekly' } } } }
                 ],
                 rest: [
                     { label: 'Annual plan with ETF', payload: { vendor: 'adobe', region: 'US', plan: 'annual' } },
-                    { label: 'Monthly no-penalty path', payload: { vendor: 'adobe', region: 'US', plan: 'monthly' } }
+                    { label: 'Monthly no-penalty path', payload: { vendor: 'adobe', region: 'US', plan: 'monthly' } },
+                    { label: 'Unknown vendor fallback', payload: { vendor: 'unknownco', region: 'US', plan: 'individual' } },
+                    { label: 'Diagnostic: invalid plan', tier: 'diag', payload: { vendor: 'adobe', region: 'US', plan: 'weekly' } }
                 ]
             },
             return: {
                 mcp: [
                     { label: 'Returnable (5 days)', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'return_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 5, region: 'US', plan: 'individual' } } } },
-                    { label: 'Expired return window', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'return_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 45, region: 'US', plan: 'individual' } } } }
+                    { label: 'Boundary day 14 (returnable)', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'return_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 14, region: 'US', plan: 'individual' } } } },
+                    { label: 'Boundary day 15 (expired)', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'return_eligibility', arguments: { vendor: 'adobe', days_since_purchase: 15, region: 'US', plan: 'individual' } } } },
+                    { label: 'Diagnostic: missing days', tier: 'diag', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'return_eligibility', arguments: { vendor: 'adobe', region: 'US', plan: 'individual' } } } }
                 ],
                 rest: [
                     { label: 'Returnable (5 days)', payload: { vendor: 'adobe', days_since_purchase: 5, region: 'US', plan: 'individual' } },
-                    { label: 'Expired return window', payload: { vendor: 'adobe', days_since_purchase: 45, region: 'US', plan: 'individual' } }
+                    { label: 'Boundary day 14 (returnable)', payload: { vendor: 'adobe', days_since_purchase: 14, region: 'US', plan: 'individual' } },
+                    { label: 'Boundary day 15 (expired)', payload: { vendor: 'adobe', days_since_purchase: 15, region: 'US', plan: 'individual' } },
+                    { label: 'Diagnostic: missing days', tier: 'diag', payload: { vendor: 'adobe', region: 'US', plan: 'individual' } }
                 ]
             },
             trial: {
                 mcp: [
                     { label: 'Card-required trial', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'trial_terms', arguments: { vendor: 'adobe', region: 'US', plan: 'individual' } } } },
-                    { label: 'No-trial style check', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'trial_terms', arguments: { vendor: 'legacy_service', region: 'US', plan: 'individual' } } } }
+                    { label: 'No-trial style check', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'trial_terms', arguments: { vendor: 'legacy_service', region: 'US', plan: 'individual' } } } },
+                    { label: 'Diagnostic: missing region', tier: 'diag', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'trial_terms', arguments: { vendor: 'adobe', plan: 'individual' } } } }
                 ],
                 rest: [
                     { label: 'Card-required trial', payload: { vendor: 'adobe', region: 'US', plan: 'individual' } },
-                    { label: 'No-trial style check', payload: { vendor: 'legacy_service', region: 'US', plan: 'individual' } }
+                    { label: 'No-trial style check', payload: { vendor: 'legacy_service', region: 'US', plan: 'individual' } },
+                    { label: 'Diagnostic: missing region', tier: 'diag', payload: { vendor: 'adobe', plan: 'individual' } }
                 ]
             }
         };
@@ -2585,10 +2600,15 @@ if (v === 'yes' || v === 'no') {
         }
 
         function getPresetList() {
-            return PLAYGROUND_PRESETS[pgNotary.value]?.[pgMode.value] || [];
+            const presets = PLAYGROUND_PRESETS[pgNotary.value]?.[pgMode.value] || [];
+            if (!pgAdvancedTools?.open) {
+                return presets.filter((preset) => preset.tier !== 'diag');
+            }
+            return presets;
         }
 
         function renderPresetOptions() {
+            const previous = pgPreset.value;
             const presets = getPresetList();
             pgPreset.innerHTML = '';
             if (!presets.length) {
@@ -2604,7 +2624,8 @@ if (v === 'yes' || v === 'no') {
                 opt.textContent = preset.label;
                 pgPreset.appendChild(opt);
             });
-            pgPreset.value = '0';
+            const hasPrevious = previous !== '' && previous !== 'none' && presets[Number(previous)];
+            pgPreset.value = hasPrevious ? previous : '0';
         }
 
         function setPlaygroundTemplate() {
@@ -2886,6 +2907,10 @@ if (v === 'yes' || v === 'no') {
         pgUseAssertTemplateBtn.addEventListener('click', applyAssertionTemplate);
         pgAssertTemplate.addEventListener('change', applyAssertionTemplate);
         pgAssertExpected.addEventListener('keydown', (e) => { if (e.key === 'Enter') addAssertion(); });
+        pgAdvancedTools?.addEventListener('toggle', () => {
+            renderPresetOptions();
+            setPlaygroundTemplate();
+        });
         pgTrailBody.addEventListener('click', (event) => {
             const button = event.target.closest('[data-trail-action]');
             if (!button) return;
