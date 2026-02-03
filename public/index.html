@@ -257,8 +257,8 @@
         body.dark .theme-toggle:hover{border-color:var(--fg);box-shadow:0 6px 25px rgba(0,0,0,0.4)}
 
         /* DARK MODE — single uniform shade */
-        body.dark{--bg:#0d0d0d;--bg-dark:#0d0d0d;--fg:#e8e8e8;--fg-light:#e8e8e8;--gray:#888;--gray-light:#555}
-        body.dark{background:var(--bg);color:var(--fg)}
+        body.dark{--bg:#000000;--bg-dark:#000000;--fg:#e8e8e8;--fg-light:#e8e8e8;--gray:#888;--gray-light:#555}
+        body.dark{background:#000;color:var(--fg)}
         body.dark::before{content:'';position:fixed;inset:0;background:var(--bg);z-index:0;pointer-events:none}
         /* Keep dark mode visually uniform and avoid GPU/compositing banding artifacts. */
         body.dark #canvas{display:none}
@@ -268,11 +268,20 @@
         body.dark .logos,
         body.dark section,
         body.dark footer{background:var(--bg)!important}
+        body.dark .hero,
+        body.dark .logos,
+        body.dark .features,
+        body.dark .how,
+        body.dark .cta,
+        body.dark .agent-hero,
+        body.dark .agent-features,
+        body.dark .connect{background:#000!important}
         body.dark #human-mode,
         body.dark #agent-mode{transition:none}
+        body.dark *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
         body.dark ::selection{background:rgba(245,245,245,0.15)}
         body.dark .glow{background:radial-gradient(circle,rgba(245,245,245,0.03) 0%,transparent 60%)}
-        body.dark nav.scrolled .nav-wrap{background:rgba(13,13,13,0.96);border-color:rgba(245,245,245,0.06);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 4px 30px rgba(0,0,0,0.4)}
+        body.dark nav.scrolled .nav-wrap{background:#000;border-color:rgba(245,245,245,0.06);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none}
         body.dark .badge{background:rgba(245,245,245,0.05);border-color:rgba(245,245,245,0.1)}
         body.dark .mode-toggle{background:rgba(245,245,245,0.08)}
         body.dark .nav-links a:hover{background:rgba(245,245,245,0.06)}
