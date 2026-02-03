@@ -33,3 +33,4 @@ logs/
 
 # MCP Registry tokens (sensitive credentials)
 .mcpregistry_*
+.env*.local
