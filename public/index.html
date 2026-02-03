@@ -1349,18 +1349,25 @@ show(result, text);
             }
         });
 
+        function syncNavVisibility(isAgents) {
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+            // Desktop nav links should never render on mobile; mobile menu handles those.
+            document.getElementById('navLinksHuman').style.display = isMobile ? 'none' : (isAgents ? 'none' : 'flex');
+            document.getElementById('navLinksAgent').style.display = isMobile ? 'none' : (isAgents ? 'flex' : 'none');
+
+            // Mobile menu sections
+            document.getElementById('mobileHumanLinks').style.display = isAgents ? 'none' : 'block';
+            document.getElementById('mobileAgentLinks').style.display = isAgents ? 'block' : 'none';
+        }
+
         // Mode toggle (Humans / Agents)
         function setMode(mode) {
             const isAgents = mode === 'agents';
             document.body.classList.toggle('agents', isAgents);
 
-            // Toggle nav links
-            document.getElementById('navLinksHuman').style.display = isAgents ? 'none' : 'flex';
-            document.getElementById('navLinksAgent').style.display = isAgents ? 'flex' : 'none';
-
-            // Toggle mobile links
-            document.getElementById('mobileHumanLinks').style.display = isAgents ? 'none' : 'block';
-            document.getElementById('mobileAgentLinks').style.display = isAgents ? 'block' : 'none';
+            // Toggle desktop/mobile nav variants based on viewport
+            syncNavVisibility(isAgents);
 
             // Update toggle buttons
             document.querySelectorAll('.mode-toggle button').forEach(b => {
@@ -1397,6 +1404,11 @@ show(result, text);
                 if (saved === 'agents' && !hash) setMode('agents');
             }
         })();
+
+        // Keep nav variants correct when viewport crosses mobile/desktop breakpoints.
+        window.addEventListener('resize', () => {
+            syncNavVisibility(document.body.classList.contains('agents'));
+        });
 
         // Theme toggle (light/dark)
         function setTheme(dark) {
