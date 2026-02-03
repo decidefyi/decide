@@ -390,6 +390,7 @@
         body.dark .playground-card{background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.14)}
         body.dark .pg-field select,body.dark .pg-field textarea{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .pg-btn.secondary{background:rgba(245,245,245,0.1);color:var(--fg)}
+        body.dark .pg-select{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .trail-filter{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .trail-wrap{border-color:rgba(245,245,245,0.16)}
         body.dark .trail-table th,body.dark .trail-table td{border-bottom-color:rgba(245,245,245,0.08)}
@@ -458,6 +459,8 @@
         .pg-btn{border:none;border-radius:12px;padding:0.65rem 1rem;font:inherit;font-size:0.8rem;font-weight:600;cursor:pointer}
         .pg-btn.primary{background:var(--fg);color:var(--bg)}
         .pg-btn.secondary{background:rgba(17,17,17,0.08);color:var(--fg)}
+        .pg-case-row{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin-top:0.6rem}
+        .pg-select{font:inherit;font-size:0.78rem;padding:0.58rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg);min-width:220px}
         .pg-note{font-size:0.75rem;color:var(--gray);margin-top:0.6rem}
         .trail-controls{margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap}
         .trail-filter{font:inherit;font-size:0.74rem;padding:0.5rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
@@ -647,6 +650,8 @@
             .code-block pre{font-size:0.72rem;line-height:1.55}
             .pg-grid{grid-template-columns:1fr}
             .pg-inline{flex-direction:column}
+            .pg-case-row{flex-direction:column;align-items:stretch}
+            .pg-select{min-width:0;width:100%}
             .wheel-wrap{grid-template-columns:1fr;gap:1.2rem}
             .wheel-shell{width:280px;height:280px}
             .theme-toggle{right:0.8rem;bottom:0.8rem;width:38px;height:38px}
@@ -986,12 +991,24 @@
                     <button class="pg-btn secondary" id="pgExportBtn" type="button">Export CSV</button>
                     <button class="pg-btn secondary" id="pgClearTrailBtn" type="button">Clear trail</button>
                 </div>
+                <div class="pg-case-row">
+                    <button class="pg-btn secondary" id="pgSaveCaseBtn" type="button">Save case</button>
+                    <select class="pg-select" id="pgSavedCases">
+                        <option value="">No saved cases</option>
+                    </select>
+                    <button class="pg-btn secondary" id="pgLoadCaseBtn" type="button">Load case</button>
+                    <button class="pg-btn secondary" id="pgDeleteCaseBtn" type="button">Delete case</button>
+                </div>
                 <div class="pg-note" id="pgScopeNote">Audit scope: loading…</div>
             </div>
 
             <div class="code-block">
                 <div class="code-block-label"><span>Latest response</span></div>
                 <pre id="pgResponse">Run a request to see output.</pre>
+            </div>
+            <div class="code-block">
+                <div class="code-block-label"><span>Diff vs previous response</span></div>
+                <pre id="pgDiff">Run twice to compare output changes.</pre>
             </div>
 
             <div class="trail-wrap">
@@ -1803,6 +1820,7 @@ if (v === 'yes' || v === 'no') {
             }
             updatePlaygroundScopeNote();
             renderTrail();
+            renderSavedCases();
         }
         
         // Open user menu/profile
@@ -1888,7 +1906,12 @@ if (v === 'yes' || v === 'no') {
         const pgCopyRespBtn = document.getElementById('pgCopyRespBtn');
         const pgExportBtn = document.getElementById('pgExportBtn');
         const pgClearTrailBtn = document.getElementById('pgClearTrailBtn');
+        const pgSaveCaseBtn = document.getElementById('pgSaveCaseBtn');
+        const pgSavedCases = document.getElementById('pgSavedCases');
+        const pgLoadCaseBtn = document.getElementById('pgLoadCaseBtn');
+        const pgDeleteCaseBtn = document.getElementById('pgDeleteCaseBtn');
         const pgResponse = document.getElementById('pgResponse');
+        const pgDiff = document.getElementById('pgDiff');
         const pgScopeNote = document.getElementById('pgScopeNote');
         const pgTrailBody = document.getElementById('pgTrailBody');
         const pgTrailEmpty = document.getElementById('pgTrailEmpty');
@@ -1897,6 +1920,7 @@ if (v === 'yes' || v === 'no') {
         const pgFilterNotary = document.getElementById('pgFilterNotary');
         const pgFilterMode = document.getElementById('pgFilterMode');
         const pgFilterLatency = document.getElementById('pgFilterLatency');
+        let pgPreviousResponseText = '';
 
         const PLAYGROUND_CONFIG = {
             refund: {
@@ -1967,6 +1991,11 @@ if (v === 'yes' || v === 'no') {
             return uid ? `decide_playground_audit_${uid}` : 'decide_playground_audit_guest';
         }
 
+        function getPlaygroundCasesKey() {
+            const uid = window.Clerk?.user?.id;
+            return uid ? `decide_playground_cases_${uid}` : 'decide_playground_cases_guest';
+        }
+
         function updatePlaygroundScopeNote() {
             if (!pgScopeNote) return;
             const uid = window.Clerk?.user?.id;
@@ -1979,6 +2008,36 @@ if (v === 'yes' || v === 'no') {
 
         function saveTrail(entries) {
             localStorage.setItem(getPlaygroundAuditKey(), JSON.stringify(entries.slice(0, 50)));
+        }
+
+        function loadSavedCases() {
+            try { return JSON.parse(localStorage.getItem(getPlaygroundCasesKey()) || '[]'); } catch { return []; }
+        }
+
+        function saveSavedCases(cases) {
+            localStorage.setItem(getPlaygroundCasesKey(), JSON.stringify(cases.slice(0, 100)));
+        }
+
+        function renderSavedCases() {
+            const cases = loadSavedCases().filter((c) => c.notary === pgNotary.value && c.mode === pgMode.value);
+            pgSavedCases.innerHTML = '';
+            if (!cases.length) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = 'No saved cases for this view';
+                pgSavedCases.appendChild(option);
+                return;
+            }
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select a saved case';
+            pgSavedCases.appendChild(defaultOption);
+            cases.forEach((entry) => {
+                const option = document.createElement('option');
+                option.value = entry.id;
+                option.textContent = entry.name;
+                pgSavedCases.appendChild(option);
+            });
         }
 
         function classifyTrailStatus(entry) {
@@ -2022,6 +2081,32 @@ if (v === 'yes' || v === 'no') {
             const bytes = new TextEncoder().encode(input);
             const buf = await crypto.subtle.digest('SHA-256', bytes);
             return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function setPlaygroundDiff(currentText) {
+            if (!pgPreviousResponseText) {
+                pgDiff.textContent = 'No previous run yet.';
+                pgPreviousResponseText = currentText;
+                return;
+            }
+            if (pgPreviousResponseText === currentText) {
+                pgDiff.textContent = 'No change vs previous response.';
+                pgPreviousResponseText = currentText;
+                return;
+            }
+            const prevLines = pgPreviousResponseText.split('\n');
+            const currLines = currentText.split('\n');
+            const limit = Math.max(prevLines.length, currLines.length);
+            const rows = [];
+            for (let i = 0; i < limit; i += 1) {
+                const a = prevLines[i];
+                const b = currLines[i];
+                if (a === b) continue;
+                if (typeof a !== 'undefined') rows.push(`- ${a}`);
+                if (typeof b !== 'undefined') rows.push(`+ ${b}`);
+            }
+            pgDiff.textContent = rows.length ? rows.join('\n') : 'No change vs previous response.';
+            pgPreviousResponseText = currentText;
         }
 
         function setPlaygroundPayload(payload) {
@@ -2083,7 +2168,9 @@ if (v === 'yes' || v === 'no') {
                 let parsed;
                 try { parsed = JSON.parse(text); } catch { parsed = { raw: text }; }
                 const latency = Math.round(performance.now() - started);
-                pgResponse.textContent = JSON.stringify(parsed, null, 2);
+                const renderedText = JSON.stringify(parsed, null, 2);
+                pgResponse.textContent = renderedText;
+                setPlaygroundDiff(renderedText);
 
                 const entry = {
                     ts: new Date().toISOString(),
@@ -2099,7 +2186,9 @@ if (v === 'yes' || v === 'no') {
                 saveTrail(entries);
                 renderTrail();
             } catch (error) {
-                pgResponse.textContent = `Request failed: ${error.message}`;
+                const renderedError = `Request failed: ${error.message}`;
+                pgResponse.textContent = renderedError;
+                setPlaygroundDiff(renderedError);
                 const fallbackEntry = {
                     ts: new Date().toISOString(),
                     notary: pgNotary.value,
@@ -2119,6 +2208,58 @@ if (v === 'yes' || v === 'no') {
             }
         }
 
+        function saveCurrentCase() {
+            let payload;
+            try {
+                payload = JSON.parse(pgPayload.value);
+            } catch {
+                pgResponse.textContent = 'Invalid JSON payload.';
+                return;
+            }
+            const defaultName = `${pgNotary.value}-${pgMode.value}-${new Date().toISOString().slice(11, 19)}`;
+            const name = (window.prompt('Name this test case:', defaultName) || '').trim();
+            if (!name) return;
+            const cases = loadSavedCases();
+            const existing = cases.find((c) => c.notary === pgNotary.value && c.mode === pgMode.value && c.name.toLowerCase() === name.toLowerCase());
+            if (existing) {
+                existing.payload = payload;
+                existing.updatedAt = new Date().toISOString();
+            } else {
+                cases.unshift({
+                    id: `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+                    name,
+                    notary: pgNotary.value,
+                    mode: pgMode.value,
+                    payload,
+                    updatedAt: new Date().toISOString()
+                });
+            }
+            saveSavedCases(cases);
+            renderSavedCases();
+        }
+
+        function loadSelectedCase() {
+            const id = pgSavedCases.value;
+            if (!id) return;
+            const selected = loadSavedCases().find((c) => c.id === id);
+            if (!selected) return;
+            if (selected.notary !== pgNotary.value || selected.mode !== pgMode.value) {
+                pgNotary.value = selected.notary;
+                pgMode.value = selected.mode;
+                renderPresetOptions();
+            }
+            setPlaygroundPayload(selected.payload);
+        }
+
+        function deleteSelectedCase() {
+            const id = pgSavedCases.value;
+            if (!id) return;
+            const cases = loadSavedCases();
+            const next = cases.filter((c) => c.id !== id);
+            saveSavedCases(next);
+            renderSavedCases();
+        }
+
         function exportTrailCsv() {
             const entries = loadTrail();
             if (!entries.length) return;
@@ -2134,8 +2275,8 @@ if (v === 'yes' || v === 'no') {
             URL.revokeObjectURL(url);
         }
 
-        pgNotary.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); });
-        pgMode.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); });
+        pgNotary.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); renderSavedCases(); });
+        pgMode.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); renderSavedCases(); });
         pgPreset.addEventListener('change', setPlaygroundTemplate);
         pgLoadPresetBtn.addEventListener('click', setPlaygroundTemplate);
         pgRunBtn.addEventListener('click', runPlayground);
@@ -2145,6 +2286,9 @@ if (v === 'yes' || v === 'no') {
             setTimeout(() => { pgCopyRespBtn.textContent = 'Copy response'; }, 1500);
         });
         pgExportBtn.addEventListener('click', exportTrailCsv);
+        pgSaveCaseBtn.addEventListener('click', saveCurrentCase);
+        pgLoadCaseBtn.addEventListener('click', loadSelectedCase);
+        pgDeleteCaseBtn.addEventListener('click', deleteSelectedCase);
         [pgFilterStatus, pgFilterNotary, pgFilterMode, pgFilterLatency].forEach((el) => {
             el?.addEventListener('change', renderTrail);
         });
@@ -2154,6 +2298,7 @@ if (v === 'yes' || v === 'no') {
         });
         renderPresetOptions();
         setPlaygroundTemplate();
+        renderSavedCases();
         updatePlaygroundScopeNote();
         renderTrail();
 
