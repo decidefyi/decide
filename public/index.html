@@ -2621,7 +2621,8 @@ if (v === 'yes' || v === 'no') {
             presets.forEach((preset, i) => {
                 const opt = document.createElement('option');
                 opt.value = String(i);
-                opt.textContent = preset.label;
+                const tag = preset.tier === 'diag' ? ' [Diagnostic]' : ' [Core]';
+                opt.textContent = pgAdvancedTools?.open ? `${preset.label}${tag}` : preset.label;
                 pgPreset.appendChild(opt);
             });
             const hasPrevious = previous !== '' && previous !== 'none' && presets[Number(previous)];
