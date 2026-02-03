@@ -459,6 +459,7 @@
         .pg-btn{border:none;border-radius:12px;padding:0.65rem 1rem;font:inherit;font-size:0.8rem;font-weight:600;cursor:pointer}
         .pg-btn.primary{background:var(--fg);color:var(--bg)}
         .pg-btn.secondary{background:rgba(17,17,17,0.08);color:var(--fg)}
+        .pg-btn:disabled{opacity:0.6;cursor:not-allowed}
         .pg-case-row{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin-top:0.6rem}
         .pg-select{font:inherit;font-size:0.78rem;padding:0.58rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg);min-width:220px}
         .pg-note{font-size:0.75rem;color:var(--gray);margin-top:0.6rem}
@@ -988,6 +989,7 @@
                 <div class="pg-actions">
                     <button class="pg-btn primary" id="pgRunBtn" type="button">Run request</button>
                     <button class="pg-btn secondary" id="pgCopyRespBtn" type="button">Copy response</button>
+                    <button class="pg-btn secondary" id="pgShareRunBtn" type="button">Copy share link</button>
                     <button class="pg-btn secondary" id="pgExportBtn" type="button">Export CSV</button>
                     <button class="pg-btn secondary" id="pgClearTrailBtn" type="button">Clear trail</button>
                 </div>
@@ -1904,6 +1906,7 @@ if (v === 'yes' || v === 'no') {
         const pgPayload = document.getElementById('pgPayload');
         const pgRunBtn = document.getElementById('pgRunBtn');
         const pgCopyRespBtn = document.getElementById('pgCopyRespBtn');
+        const pgShareRunBtn = document.getElementById('pgShareRunBtn');
         const pgExportBtn = document.getElementById('pgExportBtn');
         const pgClearTrailBtn = document.getElementById('pgClearTrailBtn');
         const pgSaveCaseBtn = document.getElementById('pgSaveCaseBtn');
@@ -1921,6 +1924,7 @@ if (v === 'yes' || v === 'no') {
         const pgFilterMode = document.getElementById('pgFilterMode');
         const pgFilterLatency = document.getElementById('pgFilterLatency');
         let pgPreviousResponseText = '';
+        let pgLastRunSnapshot = null;
 
         const PLAYGROUND_CONFIG = {
             refund: {
@@ -2109,6 +2113,76 @@ if (v === 'yes' || v === 'no') {
             pgPreviousResponseText = currentText;
         }
 
+        function encodeSnapshot(snapshot) {
+            try {
+                const json = JSON.stringify(snapshot);
+                const utf8 = encodeURIComponent(json).replace(/%([0-9A-F]{2})/g, (_, p1) => String.fromCharCode(parseInt(p1, 16)));
+                return btoa(utf8).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+            } catch {
+                return '';
+            }
+        }
+
+        function decodeSnapshot(raw) {
+            if (!raw) return null;
+            try {
+                const base64 = raw.replace(/-/g, '+').replace(/_/g, '/');
+                const padded = base64 + '==='.slice((base64.length + 3) % 4);
+                const bin = atob(padded);
+                const percent = Array.from(bin).map((c) => `%${c.charCodeAt(0).toString(16).padStart(2, '0')}`).join('');
+                return JSON.parse(decodeURIComponent(percent));
+            } catch {
+                return null;
+            }
+        }
+
+        function setShareButtonState(label, timeoutMs = 1500) {
+            pgShareRunBtn.textContent = label;
+            setTimeout(() => { pgShareRunBtn.textContent = 'Copy share link'; }, timeoutMs);
+        }
+
+        function copyRunShareLink() {
+            if (!pgLastRunSnapshot) {
+                setShareButtonState('Run first');
+                return;
+            }
+            const encoded = encodeSnapshot(pgLastRunSnapshot);
+            if (!encoded) {
+                setShareButtonState('Share failed');
+                return;
+            }
+            const url = new URL(window.location.href);
+            url.searchParams.set('pgsnap', encoded);
+            url.hash = '#agents';
+            navigator.clipboard.writeText(url.toString()).then(() => {
+                setShareButtonState('Link copied!');
+            }).catch(() => {
+                setShareButtonState('Copy failed');
+            });
+        }
+
+        function maybeLoadSharedSnapshot() {
+            const params = new URLSearchParams(window.location.search);
+            const raw = params.get('pgsnap');
+            if (!raw) return;
+            const snapshot = decodeSnapshot(raw);
+            if (!snapshot || !snapshot.payload || !snapshot.responseText) return;
+
+            if (snapshot.notary && PLAYGROUND_CONFIG[snapshot.notary]) pgNotary.value = snapshot.notary;
+            if (snapshot.mode && PLAYGROUND_CONFIG[pgNotary.value]?.[snapshot.mode]) pgMode.value = snapshot.mode;
+            renderPresetOptions();
+            setPlaygroundPayload(snapshot.payload);
+            pgResponse.textContent = snapshot.responseText;
+            pgDiff.textContent = 'Loaded from shared snapshot.';
+            pgPreviousResponseText = snapshot.responseText;
+            pgLastRunSnapshot = snapshot;
+            pgScopeNote.textContent = 'Loaded shared snapshot link. Edit payload and run to test live.';
+
+            params.delete('pgsnap');
+            const cleanUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}${window.location.hash || ''}`;
+            history.replaceState(null, '', cleanUrl);
+        }
+
         function setPlaygroundPayload(payload) {
             pgPayload.value = JSON.stringify(payload, null, 2);
         }
@@ -2171,6 +2245,15 @@ if (v === 'yes' || v === 'no') {
                 const renderedText = JSON.stringify(parsed, null, 2);
                 pgResponse.textContent = renderedText;
                 setPlaygroundDiff(renderedText);
+                pgLastRunSnapshot = {
+                    ts: new Date().toISOString(),
+                    notary: pgNotary.value,
+                    mode: pgMode.value,
+                    payload,
+                    responseText: renderedText,
+                    status: res.status,
+                    latency
+                };
 
                 const entry = {
                     ts: new Date().toISOString(),
@@ -2189,6 +2272,15 @@ if (v === 'yes' || v === 'no') {
                 const renderedError = `Request failed: ${error.message}`;
                 pgResponse.textContent = renderedError;
                 setPlaygroundDiff(renderedError);
+                pgLastRunSnapshot = {
+                    ts: new Date().toISOString(),
+                    notary: pgNotary.value,
+                    mode: pgMode.value,
+                    payload,
+                    responseText: renderedError,
+                    status: 0,
+                    latency: Math.round(performance.now() - started)
+                };
                 const fallbackEntry = {
                     ts: new Date().toISOString(),
                     notary: pgNotary.value,
@@ -2285,6 +2377,7 @@ if (v === 'yes' || v === 'no') {
             pgCopyRespBtn.textContent = 'Copied!';
             setTimeout(() => { pgCopyRespBtn.textContent = 'Copy response'; }, 1500);
         });
+        pgShareRunBtn.addEventListener('click', copyRunShareLink);
         pgExportBtn.addEventListener('click', exportTrailCsv);
         pgSaveCaseBtn.addEventListener('click', saveCurrentCase);
         pgLoadCaseBtn.addEventListener('click', loadSelectedCase);
@@ -2299,6 +2392,7 @@ if (v === 'yes' || v === 'no') {
         renderPresetOptions();
         setPlaygroundTemplate();
         renderSavedCases();
+        maybeLoadSharedSnapshot();
         updatePlaygroundScopeNote();
         renderTrail();
 
