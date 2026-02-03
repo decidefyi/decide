@@ -1291,7 +1291,6 @@ show(result, text);
         let wheelRotation = 0;
         let wheelSpinning = false;
         let lastWheelPick = -1;
-        let plannedWheelPick = -1;
 
         function randomWheelColor(i) {
             const palette = [
@@ -1356,6 +1355,23 @@ show(result, text);
             });
         }
 
+        function getLandedIndexForRotation(rotation) {
+            const n = wheelOptions.length;
+            if (n < 1 || wheelCenters.length !== n) return 0;
+            const normalized = ((rotation % 360) + 360) % 360;
+            let bestIdx = 0;
+            let bestDist = Infinity;
+            wheelCenters.forEach((center, idx) => {
+                const displayedCenter = (center + normalized) % 360;
+                const dist = Math.abs(((displayedCenter + 180) % 360) - 180);
+                if (dist < bestDist) {
+                    bestDist = dist;
+                    bestIdx = idx;
+                }
+            });
+            return bestIdx;
+        }
+
         function addWheelOption() {
             const value = (wheelInput.value || '').trim();
             if (!value) return;
@@ -1382,37 +1398,34 @@ show(result, text);
             wheelResult.textContent = 'Spinning...';
 
             const n = wheelOptions.length;
-            const step = 360 / n;
             let picked = Math.floor(Math.random() * n);
             if (n > 2 && picked === lastWheelPick) {
                 picked = (picked + 1 + Math.floor(Math.random() * (n - 1))) % n;
             }
-            plannedWheelPick = picked;
-
-            const jitter = (Math.random() - 0.5) * step * 0.6;
-            const targetCenter = picked * step + step / 2 + jitter;
+            const targetCenter = wheelCenters[picked];
             const targetRotation = ((360 - targetCenter) % 360 + 360) % 360;
-            const currentRotation = ((wheelRotation % 360) + 360) % 360;
-            const deltaToTarget = (targetRotation - currentRotation + 360) % 360;
+            const baseRotation = ((wheelRotation % 360) + 360) % 360;
+            const deltaToTarget = (targetRotation - baseRotation + 360) % 360;
             const extraTurns = 1080 + Math.floor(Math.random() * 1800); // 3 to ~8 extra turns
-            wheelRotation = wheelRotation + extraTurns + deltaToTarget;
+            wheelRotation = baseRotation + extraTurns + deltaToTarget;
             wheelDisc.style.transform = `rotate(${wheelRotation}deg)`;
             wheelLabels.style.transform = `rotate(${wheelRotation}deg)`;
 
-            setTimeout(() => {
+            const onSpinEnd = (event) => {
+                if (event.propertyName !== 'transform') return;
+                wheelDisc.removeEventListener('transitionend', onSpinEnd);
                 wheelSpinning = false;
-                const finalPick = (plannedWheelPick >= 0 && plannedWheelPick < wheelOptions.length) ? plannedWheelPick : picked;
+                const finalPick = getLandedIndexForRotation(wheelRotation);
                 lastWheelPick = finalPick;
-                plannedWheelPick = -1;
                 wheelResult.textContent = `Decision made: ${wheelOptions[finalPick]}`;
-            }, 4100);
+            };
+            wheelDisc.addEventListener('transitionend', onSpinEnd);
         }
 
         function resetWheel() {
             wheelOptions = ['pizza', 'sushi', 'burgers'];
             wheelRotation = 0;
             lastWheelPick = -1;
-            plannedWheelPick = -1;
             wheelDisc.style.transform = 'rotate(0deg)';
             wheelLabels.style.transform = 'rotate(0deg)';
             wheelResult.textContent = '';
