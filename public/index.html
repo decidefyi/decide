@@ -2161,8 +2161,15 @@ if (v === 'yes' || v === 'no') {
             assertions.forEach((rule) => {
                 const chip = document.createElement('span');
                 chip.className = 'pg-assert-chip';
-                chip.innerHTML = `${rule.path} ${rule.op} ${rule.expected || ''} <button type="button" aria-label="Remove assertion">×</button>`;
-                chip.querySelector('button').addEventListener('click', () => {
+                const label = document.createElement('span');
+                label.textContent = `${rule.path} ${rule.op} ${rule.expected || ''}`.trim();
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.setAttribute('aria-label', 'Remove assertion');
+                removeBtn.textContent = '×';
+                chip.appendChild(label);
+                chip.appendChild(removeBtn);
+                removeBtn.addEventListener('click', () => {
                     const next = loadAssertions().filter((a) => a.id !== rule.id);
                     saveAssertions(next);
                     renderAssertions();
@@ -2192,6 +2199,7 @@ if (v === 'yes' || v === 'no') {
         }
 
         function applyAssertionTemplate() {
+            if (pgAssertTemplate.value === '') return;
             const idx = Number(pgAssertTemplate.value);
             if (!Number.isFinite(idx)) return;
             const tpl = getAssertionTemplateList()[idx];
@@ -2283,7 +2291,55 @@ if (v === 'yes' || v === 'no') {
                 const assertText = e.assertPass === true ? 'pass' : (e.assertPass === false ? 'fail' : 'n/a');
                 const tr = document.createElement('tr');
                 tr.className = `status-row-${statusClass}`;
-                tr.innerHTML = `<td>${new Date(e.ts).toLocaleString()}</td><td>${e.notary}</td><td>${e.mode}</td><td><span class="status-chip ${statusClass}">${statusText}</span></td><td><span class="status-chip ${assertClass}" title="${e.assertSummary || ''}">${assertText}</span></td><td>${Number(e.latency || 0)}ms</td><td>${(e.reqHash || '').slice(0, 10)}…</td><td><button class="trail-action ${e.pinned ? 'active' : ''}" data-trail-action="pin" data-id="${e.id}">${e.pinned ? 'Pinned' : 'Pin'}</button><button class="trail-action" data-trail-action="replay" data-id="${e.id}">Replay</button></td>`;
+                const tTime = document.createElement('td');
+                tTime.textContent = new Date(e.ts).toLocaleString();
+                tr.appendChild(tTime);
+
+                const tNotary = document.createElement('td');
+                tNotary.textContent = e.notary || '';
+                tr.appendChild(tNotary);
+
+                const tMode = document.createElement('td');
+                tMode.textContent = e.mode || '';
+                tr.appendChild(tMode);
+
+                const tStatus = document.createElement('td');
+                const statusChip = document.createElement('span');
+                statusChip.className = `status-chip ${statusClass}`;
+                statusChip.textContent = statusText;
+                tStatus.appendChild(statusChip);
+                tr.appendChild(tStatus);
+
+                const tAssert = document.createElement('td');
+                const assertChip = document.createElement('span');
+                assertChip.className = `status-chip ${assertClass}`;
+                assertChip.textContent = assertText;
+                assertChip.title = e.assertSummary || '';
+                tAssert.appendChild(assertChip);
+                tr.appendChild(tAssert);
+
+                const tLatency = document.createElement('td');
+                tLatency.textContent = `${Number(e.latency || 0)}ms`;
+                tr.appendChild(tLatency);
+
+                const tHash = document.createElement('td');
+                tHash.textContent = `${(e.reqHash || '').slice(0, 10)}…`;
+                tr.appendChild(tHash);
+
+                const tActions = document.createElement('td');
+                const pinBtn = document.createElement('button');
+                pinBtn.className = `trail-action ${e.pinned ? 'active' : ''}`;
+                pinBtn.dataset.trailAction = 'pin';
+                pinBtn.dataset.id = e.id || '';
+                pinBtn.textContent = e.pinned ? 'Pinned' : 'Pin';
+                const replayBtn = document.createElement('button');
+                replayBtn.className = 'trail-action';
+                replayBtn.dataset.trailAction = 'replay';
+                replayBtn.dataset.id = e.id || '';
+                replayBtn.textContent = 'Replay';
+                tActions.appendChild(pinBtn);
+                tActions.appendChild(replayBtn);
+                tr.appendChild(tActions);
                 pgTrailBody.appendChild(tr);
             });
         }
@@ -2720,6 +2776,7 @@ if (v === 'yes' || v === 'no') {
             renderPresetOptions();
             renderSavedCases();
             renderAssertions();
+            renderAssertionTemplates();
             setPlaygroundPayload(target.payload);
             await runPlayground({ notary: target.notary, mode: target.mode, payload: target.payload, caseName: target.caseName || '' });
         }
@@ -2732,22 +2789,25 @@ if (v === 'yes' || v === 'no') {
             }
             pgRunSuiteBtn.disabled = true;
             pgRunBtn.disabled = true;
-            let pass = 0;
-            let fail = 0;
-            for (const testCase of suite) {
-                const entry = await runPlayground({
-                    notary: testCase.notary,
-                    mode: testCase.mode,
-                    payload: testCase.payload,
-                    caseName: testCase.name,
-                    silentUi: true
-                });
-                if (entry?.assertPass === false) fail += 1;
-                else pass += 1;
+            try {
+                let pass = 0;
+                let fail = 0;
+                for (const testCase of suite) {
+                    const entry = await runPlayground({
+                        notary: testCase.notary,
+                        mode: testCase.mode,
+                        payload: testCase.payload,
+                        caseName: testCase.name,
+                        silentUi: true
+                    });
+                    if (entry?.assertPass === false) fail += 1;
+                    else pass += 1;
+                }
+                pgScopeNote.textContent = `Suite complete: ${suite.length} case(s), ${pass} pass, ${fail} fail.`;
+            } finally {
+                pgRunSuiteBtn.disabled = false;
+                pgRunBtn.disabled = false;
             }
-            pgRunSuiteBtn.disabled = false;
-            pgRunBtn.disabled = false;
-            pgScopeNote.textContent = `Suite complete: ${suite.length} case(s), ${pass} pass, ${fail} fail.`;
         }
 
         function exportTrailCsv() {
