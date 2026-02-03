@@ -1352,6 +1352,15 @@ show(result, text);
             });
         }
 
+        function getWheelLandedIndex() {
+            const n = wheelOptions.length;
+            if (n < 1) return -1;
+            const step = 360 / n;
+            const normalized = ((wheelRotation % 360) + 360) % 360;
+            const pointerAngle = (360 - normalized + 360) % 360;
+            return Math.floor((pointerAngle + 0.0001) / step) % n;
+        }
+
         function addWheelOption() {
             const value = (wheelInput.value || '').trim();
             if (!value) return;
@@ -1396,8 +1405,10 @@ show(result, text);
 
             setTimeout(() => {
                 wheelSpinning = false;
-                lastWheelPick = picked;
-                wheelResult.textContent = `Decision made: ${wheelOptions[picked]}`;
+                const landed = getWheelLandedIndex();
+                const finalPick = landed >= 0 ? landed : picked;
+                lastWheelPick = finalPick;
+                wheelResult.textContent = `Decision made: ${wheelOptions[finalPick]}`;
             }, 4100);
         }
 
