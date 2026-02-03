@@ -1291,6 +1291,7 @@ show(result, text);
         let wheelRotation = 0;
         let wheelSpinning = false;
         let lastWheelPick = -1;
+        let plannedWheelPick = -1;
 
         function randomWheelColor(i) {
             const palette = [
@@ -1355,24 +1356,6 @@ show(result, text);
             });
         }
 
-        function getWheelLandedIndex() {
-            const n = wheelOptions.length;
-            if (n < 1) return -1;
-            if (wheelCenters.length !== n) return 0;
-            const normalized = ((wheelRotation % 360) + 360) % 360;
-            let bestIdx = 0;
-            let bestDist = Infinity;
-            wheelCenters.forEach((center, idx) => {
-                const displayedCenter = ((center - normalized) % 360 + 360) % 360;
-                const dist = Math.abs(((displayedCenter + 180) % 360) - 180); // distance to top (0deg)
-                if (dist < bestDist) {
-                    bestDist = dist;
-                    bestIdx = idx;
-                }
-            });
-            return bestIdx;
-        }
-
         function addWheelOption() {
             const value = (wheelInput.value || '').trim();
             if (!value) return;
@@ -1404,6 +1387,7 @@ show(result, text);
             if (n > 2 && picked === lastWheelPick) {
                 picked = (picked + 1 + Math.floor(Math.random() * (n - 1))) % n;
             }
+            plannedWheelPick = picked;
 
             const jitter = (Math.random() - 0.5) * step * 0.6;
             const targetCenter = picked * step + step / 2 + jitter;
@@ -1417,9 +1401,9 @@ show(result, text);
 
             setTimeout(() => {
                 wheelSpinning = false;
-                const landed = getWheelLandedIndex();
-                const finalPick = landed >= 0 ? landed : picked;
+                const finalPick = (plannedWheelPick >= 0 && plannedWheelPick < wheelOptions.length) ? plannedWheelPick : picked;
                 lastWheelPick = finalPick;
+                plannedWheelPick = -1;
                 wheelResult.textContent = `Decision made: ${wheelOptions[finalPick]}`;
             }, 4100);
         }
@@ -1428,6 +1412,7 @@ show(result, text);
             wheelOptions = ['pizza', 'sushi', 'burgers'];
             wheelRotation = 0;
             lastWheelPick = -1;
+            plannedWheelPick = -1;
             wheelDisc.style.transform = 'rotate(0deg)';
             wheelLabels.style.transform = 'rotate(0deg)';
             wheelResult.textContent = '';
