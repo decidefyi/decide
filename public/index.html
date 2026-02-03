@@ -257,8 +257,8 @@
         body.dark .theme-toggle:hover{border-color:var(--fg);box-shadow:0 6px 25px rgba(0,0,0,0.4)}
 
         /* DARK MODE — single uniform shade */
-        body.dark{--bg:#0d0d0d;--bg-dark:#0d0d0d;--fg:#e8e8e8;--fg-light:#e8e8e8;--gray:#888;--gray-light:#555}
-        body.dark{background:#0d0d0d;color:var(--fg)}
+        body.dark{--bg:#111111;--bg-dark:#111111;--fg:#e8e8e8;--fg-light:#e8e8e8;--gray:#888;--gray-light:#555}
+        body.dark{background:#111111;color:var(--fg)}
         body.dark::before{content:'';position:fixed;inset:0;background:var(--bg);z-index:0;pointer-events:none}
         /* Keep dark mode visually uniform and avoid GPU/compositing banding artifacts. */
         body.dark #canvas{display:none}
@@ -275,13 +275,13 @@
         body.dark .cta,
         body.dark .agent-hero,
         body.dark .agent-features,
-        body.dark .connect{background:#0d0d0d!important}
+        body.dark .connect{background:#111111!important}
         body.dark #human-mode,
         body.dark #agent-mode{transition:none}
         body.dark *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
         body.dark ::selection{background:rgba(245,245,245,0.15)}
         body.dark .glow{background:radial-gradient(circle,rgba(245,245,245,0.03) 0%,transparent 60%)}
-        body.dark nav.scrolled .nav-wrap{background:#0d0d0d;border-color:rgba(245,245,245,0.06);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none}
+        body.dark nav.scrolled .nav-wrap{background:#111111;border-color:rgba(245,245,245,0.06);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none}
         body.dark .badge{background:rgba(245,245,245,0.05);border-color:rgba(245,245,245,0.1)}
         body.dark .mode-toggle{background:rgba(245,245,245,0.08)}
         body.dark .nav-links a:hover{background:rgba(245,245,245,0.06)}
@@ -317,7 +317,7 @@
         body.dark .foot-x a:hover{background:var(--fg);border-color:var(--fg)}
         body.dark .foot-x svg{fill:var(--gray)}
         body.dark .foot-x a:hover svg{fill:var(--bg)}
-        body.dark .m-bg{background:rgba(13,13,13,0.95)}
+        body.dark .m-bg{background:rgba(17,17,17,0.95)}
         body.dark .m-bg.on{backdrop-filter:none;-webkit-backdrop-filter:none}
         body.dark .modal{background:var(--bg);border-color:rgba(245,245,245,0.1);box-shadow:0 40px 80px rgba(0,0,0,0.6)}
         body.dark .m-head{border-color:rgba(245,245,245,0.06)}
@@ -328,7 +328,7 @@
         body.dark .mobile-menu a.nav-cta{background:var(--fg);color:var(--bg)}
         body.dark .mobile-overlay{background:rgba(0,0,0,0.5)}
         body.dark .mob span{background:var(--fg)}
-        body.dark .code-block{background:#141414}
+        body.dark .code-block{background:#111111}
 
         /* MODE CONTAINERS */
         #human-mode,#agent-mode{transition:none}
@@ -1320,7 +1320,7 @@ show(result, text);
         // Theme toggle (light/dark)
         function setTheme(dark) {
             document.body.classList.toggle('dark', dark);
-            document.querySelector('meta[name="theme-color"]').content = dark ? '#0d0d0d' : '#f5f5f5';
+            document.querySelector('meta[name="theme-color"]').content = dark ? '#111111' : '#f5f5f5';
             localStorage.setItem('decide-theme', dark ? 'dark' : 'light');
             // Update canvas particle colors
             updateParticleTheme(dark);
