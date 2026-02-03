@@ -236,11 +236,11 @@
         .wheel-wrap{max-width:900px;margin:0 auto;display:grid;grid-template-columns:360px 1fr;gap:2rem;align-items:start}
         .wheel-stage{display:flex;justify-content:center}
         .wheel-shell{position:relative;width:320px;height:320px}
-        .wheel-disc{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;box-shadow:0 20px 50px rgba(0,0,0,0.08);background:var(--wheel-ring-gradient, conic-gradient(#d1d5db 0deg 180deg,#e5e7eb 180deg 360deg));transition:transform 4s cubic-bezier(0.12,0.8,0.22,1);will-change:transform}
+        .wheel-disc{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;box-shadow:0 20px 50px rgba(0,0,0,0.08);background:var(--wheel-ring-gradient, conic-gradient(#d1d5db 0deg 180deg,#e5e7eb 180deg 360deg));will-change:transform}
         .wheel-disc::before{content:'';position:absolute;inset:8px;border-radius:50%;background:var(--wheel-face-gradient, conic-gradient(#e5e7eb 0deg 180deg,#f3f4f6 180deg 360deg))}
         .wheel-pointer{position:absolute;z-index:5;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid #111111;pointer-events:none}
         .wheel-center{position:absolute;z-index:4;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:#111111;color:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;letter-spacing:0.03em}
-        .wheel-labels{position:absolute;z-index:2;inset:0;pointer-events:none;transition:transform 4s cubic-bezier(0.12,0.8,0.22,1);will-change:transform}
+        .wheel-labels{position:absolute;z-index:2;inset:0;pointer-events:none;will-change:transform}
         .wheel-label{position:absolute;left:50%;top:50%;width:120px;text-align:center;transform-origin:center center;font-size:0.72rem;font-weight:600;color:#1f2937;text-shadow:0 1px 0 rgba(245,245,245,0.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .wheel-panel{display:flex;flex-direction:column;gap:0.9rem}
         .wheel-panel p{color:#6b7280;font-size:0.9rem}
@@ -1291,6 +1291,7 @@ show(result, text);
         let wheelRotation = 0;
         let wheelSpinning = false;
         let lastWheelPick = -1;
+        let wheelAnimFrame = null;
 
         function randomWheelColor(i) {
             const palette = [
@@ -1390,25 +1391,43 @@ show(result, text);
             const currentRotation = ((wheelRotation % 360) + 360) % 360;
             const deltaToTarget = (targetRotation - currentRotation + 360) % 360;
             const extraTurns = (1 + Math.floor(Math.random() * 4)) * 360; // 1 to 4 full turns
-            wheelRotation = wheelRotation + extraTurns + deltaToTarget;
-            wheelDisc.style.transform = `rotate(${wheelRotation}deg)`;
-            wheelLabels.style.transform = `rotate(${wheelRotation}deg)`;
+            const startRotation = wheelRotation;
+            const endRotation = wheelRotation + extraTurns + deltaToTarget;
+            const duration = 4000;
+            const start = performance.now();
 
-            const onSpinEnd = (event) => {
-                if (event.propertyName !== 'transform') return;
-                wheelDisc.removeEventListener('transitionend', onSpinEnd);
+            if (wheelAnimFrame) cancelAnimationFrame(wheelAnimFrame);
+            const animate = (now) => {
+                const t = Math.min(1, (now - start) / duration);
+                // Ease-out cubic for natural deceleration.
+                const eased = 1 - Math.pow(1 - t, 3);
+                const current = startRotation + (endRotation - startRotation) * eased;
+                wheelDisc.style.transform = `rotate(${current}deg)`;
+                wheelLabels.style.transform = `rotate(${current}deg)`;
+
+                if (t < 1) {
+                    wheelAnimFrame = requestAnimationFrame(animate);
+                    return;
+                }
+
+                wheelRotation = endRotation;
+                wheelAnimFrame = null;
                 wheelSpinning = false;
-                const finalPick = picked;
-                lastWheelPick = finalPick;
-                wheelResult.textContent = `Decision made: ${wheelOptions[finalPick]}`;
+                lastWheelPick = picked;
+                wheelResult.textContent = `Decision made: ${wheelOptions[picked]}`;
             };
-            wheelDisc.addEventListener('transitionend', onSpinEnd);
+            wheelAnimFrame = requestAnimationFrame(animate);
         }
 
         function resetWheel() {
             wheelOptions = ['pizza', 'sushi', 'burgers'];
             wheelRotation = 0;
             lastWheelPick = -1;
+            if (wheelAnimFrame) {
+                cancelAnimationFrame(wheelAnimFrame);
+                wheelAnimFrame = null;
+            }
+            wheelSpinning = false;
             wheelDisc.style.transform = 'rotate(0deg)';
             wheelLabels.style.transform = 'rotate(0deg)';
             wheelResult.textContent = '';
