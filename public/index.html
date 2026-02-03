@@ -264,6 +264,10 @@
         body.dark #canvas{display:none}
         body.dark .grain{display:none}
         body.dark .glow{display:none}
+        body.dark .hero,
+        body.dark .logos,
+        body.dark section,
+        body.dark footer{background:var(--bg)!important}
         body.dark ::selection{background:rgba(245,245,245,0.15)}
         body.dark .glow{background:radial-gradient(circle,rgba(245,245,245,0.03) 0%,transparent 60%)}
         body.dark nav.scrolled .nav-wrap{background:rgba(13,13,13,0.85);border-color:rgba(245,245,245,0.06);box-shadow:0 4px 30px rgba(0,0,0,0.4)}
@@ -394,8 +398,8 @@
         .foot-x a:hover svg{fill:var(--bg)}
 
         /* MODAL */
-        .m-bg{position:fixed;inset:0;background:rgba(245,245,245,0.95);backdrop-filter:blur(30px);z-index:2000;opacity:0;visibility:hidden;transition:all 0.4s}
-        .m-bg.on{opacity:1;visibility:visible}
+        .m-bg{position:fixed;inset:0;background:rgba(245,245,245,0.95);backdrop-filter:none;-webkit-backdrop-filter:none;z-index:2000;opacity:0;visibility:hidden;transition:all 0.4s}
+        .m-bg.on{opacity:1;visibility:visible;backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px)}
         .modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.9);background:var(--bg);border:1px solid rgba(17,17,17,0.1);border-radius:28px;max-width:420px;width:92%;z-index:2001;opacity:0;visibility:hidden;transition:all 0.5s var(--ease-out);box-shadow:0 40px 80px rgba(0,0,0,0.1)}
         .modal.on{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
         .m-head{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;border-bottom:1px solid rgba(17,17,17,0.06)}
