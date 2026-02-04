@@ -558,6 +558,11 @@
         .trail-action.active{background:rgba(22,163,74,0.16);color:#15803d}
         .trail-empty{padding:0.9rem;color:var(--gray);font-size:0.78rem;line-height:1.5}
         .output-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+        .pg-provenance{margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:0.5rem}
+        .pg-provenance[hidden]{display:none}
+        .pg-prov-pill{display:inline-flex;align-items:center;gap:0.4rem;padding:0.34rem 0.62rem;border-radius:999px;border:1px solid rgba(17,17,17,0.12);background:rgba(17,17,17,0.04);font-size:0.68rem;color:var(--gray)}
+        .pg-prov-pill strong{font-weight:700;color:var(--fg)}
+        .pg-prov-pill a{color:var(--fg);text-decoration:underline;text-underline-offset:2px;word-break:break-all}
         .pg-field,.pg-inline,.pg-assert-row>*{min-width:0}
         .pg-assert-input,.pg-select,.trail-filter{max-width:100%}
         #pgResponse,#pgDiff{white-space:pre-wrap;word-break:break-word;min-height:74px}
@@ -1186,6 +1191,7 @@
                     <div class="code-block">
                         <div class="code-block-label"><span>Latest response</span></div>
                         <pre id="pgResponse">Run a request to see output.</pre>
+                        <div class="pg-provenance" id="pgProvenance" hidden></div>
                     </div>
                     <div class="code-block">
                         <div class="code-block-label"><span>Diff vs previous response</span></div>
@@ -2105,6 +2111,7 @@ if (v === 'yes' || v === 'no') {
         const pgAddAssertBtn = document.getElementById('pgAddAssertBtn');
         const pgAssertList = document.getElementById('pgAssertList');
         const pgResponse = document.getElementById('pgResponse');
+        const pgProvenance = document.getElementById('pgProvenance');
         const pgDiff = document.getElementById('pgDiff');
         const pgScopeNote = document.getElementById('pgScopeNote');
         const pgTrailBody = document.getElementById('pgTrailBody');
@@ -2844,6 +2851,8 @@ if (v === 'yes' || v === 'no') {
             renderPresetOptions();
             setPlaygroundPayload(snapshot.payload);
             pgResponse.textContent = snapshot.responseText;
+            const parsedSnapshot = (() => { try { return JSON.parse(snapshot.responseText); } catch { return null; } })();
+            renderProvenance(snapshot.provenance || extractProvenance(parsedSnapshot));
             pgDiff.textContent = 'Loaded from shared snapshot.';
             pgPreviousResponseText = snapshot.responseText;
             pgLastRunSnapshot = snapshot;
@@ -2856,6 +2865,57 @@ if (v === 'yes' || v === 'no') {
 
         function setPlaygroundPayload(payload) {
             pgPayload.value = JSON.stringify(payload, null, 2);
+        }
+
+        function extractProvenanceFromMcpText(text) {
+            const sourceMatch = /Source:\s*(.+)/i.exec(text || '');
+            const notesMatch = /Source Notes:\s*(.+)/i.exec(text || '');
+            const checkedMatch = /Last Checked:\s*(.+)/i.exec(text || '');
+            return {
+                sourceUrl: sourceMatch?.[1]?.trim() || '',
+                sourceNotes: notesMatch?.[1]?.trim() || '',
+                lastChecked: checkedMatch?.[1]?.trim() || ''
+            };
+        }
+
+        function extractProvenance(parsed) {
+            if (!parsed || typeof parsed !== 'object') return null;
+            const root = parsed.result || parsed;
+            if (root && typeof root === 'object' && ('policy_source_url' in root || 'policy_source_notes' in root || 'policy_last_checked' in root)) {
+                return {
+                    sourceUrl: String(root.policy_source_url || '').trim(),
+                    sourceNotes: String(root.policy_source_notes || '').trim(),
+                    lastChecked: String(root.policy_last_checked || '').trim()
+                };
+            }
+            const mcpText = parsed?.result?.content?.[0]?.text;
+            if (typeof mcpText === 'string' && mcpText) return extractProvenanceFromMcpText(mcpText);
+            return null;
+        }
+
+        function renderProvenance(provenance) {
+            if (!pgProvenance) return;
+            const sourceUrl = String(provenance?.sourceUrl || '').trim();
+            const sourceNotes = String(provenance?.sourceNotes || '').trim();
+            const lastChecked = String(provenance?.lastChecked || '').trim();
+            const hasData = [sourceUrl, sourceNotes, lastChecked].some((value) => value && value.toUpperCase() !== 'N/A');
+            if (!hasData) {
+                pgProvenance.hidden = true;
+                pgProvenance.innerHTML = '';
+                return;
+            }
+            pgProvenance.hidden = false;
+            const sourceInner = sourceUrl && sourceUrl.toUpperCase() !== 'N/A'
+                ? `<a href="${sourceUrl}" target="_blank" rel="noopener noreferrer">open source</a>`
+                : 'N/A';
+            const notesInner = sourceNotes && sourceNotes.toUpperCase() !== 'N/A' ? sourceNotes : 'N/A';
+            const checkedInner = lastChecked && lastChecked.toUpperCase() !== 'N/A' ? lastChecked : 'N/A';
+            pgProvenance.innerHTML = `
+                <span class="pg-prov-pill"><strong>Provenance</strong></span>
+                <span class="pg-prov-pill"><strong>Source</strong> ${sourceInner}</span>
+                <span class="pg-prov-pill"><strong>Notes</strong> ${notesInner}</span>
+                <span class="pg-prov-pill"><strong>Checked</strong> ${checkedInner}</span>
+            `;
         }
 
         function getPresetList() {
@@ -2958,6 +3018,7 @@ if (v === 'yes' || v === 'no') {
                     payload = JSON.parse(pgPayload.value);
                 } catch {
                     pgResponse.textContent = 'Invalid JSON payload.';
+                    renderProvenance(null);
                     return null;
                 }
             }
@@ -2967,6 +3028,8 @@ if (v === 'yes' || v === 'no') {
                 const result = await executePlaygroundRequest(notary, mode, payload);
                 pgResponse.textContent = result.responseText;
                 setPlaygroundDiff(result.responseText);
+                const provenance = extractProvenance(result.parsed);
+                renderProvenance(provenance);
                 const assertions = getScopedAssertions(notary, mode);
                 const assertResult = evaluateAssertions(assertions, {
                     status: result.status,
@@ -2981,7 +3044,8 @@ if (v === 'yes' || v === 'no') {
                     responseText: result.responseText,
                     status: result.status,
                     latency: result.latency,
-                    requestId: result.requestId
+                    requestId: result.requestId,
+                    provenance
                 };
 
                 const saved = await persistTrailEntry({
