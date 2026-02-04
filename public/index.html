@@ -421,6 +421,7 @@
         body.dark .price-card.featured{border-color:rgba(245,245,245,0.28);box-shadow:0 12px 30px rgba(0,0,0,0.35)}
         body.dark .price-btn{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+        body.dark .pg-trust-badge{border-color:rgba(245,245,245,0.2);background:rgba(245,245,245,0.07)}
         body.dark .pricing-cta-btn.secondary{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2)}
         body.dark .agent-hero-btn.secondary{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2)}
         body.dark .pg-btn:focus-visible,
@@ -477,8 +478,14 @@
         .connect{padding:6rem 1.5rem;position:relative;z-index:2;background:var(--bg)}
         .connect-inner{max-width:800px;margin:0 auto}
         #mcp-playground .connect-inner{max-width:1160px}
+        #mcp-playground .pg-head{display:flex;align-items:center;justify-content:space-between;gap:0.8rem;flex-wrap:wrap}
         #mcp-playground h2{margin-bottom:0.35rem}
         #mcp-playground .connect-inner>p{max-width:680px;margin-bottom:2.15rem}
+        .pg-trust-badge{display:inline-flex;align-items:center;gap:0.35rem;border-radius:999px;padding:0.32rem 0.66rem;font-size:0.68rem;font-weight:700;letter-spacing:0.02em;border:1px solid rgba(17,17,17,0.14);background:rgba(17,17,17,0.04);color:var(--gray)}
+        .pg-trust-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;opacity:0.7}
+        .pg-trust-badge.pass{color:#15803d;background:rgba(22,163,74,0.12);border-color:rgba(22,163,74,0.28)}
+        .pg-trust-badge.fail{color:#b91c1c;background:rgba(220,38,38,0.12);border-color:rgba(220,38,38,0.28)}
+        .pg-trust-badge.running{color:#b45309;background:rgba(217,119,6,0.12);border-color:rgba(217,119,6,0.28)}
         .connect h2{font-size:clamp(1.5rem,4vw,2.25rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:0.5rem;color:var(--fg)}
         .connect>p,.connect-inner>p{color:var(--gray);font-size:0.9rem;line-height:1.6;margin-bottom:2rem}
         .code-block{background:var(--bg-dark);border:1px solid rgba(17,17,17,0.1);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;position:relative;overflow-x:auto}
@@ -1137,7 +1144,10 @@
 
     <section class="connect" id="mcp-playground">
         <div class="connect-inner">
-            <h2>Live playground + audit trail</h2>
+            <div class="pg-head">
+                <h2>Live playground + audit trail</h2>
+                <span class="pg-trust-badge" id="pgTrustBadge">Trust Suite: not run</span>
+            </div>
             <p>Run real MCP calls, inspect responses, and keep a scoped trail of recent runs.</p>
             <div class="playground-stack">
                 <div class="playground-split">
@@ -2220,6 +2230,7 @@ if (v === 'yes' || v === 'no') {
         const pgProvenance = document.getElementById('pgProvenance');
         const pgDiff = document.getElementById('pgDiff');
         const pgScopeNote = document.getElementById('pgScopeNote');
+        const pgTrustBadge = document.getElementById('pgTrustBadge');
         const pgTrailBody = document.getElementById('pgTrailBody');
         const pgTrailEmpty = document.getElementById('pgTrailEmpty');
         const pgTrailMeta = document.getElementById('pgTrailMeta');
@@ -2401,12 +2412,51 @@ if (v === 'yes' || v === 'no') {
             return uid ? `decide_playground_monitors_${uid}` : 'decide_playground_monitors_guest';
         }
 
+        function getPlaygroundTrustSuiteKey() {
+            const uid = window.Clerk?.user?.id;
+            return uid ? `decide_playground_trust_suite_${uid}` : 'decide_playground_trust_suite_guest';
+        }
+
+        function setTrustSuiteBadge(state, detail = '') {
+            if (!pgTrustBadge) return;
+            pgTrustBadge.classList.remove('pass', 'fail', 'running');
+            if (state === 'pass') {
+                pgTrustBadge.classList.add('pass');
+                pgTrustBadge.textContent = detail || 'Trust Suite: PASS';
+                return;
+            }
+            if (state === 'fail') {
+                pgTrustBadge.classList.add('fail');
+                pgTrustBadge.textContent = detail || 'Trust Suite: FAIL';
+                return;
+            }
+            if (state === 'running') {
+                pgTrustBadge.classList.add('running');
+                pgTrustBadge.textContent = detail || 'Trust Suite: running…';
+                return;
+            }
+            pgTrustBadge.textContent = detail || 'Trust Suite: not run';
+        }
+
+        function restoreTrustSuiteBadge() {
+            try {
+                const raw = localStorage.getItem(getPlaygroundTrustSuiteKey());
+                if (!raw) return setTrustSuiteBadge('neutral');
+                const saved = JSON.parse(raw);
+                if (!saved || !saved.state) return setTrustSuiteBadge('neutral');
+                setTrustSuiteBadge(saved.state, saved.text);
+            } catch {
+                setTrustSuiteBadge('neutral');
+            }
+        }
+
         function updatePlaygroundScopeNote() {
             if (!pgScopeNote) return;
             const uid = window.Clerk?.user?.id;
             pgScopeNote.textContent = uid
                 ? `Audit scope: signed-in account (${uid.slice(0, 8)}…) in this browser session.`
                 : 'Audit scope: this browser (guest). Sign in to scope trail and monitors to your account.';
+            restoreTrustSuiteBadge();
         }
 
         function loadTrail() {
@@ -3378,6 +3428,7 @@ if (v === 'yes' || v === 'no') {
             pgRunTrustSuiteBtn.disabled = true;
             pgRunBtn.disabled = true;
             pgRunSuiteBtn.disabled = true;
+            setTrustSuiteBadge('running');
             try {
                 for (const mode of modes) {
                     for (const notary of notaries) {
@@ -3407,6 +3458,12 @@ if (v === 'yes' || v === 'no') {
                 pgScopeNote.textContent = failed
                     ? `Trust suite: ${passed}/${total} passed. Failed: ${failedCases.join(', ')}.`
                     : `Trust suite: ${passed}/${total} passed across all notaries (MCP + REST).`;
+                const badgeText = `Trust Suite: ${failed ? 'FAIL' : 'PASS'} (${passed}/${total})`;
+                setTrustSuiteBadge(failed ? 'fail' : 'pass', badgeText);
+                localStorage.setItem(
+                    getPlaygroundTrustSuiteKey(),
+                    JSON.stringify({ state: failed ? 'fail' : 'pass', text: badgeText, ts: new Date().toISOString() })
+                );
                 trackEvent('trust_suite_run', { passed, failed, total });
             } finally {
                 pgNotary.value = originalNotary;
