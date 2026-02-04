@@ -50,24 +50,37 @@ function hash(text) {
   return createHash("sha256").update(text).digest("hex").slice(0, 16);
 }
 
-async function fetchText(url) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15000);
-  try {
-    const res = await fetch(url, {
-      signal: controller.signal,
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (compatible; DecidePolicyChecker/1.0; +https://decide.fyi)",
-      },
-    });
-    if (!res.ok) return null;
-    return await res.text();
-  } catch {
-    return null;
-  } finally {
-    clearTimeout(timeout);
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function fetchText(url, attempts = 3) {
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    try {
+      const res = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (compatible; DecidePolicyChecker/1.0; +https://decide.fyi)",
+          Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      if (!text) throw new Error("empty body");
+      return text;
+    } catch {
+      if (attempt < attempts) {
+        await sleep(400 * attempt);
+      }
+    } finally {
+      clearTimeout(timeout);
+    }
   }
+  return null;
 }
 
 async function checkPolicySet({ name, sourcesPath, hashesPath, rulesFile }) {

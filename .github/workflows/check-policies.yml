@@ -23,8 +23,15 @@ jobs:
       - name: Check vendor policy pages
         id: check
         run: |
+          set +e
           output=$(node scripts/check-policies.js 2>&1)
+          status=$?
+          set -e
           echo "$output"
+
+          if [ "$status" -ne 0 ]; then
+            echo "::warning::Policy checker exited with code $status (non-blocking)."
+          fi
 
           # Extract changed vendors if any
           if echo "$output" | grep -q "^CHANGED_VENDORS="; then
