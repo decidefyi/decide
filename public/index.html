@@ -396,7 +396,7 @@
         body.dark .pg-select{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .trail-filter{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .pg-field select,body.dark .pg-select,body.dark .trail-filter,body.dark select.pg-assert-input{
-            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Ctext x='9' y='12' text-anchor='middle' font-size='14' font-family='Inter,Arial,sans-serif' fill='%23f5f5f5'%3E%E2%8C%84%3C/text%3E%3C/svg%3E");
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext x='10' y='14' text-anchor='middle' font-size='16' font-weight='700' font-family='Inter,Arial,sans-serif' fill='%23f5f5f5'%3E%E2%8C%84%3C/text%3E%3C/svg%3E");
         }
         body.dark .pg-redact-label{background:rgba(245,245,245,0.07);border-color:rgba(245,245,245,0.2)}
         body.dark .pg-assert-input{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
@@ -483,6 +483,10 @@
         .playground-card{background:rgba(17,17,17,0.02);border:1px solid rgba(17,17,17,0.1);border-radius:18px;padding:1.1rem;margin-bottom:1rem;min-width:0}
         .playground-stack{display:grid;gap:1.15rem}
         .playground-split{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:1rem}
+        .pg-tabs{display:flex;gap:0.5rem;flex-wrap:wrap}
+        .pg-tab-btn{border:1px solid rgba(17,17,17,0.16);background:rgba(17,17,17,0.05);color:var(--fg);border-radius:999px;padding:0.38rem 0.72rem;font:inherit;font-size:0.71rem;font-weight:700;cursor:pointer}
+        .pg-tab-btn.active{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+        .pg-tab-panel[hidden]{display:none}
         .pg-section-title{font-size:0.71rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-bottom:0.75rem}
         .pg-demo-strip{display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.75rem}
         .pg-demo-pill{border:1px solid rgba(17,17,17,0.16);background:rgba(17,17,17,0.05);color:var(--fg);border-radius:999px;padding:0.38rem 0.72rem;font:inherit;font-size:0.7rem;font-weight:600;cursor:pointer}
@@ -496,9 +500,9 @@
             appearance:none;
             -webkit-appearance:none;
             cursor:pointer;
-            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Ctext x='9' y='12' text-anchor='middle' font-size='14' font-family='Inter,Arial,sans-serif' fill='%234b5563'%3E%E2%8C%84%3C/text%3E%3C/svg%3E");
-            background-position:calc(100% - 0.95rem) 50%;
-            background-size:0.95rem 0.95rem;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext x='10' y='14' text-anchor='middle' font-size='16' font-weight='700' font-family='Inter,Arial,sans-serif' fill='%236b7280'%3E%E2%8C%84%3C/text%3E%3C/svg%3E");
+            background-position:right 0.95rem center;
+            background-size:1.05rem 1.05rem;
             background-repeat:no-repeat;
         }
         .pg-field textarea{min-height:150px;resize:vertical;font-family:'SF Mono',Monaco,Consolas,monospace}
@@ -544,7 +548,7 @@
         .pg-assert-chip button{border:none;background:transparent;color:var(--gray);cursor:pointer;font-size:0.9rem;line-height:1}
         .pg-note{font-size:0.75rem;color:var(--gray);margin-top:0.7rem}
         .trail-controls{margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;padding:0 0.85rem}
-        .trail-filter{font:inherit;font-size:0.74rem;padding:0.5rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background-color:var(--bg);color:var(--fg);padding-right:3rem;background-repeat:no-repeat;background-position:calc(100% - 0.95rem) 50%;background-size:0.95rem 0.95rem}
+        .trail-filter{font:inherit;font-size:0.74rem;padding:0.5rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background-color:var(--bg);color:var(--fg);padding-right:3rem;background-repeat:no-repeat;background-position:right 0.95rem center;background-size:1.05rem 1.05rem}
         .trail-meta{font-size:0.72rem;color:var(--gray);margin-top:0.45rem;padding:0 0.85rem}
         .trail-wrap{margin-top:1rem;border:1px solid rgba(17,17,17,0.12);border-radius:14px;overflow:auto}
         .trail-table{width:100%;border-collapse:collapse;font-size:0.76rem;min-width:780px}
