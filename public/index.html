@@ -421,6 +421,7 @@
         body.dark .price-card.featured{border-color:rgba(245,245,245,0.28);box-shadow:0 12px 30px rgba(0,0,0,0.35)}
         body.dark .price-btn{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+        body.dark .agent-hero-btn.secondary{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2)}
         body.dark .pg-btn:focus-visible,
         body.dark .pg-field select:focus-visible,
         body.dark .pg-field textarea:focus-visible,
@@ -439,6 +440,11 @@
         .agent-hero-inner{max-width:700px}
         .agent-hero h1{font-size:clamp(2.5rem,10vw,5.5rem);font-weight:800;letter-spacing:-0.05em;line-height:0.9;margin-bottom:1rem;color:var(--fg)}
         .agent-hero .sub{margin-bottom:3rem;animation:fadeUp 0.7s var(--ease) 0.28s forwards}
+        .agent-hero-ctas{display:flex;gap:0.7rem;justify-content:center;flex-wrap:wrap;margin:0 auto 2.1rem;animation:fadeUp 0.7s var(--ease) 0.32s forwards}
+        .agent-hero-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0.72rem 1.18rem;border-radius:12px;font-size:0.84rem;font-weight:600;text-decoration:none;border:1px solid transparent;transition:all 0.25s var(--ease-out)}
+        .agent-hero-btn.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+        .agent-hero-btn.secondary{background:rgba(17,17,17,0.08);color:var(--fg);border-color:rgba(17,17,17,0.14)}
+        .agent-hero-btn:hover{transform:translateY(-1px)}
 
         /* MCP CATALOG */
         .mcp-catalog{max-width:800px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:1.25rem}
@@ -1021,6 +1027,10 @@
             <div class="badge"><span class="badge-dot"></span>MCP Servers</div>
             <h1>Decision tools for <span class="serif">agents.</span></h1>
             <p class="sub">Deterministic MCP servers that give your AI agents clear, auditable answers.</p>
+            <div class="agent-hero-ctas">
+                <a href="#" class="agent-hero-btn primary nav-signin" onclick="event.preventDefault(); openSignIn();">Start for free</a>
+                <a href="#mcp-playground" class="agent-hero-btn secondary">Open playground</a>
+            </div>
 
             <div class="mcp-catalog">
                 <div class="mcp-card">
