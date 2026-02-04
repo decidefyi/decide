@@ -1130,6 +1130,7 @@
                                 <div class="pg-actions pg-actions-secondary">
                                     <button class="pg-btn secondary" id="pgExportBtn" type="button">Export CSV</button>
                                     <button class="pg-btn secondary" id="pgClearTrailBtn" type="button">Clear trail</button>
+                                    <button class="pg-btn secondary" id="pgRunTrustSuiteBtn" type="button">Run trust suite</button>
                                 </div>
                                 <div class="pg-case-row">
                                     <button class="pg-btn secondary" id="pgSaveCaseBtn" type="button">Save case</button>
@@ -2091,6 +2092,7 @@ if (v === 'yes' || v === 'no') {
         const pgShareRunBtn = document.getElementById('pgShareRunBtn');
         const pgExportBtn = document.getElementById('pgExportBtn');
         const pgClearTrailBtn = document.getElementById('pgClearTrailBtn');
+        const pgRunTrustSuiteBtn = document.getElementById('pgRunTrustSuiteBtn');
         const pgSaveCaseBtn = document.getElementById('pgSaveCaseBtn');
         const pgSavedCases = document.getElementById('pgSavedCases');
         const pgLoadCaseBtn = document.getElementById('pgLoadCaseBtn');
@@ -3208,6 +3210,89 @@ if (v === 'yes' || v === 'no') {
             }
         }
 
+        function getCorePresetPayload(notary, mode) {
+            const list = PLAYGROUND_PRESETS[notary]?.[mode] || [];
+            const core = list.find((preset) => preset.tier !== 'diag') || list[0];
+            if (core?.payload) return core.payload;
+            return PLAYGROUND_CONFIG[notary]?.[mode]?.template || null;
+        }
+
+        function parseJsonSafe(text) {
+            try { return JSON.parse(text); } catch { return null; }
+        }
+
+        function isTrustPass(mode, entry) {
+            const statusOk = Number(entry?.status || 0) >= 200 && Number(entry?.status || 0) < 300;
+            if (!statusOk || !entry?.responseText) return false;
+            const parsed = parseJsonSafe(entry.responseText);
+            if (!parsed) return false;
+
+            if (mode === 'rest') {
+                const source = parsed.policy_source_url;
+                const checked = parsed.policy_last_checked;
+                return Boolean(source && source !== 'N/A' && checked && checked !== 'N/A');
+            }
+
+            const mcpText = parsed?.result?.content?.[0]?.text || '';
+            return /Source:\s*(?!N\/A).+/i.test(mcpText) && /Last Checked:\s*(?!N\/A).+/i.test(mcpText);
+        }
+
+        async function runTrustSuite() {
+            const originalNotary = pgNotary.value;
+            const originalMode = pgMode.value;
+            const originalPayload = pgPayload.value;
+            const notaries = ['refund', 'cancel', 'return', 'trial'];
+            const modes = ['mcp', 'rest'];
+            let passed = 0;
+            let failed = 0;
+            const failedCases = [];
+
+            pgRunTrustSuiteBtn.disabled = true;
+            pgRunBtn.disabled = true;
+            pgRunSuiteBtn.disabled = true;
+            try {
+                for (const mode of modes) {
+                    for (const notary of notaries) {
+                        const payload = getCorePresetPayload(notary, mode);
+                        if (!payload) {
+                            failed += 1;
+                            failedCases.push(`${notary}/${mode} (missing payload)`);
+                            continue;
+                        }
+                        const entry = await runPlayground({
+                            notary,
+                            mode,
+                            payload,
+                            caseName: 'trust-suite',
+                            silentUi: true
+                        });
+                        const ok = isTrustPass(mode, entry);
+                        if (ok) passed += 1;
+                        else {
+                            failed += 1;
+                            failedCases.push(`${notary}/${mode}`);
+                        }
+                    }
+                }
+
+                const total = passed + failed;
+                pgScopeNote.textContent = failed
+                    ? `Trust suite: ${passed}/${total} passed. Failed: ${failedCases.join(', ')}.`
+                    : `Trust suite: ${passed}/${total} passed across all notaries (MCP + REST).`;
+            } finally {
+                pgNotary.value = originalNotary;
+                pgMode.value = originalMode;
+                renderPresetOptions();
+                renderSavedCases();
+                renderAssertions();
+                renderAssertionTemplates();
+                pgPayload.value = originalPayload;
+                pgRunTrustSuiteBtn.disabled = false;
+                pgRunBtn.disabled = false;
+                pgRunSuiteBtn.disabled = false;
+            }
+        }
+
         function exportTrailCsv() {
             const entries = loadTrail();
             if (!entries.length) return;
@@ -3235,6 +3320,7 @@ if (v === 'yes' || v === 'no') {
         });
         pgShareRunBtn.addEventListener('click', copyRunShareLink);
         pgExportBtn.addEventListener('click', exportTrailCsv);
+        pgRunTrustSuiteBtn.addEventListener('click', runTrustSuite);
         pgSaveCaseBtn.addEventListener('click', saveCurrentCase);
         pgLoadCaseBtn.addEventListener('click', loadSelectedCase);
         pgDeleteCaseBtn.addEventListener('click', deleteSelectedCase);
