@@ -397,6 +397,9 @@
         body.dark .pg-assert-chip{background:rgba(245,245,245,0.08);border-color:rgba(245,245,245,0.2)}
         body.dark .pg-advanced{background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.14)}
         body.dark .pg-advanced[open] summary{border-bottom-color:rgba(245,245,245,0.1)}
+        body.dark .pg-field select,body.dark .pg-select,body.dark .trail-filter,body.dark select.pg-assert-input{
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23d1d5db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        }
         body.dark .trail-action{background:rgba(245,245,245,0.12);color:var(--fg)}
         body.dark .trail-action.active{background:rgba(22,163,74,0.22)}
         body.dark .trail-wrap{border-color:rgba(245,245,245,0.16)}
@@ -475,6 +478,14 @@
         .pg-field select,.pg-field textarea{font:inherit;font-size:0.85rem;padding:0.7rem 0.8rem;border-radius:12px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
         .pg-field select{padding-right:2.75rem}
         .pg-field textarea{min-height:150px;resize:vertical;font-family:'SF Mono',Monaco,Consolas,monospace}
+        .pg-field select,.pg-select,.trail-filter,select.pg-assert-input{
+            appearance:none;
+            -webkit-appearance:none;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat:no-repeat;
+            background-position:right 0.9rem center;
+            background-size:0.8rem;
+        }
         .pg-inline{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0.5rem;align-items:center}
         .pg-inline select{min-width:0;width:100%}
         .pg-mini{padding:0.6rem 0.8rem;white-space:nowrap}
