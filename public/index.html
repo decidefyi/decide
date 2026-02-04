@@ -406,6 +406,8 @@
         body.dark .pg-mini-btn.warn{background:rgba(248,113,113,0.18);color:#fca5a5}
         body.dark .pg-advanced{background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.14)}
         body.dark .pg-advanced[open] summary{border-bottom-color:rgba(245,245,245,0.1)}
+        body.dark .pg-demo-pill{background:rgba(245,245,245,0.08);border-color:rgba(245,245,245,0.2);color:var(--fg)}
+        body.dark .pg-demo-pill:hover{background:rgba(245,245,245,0.14)}
         body.dark .trail-action{background:rgba(245,245,245,0.12);color:var(--fg)}
         body.dark .trail-action.active{background:rgba(22,163,74,0.22)}
         body.dark .trail-wrap{border-color:rgba(245,245,245,0.16)}
@@ -413,6 +415,10 @@
         body.dark .trail-table thead th{background:#111111}
         body.dark .trail-table tbody tr:nth-child(even) td{background:rgba(245,245,245,0.03)}
         body.dark .trail-table tbody tr:hover td{background:rgba(245,245,245,0.08)}
+        body.dark .price-card{background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.14)}
+        body.dark .price-card.featured{border-color:rgba(245,245,245,0.28);box-shadow:0 12px 30px rgba(0,0,0,0.35)}
+        body.dark .price-btn{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.18);color:var(--fg)}
+        body.dark .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
         body.dark .pg-btn:focus-visible,
         body.dark .pg-field select:focus-visible,
         body.dark .pg-field textarea:focus-visible,
@@ -478,6 +484,9 @@
         .playground-stack{display:grid;gap:1.15rem}
         .playground-split{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:1rem}
         .pg-section-title{font-size:0.71rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-bottom:0.75rem}
+        .pg-demo-strip{display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.75rem}
+        .pg-demo-pill{border:1px solid rgba(17,17,17,0.16);background:rgba(17,17,17,0.05);color:var(--fg);border-radius:999px;padding:0.38rem 0.72rem;font:inherit;font-size:0.7rem;font-weight:600;cursor:pointer}
+        .pg-demo-pill:hover{background:rgba(17,17,17,0.1)}
         .pg-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.15fr);gap:0.85rem}
         .pg-field{display:flex;flex-direction:column;gap:0.35rem}
         .pg-field label{font-size:0.72rem;font-weight:600;color:var(--gray)}
@@ -563,6 +572,18 @@
         .pg-prov-pill{display:inline-flex;align-items:center;gap:0.4rem;padding:0.34rem 0.62rem;border-radius:999px;border:1px solid rgba(17,17,17,0.12);background:rgba(17,17,17,0.04);font-size:0.68rem;color:var(--gray)}
         .pg-prov-pill strong{font-weight:700;color:var(--fg)}
         .pg-prov-pill a{color:var(--fg);text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+        .pricing{padding:3rem 1.5rem 6rem;position:relative;z-index:2;background:var(--bg)}
+        .pricing .sec-head{margin-bottom:1.4rem}
+        .pricing-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.95rem}
+        .price-card{background:rgba(17,17,17,0.02);border:1px solid rgba(17,17,17,0.12);border-radius:18px;padding:1.2rem;display:flex;flex-direction:column;gap:0.8rem}
+        .price-card.featured{border-color:rgba(17,17,17,0.28);box-shadow:0 12px 30px rgba(0,0,0,0.06)}
+        .price-tier{font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray)}
+        .price-amt{font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;color:var(--fg)}
+        .price-amt span{font-size:0.82rem;color:var(--gray);font-weight:600}
+        .price-list{display:grid;gap:0.42rem;font-size:0.78rem;color:var(--gray)}
+        .price-list div::before{content:"• ";color:var(--fg)}
+        .price-btn{margin-top:auto;display:inline-flex;justify-content:center;align-items:center;min-height:42px;padding:0.62rem 0.95rem;border-radius:12px;text-decoration:none;font-size:0.8rem;font-weight:600;background:rgba(17,17,17,0.08);color:var(--fg);border:1px solid rgba(17,17,17,0.1)}
+        .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
         .pg-field,.pg-inline,.pg-assert-row>*{min-width:0}
         .pg-assert-input,.pg-select,.trail-filter{max-width:100%}
         #pgResponse,#pgDiff{white-space:pre-wrap;word-break:break-word;min-height:74px}
@@ -607,6 +628,7 @@
             .pg-monitor-row .pg-btn,.pg-monitor-row .pg-select{width:100%;min-width:0}
             .trail-controls{display:grid;grid-template-columns:1fr 1fr}
             .trail-controls .trail-filter{width:100%}
+            .pricing-grid{grid-template-columns:1fr}
         }
 
         @media(max-width:768px){
@@ -832,8 +854,10 @@
             </div>
             <div class="nav-links" id="navLinksAgent" style="display:none">
                 <a href="#mcp-playground">Playground</a>
+                <a href="#pricing">Pricing</a>
                 <a href="#mcp-connect">Connect</a>
                 <a href="https://github.com/decidefyi/decide" target="_blank">GitHub</a>
+                <a href="?demo=1#agents">Demo</a>
                 <a href="#" class="nav-signin nav-cta" onclick="event.preventDefault(); openSignIn();">Sign In</a>
             </div>
             <button class="mob" id="mobBtn"><span></span><span></span><span></span></button>
@@ -849,8 +873,10 @@
         </div>
         <div id="mobileAgentLinks" style="display:none">
             <a href="#mcp-playground" class="mobile-link">Playground</a>
+            <a href="#pricing" class="mobile-link">Pricing</a>
             <a href="#mcp-connect" class="mobile-link">Connect</a>
             <a href="https://github.com/decidefyi/decide" class="mobile-link" target="_blank">GitHub</a>
+            <a href="?demo=1#agents" class="mobile-link">Demo</a>
             <a href="#" class="nav-cta mobile-link nav-signin" onclick="event.preventDefault(); openSignIn();">Sign In</a>
         </div>
     </div>
@@ -1090,6 +1116,11 @@
                 <div class="playground-split">
                     <div class="playground-card">
                         <div class="pg-section-title">Run Request</div>
+                        <div class="pg-demo-strip">
+                            <button class="pg-demo-pill" id="pgDemoRefundBtn" type="button">Demo: refund ALLOWED</button>
+                            <button class="pg-demo-pill" id="pgDemoCancelBtn" type="button">Demo: cancel PENALTY</button>
+                            <button class="pg-demo-pill" id="pgDemoTrustBtn" type="button">Demo: trust suite</button>
+                        </div>
                         <div class="pg-grid">
                             <div class="pg-field">
                                 <label for="pgNotary">Notary</label>
@@ -1310,6 +1341,45 @@
 <pre>curl -X POST https://refund.decide.fyi/api/v1/refund/eligibility \
   -H <span class="s">"Content-Type: application/json"</span> \
   -d <span class="s">'{"vendor":"spotify","days_since_purchase":5,"region":"US","plan":"individual"}'</span></pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing sec-light" id="pricing">
+        <div class="sec-head">
+            <h2>Simple <span class="serif">pricing</span></h2>
+            <p>Start free, then upgrade when your team needs higher volume and support.</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div class="price-tier">Starter</div>
+                <div class="price-amt">$0 <span>/ forever</span></div>
+                <div class="price-list">
+                    <div>4 notaries + playground</div>
+                    <div>Basic audit trail + trust suite</div>
+                    <div>Best for solo builders</div>
+                </div>
+                <a class="price-btn" href="#mcp-playground" data-track="pricing_starter_cta">Use playground</a>
+            </div>
+            <div class="price-card featured">
+                <div class="price-tier">Pro</div>
+                <div class="price-amt">$49 <span>/ month</span></div>
+                <div class="price-list">
+                    <div>Higher request limits</div>
+                    <div>Shared team runbooks + monitors</div>
+                    <div>Email support + onboarding</div>
+                </div>
+                <a class="price-btn" href="mailto:decidefyi@gmail.com?subject=decide%20Pro%20pilot" data-track="pricing_pro_cta">Start pilot</a>
+            </div>
+            <div class="price-card">
+                <div class="price-tier">Enterprise</div>
+                <div class="price-amt">Custom <span>/ contract</span></div>
+                <div class="price-list">
+                    <div>SLA + dedicated support</div>
+                    <div>Custom policy packs</div>
+                    <div>Security and procurement support</div>
+                </div>
+                <a class="price-btn" href="mailto:decidefyi@gmail.com?subject=decide%20Enterprise%20inquiry" data-track="pricing_enterprise_cta">Talk to sales</a>
             </div>
         </div>
     </section>
@@ -2093,6 +2163,9 @@ if (v === 'yes' || v === 'no') {
         const pgExportBtn = document.getElementById('pgExportBtn');
         const pgClearTrailBtn = document.getElementById('pgClearTrailBtn');
         const pgRunTrustSuiteBtn = document.getElementById('pgRunTrustSuiteBtn');
+        const pgDemoRefundBtn = document.getElementById('pgDemoRefundBtn');
+        const pgDemoCancelBtn = document.getElementById('pgDemoCancelBtn');
+        const pgDemoTrustBtn = document.getElementById('pgDemoTrustBtn');
         const pgSaveCaseBtn = document.getElementById('pgSaveCaseBtn');
         const pgSavedCases = document.getElementById('pgSavedCases');
         const pgLoadCaseBtn = document.getElementById('pgLoadCaseBtn');
@@ -2126,6 +2199,24 @@ if (v === 'yes' || v === 'no') {
         let pgPreviousResponseText = '';
         let pgLastRunSnapshot = null;
         let pgMonitorRunning = false;
+
+        function trackEvent(event, props = {}) {
+            const payload = { event, props, ts: new Date().toISOString() };
+            try {
+                const body = JSON.stringify(payload);
+                if (navigator.sendBeacon) {
+                    const blob = new Blob([body], { type: 'application/json' });
+                    navigator.sendBeacon('/api/track', blob);
+                    return;
+                }
+                fetch('/api/track', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body,
+                    keepalive: true
+                }).catch(() => {});
+            } catch {}
+        }
 
         const PLAYGROUND_CONFIG = {
             refund: {
@@ -3044,6 +3135,12 @@ if (v === 'yes' || v === 'no') {
                 setPlaygroundDiff(result.responseText);
                 const provenance = extractProvenance(result.parsed);
                 renderProvenance(provenance);
+                trackEvent('playground_run', {
+                    notary,
+                    mode,
+                    status: result.status,
+                    latency_ms: result.latency
+                });
                 const assertions = getScopedAssertions(notary, mode);
                 const assertResult = evaluateAssertions(assertions, {
                     status: result.status,
@@ -3279,6 +3376,7 @@ if (v === 'yes' || v === 'no') {
                 pgScopeNote.textContent = failed
                     ? `Trust suite: ${passed}/${total} passed. Failed: ${failedCases.join(', ')}.`
                     : `Trust suite: ${passed}/${total} passed across all notaries (MCP + REST).`;
+                trackEvent('trust_suite_run', { passed, failed, total });
             } finally {
                 pgNotary.value = originalNotary;
                 pgMode.value = originalMode;
@@ -3291,6 +3389,51 @@ if (v === 'yes' || v === 'no') {
                 pgRunBtn.disabled = false;
                 pgRunSuiteBtn.disabled = false;
             }
+        }
+
+        async function runDemoScenario(type) {
+            if (type === 'refund') {
+                const payload = getCorePresetPayload('refund', 'mcp');
+                pgNotary.value = 'refund';
+                pgMode.value = 'mcp';
+                renderPresetOptions();
+                renderSavedCases();
+                renderAssertions();
+                renderAssertionTemplates();
+                setPlaygroundPayload(payload);
+                trackEvent('demo_flow_run', { scenario: 'refund_allowed' });
+                await runPlayground({ notary: 'refund', mode: 'mcp', payload });
+                return;
+            }
+            if (type === 'cancel') {
+                const payload = getCorePresetPayload('cancel', 'rest');
+                pgNotary.value = 'cancel';
+                pgMode.value = 'rest';
+                renderPresetOptions();
+                renderSavedCases();
+                renderAssertions();
+                renderAssertionTemplates();
+                setPlaygroundPayload(payload);
+                trackEvent('demo_flow_run', { scenario: 'cancel_penalty' });
+                await runPlayground({ notary: 'cancel', mode: 'rest', payload });
+                return;
+            }
+            if (type === 'trust') {
+                trackEvent('demo_flow_run', { scenario: 'trust_suite' });
+                await runTrustSuite();
+            }
+        }
+
+        function maybeEnterDemoMode() {
+            const params = new URLSearchParams(window.location.search);
+            const isDemo = params.get('demo') === '1' || window.location.hash === '#demo';
+            if (!isDemo) return;
+            setMode('agents');
+            setTimeout(() => {
+                document.getElementById('mcp-playground')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                pgScopeNote.textContent = 'Demo mode: use quick demo pills to run live scenarios.';
+            }, 150);
+            trackEvent('demo_mode_entered', { via: params.get('demo') === '1' ? 'query' : 'hash' });
         }
 
         function exportTrailCsv() {
@@ -3313,6 +3456,9 @@ if (v === 'yes' || v === 'no') {
         pgPreset.addEventListener('change', setPlaygroundTemplate);
         pgLoadPresetBtn.addEventListener('click', setPlaygroundTemplate);
         pgRunBtn.addEventListener('click', () => runPlayground());
+        pgDemoRefundBtn?.addEventListener('click', () => runDemoScenario('refund'));
+        pgDemoCancelBtn?.addEventListener('click', () => runDemoScenario('cancel'));
+        pgDemoTrustBtn?.addEventListener('click', () => runDemoScenario('trust'));
         pgCopyRespBtn.addEventListener('click', async () => {
             await navigator.clipboard.writeText(pgResponse.textContent || '');
             pgCopyRespBtn.textContent = 'Copied!';
@@ -3363,6 +3509,18 @@ if (v === 'yes' || v === 'no') {
             localStorage.removeItem(getPlaygroundAuditKey());
             renderTrail();
         });
+        document.addEventListener('click', (event) => {
+            const link = event.target.closest('a');
+            if (!link) return;
+            const href = link.getAttribute('href') || '';
+            const label = (link.textContent || '').trim().toLowerCase();
+            if (href === '#mcp-connect') trackEvent('nav_connect_click', { label });
+            if (href === '#mcp-playground') trackEvent('nav_playground_click', { label });
+            if (href === '#pricing') trackEvent('nav_pricing_click', { label });
+            if (link.classList.contains('install-badge')) trackEvent('install_badge_click', { href: link.getAttribute('href') || '' });
+            const trackKey = link.getAttribute('data-track');
+            if (trackKey) trackEvent(trackKey, { href: link.getAttribute('href') || '' });
+        });
         renderPresetOptions();
         setPlaygroundTemplate();
         renderSavedCases();
@@ -3375,6 +3533,7 @@ if (v === 'yes' || v === 'no') {
         renderTrail();
         runDueMonitors();
         setInterval(() => { runDueMonitors(); }, 60 * 1000);
+        maybeEnterDemoMode();
 
         // Copy code blocks
         function copyCode(btn) {
@@ -3442,6 +3601,7 @@ if (v === 'yes' || v === 'no') {
             if (!window.Clerk) return;
             
             try {
+                trackEvent('signin_click', { mode: document.body.classList.contains('agents') ? 'agents' : 'humans' });
                 await window.Clerk.openSignIn();
             } catch (error) {
                 console.error('Error opening sign in:', error);
