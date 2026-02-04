@@ -2163,14 +2163,14 @@ if (v === 'yes' || v === 'no') {
             },
             cancel: {
                 mcp: [
-                    { label: 'Annual plan with ETF', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'adobe', region: 'US', plan: 'annual' } } } },
-                    { label: 'Monthly no-penalty path', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'adobe', region: 'US', plan: 'monthly' } } } },
+                    { label: 'Adobe ETF path', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'adobe', region: 'US', plan: 'individual' } } } },
+                    { label: 'Free cancel path', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'netflix', region: 'US', plan: 'individual' } } } },
                     { label: 'Unknown vendor fallback', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'unknownco', region: 'US', plan: 'individual' } } } },
                     { label: 'Diagnostic: invalid plan', tier: 'diag', payload: { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'cancellation_penalty', arguments: { vendor: 'adobe', region: 'US', plan: 'weekly' } } } }
                 ],
                 rest: [
-                    { label: 'Annual plan with ETF', payload: { vendor: 'adobe', region: 'US', plan: 'annual' } },
-                    { label: 'Monthly no-penalty path', payload: { vendor: 'adobe', region: 'US', plan: 'monthly' } },
+                    { label: 'Adobe ETF path', payload: { vendor: 'adobe', region: 'US', plan: 'individual' } },
+                    { label: 'Free cancel path', payload: { vendor: 'netflix', region: 'US', plan: 'individual' } },
                     { label: 'Unknown vendor fallback', payload: { vendor: 'unknownco', region: 'US', plan: 'individual' } },
                     { label: 'Diagnostic: invalid plan', tier: 'diag', payload: { vendor: 'adobe', region: 'US', plan: 'weekly' } }
                 ]
@@ -2211,31 +2211,43 @@ if (v === 'yes' || v === 'no') {
             mcp: {
                 refund: [
                     { label: 'Refund text contains ALLOWED', path: 'result.content[0].text', op: 'contains', expected: 'ALLOWED' },
-                    { label: 'Refund text contains WITHIN_WINDOW', path: 'result.content[0].text', op: 'contains', expected: 'WITHIN_WINDOW' }
+                    { label: 'Refund text contains WITHIN_WINDOW', path: 'result.content[0].text', op: 'contains', expected: 'WITHIN_WINDOW' },
+                    { label: 'Refund text contains Source', path: 'result.content[0].text', op: 'contains', expected: 'Source:' }
                 ],
                 cancel: [
-                    { label: 'Cancel text contains PENALTY', path: 'result.content[0].text', op: 'contains', expected: 'PENALTY' }
+                    { label: 'Cancel text contains PENALTY', path: 'result.content[0].text', op: 'contains', expected: 'PENALTY' },
+                    { label: 'Cancel text contains Source', path: 'result.content[0].text', op: 'contains', expected: 'Source:' }
                 ],
                 return: [
-                    { label: 'Return text contains RETURNABLE', path: 'result.content[0].text', op: 'contains', expected: 'RETURNABLE' }
+                    { label: 'Return text contains RETURNABLE', path: 'result.content[0].text', op: 'contains', expected: 'RETURNABLE' },
+                    { label: 'Return text contains Source', path: 'result.content[0].text', op: 'contains', expected: 'Source:' }
                 ],
                 trial: [
-                    { label: 'Trial text contains TRIAL_AVAILABLE', path: 'result.content[0].text', op: 'contains', expected: 'TRIAL_AVAILABLE' }
+                    { label: 'Trial text contains TRIAL_AVAILABLE', path: 'result.content[0].text', op: 'contains', expected: 'TRIAL_AVAILABLE' },
+                    { label: 'Trial text contains Source', path: 'result.content[0].text', op: 'contains', expected: 'Source:' }
                 ]
             },
             rest: {
                 refund: [
                     { label: 'Verdict = ALLOWED', path: 'verdict', op: 'eq', expected: 'ALLOWED' },
-                    { label: 'Code = WITHIN_WINDOW', path: 'code', op: 'eq', expected: 'WITHIN_WINDOW' }
+                    { label: 'Code = WITHIN_WINDOW', path: 'code', op: 'eq', expected: 'WITHIN_WINDOW' },
+                    { label: 'Source url exists', path: 'policy_source_url', op: 'exists', expected: '' },
+                    { label: 'Last checked exists', path: 'policy_last_checked', op: 'exists', expected: '' }
                 ],
                 cancel: [
-                    { label: 'Verdict = PENALTY', path: 'verdict', op: 'eq', expected: 'PENALTY' }
+                    { label: 'Verdict = PENALTY', path: 'verdict', op: 'eq', expected: 'PENALTY' },
+                    { label: 'Source url exists', path: 'policy_source_url', op: 'exists', expected: '' },
+                    { label: 'Last checked exists', path: 'policy_last_checked', op: 'exists', expected: '' }
                 ],
                 return: [
-                    { label: 'Verdict = RETURNABLE', path: 'verdict', op: 'eq', expected: 'RETURNABLE' }
+                    { label: 'Verdict = RETURNABLE', path: 'verdict', op: 'eq', expected: 'RETURNABLE' },
+                    { label: 'Source url exists', path: 'policy_source_url', op: 'exists', expected: '' },
+                    { label: 'Last checked exists', path: 'policy_last_checked', op: 'exists', expected: '' }
                 ],
                 trial: [
-                    { label: 'Verdict = TRIAL_AVAILABLE', path: 'verdict', op: 'eq', expected: 'TRIAL_AVAILABLE' }
+                    { label: 'Verdict = TRIAL_AVAILABLE', path: 'verdict', op: 'eq', expected: 'TRIAL_AVAILABLE' },
+                    { label: 'Source url exists', path: 'policy_source_url', op: 'exists', expected: '' },
+                    { label: 'Last checked exists', path: 'policy_last_checked', op: 'exists', expected: '' }
                 ]
             }
         };
