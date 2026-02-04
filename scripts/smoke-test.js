@@ -7,6 +7,8 @@ import refundMcp from "../api/mcp.js";
 import cancelMcp from "../api/cancel-mcp.js";
 import returnMcp from "../api/return-mcp.js";
 import trialMcp from "../api/trial-mcp.js";
+import track from "../api/track.js";
+import metrics from "../api/metrics.js";
 
 function createReq({
   method = "GET",
@@ -209,6 +211,36 @@ async function main() {
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
       expect(Array.isArray(json.result?.content), "expected content array");
+    }
+  );
+
+  await runCase(
+    "track POST",
+    track,
+    {
+      method: "POST",
+      headers: { "user-agent": "smoke-test", "content-type": "application/json" },
+      url: "/api/track",
+      body: { event: "smoke_event", props: { source: "smoke" } },
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.ok === true, "expected ok=true");
+    }
+  );
+
+  await runCase(
+    "metrics GET",
+    metrics,
+    {
+      method: "GET",
+      headers: { "user-agent": "smoke-test" },
+      url: "/api/metrics",
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.ok === true, "expected ok=true");
+      expect(typeof json.total_events === "number", "expected total_events number");
     }
   );
 

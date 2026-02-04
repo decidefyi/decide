@@ -1,5 +1,6 @@
 import { createRateLimiter, getClientIp, addRateLimitHeaders } from "../lib/rate-limit.js";
 import { persistLog } from "../lib/log.js";
+import { recordClientEvent } from "../lib/metrics-store.js";
 
 const rateLimiter = createRateLimiter(300, 60000);
 
@@ -64,10 +65,10 @@ export default async function handler(req, res) {
     };
 
     console.log("[Client Event]", JSON.stringify(data));
+    recordClientEvent(event, Date.now());
     await persistLog("client_event", data);
     return send(res, 200, { ok: true });
   } catch (error) {
     return send(res, 200, { ok: false, error: "TRACK_FAILED", message: String(error?.message || error) });
   }
 }
-
