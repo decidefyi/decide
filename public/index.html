@@ -388,12 +388,12 @@
         body.dark .install-badge:hover{border-color:rgba(245,245,245,0.28)}
         body.dark .code-block{background:#111111;border-color:rgba(245,245,245,0.16)}
         body.dark .playground-card{background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.14)}
-        body.dark .pg-field select,body.dark .pg-field textarea{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
+        body.dark .pg-field select,body.dark .pg-field textarea{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .pg-btn.secondary{background:rgba(245,245,245,0.1);color:var(--fg)}
-        body.dark .pg-select{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
-        body.dark .trail-filter{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
+        body.dark .pg-select{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
+        body.dark .trail-filter{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .pg-redact-label{background:rgba(245,245,245,0.07);border-color:rgba(245,245,245,0.2)}
-        body.dark .pg-assert-input{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
+        body.dark .pg-assert-input{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .pg-assert-chip{background:rgba(245,245,245,0.08);border-color:rgba(245,245,245,0.2)}
         body.dark .pg-advanced{background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.14)}
         body.dark .pg-advanced[open] summary{border-bottom-color:rgba(245,245,245,0.1)}
@@ -469,7 +469,7 @@
         .playground-stack{display:grid;gap:1.15rem}
         .playground-split{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:1rem}
         .pg-section-title{font-size:0.71rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-bottom:0.75rem}
-        .pg-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.85rem}
+        .pg-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.15fr);gap:0.85rem}
         .pg-field{display:flex;flex-direction:column;gap:0.35rem}
         .pg-field label{font-size:0.72rem;font-weight:600;color:var(--gray)}
         .pg-field select,.pg-field textarea{font:inherit;font-size:0.85rem;padding:0.7rem 0.8rem;border-radius:12px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
@@ -492,6 +492,7 @@
         .pg-preset-inline{grid-template-columns:1fr}
         .pg-preset-inline .pg-mini{width:100%}
         .pg-inline select{min-width:0;width:100%}
+        #pgPreset{font-size:0.82rem}
         .pg-mini{padding:0.6rem 0.8rem;white-space:nowrap}
         .pg-actions{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.5rem}
         .pg-actions-primary .pg-btn.primary{min-width:140px}
