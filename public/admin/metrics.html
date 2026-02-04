@@ -110,10 +110,31 @@
     const src = document.getElementById('src');
     const metaLine = document.getElementById('metaLine');
     const refreshBtn = document.getElementById('refreshBtn');
+    const TOKEN_KEY = 'decide_metrics_admin_token';
+
+    function getToken() {
+      return sessionStorage.getItem(TOKEN_KEY) || '';
+    }
+
+    function askForToken(force = false) {
+      const existing = getToken();
+      if (existing && !force) return existing;
+      const entered = (window.prompt('Enter metrics admin token') || '').trim();
+      if (entered) {
+        sessionStorage.setItem(TOKEN_KEY, entered);
+        return entered;
+      }
+      return '';
+    }
 
     async function loadMetrics() {
       try {
-        const res = await fetch('/api/metrics');
+        let token = getToken();
+        let res = await fetch('/api/metrics', { headers: token ? { 'x-metrics-token': token } : {} });
+        if (res.status === 401) {
+          token = askForToken(true);
+          res = await fetch('/api/metrics', { headers: token ? { 'x-metrics-token': token } : {} });
+        }
         const data = await res.json();
         if (!data.ok) throw new Error(data.error || 'metrics failed');
 
@@ -144,9 +165,14 @@
     }
 
     refreshBtn.addEventListener('click', loadMetrics);
+    window.addEventListener('keydown', (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        askForToken(true);
+      }
+    });
     loadMetrics();
     setInterval(loadMetrics, 15000);
   </script>
 </body>
 </html>
-
