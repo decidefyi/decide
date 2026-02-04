@@ -643,8 +643,9 @@
         .price-amt span{font-size:0.82rem;color:var(--gray);font-weight:600}
         .price-list{display:grid;gap:0.42rem;font-size:0.78rem;color:var(--gray)}
 	        .price-list div::before{content:"• ";color:var(--fg)}
-	        .price-btn{margin-top:auto;display:inline-flex;justify-content:center;align-items:center;min-height:42px;padding:0.62rem 0.95rem;border-radius:12px;text-decoration:none;font-size:0.8rem;font-weight:600;background:rgba(17,17,17,0.08);color:var(--fg);border:1px solid rgba(17,17,17,0.1)}
-	        .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+        .price-btn{margin-top:auto;display:inline-flex;justify-content:center;align-items:center;min-height:42px;padding:0.62rem 0.95rem;border-radius:12px;text-decoration:none;font-size:0.8rem;font-weight:600;background:rgba(17,17,17,0.08);color:var(--fg);border:1px solid rgba(17,17,17,0.1)}
+        .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+        .pricing-note{max-width:1100px;margin:0.85rem auto 0;font-size:0.72rem;color:var(--gray);text-align:center}
 	        .pg-field,.pg-inline,.pg-assert-row>*{min-width:0}
 	        .pg-assert-input,.pg-select,.trail-filter{max-width:100%}
 	        #pgResponse,#pgDiff{white-space:pre-wrap;word-break:break-word;min-height:74px}
@@ -1431,16 +1432,16 @@
     <section class="pricing sec-light" id="pricing">
         <div class="sec-head">
             <h2>Simple <span class="serif">pricing</span></h2>
-            <p>Start free, then upgrade when your team needs higher volume and support.</p>
+            <p>Start free, then upgrade when your team needs higher volume and workflows.</p>
         </div>
-	        <div class="pricing-grid">
+		        <div class="pricing-grid">
             <div class="price-card">
                 <div class="price-tier">Starter</div>
                 <div class="price-amt">$0 <span>/ forever</span></div>
                 <div class="price-list">
                     <div>4 notaries + playground</div>
                     <div>Basic audit trail + trust suite</div>
-                    <div>Best for solo builders</div>
+                    <div>Best for evaluation and solo builds</div>
                 </div>
                 <a class="price-btn" href="#mcp-playground" data-track="pricing_starter_cta">Use playground</a>
             </div>
@@ -1449,8 +1450,8 @@
                 <div class="price-amt">$49 <span>/ month</span></div>
                 <div class="price-list">
                     <div>Higher request limits</div>
-                    <div>Shared team runbooks + monitors</div>
-                    <div>Email support + onboarding</div>
+                    <div>Saved cases + monitor workflows</div>
+                    <div>Commercial usage + exports</div>
                 </div>
                 <a class="price-btn" href="mailto:decidefyi@gmail.com?subject=decide%20Pro%20pilot" data-track="pricing_pro_cta">Start pilot</a>
             </div>
@@ -1458,13 +1459,14 @@
                 <div class="price-tier">Enterprise</div>
                 <div class="price-amt">Custom <span>/ contract</span></div>
                 <div class="price-list">
-                    <div>SLA + dedicated support</div>
+                    <div>Custom limits + usage plans</div>
                     <div>Custom policy packs</div>
-                    <div>Security and procurement support</div>
+                    <div>Security questionnaire + invoicing</div>
                 </div>
                 <a class="price-btn" href="mailto:decidefyi@gmail.com?subject=decide%20Enterprise%20inquiry" data-track="pricing_enterprise_cta">Talk to sales</a>
             </div>
-	        </div>
+		        </div>
+            <p class="pricing-note">Support is async and best-effort on Starter and Pro. No SLA outside Enterprise contracts.</p>
 	    </section>
 
     <section class="agent-features sec-light">
