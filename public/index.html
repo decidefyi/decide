@@ -829,6 +829,7 @@
                 <a href="#mcp-playground">Playground</a>
                 <a href="#mcp-connect">Connect</a>
                 <a href="https://github.com/decidefyi/decide" target="_blank">GitHub</a>
+                <a href="#" class="nav-signin nav-cta" onclick="event.preventDefault(); openSignIn();">Sign In</a>
             </div>
             <button class="mob" id="mobBtn"><span></span><span></span><span></span></button>
         </div>
@@ -845,6 +846,7 @@
             <a href="#mcp-playground" class="mobile-link">Playground</a>
             <a href="#mcp-connect" class="mobile-link">Connect</a>
             <a href="https://github.com/decidefyi/decide" class="mobile-link" target="_blank">GitHub</a>
+            <a href="#" class="nav-cta mobile-link nav-signin" onclick="event.preventDefault(); openSignIn();">Sign In</a>
         </div>
     </div>
 
@@ -1932,37 +1934,42 @@ if (v === 'yes' || v === 'no') {
         
         // Update UI based on auth state
         function updateAuthUI() {
-            const navLinks = document.querySelector('.nav-links');
-            const signInLink = navLinks.querySelector('.nav-signin');
-            const mobileSignIn = document.querySelector('.mobile-menu .nav-cta');
+            const signInLinks = Array.from(document.querySelectorAll('.nav-signin'));
             const user = window.Clerk?.user;
             
             // Remove existing sign out button if present
-            const existingSignOut = navLinks.querySelector('.sign-out-btn');
-            if (existingSignOut) {
-                existingSignOut.remove();
-            }
+            document.querySelectorAll('.sign-out-btn').forEach((el) => el.remove());
             
             if (user) {
                 // User is signed in - update the Sign In link to show user info
                 const displayName = user.firstName || user.emailAddresses?.[0]?.emailAddress?.split('@')[0] || 'Account';
                 const avatarUrl = user.imageUrl;
                 
-                // Replace Sign In with user dropdown/button
-                if (signInLink) {
-                    signInLink.innerHTML = `
+                signInLinks.forEach((link) => {
+                    const isMobileMenu = Boolean(link.closest('.mobile-menu'));
+                    if (isMobileMenu) {
+                        link.textContent = displayName;
+                        link.onclick = (e) => {
+                            e.preventDefault();
+                            closeMobileMenu();
+                            openUserMenu();
+                        };
+                        return;
+                    }
+
+                    link.innerHTML = `
                         <span style="display:flex;align-items:center;gap:0.5rem;">
                             ${avatarUrl ? `<img src="${avatarUrl}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;">` : ''}
                             <span>${displayName}</span>
                         </span>
                     `;
-                    signInLink.onclick = (e) => {
+                    link.onclick = (e) => {
                         e.preventDefault();
                         openUserMenu();
                     };
-                    signInLink.classList.add('signed-in');
-                    
-                    // Add Sign Out button after the user button
+                    link.classList.add('signed-in');
+
+                    // Add Sign Out button after each desktop user button
                     const signOutBtn = document.createElement('a');
                     signOutBtn.href = '#';
                     signOutBtn.className = 'sign-out-btn';
@@ -1971,38 +1978,19 @@ if (v === 'yes' || v === 'no') {
                         e.preventDefault();
                         signOut();
                     };
-                    signInLink.insertAdjacentElement('afterend', signOutBtn);
-                }
-                
-                // Update mobile menu
-                if (mobileSignIn) {
-                    mobileSignIn.innerHTML = displayName;
-                    mobileSignIn.onclick = (e) => {
-                        e.preventDefault();
-                        closeMobileMenu();
-                        openUserMenu();
-                    };
-                }
+                    link.insertAdjacentElement('afterend', signOutBtn);
+                });
             } else {
                 // User is signed out - restore Sign In link
-                if (signInLink) {
-                    signInLink.innerHTML = 'Sign In';
-                    signInLink.onclick = (e) => {
+                signInLinks.forEach((link) => {
+                    link.innerHTML = 'Sign In';
+                    link.onclick = (e) => {
                         e.preventDefault();
+                        if (link.closest('.mobile-menu')) closeMobileMenu();
                         openSignIn();
                     };
-                    signInLink.classList.remove('signed-in');
-                }
-                
-                // Restore mobile menu
-                if (mobileSignIn) {
-                    mobileSignIn.innerHTML = 'Sign In';
-                    mobileSignIn.onclick = (e) => {
-                        e.preventDefault();
-                        closeMobileMenu();
-                        openSignIn();
-                    };
-                }
+                    link.classList.remove('signed-in');
+                });
             }
             updatePlaygroundScopeNote();
             renderTrail();
