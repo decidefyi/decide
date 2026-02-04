@@ -392,6 +392,9 @@
         body.dark .pg-btn.secondary{background:rgba(245,245,245,0.1);color:var(--fg)}
         body.dark .pg-select{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .trail-filter{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
+        body.dark .pg-field select,body.dark .pg-select,body.dark .trail-filter,body.dark select.pg-assert-input{
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Ctext x='9' y='12' text-anchor='middle' font-size='14' font-family='Inter,Arial,sans-serif' fill='%23f5f5f5'%3E%E2%8C%84%3C/text%3E%3C/svg%3E");
+        }
         body.dark .pg-redact-label{background:rgba(245,245,245,0.07);border-color:rgba(245,245,245,0.2)}
         body.dark .pg-assert-input{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .pg-assert-chip{background:rgba(245,245,245,0.08);border-color:rgba(245,245,245,0.2)}
@@ -478,13 +481,9 @@
             appearance:none;
             -webkit-appearance:none;
             cursor:pointer;
-            background-image:
-                linear-gradient(45deg, transparent 50%, var(--select-chevron) 50%),
-                linear-gradient(135deg, var(--select-chevron) 50%, transparent 50%);
-            background-position:
-                calc(100% - 1.15rem) calc(50% - 0.14rem),
-                calc(100% - 0.8rem) calc(50% - 0.14rem);
-            background-size:0.42rem 0.42rem,0.42rem 0.42rem;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Ctext x='9' y='12' text-anchor='middle' font-size='14' font-family='Inter,Arial,sans-serif' fill='%234b5563'%3E%E2%8C%84%3C/text%3E%3C/svg%3E");
+            background-position:calc(100% - 0.95rem) 50%;
+            background-size:0.95rem 0.95rem;
             background-repeat:no-repeat;
         }
         .pg-field textarea{min-height:150px;resize:vertical;font-family:'SF Mono',Monaco,Consolas,monospace}
