@@ -27,6 +27,7 @@ const KNOWN_EVENTS = new Set([
   "pricing_starter_cta",
   "pricing_pro_cta",
   "pricing_enterprise_cta",
+  "vendor_request",
   "smoke_event",
 ]);
 

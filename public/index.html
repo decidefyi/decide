@@ -432,6 +432,10 @@
         body.dark .price-btn{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
         body.dark .pg-trust-badge{border-color:rgba(245,245,245,0.2);background:rgba(245,245,245,0.07)}
+        body.dark .vendor-request-link{border-color:rgba(245,245,245,0.2);background:rgba(245,245,245,0.08)}
+        body.dark .vendor-request-link:hover{background:rgba(245,245,245,0.14)}
+        body.dark .vr-field input,body.dark .vr-field textarea{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
+        body.dark .vr-btn.secondary{background:rgba(245,245,245,0.12)}
         body.dark .pricing-cta-btn.secondary{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2)}
         body.dark .agent-hero-btn.secondary{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2)}
         body.dark .pg-btn:focus-visible,
@@ -496,6 +500,23 @@
         .pg-trust-badge.pass{color:#15803d;background:rgba(22,163,74,0.12);border-color:rgba(22,163,74,0.28)}
         .pg-trust-badge.fail{color:#b91c1c;background:rgba(220,38,38,0.12);border-color:rgba(220,38,38,0.28)}
         .pg-trust-badge.running{color:#b45309;background:rgba(217,119,6,0.12);border-color:rgba(217,119,6,0.28)}
+        .vendor-request-link{display:inline-flex;align-items:center;gap:0.4rem;border-radius:999px;padding:0.36rem 0.7rem;font-size:0.72rem;font-weight:600;border:1px solid rgba(17,17,17,0.15);background:rgba(17,17,17,0.04);color:var(--fg);text-decoration:none;cursor:pointer}
+        .vendor-request-link:hover{background:rgba(17,17,17,0.08)}
+        .vendor-inline-note{margin-top:0.65rem;font-size:0.74rem;color:var(--gray)}
+        .vr-form{display:grid;gap:0.62rem}
+        .vr-field{display:grid;gap:0.3rem}
+        .vr-field label{font-size:0.72rem;font-weight:600;color:var(--gray)}
+        .vr-field input,.vr-field textarea{font:inherit;font-size:0.78rem;padding:0.58rem 0.68rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
+        .vr-field textarea{min-height:74px;resize:vertical}
+        .vr-actions{display:flex;gap:0.5rem;flex-wrap:wrap}
+        .vr-btn{border:none;border-radius:10px;padding:0.58rem 0.8rem;font:inherit;font-size:0.76rem;font-weight:600;cursor:pointer}
+        .vr-btn.primary{background:var(--fg);color:var(--bg)}
+        .vr-btn.secondary{background:rgba(17,17,17,0.08);color:var(--fg)}
+        .vr-note{font-size:0.72rem;color:var(--gray)}
+        .vr-status{font-size:0.72rem;margin-top:0.2rem}
+        .vr-status.ok{color:#15803d}
+        .vr-top{margin-top:0.55rem;font-size:0.72rem;color:var(--gray)}
+        .vr-top-list{margin-top:0.3rem;padding-left:1rem;display:grid;gap:0.18rem}
         .connect h2{font-size:clamp(1.5rem,4vw,2.25rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:0.5rem;color:var(--fg)}
         .connect>p,.connect-inner>p{color:var(--gray);font-size:0.9rem;line-height:1.6;margin-bottom:2rem}
         .code-block{background:var(--bg-dark);border:1px solid rgba(17,17,17,0.1);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;position:relative;overflow-x:auto}
@@ -1055,6 +1076,9 @@
                 <a href="#" class="agent-hero-btn primary nav-signin" onclick="event.preventDefault(); openSignIn();">Start for free</a>
                 <a href="#mcp-playground" class="agent-hero-btn secondary">Open playground</a>
             </div>
+            <div class="vendor-inline-note">
+                Missing a vendor? <a href="#" class="vendor-request-link" onclick="event.preventDefault(); openVendorRequest('agents');">Request a vendor</a>
+            </div>
 
             <div class="mcp-catalog">
                 <div class="mcp-card">
@@ -1159,6 +1183,9 @@
                 <span class="pg-trust-badge" id="pgTrustBadge">Trust Suite: not run</span>
             </div>
             <p>Run real MCP calls, inspect responses, and keep a scoped trail of recent runs.</p>
+            <div class="vendor-inline-note">
+                Missing a vendor? <a href="#" class="vendor-request-link" onclick="event.preventDefault(); openVendorRequest('playground');">Request a vendor</a>
+            </div>
             <div class="playground-stack">
                 <div class="playground-split">
                     <div class="playground-card">
@@ -1500,6 +1527,43 @@
     <div class="modal" id="terms"><div class="m-head"><h3>Terms of Service</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>Last updated:</strong> February 2026</p><p><strong>Service scope:</strong> decide offers decision support tools (human yes/no flows, MCP notaries, playground, and audit trail).</p><p><strong>No professional advice:</strong> outputs are informational and may be incomplete. They are not financial, legal, or medical advice.</p><p><strong>Safety policy:</strong> certain high-risk prompts may be blocked (for example financial/legal/medical asks) and the UI will return an explanatory message.</p><p><strong>Your responsibility:</strong> you are responsible for downstream decisions and integrations built on top of decide responses.</p><p><strong>Availability:</strong> features may change, and uptime is best-effort while the platform evolves.</p></div></div>
     <div class="modal" id="api"><div class="m-head"><h3>Platform & API</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>What you can use today</strong></p><p>• MCP notaries: refund, cancel, return, and trial<br>• REST endpoints for the same deterministic policy checks<br>• Live playground + audit trail for testing, assertions, diffs, and shareable snapshots</p><p><strong>Best for</strong></p><p>• Agent workflows that need deterministic policy answers<br>• QA and regression checks with assertion templates<br>• Teams that need reproducible run history and troubleshooting context</p><p><strong>Integration help:</strong> contact <a href="mailto:decidefyi@gmail.com">decidefyi@gmail.com</a>.</p></div></div>
     <div class="modal" id="contact"><div class="m-head"><h3>Contact</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p>For product feedback, integrations, or partnership requests:</p><p>• X: <a href="https://x.com/decidefyi" target="_blank">@decidefyi</a><br>• Email: <a href="mailto:decidefyi@gmail.com">decidefyi@gmail.com</a></p><p>If you're sharing a playground issue, include your run snapshot link so we can debug quickly.</p></div></div>
+    <div class="modal" id="vendor-request">
+        <div class="m-head">
+            <h3>Request a vendor</h3>
+            <button class="m-x" onclick="closeM()">×</button>
+        </div>
+        <div class="m-body">
+            <form id="vendorRequestForm" class="vr-form">
+                <input type="hidden" id="vrSource" value="unknown">
+                <div class="vr-field">
+                    <label for="vrVendor">Vendor name *</label>
+                    <input id="vrVendor" type="text" required placeholder="e.g. Notion">
+                </div>
+                <div class="vr-field">
+                    <label for="vrPolicyUrl">Policy URL (optional)</label>
+                    <input id="vrPolicyUrl" type="url" placeholder="https://...">
+                </div>
+                <div class="vr-field">
+                    <label for="vrUseCase">Use case (optional)</label>
+                    <textarea id="vrUseCase" placeholder="How you'd use this vendor in your workflow"></textarea>
+                </div>
+                <div class="vr-field">
+                    <label for="vrEmail">Email (optional)</label>
+                    <input id="vrEmail" type="email" placeholder="you@company.com">
+                </div>
+                <div class="vr-actions">
+                    <button class="vr-btn primary" id="vrSubmitBtn" type="submit">Submit request</button>
+                    <button class="vr-btn secondary" id="vrMailtoBtn" type="button">Email instead</button>
+                </div>
+                <div class="vr-note">We prioritize vendors based on request volume + integration demand.</div>
+                <div class="vr-status" id="vrStatus"></div>
+                <div class="vr-top">
+                    Top requested (this browser):
+                    <ul class="vr-top-list" id="vrTopList"></ul>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Theme toggle (floating) -->
     <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
@@ -1594,6 +1658,128 @@
         function openM(id){const mbg=document.getElementById('mbg');mbg.style.display='';mbg.style.pointerEvents='';mbg.classList.add('on');document.getElementById(id).classList.add('on');document.body.style.overflow='hidden'}
         function closeM(){const mbg=document.getElementById('mbg');mbg.classList.remove('on');mbg.style.display='none';mbg.style.pointerEvents='none';document.querySelectorAll('.modal').forEach(m=>m.classList.remove('on'));document.body.style.overflow=''}
         document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+
+        // Vendor request flow
+        const vrForm = document.getElementById('vendorRequestForm');
+        const vrSource = document.getElementById('vrSource');
+        const vrVendor = document.getElementById('vrVendor');
+        const vrPolicyUrl = document.getElementById('vrPolicyUrl');
+        const vrUseCase = document.getElementById('vrUseCase');
+        const vrEmail = document.getElementById('vrEmail');
+        const vrStatus = document.getElementById('vrStatus');
+        const vrSubmitBtn = document.getElementById('vrSubmitBtn');
+        const vrMailtoBtn = document.getElementById('vrMailtoBtn');
+        const vrTopList = document.getElementById('vrTopList');
+
+        function getVendorRequestStoreKey() {
+            const uid = window.Clerk?.user?.id;
+            return uid ? `decide_vendor_requests_${uid}` : 'decide_vendor_requests_guest';
+        }
+
+        function loadVendorRequests() {
+            try { return JSON.parse(localStorage.getItem(getVendorRequestStoreKey()) || '{}'); } catch { return {}; }
+        }
+
+        function saveVendorRequests(data) {
+            localStorage.setItem(getVendorRequestStoreKey(), JSON.stringify(data));
+        }
+
+        function renderTopVendorRequests() {
+            if (!vrTopList) return;
+            const data = loadVendorRequests();
+            const top = Object.entries(data).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            vrTopList.innerHTML = '';
+            if (!top.length) {
+                const li = document.createElement('li');
+                li.textContent = 'No requests yet';
+                vrTopList.appendChild(li);
+                return;
+            }
+            top.forEach(([name, count]) => {
+                const li = document.createElement('li');
+                li.textContent = `${name} (${count})`;
+                vrTopList.appendChild(li);
+            });
+        }
+
+        function buildVendorRequestMailto() {
+            const vendor = (vrVendor?.value || '').trim();
+            const policyUrl = (vrPolicyUrl?.value || '').trim();
+            const useCase = (vrUseCase?.value || '').trim();
+            const email = (vrEmail?.value || '').trim();
+            const source = (vrSource?.value || 'unknown').trim();
+            const lines = [
+                `Vendor: ${vendor || '(not provided)'}`,
+                `Policy URL: ${policyUrl || '(not provided)'}`,
+                `Use case: ${useCase || '(not provided)'}`,
+                `Email: ${email || '(not provided)'}`,
+                `Source: ${source}`
+            ];
+            return `mailto:decidefyi@gmail.com?subject=${encodeURIComponent(`Vendor request: ${vendor || 'unknown'}`)}&body=${encodeURIComponent(lines.join('\n'))}`;
+        }
+
+        async function submitVendorRequest(event) {
+            event?.preventDefault();
+            if (!vrVendor?.value.trim()) {
+                vrStatus.textContent = 'Vendor name is required.';
+                return;
+            }
+            vrSubmitBtn.disabled = true;
+            vrStatus.textContent = 'Submitting...';
+
+            const vendor = vrVendor.value.trim();
+            const payload = {
+                event: 'vendor_request',
+                props: {
+                    vendor,
+                    policy_url: (vrPolicyUrl.value || '').trim(),
+                    use_case: (vrUseCase.value || '').trim(),
+                    email: (vrEmail.value || '').trim(),
+                    source: (vrSource.value || 'unknown').trim()
+                }
+            };
+
+            try {
+                const res = await fetch('/api/track', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    keepalive: true
+                });
+                if (!res.ok) throw new Error(`track ${res.status}`);
+
+                const counts = loadVendorRequests();
+                const key = vendor.toLowerCase();
+                counts[key] = (counts[key] || 0) + 1;
+                saveVendorRequests(counts);
+                renderTopVendorRequests();
+
+                vrStatus.textContent = 'Request submitted. Thank you.';
+                vrStatus.className = 'vr-status ok';
+                vrForm.reset();
+                vrSource.value = payload.props.source;
+            } catch {
+                vrStatus.textContent = 'Could not submit automatically — opening email fallback...';
+                window.location.href = buildVendorRequestMailto();
+            } finally {
+                vrSubmitBtn.disabled = false;
+            }
+        }
+
+        function openVendorRequest(source = 'unknown') {
+            if (vrSource) vrSource.value = source;
+            if (vrStatus) {
+                vrStatus.textContent = '';
+                vrStatus.className = 'vr-status';
+            }
+            renderTopVendorRequests();
+            openM('vendor-request');
+        }
+
+        vrForm?.addEventListener('submit', submitVendorRequest);
+        vrMailtoBtn?.addEventListener('click', () => {
+            window.location.href = buildVendorRequestMailto();
+        });
 
         // Gemini AI Decision
         // The API key is stored in the environment on the server. The client
