@@ -421,6 +421,7 @@
         body.dark .price-card.featured{border-color:rgba(245,245,245,0.28);box-shadow:0 12px 30px rgba(0,0,0,0.35)}
         body.dark .price-btn{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+        body.dark .pricing-cta-btn.secondary{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2)}
         body.dark .agent-hero-btn.secondary{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2)}
         body.dark .pg-btn:focus-visible,
         body.dark .pg-field select:focus-visible,
@@ -598,6 +599,11 @@
         .price-list div::before{content:"• ";color:var(--fg)}
         .price-btn{margin-top:auto;display:inline-flex;justify-content:center;align-items:center;min-height:42px;padding:0.62rem 0.95rem;border-radius:12px;text-decoration:none;font-size:0.8rem;font-weight:600;background:rgba(17,17,17,0.08);color:var(--fg);border:1px solid rgba(17,17,17,0.1)}
         .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+        .pricing-cta-row{max-width:1100px;margin:1rem auto 0;display:flex;gap:0.7rem;flex-wrap:wrap;justify-content:center}
+        .pricing-cta-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0.72rem 1.18rem;border-radius:12px;font-size:0.84rem;font-weight:600;text-decoration:none;border:1px solid transparent;transition:all 0.25s var(--ease-out)}
+        .pricing-cta-btn.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+        .pricing-cta-btn.secondary{background:rgba(17,17,17,0.08);color:var(--fg);border-color:rgba(17,17,17,0.14)}
+        .pricing-cta-btn:hover{transform:translateY(-1px)}
         .pg-field,.pg-inline,.pg-assert-row>*{min-width:0}
         .pg-assert-input,.pg-select,.trail-filter{max-width:100%}
         #pgResponse,#pgDiff{white-space:pre-wrap;word-break:break-word;min-height:74px}
@@ -1397,6 +1403,10 @@
                 </div>
                 <a class="price-btn" href="mailto:decidefyi@gmail.com?subject=decide%20Enterprise%20inquiry" data-track="pricing_enterprise_cta">Talk to sales</a>
             </div>
+        </div>
+        <div class="pricing-cta-row">
+            <a href="#" class="pricing-cta-btn primary nav-signin" onclick="event.preventDefault(); openSignIn();">Start for free</a>
+            <a href="#mcp-playground" class="pricing-cta-btn secondary">Open playground</a>
         </div>
     </section>
 
