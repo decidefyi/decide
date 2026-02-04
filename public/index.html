@@ -636,16 +636,27 @@
         .pricing{padding:3rem 1.5rem 6rem;position:relative;z-index:2;background:var(--bg)}
         .pricing .sec-head{margin-bottom:1.4rem}
         .pricing-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.95rem}
-        .price-card{background:rgba(17,17,17,0.02);border:1px solid rgba(17,17,17,0.12);border-radius:18px;padding:1.2rem;display:flex;flex-direction:column;gap:0.8rem}
-        .price-card.featured{border-color:rgba(17,17,17,0.28);box-shadow:0 12px 30px rgba(0,0,0,0.06)}
-        .price-tier{font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray)}
-        .price-amt{font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;color:var(--fg)}
-        .price-amt span{font-size:0.82rem;color:var(--gray);font-weight:600}
-        .price-list{display:grid;gap:0.42rem;font-size:0.78rem;color:var(--gray)}
+	        .price-card{background:rgba(17,17,17,0.02);border:1px solid rgba(17,17,17,0.12);border-radius:18px;padding:1.2rem;display:flex;flex-direction:column;gap:0.8rem}
+	        .price-card.featured{border-color:rgba(17,17,17,0.28);box-shadow:0 12px 30px rgba(0,0,0,0.06)}
+	        .price-tier{font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray)}
+	        .price-amt{font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;color:var(--fg)}
+	        .price-amt span{font-size:0.82rem;color:var(--gray);font-weight:600}
+	        .price-list{display:grid;gap:0.42rem;font-size:0.78rem;color:var(--gray)}
 	        .price-list div::before{content:"• ";color:var(--fg)}
-        .price-btn{margin-top:auto;display:inline-flex;justify-content:center;align-items:center;min-height:42px;padding:0.62rem 0.95rem;border-radius:12px;text-decoration:none;font-size:0.8rem;font-weight:600;background:rgba(17,17,17,0.08);color:var(--fg);border:1px solid rgba(17,17,17,0.1)}
-        .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-        .pricing-note{max-width:1100px;margin:0.85rem auto 0;font-size:0.72rem;color:var(--gray);text-align:center}
+	        .price-btn{margin-top:auto;display:inline-flex;justify-content:center;align-items:center;min-height:42px;padding:0.62rem 0.95rem;border-radius:12px;text-decoration:none;font-size:0.8rem;font-weight:600;background:rgba(17,17,17,0.08);color:var(--fg);border:1px solid rgba(17,17,17,0.1)}
+	        .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+	        .pricing-note{max-width:1100px;margin:0.85rem auto 0;font-size:0.72rem;color:var(--gray);text-align:center}
+	        .pilot-form{display:grid;gap:0.7rem}
+	        .pilot-form label{display:block;font-size:0.72rem;color:var(--gray);font-weight:600;margin-bottom:0.2rem}
+	        .pilot-form input,.pilot-form textarea{width:100%;padding:0.65rem 0.8rem;border-radius:12px;border:1px solid rgba(17,17,17,0.14);background:rgba(17,17,17,0.03);color:var(--fg);font:inherit;font-size:0.84rem;outline:none}
+	        .pilot-form textarea{min-height:92px;resize:vertical}
+	        body.dark .pilot-form input,body.dark .pilot-form textarea{border-color:rgba(245,245,245,0.16);background:rgba(245,245,245,0.06)}
+	        .pilot-actions{display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center}
+	        .pilot-actions .cta-btn{min-height:42px;padding:0.7rem 1rem;border-radius:12px}
+	        .pilot-actions .ghost-btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0.7rem 1rem;border-radius:12px;border:1px solid rgba(17,17,17,0.14);background:rgba(17,17,17,0.04);color:var(--fg);font:inherit;font-weight:600;cursor:pointer}
+	        body.dark .pilot-actions .ghost-btn{border-color:rgba(245,245,245,0.18);background:rgba(245,245,245,0.06)}
+	        .pilot-status{font-size:0.74rem;color:var(--gray)}
+	        .pilot-hint{font-size:0.72rem;color:var(--gray);line-height:1.5}
 	        .pg-field,.pg-inline,.pg-assert-row>*{min-width:0}
 	        .pg-assert-input,.pg-select,.trail-filter{max-width:100%}
 	        #pgResponse,#pgDiff{white-space:pre-wrap;word-break:break-word;min-height:74px}
@@ -1445,16 +1456,16 @@
                 </div>
                 <a class="price-btn" href="#mcp-playground" data-track="pricing_starter_cta">Use playground</a>
             </div>
-            <div class="price-card featured">
-                <div class="price-tier">Pro</div>
-                <div class="price-amt">$49 <span>/ month</span></div>
-                <div class="price-list">
-                    <div>Higher request limits</div>
-                    <div>Saved cases + monitor workflows</div>
-                    <div>Commercial usage + exports</div>
-                </div>
-                <a class="price-btn" href="mailto:decidefyi@gmail.com?subject=decide%20Pro%20pilot" data-track="pricing_pro_cta">Start pilot</a>
-            </div>
+	            <div class="price-card featured">
+	                <div class="price-tier">Pro</div>
+	                <div class="price-amt">$49 <span>/ month</span></div>
+	                <div class="price-list">
+	                    <div>Higher request limits</div>
+	                    <div>Saved cases + monitor workflows</div>
+	                    <div>Commercial usage + exports</div>
+	                </div>
+	                <a class="price-btn" href="#" onclick="event.preventDefault(); openPilotIntake();">Start pilot</a>
+	            </div>
             <div class="price-card">
                 <div class="price-tier">Enterprise</div>
                 <div class="price-amt">Custom <span>/ contract</span></div>
@@ -1463,9 +1474,9 @@
                     <div>Custom policy packs</div>
                     <div>Security questionnaire + invoicing</div>
                 </div>
-                <a class="price-btn" href="mailto:decidefyi@gmail.com?subject=decide%20Enterprise%20inquiry" data-track="pricing_enterprise_cta">Talk to sales</a>
-            </div>
-		        </div>
+	                <a class="price-btn" href="mailto:decidefyi@gmail.com?subject=decide%20Enterprise%20inquiry&body=Hi%20decide%20team%2C%0A%0ACompany%3A%0AUse%20case%3A%0AExpected%20calls%2Fmo%3A%0AMust-have%20vendors%3A%0ASecurity%2FSSO%20needs%3A%0ATimeline%3A%0A%0AThanks!" data-track="pricing_enterprise_cta">Talk to sales</a>
+	            </div>
+	        </div>
             <p class="pricing-note">Support is async and best-effort on Starter and Pro. No SLA outside Enterprise contracts.</p>
 	    </section>
 
@@ -1533,6 +1544,32 @@
     <div class="modal" id="privacy"><div class="m-head"><h3>Privacy Policy</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>Last updated:</strong> February 2026</p><p>decide provides consumer decision tools for humans and AI agents, including MCP notaries and a live playground with audit trail.</p><p><strong>What we process:</strong> request inputs and outputs needed to run your call. Local playground history, saved cases, and assertions are stored in your browser unless you use authenticated account features.</p><p><strong>What we don't do:</strong> we do not sell personal data and we do not use your prompts to train public models.</p><p><strong>Operational logs:</strong> we may keep service logs (for uptime, abuse prevention, and debugging) with limited metadata such as timestamp, route, status, latency, and hashed request identifiers.</p><p><strong>Questions?</strong> Email <a href="mailto:decidefyi@gmail.com">decidefyi@gmail.com</a>.</p></div></div>
     <div class="modal" id="terms"><div class="m-head"><h3>Terms of Service</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>Last updated:</strong> February 2026</p><p><strong>Service scope:</strong> decide offers decision support tools (human yes/no flows, MCP notaries, playground, and audit trail).</p><p><strong>No professional advice:</strong> outputs are informational and may be incomplete. They are not financial, legal, or medical advice.</p><p><strong>Safety policy:</strong> certain high-risk prompts may be blocked (for example financial/legal/medical asks) and the UI will return an explanatory message.</p><p><strong>Your responsibility:</strong> you are responsible for downstream decisions and integrations built on top of decide responses.</p><p><strong>Availability:</strong> features may change, and uptime is best-effort while the platform evolves.</p></div></div>
     <div class="modal" id="api"><div class="m-head"><h3>Platform & API</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>What you can use today</strong></p><p>• MCP notaries: refund, cancel, return, and trial<br>• REST endpoints for the same deterministic policy checks<br>• Live playground + audit trail for testing, assertions, diffs, and shareable snapshots</p><p><strong>Best for</strong></p><p>• Agent workflows that need deterministic policy answers<br>• QA and regression checks with assertion templates<br>• Teams that need reproducible run history and troubleshooting context</p><p><strong>Integration help:</strong> contact <a href="mailto:decidefyi@gmail.com">decidefyi@gmail.com</a>.</p></div></div>
+    <div class="modal" id="pilot"><div class="m-head"><h3>Pro pilot intake</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body">
+        <p class="pilot-hint">Answer 4 quick questions and I'll reply with a Pro pilot link + suggested setup. This keeps support async and lightweight.</p>
+        <form class="pilot-form" id="pilotForm">
+            <div>
+                <label for="pilotUseCase">What are you building?</label>
+                <textarea id="pilotUseCase" placeholder="e.g. support agent that classifies refund eligibility + produces customer-ready replies"></textarea>
+            </div>
+            <div>
+                <label for="pilotVolume">Expected calls / month</label>
+                <input id="pilotVolume" type="text" placeholder="e.g. 5k/mo">
+            </div>
+            <div>
+                <label for="pilotVendors">Must-have vendors</label>
+                <input id="pilotVendors" type="text" placeholder="e.g. adobe, netflix, spotify">
+            </div>
+            <div>
+                <label for="pilotEmail">Your email (optional)</label>
+                <input id="pilotEmail" type="email" placeholder="you@company.com">
+            </div>
+            <div class="pilot-actions">
+                <button class="cta-btn" type="submit">Email me</button>
+                <button class="ghost-btn" type="button" id="pilotCopyBtn">Copy message</button>
+                <span class="pilot-status" id="pilotStatus"></span>
+            </div>
+        </form>
+    </div></div>
     <div class="modal" id="contact"><div class="m-head"><h3>Contact</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p>For product feedback, integrations, or partnership requests:</p><p>• X: <a href="https://x.com/decidefyi" target="_blank">@decidefyi</a><br>• Email: <a href="mailto:decidefyi@gmail.com">decidefyi@gmail.com</a></p><p>If you're sharing a playground issue, include your run snapshot link so we can debug quickly.</p></div></div>
     <div class="modal" id="vendor-request">
         <div class="m-head">
@@ -1661,15 +1698,72 @@
             });
         });
 
-        // Modal
-        function openM(id){const mbg=document.getElementById('mbg');mbg.style.display='';mbg.style.pointerEvents='';mbg.classList.add('on');document.getElementById(id).classList.add('on');document.body.style.overflow='hidden'}
-        function closeM(){const mbg=document.getElementById('mbg');mbg.classList.remove('on');mbg.style.display='none';mbg.style.pointerEvents='none';document.querySelectorAll('.modal').forEach(m=>m.classList.remove('on'));document.body.style.overflow=''}
-        document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+	        // Modal
+	        function openM(id){const mbg=document.getElementById('mbg');mbg.style.display='';mbg.style.pointerEvents='';mbg.classList.add('on');document.getElementById(id).classList.add('on');document.body.style.overflow='hidden'}
+	        function closeM(){const mbg=document.getElementById('mbg');mbg.classList.remove('on');mbg.style.display='none';mbg.style.pointerEvents='none';document.querySelectorAll('.modal').forEach(m=>m.classList.remove('on'));document.body.style.overflow=''}
+	        document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
 
-        // Vendor request flow
-        const vrForm = document.getElementById('vendorRequestForm');
-        const vrSource = document.getElementById('vrSource');
-        const vrVendor = document.getElementById('vrVendor');
+	        // Pro pilot intake (mailto-based: zero backend / zero billing integration needed)
+	        const pilotForm = document.getElementById('pilotForm');
+	        const pilotUseCase = document.getElementById('pilotUseCase');
+	        const pilotVolume = document.getElementById('pilotVolume');
+	        const pilotVendors = document.getElementById('pilotVendors');
+	        const pilotEmail = document.getElementById('pilotEmail');
+	        const pilotStatus = document.getElementById('pilotStatus');
+	        const pilotCopyBtn = document.getElementById('pilotCopyBtn');
+
+	        function buildPilotMessage() {
+	            const useCase = (pilotUseCase?.value || '').trim();
+	            const volume = (pilotVolume?.value || '').trim();
+	            const vendors = (pilotVendors?.value || '').trim();
+	            const email = (pilotEmail?.value || '').trim();
+	            return [
+	                'Hi decide team,',
+	                '',
+	                `What I'm building: ${useCase || '(fill in)'}`,
+	                `Expected calls/month: ${volume || '(fill in)'}`,
+	                `Must-have vendors: ${vendors || '(fill in)'}`,
+	                `Contact email: ${email || '(optional)'}`,
+	                '',
+	                'Please send a Pro pilot link and any recommended setup.',
+	                '',
+	                'Thanks!'
+	            ].join('\\n');
+	        }
+
+	        function openPilotIntake() {
+	            trackEvent('pricing_pro_cta', { source: 'pilot_modal' });
+	            openM('pilot');
+	            setTimeout(() => { pilotUseCase?.focus(); }, 50);
+	        }
+
+	        function openPilotEmail() {
+	            const subject = encodeURIComponent('decide Pro pilot');
+	            const body = encodeURIComponent(buildPilotMessage());
+	            window.location.href = `mailto:decidefyi@gmail.com?subject=${subject}&body=${body}`;
+	        }
+
+	        pilotForm?.addEventListener('submit', (event) => {
+	            event.preventDefault();
+	            pilotStatus.textContent = 'Opening email…';
+	            try { openPilotEmail(); } finally { setTimeout(() => { pilotStatus.textContent = ''; }, 1500); }
+	        });
+
+	        pilotCopyBtn?.addEventListener('click', async () => {
+	            try {
+	                await navigator.clipboard.writeText(buildPilotMessage());
+	                pilotStatus.textContent = 'Copied.';
+	            } catch {
+	                pilotStatus.textContent = 'Copy failed.';
+	            } finally {
+	                setTimeout(() => { pilotStatus.textContent = ''; }, 1500);
+	            }
+	        });
+
+	        // Vendor request flow
+	        const vrForm = document.getElementById('vendorRequestForm');
+	        const vrSource = document.getElementById('vrSource');
+	        const vrVendor = document.getElementById('vrVendor');
         const vrPolicyUrl = document.getElementById('vrPolicyUrl');
         const vrUseCase = document.getElementById('vrUseCase');
         const vrEmail = document.getElementById('vrEmail');
