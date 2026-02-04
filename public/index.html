@@ -396,7 +396,9 @@
         body.dark .pg-select{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .trail-filter{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .pg-field select,body.dark .pg-select,body.dark .trail-filter,body.dark select.pg-assert-input{
-            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext x='10' y='14' text-anchor='middle' font-size='16' font-weight='700' font-family='Inter,Arial,sans-serif' fill='%23f5f5f5'%3E%E2%8C%84%3C/text%3E%3C/svg%3E");
+            background-image:
+                linear-gradient(rgba(245,245,245,0.24), rgba(245,245,245,0.24)),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext x='10' y='14' text-anchor='middle' font-size='16' font-weight='700' font-family='Inter,Arial,sans-serif' fill='%23f5f5f5'%3E%E2%8C%84%3C/text%3E%3C/svg%3E");
         }
         body.dark .pg-redact-label{background:rgba(245,245,245,0.07);border-color:rgba(245,245,245,0.2)}
         body.dark .pg-assert-input{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
@@ -500,9 +502,11 @@
             appearance:none;
             -webkit-appearance:none;
             cursor:pointer;
-            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext x='10' y='14' text-anchor='middle' font-size='16' font-weight='700' font-family='Inter,Arial,sans-serif' fill='%236b7280'%3E%E2%8C%84%3C/text%3E%3C/svg%3E");
-            background-position:right 0.95rem center;
-            background-size:1.05rem 1.05rem;
+            background-image:
+                linear-gradient(rgba(17,17,17,0.16), rgba(17,17,17,0.16)),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext x='10' y='14' text-anchor='middle' font-size='16' font-weight='700' font-family='Inter,Arial,sans-serif' fill='%236b7280'%3E%E2%8C%84%3C/text%3E%3C/svg%3E");
+            background-position:right 2.35rem center,right 0.95rem center;
+            background-size:1px 58%,1.05rem 1.05rem;
             background-repeat:no-repeat;
         }
         .pg-field textarea{min-height:150px;resize:vertical;font-family:'SF Mono',Monaco,Consolas,monospace}
