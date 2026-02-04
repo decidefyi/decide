@@ -454,6 +454,7 @@
         .mcp-card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem;gap:1rem}
         .mcp-card-info h3{font-size:1.25rem;font-weight:700;margin-bottom:0.2rem;color:var(--fg)}
         .mcp-card-info .mcp-url{font-size:0.75rem;color:var(--gray);font-family:'SF Mono',Monaco,Consolas,monospace;font-weight:500}
+        .mcp-card-info .mcp-sync{font-size:0.67rem;color:var(--gray-light);margin-top:0.26rem}
         .mcp-card-status{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(22,163,74,0.08);color:var(--g);padding:0.3rem 0.75rem;border-radius:100px;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0}
         .mcp-card-status .status-dot{width:6px;height:6px;background:var(--g);border-radius:50%;animation:pulse 2s ease-in-out infinite}
         .mcp-card-desc{color:var(--gray);font-size:0.9rem;line-height:1.6;margin-bottom:1.25rem}
@@ -1044,6 +1045,7 @@
                         <div class="mcp-card-info">
                             <h3>Refund Notary</h3>
                             <span class="mcp-url">refund.decide.fyi</span>
+                            <div class="mcp-sync" id="refundSync">Last policy sync: loading…</div>
                         </div>
                         <div class="mcp-card-status"><span class="status-dot"></span> Live</div>
                     </div>
@@ -1066,6 +1068,7 @@
                         <div class="mcp-card-info">
                             <h3>Cancel Notary</h3>
                             <span class="mcp-url">cancel.decide.fyi</span>
+                            <div class="mcp-sync" id="cancelSync">Last policy sync: loading…</div>
                         </div>
                         <div class="mcp-card-status"><span class="status-dot"></span> Live</div>
                     </div>
@@ -1088,6 +1091,7 @@
                         <div class="mcp-card-info">
                             <h3>Return Notary</h3>
                             <span class="mcp-url">return.decide.fyi</span>
+                            <div class="mcp-sync" id="returnSync">Last policy sync: loading…</div>
                         </div>
                         <div class="mcp-card-status"><span class="status-dot"></span> Live</div>
                     </div>
@@ -1110,6 +1114,7 @@
                         <div class="mcp-card-info">
                             <h3>Trial Notary</h3>
                             <span class="mcp-url">trial.decide.fyi</span>
+                            <div class="mcp-sync" id="trialSync">Last policy sync: loading…</div>
                         </div>
                         <div class="mcp-card-status"><span class="status-dot"></span> Live</div>
                     </div>
@@ -3477,6 +3482,35 @@ if (v === 'yes' || v === 'no') {
             URL.revokeObjectURL(url);
         }
 
+        function formatSyncDate(isoDate) {
+            if (!isoDate) return null;
+            const parsed = new Date(`${isoDate}T00:00:00Z`);
+            if (Number.isNaN(parsed.getTime())) return null;
+            return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(parsed);
+        }
+
+        async function loadNotarySyncDates() {
+            const map = [
+                { id: 'refundSync', path: '/rules/policy-sources.json' },
+                { id: 'cancelSync', path: '/rules/cancel-policy-sources.json' },
+                { id: 'returnSync', path: '/rules/return-policy-sources.json' },
+                { id: 'trialSync', path: '/rules/trial-policy-sources.json' }
+            ];
+            for (const item of map) {
+                const el = document.getElementById(item.id);
+                if (!el) continue;
+                try {
+                    const response = await fetch(item.path, { cache: 'no-store' });
+                    if (!response.ok) throw new Error(`status ${response.status}`);
+                    const data = await response.json();
+                    const formatted = formatSyncDate(data?.last_checked);
+                    el.textContent = formatted ? `Last policy sync: ${formatted}` : 'Last policy sync: updated daily';
+                } catch {
+                    el.textContent = 'Last policy sync: updated daily';
+                }
+            }
+        }
+
         pgNotary.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); renderSavedCases(); renderAssertions(); renderAssertionTemplates(); });
         pgMode.addEventListener('change', () => { renderPresetOptions(); setPlaygroundTemplate(); renderSavedCases(); renderAssertions(); renderAssertionTemplates(); });
         pgPreset.addEventListener('change', setPlaygroundTemplate);
@@ -3557,6 +3591,7 @@ if (v === 'yes' || v === 'no') {
         maybeLoadSharedSnapshot();
         updatePlaygroundScopeNote();
         renderTrail();
+        loadNotarySyncDates();
         runDueMonitors();
         setInterval(() => { runDueMonitors(); }, 60 * 1000);
         maybeEnterDemoMode();
