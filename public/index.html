@@ -2850,19 +2850,20 @@ if (v === 'yes' || v === 'no') {
             });
         }
 
-        async function renderNetworkVendorRequests() {
-            if (!pgVendorNetworkList) return;
-            pgVendorNetworkList.innerHTML = '<li>Loading…</li>';
-            try {
-                const response = await fetch('/api/vendor-requests', { cache: 'no-store' });
-                if (!response.ok) throw new Error(`status ${response.status}`);
-                const data = await response.json();
-                const top = Array.isArray(data?.top_vendor_requests) ? data.top_vendor_requests.slice(0, 8) : [];
-                pgVendorNetworkList.innerHTML = '';
-                if (!top.length) {
-                    pgVendorNetworkList.innerHTML = '<li>No vendor requests yet</li>';
-                    return;
-                }
+	        async function renderNetworkVendorRequests() {
+	            if (!pgVendorNetworkList) return;
+	            pgVendorNetworkList.innerHTML = '<li>Loading…</li>';
+	            try {
+	                // Keep vendor-request stats under /api/metrics (Vercel Hobby plan caps Serverless Functions).
+	                const response = await fetch('/api/metrics', { cache: 'no-store' });
+	                if (!response.ok) throw new Error(`status ${response.status}`);
+	                const data = await response.json();
+	                const top = Array.isArray(data?.top_vendor_requests_30d) ? data.top_vendor_requests_30d.slice(0, 8) : [];
+	                pgVendorNetworkList.innerHTML = '';
+	                if (!top.length) {
+	                    pgVendorNetworkList.innerHTML = '<li>No vendor requests yet</li>';
+	                    return;
+	                }
                 top.forEach((row) => {
                     const li = document.createElement('li');
                     li.textContent = `${row.vendor} (${row.count})`;
