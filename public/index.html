@@ -642,17 +642,12 @@
         .price-amt{font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;color:var(--fg)}
         .price-amt span{font-size:0.82rem;color:var(--gray);font-weight:600}
         .price-list{display:grid;gap:0.42rem;font-size:0.78rem;color:var(--gray)}
-        .price-list div::before{content:"• ";color:var(--fg)}
-        .price-btn{margin-top:auto;display:inline-flex;justify-content:center;align-items:center;min-height:42px;padding:0.62rem 0.95rem;border-radius:12px;text-decoration:none;font-size:0.8rem;font-weight:600;background:rgba(17,17,17,0.08);color:var(--fg);border:1px solid rgba(17,17,17,0.1)}
-        .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-        .pricing-cta-row{max-width:1100px;margin:1rem auto 0;display:flex;gap:0.7rem;flex-wrap:wrap;justify-content:center}
-        .pricing-cta-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0.72rem 1.18rem;border-radius:12px;font-size:0.84rem;font-weight:600;text-decoration:none;border:1px solid transparent;transition:all 0.25s var(--ease-out)}
-        .pricing-cta-btn.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-        .pricing-cta-btn.secondary{background:rgba(17,17,17,0.08);color:var(--fg);border-color:rgba(17,17,17,0.14)}
-        .pricing-cta-btn:hover{transform:translateY(-1px)}
-        .pg-field,.pg-inline,.pg-assert-row>*{min-width:0}
-        .pg-assert-input,.pg-select,.trail-filter{max-width:100%}
-        #pgResponse,#pgDiff{white-space:pre-wrap;word-break:break-word;min-height:74px}
+	        .price-list div::before{content:"• ";color:var(--fg)}
+	        .price-btn{margin-top:auto;display:inline-flex;justify-content:center;align-items:center;min-height:42px;padding:0.62rem 0.95rem;border-radius:12px;text-decoration:none;font-size:0.8rem;font-weight:600;background:rgba(17,17,17,0.08);color:var(--fg);border:1px solid rgba(17,17,17,0.1)}
+	        .price-card.featured .price-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+	        .pg-field,.pg-inline,.pg-assert-row>*{min-width:0}
+	        .pg-assert-input,.pg-select,.trail-filter{max-width:100%}
+	        #pgResponse,#pgDiff{white-space:pre-wrap;word-break:break-word;min-height:74px}
 
         @media(min-width:1280px){
             #mcp-playground .connect-inner{max-width:1240px}
@@ -1079,17 +1074,14 @@
             <div class="badge"><span class="badge-dot"></span>MCP Servers</div>
             <h1>Decision tools for <span class="serif">agents.</span></h1>
             <p class="sub">Deterministic MCP servers that give your AI agents clear, auditable answers.</p>
-            <div class="agent-hero-ctas">
-                <a href="#" class="agent-hero-btn primary nav-signin" onclick="event.preventDefault(); openSignIn();">Start for free</a>
-                <a href="#mcp-playground" class="agent-hero-btn secondary">Open playground</a>
-            </div>
-            <div class="vendor-inline-note">
-                Missing a vendor? <a href="#" class="vendor-request-link" onclick="event.preventDefault(); openVendorRequest('agents');">Request a vendor</a>
-            </div>
+	            <div class="agent-hero-ctas">
+	                <a href="#" class="agent-hero-btn primary nav-signin" onclick="event.preventDefault(); openSignIn();">Start for free</a>
+	                <a href="#mcp-playground" class="agent-hero-btn secondary">Open playground</a>
+	            </div>
 
-            <div class="mcp-catalog">
-                <div class="mcp-card">
-                    <div class="mcp-card-head">
+	            <div class="mcp-catalog">
+	                <div class="mcp-card">
+	                    <div class="mcp-card-head">
                         <div class="mcp-card-info">
                             <h3>Refund Notary</h3>
                             <span class="mcp-url">refund.decide.fyi</span>
@@ -1178,24 +1170,24 @@
                         <button class="mcp-btn mcp-btn-secondary" onclick="document.getElementById('mcp-connect').scrollIntoView({behavior:'smooth'})">Connect<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>
                         <a href="https://github.com/decidefyi/decide" target="_blank" class="mcp-btn mcp-btn-secondary">GitHub<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></a>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
+	                </div>
+	            </div>
+	            <div class="vendor-inline-note">
+	                Missing a vendor? <a href="#" class="vendor-request-link" onclick="event.preventDefault(); openVendorRequest('agents');">Request a vendor</a>
+	            </div>
+	        </div>
+	    </section>
 
     <section class="connect" id="mcp-playground">
-        <div class="connect-inner">
-            <div class="pg-head">
-                <h2>Live playground + audit trail</h2>
-                <span class="pg-trust-badge" id="pgTrustBadge">Trust Suite: not run</span>
-            </div>
-            <p>Run real MCP calls, inspect responses, and keep a scoped trail of recent runs.</p>
-            <div class="vendor-inline-note">
-                Missing a vendor? <a href="#" class="vendor-request-link" onclick="event.preventDefault(); openVendorRequest('playground');">Request a vendor</a>
-            </div>
-            <div class="playground-stack">
-                <div class="playground-split">
-                    <div class="playground-card">
+	        <div class="connect-inner">
+	            <div class="pg-head">
+	                <h2>Live playground + audit trail</h2>
+	                <span class="pg-trust-badge" id="pgTrustBadge">Trust Suite: not run</span>
+	            </div>
+	            <p>Run real MCP calls, inspect responses, and keep a scoped trail of recent runs.</p>
+	            <div class="playground-stack">
+	                <div class="playground-split">
+	                    <div class="playground-card">
                         <div class="pg-section-title">Run Request</div>
                         <div class="pg-demo-strip">
                             <button class="pg-demo-pill" id="pgDemoRefundBtn" type="button">Demo: refund ALLOWED</button>
@@ -1264,16 +1256,19 @@
                                 </div>
                                 <div class="pg-note" id="pgMonitorSummary">No monitors yet.</div>
                                 <div class="pg-monitor-list" id="pgMonitorList"></div>
-                                <div class="pg-vendor-requests">
-                                    <div class="pg-vendor-head">
-                                        <span class="pg-vendor-title">Vendor requests (network)</span>
-                                        <button class="pg-vendor-refresh" id="pgVendorRefreshBtn" type="button">Refresh</button>
-                                    </div>
-                                    <ul class="pg-vendor-list" id="pgVendorNetworkList"></ul>
-                                </div>
-                                <div class="pg-redact-row" id="pgRedactRow">
-                                    <span class="pg-redact-title">Share redaction:</span>
-                                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="vendor" checked>vendor</label>
+	                                <div class="pg-vendor-requests">
+	                                    <div class="pg-vendor-head">
+	                                        <span class="pg-vendor-title">Vendor requests (network)</span>
+	                                        <button class="pg-vendor-refresh" id="pgVendorRefreshBtn" type="button">Refresh</button>
+	                                    </div>
+	                                    <ul class="pg-vendor-list" id="pgVendorNetworkList"></ul>
+	                                    <div class="pg-note" style="margin-top:0.5rem">
+	                                        Missing a vendor? <a href="#" class="vendor-request-link" onclick="event.preventDefault(); openVendorRequest('playground');">Request a vendor</a>
+	                                    </div>
+	                                </div>
+	                                <div class="pg-redact-row" id="pgRedactRow">
+	                                    <span class="pg-redact-title">Share redaction:</span>
+	                                    <label class="pg-redact-label"><input type="checkbox" data-redact-field="vendor" checked>vendor</label>
                                     <label class="pg-redact-label"><input type="checkbox" data-redact-field="region">region</label>
                                     <label class="pg-redact-label"><input type="checkbox" data-redact-field="plan">plan</label>
                                     <label class="pg-redact-label"><input type="checkbox" data-redact-field="days_since_purchase">days</label>
@@ -1438,7 +1433,7 @@
             <h2>Simple <span class="serif">pricing</span></h2>
             <p>Start free, then upgrade when your team needs higher volume and support.</p>
         </div>
-        <div class="pricing-grid">
+	        <div class="pricing-grid">
             <div class="price-card">
                 <div class="price-tier">Starter</div>
                 <div class="price-amt">$0 <span>/ forever</span></div>
@@ -1469,12 +1464,8 @@
                 </div>
                 <a class="price-btn" href="mailto:decidefyi@gmail.com?subject=decide%20Enterprise%20inquiry" data-track="pricing_enterprise_cta">Talk to sales</a>
             </div>
-        </div>
-        <div class="pricing-cta-row">
-            <a href="#" class="pricing-cta-btn primary nav-signin" onclick="event.preventDefault(); openSignIn();">Start for free</a>
-            <a href="#mcp-playground" class="pricing-cta-btn secondary">Open playground</a>
-        </div>
-    </section>
+	        </div>
+	    </section>
 
     <section class="agent-features sec-light">
         <div class="sec-head">
