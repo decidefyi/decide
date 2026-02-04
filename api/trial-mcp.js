@@ -163,7 +163,7 @@ export default async function handler(req, res) {
 
       const payload = compute(args);
 
-      const textMessage = `Trial Terms: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\nTrial Days: ${payload.trial_days ?? "N/A"}\nCard Required: ${payload.card_required ?? "N/A"}\nAuto-Converts: ${payload.auto_converts ?? "N/A"}\n${payload.message || ""}`;
+      const textMessage = `Trial Terms: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\nTrial Days: ${payload.trial_days ?? "N/A"}\nCard Required: ${payload.card_required ?? "N/A"}\nAuto-Converts: ${payload.auto_converts ?? "N/A"}\n${payload.message || ""}\nSource: ${payload.policy_source_url || "N/A"}\nSource Notes: ${payload.policy_source_notes || "N/A"}\nLast Checked: ${payload.policy_last_checked || "N/A"}`;
 
       send(
         res,

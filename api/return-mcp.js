@@ -168,7 +168,7 @@ export default async function handler(req, res) {
 
       const payload = compute(args);
 
-      const textMessage = `Return Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\nReturn Type: ${payload.return_type || "N/A"}\nMethod: ${payload.method || "N/A"}\n${payload.message || ""}`;
+      const textMessage = `Return Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\nReturn Type: ${payload.return_type || "N/A"}\nMethod: ${payload.method || "N/A"}\n${payload.message || ""}\nSource: ${payload.policy_source_url || "N/A"}\nSource Notes: ${payload.policy_source_notes || "N/A"}\nLast Checked: ${payload.policy_last_checked || "N/A"}`;
 
       send(
         res,

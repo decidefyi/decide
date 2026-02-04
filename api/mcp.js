@@ -183,7 +183,7 @@ export default async function handler(req, res) {
       const payload = compute(args);
 
       // Format a human-readable message for text content
-      const textMessage = `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}`;
+      const textMessage = `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}\nSource: ${payload.policy_source_url || "N/A"}\nSource Notes: ${payload.policy_source_notes || "N/A"}\nLast Checked: ${payload.policy_last_checked || "N/A"}`;
 
       // Send response first (fast for user)
       send(
