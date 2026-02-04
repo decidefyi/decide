@@ -401,6 +401,9 @@
         body.dark .pg-redact-label{background:rgba(245,245,245,0.07);border-color:rgba(245,245,245,0.2)}
         body.dark .pg-assert-input{background-color:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .pg-assert-chip{background:rgba(245,245,245,0.08);border-color:rgba(245,245,245,0.2)}
+        body.dark .pg-monitor-item{background:rgba(245,245,245,0.05);border-color:rgba(245,245,245,0.14)}
+        body.dark .pg-mini-btn{background:rgba(245,245,245,0.14)}
+        body.dark .pg-mini-btn.warn{background:rgba(248,113,113,0.18);color:#fca5a5}
         body.dark .pg-advanced{background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.14)}
         body.dark .pg-advanced[open] summary{border-bottom-color:rgba(245,245,245,0.1)}
         body.dark .trail-action{background:rgba(245,245,245,0.12);color:var(--fg)}
@@ -509,6 +512,13 @@
         .pg-advanced[open] summary{border-bottom:1px solid rgba(17,17,17,0.08)}
         .pg-advanced-body{padding:0.8rem}
         .pg-case-row{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin-top:0.6rem}
+        .pg-monitor-row{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin-top:0.55rem}
+        .pg-monitor-list{display:flex;flex-direction:column;gap:0.45rem;margin-top:0.55rem}
+        .pg-monitor-item{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.45rem;padding:0.45rem 0.6rem;border-radius:10px;border:1px solid rgba(17,17,17,0.12);background:rgba(17,17,17,0.03);font-size:0.72rem}
+        .pg-monitor-meta{color:var(--gray)}
+        .pg-monitor-actions{display:flex;gap:0.35rem}
+        .pg-mini-btn{border:none;border-radius:8px;padding:0.28rem 0.48rem;font:inherit;font-size:0.68rem;font-weight:600;cursor:pointer;background:rgba(17,17,17,0.08);color:var(--fg)}
+        .pg-mini-btn.warn{background:rgba(220,38,38,0.12);color:#b91c1c}
         .pg-select{font:inherit;font-size:0.78rem;padding:0.58rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg);min-width:220px;padding-right:3.1rem}
         .pg-redact-row{display:flex;gap:0.45rem;flex-wrap:wrap;align-items:center;margin-top:0.55rem}
         .pg-redact-title{font-size:0.72rem;color:var(--gray);margin-right:0.1rem}
@@ -589,6 +599,7 @@
             .pg-assert-row{display:grid;grid-template-columns:1fr}
             .pg-assert-row .pg-btn,.pg-assert-row .pg-assert-input{width:100%}
             .pg-case-row .pg-btn,.pg-case-row .pg-select{width:100%;min-width:0}
+            .pg-monitor-row .pg-btn,.pg-monitor-row .pg-select{width:100%;min-width:0}
             .trail-controls{display:grid;grid-template-columns:1fr 1fr}
             .trail-controls .trail-filter{width:100%}
         }
@@ -1122,6 +1133,17 @@
                                     <button class="pg-btn secondary" id="pgDeleteCaseBtn" type="button">Delete case</button>
                                     <button class="pg-btn secondary" id="pgRunSuiteBtn" type="button">Run saved suite</button>
                                 </div>
+                                <div class="pg-monitor-row">
+                                    <select class="pg-select" id="pgMonitorInterval">
+                                        <option value="1">Monitor every 1 hour</option>
+                                        <option value="6">Monitor every 6 hours</option>
+                                        <option value="24" selected>Monitor every 24 hours</option>
+                                    </select>
+                                    <button class="pg-btn secondary" id="pgSaveMonitorBtn" type="button">Save as monitor</button>
+                                    <button class="pg-btn secondary" id="pgRunMonitorsBtn" type="button">Run due monitors</button>
+                                </div>
+                                <div class="pg-note" id="pgMonitorSummary">No monitors yet.</div>
+                                <div class="pg-monitor-list" id="pgMonitorList"></div>
                                 <div class="pg-redact-row" id="pgRedactRow">
                                     <span class="pg-redact-title">Share redaction:</span>
                                     <label class="pg-redact-label"><input type="checkbox" data-redact-field="vendor" checked>vendor</label>
@@ -1988,6 +2010,7 @@ if (v === 'yes' || v === 'no') {
             loadShareRedactionPrefs();
             renderAssertions();
             renderAssertionTemplates();
+            renderMonitors();
         }
         
         // Open user menu/profile
@@ -2079,6 +2102,11 @@ if (v === 'yes' || v === 'no') {
         const pgLoadCaseBtn = document.getElementById('pgLoadCaseBtn');
         const pgDeleteCaseBtn = document.getElementById('pgDeleteCaseBtn');
         const pgRunSuiteBtn = document.getElementById('pgRunSuiteBtn');
+        const pgMonitorInterval = document.getElementById('pgMonitorInterval');
+        const pgSaveMonitorBtn = document.getElementById('pgSaveMonitorBtn');
+        const pgRunMonitorsBtn = document.getElementById('pgRunMonitorsBtn');
+        const pgMonitorList = document.getElementById('pgMonitorList');
+        const pgMonitorSummary = document.getElementById('pgMonitorSummary');
         const pgAdvancedTools = document.getElementById('pgAdvancedTools');
         const pgRedactChecks = Array.from(document.querySelectorAll('#pgRedactRow [data-redact-field]'));
         const pgAssertTemplate = document.getElementById('pgAssertTemplate');
@@ -2100,6 +2128,7 @@ if (v === 'yes' || v === 'no') {
         const pgFilterLatency = document.getElementById('pgFilterLatency');
         let pgPreviousResponseText = '';
         let pgLastRunSnapshot = null;
+        let pgMonitorRunning = false;
 
         const PLAYGROUND_CONFIG = {
             refund: {
@@ -2236,10 +2265,17 @@ if (v === 'yes' || v === 'no') {
             return uid ? `decide_playground_assert_${uid}` : 'decide_playground_assert_guest';
         }
 
+        function getPlaygroundMonitorsKey() {
+            const uid = window.Clerk?.user?.id;
+            return uid ? `decide_playground_monitors_${uid}` : 'decide_playground_monitors_guest';
+        }
+
         function updatePlaygroundScopeNote() {
             if (!pgScopeNote) return;
             const uid = window.Clerk?.user?.id;
-            pgScopeNote.textContent = uid ? `Audit scope: signed-in account (${uid.slice(0, 8)}…)` : 'Audit scope: this browser (guest). Sign in to scope trail to your account.';
+            pgScopeNote.textContent = uid
+                ? `Audit scope: signed-in account (${uid.slice(0, 8)}…) in this browser session.`
+                : 'Audit scope: this browser (guest). Sign in to scope trail and monitors to your account.';
         }
 
         function loadTrail() {
@@ -2264,6 +2300,14 @@ if (v === 'yes' || v === 'no') {
 
         function saveAssertions(assertions) {
             localStorage.setItem(getPlaygroundAssertKey(), JSON.stringify(assertions.slice(0, 100)));
+        }
+
+        function loadMonitors() {
+            try { return JSON.parse(localStorage.getItem(getPlaygroundMonitorsKey()) || '[]'); } catch { return []; }
+        }
+
+        function saveMonitors(monitors) {
+            localStorage.setItem(getPlaygroundMonitorsKey(), JSON.stringify(monitors.slice(0, 100)));
         }
 
         function getScopedAssertions(notary = pgNotary.value, mode = pgMode.value) {
@@ -2373,6 +2417,167 @@ if (v === 'yes' || v === 'no') {
                 option.textContent = entry.name;
                 pgSavedCases.appendChild(option);
             });
+        }
+
+        function formatMonitorTime(ts) {
+            if (!ts) return '—';
+            const d = new Date(ts);
+            if (Number.isNaN(d.getTime())) return '—';
+            return d.toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+
+        function renderMonitors() {
+            const monitors = loadMonitors();
+            const visible = monitors.filter((m) => m.notary === pgNotary.value && m.mode === pgMode.value);
+            pgMonitorList.innerHTML = '';
+            if (!visible.length) {
+                pgMonitorSummary.textContent = 'No monitors yet.';
+                return;
+            }
+            const activeCount = visible.filter((m) => m.active !== false).length;
+            pgMonitorSummary.textContent = `${visible.length} monitor(s) in this view, ${activeCount} active.`;
+            visible.forEach((monitor) => {
+                const item = document.createElement('div');
+                item.className = 'pg-monitor-item';
+                const status = monitor.lastStatus || 'never';
+                const meta = document.createElement('div');
+                meta.className = 'pg-monitor-meta';
+                meta.textContent = `${monitor.name} • every ${monitor.intervalHours}h • ${monitor.active !== false ? 'active' : 'paused'} • last: ${status} • next: ${formatMonitorTime(monitor.nextRunAt)}`;
+
+                const actions = document.createElement('div');
+                actions.className = 'pg-monitor-actions';
+                actions.innerHTML = `
+                    <button class="pg-mini-btn" type="button" data-monitor-action="run" data-monitor-id="${monitor.id}">Run</button>
+                    <button class="pg-mini-btn" type="button" data-monitor-action="toggle" data-monitor-id="${monitor.id}">${monitor.active !== false ? 'Pause' : 'Resume'}</button>
+                    <button class="pg-mini-btn warn" type="button" data-monitor-action="delete" data-monitor-id="${monitor.id}">Delete</button>
+                `;
+                item.appendChild(meta);
+                item.appendChild(actions);
+                pgMonitorList.appendChild(item);
+            });
+        }
+
+        async function maybeNotifyMonitorFailure(monitor, entry) {
+            const title = `Monitor failed: ${monitor.name}`;
+            const body = `${monitor.notary}/${monitor.mode} • status ${entry?.status || 0} • ${entry?.assertSummary || 'assert fail'}`;
+            if ('Notification' in window) {
+                if (Notification.permission === 'granted') {
+                    new Notification(title, { body });
+                    return;
+                }
+                if (Notification.permission === 'default') {
+                    try { await Notification.requestPermission(); } catch {}
+                    if (Notification.permission === 'granted') {
+                        new Notification(title, { body });
+                        return;
+                    }
+                }
+            }
+            pgScopeNote.textContent = `${title}. Enable notifications for browser alerts.`;
+        }
+
+        async function runMonitorById(id, { dueOnly = false } = {}) {
+            const monitors = loadMonitors();
+            const idx = monitors.findIndex((m) => m.id === id);
+            if (idx < 0) return null;
+            const monitor = monitors[idx];
+            if (!monitor || monitor.active === false) return null;
+            const now = Date.now();
+            if (dueOnly && monitor.nextRunAt && monitor.nextRunAt > now) return null;
+
+            const entry = await runPlayground({
+                notary: monitor.notary,
+                mode: monitor.mode,
+                payload: monitor.payload,
+                caseName: `monitor:${monitor.name}`,
+                silentUi: true
+            });
+
+            const failed = !entry || entry.assertPass === false || entry.status >= 400 || entry.status === 0;
+            const previous = monitor.lastStatus || 'never';
+            monitor.lastStatus = failed ? 'FAIL' : 'PASS';
+            monitor.lastRunAt = new Date().toISOString();
+            monitor.lastMessage = entry?.assertSummary || '';
+            monitor.nextRunAt = now + (Number(monitor.intervalHours || 24) * 60 * 60 * 1000);
+            monitors[idx] = monitor;
+            saveMonitors(monitors);
+            renderMonitors();
+            if (failed && previous !== 'FAIL') {
+                await maybeNotifyMonitorFailure(monitor, entry);
+            }
+            return monitor;
+        }
+
+        async function runDueMonitors() {
+            if (pgMonitorRunning) return;
+            pgMonitorRunning = true;
+            pgRunMonitorsBtn.disabled = true;
+            try {
+                const due = loadMonitors().filter((m) => m.active !== false && m.nextRunAt && m.nextRunAt <= Date.now());
+                let runCount = 0;
+                for (const monitor of due) {
+                    await runMonitorById(monitor.id, { dueOnly: true });
+                    runCount += 1;
+                }
+                if (runCount) {
+                    pgScopeNote.textContent = `Ran ${runCount} due monitor(s).`;
+                }
+            } finally {
+                pgRunMonitorsBtn.disabled = false;
+                pgMonitorRunning = false;
+            }
+        }
+
+        function saveMonitorFromSelectedCase() {
+            const caseId = pgSavedCases.value;
+            if (!caseId) {
+                pgScopeNote.textContent = 'Pick a saved case first, then click Save as monitor.';
+                return;
+            }
+            const selected = loadSavedCases().find((c) => c.id === caseId);
+            if (!selected) return;
+            const intervalHours = Number(pgMonitorInterval.value || 24);
+            const defaultName = `${selected.name} monitor`;
+            const name = (window.prompt('Monitor name:', defaultName) || '').trim();
+            if (!name) return;
+
+            const monitors = loadMonitors();
+            const exists = monitors.find((m) => m.name.toLowerCase() === name.toLowerCase() && m.notary === selected.notary && m.mode === selected.mode);
+            const base = {
+                id: exists?.id || `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+                name,
+                notary: selected.notary,
+                mode: selected.mode,
+                payload: selected.payload,
+                intervalHours,
+                active: true,
+                nextRunAt: Date.now() + (intervalHours * 60 * 60 * 1000),
+                lastRunAt: exists?.lastRunAt || '',
+                lastStatus: exists?.lastStatus || 'never',
+                lastMessage: exists?.lastMessage || ''
+            };
+            const next = exists ? monitors.map((m) => (m.id === exists.id ? base : m)) : [base, ...monitors];
+            saveMonitors(next);
+            renderMonitors();
+            pgScopeNote.textContent = `Saved monitor: ${name} (every ${intervalHours}h).`;
+        }
+
+        function deleteMonitor(id) {
+            const next = loadMonitors().filter((m) => m.id !== id);
+            saveMonitors(next);
+            renderMonitors();
+        }
+
+        function toggleMonitor(id) {
+            const monitors = loadMonitors();
+            const target = monitors.find((m) => m.id === id);
+            if (!target) return;
+            target.active = target.active === false ? true : false;
+            if (target.active && (!target.nextRunAt || target.nextRunAt < Date.now())) {
+                target.nextRunAt = Date.now() + (Number(target.intervalHours || 24) * 60 * 60 * 1000);
+            }
+            saveMonitors(monitors);
+            renderMonitors();
         }
 
         function classifyTrailStatus(entry) {
@@ -2970,6 +3175,8 @@ if (v === 'yes' || v === 'no') {
         pgLoadCaseBtn.addEventListener('click', loadSelectedCase);
         pgDeleteCaseBtn.addEventListener('click', deleteSelectedCase);
         pgRunSuiteBtn.addEventListener('click', runSavedSuite);
+        pgSaveMonitorBtn.addEventListener('click', saveMonitorFromSelectedCase);
+        pgRunMonitorsBtn.addEventListener('click', runDueMonitors);
         pgAddAssertBtn.addEventListener('click', addAssertion);
         pgUseAssertTemplateBtn.addEventListener('click', applyAssertionTemplate);
         pgAssertTemplate.addEventListener('change', applyAssertionTemplate);
@@ -2989,6 +3196,16 @@ if (v === 'yes' || v === 'no') {
         pgRedactChecks.forEach((el) => {
             el.addEventListener('change', saveShareRedactionPrefs);
         });
+        pgMonitorList.addEventListener('click', async (event) => {
+            const button = event.target.closest('[data-monitor-action]');
+            if (!button) return;
+            const action = button.dataset.monitorAction;
+            const id = button.dataset.monitorId;
+            if (!id) return;
+            if (action === 'run') await runMonitorById(id);
+            if (action === 'toggle') toggleMonitor(id);
+            if (action === 'delete') deleteMonitor(id);
+        });
         [pgFilterStatus, pgFilterNotary, pgFilterMode, pgFilterLatency].forEach((el) => {
             el?.addEventListener('change', renderTrail);
         });
@@ -3002,9 +3219,12 @@ if (v === 'yes' || v === 'no') {
         loadShareRedactionPrefs();
         renderAssertions();
         renderAssertionTemplates();
+        renderMonitors();
         maybeLoadSharedSnapshot();
         updatePlaygroundScopeNote();
         renderTrail();
+        runDueMonitors();
+        setInterval(() => { runDueMonitors(); }, 60 * 1000);
 
         // Copy code blocks
         function copyCode(btn) {
