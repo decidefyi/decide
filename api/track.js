@@ -1,6 +1,6 @@
 import { createRateLimiter, getClientIp, addRateLimitHeaders } from "../lib/rate-limit.js";
 import { persistLog } from "../lib/log.js";
-import { recordClientEvent } from "../lib/metrics-store.js";
+import { recordClientEvent, recordVendorRequest } from "../lib/metrics-store.js";
 
 const rateLimiter = createRateLimiter(300, 60000);
 const DEFAULT_ALLOWED_HOSTS = new Set([
@@ -164,6 +164,9 @@ export default async function handler(req, res) {
 
     console.log("[Client Event]", JSON.stringify(data));
     recordClientEvent(event, Date.now());
+    if (event === "vendor_request" && typeof props.vendor === "string" && props.vendor.trim()) {
+      recordVendorRequest(props.vendor, Date.now());
+    }
     await persistLog("client_event", data);
     return send(res, 200, { ok: true });
   } catch (error) {

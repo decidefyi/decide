@@ -436,6 +436,8 @@
         body.dark .vendor-request-link:hover{background:rgba(245,245,245,0.14)}
         body.dark .vr-field input,body.dark .vr-field textarea{background:#111111;border-color:rgba(245,245,245,0.18);color:var(--fg)}
         body.dark .vr-btn.secondary{background:rgba(245,245,245,0.12)}
+        body.dark .pg-vendor-requests{border-top-color:rgba(245,245,245,0.14)}
+        body.dark .pg-vendor-refresh{background:rgba(245,245,245,0.12)}
         body.dark .pricing-cta-btn.secondary{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2)}
         body.dark .agent-hero-btn.secondary{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2)}
         body.dark .pg-btn:focus-visible,
@@ -517,6 +519,11 @@
         .vr-status.ok{color:#15803d}
         .vr-top{margin-top:0.55rem;font-size:0.72rem;color:var(--gray)}
         .vr-top-list{margin-top:0.3rem;padding-left:1rem;display:grid;gap:0.18rem}
+        .pg-vendor-requests{margin-top:0.8rem;padding-top:0.65rem;border-top:1px dashed rgba(17,17,17,0.12)}
+        .pg-vendor-head{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap}
+        .pg-vendor-title{font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--gray)}
+        .pg-vendor-refresh{border:none;border-radius:8px;padding:0.32rem 0.52rem;font:inherit;font-size:0.68rem;font-weight:600;cursor:pointer;background:rgba(17,17,17,0.08);color:var(--fg)}
+        .pg-vendor-list{margin-top:0.5rem;padding-left:1rem;display:grid;gap:0.2rem;font-size:0.72rem;color:var(--gray)}
         .connect h2{font-size:clamp(1.5rem,4vw,2.25rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:0.5rem;color:var(--fg)}
         .connect>p,.connect-inner>p{color:var(--gray);font-size:0.9rem;line-height:1.6;margin-bottom:2rem}
         .code-block{background:var(--bg-dark);border:1px solid rgba(17,17,17,0.1);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;position:relative;overflow-x:auto}
@@ -1257,6 +1264,13 @@
                                 </div>
                                 <div class="pg-note" id="pgMonitorSummary">No monitors yet.</div>
                                 <div class="pg-monitor-list" id="pgMonitorList"></div>
+                                <div class="pg-vendor-requests">
+                                    <div class="pg-vendor-head">
+                                        <span class="pg-vendor-title">Vendor requests (network)</span>
+                                        <button class="pg-vendor-refresh" id="pgVendorRefreshBtn" type="button">Refresh</button>
+                                    </div>
+                                    <ul class="pg-vendor-list" id="pgVendorNetworkList"></ul>
+                                </div>
                                 <div class="pg-redact-row" id="pgRedactRow">
                                     <span class="pg-redact-title">Share redaction:</span>
                                     <label class="pg-redact-label"><input type="checkbox" data-redact-field="vendor" checked>vendor</label>
@@ -2413,6 +2427,8 @@ if (v === 'yes' || v === 'no') {
         const pgRunMonitorsBtn = document.getElementById('pgRunMonitorsBtn');
         const pgMonitorList = document.getElementById('pgMonitorList');
         const pgMonitorSummary = document.getElementById('pgMonitorSummary');
+        const pgVendorNetworkList = document.getElementById('pgVendorNetworkList');
+        const pgVendorRefreshBtn = document.getElementById('pgVendorRefreshBtn');
         const pgAdvancedTools = document.getElementById('pgAdvancedTools');
         const pgRedactChecks = Array.from(document.querySelectorAll('#pgRedactRow [data-redact-field]'));
         const pgAssertTemplate = document.getElementById('pgAssertTemplate');
@@ -2832,6 +2848,29 @@ if (v === 'yes' || v === 'no') {
                 item.appendChild(actions);
                 pgMonitorList.appendChild(item);
             });
+        }
+
+        async function renderNetworkVendorRequests() {
+            if (!pgVendorNetworkList) return;
+            pgVendorNetworkList.innerHTML = '<li>Loading…</li>';
+            try {
+                const response = await fetch('/api/vendor-requests', { cache: 'no-store' });
+                if (!response.ok) throw new Error(`status ${response.status}`);
+                const data = await response.json();
+                const top = Array.isArray(data?.top_vendor_requests) ? data.top_vendor_requests.slice(0, 8) : [];
+                pgVendorNetworkList.innerHTML = '';
+                if (!top.length) {
+                    pgVendorNetworkList.innerHTML = '<li>No vendor requests yet</li>';
+                    return;
+                }
+                top.forEach((row) => {
+                    const li = document.createElement('li');
+                    li.textContent = `${row.vendor} (${row.count})`;
+                    pgVendorNetworkList.appendChild(li);
+                });
+            } catch {
+                pgVendorNetworkList.innerHTML = '<li>Unavailable right now</li>';
+            }
         }
 
         async function maybeNotifyMonitorFailure(monitor, entry) {
@@ -3786,6 +3825,7 @@ if (v === 'yes' || v === 'no') {
         pgRunSuiteBtn.addEventListener('click', runSavedSuite);
         pgSaveMonitorBtn.addEventListener('click', saveMonitorFromSelectedCase);
         pgRunMonitorsBtn.addEventListener('click', runDueMonitors);
+        pgVendorRefreshBtn?.addEventListener('click', renderNetworkVendorRequests);
         pgAddAssertBtn.addEventListener('click', addAssertion);
         pgUseAssertTemplateBtn.addEventListener('click', applyAssertionTemplate);
         pgAssertTemplate.addEventListener('change', applyAssertionTemplate);
@@ -3841,6 +3881,7 @@ if (v === 'yes' || v === 'no') {
         renderAssertions();
         renderAssertionTemplates();
         renderMonitors();
+        renderNetworkVendorRequests();
         maybeLoadSharedSnapshot();
         updatePlaygroundScopeNote();
         renderTrail();
