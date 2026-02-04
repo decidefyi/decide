@@ -18,7 +18,7 @@
         type="text/javascript"
     ></script>
     <style>
-        :root{--bg:#f5f5f5;--bg-dark:#111111;--fg:#111111;--fg-light:#f5f5f5;--gray:#666666;--gray-light:#999999;--g:#16a34a;--r:#dc2626;--select-chevron:#666666;--ease:cubic-bezier(0.16,1,0.3,1);--ease-out:cubic-bezier(0.34,1.56,0.64,1)}
+        :root{--bg:#f5f5f5;--bg-dark:#111111;--fg:#111111;--fg-light:#f5f5f5;--gray:#666666;--gray-light:#999999;--g:#16a34a;--r:#dc2626;--select-chevron:#4b5563;--ease:cubic-bezier(0.16,1,0.3,1);--ease-out:cubic-bezier(0.34,1.56,0.64,1)}
         *{margin:0;padding:0;box-sizing:border-box}
         html{scroll-behavior:smooth}
         body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
@@ -290,7 +290,7 @@
         body.dark .theme-toggle:hover{border-color:var(--fg);box-shadow:0 6px 25px rgba(0,0,0,0.4)}
 
         /* DARK MODE — single uniform shade */
-        body.dark{--bg:#111111;--bg-dark:#111111;--fg:#e8e8e8;--fg-light:#e8e8e8;--gray:#888;--gray-light:#555;--select-chevron:#d1d5db}
+        body.dark{--bg:#111111;--bg-dark:#111111;--fg:#e8e8e8;--fg-light:#e8e8e8;--gray:#888;--gray-light:#555;--select-chevron:#f5f5f5}
         body.dark{background:#111111;color:var(--fg)}
         body.dark::before{content:'';position:fixed;inset:0;background:var(--bg);z-index:0;pointer-events:none}
         /* Keep dark mode visually uniform and avoid GPU/compositing banding artifacts. */
@@ -473,17 +473,18 @@
         .pg-field{display:flex;flex-direction:column;gap:0.35rem}
         .pg-field label{font-size:0.72rem;font-weight:600;color:var(--gray)}
         .pg-field select,.pg-field textarea{font:inherit;font-size:0.85rem;padding:0.7rem 0.8rem;border-radius:12px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
-        .pg-field select{padding-right:2.75rem}
+        .pg-field select{padding-right:3.1rem}
         .pg-field select,.pg-select,.trail-filter,select.pg-assert-input{
             appearance:none;
             -webkit-appearance:none;
+            cursor:pointer;
             background-image:
                 linear-gradient(45deg, transparent 50%, var(--select-chevron) 50%),
                 linear-gradient(135deg, var(--select-chevron) 50%, transparent 50%);
             background-position:
-                calc(100% - 1.05rem) calc(50% - 0.12rem),
-                calc(100% - 0.75rem) calc(50% - 0.12rem);
-            background-size:0.34rem 0.34rem,0.34rem 0.34rem;
+                calc(100% - 1.15rem) calc(50% - 0.14rem),
+                calc(100% - 0.8rem) calc(50% - 0.14rem);
+            background-size:0.42rem 0.42rem,0.42rem 0.42rem;
             background-repeat:no-repeat;
         }
         .pg-field textarea{min-height:150px;resize:vertical;font-family:'SF Mono',Monaco,Consolas,monospace}
@@ -505,14 +506,14 @@
         .pg-advanced[open] summary{border-bottom:1px solid rgba(17,17,17,0.08)}
         .pg-advanced-body{padding:0.8rem}
         .pg-case-row{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin-top:0.6rem}
-        .pg-select{font:inherit;font-size:0.78rem;padding:0.58rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg);min-width:220px;padding-right:2.75rem}
+        .pg-select{font:inherit;font-size:0.78rem;padding:0.58rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg);min-width:220px;padding-right:3.1rem}
         .pg-redact-row{display:flex;gap:0.45rem;flex-wrap:wrap;align-items:center;margin-top:0.55rem}
         .pg-redact-title{font-size:0.72rem;color:var(--gray);margin-right:0.1rem}
         .pg-redact-label{display:inline-flex;align-items:center;gap:0.3rem;padding:0.3rem 0.55rem;border-radius:999px;border:1px solid rgba(17,17,17,0.14);background:rgba(17,17,17,0.04);font-size:0.7rem;color:var(--fg)}
         .pg-redact-label input{accent-color:var(--fg);width:12px;height:12px}
         .pg-assert-row{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin-top:0.65rem}
         .pg-assert-input{font:inherit;font-size:0.74rem;padding:0.55rem 0.65rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg)}
-        select.pg-assert-input{padding-right:2.6rem}
+        select.pg-assert-input{padding-right:3rem}
         .pg-assert-template{min-width:220px}
         .pg-assert-input.path{min-width:220px}
         .pg-assert-input.expected{min-width:180px}
@@ -521,7 +522,7 @@
         .pg-assert-chip button{border:none;background:transparent;color:var(--gray);cursor:pointer;font-size:0.9rem;line-height:1}
         .pg-note{font-size:0.75rem;color:var(--gray);margin-top:0.7rem}
         .trail-controls{margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap}
-        .trail-filter{font:inherit;font-size:0.74rem;padding:0.5rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg);padding-right:2.6rem}
+        .trail-filter{font:inherit;font-size:0.74rem;padding:0.5rem 0.7rem;border-radius:10px;border:1px solid rgba(17,17,17,0.14);background:var(--bg);color:var(--fg);padding-right:3rem}
         .trail-meta{font-size:0.72rem;color:var(--gray);margin-top:0.45rem}
         .trail-wrap{margin-top:1rem;border:1px solid rgba(17,17,17,0.12);border-radius:14px;overflow:auto}
         .trail-table{width:100%;border-collapse:collapse;font-size:0.76rem;min-width:780px}
