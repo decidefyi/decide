@@ -60,10 +60,13 @@ jobs:
       - name: Open issue if policies changed
         if: steps.check.outputs.changed
         uses: actions/github-script@v7
+        env:
+          CHANGED_VENDORS: ${{ steps.check.outputs.changed }}
+          ISSUE_BODY: ${{ steps.check.outputs.body }}
         with:
           script: |
-            const changed = '${{ steps.check.outputs.changed }}';
-            const body = `${{ steps.check.outputs.body }}`;
+            const changed = process.env.CHANGED_VENDORS || '';
+            const body = process.env.ISSUE_BODY || '';
             const today = new Date().toISOString().split('T')[0];
 
             await github.rest.issues.create({
