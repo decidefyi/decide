@@ -242,34 +242,6 @@
         .how-card h3{font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;color:var(--fg)}
         .how-card p{color:var(--gray);font-size:0.85rem}
 
-        /* WHEEL */
-        .wheel{padding:6rem 1.5rem;background:#f5f5f5;color:#111111}
-        .wheel .sec-head h2{color:#111111}
-        .wheel .sec-head p{color:#6b7280}
-        .wheel .sec-tag{color:#111111}
-        .wheel .sec-tag::before,.wheel .sec-tag::after{border-color:#111111}
-        .wheel-wrap{max-width:900px;margin:0 auto;display:grid;grid-template-columns:360px 1fr;gap:2rem;align-items:start}
-        .wheel-stage{display:flex;justify-content:center}
-        .wheel-shell{position:relative;width:320px;height:320px}
-        .wheel-disc{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;box-shadow:0 20px 50px rgba(0,0,0,0.08);background:var(--wheel-ring-gradient, conic-gradient(#d1d5db 0deg 180deg,#e5e7eb 180deg 360deg));will-change:transform}
-        .wheel-disc::before{content:'';position:absolute;inset:8px;border-radius:50%;background:var(--wheel-face-gradient, conic-gradient(#e5e7eb 0deg 180deg,#f3f4f6 180deg 360deg))}
-        .wheel-pointer{position:absolute;z-index:5;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid #111111;pointer-events:none}
-        .wheel-center{position:absolute;z-index:4;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:#111111;color:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;letter-spacing:0.03em}
-        .wheel-labels{position:absolute;z-index:2;inset:0;pointer-events:none;will-change:transform}
-        .wheel-label{position:absolute;left:50%;top:50%;width:120px;text-align:center;transform-origin:center center;font-size:0.72rem;font-weight:600;color:#1f2937;text-shadow:0 1px 0 rgba(245,245,245,0.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-        .wheel-panel{display:flex;flex-direction:column;gap:0.9rem}
-        .wheel-panel p{color:#6b7280;font-size:0.9rem}
-        .wheel-add{display:flex;gap:0.5rem}
-        .wheel-input{flex:1;padding:0.75rem 0.9rem;border-radius:12px;border:1px solid rgba(17,17,17,0.15);background:#f5f5f5;color:#111111;font:inherit}
-        .wheel-add-btn,.wheel-spin-btn,.wheel-reset-btn{border:none;border-radius:12px;padding:0.75rem 1rem;min-height:44px;line-height:1;font:inherit;font-size:0.85rem;font-weight:600;cursor:pointer}
-        .wheel-add-btn,.wheel-spin-btn{background:#111111;color:#f5f5f5;border:1px solid rgba(17,17,17,0.22)}
-        .wheel-reset-btn{background:rgba(17,17,17,0.08);color:#111111}
-        .wheel-options{display:flex;flex-wrap:wrap;gap:0.45rem}
-        .wheel-chip{display:inline-flex;align-items:center;gap:0.35rem;background:rgba(17,17,17,0.04);border:1px solid rgba(17,17,17,0.1);border-radius:999px;padding:0.35rem 0.65rem;font-size:0.78rem;color:#111111}
-        .wheel-chip button{border:none;background:none;color:#6b7280;cursor:pointer;font-size:0.95rem;line-height:1}
-        .wheel-actions{display:flex;gap:0.6rem}
-        .wheel-result{min-height:40px;font-size:0.95rem;font-weight:600;color:#111111}
-
         /* CTA - LIGHT */
         .cta{padding:14rem 1.5rem;text-align:center;position:relative;overflow:hidden}
         .cta::before{content:'';position:absolute;top:50%;left:50%;width:1000px;height:1000px;background:radial-gradient(circle,rgba(17,17,17,0.03) 0%,transparent 50%);transform:translate(-50%,-50%);animation:ctaGlow 5s ease-in-out infinite}
@@ -334,16 +306,6 @@
         body.dark nav .mode-toggle button.active{background:#f5f5f5;color:#111111}
         body.dark nav .nav-cta{background:#f5f5f5!important;color:#111111!important}
         body.dark nav .mob span{background:#f5f5f5}
-        body.dark .wheel-pointer{border-top-color:#f5f5f5}
-        body.dark .wheel .sec-head p,
-        body.dark .wheel-panel p{color:#9ca3af}
-        body.dark .wheel .sec-head h2{color:#f5f5f5}
-        body.dark .wheel-result{color:#f5f5f5}
-        body.dark .wheel-chip{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.24);color:#f5f5f5}
-        body.dark .wheel-chip button{color:#e5e7eb}
-        body.dark .wheel-add-btn,
-        body.dark .wheel-spin-btn{border-color:rgba(245,245,245,0.28)}
-        body.dark .wheel-reset-btn{background:rgba(245,245,245,0.12);color:#f5f5f5;border:1px solid rgba(245,245,245,0.28)}
         body.dark .decision-status.warn{color:#fbbf24}
         body.dark .decision-status.error{color:#fca5a5}
         body.dark ::selection{background:rgba(245,245,245,0.15)}
@@ -856,7 +818,7 @@
             .refresh-btn:active{transform:scale(0.96)}
             .ans{font-size:clamp(4rem,20vw,7rem)}
             .logos{padding:1.5rem 1rem}
-            .features,.how,.wheel,.connect,.agent-features{padding:4.5rem 1rem}
+            .features,.how,.connect,.agent-features{padding:4.5rem 1rem}
             .cta{padding:6rem 1rem}
             .sec-head{margin:0 auto 2.5rem}
             .sec-head p{font-size:0.9rem}
@@ -876,8 +838,6 @@
             .pg-assert-row{flex-direction:column;align-items:stretch}
             .pg-assert-template{min-width:0;width:100%}
             .pg-assert-input.path,.pg-assert-input.expected{min-width:0;width:100%}
-            .wheel-wrap{grid-template-columns:1fr;gap:1.2rem}
-            .wheel-shell{width:280px;height:280px}
             .theme-toggle{right:0.8rem;bottom:0.8rem;width:38px;height:38px}
             .foot-inner{flex-direction:column;gap:1.25rem}
             /* Fix result height on mobile - use fixed height instead of clamp with vw */
@@ -966,7 +926,7 @@
                 <div class="input-row">
                     <div class="input-box" id="inputBox">
                         <div class="input-inner" id="inputInner">
-                            <input type="text" class="input-field" id="q" placeholder="should i get shit done?" autocomplete="off" maxlength="230">
+                            <input type="text" class="input-field" id="q" placeholder="ship the refund policy check now?" autocomplete="off" maxlength="230">
                             <button class="input-btn" id="btn">decide</button>
                         </div>
                         <a class="x-verdict-btn" id="xBtn" href="#" target="_blank" rel="noopener noreferrer">
@@ -979,9 +939,9 @@
                 <div class="char-count" id="charCount"></div>
                 <div class="decision-status" id="decisionStatus" aria-live="polite"></div>
                 <div class="chips">
-                    <button class="chip" onclick="ask('prague worth a detour?')">prague worth detour?</button>
-                    <button class="chip" onclick="ask('skip sleep again?')">skip sleep again?</button>
-                    <button class="chip" onclick="ask('text them back?')">text them back?</button>
+                    <button class="chip" onclick="ask('roll out the new price today?')">roll out the new price today?</button>
+                    <button class="chip" onclick="ask('escalate this support ticket?')">escalate this support ticket?</button>
+                    <button class="chip" onclick="ask('keep the trial or cancel?')">keep the trial or cancel?</button>
                 </div>
                 <div class="result">
                     <div class="ans" id="ans"></div>
@@ -1038,37 +998,6 @@
             <div class="how-card"><div class="how-num">3</div><h3>Act</h3><p>Move forward</p></div>
         </div>
     </section>
-
-    <section class="wheel sec-light" id="wheel">
-        <div class="sec-head">
-            <h2>Or let <span class="serif">chance</span> pick.</h2>
-            <p>Low-stakes call? Add options and spin once.</p>
-        </div>
-        <div class="wheel-wrap">
-            <div class="wheel-stage">
-                <div class="wheel-shell">
-                    <div class="wheel-pointer"></div>
-                    <div class="wheel-disc" id="wheelDisc"></div>
-                    <div class="wheel-labels" id="wheelLabels"></div>
-                    <div class="wheel-center">spin</div>
-                </div>
-            </div>
-            <div class="wheel-panel">
-                <p>Add 2-12 options (food, people, plans, anything).</p>
-                <div class="wheel-add">
-                    <input id="wheelInput" class="wheel-input" type="text" placeholder="e.g. sushi">
-                    <button id="wheelAddBtn" class="wheel-add-btn" type="button">Add</button>
-                </div>
-                <div class="wheel-options" id="wheelOptions"></div>
-                <div class="wheel-actions">
-                    <button id="wheelSpinBtn" class="wheel-spin-btn" type="button">Spin</button>
-                    <button id="wheelResetBtn" class="wheel-reset-btn" type="button">Reset</button>
-                </div>
-                <div class="wheel-result" id="wheelResult"></div>
-            </div>
-        </div>
-    </section>
-
 
     <section class="cta sec-light">
         <div class="cta-inner">
@@ -2139,174 +2068,6 @@ if (v === 'yes' || v === 'no') {
             clearDecisionStatus();
             q.focus();
         }
-
-        // Randomization wheel (human mode)
-        const wheelDisc = document.getElementById('wheelDisc');
-        const wheelLabels = document.getElementById('wheelLabels');
-        const wheelInput = document.getElementById('wheelInput');
-        const wheelAddBtn = document.getElementById('wheelAddBtn');
-        const wheelSpinBtn = document.getElementById('wheelSpinBtn');
-        const wheelResetBtn = document.getElementById('wheelResetBtn');
-        const wheelOptionsEl = document.getElementById('wheelOptions');
-        const wheelResult = document.getElementById('wheelResult');
-
-        let wheelOptions = ['pizza', 'sushi', 'burgers'];
-        let wheelCenters = [];
-        let wheelRotation = 0;
-        let wheelSpinning = false;
-        let lastWheelPick = -1;
-        let wheelAnimFrame = null;
-
-        function randomWheelColor(i) {
-            const palette = [
-                '#bfdbfe', '#fde68a', '#fecaca', '#bbf7d0',
-                '#ddd6fe', '#fdba74', '#a7f3d0', '#f9a8d4',
-                '#cbd5e1', '#fca5a5', '#86efac', '#93c5fd'
-            ];
-            return palette[i % palette.length];
-        }
-        function darkenHex(hex, amount = 0.12) {
-            const value = hex.replace('#', '');
-            const to255 = (i) => parseInt(value.slice(i, i + 2), 16);
-            const scale = (v) => Math.max(0, Math.min(255, Math.round(v * (1 - amount))));
-            const r = scale(to255(0)).toString(16).padStart(2, '0');
-            const g = scale(to255(2)).toString(16).padStart(2, '0');
-            const b = scale(to255(4)).toString(16).padStart(2, '0');
-            return `#${r}${g}${b}`;
-        }
-
-        function renderWheel() {
-            const n = wheelOptions.length;
-            const labelRadius = Math.max(78, (wheelDisc.clientWidth / 2) - 48);
-            if (n < 2) {
-                wheelCenters = [];
-                wheelDisc.style.setProperty('--wheel-face-gradient', 'conic-gradient(#e5e7eb 0deg 180deg,#f3f4f6 180deg 360deg)');
-                wheelDisc.style.setProperty('--wheel-ring-gradient', 'conic-gradient(#d1d5db 0deg 180deg,#e5e7eb 180deg 360deg)');
-                wheelLabels.innerHTML = '';
-                return;
-            }
-
-            const step = 360 / n;
-            wheelCenters = wheelOptions.map((_, i) => i * step + step / 2);
-            const colors = wheelOptions.map((_, i) => randomWheelColor(i));
-            const faceStops = colors.map((c, i) => `${c} ${Math.round(i * step)}deg ${Math.round((i + 1) * step)}deg`);
-            const ringStops = colors.map((c, i) => `${darkenHex(c)} ${Math.round(i * step)}deg ${Math.round((i + 1) * step)}deg`);
-            wheelDisc.style.setProperty('--wheel-face-gradient', `conic-gradient(${faceStops.join(',')})`);
-            wheelDisc.style.setProperty('--wheel-ring-gradient', `conic-gradient(${ringStops.join(',')})`);
-
-            wheelLabels.innerHTML = '';
-            wheelOptions.forEach((opt, i) => {
-                const a = i * step + step / 2;
-                const label = document.createElement('div');
-                label.className = 'wheel-label';
-                label.style.transform = `translate(-50%, -50%) rotate(${a}deg) translateY(-${labelRadius}px) rotate(${-a}deg)`;
-                label.textContent = opt;
-                wheelLabels.appendChild(label);
-            });
-        }
-
-        function renderWheelOptions() {
-            wheelOptionsEl.innerHTML = '';
-            wheelOptions.forEach((opt, idx) => {
-                const chip = document.createElement('span');
-                chip.className = 'wheel-chip';
-                chip.innerHTML = `${opt} <button type="button" aria-label="Remove ${opt}">×</button>`;
-                chip.querySelector('button').addEventListener('click', () => {
-                    wheelOptions.splice(idx, 1);
-                    renderWheelOptions();
-                    renderWheel();
-                });
-                wheelOptionsEl.appendChild(chip);
-            });
-        }
-
-        function addWheelOption() {
-            const value = (wheelInput.value || '').trim();
-            if (!value) return;
-            if (wheelOptions.length >= 12) {
-                wheelResult.textContent = 'Max 12 options.';
-                return;
-            }
-            wheelOptions.push(value);
-            wheelInput.value = '';
-            wheelResult.textContent = '';
-            renderWheelOptions();
-            renderWheel();
-            wheelInput.focus();
-        }
-
-        function spinWheel() {
-            if (wheelSpinning) return;
-            if (wheelOptions.length < 2) {
-                wheelResult.textContent = 'Add at least 2 options.';
-                return;
-            }
-
-            wheelSpinning = true;
-            wheelResult.textContent = 'Spinning...';
-
-            const n = wheelOptions.length;
-            let picked = Math.floor(Math.random() * n);
-            if (n > 2 && picked === lastWheelPick) {
-                picked = (picked + 1 + Math.floor(Math.random() * (n - 1))) % n;
-            }
-            const targetCenter = wheelCenters[picked];
-            const targetRotation = ((360 - targetCenter) % 360 + 360) % 360;
-            const currentRotation = ((wheelRotation % 360) + 360) % 360;
-            const deltaToTarget = (targetRotation - currentRotation + 360) % 360;
-            const extraTurns = (2 + Math.floor(Math.random() * 4)) * 360; // 2 to 5 full turns
-            const startRotation = Number.isFinite(wheelRotation) ? wheelRotation : 0;
-            let endRotation = startRotation + extraTurns + deltaToTarget;
-            if (endRotation <= startRotation) endRotation = startRotation + 360;
-            if ((endRotation - startRotation) < 360) endRotation += 360;
-            const duration = 4000;
-            const start = performance.now();
-
-            if (wheelAnimFrame) cancelAnimationFrame(wheelAnimFrame);
-            const animate = (now) => {
-                const t = Math.min(1, (now - start) / duration);
-                // Monotonic easing, clockwise only.
-                const eased = 1 - Math.pow(1 - t, 3);
-                const current = startRotation + (endRotation - startRotation) * eased;
-                wheelDisc.style.transform = `rotate(${current}deg)`;
-                wheelLabels.style.transform = `rotate(${current}deg)`;
-
-                if (t < 1) {
-                    wheelAnimFrame = requestAnimationFrame(animate);
-                    return;
-                }
-
-                wheelRotation = endRotation;
-                wheelAnimFrame = null;
-                wheelSpinning = false;
-                lastWheelPick = picked;
-                wheelResult.textContent = `Decision made: ${wheelOptions[picked]}`;
-            };
-            wheelAnimFrame = requestAnimationFrame(animate);
-        }
-
-        function resetWheel() {
-            wheelOptions = ['pizza', 'sushi', 'burgers'];
-            wheelRotation = 0;
-            lastWheelPick = -1;
-            if (wheelAnimFrame) {
-                cancelAnimationFrame(wheelAnimFrame);
-                wheelAnimFrame = null;
-            }
-            wheelSpinning = false;
-            wheelDisc.style.transform = 'rotate(0deg)';
-            wheelLabels.style.transform = 'rotate(0deg)';
-            wheelResult.textContent = '';
-            renderWheelOptions();
-            renderWheel();
-        }
-
-        wheelAddBtn.addEventListener('click', addWheelOption);
-        wheelInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') addWheelOption(); });
-        wheelSpinBtn.addEventListener('click', spinWheel);
-        wheelResetBtn.addEventListener('click', resetWheel);
-        renderWheelOptions();
-        renderWheel();
 
         btn.addEventListener('click', handleDecide);
         q.addEventListener('keydown', e => { if (e.key === 'Enter') handleDecide(); });
