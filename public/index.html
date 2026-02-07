@@ -410,10 +410,14 @@
         body.dark .pg-assert-input:focus-visible{outline-color:rgba(245,245,245,0.55)}
 
         /* MODE CONTAINERS */
-        #human-mode,#agent-mode{transition:none}
-        #agent-mode{display:none}
+        #human-mode,#agent-mode,#overview-mode{transition:none}
+        #agent-mode,#overview-mode{display:none}
         body.agents #human-mode{display:none}
+        body.agents #overview-mode{display:none}
         body.agents #agent-mode{display:block}
+        body.overview #human-mode{display:none}
+        body.overview #agent-mode{display:none}
+        body.overview #overview-mode{display:block}
 
         /* AGENT MODE */
         .agent-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:8rem 1.5rem 4rem;text-align:center;position:relative;z-index:2;background:var(--bg)}
@@ -880,6 +884,7 @@
             <div class="mode-toggle" id="modeToggle">
                 <button class="active" data-mode="humans" onclick="setMode('humans')">Humans</button>
                 <button data-mode="agents" onclick="setMode('agents')">Agents</button>
+                <button data-mode="overview" onclick="setMode('overview')">Overview</button>
             </div>
             <div class="nav-links" id="navLinksHuman">
                 <a href="#features">Features</a>
@@ -910,6 +915,64 @@
             <a href="https://github.com/decidefyi/decide" class="mobile-link" target="_blank">GitHub</a>
             <a href="#" class="nav-cta mobile-link nav-signin" onclick="event.preventDefault(); openSignIn();">Sign In</a>
         </div>
+    </div>
+
+    <!-- OVERVIEW MODE -->
+    <div id="overview-mode">
+      <section class="hero">
+        <div class="hero-inner">
+          <div class="badge"><span class="badge-dot"></span>Decision engine</div>
+          <h1>
+            <span class="word"><span>Decisions</span></span>
+            <span class="word"><span class="serif">that act.</span></span>
+          </h1>
+          <p class="sub">decide is a decision engine for humans and agents. Decision API gives a single yes/no (or tie); MCP notaries execute deterministically; Krafthaus (optional) feeds preference signals when choices are subjective.</p>
+          <div class="input-wrap">
+            <div class="cta-row" style="justify-content:center;gap:0.7rem;flex-wrap:wrap;">
+              <a class="input-btn" href="/playground/#mcp-playground" style="text-decoration:none;">Open live demo</a>
+              <a class="input-btn" href="https://github.com/decidefyi/decide" target="_blank" style="background:transparent;color:var(--fg);border:1px solid rgba(17,17,17,0.12);text-decoration:none;">Docs & GitHub</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features sec-light" id="overview">
+        <div class="sec-head">
+          <h2>How it <span class="serif">connects</span></h2>
+          <p>Decision API → picks the path → MCP notary executes. Sentiment/Krafthaus is optional for preference-heavy choices.</p>
+        </div>
+        <div class="feat-grid">
+          <div class="feat c3">
+            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg></div>
+            <h3>Decision API (humans)</h3>
+            <p>One yes/no or tie. When options are equal, we say so. No hedging.</p>
+          </div>
+          <div class="feat c3">
+            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 17l9 4.5 9-4.5"/></svg></div>
+            <h3>Decision API (agents)</h3>
+            <p>Structured verdicts so agents can choose the right notary or know it’s a tie.</p>
+          </div>
+          <div class="feat c3">
+            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h7"/></svg></div>
+            <h3>MCP notaries</h3>
+            <p>Refund, cancel, return, trial. Stateless, policy-sourced, auditable. Deterministic responses.</p>
+          </div>
+          <div class="feat c3">
+            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M12 4h9"/><path d="M4 9h16"/><path d="M4 15h8"/></svg></div>
+            <h3>Krafthaus (optional)</h3>
+            <p>Preference signals for best-of-N questions. Only used when choices are subjective; notaries stay deterministic.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="how sec-light">
+        <div class="sec-head"><h2>Flow in <span class="serif">practice</span></h2></div>
+        <div class="how-grid">
+          <div class="how-card"><div class="how-num">1</div><h3>Ask</h3><p>Humans or agents call Decision API.</p></div>
+          <div class="how-card"><div class="how-num">2</div><h3>Verdict</h3><p>Yes/no or tie; for subjective sets, one option is marked yes.</p></div>
+          <div class="how-card"><div class="how-num">3</div><h3>Execute</h3><p>Notary runs deterministically; audit trail optional.</p></div>
+        </div>
+      </section>
     </div>
 
     <!-- HUMAN MODE -->
@@ -2235,13 +2298,17 @@ if (v === 'yes' || v === 'no') {
             // Toggle desktop/mobile nav variants based on viewport
             syncNavVisibility(isAgents);
 
+            // Show/hide mode containers
+            document.body.classList.toggle('agents', isAgents);
+            document.body.classList.toggle('overview', mode === 'overview');
+
             // Update toggle buttons
             document.querySelectorAll('.mode-toggle button').forEach(b => {
                 b.classList.toggle('active', b.dataset.mode === mode);
             });
 
             // Update URL hash
-            history.replaceState(null, '', isAgents ? '#agents' : window.location.pathname);
+            history.replaceState(null, '', mode === 'agents' ? '#agents' : mode === 'overview' ? '#overview' : window.location.pathname);
 
             // Persist
             localStorage.setItem('decide-mode', mode);
@@ -3755,8 +3822,12 @@ if (v === 'yes' || v === 'no') {
             const saved = localStorage.getItem('decide-mode');
             if (hash === '#agents') {
                 setMode('agents');
-            } else if (hash === '#humans' || hash === '') {
-                if (saved === 'agents' && !hash) setMode('agents');
+            } else if (hash === '#overview') {
+                setMode('overview');
+            } else {
+                if (saved === 'agents') setMode('agents');
+                else if (saved === 'overview') setMode('overview');
+                else setMode('humans');
             }
         })();
 
