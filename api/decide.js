@@ -38,6 +38,14 @@ export default async function handler(req, res) {
   const request_id = rid();
   const ua = req.headers["user-agent"] || "unknown";
 
+  // Avoid Vercel/Node legacy `url.parse()` usage (DEP0169) by using the WHATWG URL API.
+  let requestUrl;
+  try {
+    requestUrl = new URL(req.url || "", `http://${req.headers.host || "localhost"}`);
+  } catch {
+    requestUrl = null;
+  }
+
   // CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
@@ -76,8 +84,7 @@ export default async function handler(req, res) {
     // Extract question from GET or POST
     let question = "";
     if (req.method === "GET") {
-      const qp = req.query?.question ?? "";
-      question = Array.isArray(qp) ? qp[0] : qp;
+      question = requestUrl?.searchParams?.get("question") || "";
     } else if (req.method === "POST") {
       let body = req.body || {};
       if (typeof req.body === "string") {

@@ -13,6 +13,14 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
+  // Avoid Vercel/Node legacy `url.parse()` usage (DEP0169) by using the WHATWG URL API.
+  let requestUrl;
+  try {
+    requestUrl = new URL(req.url || "", `http://${req.headers.host || "localhost"}`);
+  } catch {
+    requestUrl = null;
+  }
+
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
     res.end();
@@ -26,7 +34,7 @@ export default async function handler(req, res) {
   const adminToken = process.env.METRICS_ADMIN_TOKEN || "";
   const requestToken = String(
     req.headers["x-metrics-token"] ||
-    req.query?.token ||
+    requestUrl?.searchParams?.get("token") ||
     ""
   );
   const clientIp = getClientIp(req);
