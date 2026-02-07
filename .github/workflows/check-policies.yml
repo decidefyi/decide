@@ -69,10 +69,18 @@ jobs:
             const body = process.env.ISSUE_BODY || '';
             const today = new Date().toISOString().split('T')[0];
 
+            // GitHub issue titles have a 256 char limit. Our changed-vendors list can exceed that,
+            // so we summarize in the title and keep the full list in the body.
+            const changedList = changed.split(',').map(s => s.trim()).filter(Boolean);
+            const shortList = changedList.slice(0, 6).join(', ');
+            const more = changedList.length > 6 ? ` +${changedList.length - 6} more` : '';
+            let title = `Policy pages changed (${today}): ${shortList}${more}`.trim();
+            if (title.length > 256) title = title.slice(0, 252) + '...';
+
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `Policy page change detected (${today}): ${changed}`,
+              title,
               body: `## Vendor policy pages changed\n\nThe following vendor policy pages have changed since the last check:\n\n${body}\n\nPlease review and update the corresponding rules file if the policy has changed.\n\nThis issue was created automatically by the daily policy checker.`,
               labels: ['policy-update']
             });
