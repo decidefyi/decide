@@ -157,10 +157,10 @@
         .ans.no{color:var(--r)}
         .ans.no .ans-letter{text-shadow:0 0 80px rgba(220,38,38,0.4),0 0 120px rgba(220,38,38,0.2)}
         .ans.unclear{font-size:1.1rem;font-weight:500;color:var(--gray);text-transform:none}
-        .ans.unclear .ans-letter{text-shadow:none;transform:translateY(20px);filter:blur(4px)}
-        .ans.unclear.show .ans-letter{transition-delay:0ms!important}
+        .ans.unclear .ans-letter{text-shadow:none;transform:translateY(10px);filter:none}
+        .ans.unclear.show .ans-letter{transition-delay:0ms!important;transform:translateY(0);filter:none}
         .ans.loading{font-size:1rem;font-weight:500;color:var(--gray);text-transform:none}
-        .ans.loading .ans-letter{text-shadow:none}
+        .ans.loading .ans-letter{text-shadow:none;filter:none}
 
         /* LOGOS / MARQUEE */
         .bullet-strip{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin:1.25rem auto 0;max-width:900px}
