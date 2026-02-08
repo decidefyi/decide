@@ -156,8 +156,11 @@
         .decision-table tbody tr:nth-child(odd){background:rgba(17,17,17,0.015)}
         .decision-table tbody tr:hover{background:rgba(17,17,17,0.04)}
         .decision-table .col-question{text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .decision-table .question-wrap{display:inline-flex;align-items:center;gap:0.36rem;max-width:100%;min-width:0}
+        .decision-table .question-text{display:inline-block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
         .decision-table .col-time{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:0.72rem}
         .decision-table .col-mode{width:84px}
+        .group-pill{display:inline-flex;align-items:center;justify-content:center;padding:0.16rem 0.4rem;border-radius:999px;border:1px solid rgba(17,17,17,0.2);font-size:0.58rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--gray);background:rgba(17,17,17,0.05);white-space:nowrap;flex-shrink:0}
         .mode-pill{display:inline-flex;align-items:center;justify-content:center;padding:0.22rem 0.5rem;border-radius:999px;border:1px solid rgba(17,17,17,0.2);font-size:0.66rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:var(--gray)}
         .pill{display:inline-flex;align-items:center;justify-content:center;padding:0.2rem 0.52rem;border-radius:999px;font-size:0.68rem;font-weight:700;letter-spacing:0.02em;text-transform:uppercase;border:1px solid transparent;white-space:nowrap}
         .pill.verdict-yes{background:rgba(22,163,74,0.16);border-color:rgba(22,163,74,0.36);color:#166534}
@@ -316,6 +319,7 @@
         body.dark .decision-table td{color:var(--fg-light);border-color:rgba(245,245,245,0.08)}
         body.dark .decision-table tbody tr:nth-child(odd){background:rgba(245,245,245,0.012)}
         body.dark .decision-table tbody tr:hover{background:rgba(245,245,245,0.05)}
+        body.dark .group-pill{border-color:rgba(245,245,245,0.24);background:rgba(245,245,245,0.1);color:var(--gray-light)}
         body.dark .mode-pill{border-color:rgba(245,245,245,0.24);color:var(--gray-light)}
         body.dark .pill.verdict-yes{background:rgba(22,163,74,0.2);border-color:rgba(74,222,128,0.44);color:#86efac}
         body.dark .pill.verdict-no{background:rgba(220,38,38,0.18);border-color:rgba(252,165,165,0.38);color:#fca5a5}
@@ -1921,6 +1925,7 @@
         let thinkingTimer = null;
         let answerTimer = null;
         let decisionBusy = false;
+        let decisionMultiGroupCounter = 0;
         const DECISION_HISTORY_LIMIT = 20;
         const decisionRows = [];
         const DEFAULT_PLACEHOLDER = 'ship this launch today?';
@@ -2126,11 +2131,15 @@
                 const fullQuestion = String(row.question || '-').replace(/\r?\n/g, ' ').trim() || '-';
                 const verdict = String(row.verdict || '-');
                 const mode = String(row.mode || 'single');
+                const groupLabel = mode === 'multi' ? String(row.groupLabel || '').trim() : '';
+                const questionContent = groupLabel
+                    ? `<span class="question-wrap"><span class="group-pill">${escapeHtml(groupLabel)}</span><span class="question-text">${escapeHtml(question)}</span></span>`
+                    : escapeHtml(question);
                 return `
                     <tr>
                         <td class="col-time">${escapeHtml(row.time || '-')}</td>
                         <td class="col-mode"><span class="mode-pill">${escapeHtml(mode)}</span></td>
-                        <td class="col-question" title="${escapeHtml(fullQuestion)}">${escapeHtml(question)}</td>
+                        <td class="col-question" title="${escapeHtml(fullQuestion)}">${questionContent}</td>
                         <td><span class="pill ${verdictTone(verdict)}">${escapeHtml(verdict)}</span></td>
                     </tr>
                 `;
@@ -2169,6 +2178,7 @@
                     mode: decisionInputMode === 'multi' ? 'multi' : 'single',
                     question: '',
                     verdict: '-',
+                    groupLabel: '',
                     status: 'pending',
                     requestId: '-',
                     ...patch
@@ -2243,12 +2253,14 @@
                     return;
                 }
 
+                const multiGroupLabel = `M${++decisionMultiGroupCounter}`;
                 const optionRowSeqs = parsed.options.map((_, idx) => `${seq}-${idx}`);
                 optionRowSeqs.forEach((rowSeq, idx) => {
                     upsertDecisionRow(rowSeq, {
                         time: nowStamp(),
                         mode: 'multi',
                         question: `${parsed.stem}: ${parsed.options[idx]}`,
+                        groupLabel: multiGroupLabel,
                         verdict: 'pending',
                         status: 'pending',
                         requestId: '-'
@@ -2323,6 +2335,7 @@
                 time: nowStamp(),
                 mode: 'single',
                 question: text,
+                groupLabel: '',
                 verdict: 'pending',
                 status: 'pending',
                 requestId: '-'
@@ -2418,6 +2431,7 @@
             q.value = '';
             ans.className = 'ans';
             decisionRows.length = 0;
+            decisionMultiGroupCounter = 0;
             setDecisionBusy(false);
             renderDecisionTable();
             charCount.classList.remove('show');
