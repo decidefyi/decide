@@ -1908,7 +1908,7 @@
         // to Gemini. This keeps the key secret.
         const API_ENDPOINT = '/api/decide';
         const MODEL = 'gemini-2.0-flash-lite';
-        const q=document.getElementById('q'),btn=document.getElementById('btn'),ans=document.getElementById('ans'),xBtn=document.getElementById('xBtn'),refreshBtn=document.getElementById('refreshBtn'),charCount=document.getElementById('charCount'),decisionStatus=document.getElementById('decisionStatus'),inputBox=document.getElementById('inputBox'),inputInnerEl=document.getElementById('inputInner');
+        const q=document.getElementById('q'),btn=document.getElementById('btn'),ans=document.getElementById('ans'),xBtn=document.getElementById('xBtn'),refreshBtn=document.getElementById('refreshBtn'),compareToggle=document.getElementById('compareToggle'),charCount=document.getElementById('charCount'),decisionStatus=document.getElementById('decisionStatus'),inputBox=document.getElementById('inputBox'),inputInnerEl=document.getElementById('inputInner');
         
         let lastQuestion = '';
         let lastAnswer = '';
@@ -2086,6 +2086,12 @@ if (v === 'yes' || v === 'no') {
             if (text.length < 3) {
                 clearDecisionStatus();
                 show({ c: 'unclear', v: 'Ask a question' }, text, seq);
+                return;
+            }
+
+            if (compareToggle && compareToggle.checked) {
+                setDecisionStatus('Compare mode is coming soon; run a single yes/no for now.', 'warn');
+                compareToggle.checked = false;
                 return;
             }
             
