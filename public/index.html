@@ -163,7 +163,7 @@
       <p>This deployment hosts the public MCP and REST endpoints for deterministic subscription policy checks.</p>
 
       <div class="grid">
-        <div class="card">
+        <div class="card" data-notary="refund">
           <h2>Refund Notary</h2>
           <div class="kv">
             <div class="k">MCP</div>
@@ -173,7 +173,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-notary="cancel">
           <h2>Cancel Notary</h2>
           <div class="kv">
             <div class="k">MCP</div>
@@ -183,7 +183,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-notary="return">
           <h2>Return Notary</h2>
           <div class="kv">
             <div class="k">MCP</div>
@@ -193,7 +193,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-notary="trial">
           <h2>Trial Notary</h2>
           <div class="kv">
             <div class="k">MCP</div>
@@ -209,5 +209,27 @@
         <a class="pill" href="https://github.com/decidefyi/decide">GitHub</a>
       </div>
     </div>
+
+    <script>
+      (() => {
+        const host = window.location.hostname.toLowerCase();
+        const notaries = ["refund", "cancel", "return", "trial"];
+        const notary = notaries.find((n) => host === `${n}.decide.fyi` || host.startsWith(`${n}.`));
+        if (!notary) return;
+
+        const titleCase = notary.charAt(0).toUpperCase() + notary.slice(1);
+        document.title = `${titleCase} Notary | decide.fyi`;
+
+        const h1 = document.querySelector("h1");
+        if (h1) h1.textContent = `${titleCase} notary`;
+
+        const p = document.querySelector("p");
+        if (p) p.textContent = "Public MCP and REST endpoints for this notary.";
+
+        document.querySelectorAll("[data-notary]").forEach((card) => {
+          card.style.display = card.getAttribute("data-notary") === notary ? "" : "none";
+        });
+      })();
+    </script>
   </body>
 </html>
