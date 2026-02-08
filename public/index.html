@@ -1965,7 +1965,7 @@
             });
 
             if (decisionInputMode === 'multi') {
-                decisionModeCopy.textContent = 'Multi mode: separate options with "|" and we return yes/no for each option.';
+                decisionModeCopy.textContent = 'Multi mode: separate options with "|" and we return one yes winner, the rest no.';
                 q.placeholder = MULTI_PLACEHOLDER;
             } else {
                 decisionModeCopy.textContent = 'Ask one question. We return yes, no, or tie.';
@@ -2085,6 +2085,15 @@
             if (v === 'tie') return 'verdict-tie';
             if (v === 'pending') return 'verdict-pending';
             return 'verdict-unknown';
+        }
+
+        function normalizeBinaryVerdict(value) {
+            const v = String(value || '').trim().toLowerCase();
+            if (v === 'yes' || v === 'no' || v === 'tie') return v;
+            if (v.includes('yes')) return 'yes';
+            if (v.includes('no')) return 'no';
+            if (v.includes('tie')) return 'tie';
+            return 'unknown';
         }
 
         function parseMultiInput(text) {
@@ -2219,9 +2228,6 @@
             forceUnlockDecisionUi();
             resetPlaceholder();
             clearDecisionStatus();
-            if (decisionInputMode === 'multi') {
-                setDecisionStatus('Multi mode is beta and returns yes/no for each option.', 'warn');
-            }
             setDecisionBusy(true);
 
             if (isPolicySensitiveQuestion(text)) {
@@ -2269,6 +2275,7 @@
 
                 let blockedCount = 0;
                 let errorCount = 0;
+                const optionOutcomes = [];
 
                 try {
                     await Promise.all(parsed.options.map(async (option, idx) => {
@@ -2285,30 +2292,21 @@
 
                         if (result && result.blocked) {
                             blockedCount += 1;
-                            upsertDecisionRow(rowSeq, {
-                                time: nowStamp(),
-                                verdict: '-',
-                                status: 'blocked (policy)',
-                                requestId: '-'
-                            });
+                            optionOutcomes.push({ idx, rowSeq, kind: 'blocked', requestId: '-' });
                             return;
                         }
 
                         if (!result || result.error || !result.v) {
                             errorCount += 1;
-                            upsertDecisionRow(rowSeq, {
-                                time: nowStamp(),
-                                verdict: 'unknown',
-                                status: 'error',
-                                requestId: '-'
-                            });
+                            optionOutcomes.push({ idx, rowSeq, kind: 'error', requestId: '-' });
                             return;
                         }
 
-                        upsertDecisionRow(rowSeq, {
-                            time: nowStamp(),
-                            verdict: String(result.v || '').trim() || '-',
-                            status: 'done',
+                        optionOutcomes.push({
+                            idx,
+                            rowSeq,
+                            kind: 'ok',
+                            rawVerdict: normalizeBinaryVerdict(result.v),
                             requestId: result.request_id || '-'
                         });
                     }));
@@ -2319,6 +2317,46 @@
                 }
 
                 if (seq !== decideRequestSeq) return;
+
+                const okOutcomes = optionOutcomes
+                    .filter((item) => item.kind === 'ok')
+                    .sort((a, b) => a.idx - b.idx);
+
+                let winningIdx = null;
+                if (okOutcomes.length) {
+                    const yesFirst = okOutcomes.find((item) => item.rawVerdict === 'yes');
+                    const tieFirst = okOutcomes.find((item) => item.rawVerdict === 'tie');
+                    winningIdx = yesFirst ? yesFirst.idx : (tieFirst ? tieFirst.idx : okOutcomes[0].idx);
+                }
+
+                optionOutcomes.sort((a, b) => a.idx - b.idx).forEach((item) => {
+                    if (item.kind === 'blocked') {
+                        upsertDecisionRow(item.rowSeq, {
+                            time: nowStamp(),
+                            verdict: '-',
+                            status: 'blocked (policy)',
+                            requestId: item.requestId || '-'
+                        });
+                        return;
+                    }
+
+                    if (item.kind === 'error') {
+                        upsertDecisionRow(item.rowSeq, {
+                            time: nowStamp(),
+                            verdict: 'unknown',
+                            status: 'error',
+                            requestId: item.requestId || '-'
+                        });
+                        return;
+                    }
+
+                    upsertDecisionRow(item.rowSeq, {
+                        time: nowStamp(),
+                        verdict: item.idx === winningIdx ? 'yes' : 'no',
+                        status: 'done',
+                        requestId: item.requestId || '-'
+                    });
+                });
 
                 if (blockedCount > 0) {
                     setDecisionStatus(`${blockedCount} option(s) blocked by policy.`, 'warn');
