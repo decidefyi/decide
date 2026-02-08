@@ -2,7 +2,7 @@
 
 > Deterministic subscription decision notaries for US consumers
 
-[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)](https://decide.fyi)
+[![Version](https://img.shields.io/badge/version-1.2.1-blue.svg)](https://decide.fyi)
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
 [![Vendors](https://img.shields.io/badge/vendors-64-orange.svg)](https://decide.fyi)
 
