@@ -2307,8 +2307,8 @@ if (v === 'yes' || v === 'no') {
                 b.classList.toggle('active', b.dataset.mode === mode);
             });
 
-            // Update URL hash
-            history.replaceState(null, '', mode === 'agents' ? '#agents' : mode === 'overview' ? '#overview' : window.location.pathname);
+            // Keep URL clean (no hash); mode is stored in localStorage
+            history.replaceState(null, '', window.location.pathname + window.location.search);
 
             // Persist
             localStorage.setItem('decide-mode', mode);
