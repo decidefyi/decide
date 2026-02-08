@@ -1921,7 +1921,7 @@
         // calls the `/api/decide` route instead of sending the request directly
         // to Gemini. This keeps the key secret.
         const API_ENDPOINT = '/api/decide';
-        const MODEL = 'gemini-2.0-flash-lite';
+        const API_MULTI_ENDPOINT = '/api/decide-multi';
         const q=document.getElementById('q'),btn=document.getElementById('btn'),ans=document.getElementById('ans'),refreshBtn=document.getElementById('refreshBtn'),charCount=document.getElementById('charCount'),decisionStatus=document.getElementById('decisionStatus'),inputInnerEl=document.getElementById('inputInner');
         const decisionModeButtons = Array.from(document.querySelectorAll('.decision-mode-btn'));
         const decisionModeCopy = document.getElementById('decisionModeCopy');
@@ -2051,21 +2051,38 @@
         }
 
         async function callGemini(question) {
-  try {
-    const response = await fetch('/api/decide', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question }),
-    });
+            try {
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question }),
+                });
 
-    if (response.status === 204) return { blocked: true }; // blocked by server policy
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Decide API error:', error);
-    return { error: true };
-  }
-}
+                if (response.status === 204) return { blocked: true };
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Decide API error:', error);
+                return { error: true };
+            }
+        }
+
+        async function callMultiDecision(stem, options) {
+            try {
+                const response = await fetch(API_MULTI_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ stem, options }),
+                });
+
+                if (response.status === 204) return { blocked: true };
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Decide multi API error:', error);
+                return { error: true };
+            }
+        }
         function nowStamp() {
             return new Date().toISOString().slice(0, 19).replace('T', ' ');
         }
@@ -2139,15 +2156,6 @@
             return 'verdict-unknown';
         }
 
-        function normalizeBinaryVerdict(value) {
-            const v = String(value || '').trim().toLowerCase();
-            if (v === 'yes' || v === 'no' || v === 'tie') return v;
-            if (v.includes('yes')) return 'yes';
-            if (v.includes('no')) return 'no';
-            if (v.includes('tie')) return 'tie';
-            return 'unknown';
-        }
-
         function parseMultiInput(text) {
             const raw = String(text || '').trim();
             if (!raw) return { stem: 'best option', options: [] };
@@ -2166,11 +2174,6 @@
 
             const options = segments.map((item) => item.replace(/\s+/g, ' ').trim()).filter(Boolean);
             return { stem, options };
-        }
-
-        function buildMultiOptionQuestion(stem, options, option) {
-            const list = options.map((item, idx) => `${idx + 1}) ${item}`).join('; ');
-            return `Question: ${stem}. Options: ${list}. Option under evaluation: ${option}. Should this option be selected over the others? Answer strictly yes or no.`;
         }
 
         function renderDecisionTable() {
@@ -2328,43 +2331,11 @@
                     });
                 });
 
-                let blockedCount = 0;
-                let errorCount = 0;
-                const optionOutcomes = [];
-
+                let result;
                 try {
-                    await Promise.all(parsed.options.map(async (option, idx) => {
-                        const rowSeq = optionRowSeqs[idx];
-                        const optionQuestion = buildMultiOptionQuestion(parsed.stem, parsed.options, option);
-                        let result;
-                        try {
-                            result = await decide(optionQuestion);
-                        } catch (error) {
-                            result = { error: true };
-                        }
-
-                        if (seq !== decideRequestSeq) return;
-
-                        if (result && result.blocked) {
-                            blockedCount += 1;
-                            optionOutcomes.push({ idx, rowSeq, kind: 'blocked', requestId: '-' });
-                            return;
-                        }
-
-                        if (!result || result.error || !result.v) {
-                            errorCount += 1;
-                            optionOutcomes.push({ idx, rowSeq, kind: 'error', requestId: '-' });
-                            return;
-                        }
-
-                        optionOutcomes.push({
-                            idx,
-                            rowSeq,
-                            kind: 'ok',
-                            rawVerdict: normalizeBinaryVerdict(result.v),
-                            requestId: result.request_id || '-'
-                        });
-                    }));
+                    result = await callMultiDecision(parsed.stem, parsed.options);
+                } catch {
+                    result = { error: true };
                 } finally {
                     clearTimeout(unlockWatchdog);
                     setDecisionBusy(false);
@@ -2373,50 +2344,58 @@
 
                 if (seq !== decideRequestSeq) return;
 
-                const okOutcomes = optionOutcomes
-                    .filter((item) => item.kind === 'ok')
-                    .sort((a, b) => a.idx - b.idx);
+                const rowStatusByOutcome = (verdict, status, requestId = '-') => {
+                    optionRowSeqs.forEach((rowSeq, idx) => {
+                        upsertDecisionRow(rowSeq, {
+                            time: nowStamp(),
+                            question: `${parsed.stem}: ${parsed.options[idx]}`,
+                            verdict,
+                            status,
+                            requestId
+                        });
+                    });
+                };
 
-                let winningIdx = null;
-                if (okOutcomes.length) {
-                    const yesFirst = okOutcomes.find((item) => item.rawVerdict === 'yes');
-                    const tieFirst = okOutcomes.find((item) => item.rawVerdict === 'tie');
-                    winningIdx = yesFirst ? yesFirst.idx : (tieFirst ? tieFirst.idx : okOutcomes[0].idx);
+                if (!result || result.error) {
+                    rowStatusByOutcome('unknown', 'error', '-');
+                    setDecisionStatus('Multi ranking failed. Try again.', 'error');
+                    return;
                 }
 
-                optionOutcomes.sort((a, b) => a.idx - b.idx).forEach((item) => {
-                    if (item.kind === 'blocked') {
-                        upsertDecisionRow(item.rowSeq, {
-                            time: nowStamp(),
-                            verdict: '-',
-                            status: 'blocked (policy)',
-                            requestId: item.requestId || '-'
-                        });
-                        return;
-                    }
+                if (result.c === 'filtered' || result.blocked) {
+                    rowStatusByOutcome('-', 'blocked (policy)', '-');
+                    setDecisionStatus('Question blocked by policy (financial / legal / medical).', 'warn');
+                    return;
+                }
 
-                    if (item.kind === 'error') {
-                        upsertDecisionRow(item.rowSeq, {
-                            time: nowStamp(),
-                            verdict: 'unknown',
-                            status: 'error',
-                            requestId: item.requestId || '-'
-                        });
-                        return;
-                    }
+                const scores = Array.isArray(result.scores) ? result.scores : [];
+                const winnerIdx = Number.isInteger(result.winner_index) ? result.winner_index : -1;
+                const tie = Boolean(result.tie);
+                const tieIndices = Array.isArray(result.tie_indices) ? result.tie_indices.filter(Number.isInteger) : [];
+                const validWinner = winnerIdx >= 0 && winnerIdx < parsed.options.length;
+                const validScores = scores.length === parsed.options.length;
 
-                    upsertDecisionRow(item.rowSeq, {
+                if (!validWinner || !validScores) {
+                    rowStatusByOutcome('unknown', 'error', result.request_id || '-');
+                    setDecisionStatus('Multi ranking response was invalid. Try again.', 'error');
+                    return;
+                }
+
+                optionRowSeqs.forEach((rowSeq, idx) => {
+                    const rawScore = Number(scores[idx]);
+                    const score = Number.isFinite(rawScore) ? rawScore.toFixed(1) : 'n/a';
+                    upsertDecisionRow(rowSeq, {
                         time: nowStamp(),
-                        verdict: item.idx === winningIdx ? 'yes' : 'no',
+                        question: `${parsed.stem}: ${parsed.options[idx]} (${score}/10)`,
+                        verdict: idx === winnerIdx ? 'yes' : 'no',
                         status: 'done',
-                        requestId: item.requestId || '-'
+                        requestId: result.request_id || '-'
                     });
                 });
 
-                if (blockedCount > 0) {
-                    setDecisionStatus(`${blockedCount} option(s) blocked by policy.`, 'warn');
-                } else if (errorCount > 0) {
-                    setDecisionStatus('Some options failed. Try again.', 'error');
+                if (tie && tieIndices.length > 1) {
+                    const tieHuman = tieIndices.map((idx) => idx + 1).join(', ');
+                    setDecisionStatus(`Top tie on options ${tieHuman}; selected option ${winnerIdx + 1} via deterministic tie-break.`, 'warn');
                 } else {
                     clearDecisionStatus();
                 }
