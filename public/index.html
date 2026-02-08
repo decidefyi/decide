@@ -136,8 +136,33 @@
         .chip{background:transparent;border:1px solid rgba(17,17,17,0.1);padding:0.4rem 0.85rem;border-radius:100px;font-size:0.7rem;color:var(--gray);cursor:pointer;transition:all 0.3s}
         .chip:hover{border-color:var(--fg);color:var(--fg);background:rgba(17,17,17,0.03);transform:translateY(-2px)}
 
-        .result{width:100%;display:flex;justify-content:center;margin-top:0.7rem}
-        .ans{width:100%;max-width:760px;min-height:128px;max-height:290px;overflow:auto;background:rgba(17,17,17,0.03);border:1px solid rgba(17,17,17,0.14);border-radius:14px;padding:0.85rem 1rem;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:0.76rem;line-height:1.55;color:var(--fg);white-space:pre;word-break:normal;letter-spacing:0;scrollbar-width:thin}
+        .result{width:100%;display:flex;justify-content:center;margin-top:0.95rem}
+        .ans{width:100%;max-width:860px;min-height:186px;background:linear-gradient(180deg,rgba(17,17,17,0.06),rgba(17,17,17,0.03));border:1px solid rgba(17,17,17,0.18);border-radius:16px;overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,0.15)}
+        .decision-table-top{display:flex;align-items:center;justify-content:space-between;gap:0.8rem;padding:0.72rem 0.92rem;border-bottom:1px solid rgba(17,17,17,0.12);background:rgba(17,17,17,0.04)}
+        .decision-table-title{font-size:0.76rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--fg)}
+        .decision-table-count{font-size:0.72rem;font-weight:600;color:var(--gray)}
+        .decision-table-wrap{max-height:290px;overflow:auto}
+        .decision-table{width:100%;border-collapse:collapse;table-layout:fixed}
+        .decision-table th{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray);text-align:left;padding:0.6rem 0.72rem;border-bottom:1px solid rgba(17,17,17,0.1);background:rgba(17,17,17,0.03)}
+        .decision-table td{font-size:0.76rem;line-height:1.45;color:var(--fg);padding:0.62rem 0.72rem;border-bottom:1px solid rgba(17,17,17,0.08);vertical-align:middle}
+        .decision-table tbody tr:last-child td{border-bottom:none}
+        .decision-table tbody tr:nth-child(odd){background:rgba(17,17,17,0.015)}
+        .decision-table tbody tr:hover{background:rgba(17,17,17,0.04)}
+        .decision-table .col-question{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .decision-table .col-request{font-family:'SF Mono',Monaco,Consolas,monospace;font-size:0.72rem;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .decision-table .col-time{white-space:nowrap;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:0.72rem}
+        .decision-table .col-mode{width:84px}
+        .mode-pill{display:inline-flex;align-items:center;justify-content:center;padding:0.22rem 0.5rem;border-radius:999px;border:1px solid rgba(17,17,17,0.2);font-size:0.66rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:var(--gray)}
+        .pill{display:inline-flex;align-items:center;justify-content:center;padding:0.2rem 0.52rem;border-radius:999px;font-size:0.68rem;font-weight:700;letter-spacing:0.02em;text-transform:uppercase;border:1px solid transparent;white-space:nowrap}
+        .pill.verdict-yes{background:rgba(22,163,74,0.16);border-color:rgba(22,163,74,0.36);color:#166534}
+        .pill.verdict-no{background:rgba(220,38,38,0.14);border-color:rgba(220,38,38,0.34);color:#991b1b}
+        .pill.verdict-tie{background:rgba(217,119,6,0.15);border-color:rgba(217,119,6,0.34);color:#92400e}
+        .pill.verdict-pending,.pill.verdict-unknown{background:rgba(17,17,17,0.08);border-color:rgba(17,17,17,0.2);color:var(--gray)}
+        .pill.status-done{background:rgba(22,163,74,0.1);border-color:rgba(22,163,74,0.3);color:#166534}
+        .pill.status-pending{background:rgba(17,17,17,0.08);border-color:rgba(17,17,17,0.2);color:var(--gray)}
+        .pill.status-blocked{background:rgba(217,119,6,0.12);border-color:rgba(217,119,6,0.3);color:#92400e}
+        .pill.status-error{background:rgba(220,38,38,0.12);border-color:rgba(220,38,38,0.3);color:#991b1b}
+        .decision-empty{padding:1.35rem 1rem;color:var(--gray);font-size:0.82rem;text-align:center}
 
         /* LOGOS / MARQUEE */
         .bullet-strip{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin:1.25rem auto 0;max-width:900px}
@@ -281,7 +306,25 @@
         body.dark .decision-mode-btn.active{background:#f5f5f5;color:#111111}
         body.dark .decision-mode-btn:hover:not(.active){background:rgba(245,245,245,0.16);color:var(--fg)}
         body.dark .decision-mode-copy{color:var(--gray-light)}
-        body.dark .ans{background:rgba(245,245,245,0.04);border-color:rgba(245,245,245,0.16);color:var(--gray-light)}
+        body.dark .ans{background:linear-gradient(180deg,rgba(245,245,245,0.05),rgba(245,245,245,0.02));border-color:rgba(245,245,245,0.16)}
+        body.dark .decision-table-top{border-color:rgba(245,245,245,0.12);background:rgba(245,245,245,0.04)}
+        body.dark .decision-table-title{color:var(--fg)}
+        body.dark .decision-table-count{color:var(--gray-light)}
+        body.dark .decision-table th{color:var(--gray-light);background:rgba(245,245,245,0.03);border-color:rgba(245,245,245,0.12)}
+        body.dark .decision-table td{color:var(--fg-light);border-color:rgba(245,245,245,0.08)}
+        body.dark .decision-table tbody tr:nth-child(odd){background:rgba(245,245,245,0.012)}
+        body.dark .decision-table tbody tr:hover{background:rgba(245,245,245,0.05)}
+        body.dark .decision-table .col-request{color:var(--gray-light)}
+        body.dark .mode-pill{border-color:rgba(245,245,245,0.24);color:var(--gray-light)}
+        body.dark .pill.verdict-yes{background:rgba(22,163,74,0.2);border-color:rgba(74,222,128,0.44);color:#86efac}
+        body.dark .pill.verdict-no{background:rgba(220,38,38,0.18);border-color:rgba(252,165,165,0.38);color:#fca5a5}
+        body.dark .pill.verdict-tie{background:rgba(217,119,6,0.2);border-color:rgba(251,191,36,0.4);color:#fcd34d}
+        body.dark .pill.verdict-pending,body.dark .pill.verdict-unknown{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2);color:var(--gray-light)}
+        body.dark .pill.status-done{background:rgba(22,163,74,0.14);border-color:rgba(74,222,128,0.34);color:#86efac}
+        body.dark .pill.status-pending{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2);color:var(--gray-light)}
+        body.dark .pill.status-blocked{background:rgba(217,119,6,0.16);border-color:rgba(251,191,36,0.34);color:#fcd34d}
+        body.dark .pill.status-error{background:rgba(220,38,38,0.16);border-color:rgba(252,165,165,0.34);color:#fca5a5}
+        body.dark .decision-empty{color:var(--gray-light)}
         body.dark .logos{border-color:rgba(245,245,245,0.06)}
         body.dark .logos-track span{color:rgba(245,245,245,0.4)}
         body.dark .logos-track span::after{opacity:0.4}
@@ -783,7 +826,12 @@
             }
             .refresh-btn:hover{transform:scale(1.04)}
             .refresh-btn:active{transform:scale(0.96)}
-            .ans{font-size:0.72rem;min-height:116px;padding:0.72rem 0.82rem}
+            .ans{min-height:160px}
+            .decision-table-wrap{max-height:250px}
+            .decision-table th{font-size:0.63rem;padding:0.52rem 0.55rem}
+            .decision-table td{font-size:0.71rem;padding:0.5rem 0.55rem}
+            .decision-table .col-time,.decision-table .col-request{font-size:0.66rem}
+            .pill{font-size:0.62rem;padding:0.17rem 0.45rem}
             .logos{padding:1.5rem 1rem}
             .features,.how,.connect,.agent-features{padding:4.5rem 1rem}
             .cta{padding:6rem 1rem}
@@ -807,8 +855,7 @@
             .pg-assert-input.path,.pg-assert-input.expected{min-width:0;width:100%}
             .theme-toggle{right:0.8rem;bottom:0.8rem;width:38px;height:38px}
             .foot-inner{flex-direction:column;gap:1.25rem}
-            /* Fix result height on mobile - use fixed height instead of clamp with vw */
-            .result{height:120px}
+            .result{height:auto}
         }
         @media(max-width:430px){
             nav{padding:0.45rem}
@@ -971,9 +1018,7 @@
                     <button class="chip" type="button" data-single="run this experiment now?" data-compare="best onboarding focus: speed | guidance | personalization">run this experiment now?</button>
                 </div>
                 <div class="result">
-                    <div class="ans" id="ans">| Time (UTC) | Mode | Question | Verdict | Status | Request ID |
-|---|---|---|---|---|---|
-| - | single | _No decisions yet_ | - | ready | - |</div>
+                    <div class="ans" id="ans" aria-live="polite"></div>
                 </div>
                 <div class="trust-note">High-risk categories are blocked (finance / legal / medical). See Terms &amp; Safety.</div>
             </div>
@@ -2005,38 +2050,90 @@
             return new Date().toISOString().replace('T', ' ').replace('Z', ' UTC');
         }
 
-        const DECISION_TABLE_HEADER = '| Time (UTC) | Mode | Question | Verdict | Status | Request ID |';
-        const DECISION_TABLE_SEPARATOR = '|---|---|---|---|---|---|';
-        const DECISION_TABLE_EMPTY_ROW = '| - | single | _No decisions yet_ | - | ready | - |';
-
-        function tableCell(value) {
-            const cleaned = String(value ?? '-')
-                .replace(/\|/g, '\\|')
-                .replace(/\r?\n/g, ' ')
-                .trim();
-            return cleaned || '-';
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
         }
 
-        function tableQuestion(value) {
-            const cleaned = tableCell(value);
-            if (cleaned.length <= 92) return cleaned;
-            return `${cleaned.slice(0, 89)}...`;
+        function shortQuestion(value) {
+            const cleaned = String(value ?? '').replace(/\r?\n/g, ' ').trim();
+            if (!cleaned) return '-';
+            if (cleaned.length <= 82) return cleaned;
+            return `${cleaned.slice(0, 79)}...`;
+        }
+
+        function verdictTone(verdict) {
+            const v = String(verdict || '').toLowerCase();
+            if (v === 'yes') return 'verdict-yes';
+            if (v === 'no') return 'verdict-no';
+            if (v === 'tie') return 'verdict-tie';
+            if (v === 'pending') return 'verdict-pending';
+            return 'verdict-unknown';
+        }
+
+        function statusTone(status) {
+            const s = String(status || '').toLowerCase();
+            if (s.includes('done')) return 'status-done';
+            if (s.includes('blocked')) return 'status-blocked';
+            if (s.includes('error')) return 'status-error';
+            return 'status-pending';
         }
 
         function renderDecisionTable() {
-            const lines = [DECISION_TABLE_HEADER, DECISION_TABLE_SEPARATOR];
+            const countLabel = `${decisionRows.length} run${decisionRows.length === 1 ? '' : 's'}`;
+            const head = `
+                <div class="decision-table-top">
+                    <span class="decision-table-title">Decision Runs</span>
+                    <span class="decision-table-count">${countLabel}</span>
+                </div>
+            `;
+
             if (!decisionRows.length) {
-                lines.push(DECISION_TABLE_EMPTY_ROW);
-                ans.textContent = lines.join('\n');
+                ans.innerHTML = `${head}<div class="decision-empty">No decisions yet. Ask a question to start a history.</div>`;
                 return;
             }
 
-            decisionRows.forEach((row) => {
-                lines.push(
-                    `| ${tableCell(row.time)} | ${tableCell(row.mode)} | ${tableQuestion(row.question)} | ${tableCell(row.verdict)} | ${tableCell(row.status)} | ${tableCell(row.requestId)} |`
-                );
-            });
-            ans.textContent = lines.join('\n');
+            const rowsHtml = decisionRows.map((row) => {
+                const question = shortQuestion(row.question);
+                const fullQuestion = String(row.question || '-').replace(/\r?\n/g, ' ').trim() || '-';
+                const verdict = String(row.verdict || '-');
+                const status = String(row.status || '-');
+                const requestId = String(row.requestId || '-');
+                const mode = String(row.mode || 'single');
+                return `
+                    <tr>
+                        <td class="col-time">${escapeHtml(row.time || '-')}</td>
+                        <td class="col-mode"><span class="mode-pill">${escapeHtml(mode)}</span></td>
+                        <td class="col-question" title="${escapeHtml(fullQuestion)}">${escapeHtml(question)}</td>
+                        <td><span class="pill ${verdictTone(verdict)}">${escapeHtml(verdict)}</span></td>
+                        <td><span class="pill ${statusTone(status)}">${escapeHtml(status)}</span></td>
+                        <td class="col-request">${escapeHtml(requestId)}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            ans.innerHTML = `
+                ${head}
+                <div class="decision-table-wrap">
+                    <table class="decision-table">
+                        <thead>
+                            <tr>
+                                <th>Time (UTC)</th>
+                                <th>Mode</th>
+                                <th>Question</th>
+                                <th>Verdict</th>
+                                <th>Status</th>
+                                <th>Request ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rowsHtml}</tbody>
+                    </table>
+                </div>
+            `;
         }
 
         function upsertDecisionRow(seq, patch) {
