@@ -143,21 +143,23 @@
         .decision-table-count{font-size:0.72rem;font-weight:600;color:var(--gray)}
         .decision-table-wrap{max-height:290px;overflow:auto}
         .decision-table{width:100%;min-width:0;border-collapse:collapse;table-layout:fixed}
-        .decision-table .dt-col-time{width:170px}
+        .decision-table .dt-col-time{width:162px}
+        .decision-table .dt-col-set{width:74px}
+        .decision-table .dt-col-option{width:74px}
         .decision-table .dt-col-mode{width:84px}
         .decision-table .dt-col-question{width:auto}
         .decision-table .dt-col-verdict{width:96px}
         .decision-table th{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray);text-align:left;padding:0.6rem 0.72rem;border-bottom:1px solid rgba(17,17,17,0.1);background:#e8ebef;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .decision-table td{font-size:0.76rem;line-height:1.45;color:var(--fg);text-align:left;padding:0.62rem 0.72rem;border-bottom:1px solid rgba(17,17,17,0.08);vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-        .decision-table th:nth-child(2){padding-left:0.45rem;padding-right:0.45rem}
         .decision-table td.col-mode{padding-left:0.45rem;padding-right:0.45rem;overflow:visible;text-overflow:clip}
-        .decision-table th:nth-child(4),.decision-table td:nth-child(4){padding-left:0.56rem}
         .decision-table tbody tr:last-child td{border-bottom:none}
         .decision-table tbody tr:nth-child(odd){background:rgba(17,17,17,0.015)}
         .decision-table tbody tr:hover{background:rgba(17,17,17,0.04)}
         .decision-table .col-question{text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .decision-table .col-time{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:0.72rem}
         .decision-table .col-mode{width:84px}
+        .decision-table .col-set,.decision-table .col-option{text-align:center}
+        .meta-pill{display:inline-flex;align-items:center;justify-content:center;min-width:42px;padding:0.18rem 0.45rem;border-radius:999px;border:1px solid rgba(17,17,17,0.18);font-size:0.64rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:var(--gray)}
         .mode-pill{display:inline-flex;align-items:center;justify-content:center;padding:0.22rem 0.5rem;border-radius:999px;border:1px solid rgba(17,17,17,0.2);font-size:0.66rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:var(--gray)}
         .pill{display:inline-flex;align-items:center;justify-content:center;padding:0.2rem 0.52rem;border-radius:999px;font-size:0.68rem;font-weight:700;letter-spacing:0.02em;text-transform:uppercase;border:1px solid transparent;white-space:nowrap}
         .pill.verdict-yes{background:rgba(22,163,74,0.16);border-color:rgba(22,163,74,0.36);color:#166534}
@@ -316,6 +318,7 @@
         body.dark .decision-table td{color:var(--fg-light);border-color:rgba(245,245,245,0.08)}
         body.dark .decision-table tbody tr:nth-child(odd){background:rgba(245,245,245,0.012)}
         body.dark .decision-table tbody tr:hover{background:rgba(245,245,245,0.05)}
+        body.dark .meta-pill{border-color:rgba(245,245,245,0.22);color:var(--gray-light)}
         body.dark .mode-pill{border-color:rgba(245,245,245,0.24);color:var(--gray-light)}
         body.dark .pill.verdict-yes{background:rgba(22,163,74,0.2);border-color:rgba(74,222,128,0.44);color:#86efac}
         body.dark .pill.verdict-no{background:rgba(220,38,38,0.18);border-color:rgba(252,165,165,0.38);color:#fca5a5}
@@ -828,9 +831,11 @@
             .decision-table th{font-size:0.63rem;padding:0.52rem 0.55rem}
             .decision-table td{font-size:0.71rem;padding:0.5rem 0.55rem}
             .decision-table .col-time{font-size:0.66rem}
-            .decision-table{min-width:760px}
-            .decision-table .dt-col-time{width:146px}
-            .decision-table .dt-col-mode{width:78px}
+            .decision-table{min-width:860px}
+            .decision-table .dt-col-time{width:138px}
+            .decision-table .dt-col-set{width:62px}
+            .decision-table .dt-col-option{width:62px}
+            .decision-table .dt-col-mode{width:74px}
             .decision-table .dt-col-question{width:auto}
             .decision-table .dt-col-verdict{width:88px}
             .pill{font-size:0.62rem;padding:0.17rem 0.45rem}
@@ -1921,6 +1926,7 @@
         let thinkingTimer = null;
         let answerTimer = null;
         let decisionBusy = false;
+        let decisionSetCounter = 0;
         const DECISION_HISTORY_LIMIT = 20;
         const decisionRows = [];
         const DEFAULT_PLACEHOLDER = 'ship this launch today?';
@@ -2108,7 +2114,8 @@
         }
 
         function renderDecisionTable() {
-            const countLabel = `${decisionRows.length} run${decisionRows.length === 1 ? '' : 's'}`;
+            const distinctSets = new Set(decisionRows.map((row) => row.setLabel).filter(Boolean)).size;
+            const countLabel = `${distinctSets} set${distinctSets === 1 ? '' : 's'} · ${decisionRows.length} row${decisionRows.length === 1 ? '' : 's'}`;
             const head = `
                 <div class="decision-table-top">
                     <span class="decision-table-title">Decision Runs</span>
@@ -2126,9 +2133,13 @@
                 const fullQuestion = String(row.question || '-').replace(/\r?\n/g, ' ').trim() || '-';
                 const verdict = String(row.verdict || '-');
                 const mode = String(row.mode || 'single');
+                const setLabel = String(row.setLabel || '-');
+                const optionLabel = String(row.optionLabel || '-');
                 return `
                     <tr>
                         <td class="col-time">${escapeHtml(row.time || '-')}</td>
+                        <td class="col-set"><span class="meta-pill">${escapeHtml(setLabel)}</span></td>
+                        <td class="col-option"><span class="meta-pill">${escapeHtml(optionLabel)}</span></td>
                         <td class="col-mode"><span class="mode-pill">${escapeHtml(mode)}</span></td>
                         <td class="col-question" title="${escapeHtml(fullQuestion)}">${escapeHtml(question)}</td>
                         <td><span class="pill ${verdictTone(verdict)}">${escapeHtml(verdict)}</span></td>
@@ -2142,6 +2153,8 @@
                     <table class="decision-table">
                         <colgroup>
                             <col class="dt-col-time">
+                            <col class="dt-col-set">
+                            <col class="dt-col-option">
                             <col class="dt-col-mode">
                             <col class="dt-col-question">
                             <col class="dt-col-verdict">
@@ -2149,6 +2162,8 @@
                         <thead>
                             <tr>
                                 <th>Time (UTC)</th>
+                                <th>Set</th>
+                                <th>Opt</th>
                                 <th>Mode</th>
                                 <th>Question</th>
                                 <th>Verdict</th>
@@ -2167,6 +2182,8 @@
                     seq,
                     time: nowStamp(),
                     mode: decisionInputMode === 'multi' ? 'multi' : 'single',
+                    setLabel: '-',
+                    optionLabel: '-',
                     question: '',
                     verdict: '-',
                     status: 'pending',
@@ -2195,6 +2212,7 @@
             if (decisionBusy) return;
 
             const seq = ++decideRequestSeq;
+            const setLabel = `S${++decisionSetCounter}`;
             const text = q.value.trim();
             if (text.length < 3) {
                 setDecisionStatus('Enter at least 3 characters.', 'warn');
@@ -2217,6 +2235,10 @@
             if (isPolicySensitiveQuestion(text)) {
                 upsertDecisionRow(`${seq}-0`, {
                     time: nowStamp(),
+                    mode: decisionInputMode === 'multi' ? 'multi' : 'single',
+                    setLabel,
+                    optionLabel: decisionInputMode === 'multi' ? '-' : '1',
+                    question: text,
                     verdict: '-',
                     status: 'blocked (policy)',
                     requestId: '-'
@@ -2244,16 +2266,19 @@
                 }
 
                 const optionRowSeqs = parsed.options.map((_, idx) => `${seq}-${idx}`);
-                optionRowSeqs.forEach((rowSeq, idx) => {
+                for (let idx = parsed.options.length - 1; idx >= 0; idx -= 1) {
+                    const rowSeq = optionRowSeqs[idx];
                     upsertDecisionRow(rowSeq, {
                         time: nowStamp(),
                         mode: 'multi',
+                        setLabel,
+                        optionLabel: String(idx + 1),
                         question: `${parsed.stem}: ${parsed.options[idx]}`,
                         verdict: 'pending',
                         status: 'pending',
                         requestId: '-'
                     });
-                });
+                }
 
                 let blockedCount = 0;
                 let errorCount = 0;
@@ -2275,6 +2300,10 @@
                             blockedCount += 1;
                             upsertDecisionRow(rowSeq, {
                                 time: nowStamp(),
+                                mode: 'multi',
+                                setLabel,
+                                optionLabel: String(idx + 1),
+                                question: `${parsed.stem}: ${parsed.options[idx]}`,
                                 verdict: '-',
                                 status: 'blocked (policy)',
                                 requestId: '-'
@@ -2286,6 +2315,10 @@
                             errorCount += 1;
                             upsertDecisionRow(rowSeq, {
                                 time: nowStamp(),
+                                mode: 'multi',
+                                setLabel,
+                                optionLabel: String(idx + 1),
+                                question: `${parsed.stem}: ${parsed.options[idx]}`,
                                 verdict: 'unknown',
                                 status: 'error',
                                 requestId: '-'
@@ -2295,6 +2328,10 @@
 
                         upsertDecisionRow(rowSeq, {
                             time: nowStamp(),
+                            mode: 'multi',
+                            setLabel,
+                            optionLabel: String(idx + 1),
+                            question: `${parsed.stem}: ${parsed.options[idx]}`,
                             verdict: String(result.v || '').trim() || '-',
                             status: 'done',
                             requestId: result.request_id || '-'
@@ -2322,6 +2359,8 @@
             upsertDecisionRow(seq, {
                 time: nowStamp(),
                 mode: 'single',
+                setLabel,
+                optionLabel: '1',
                 question: text,
                 verdict: 'pending',
                 status: 'pending',
@@ -2345,6 +2384,10 @@
             if (result && result.blocked) {
                 upsertDecisionRow(seq, {
                     time: nowStamp(),
+                    mode: 'single',
+                    setLabel,
+                    optionLabel: '1',
+                    question: text,
                     verdict: '-',
                     status: 'blocked (policy)',
                     requestId: '-'
@@ -2360,6 +2403,10 @@
                 setDecisionStatus('Network hiccup. Please try again.', 'error');
                 upsertDecisionRow(seq, {
                     time: nowStamp(),
+                    mode: 'single',
+                    setLabel,
+                    optionLabel: '1',
+                    question: text,
                     verdict: 'unknown',
                     status: 'error',
                     requestId: '-'
@@ -2370,6 +2417,10 @@
             clearDecisionStatus();
             upsertDecisionRow(seq, {
                 time: nowStamp(),
+                mode: 'single',
+                setLabel,
+                optionLabel: '1',
+                question: text,
                 verdict: String(result.v || '').trim() || '-',
                 status: 'done',
                 requestId: result.request_id || '-'
