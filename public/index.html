@@ -198,8 +198,11 @@
         .code-slab{background:#0f0f0f;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1rem;margin:1.5rem auto 0;max-width:960px;box-shadow:0 10px 40px rgba(0,0,0,0.18)}
         .code-slab pre{margin:0;font-family:'SFMono-Regular',Consolas,Menlo,monospace;font-size:0.85rem;line-height:1.5;color:#e5e7eb;white-space:pre-wrap;word-break:break-word}
         .trust-note{margin-top:0.65rem;font-size:0.82rem;color:var(--gray);text-align:center}
-        .compare-toggle{display:flex;align-items:center;justify-content:center;gap:0.45rem;margin-top:0.75rem;color:var(--gray);font-size:0.85rem}
-        .compare-toggle input{width:16px;height:16px}
+        .decision-mode-switch{display:inline-flex;align-items:center;justify-content:center;gap:0.35rem;margin-top:0.78rem;padding:0.3rem;border:1px solid rgba(17,17,17,0.12);border-radius:999px;background:rgba(17,17,17,0.03)}
+        .decision-mode-btn{border:none;background:transparent;color:var(--gray);border-radius:999px;padding:0.38rem 0.7rem;font-family:inherit;font-size:0.74rem;font-weight:600;cursor:pointer;transition:all 0.25s var(--ease)}
+        .decision-mode-btn.active{background:var(--fg);color:var(--bg)}
+        .decision-mode-btn:hover:not(.active){color:var(--fg);background:rgba(17,17,17,0.05)}
+        .decision-mode-copy{margin-top:0.55rem;font-size:0.78rem;color:var(--gray);text-align:center}
         .logos{padding:2.5rem 1.5rem;border-top:1px solid rgba(17,17,17,0.06);position:relative;z-index:2;overflow:hidden;background:var(--bg)}
         .logos-track{display:flex;animation:scroll 25s linear infinite}
         .logos-track span{flex-shrink:0;padding:0 2.5rem;font-size:0.75rem;font-weight:600;color:rgba(17,17,17,0.5);text-transform:uppercase;letter-spacing:0.15em;display:flex;align-items:center;gap:2.5rem}
@@ -326,6 +329,11 @@
         body.dark .input-field::placeholder{color:#666}
         body.dark .chip{border-color:rgba(245,245,245,0.1)}
         body.dark .chip:hover{border-color:var(--fg);background:rgba(245,245,245,0.05)}
+        body.dark .decision-mode-switch{border-color:rgba(245,245,245,0.2);background:rgba(245,245,245,0.08)}
+        body.dark .decision-mode-btn{color:#c7c7c7}
+        body.dark .decision-mode-btn.active{background:#f5f5f5;color:#111111}
+        body.dark .decision-mode-btn:hover:not(.active){background:rgba(245,245,245,0.16);color:var(--fg)}
+        body.dark .decision-mode-copy{color:var(--gray-light)}
         body.dark .logos{border-color:rgba(245,245,245,0.06)}
         body.dark .logos-track span{color:rgba(245,245,245,0.4)}
         body.dark .logos-track span::after{opacity:0.4}
@@ -928,16 +936,16 @@
     <div id="overview-mode">
       <section class="hero">
         <div class="hero-inner">
-          <div class="badge"><span class="badge-dot"></span>Decision engine</div>
+          <div class="badge"><span class="badge-dot"></span>Decision infrastructure</div>
           <h1>
-            <span class="word"><span>Decisions</span></span>
-            <span class="word"><span class="serif">that act.</span></span>
+            <span class="word"><span>Decision API</span></span>
+            <span class="word"><span class="serif">for humans + agents.</span></span>
           </h1>
-          <p class="sub">decide is a decision engine for humans and agents. Decision API gives a single yes/no (or tie); MCP notaries execute deterministically; Krafthaus (optional) feeds preference signals when choices are subjective.</p>
+          <p class="sub">Get one clear verdict: yes, no, or tie. Route agent actions to deterministic MCP notaries. Add Krafthaus signals only when ranking subjective choices.</p>
           <div class="input-wrap">
             <div class="cta-row" style="justify-content:center;gap:0.7rem;flex-wrap:wrap;">
-                <a class="input-btn" href="/livedemo#agents" style="text-decoration:none;">Open live demo</a>
-              <a class="input-btn" href="https://github.com/decidefyi/decide" target="_blank" style="background:transparent;color:var(--fg);border:1px solid rgba(17,17,17,0.12);text-decoration:none;">Docs & GitHub</a>
+              <a class="input-btn" href="#" onclick="event.preventDefault(); setMode('humans'); document.getElementById('q')?.focus();">Run a decision</a>
+              <a class="input-btn" href="/livedemo#agents" style="background:transparent;color:var(--fg);border:1px solid rgba(17,17,17,0.12);text-decoration:none;">Open live demo</a>
             </div>
           </div>
         </div>
@@ -945,29 +953,29 @@
 
       <section class="features sec-light" id="overview">
         <div class="sec-head">
-          <h2>How it <span class="serif">connects</span></h2>
-          <p>Decision API → picks the path → MCP notary executes. Sentiment/Krafthaus is optional for preference-heavy choices.</p>
+          <h2>How decide <span class="serif">works</span></h2>
+          <p>Decision API resolves ambiguity. MCP notaries execute deterministic actions. Krafthaus is optional and used only for preference-heavy choices.</p>
         </div>
         <div class="feat-grid">
           <div class="feat c3">
             <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg></div>
             <h3>Decision API (humans)</h3>
-            <p>One yes/no or tie. When options are equal, we say so. No hedging.</p>
+            <p>Binary verdicts for direct questions, with tie when options are equivalent.</p>
           </div>
           <div class="feat c3">
             <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 17l9 4.5 9-4.5"/></svg></div>
             <h3>Decision API (agents)</h3>
-            <p>Structured verdicts so agents can choose the right notary or know it’s a tie.</p>
+            <p>Structured outputs so agents can gate actions before invoking a notary.</p>
           </div>
           <div class="feat c3">
             <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h7"/></svg></div>
             <h3>MCP notaries</h3>
-            <p>Refund, cancel, return, trial. Stateless, policy-sourced, auditable. Deterministic responses.</p>
+            <p>Refund, cancel, return, and trial checks. Stateless, policy-sourced, deterministic.</p>
           </div>
           <div class="feat c3">
             <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M12 4h9"/><path d="M4 9h16"/><path d="M4 15h8"/></svg></div>
             <h3>Krafthaus (optional)</h3>
-            <p>Preference signals for best-of-N questions. Only used when choices are subjective; notaries stay deterministic.</p>
+            <p>Optional sentiment ranking for best-of-N choices. Notary execution stays deterministic.</p>
           </div>
         </div>
       </section>
@@ -975,9 +983,9 @@
       <section class="how sec-light">
         <div class="sec-head"><h2>Flow in <span class="serif">practice</span></h2></div>
         <div class="how-grid">
-          <div class="how-card"><div class="how-num">1</div><h3>Ask</h3><p>Humans or agents call Decision API.</p></div>
-          <div class="how-card"><div class="how-num">2</div><h3>Verdict</h3><p>Yes/no or tie; for subjective sets, one option is marked yes.</p></div>
-          <div class="how-card"><div class="how-num">3</div><h3>Execute</h3><p>Notary runs deterministically; audit trail optional.</p></div>
+          <div class="how-card"><div class="how-num">1</div><h3>Ask</h3><p>A human or agent sends a decision request.</p></div>
+          <div class="how-card"><div class="how-num">2</div><h3>Resolve</h3><p>Engine returns yes, no, or tie.</p></div>
+          <div class="how-card"><div class="how-num">3</div><h3>Execute</h3><p>If action is needed, call the matched notary.</p></div>
         </div>
       </section>
     </div>
@@ -986,41 +994,42 @@
     <div id="human-mode">
     <section class="hero">
         <div class="hero-inner">
-            <div class="badge"><span class="badge-dot"></span>Available now</div>
+            <div class="badge"><span class="badge-dot"></span>Decision API</div>
             <h1>
-                <span class="word"><span>End</span></span>
-                <span class="word"><span class="serif">hesitation.</span></span>
+                <span class="word"><span>Clear</span></span>
+                <span class="word"><span class="serif">verdicts.</span></span>
             </h1>
-            <p class="sub">Decision API that forces a single yes/no when LLMs hedge. If there’s no real preference, we tell you it’s a tie so you can move on.</p>
+            <p class="sub">When models hedge, decide returns one verdict: yes, no, or tie. No debate loop.</p>
             <div class="input-wrap">
                 <div class="input-row">
                     <div class="input-box" id="inputBox">
                         <div class="input-inner" id="inputInner">
-                            <input type="text" class="input-field" id="q" placeholder="ship the refund policy check now?" autocomplete="off" maxlength="230">
+                            <input type="text" class="input-field" id="q" placeholder="ship this launch today?" autocomplete="off" maxlength="230">
                             <button class="input-btn" id="btn">decide</button>
                         </div>
                         <a class="x-verdict-btn" id="xBtn" href="#" target="_blank" rel="noopener noreferrer">
                             <svg class="x-icon" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                            See verdict on X
+                            Share verdict on X
                         </a>
                     </div>
                     <button class="refresh-btn" id="refreshBtn" title="Start over">↻</button>
                 </div>
                 <div class="char-count" id="charCount"></div>
                 <div class="decision-status" id="decisionStatus" aria-live="polite"></div>
-                <div class="chips">
-                    <button class="chip" onclick="ask('roll out the new price today?')">roll out the new price today?</button>
-                    <button class="chip" onclick="ask('escalate this support ticket?')">escalate this support ticket?</button>
-                    <button class="chip" onclick="ask('keep the trial or cancel?')">keep the trial or cancel?</button>
+                <div class="decision-mode-switch" id="decisionModeSwitch" role="tablist" aria-label="Decision input mode">
+                    <button class="decision-mode-btn active" type="button" data-decision-mode="single">Single decision</button>
+                    <button class="decision-mode-btn" type="button" data-decision-mode="compare">Compare options</button>
                 </div>
-                <div class="compare-toggle">
-                    <input type="checkbox" id="compareToggle">
-                    <label for="compareToggle">Compare options (preference mode): we’ll YES one option, NO the rest, or TIE if equal.</label>
+                <div class="decision-mode-copy" id="decisionModeCopy">Ask one question. We return yes, no, or tie.</div>
+                <div class="chips" id="decisionChips">
+                    <button class="chip" type="button" data-single="ship this launch today?" data-compare="best launch window: today | next week | next month">ship this launch today?</button>
+                    <button class="chip" type="button" data-single="escalate this support ticket?" data-compare="best retention offer: 10% off | 20% off | free month">escalate this support ticket?</button>
+                    <button class="chip" type="button" data-single="run this experiment now?" data-compare="best onboarding focus: speed | guidance | personalization">run this experiment now?</button>
                 </div>
                 <div class="result">
                     <div class="ans" id="ans"></div>
                 </div>
-                <div class="trust-note">We filter high-risk asks (finance / legal / medical). See Terms &amp; Safety.</div>
+                <div class="trust-note">High-risk categories are blocked (finance / legal / medical). See Terms &amp; Safety.</div>
             </div>
         </div>
     </section>
@@ -1035,48 +1044,49 @@
         <div class="code-slab">
 <pre>{
   \"endpoint\": \"/api/decide\",
-  \"request\": { \"question\": \"roll out the new price today?\" },
-  \"response\": { \"c\": \"yes\", \"v\": \"yes\", \"request_id\": \"abc123\" }
+  \"request\": { \"question\": \"ship this launch today?\", \"mode\": \"single\" },
+  \"response\": { \"c\": \"yes\", \"v\": \"yes\", \"request_id\": \"abc123\" },
+  \"field_map\": { \"c\": \"decision_class\", \"v\": \"decision\" }
 }</pre>
         </div>
     </section>
 
     <div class="logos">
         <div class="logos-track">
-            <span>No hedging</span><span>No disclaimers</span><span>No overthinking</span><span>Just decide</span><span>No hedging</span><span>No disclaimers</span><span>No overthinking</span><span>Just decide</span>
+            <span>Deterministic outputs</span><span>Tie detection</span><span>Stateless decisions</span><span>Safety filters</span><span>Deterministic outputs</span><span>Tie detection</span><span>Stateless decisions</span><span>Safety filters</span>
         </div>
     </div>
 
     <section class="features sec-light" id="features">
         <div class="sec-head">
-            <h2>Why <span class="serif">decide?</span></h2>
-            <p>Decisive answers when other models hedge. One verdict, or a tie if options are equal.</p>
+            <h2>Why it <span class="serif">works</span></h2>
+            <p>Built for fast choices, clear outputs, and safe defaults.</p>
         </div>
         <div class="feat-grid">
             <div class="feat c4">
                 <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-                <h3>Instant Answers</h3>
-                <p>No overthinking. No context contamination. Just a clear yes or no to move you forward.</p>
+                <h3>Deterministic Verdict</h3>
+                <p>One output for one input: yes, no, or tie.</p>
             </div>
             <div class="feat c2">
                 <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-                <h3>Save Energy</h3>
-                <p>Stop wasting brainpower.</p>
+                <h3>Tie Detection</h3>
+                <p>If options are equivalent, decide says tie.</p>
             </div>
             <div class="feat c2">
                 <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4l-6 6M17 4l6 6M1 20l6-6M7 20l-6-6"/></svg></div>
-                <h3>Fresh Start</h3>
-                <p>No chat history bias.</p>
+                <h3>Clean Context</h3>
+                <p>Each decision is stateless, so old chat drift does not leak in.</p>
             </div>
             <div class="feat c2">
                 <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg></div>
-                <h3>End Paralysis</h3>
-                <p>Break the analysis loop.</p>
+                <h3>Actionable Output</h3>
+                <p>Response format is short and easy to route into workflows.</p>
             </div>
             <div class="feat c2">
                 <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
-                <h3>No Disclaimers</h3>
-                <p>We commit. You act.</p>
+                <h3>Safety Filters</h3>
+                <p>Finance, legal, and medical prompts are blocked by policy.</p>
             </div>
         </div>
     </section>
@@ -1084,17 +1094,17 @@
     <section class="how sec-light" id="how">
         <div class="sec-head"><h2>How it <span class="serif">works</span></h2></div>
         <div class="how-grid">
-            <div class="how-card"><div class="how-num">1</div><h3>Ask</h3><p>Type your question</p></div>
-            <div class="how-card"><div class="how-num">2</div><h3>Decide</h3><p>AI commits instantly</p></div>
-            <div class="how-card"><div class="how-num">3</div><h3>Act</h3><p>Move forward</p></div>
+            <div class="how-card"><div class="how-num">1</div><h3>Ask</h3><p>Ask a yes/no question or a compare prompt.</p></div>
+            <div class="how-card"><div class="how-num">2</div><h3>Resolve</h3><p>Receive one verdict: yes, no, or tie.</p></div>
+            <div class="how-card"><div class="how-num">3</div><h3>Act</h3><p>Execute, escalate, or skip with confidence.</p></div>
         </div>
     </section>
 
     <section class="cta sec-light">
         <div class="cta-inner">
-            <h2>Just <span class="serif">decide.</span></h2>
-            <p>The best answer is never maybe.</p>
-            <a href="#" class="cta-btn" onclick="document.getElementById('q').focus();window.scrollTo({top:0,behavior:'smooth'});return false;">Try it now</a>
+            <h2>Run your next <span class="serif">decision.</span></h2>
+            <p>One question. One verdict.</p>
+            <a href="#" class="cta-btn" onclick="document.getElementById('q').focus();window.scrollTo({top:0,behavior:'smooth'});return false;">Run decision</a>
         </div>
     </section>
     </div>
@@ -1908,14 +1918,19 @@
         // to Gemini. This keeps the key secret.
         const API_ENDPOINT = '/api/decide';
         const MODEL = 'gemini-2.0-flash-lite';
-        const q=document.getElementById('q'),btn=document.getElementById('btn'),ans=document.getElementById('ans'),xBtn=document.getElementById('xBtn'),refreshBtn=document.getElementById('refreshBtn'),compareToggle=document.getElementById('compareToggle'),charCount=document.getElementById('charCount'),decisionStatus=document.getElementById('decisionStatus'),inputBox=document.getElementById('inputBox'),inputInnerEl=document.getElementById('inputInner');
+        const q=document.getElementById('q'),btn=document.getElementById('btn'),ans=document.getElementById('ans'),xBtn=document.getElementById('xBtn'),refreshBtn=document.getElementById('refreshBtn'),charCount=document.getElementById('charCount'),decisionStatus=document.getElementById('decisionStatus'),inputBox=document.getElementById('inputBox'),inputInnerEl=document.getElementById('inputInner');
+        const decisionModeButtons = Array.from(document.querySelectorAll('.decision-mode-btn'));
+        const decisionModeCopy = document.getElementById('decisionModeCopy');
+        const decisionChips = Array.from(document.querySelectorAll('#decisionChips .chip'));
         
         let lastQuestion = '';
         let lastAnswer = '';
+        let decisionInputMode = 'single';
         let decideRequestSeq = 0;
         let thinkingTimer = null;
         let answerTimer = null;
-        const DEFAULT_PLACEHOLDER = 'should i get shit done?';
+        const DEFAULT_PLACEHOLDER = 'ship this launch today?';
+        const COMPARE_PLACEHOLDER = 'best option: launch now | launch next week | launch next month';
         const RETRY_PLACEHOLDER = 'Try another question.';
         function showRetryPlaceholder() {
             q.value = '';
@@ -1925,7 +1940,7 @@
         }
         
         function resetPlaceholder() {
-            q.placeholder = DEFAULT_PLACEHOLDER;
+            q.placeholder = decisionInputMode === 'compare' ? COMPARE_PLACEHOLDER : DEFAULT_PLACEHOLDER;
             q.classList.remove('retry-placeholder');
         }
 
@@ -1937,6 +1952,26 @@
         function setDecisionStatus(message, tone = 'warn') {
             decisionStatus.textContent = message;
             decisionStatus.className = `decision-status ${tone} show`;
+        }
+
+        function applyDecisionInputMode(mode) {
+            decisionInputMode = mode === 'compare' ? 'compare' : 'single';
+            decisionModeButtons.forEach((button) => {
+                button.classList.toggle('active', button.dataset.decisionMode === decisionInputMode);
+            });
+
+            if (decisionInputMode === 'compare') {
+                decisionModeCopy.textContent = 'Compare mode: separate options with "|" and we return one set-level verdict.';
+                q.placeholder = COMPARE_PLACEHOLDER;
+            } else {
+                decisionModeCopy.textContent = 'Ask one question. We return yes, no, or tie.';
+                q.placeholder = DEFAULT_PLACEHOLDER;
+            }
+
+            decisionChips.forEach((chip) => {
+                const sample = decisionInputMode === 'compare' ? chip.dataset.compare : chip.dataset.single;
+                chip.textContent = sample || '';
+            });
         }
 
         function isPolicySensitiveQuestion(text) {
@@ -2089,15 +2124,17 @@ if (v === 'yes' || v === 'no') {
                 return;
             }
 
-            if (compareToggle && compareToggle.checked) {
-                setDecisionStatus('Compare mode is coming soon; run a single yes/no for now.', 'warn');
-                compareToggle.checked = false;
+            if (decisionInputMode === 'compare' && !text.includes('|')) {
+                setDecisionStatus('Compare mode expects options separated by "|". Example: Option A | Option B | Option C', 'warn');
                 return;
             }
             
             forceUnlockDecisionUi();
             resetPlaceholder();
             clearDecisionStatus();
+            if (decisionInputMode === 'compare') {
+                setDecisionStatus('Compare mode is beta and returns one set-level verdict for your options.', 'warn');
+            }
             if (isPolicySensitiveQuestion(text)) {
                 ans.className = 'ans';
                 ans.innerHTML = '';
@@ -2165,6 +2202,23 @@ if (v === 'yes' || v === 'no') {
             clearDecisionStatus();
             q.focus();
         }
+
+        decisionChips.forEach((chip) => {
+            chip.addEventListener('click', () => {
+                const sample = decisionInputMode === 'compare' ? chip.dataset.compare : chip.dataset.single;
+                ask(sample || '');
+            });
+        });
+
+        decisionModeButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                applyDecisionInputMode(button.dataset.decisionMode);
+                clearDecisionStatus();
+                resetToDecideMode();
+            });
+        });
+
+        applyDecisionInputMode('single');
 
         btn.addEventListener('click', handleDecide);
         q.addEventListener('keydown', e => { if (e.key === 'Enter') handleDecide(); });
@@ -2324,30 +2378,60 @@ if (v === 'yes' || v === 'no') {
             document.getElementById('mobileAgentLinks').style.display = isAgents ? 'block' : 'none';
         }
 
-        // Mode toggle (Humans / Agents)
-        function setMode(mode) {
-            const isAgents = mode === 'agents';
+        const VALID_MODES = new Set(['humans', 'agents', 'overview']);
+
+        function getModeFromLocation() {
+            const params = new URLSearchParams(window.location.search);
+            const queryMode = (params.get('mode') || '').toLowerCase();
+            if (VALID_MODES.has(queryMode)) return queryMode;
+
+            const hash = (window.location.hash || '').toLowerCase();
+            if (hash === '#humans') return 'humans';
+            if (hash === '#agents') return 'agents';
+            if (hash === '#overview') return 'overview';
+
+            const path = (window.location.pathname || '/').replace(/\/+$/, '') || '/';
+            if (path === '/livedemo' || path === '/playground' || path === '/agents') return 'agents';
+            if (path === '/humans') return 'humans';
+
+            // Deterministic default for root landing.
+            return 'overview';
+        }
+
+        function buildModeUrl(mode) {
+            const params = new URLSearchParams(window.location.search);
+            params.delete('mode');
+            if (mode !== 'overview') params.set('mode', mode);
+            const query = params.toString();
+            const basePath = window.location.pathname || '/';
+            return `${basePath}${query ? `?${query}` : ''}`;
+        }
+
+        // Mode toggle (Humans / Agents / Overview)
+        function setMode(mode, options = {}) {
+            const resolvedMode = VALID_MODES.has(mode) ? mode : 'overview';
+            const isAgents = resolvedMode === 'agents';
+            const { updateHistory = true, scroll = true } = options;
 
             // Toggle desktop/mobile nav variants based on viewport
             syncNavVisibility(isAgents);
 
             // Show/hide mode containers
             document.body.classList.toggle('agents', isAgents);
-            document.body.classList.toggle('overview', mode === 'overview');
+            document.body.classList.toggle('overview', resolvedMode === 'overview');
 
             // Update toggle buttons
             document.querySelectorAll('.mode-toggle button').forEach(b => {
-                b.classList.toggle('active', b.dataset.mode === mode);
+                b.classList.toggle('active', b.dataset.mode === resolvedMode);
             });
 
-            // Keep URL clean (no hash); mode is stored in localStorage
-            history.replaceState(null, '', window.location.pathname + window.location.search);
+            if (updateHistory) {
+                history.replaceState(null, '', buildModeUrl(resolvedMode));
+            }
 
-            // Persist
-            localStorage.setItem('decide-mode', mode);
-
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'instant' });
+            if (scroll) {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
         }
 
         // MCP playground + audit trail
@@ -3849,19 +3933,10 @@ if (v === 'yes' || v === 'no') {
             });
         }
 
-        // Init mode from hash or localStorage
+        // Init mode from explicit route/query/hash, with deterministic root default.
         (function() {
-            const hash = window.location.hash;
-            const saved = localStorage.getItem('decide-mode');
-            if (hash === '#agents') {
-                setMode('agents');
-            } else if (hash === '#overview') {
-                setMode('overview');
-            } else {
-                if (saved === 'agents') setMode('agents');
-                else if (saved === 'overview') setMode('overview');
-                else setMode('humans');
-            }
+            const initialMode = getModeFromLocation();
+            setMode(initialMode, { updateHistory: true, scroll: false });
         })();
 
         // Keep nav variants correct when viewport crosses mobile/desktop breakpoints.
