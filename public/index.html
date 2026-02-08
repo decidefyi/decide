@@ -143,33 +143,27 @@
         .decision-table-count{font-size:0.72rem;font-weight:600;color:var(--gray)}
         .decision-table-wrap{max-height:290px;overflow:auto}
         .decision-table{width:100%;min-width:0;border-collapse:collapse;table-layout:fixed}
-        .decision-table .dt-col-time{width:166px}
-        .decision-table .dt-col-mode{width:90px}
+        .decision-table .dt-col-time{width:170px}
+        .decision-table .dt-col-mode{width:84px}
         .decision-table .dt-col-question{width:auto}
-        .decision-table .dt-col-verdict{width:90px}
-        .decision-table .dt-col-status{width:90px}
+        .decision-table .dt-col-verdict{width:96px}
         .decision-table th{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray);text-align:left;padding:0.6rem 0.72rem;border-bottom:1px solid rgba(17,17,17,0.1);background:#e8ebef;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .decision-table td{font-size:0.76rem;line-height:1.45;color:var(--fg);text-align:left;padding:0.62rem 0.72rem;border-bottom:1px solid rgba(17,17,17,0.08);vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .decision-table th:nth-child(2){padding-left:0.45rem;padding-right:0.45rem}
         .decision-table td.col-mode{padding-left:0.45rem;padding-right:0.45rem;overflow:visible;text-overflow:clip}
-        .decision-table th:nth-child(4),.decision-table td:nth-child(4){padding-right:0.42rem}
-        .decision-table th:nth-child(5),.decision-table td:nth-child(5){padding-left:0.42rem}
+        .decision-table th:nth-child(4),.decision-table td:nth-child(4){padding-left:0.56rem}
         .decision-table tbody tr:last-child td{border-bottom:none}
         .decision-table tbody tr:nth-child(odd){background:rgba(17,17,17,0.015)}
         .decision-table tbody tr:hover{background:rgba(17,17,17,0.04)}
         .decision-table .col-question{text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .decision-table .col-time{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:0.72rem}
-        .decision-table .col-mode{width:90px}
+        .decision-table .col-mode{width:84px}
         .mode-pill{display:inline-flex;align-items:center;justify-content:center;padding:0.22rem 0.5rem;border-radius:999px;border:1px solid rgba(17,17,17,0.2);font-size:0.66rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:var(--gray)}
         .pill{display:inline-flex;align-items:center;justify-content:center;padding:0.2rem 0.52rem;border-radius:999px;font-size:0.68rem;font-weight:700;letter-spacing:0.02em;text-transform:uppercase;border:1px solid transparent;white-space:nowrap}
         .pill.verdict-yes{background:rgba(22,163,74,0.16);border-color:rgba(22,163,74,0.36);color:#166534}
         .pill.verdict-no{background:rgba(220,38,38,0.14);border-color:rgba(220,38,38,0.34);color:#991b1b}
         .pill.verdict-tie{background:rgba(217,119,6,0.15);border-color:rgba(217,119,6,0.34);color:#92400e}
         .pill.verdict-pending,.pill.verdict-unknown{background:rgba(17,17,17,0.08);border-color:rgba(17,17,17,0.2);color:var(--gray)}
-        .pill.status-done{background:rgba(22,163,74,0.1);border-color:rgba(22,163,74,0.3);color:#166534}
-        .pill.status-pending{background:rgba(17,17,17,0.08);border-color:rgba(17,17,17,0.2);color:var(--gray)}
-        .pill.status-blocked{background:rgba(217,119,6,0.12);border-color:rgba(217,119,6,0.3);color:#92400e}
-        .pill.status-error{background:rgba(220,38,38,0.12);border-color:rgba(220,38,38,0.3);color:#991b1b}
         .decision-empty{padding:1.35rem 1rem;color:var(--gray);font-size:0.82rem;text-align:center}
 
         /* LOGOS / MARQUEE */
@@ -327,10 +321,6 @@
         body.dark .pill.verdict-no{background:rgba(220,38,38,0.18);border-color:rgba(252,165,165,0.38);color:#fca5a5}
         body.dark .pill.verdict-tie{background:rgba(217,119,6,0.2);border-color:rgba(251,191,36,0.4);color:#fcd34d}
         body.dark .pill.verdict-pending,body.dark .pill.verdict-unknown{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2);color:var(--gray-light)}
-        body.dark .pill.status-done{background:rgba(22,163,74,0.14);border-color:rgba(74,222,128,0.34);color:#86efac}
-        body.dark .pill.status-pending{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.2);color:var(--gray-light)}
-        body.dark .pill.status-blocked{background:rgba(217,119,6,0.16);border-color:rgba(251,191,36,0.34);color:#fcd34d}
-        body.dark .pill.status-error{background:rgba(220,38,38,0.16);border-color:rgba(252,165,165,0.34);color:#fca5a5}
         body.dark .decision-empty{color:var(--gray-light)}
         body.dark .logos{border-color:rgba(245,245,245,0.06)}
         body.dark .logos-track span{color:rgba(245,245,245,0.4)}
@@ -840,10 +830,9 @@
             .decision-table .col-time{font-size:0.66rem}
             .decision-table{min-width:760px}
             .decision-table .dt-col-time{width:146px}
-            .decision-table .dt-col-mode{width:84px}
+            .decision-table .dt-col-mode{width:78px}
             .decision-table .dt-col-question{width:auto}
-            .decision-table .dt-col-verdict{width:82px}
-            .decision-table .dt-col-status{width:84px}
+            .decision-table .dt-col-verdict{width:88px}
             .pill{font-size:0.62rem;padding:0.17rem 0.45rem}
             .logos{padding:1.5rem 1rem}
             .features,.how,.connect,.agent-features{padding:4.5rem 1rem}
@@ -1022,13 +1011,13 @@
                 <div class="decision-status" id="decisionStatus" aria-live="polite"></div>
                 <div class="decision-mode-switch" id="decisionModeSwitch" role="tablist" aria-label="Decision input mode">
                     <button class="decision-mode-btn active" type="button" data-decision-mode="single">Single decision</button>
-                    <button class="decision-mode-btn" type="button" data-decision-mode="compare">Compare options</button>
+                    <button class="decision-mode-btn" type="button" data-decision-mode="multi">Multi option</button>
                 </div>
                 <div class="decision-mode-copy" id="decisionModeCopy">Ask one question. We return yes, no, or tie.</div>
                 <div class="chips" id="decisionChips">
-                    <button class="chip" type="button" data-single="ship this launch today?" data-compare="best launch window: today | next week | next month">ship this launch today?</button>
-                    <button class="chip" type="button" data-single="escalate this support ticket?" data-compare="best retention offer: 10% off | 20% off | free month">escalate this support ticket?</button>
-                    <button class="chip" type="button" data-single="run this experiment now?" data-compare="best onboarding focus: speed | guidance | personalization">run this experiment now?</button>
+                    <button class="chip" type="button" data-single="ship this launch today?" data-multi="best launch window: today | next week | next month">ship this launch today?</button>
+                    <button class="chip" type="button" data-single="escalate this support ticket?" data-multi="best retention offer: 10% off | 20% off | free month">escalate this support ticket?</button>
+                    <button class="chip" type="button" data-single="run this experiment now?" data-multi="best onboarding focus: speed | guidance | personalization">run this experiment now?</button>
                 </div>
                 <div class="result">
                     <div class="ans" id="ans" aria-live="polite"></div>
@@ -1098,7 +1087,7 @@
     <section class="how sec-light" id="how">
         <div class="sec-head"><h2>How it <span class="serif">works</span></h2></div>
         <div class="how-grid">
-            <div class="how-card"><div class="how-num">1</div><h3>Ask</h3><p>Ask a yes/no question or a compare prompt.</p></div>
+            <div class="how-card"><div class="how-num">1</div><h3>Ask</h3><p>Ask a yes/no question or a multi-option prompt.</p></div>
             <div class="how-card"><div class="how-num">2</div><h3>Resolve</h3><p>Receive one verdict: yes, no, or tie.</p></div>
             <div class="how-card"><div class="how-num">3</div><h3>Act</h3><p>Execute, escalate, or skip with confidence.</p></div>
         </div>
@@ -1931,10 +1920,11 @@
         let decideRequestSeq = 0;
         let thinkingTimer = null;
         let answerTimer = null;
+        let decisionBusy = false;
         const DECISION_HISTORY_LIMIT = 20;
         const decisionRows = [];
         const DEFAULT_PLACEHOLDER = 'ship this launch today?';
-        const COMPARE_PLACEHOLDER = 'best option: launch now | launch next week | launch next month';
+        const MULTI_PLACEHOLDER = 'best option: launch now | launch next week | launch next month';
         const RETRY_PLACEHOLDER = 'Try another question.';
         function showRetryPlaceholder() {
             q.value = '';
@@ -1944,7 +1934,7 @@
         }
         
         function resetPlaceholder() {
-            q.placeholder = decisionInputMode === 'compare' ? COMPARE_PLACEHOLDER : DEFAULT_PLACEHOLDER;
+            q.placeholder = decisionInputMode === 'multi' ? MULTI_PLACEHOLDER : DEFAULT_PLACEHOLDER;
             q.classList.remove('retry-placeholder');
         }
 
@@ -1958,22 +1948,27 @@
             decisionStatus.className = `decision-status ${tone} show`;
         }
 
+        function setDecisionBusy(isBusy) {
+            decisionBusy = isBusy;
+            btn.disabled = isBusy;
+        }
+
         function applyDecisionInputMode(mode) {
-            decisionInputMode = mode === 'compare' ? 'compare' : 'single';
+            decisionInputMode = mode === 'multi' ? 'multi' : 'single';
             decisionModeButtons.forEach((button) => {
                 button.classList.toggle('active', button.dataset.decisionMode === decisionInputMode);
             });
 
-            if (decisionInputMode === 'compare') {
-                decisionModeCopy.textContent = 'Compare mode: separate options with "|" and we return one set-level verdict.';
-                q.placeholder = COMPARE_PLACEHOLDER;
+            if (decisionInputMode === 'multi') {
+                decisionModeCopy.textContent = 'Multi mode: separate options with "|" and we return one set-level verdict.';
+                q.placeholder = MULTI_PLACEHOLDER;
             } else {
                 decisionModeCopy.textContent = 'Ask one question. We return yes, no, or tie.';
                 q.placeholder = DEFAULT_PLACEHOLDER;
             }
 
             decisionChips.forEach((chip) => {
-                const sample = decisionInputMode === 'compare' ? chip.dataset.compare : chip.dataset.single;
+                const sample = decisionInputMode === 'multi' ? chip.dataset.multi : chip.dataset.single;
                 chip.textContent = sample || '';
             });
         }
@@ -2023,7 +2018,7 @@
 
         function forceUnlockDecisionUi() {
             clearDecisionUiTimers();
-            btn.disabled = false;
+            btn.disabled = decisionBusy;
             q.disabled = false;
             q.readOnly = false;
             q.style.pointerEvents = 'auto';
@@ -2087,14 +2082,6 @@
             return 'verdict-unknown';
         }
 
-        function statusTone(status) {
-            const s = String(status || '').toLowerCase();
-            if (s.includes('done')) return 'status-done';
-            if (s.includes('blocked')) return 'status-blocked';
-            if (s.includes('error')) return 'status-error';
-            return 'status-pending';
-        }
-
         function renderDecisionTable() {
             const countLabel = `${decisionRows.length} run${decisionRows.length === 1 ? '' : 's'}`;
             const head = `
@@ -2113,7 +2100,6 @@
                 const question = shortQuestion(row.question);
                 const fullQuestion = String(row.question || '-').replace(/\r?\n/g, ' ').trim() || '-';
                 const verdict = String(row.verdict || '-');
-                const status = String(row.status || '-');
                 const mode = String(row.mode || 'single');
                 return `
                     <tr>
@@ -2121,7 +2107,6 @@
                         <td class="col-mode"><span class="mode-pill">${escapeHtml(mode)}</span></td>
                         <td class="col-question" title="${escapeHtml(fullQuestion)}">${escapeHtml(question)}</td>
                         <td><span class="pill ${verdictTone(verdict)}">${escapeHtml(verdict)}</span></td>
-                        <td><span class="pill ${statusTone(status)}">${escapeHtml(status)}</span></td>
                     </tr>
                 `;
             }).join('');
@@ -2135,7 +2120,6 @@
                             <col class="dt-col-mode">
                             <col class="dt-col-question">
                             <col class="dt-col-verdict">
-                            <col class="dt-col-status">
                         </colgroup>
                         <thead>
                             <tr>
@@ -2143,7 +2127,6 @@
                                 <th>Mode</th>
                                 <th>Question</th>
                                 <th>Verdict</th>
-                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>${rowsHtml}</tbody>
@@ -2158,7 +2141,7 @@
                 decisionRows.unshift({
                     seq,
                     time: nowStamp(),
-                    mode: decisionInputMode === 'compare' ? 'compare' : 'single',
+                    mode: decisionInputMode === 'multi' ? 'multi' : 'single',
                     question: '',
                     verdict: '-',
                     status: 'pending',
@@ -2184,6 +2167,8 @@
         }
 
         async function handleDecide() {
+            if (decisionBusy) return;
+
             const seq = ++decideRequestSeq;
             const text = q.value.trim();
             if (text.length < 3) {
@@ -2191,21 +2176,22 @@
                 return;
             }
 
-            if (decisionInputMode === 'compare' && !text.includes('|')) {
-                setDecisionStatus('Compare mode expects options separated by "|". Example: Option A | Option B | Option C', 'warn');
+            if (decisionInputMode === 'multi' && !text.includes('|')) {
+                setDecisionStatus('Multi mode expects options separated by "|". Example: Option A | Option B | Option C', 'warn');
                 return;
             }
             
             forceUnlockDecisionUi();
             resetPlaceholder();
             clearDecisionStatus();
-            if (decisionInputMode === 'compare') {
-                setDecisionStatus('Compare mode is beta and returns one set-level verdict for your options.', 'warn');
+            if (decisionInputMode === 'multi') {
+                setDecisionStatus('Multi mode is beta and returns one set-level verdict for your options.', 'warn');
             }
+            setDecisionBusy(true);
 
             upsertDecisionRow(seq, {
                 time: nowStamp(),
-                mode: decisionInputMode === 'compare' ? 'compare' : 'single',
+                mode: decisionInputMode === 'multi' ? 'multi' : 'single',
                 question: text,
                 verdict: 'pending',
                 status: 'pending',
@@ -2219,6 +2205,7 @@
                     status: 'blocked (policy)',
                     requestId: '-'
                 });
+                setDecisionBusy(false);
                 showRetryPlaceholder();
                 setDecisionStatus('Can’t answer financial / legal / medical decisions. Try another question.', 'warn');
                 return;
@@ -2237,6 +2224,7 @@
                 result = { error: true };
             } finally {
                 clearTimeout(unlockWatchdog);
+                setDecisionBusy(false);
                 if (seq === decideRequestSeq) forceUnlockDecisionUi();
             }
 
@@ -2292,7 +2280,7 @@
 
         decisionChips.forEach((chip) => {
             chip.addEventListener('click', () => {
-                const sample = decisionInputMode === 'compare' ? chip.dataset.compare : chip.dataset.single;
+                const sample = decisionInputMode === 'multi' ? chip.dataset.multi : chip.dataset.single;
                 ask(sample || '');
             });
         });
@@ -2309,7 +2297,7 @@
         renderDecisionTable();
 
         btn.addEventListener('click', handleDecide);
-        q.addEventListener('keydown', e => { if (e.key === 'Enter') handleDecide(); });
+        q.addEventListener('keydown', e => { if (e.key === 'Enter' && !decisionBusy) handleDecide(); });
         
         // Refresh button - clear and start over
         refreshBtn.addEventListener('click', () => {
@@ -2319,6 +2307,7 @@
             q.value = '';
             ans.className = 'ans';
             decisionRows.length = 0;
+            setDecisionBusy(false);
             renderDecisionTable();
             charCount.classList.remove('show');
             resetToDecideMode();
