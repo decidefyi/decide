@@ -145,23 +145,22 @@
         .decision-table{width:100%;min-width:0;border-collapse:collapse;table-layout:fixed}
         .decision-table .dt-col-time{width:170px}
         .decision-table .dt-col-mode{width:84px}
-        .decision-table .dt-col-batch{width:72px}
-        .decision-table .dt-col-option{width:78px}
         .decision-table .dt-col-question{width:auto}
         .decision-table .dt-col-verdict{width:96px}
         .decision-table th{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray);text-align:left;padding:0.6rem 0.72rem;border-bottom:1px solid rgba(17,17,17,0.1);background:#e8ebef;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .decision-table td{font-size:0.76rem;line-height:1.45;color:var(--fg);text-align:left;padding:0.62rem 0.72rem;border-bottom:1px solid rgba(17,17,17,0.08);vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-        .decision-table th.col-h-mode,.decision-table td.col-mode{padding-left:0.45rem;padding-right:0.45rem}
-        .decision-table th.col-h-batch,.decision-table td.col-batch,.decision-table th.col-h-option,.decision-table td.col-option{padding-left:0.48rem;padding-right:0.48rem}
-        .decision-table th.col-h-verdict,.decision-table td.col-verdict{padding-left:0.56rem}
-        .decision-table td.col-mode,.decision-table td.col-batch,.decision-table td.col-option{overflow:visible;text-overflow:clip}
+        .decision-table th:nth-child(2){padding-left:0.45rem;padding-right:0.45rem}
+        .decision-table td.col-mode{padding-left:0.45rem;padding-right:0.45rem;overflow:visible;text-overflow:clip}
+        .decision-table th:nth-child(4),.decision-table td:nth-child(4){padding-left:0.56rem}
         .decision-table tbody tr:last-child td{border-bottom:none}
         .decision-table tbody tr:nth-child(odd){background:rgba(17,17,17,0.015)}
         .decision-table tbody tr:hover{background:rgba(17,17,17,0.04)}
         .decision-table .col-question{text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .decision-table .question-wrap{display:inline-flex;align-items:center;gap:0.36rem;max-width:100%;min-width:0}
+        .decision-table .question-text{display:inline-block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
         .decision-table .col-time{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:0.72rem}
         .decision-table .col-mode{width:84px}
-        .group-pill,.option-pill{display:inline-flex;align-items:center;justify-content:center;padding:0.16rem 0.4rem;border-radius:999px;border:1px solid rgba(17,17,17,0.2);font-size:0.58rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--gray);background:rgba(17,17,17,0.05);white-space:nowrap;flex-shrink:0}
+        .group-pill{display:inline-flex;align-items:center;justify-content:center;padding:0.16rem 0.4rem;border-radius:999px;border:1px solid rgba(17,17,17,0.2);font-size:0.58rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--gray);background:rgba(17,17,17,0.05);white-space:nowrap;flex-shrink:0}
         .mode-pill{display:inline-flex;align-items:center;justify-content:center;padding:0.22rem 0.5rem;border-radius:999px;border:1px solid rgba(17,17,17,0.2);font-size:0.66rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:var(--gray)}
         .pill{display:inline-flex;align-items:center;justify-content:center;padding:0.2rem 0.52rem;border-radius:999px;font-size:0.68rem;font-weight:700;letter-spacing:0.02em;text-transform:uppercase;border:1px solid transparent;white-space:nowrap}
         .pill.verdict-yes{background:rgba(22,163,74,0.16);border-color:rgba(22,163,74,0.36);color:#166534}
@@ -320,7 +319,7 @@
         body.dark .decision-table td{color:var(--fg-light);border-color:rgba(245,245,245,0.08)}
         body.dark .decision-table tbody tr:nth-child(odd){background:rgba(245,245,245,0.012)}
         body.dark .decision-table tbody tr:hover{background:rgba(245,245,245,0.05)}
-        body.dark .group-pill,body.dark .option-pill{border-color:rgba(245,245,245,0.24);background:rgba(245,245,245,0.1);color:var(--gray-light)}
+        body.dark .group-pill{border-color:rgba(245,245,245,0.24);background:rgba(245,245,245,0.1);color:var(--gray-light)}
         body.dark .mode-pill{border-color:rgba(245,245,245,0.24);color:var(--gray-light)}
         body.dark .pill.verdict-yes{background:rgba(22,163,74,0.2);border-color:rgba(74,222,128,0.44);color:#86efac}
         body.dark .pill.verdict-no{background:rgba(220,38,38,0.18);border-color:rgba(252,165,165,0.38);color:#fca5a5}
@@ -833,11 +832,9 @@
             .decision-table th{font-size:0.63rem;padding:0.52rem 0.55rem}
             .decision-table td{font-size:0.71rem;padding:0.5rem 0.55rem}
             .decision-table .col-time{font-size:0.66rem}
-            .decision-table{min-width:900px}
+            .decision-table{min-width:760px}
             .decision-table .dt-col-time{width:146px}
             .decision-table .dt-col-mode{width:78px}
-            .decision-table .dt-col-batch{width:64px}
-            .decision-table .dt-col-option{width:68px}
             .decision-table .dt-col-question{width:auto}
             .decision-table .dt-col-verdict{width:88px}
             .pill{font-size:0.62rem;padding:0.17rem 0.45rem}
@@ -2134,18 +2131,16 @@
                 const fullQuestion = String(row.question || '-').replace(/\r?\n/g, ' ').trim() || '-';
                 const verdict = String(row.verdict || '-');
                 const mode = String(row.mode || 'single');
-                const batchLabel = mode === 'multi' ? String(row.batchLabel || row.groupLabel || '').trim() : '';
-                const optionLabel = mode === 'multi' ? String(row.optionLabel || '').trim() : '';
-                const batchCell = batchLabel ? `<span class="group-pill">${escapeHtml(batchLabel)}</span>` : '-';
-                const optionCell = optionLabel ? `<span class="option-pill">${escapeHtml(optionLabel)}</span>` : '-';
+                const groupLabel = mode === 'multi' ? String(row.groupLabel || '').trim() : '';
+                const questionContent = groupLabel
+                    ? `<span class="question-wrap"><span class="group-pill">${escapeHtml(groupLabel)}</span><span class="question-text">${escapeHtml(question)}</span></span>`
+                    : escapeHtml(question);
                 return `
                     <tr>
                         <td class="col-time">${escapeHtml(row.time || '-')}</td>
                         <td class="col-mode"><span class="mode-pill">${escapeHtml(mode)}</span></td>
-                        <td class="col-batch">${batchCell}</td>
-                        <td class="col-option">${optionCell}</td>
-                        <td class="col-question" title="${escapeHtml(fullQuestion)}">${escapeHtml(question)}</td>
-                        <td class="col-verdict"><span class="pill ${verdictTone(verdict)}">${escapeHtml(verdict)}</span></td>
+                        <td class="col-question" title="${escapeHtml(fullQuestion)}">${questionContent}</td>
+                        <td><span class="pill ${verdictTone(verdict)}">${escapeHtml(verdict)}</span></td>
                     </tr>
                 `;
             }).join('');
@@ -2157,19 +2152,15 @@
                         <colgroup>
                             <col class="dt-col-time">
                             <col class="dt-col-mode">
-                            <col class="dt-col-batch">
-                            <col class="dt-col-option">
                             <col class="dt-col-question">
                             <col class="dt-col-verdict">
                         </colgroup>
                         <thead>
                             <tr>
                                 <th>Time (UTC)</th>
-                                <th class="col-h-mode">Mode</th>
-                                <th class="col-h-batch">Batch</th>
-                                <th class="col-h-option">Option</th>
+                                <th>Mode</th>
                                 <th>Question</th>
-                                <th class="col-h-verdict">Verdict</th>
+                                <th>Verdict</th>
                             </tr>
                         </thead>
                         <tbody>${rowsHtml}</tbody>
@@ -2188,8 +2179,6 @@
                     question: '',
                     verdict: '-',
                     groupLabel: '',
-                    batchLabel: '',
-                    optionLabel: '',
                     status: 'pending',
                     requestId: '-',
                     ...patch
@@ -2272,8 +2261,6 @@
                         mode: 'multi',
                         question: `${parsed.stem}: ${parsed.options[idx]}`,
                         groupLabel: multiGroupLabel,
-                        batchLabel: multiGroupLabel,
-                        optionLabel: `${idx + 1}/${parsed.options.length}`,
                         verdict: 'pending',
                         status: 'pending',
                         requestId: '-'
@@ -2349,8 +2336,6 @@
                 mode: 'single',
                 question: text,
                 groupLabel: '',
-                batchLabel: '',
-                optionLabel: '',
                 verdict: 'pending',
                 status: 'pending',
                 requestId: '-'
