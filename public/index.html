@@ -193,6 +193,13 @@
         }
 
         /* LOGOS / MARQUEE */
+        .bullet-strip{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin:1.25rem auto 0;max-width:900px}
+        .bullet-pill{background:rgba(17,17,17,0.05);border:1px solid rgba(17,17,17,0.12);color:var(--fg);padding:0.55rem 0.85rem;border-radius:999px;font-size:0.85rem;font-weight:600}
+        .code-slab{background:#0f0f0f;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1rem;margin:1.5rem auto 0;max-width:960px;box-shadow:0 10px 40px rgba(0,0,0,0.18)}
+        .code-slab pre{margin:0;font-family:'SFMono-Regular',Consolas,Menlo,monospace;font-size:0.85rem;line-height:1.5;color:#e5e7eb;white-space:pre-wrap;word-break:break-word}
+        .trust-note{margin-top:0.65rem;font-size:0.82rem;color:var(--gray);text-align:center}
+        .compare-toggle{display:flex;align-items:center;justify-content:center;gap:0.45rem;margin-top:0.75rem;color:var(--gray);font-size:0.85rem}
+        .compare-toggle input{width:16px;height:16px}
         .logos{padding:2.5rem 1.5rem;border-top:1px solid rgba(17,17,17,0.06);position:relative;z-index:2;overflow:hidden;background:var(--bg)}
         .logos-track{display:flex;animation:scroll 25s linear infinite}
         .logos-track span{flex-shrink:0;padding:0 2.5rem;font-size:0.75rem;font-weight:600;color:rgba(17,17,17,0.5);text-transform:uppercase;letter-spacing:0.15em;display:flex;align-items:center;gap:2.5rem}
@@ -891,7 +898,7 @@
                 <a href="#" class="nav-signin nav-cta" onclick="event.preventDefault(); openSignIn();">Sign In</a>
             </div>
             <div class="nav-links" id="navLinksAgent" style="display:none">
-                <a href="#mcp-playground">Live demo</a>
+                <a href="/playground#agents">Live demo</a>
                 <a href="#pricing">Pricing</a>
                 <a href="#mcp-connect">Connect</a>
                 <a href="https://github.com/decidefyi/decide" target="_blank">GitHub</a>
@@ -909,7 +916,7 @@
             <a href="#" class="nav-cta mobile-link" onclick="event.preventDefault(); openSignIn();">Sign In</a>
         </div>
         <div id="mobileAgentLinks" style="display:none">
-            <a href="#mcp-playground" class="mobile-link">Live demo</a>
+            <a href="/playground#agents" class="mobile-link">Live demo</a>
             <a href="#pricing" class="mobile-link">Pricing</a>
             <a href="#mcp-connect" class="mobile-link">Connect</a>
             <a href="https://github.com/decidefyi/decide" class="mobile-link" target="_blank">GitHub</a>
@@ -929,7 +936,7 @@
           <p class="sub">decide is a decision engine for humans and agents. Decision API gives a single yes/no (or tie); MCP notaries execute deterministically; Krafthaus (optional) feeds preference signals when choices are subjective.</p>
           <div class="input-wrap">
             <div class="cta-row" style="justify-content:center;gap:0.7rem;flex-wrap:wrap;">
-              <a class="input-btn" href="/playground/#mcp-playground" style="text-decoration:none;">Open live demo</a>
+              <a class="input-btn" href="/playground#agents" style="text-decoration:none;">Open live demo</a>
               <a class="input-btn" href="https://github.com/decidefyi/decide" target="_blank" style="background:transparent;color:var(--fg);border:1px solid rgba(17,17,17,0.12);text-decoration:none;">Docs & GitHub</a>
             </div>
           </div>
@@ -1006,10 +1013,31 @@
                     <button class="chip" onclick="ask('escalate this support ticket?')">escalate this support ticket?</button>
                     <button class="chip" onclick="ask('keep the trial or cancel?')">keep the trial or cancel?</button>
                 </div>
+                <div class="compare-toggle">
+                    <input type="checkbox" id="compareToggle">
+                    <label for="compareToggle">Compare options (preference mode): we’ll YES one option, NO the rest, or TIE if equal.</label>
+                </div>
                 <div class="result">
                     <div class="ans" id="ans"></div>
                 </div>
+                <div class="trust-note">We filter high-risk asks (finance / legal / medical). See Terms &amp; Safety.</div>
             </div>
+        </div>
+    </section>
+
+    <section class="sec-light" id="api-explainer">
+        <div class="bullet-strip">
+            <span class="bullet-pill">Input → single verdict</span>
+            <span class="bullet-pill">Tie when equivalent</span>
+            <span class="bullet-pill">Deterministic rationale</span>
+            <span class="bullet-pill">Sentiment optional (off by default)</span>
+        </div>
+        <div class="code-slab">
+<pre>{
+  \"endpoint\": \"/api/decide\",
+  \"request\": { \"question\": \"roll out the new price today?\" },
+  \"response\": { \"c\": \"yes\", \"v\": \"yes\", \"request_id\": \"abc123\" }
+}</pre>
         </div>
     </section>
 
@@ -1080,7 +1108,7 @@
             <p class="sub">Deterministic MCP servers that give your AI agents clear, auditable answers.</p>
 	            <div class="agent-hero-ctas">
 	                <a href="#" class="agent-hero-btn primary nav-signin" onclick="event.preventDefault(); openSignIn();">Start for free</a>
-                <a href="#mcp-playground" class="agent-hero-btn secondary">Open live demo</a>
+                <a href="/playground#agents" class="agent-hero-btn secondary">Open live demo</a>
 	            </div>
 
 	            <div class="mcp-catalog">
@@ -1446,7 +1474,7 @@
                     <div>Basic audit trail + trust suite</div>
                     <div>Best for evaluation and solo builds</div>
                 </div>
-                <a class="price-btn" href="#mcp-playground" data-track="pricing_starter_cta">Use live demo</a>
+                <a class="price-btn" href="/playground#agents" data-track="pricing_starter_cta">Use live demo</a>
             </div>
 	            <div class="price-card featured">
 	                <div class="price-tier">Pro</div>
@@ -2293,7 +2321,6 @@ if (v === 'yes' || v === 'no') {
         // Mode toggle (Humans / Agents)
         function setMode(mode) {
             const isAgents = mode === 'agents';
-            document.body.classList.toggle('agents', isAgents);
 
             // Toggle desktop/mobile nav variants based on viewport
             syncNavVisibility(isAgents);
@@ -3784,8 +3811,8 @@ if (v === 'yes' || v === 'no') {
             const href = link.getAttribute('href') || '';
             const label = (link.textContent || '').trim().toLowerCase();
             if (href === '#mcp-connect') trackEvent('nav_connect_click', { label });
-            if (href === '#mcp-playground') trackEvent('nav_playground_click', { label });
             if (href === '#pricing') trackEvent('nav_pricing_click', { label });
+            if (href.includes('/playground')) trackEvent('nav_playground_click', { label });
             if (link.classList.contains('install-badge')) trackEvent('install_badge_click', { href: link.getAttribute('href') || '' });
             const trackKey = link.getAttribute('data-track');
             if (trackKey) trackEvent(trackKey, { href: link.getAttribute('href') || '' });
