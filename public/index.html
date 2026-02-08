@@ -2079,62 +2079,49 @@
                 .replace(/'/g, '&#39;');
         }
 
-        function escapeMarkdownCell(value) {
-            return String(value ?? '')
-                .replace(/\r?\n/g, ' ')
-                .replace(/\|/g, '\\|')
-                .trim();
+        function escapeCsvCell(value) {
+            const cleaned = String(value ?? '').replace(/\r?\n/g, ' ').trim();
+            return `"${cleaned.replace(/"/g, '""')}"`;
         }
 
-        function buildDecisionMarkdown() {
+        function buildDecisionCsv() {
             if (!decisionRows.length) return '';
             const hasMultiGroup = decisionRows.some((row) => String(row.groupLabel || '').trim() !== '');
             const headers = hasMultiGroup
                 ? ['Time (UTC)', 'Mode', 'Group', 'Question', 'Verdict']
                 : ['Time (UTC)', 'Mode', 'Question', 'Verdict'];
-            const headerLine = `| ${headers.join(' | ')} |`;
-            const separatorLine = `| ${headers.map(() => '---').join(' | ')} |`;
             const rows = decisionRows.map((row) => {
                 const base = [
-                    escapeMarkdownCell(row.time || '-'),
-                    escapeMarkdownCell(row.mode || '-')
+                    escapeCsvCell(row.time || '-'),
+                    escapeCsvCell(row.mode || '-')
                 ];
                 if (hasMultiGroup) {
-                    base.push(escapeMarkdownCell(row.groupLabel || '-'));
+                    base.push(escapeCsvCell(row.groupLabel || '-'));
                 }
-                base.push(escapeMarkdownCell(row.question || '-'));
-                base.push(escapeMarkdownCell(row.verdict || '-'));
-                return `| ${base.join(' | ')} |`;
+                base.push(escapeCsvCell(row.question || '-'));
+                base.push(escapeCsvCell(row.verdict || '-'));
+                return base.join(',');
             });
-            const generatedAt = new Date().toISOString().replace('T', ' ').replace('Z', ' UTC');
-            return [
-                '# Decision Runs',
-                '',
-                `Generated: ${generatedAt}`,
-                '',
-                headerLine,
-                separatorLine,
-                ...rows
-            ].join('\n');
+            return [headers.map(escapeCsvCell).join(','), ...rows].join('\n');
         }
 
-        function downloadDecisionMarkdown() {
+        function downloadDecisionCsv() {
             if (!decisionRows.length) {
                 setDecisionStatus('No decisions to download yet.', 'warn');
                 return;
             }
-            const markdown = buildDecisionMarkdown();
+            const csv = buildDecisionCsv();
             const stamp = new Date().toISOString().replace(/[:T]/g, '-').replace(/\..+/, '');
-            const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8' });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `decision-runs-${stamp}.md`;
+            link.download = `decision-runs-${stamp}.csv`;
             document.body.appendChild(link);
             link.click();
             link.remove();
             URL.revokeObjectURL(url);
-            setDecisionStatus('Downloaded markdown table.', 'ok');
+            setDecisionStatus('Downloaded CSV table.', 'ok');
         }
 
         function shortQuestion(value) {
@@ -2193,7 +2180,7 @@
                     <span class="decision-table-title">Decision Runs</span>
                     <div class="decision-table-meta">
                         <span class="decision-table-count">${countLabel}</span>
-                        <button type="button" class="decision-download-btn" id="decisionDownloadBtn">Download .md</button>
+                        <button type="button" class="decision-download-btn" id="decisionDownloadBtn">Download CSV</button>
                     </div>
                 </div>
             `;
@@ -2528,7 +2515,7 @@
 
         ans.addEventListener('click', (event) => {
             if (event.target.closest('#decisionDownloadBtn')) {
-                downloadDecisionMarkdown();
+                downloadDecisionCsv();
             }
         });
 
