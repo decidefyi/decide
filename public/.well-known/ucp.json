@@ -1,6 +1,6 @@
 {
   "name": "decide.fyi",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Deterministic subscription decision notaries for US consumers.",
   "services": [
     {

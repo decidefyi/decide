@@ -242,6 +242,12 @@ Policies are sourced from official vendor documentation and terms of service.
 
 ## Changelog
 
+### v1.2.1 (2026-02-08)
+
+**Changed:**
+- Subdomain homepage now shows the relevant notary card (refund/cancel/return/trial).
+- Version metadata is consistent across `server.json`, MCP `initialize`, and `/.well-known/*`.
+
 ### v1.2.0 (2026-02-02)
 
 **Added:**
