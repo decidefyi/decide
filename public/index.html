@@ -137,12 +137,7 @@
         .chip:hover{border-color:var(--fg);color:var(--fg);background:rgba(17,17,17,0.03);transform:translateY(-2px)}
 
         .result{width:100%;display:flex;justify-content:center;margin-top:0.7rem}
-        .ans{width:100%;max-width:720px;min-height:124px;background:rgba(17,17,17,0.03);border:1px solid rgba(17,17,17,0.14);border-radius:14px;padding:0.85rem 1rem;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:0.78rem;line-height:1.58;color:var(--gray);white-space:pre-wrap;word-break:break-word;letter-spacing:0}
-        .ans.log-yes{border-color:rgba(22,163,74,0.38);background:rgba(22,163,74,0.08);color:#166534}
-        .ans.log-no{border-color:rgba(220,38,38,0.38);background:rgba(220,38,38,0.08);color:#991b1b}
-        .ans.log-tie{border-color:rgba(217,119,6,0.4);background:rgba(217,119,6,0.08);color:#92400e}
-        .ans.log-unclear{border-color:rgba(17,17,17,0.14);background:rgba(17,17,17,0.03);color:var(--gray)}
-        .ans.log-loading{border-color:rgba(17,17,17,0.2);background:rgba(17,17,17,0.04);color:var(--gray)}
+        .ans{width:100%;max-width:760px;min-height:128px;max-height:290px;overflow:auto;background:rgba(17,17,17,0.03);border:1px solid rgba(17,17,17,0.14);border-radius:14px;padding:0.85rem 1rem;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:0.76rem;line-height:1.55;color:var(--fg);white-space:pre;word-break:normal;letter-spacing:0;scrollbar-width:thin}
 
         /* LOGOS / MARQUEE */
         .bullet-strip{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin:1.25rem auto 0;max-width:900px}
@@ -287,11 +282,6 @@
         body.dark .decision-mode-btn:hover:not(.active){background:rgba(245,245,245,0.16);color:var(--fg)}
         body.dark .decision-mode-copy{color:var(--gray-light)}
         body.dark .ans{background:rgba(245,245,245,0.04);border-color:rgba(245,245,245,0.16);color:var(--gray-light)}
-        body.dark .ans.log-yes{border-color:rgba(22,163,74,0.45);background:rgba(22,163,74,0.12);color:#86efac}
-        body.dark .ans.log-no{border-color:rgba(220,38,38,0.45);background:rgba(220,38,38,0.12);color:#fca5a5}
-        body.dark .ans.log-tie{border-color:rgba(217,119,6,0.45);background:rgba(217,119,6,0.12);color:#fcd34d}
-        body.dark .ans.log-unclear{border-color:rgba(245,245,245,0.16);background:rgba(245,245,245,0.04);color:var(--gray-light)}
-        body.dark .ans.log-loading{border-color:rgba(245,245,245,0.2);background:rgba(245,245,245,0.05);color:var(--gray-light)}
         body.dark .logos{border-color:rgba(245,245,245,0.06)}
         body.dark .logos-track span{color:rgba(245,245,245,0.4)}
         body.dark .logos-track span::after{opacity:0.4}
@@ -981,12 +971,9 @@
                     <button class="chip" type="button" data-single="run this experiment now?" data-compare="best onboarding focus: speed | guidance | personalization">run this experiment now?</button>
                 </div>
                 <div class="result">
-                    <div class="ans log-unclear" id="ans">[idle] decide.humans
-status: ready
-request_id: n/a
-mode: single
-question: n/a
-verdict: n/a</div>
+                    <div class="ans" id="ans">| Time (UTC) | Mode | Question | Verdict | Status | Request ID |
+|---|---|---|---|---|---|
+| - | single | _No decisions yet_ | - | ready | - |</div>
                 </div>
                 <div class="trust-note">High-risk categories are blocked (finance / legal / medical). See Terms &amp; Safety.</div>
             </div>
@@ -1886,6 +1873,8 @@ verdict: n/a</div>
         let decideRequestSeq = 0;
         let thinkingTimer = null;
         let answerTimer = null;
+        const DECISION_HISTORY_LIMIT = 20;
+        const decisionRows = [];
         const DEFAULT_PLACEHOLDER = 'ship this launch today?';
         const COMPARE_PLACEHOLDER = 'best option: launch now | launch next week | launch next month';
         const RETRY_PLACEHOLDER = 'Try another question.';
@@ -2016,42 +2005,61 @@ verdict: n/a</div>
             return new Date().toISOString().replace('T', ' ').replace('Z', ' UTC');
         }
 
-        function normalizeDecisionClass(result) {
-            const verdict = String(result?.v || '').trim().toLowerCase();
-            if (verdict === 'yes') return 'yes';
-            if (verdict === 'no') return 'no';
-            if (verdict === 'tie') return 'tie';
-            return 'unclear';
+        const DECISION_TABLE_HEADER = '| Time (UTC) | Mode | Question | Verdict | Status | Request ID |';
+        const DECISION_TABLE_SEPARATOR = '|---|---|---|---|---|---|';
+        const DECISION_TABLE_EMPTY_ROW = '| - | single | _No decisions yet_ | - | ready | - |';
+
+        function tableCell(value) {
+            const cleaned = String(value ?? '-')
+                .replace(/\|/g, '\\|')
+                .replace(/\r?\n/g, ' ')
+                .trim();
+            return cleaned || '-';
         }
 
-        function renderDecisionLog(result, question, status = 'done') {
-            const verdict = String(result?.v || '').trim() || 'unknown';
-            const klass = normalizeDecisionClass(result);
-            const requestId = result?.request_id || 'n/a';
-            const modeLabel = decisionInputMode === 'compare' ? 'compare' : 'single';
-            const lines = [
-                `[${nowStamp()}] decide.humans`,
-                `status: ${status}`,
-                `request_id: ${requestId}`,
-                `mode: ${modeLabel}`,
-                `question: ${question || 'n/a'}`,
-                `verdict: ${verdict}`
-            ];
+        function tableQuestion(value) {
+            const cleaned = tableCell(value);
+            if (cleaned.length <= 92) return cleaned;
+            return `${cleaned.slice(0, 89)}...`;
+        }
+
+        function renderDecisionTable() {
+            const lines = [DECISION_TABLE_HEADER, DECISION_TABLE_SEPARATOR];
+            if (!decisionRows.length) {
+                lines.push(DECISION_TABLE_EMPTY_ROW);
+                ans.textContent = lines.join('\n');
+                return;
+            }
+
+            decisionRows.forEach((row) => {
+                lines.push(
+                    `| ${tableCell(row.time)} | ${tableCell(row.mode)} | ${tableQuestion(row.question)} | ${tableCell(row.verdict)} | ${tableCell(row.status)} | ${tableCell(row.requestId)} |`
+                );
+            });
             ans.textContent = lines.join('\n');
-            ans.className = `ans log-${status === 'loading' ? 'loading' : klass}`;
         }
 
-        function show(r, question, seq) {
-            ans.className = 'ans log-loading';
-            ans.textContent = '';
-            
-            if (answerTimer) clearTimeout(answerTimer);
-            answerTimer = setTimeout(() => {
-                if (seq !== decideRequestSeq) return;
-                renderDecisionLog(r, question, 'done');
-                resetToDecideMode();
-                answerTimer = null;
-            }, 80);
+        function upsertDecisionRow(seq, patch) {
+            const existingIndex = decisionRows.findIndex((row) => row.seq === seq);
+            if (existingIndex === -1) {
+                decisionRows.unshift({
+                    seq,
+                    time: nowStamp(),
+                    mode: decisionInputMode === 'compare' ? 'compare' : 'single',
+                    question: '',
+                    verdict: '-',
+                    status: 'pending',
+                    requestId: '-',
+                    ...patch
+                });
+            } else {
+                decisionRows[existingIndex] = { ...decisionRows[existingIndex], ...patch };
+            }
+
+            if (decisionRows.length > DECISION_HISTORY_LIMIT) {
+                decisionRows.length = DECISION_HISTORY_LIMIT;
+            }
+            renderDecisionTable();
         }
 
         async function decide(text) {
@@ -2066,8 +2074,7 @@ verdict: n/a</div>
             const seq = ++decideRequestSeq;
             const text = q.value.trim();
             if (text.length < 3) {
-                clearDecisionStatus();
-                show({ c: 'unclear', v: 'Ask a question' }, text, seq);
+                setDecisionStatus('Enter at least 3 characters.', 'warn');
                 return;
             }
 
@@ -2082,23 +2089,30 @@ verdict: n/a</div>
             if (decisionInputMode === 'compare') {
                 setDecisionStatus('Compare mode is beta and returns one set-level verdict for your options.', 'warn');
             }
+
+            upsertDecisionRow(seq, {
+                time: nowStamp(),
+                mode: decisionInputMode === 'compare' ? 'compare' : 'single',
+                question: text,
+                verdict: 'pending',
+                status: 'pending',
+                requestId: '-'
+            });
+
             if (isPolicySensitiveQuestion(text)) {
-                ans.className = 'ans log-unclear';
-                ans.textContent = '';
+                upsertDecisionRow(seq, {
+                    time: nowStamp(),
+                    verdict: '-',
+                    status: 'blocked (policy)',
+                    requestId: '-'
+                });
                 showRetryPlaceholder();
                 setDecisionStatus('Can’t answer financial / legal / medical decisions. Try another question.', 'warn');
                 return;
             }
-            ans.className = 'ans log-loading';
-            ans.textContent = '';
+
             resetToDecideMode();
-            
-            thinkingTimer = setTimeout(() => {
-                if (seq !== decideRequestSeq) return;
-                renderDecisionLog({ v: 'pending', c: 'loading' }, text, 'loading');
-                thinkingTimer = null;
-            }, 80);
-            
+
             const unlockWatchdog = setTimeout(() => {
                 if (seq === decideRequestSeq) forceUnlockDecisionUi();
             }, 8000);
@@ -2117,8 +2131,12 @@ verdict: n/a</div>
             
             // Only show "Try another question" for blocked questions (status 204)
             if (result && result.blocked) {
-                ans.className = 'ans log-unclear';
-                ans.textContent = '';
+                upsertDecisionRow(seq, {
+                    time: nowStamp(),
+                    verdict: '-',
+                    status: 'blocked (policy)',
+                    requestId: '-'
+                });
                 resetToDecideMode();
                 showRetryPlaceholder();
                 setDecisionStatus('Question blocked by policy (financial / legal / medical). Try another one.', 'warn');
@@ -2128,12 +2146,22 @@ verdict: n/a</div>
             // For errors or missing data, show a generic error but keep default placeholder
             if (!result || result.error || !result.v) {
                 setDecisionStatus('Network hiccup. Please try again.', 'error');
-                show({ c: 'unclear', v: 'Something went wrong' }, text, seq);
+                upsertDecisionRow(seq, {
+                    time: nowStamp(),
+                    verdict: 'unknown',
+                    status: 'error',
+                    requestId: '-'
+                });
                 return;
             }
             
             clearDecisionStatus();
-            show(result, text, seq);
+            upsertDecisionRow(seq, {
+                time: nowStamp(),
+                verdict: String(result.v || '').trim() || '-',
+                status: 'done',
+                requestId: result.request_id || '-'
+            });
         }
 
         function ask(t) {
@@ -2165,6 +2193,7 @@ verdict: n/a</div>
         });
 
         applyDecisionInputMode('single');
+        renderDecisionTable();
 
         btn.addEventListener('click', handleDecide);
         q.addEventListener('keydown', e => { if (e.key === 'Enter') handleDecide(); });
@@ -2176,7 +2205,8 @@ verdict: n/a</div>
             forceUnlockDecisionUi();
             q.value = '';
             ans.className = 'ans';
-            ans.innerHTML = '';
+            decisionRows.length = 0;
+            renderDecisionTable();
             charCount.classList.remove('show');
             resetToDecideMode();
             resetPlaceholder();
