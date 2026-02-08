@@ -98,28 +98,6 @@
         .input-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
         .input-wrap,.input-row,.input-box,.input-inner,.input-field,.input-btn,.refresh-btn,.chips,.chip{pointer-events:auto}
         
-        /* Verdict Mode - X Button takes over input box */
-        .x-verdict-btn{
-            display:none;
-            align-items:center;
-            justify-content:center;
-            gap:0.75rem;
-            width:100%;
-            padding:1.25rem 2rem;
-            background:var(--fg);
-            color:var(--bg);
-            border-radius:20px;
-            font-family:inherit;
-            font-size:1.1rem;
-            font-weight:600;
-            text-decoration:none;
-            cursor:pointer;
-            transition:all 0.3s var(--ease-out);
-        }
-        .x-verdict-btn:hover{transform:scale(1.02);box-shadow:0 20px 60px rgba(17,17,17,0.25)}
-        .x-verdict-btn:active{transform:scale(0.98)}
-        .x-verdict-btn .x-icon{width:22px;height:22px;fill:currentColor;flex-shrink:0}
-        
         /* Refresh button - outside on the right */
         .refresh-btn{
             position:absolute;
@@ -145,9 +123,7 @@
         .refresh-btn:hover{border-color:var(--fg);color:var(--fg);transform:translateY(-50%) scale(1.05)}
         .refresh-btn:active{transform:translateY(-50%) scale(0.95)}
         
-        .input-box.verdict-mode .input-inner{display:none}
-        .input-box.verdict-mode .x-verdict-btn{display:flex}
-        .input-box.verdict-mode + .refresh-btn{visibility:visible;opacity:1}
+        .input-box + .refresh-btn{visibility:visible;opacity:1}
 
         .char-count{font-size:0.7rem;color:var(--r);text-align:right;margin-top:0.5rem;opacity:0;transition:opacity 0.3s;font-weight:600}
         .char-count.show{opacity:1}
@@ -184,13 +160,6 @@
         .ans.unclear.show .ans-letter{transition-delay:0ms!important}
         .ans.loading{font-size:1rem;font-weight:500;color:var(--gray);text-transform:none}
         .ans.loading .ans-letter{text-shadow:none}
-
-        /* X ICON */
-        .x-icon{
-            width:16px;
-            height:16px;
-            fill:currentColor;
-        }
 
         /* LOGOS / MARQUEE */
         .bullet-strip{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin:1.25rem auto 0;max-width:900px}
@@ -1007,10 +976,6 @@
                             <input type="text" class="input-field" id="q" placeholder="ship this launch today?" autocomplete="off" maxlength="230">
                             <button class="input-btn" id="btn">decide</button>
                         </div>
-                        <a class="x-verdict-btn" id="xBtn" href="#" target="_blank" rel="noopener noreferrer">
-                            <svg class="x-icon" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                            Share verdict on X
-                        </a>
                     </div>
                     <button class="refresh-btn" id="refreshBtn" title="Start over">↻</button>
                 </div>
@@ -1918,13 +1883,11 @@
         // to Gemini. This keeps the key secret.
         const API_ENDPOINT = '/api/decide';
         const MODEL = 'gemini-2.0-flash-lite';
-        const q=document.getElementById('q'),btn=document.getElementById('btn'),ans=document.getElementById('ans'),xBtn=document.getElementById('xBtn'),refreshBtn=document.getElementById('refreshBtn'),charCount=document.getElementById('charCount'),decisionStatus=document.getElementById('decisionStatus'),inputBox=document.getElementById('inputBox'),inputInnerEl=document.getElementById('inputInner');
+        const q=document.getElementById('q'),btn=document.getElementById('btn'),ans=document.getElementById('ans'),refreshBtn=document.getElementById('refreshBtn'),charCount=document.getElementById('charCount'),decisionStatus=document.getElementById('decisionStatus'),inputInnerEl=document.getElementById('inputInner');
         const decisionModeButtons = Array.from(document.querySelectorAll('.decision-mode-btn'));
         const decisionModeCopy = document.getElementById('decisionModeCopy');
         const decisionChips = Array.from(document.querySelectorAll('#decisionChips .chip'));
         
-        let lastQuestion = '';
-        let lastAnswer = '';
         let decisionInputMode = 'single';
         let decideRequestSeq = 0;
         let thinkingTimer = null;
@@ -2003,9 +1966,7 @@
         });
 
         function resetToDecideMode() {
-            inputBox.classList.remove('verdict-mode');
             inputInnerEl.style.display = 'flex';
-            xBtn.style.display = 'none';
         }
 
         function clearDecisionUiTimers() {
@@ -2027,9 +1988,7 @@
             q.style.pointerEvents = 'auto';
             btn.style.pointerEvents = 'auto';
             inputInnerEl.style.pointerEvents = 'auto';
-            inputBox.classList.remove('verdict-mode');
             inputInnerEl.style.display = 'flex';
-            xBtn.style.display = 'none';
             // Failsafe: if any overlays got stuck, clear them.
             document.getElementById('mbg').classList.remove('on');
             mobileOverlay.classList.remove('open');
@@ -2043,14 +2002,6 @@
             document.body.style.overflow = '';
         }
 
-        function setVerdictMode(question, answer) {
-            const tweetText = `i asked @decidefyi: ${question}\n\nthe answer was ${answer}.`;
-            const encodedText = encodeURIComponent(tweetText);
-            xBtn.href = `https://x.com/intent/tweet?text=${encodedText}`;
-            inputBox.classList.add('verdict-mode');
-            inputInnerEl.style.display = 'none';
-            xBtn.style.display = 'flex';
-        }
         async function callGemini(question) {
   try {
     const response = await fetch('/api/decide', {
@@ -2088,23 +2039,9 @@
                 void ans.offsetWidth;
                 ans.classList.add('show');
                 
-                // Show X verdict button ONLY for literal yes/no
-const v = (r.v || '').trim().toLowerCase();
-if (v === 'yes' || v === 'no') {
-    lastQuestion = question;
-    lastAnswer = v;
-    setVerdictMode(question, v);
-} else {
-    resetToDecideMode(); // ensures X button never appears
-}
+                resetToDecideMode();
                 answerTimer = null;
             }, 80);
-        }
-
-        function updateShareButton() {
-            const tweetText = `i asked @decidefyi: ${lastQuestion}\n\nthe answer was ${lastAnswer}.`;
-            const encodedText = encodeURIComponent(tweetText);
-            xBtn.href = `https://x.com/intent/tweet?text=${encodedText}`;
         }
 
         async function decide(text) {
@@ -2223,13 +2160,6 @@ if (v === 'yes' || v === 'no') {
         btn.addEventListener('click', handleDecide);
         q.addEventListener('keydown', e => { if (e.key === 'Enter') handleDecide(); });
         
-        // X button click - open link and reset to decide mode
-        xBtn.addEventListener('click', () => {
-            setTimeout(() => {
-                resetToDecideMode();
-            }, 100);
-        });
-        
         // Refresh button - clear and start over
         refreshBtn.addEventListener('click', () => {
             clearDecisionUiTimers();
@@ -2247,7 +2177,6 @@ if (v === 'yes' || v === 'no') {
         
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', function(e) {
-                if (this.id === 'xBtn') return; // Don't interfere with X button
                 if (this.classList.contains('nav-signin') || this.classList.contains('nav-cta')) return; // Don't interfere with Sign In
                 const h = this.getAttribute('href');
                 if (h === '#') return;
