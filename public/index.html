@@ -1960,7 +1960,7 @@
             });
 
             if (decisionInputMode === 'multi') {
-                decisionModeCopy.textContent = 'Multi mode: separate options with "|" and we return one set-level verdict.';
+                decisionModeCopy.textContent = 'Multi mode: separate options with "|" and we return yes/no for each option.';
                 q.placeholder = MULTI_PLACEHOLDER;
             } else {
                 decisionModeCopy.textContent = 'Ask one question. We return yes, no, or tie.';
@@ -2082,6 +2082,31 @@
             return 'verdict-unknown';
         }
 
+        function parseMultiInput(text) {
+            const raw = String(text || '').trim();
+            if (!raw) return { stem: 'best option', options: [] };
+
+            const segments = raw.split('|').map((item) => item.trim()).filter(Boolean);
+            if (segments.length < 2) return { stem: raw, options: [] };
+
+            let stem = 'best option';
+            const first = segments[0];
+            const colonIndex = first.indexOf(':');
+            if (colonIndex !== -1) {
+                const parsedStem = first.slice(0, colonIndex).trim();
+                if (parsedStem) stem = parsedStem;
+                segments[0] = first.slice(colonIndex + 1).trim();
+            }
+
+            const options = segments.map((item) => item.replace(/\s+/g, ' ').trim()).filter(Boolean);
+            return { stem, options };
+        }
+
+        function buildMultiOptionQuestion(stem, options, option) {
+            const list = options.map((item, idx) => `${idx + 1}) ${item}`).join('; ');
+            return `Question: ${stem}. Options: ${list}. Option under evaluation: ${option}. Should this option be selected over the others? Answer strictly yes or no.`;
+        }
+
         function renderDecisionTable() {
             const countLabel = `${decisionRows.length} run${decisionRows.length === 1 ? '' : 's'}`;
             const head = `
@@ -2185,21 +2210,12 @@
             resetPlaceholder();
             clearDecisionStatus();
             if (decisionInputMode === 'multi') {
-                setDecisionStatus('Multi mode is beta and returns one set-level verdict for your options.', 'warn');
+                setDecisionStatus('Multi mode is beta and returns yes/no for each option.', 'warn');
             }
             setDecisionBusy(true);
 
-            upsertDecisionRow(seq, {
-                time: nowStamp(),
-                mode: decisionInputMode === 'multi' ? 'multi' : 'single',
-                question: text,
-                verdict: 'pending',
-                status: 'pending',
-                requestId: '-'
-            });
-
             if (isPolicySensitiveQuestion(text)) {
-                upsertDecisionRow(seq, {
+                upsertDecisionRow(`${seq}-0`, {
                     time: nowStamp(),
                     verdict: '-',
                     status: 'blocked (policy)',
@@ -2216,6 +2232,101 @@
             const unlockWatchdog = setTimeout(() => {
                 if (seq === decideRequestSeq) forceUnlockDecisionUi();
             }, 8000);
+
+            if (decisionInputMode === 'multi') {
+                const parsed = parseMultiInput(text);
+                if (parsed.options.length < 2) {
+                    clearTimeout(unlockWatchdog);
+                    setDecisionBusy(false);
+                    forceUnlockDecisionUi();
+                    setDecisionStatus('Multi mode needs at least 2 options separated by "|".', 'warn');
+                    return;
+                }
+
+                const optionRowSeqs = parsed.options.map((_, idx) => `${seq}-${idx}`);
+                optionRowSeqs.forEach((rowSeq, idx) => {
+                    upsertDecisionRow(rowSeq, {
+                        time: nowStamp(),
+                        mode: 'multi',
+                        question: `${parsed.stem}: ${parsed.options[idx]}`,
+                        verdict: 'pending',
+                        status: 'pending',
+                        requestId: '-'
+                    });
+                });
+
+                let blockedCount = 0;
+                let errorCount = 0;
+
+                try {
+                    await Promise.all(parsed.options.map(async (option, idx) => {
+                        const rowSeq = optionRowSeqs[idx];
+                        const optionQuestion = buildMultiOptionQuestion(parsed.stem, parsed.options, option);
+                        let result;
+                        try {
+                            result = await decide(optionQuestion);
+                        } catch (error) {
+                            result = { error: true };
+                        }
+
+                        if (seq !== decideRequestSeq) return;
+
+                        if (result && result.blocked) {
+                            blockedCount += 1;
+                            upsertDecisionRow(rowSeq, {
+                                time: nowStamp(),
+                                verdict: '-',
+                                status: 'blocked (policy)',
+                                requestId: '-'
+                            });
+                            return;
+                        }
+
+                        if (!result || result.error || !result.v) {
+                            errorCount += 1;
+                            upsertDecisionRow(rowSeq, {
+                                time: nowStamp(),
+                                verdict: 'unknown',
+                                status: 'error',
+                                requestId: '-'
+                            });
+                            return;
+                        }
+
+                        upsertDecisionRow(rowSeq, {
+                            time: nowStamp(),
+                            verdict: String(result.v || '').trim() || '-',
+                            status: 'done',
+                            requestId: result.request_id || '-'
+                        });
+                    }));
+                } finally {
+                    clearTimeout(unlockWatchdog);
+                    setDecisionBusy(false);
+                    if (seq === decideRequestSeq) forceUnlockDecisionUi();
+                }
+
+                if (seq !== decideRequestSeq) return;
+
+                if (blockedCount > 0) {
+                    setDecisionStatus(`${blockedCount} option(s) blocked by policy.`, 'warn');
+                } else if (errorCount > 0) {
+                    setDecisionStatus('Some options failed. Try again.', 'error');
+                } else {
+                    clearDecisionStatus();
+                }
+
+                return;
+            }
+
+            upsertDecisionRow(seq, {
+                time: nowStamp(),
+                mode: 'single',
+                question: text,
+                verdict: 'pending',
+                status: 'pending',
+                requestId: '-'
+            });
 
             let result;
             try {
