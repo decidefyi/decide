@@ -193,13 +193,6 @@
         }
 
         /* LOGOS / MARQUEE */
-        .bullet-strip{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin:1.25rem auto 0;max-width:900px}
-        .bullet-pill{background:rgba(17,17,17,0.05);border:1px solid rgba(17,17,17,0.12);color:var(--fg);padding:0.55rem 0.85rem;border-radius:999px;font-size:0.85rem;font-weight:600}
-        .code-slab{background:#0f0f0f;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1rem;margin:1.5rem auto 0;max-width:960px;box-shadow:0 10px 40px rgba(0,0,0,0.18)}
-        .code-slab pre{margin:0;font-family:'SFMono-Regular',Consolas,Menlo,monospace;font-size:0.85rem;line-height:1.5;color:#e5e7eb;white-space:pre-wrap;word-break:break-word}
-        .trust-note{margin-top:0.65rem;font-size:0.82rem;color:var(--gray);text-align:center}
-        .compare-toggle{display:flex;align-items:center;justify-content:center;gap:0.45rem;margin-top:0.75rem;color:var(--gray);font-size:0.85rem}
-        .compare-toggle input{width:16px;height:16px}
         .logos{padding:2.5rem 1.5rem;border-top:1px solid rgba(17,17,17,0.06);position:relative;z-index:2;overflow:hidden;background:var(--bg)}
         .logos-track{display:flex;animation:scroll 25s linear infinite}
         .logos-track span{flex-shrink:0;padding:0 2.5rem;font-size:0.75rem;font-weight:600;color:rgba(17,17,17,0.5);text-transform:uppercase;letter-spacing:0.15em;display:flex;align-items:center;gap:2.5rem}
@@ -248,6 +241,34 @@
         .how-num{font-size:5rem;font-weight:900;line-height:1;color:rgba(17,17,17,0.15);margin-bottom:1rem}
         .how-card h3{font-size:1.1rem;font-weight:600;margin-bottom:0.3rem;color:var(--fg)}
         .how-card p{color:var(--gray);font-size:0.85rem}
+
+        /* WHEEL */
+        .wheel{padding:6rem 1.5rem;background:#f5f5f5;color:#111111}
+        .wheel .sec-head h2{color:#111111}
+        .wheel .sec-head p{color:#6b7280}
+        .wheel .sec-tag{color:#111111}
+        .wheel .sec-tag::before,.wheel .sec-tag::after{border-color:#111111}
+        .wheel-wrap{max-width:900px;margin:0 auto;display:grid;grid-template-columns:360px 1fr;gap:2rem;align-items:start}
+        .wheel-stage{display:flex;justify-content:center}
+        .wheel-shell{position:relative;width:320px;height:320px}
+        .wheel-disc{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;box-shadow:0 20px 50px rgba(0,0,0,0.08);background:var(--wheel-ring-gradient, conic-gradient(#d1d5db 0deg 180deg,#e5e7eb 180deg 360deg));will-change:transform}
+        .wheel-disc::before{content:'';position:absolute;inset:8px;border-radius:50%;background:var(--wheel-face-gradient, conic-gradient(#e5e7eb 0deg 180deg,#f3f4f6 180deg 360deg))}
+        .wheel-pointer{position:absolute;z-index:5;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid #111111;pointer-events:none}
+        .wheel-center{position:absolute;z-index:4;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:#111111;color:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;letter-spacing:0.03em}
+        .wheel-labels{position:absolute;z-index:2;inset:0;pointer-events:none;will-change:transform}
+        .wheel-label{position:absolute;left:50%;top:50%;width:120px;text-align:center;transform-origin:center center;font-size:0.72rem;font-weight:600;color:#1f2937;text-shadow:0 1px 0 rgba(245,245,245,0.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .wheel-panel{display:flex;flex-direction:column;gap:0.9rem}
+        .wheel-panel p{color:#6b7280;font-size:0.9rem}
+        .wheel-add{display:flex;gap:0.5rem}
+        .wheel-input{flex:1;padding:0.75rem 0.9rem;border-radius:12px;border:1px solid rgba(17,17,17,0.15);background:#f5f5f5;color:#111111;font:inherit}
+        .wheel-add-btn,.wheel-spin-btn,.wheel-reset-btn{border:none;border-radius:12px;padding:0.75rem 1rem;min-height:44px;line-height:1;font:inherit;font-size:0.85rem;font-weight:600;cursor:pointer}
+        .wheel-add-btn,.wheel-spin-btn{background:#111111;color:#f5f5f5;border:1px solid rgba(17,17,17,0.22)}
+        .wheel-reset-btn{background:rgba(17,17,17,0.08);color:#111111}
+        .wheel-options{display:flex;flex-wrap:wrap;gap:0.45rem}
+        .wheel-chip{display:inline-flex;align-items:center;gap:0.35rem;background:rgba(17,17,17,0.04);border:1px solid rgba(17,17,17,0.1);border-radius:999px;padding:0.35rem 0.65rem;font-size:0.78rem;color:#111111}
+        .wheel-chip button{border:none;background:none;color:#6b7280;cursor:pointer;font-size:0.95rem;line-height:1}
+        .wheel-actions{display:flex;gap:0.6rem}
+        .wheel-result{min-height:40px;font-size:0.95rem;font-weight:600;color:#111111}
 
         /* CTA - LIGHT */
         .cta{padding:14rem 1.5rem;text-align:center;position:relative;overflow:hidden}
@@ -313,6 +334,16 @@
         body.dark nav .mode-toggle button.active{background:#f5f5f5;color:#111111}
         body.dark nav .nav-cta{background:#f5f5f5!important;color:#111111!important}
         body.dark nav .mob span{background:#f5f5f5}
+        body.dark .wheel-pointer{border-top-color:#f5f5f5}
+        body.dark .wheel .sec-head p,
+        body.dark .wheel-panel p{color:#9ca3af}
+        body.dark .wheel .sec-head h2{color:#f5f5f5}
+        body.dark .wheel-result{color:#f5f5f5}
+        body.dark .wheel-chip{background:rgba(245,245,245,0.1);border-color:rgba(245,245,245,0.24);color:#f5f5f5}
+        body.dark .wheel-chip button{color:#e5e7eb}
+        body.dark .wheel-add-btn,
+        body.dark .wheel-spin-btn{border-color:rgba(245,245,245,0.28)}
+        body.dark .wheel-reset-btn{background:rgba(245,245,245,0.12);color:#f5f5f5;border:1px solid rgba(245,245,245,0.28)}
         body.dark .decision-status.warn{color:#fbbf24}
         body.dark .decision-status.error{color:#fca5a5}
         body.dark ::selection{background:rgba(245,245,245,0.15)}
@@ -417,14 +448,10 @@
         body.dark .pg-assert-input:focus-visible{outline-color:rgba(245,245,245,0.55)}
 
         /* MODE CONTAINERS */
-        #human-mode,#agent-mode,#overview-mode{transition:none}
-        #agent-mode,#overview-mode{display:none}
+        #human-mode,#agent-mode{transition:none}
+        #agent-mode{display:none}
         body.agents #human-mode{display:none}
-        body.agents #overview-mode{display:none}
         body.agents #agent-mode{display:block}
-        body.overview #human-mode{display:none}
-        body.overview #agent-mode{display:none}
-        body.overview #overview-mode{display:block}
 
         /* AGENT MODE */
         .agent-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:8rem 1.5rem 4rem;text-align:center;position:relative;z-index:2;background:var(--bg)}
@@ -829,7 +856,7 @@
             .refresh-btn:active{transform:scale(0.96)}
             .ans{font-size:clamp(4rem,20vw,7rem)}
             .logos{padding:1.5rem 1rem}
-            .features,.how,.connect,.agent-features{padding:4.5rem 1rem}
+            .features,.how,.wheel,.connect,.agent-features{padding:4.5rem 1rem}
             .cta{padding:6rem 1rem}
             .sec-head{margin:0 auto 2.5rem}
             .sec-head p{font-size:0.9rem}
@@ -849,6 +876,8 @@
             .pg-assert-row{flex-direction:column;align-items:stretch}
             .pg-assert-template{min-width:0;width:100%}
             .pg-assert-input.path,.pg-assert-input.expected{min-width:0;width:100%}
+            .wheel-wrap{grid-template-columns:1fr;gap:1.2rem}
+            .wheel-shell{width:280px;height:280px}
             .theme-toggle{right:0.8rem;bottom:0.8rem;width:38px;height:38px}
             .foot-inner{flex-direction:column;gap:1.25rem}
             /* Fix result height on mobile - use fixed height instead of clamp with vw */
@@ -891,14 +920,13 @@
             <div class="mode-toggle" id="modeToggle">
                 <button class="active" data-mode="humans" onclick="setMode('humans')">Humans</button>
                 <button data-mode="agents" onclick="setMode('agents')">Agents</button>
-                <button data-mode="overview" onclick="setMode('overview')">Overview</button>
             </div>
             <div class="nav-links" id="navLinksHuman">
                 <a href="#features">Features</a>
                 <a href="#" class="nav-signin nav-cta" onclick="event.preventDefault(); openSignIn();">Sign In</a>
             </div>
             <div class="nav-links" id="navLinksAgent" style="display:none">
-                <a href="/livedemo#agents">Live demo</a>
+                <a href="#mcp-playground">Live demo</a>
                 <a href="#pricing">Pricing</a>
                 <a href="#mcp-connect">Connect</a>
                 <a href="https://github.com/decidefyi/decide" target="_blank">GitHub</a>
@@ -916,70 +944,12 @@
             <a href="#" class="nav-cta mobile-link" onclick="event.preventDefault(); openSignIn();">Sign In</a>
         </div>
         <div id="mobileAgentLinks" style="display:none">
-            <a href="/livedemo#agents" class="mobile-link">Live demo</a>
+            <a href="#mcp-playground" class="mobile-link">Live demo</a>
             <a href="#pricing" class="mobile-link">Pricing</a>
             <a href="#mcp-connect" class="mobile-link">Connect</a>
             <a href="https://github.com/decidefyi/decide" class="mobile-link" target="_blank">GitHub</a>
             <a href="#" class="nav-cta mobile-link nav-signin" onclick="event.preventDefault(); openSignIn();">Sign In</a>
         </div>
-    </div>
-
-    <!-- OVERVIEW MODE -->
-    <div id="overview-mode">
-      <section class="hero">
-        <div class="hero-inner">
-          <div class="badge"><span class="badge-dot"></span>Decision engine</div>
-          <h1>
-            <span class="word"><span>Decisions</span></span>
-            <span class="word"><span class="serif">that act.</span></span>
-          </h1>
-          <p class="sub">decide is a decision engine for humans and agents. Decision API gives a single yes/no (or tie); MCP notaries execute deterministically; Krafthaus (optional) feeds preference signals when choices are subjective.</p>
-          <div class="input-wrap">
-            <div class="cta-row" style="justify-content:center;gap:0.7rem;flex-wrap:wrap;">
-                <a class="input-btn" href="/livedemo#agents" style="text-decoration:none;">Open live demo</a>
-              <a class="input-btn" href="https://github.com/decidefyi/decide" target="_blank" style="background:transparent;color:var(--fg);border:1px solid rgba(17,17,17,0.12);text-decoration:none;">Docs & GitHub</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="features sec-light" id="overview">
-        <div class="sec-head">
-          <h2>How it <span class="serif">connects</span></h2>
-          <p>Decision API → picks the path → MCP notary executes. Sentiment/Krafthaus is optional for preference-heavy choices.</p>
-        </div>
-        <div class="feat-grid">
-          <div class="feat c3">
-            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg></div>
-            <h3>Decision API (humans)</h3>
-            <p>One yes/no or tie. When options are equal, we say so. No hedging.</p>
-          </div>
-          <div class="feat c3">
-            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 17l9 4.5 9-4.5"/></svg></div>
-            <h3>Decision API (agents)</h3>
-            <p>Structured verdicts so agents can choose the right notary or know it’s a tie.</p>
-          </div>
-          <div class="feat c3">
-            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h7"/></svg></div>
-            <h3>MCP notaries</h3>
-            <p>Refund, cancel, return, trial. Stateless, policy-sourced, auditable. Deterministic responses.</p>
-          </div>
-          <div class="feat c3">
-            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M12 4h9"/><path d="M4 9h16"/><path d="M4 15h8"/></svg></div>
-            <h3>Krafthaus (optional)</h3>
-            <p>Preference signals for best-of-N questions. Only used when choices are subjective; notaries stay deterministic.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="how sec-light">
-        <div class="sec-head"><h2>Flow in <span class="serif">practice</span></h2></div>
-        <div class="how-grid">
-          <div class="how-card"><div class="how-num">1</div><h3>Ask</h3><p>Humans or agents call Decision API.</p></div>
-          <div class="how-card"><div class="how-num">2</div><h3>Verdict</h3><p>Yes/no or tie; for subjective sets, one option is marked yes.</p></div>
-          <div class="how-card"><div class="how-num">3</div><h3>Execute</h3><p>Notary runs deterministically; audit trail optional.</p></div>
-        </div>
-      </section>
     </div>
 
     <!-- HUMAN MODE -->
@@ -991,12 +961,12 @@
                 <span class="word"><span>End</span></span>
                 <span class="word"><span class="serif">hesitation.</span></span>
             </h1>
-            <p class="sub">Decision API that forces a single yes/no when LLMs hedge. If there’s no real preference, we tell you it’s a tie so you can move on.</p>
+            <p class="sub">Get a straight answer to a straight question.</p>
             <div class="input-wrap">
                 <div class="input-row">
                     <div class="input-box" id="inputBox">
                         <div class="input-inner" id="inputInner">
-                            <input type="text" class="input-field" id="q" placeholder="ship the refund policy check now?" autocomplete="off" maxlength="230">
+                            <input type="text" class="input-field" id="q" placeholder="should i get shit done?" autocomplete="off" maxlength="230">
                             <button class="input-btn" id="btn">decide</button>
                         </div>
                         <a class="x-verdict-btn" id="xBtn" href="#" target="_blank" rel="noopener noreferrer">
@@ -1009,35 +979,14 @@
                 <div class="char-count" id="charCount"></div>
                 <div class="decision-status" id="decisionStatus" aria-live="polite"></div>
                 <div class="chips">
-                    <button class="chip" onclick="ask('roll out the new price today?')">roll out the new price today?</button>
-                    <button class="chip" onclick="ask('escalate this support ticket?')">escalate this support ticket?</button>
-                    <button class="chip" onclick="ask('keep the trial or cancel?')">keep the trial or cancel?</button>
-                </div>
-                <div class="compare-toggle">
-                    <input type="checkbox" id="compareToggle">
-                    <label for="compareToggle">Compare options (preference mode): we’ll YES one option, NO the rest, or TIE if equal.</label>
+                    <button class="chip" onclick="ask('prague worth a detour?')">prague worth detour?</button>
+                    <button class="chip" onclick="ask('skip sleep again?')">skip sleep again?</button>
+                    <button class="chip" onclick="ask('text them back?')">text them back?</button>
                 </div>
                 <div class="result">
                     <div class="ans" id="ans"></div>
                 </div>
-                <div class="trust-note">We filter high-risk asks (finance / legal / medical). See Terms &amp; Safety.</div>
             </div>
-        </div>
-    </section>
-
-    <section class="sec-light" id="api-explainer">
-        <div class="bullet-strip">
-            <span class="bullet-pill">Input → single verdict</span>
-            <span class="bullet-pill">Tie when equivalent</span>
-            <span class="bullet-pill">Deterministic rationale</span>
-            <span class="bullet-pill">Sentiment optional (off by default)</span>
-        </div>
-        <div class="code-slab">
-<pre>{
-  \"endpoint\": \"/api/decide\",
-  \"request\": { \"question\": \"roll out the new price today?\" },
-  \"response\": { \"c\": \"yes\", \"v\": \"yes\", \"request_id\": \"abc123\" }
-}</pre>
         </div>
     </section>
 
@@ -1050,7 +999,7 @@
     <section class="features sec-light" id="features">
         <div class="sec-head">
             <h2>Why <span class="serif">decide?</span></h2>
-            <p>Decisive answers when other models hedge. One verdict, or a tie if options are equal.</p>
+            <p>A magic 8 ball that thinks.</p>
         </div>
         <div class="feat-grid">
             <div class="feat c4">
@@ -1090,6 +1039,37 @@
         </div>
     </section>
 
+    <section class="wheel sec-light" id="wheel">
+        <div class="sec-head">
+            <h2>Or let <span class="serif">chance</span> pick.</h2>
+            <p>Low-stakes call? Add options and spin once.</p>
+        </div>
+        <div class="wheel-wrap">
+            <div class="wheel-stage">
+                <div class="wheel-shell">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel-disc" id="wheelDisc"></div>
+                    <div class="wheel-labels" id="wheelLabels"></div>
+                    <div class="wheel-center">spin</div>
+                </div>
+            </div>
+            <div class="wheel-panel">
+                <p>Add 2-12 options (food, people, plans, anything).</p>
+                <div class="wheel-add">
+                    <input id="wheelInput" class="wheel-input" type="text" placeholder="e.g. sushi">
+                    <button id="wheelAddBtn" class="wheel-add-btn" type="button">Add</button>
+                </div>
+                <div class="wheel-options" id="wheelOptions"></div>
+                <div class="wheel-actions">
+                    <button id="wheelSpinBtn" class="wheel-spin-btn" type="button">Spin</button>
+                    <button id="wheelResetBtn" class="wheel-reset-btn" type="button">Reset</button>
+                </div>
+                <div class="wheel-result" id="wheelResult"></div>
+            </div>
+        </div>
+    </section>
+
+
     <section class="cta sec-light">
         <div class="cta-inner">
             <h2>Just <span class="serif">decide.</span></h2>
@@ -1108,7 +1088,7 @@
             <p class="sub">Deterministic MCP servers that give your AI agents clear, auditable answers.</p>
 	            <div class="agent-hero-ctas">
 	                <a href="#" class="agent-hero-btn primary nav-signin" onclick="event.preventDefault(); openSignIn();">Start for free</a>
-                <a href="/playground#agents" class="agent-hero-btn secondary">Open live demo</a>
+                        <a href="#mcp-playground" class="agent-hero-btn secondary">Open live demo</a>
 	            </div>
 
 	            <div class="mcp-catalog">
@@ -1470,11 +1450,11 @@
                 <div class="price-tier">Starter</div>
                 <div class="price-amt">$0 <span>/ forever</span></div>
                 <div class="price-list">
-                    <div>4 notaries + live demo</div>
+                    <div>4 notaries + playground</div>
                     <div>Basic audit trail + trust suite</div>
                     <div>Best for evaluation and solo builds</div>
                 </div>
-                <a class="price-btn" href="/livedemo#agents" data-track="pricing_starter_cta">Use live demo</a>
+                <a class="price-btn" href="#mcp-playground" data-track="pricing_starter_cta">Use playground</a>
             </div>
 	            <div class="price-card featured">
 	                <div class="price-tier">Pro</div>
@@ -1561,8 +1541,8 @@
     </footer>
 
     <div class="m-bg" id="mbg" onclick="closeM()"></div>
-    <div class="modal" id="privacy"><div class="m-head"><h3>Privacy Policy</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>Last updated:</strong> February 2026</p><p>decide provides consumer decision tools for humans and AI agents, including MCP notaries and a live demo with audit trail.</p><p><strong>What we process:</strong> request inputs and outputs needed to run your call. Local demo history, saved cases, and assertions are stored in your browser unless you use authenticated account features.</p><p><strong>What we don't do:</strong> we do not sell personal data and we do not use your prompts to train public models.</p><p><strong>Operational logs:</strong> we may keep service logs (for uptime, abuse prevention, and debugging) with limited metadata such as timestamp, route, status, latency, and hashed request identifiers.</p><p><strong>Questions?</strong> Email <a href="mailto:decidefyi@gmail.com">decidefyi@gmail.com</a>.</p></div></div>
-    <div class="modal" id="terms"><div class="m-head"><h3>Terms of Service</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>Last updated:</strong> February 2026</p><p><strong>Service scope:</strong> decide offers decision support tools (human yes/no flows, MCP notaries, live demo, and audit trail).</p><p><strong>No professional advice:</strong> outputs are informational and may be incomplete. They are not financial, legal, or medical advice.</p><p><strong>Safety policy:</strong> certain high-risk prompts may be blocked (for example financial/legal/medical asks) and the UI will return an explanatory message.</p><p><strong>Your responsibility:</strong> you are responsible for downstream decisions and integrations built on top of decide responses.</p><p><strong>Availability:</strong> features may change, and uptime is best-effort while the platform evolves.</p></div></div>
+    <div class="modal" id="privacy"><div class="m-head"><h3>Privacy Policy</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>Last updated:</strong> February 2026</p><p>decide provides consumer decision tools for humans and AI agents, including MCP notaries and a live playground with audit trail.</p><p><strong>What we process:</strong> request inputs and outputs needed to run your call. Local playground history, saved cases, and assertions are stored in your browser unless you use authenticated account features.</p><p><strong>What we don't do:</strong> we do not sell personal data and we do not use your prompts to train public models.</p><p><strong>Operational logs:</strong> we may keep service logs (for uptime, abuse prevention, and debugging) with limited metadata such as timestamp, route, status, latency, and hashed request identifiers.</p><p><strong>Questions?</strong> Email <a href="mailto:decidefyi@gmail.com">decidefyi@gmail.com</a>.</p></div></div>
+    <div class="modal" id="terms"><div class="m-head"><h3>Terms of Service</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>Last updated:</strong> February 2026</p><p><strong>Service scope:</strong> decide offers decision support tools (human yes/no flows, MCP notaries, playground, and audit trail).</p><p><strong>No professional advice:</strong> outputs are informational and may be incomplete. They are not financial, legal, or medical advice.</p><p><strong>Safety policy:</strong> certain high-risk prompts may be blocked (for example financial/legal/medical asks) and the UI will return an explanatory message.</p><p><strong>Your responsibility:</strong> you are responsible for downstream decisions and integrations built on top of decide responses.</p><p><strong>Availability:</strong> features may change, and uptime is best-effort while the platform evolves.</p></div></div>
     <div class="modal" id="api"><div class="m-head"><h3>Platform & API</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body"><p><strong>What you can use today</strong></p><p>• MCP notaries: refund, cancel, return, and trial<br>• REST endpoints for the same deterministic policy checks<br>• Live demo + audit trail for testing, assertions, diffs, and shareable snapshots</p><p><strong>Best for</strong></p><p>• Agent workflows that need deterministic policy answers<br>• QA and regression checks with assertion templates<br>• Teams that need reproducible run history and troubleshooting context</p><p><strong>Integration help:</strong> contact <a href="mailto:decidefyi@gmail.com">decidefyi@gmail.com</a>.</p></div></div>
     <div class="modal" id="pilot"><div class="m-head"><h3>Pro pilot intake</h3><button class="m-x" onclick="closeM()">×</button></div><div class="m-body">
         <p class="pilot-hint">Answer 4 quick questions and I'll reply with a Pro pilot link + suggested setup. This keeps support async and lightweight.</p>
@@ -1908,7 +1888,7 @@
         // to Gemini. This keeps the key secret.
         const API_ENDPOINT = '/api/decide';
         const MODEL = 'gemini-2.0-flash-lite';
-        const q=document.getElementById('q'),btn=document.getElementById('btn'),ans=document.getElementById('ans'),xBtn=document.getElementById('xBtn'),refreshBtn=document.getElementById('refreshBtn'),compareToggle=document.getElementById('compareToggle'),charCount=document.getElementById('charCount'),decisionStatus=document.getElementById('decisionStatus'),inputBox=document.getElementById('inputBox'),inputInnerEl=document.getElementById('inputInner');
+        const q=document.getElementById('q'),btn=document.getElementById('btn'),ans=document.getElementById('ans'),xBtn=document.getElementById('xBtn'),refreshBtn=document.getElementById('refreshBtn'),charCount=document.getElementById('charCount'),decisionStatus=document.getElementById('decisionStatus'),inputBox=document.getElementById('inputBox'),inputInnerEl=document.getElementById('inputInner');
         
         let lastQuestion = '';
         let lastAnswer = '';
@@ -2088,12 +2068,6 @@ if (v === 'yes' || v === 'no') {
                 show({ c: 'unclear', v: 'Ask a question' }, text, seq);
                 return;
             }
-
-            if (compareToggle && compareToggle.checked) {
-                setDecisionStatus('Compare mode is coming soon; run a single yes/no for now.', 'warn');
-                compareToggle.checked = false;
-                return;
-            }
             
             forceUnlockDecisionUi();
             resetPlaceholder();
@@ -2165,6 +2139,174 @@ if (v === 'yes' || v === 'no') {
             clearDecisionStatus();
             q.focus();
         }
+
+        // Randomization wheel (human mode)
+        const wheelDisc = document.getElementById('wheelDisc');
+        const wheelLabels = document.getElementById('wheelLabels');
+        const wheelInput = document.getElementById('wheelInput');
+        const wheelAddBtn = document.getElementById('wheelAddBtn');
+        const wheelSpinBtn = document.getElementById('wheelSpinBtn');
+        const wheelResetBtn = document.getElementById('wheelResetBtn');
+        const wheelOptionsEl = document.getElementById('wheelOptions');
+        const wheelResult = document.getElementById('wheelResult');
+
+        let wheelOptions = ['pizza', 'sushi', 'burgers'];
+        let wheelCenters = [];
+        let wheelRotation = 0;
+        let wheelSpinning = false;
+        let lastWheelPick = -1;
+        let wheelAnimFrame = null;
+
+        function randomWheelColor(i) {
+            const palette = [
+                '#bfdbfe', '#fde68a', '#fecaca', '#bbf7d0',
+                '#ddd6fe', '#fdba74', '#a7f3d0', '#f9a8d4',
+                '#cbd5e1', '#fca5a5', '#86efac', '#93c5fd'
+            ];
+            return palette[i % palette.length];
+        }
+        function darkenHex(hex, amount = 0.12) {
+            const value = hex.replace('#', '');
+            const to255 = (i) => parseInt(value.slice(i, i + 2), 16);
+            const scale = (v) => Math.max(0, Math.min(255, Math.round(v * (1 - amount))));
+            const r = scale(to255(0)).toString(16).padStart(2, '0');
+            const g = scale(to255(2)).toString(16).padStart(2, '0');
+            const b = scale(to255(4)).toString(16).padStart(2, '0');
+            return `#${r}${g}${b}`;
+        }
+
+        function renderWheel() {
+            const n = wheelOptions.length;
+            const labelRadius = Math.max(78, (wheelDisc.clientWidth / 2) - 48);
+            if (n < 2) {
+                wheelCenters = [];
+                wheelDisc.style.setProperty('--wheel-face-gradient', 'conic-gradient(#e5e7eb 0deg 180deg,#f3f4f6 180deg 360deg)');
+                wheelDisc.style.setProperty('--wheel-ring-gradient', 'conic-gradient(#d1d5db 0deg 180deg,#e5e7eb 180deg 360deg)');
+                wheelLabels.innerHTML = '';
+                return;
+            }
+
+            const step = 360 / n;
+            wheelCenters = wheelOptions.map((_, i) => i * step + step / 2);
+            const colors = wheelOptions.map((_, i) => randomWheelColor(i));
+            const faceStops = colors.map((c, i) => `${c} ${Math.round(i * step)}deg ${Math.round((i + 1) * step)}deg`);
+            const ringStops = colors.map((c, i) => `${darkenHex(c)} ${Math.round(i * step)}deg ${Math.round((i + 1) * step)}deg`);
+            wheelDisc.style.setProperty('--wheel-face-gradient', `conic-gradient(${faceStops.join(',')})`);
+            wheelDisc.style.setProperty('--wheel-ring-gradient', `conic-gradient(${ringStops.join(',')})`);
+
+            wheelLabels.innerHTML = '';
+            wheelOptions.forEach((opt, i) => {
+                const a = i * step + step / 2;
+                const label = document.createElement('div');
+                label.className = 'wheel-label';
+                label.style.transform = `translate(-50%, -50%) rotate(${a}deg) translateY(-${labelRadius}px) rotate(${-a}deg)`;
+                label.textContent = opt;
+                wheelLabels.appendChild(label);
+            });
+        }
+
+        function renderWheelOptions() {
+            wheelOptionsEl.innerHTML = '';
+            wheelOptions.forEach((opt, idx) => {
+                const chip = document.createElement('span');
+                chip.className = 'wheel-chip';
+                chip.innerHTML = `${opt} <button type="button" aria-label="Remove ${opt}">×</button>`;
+                chip.querySelector('button').addEventListener('click', () => {
+                    wheelOptions.splice(idx, 1);
+                    renderWheelOptions();
+                    renderWheel();
+                });
+                wheelOptionsEl.appendChild(chip);
+            });
+        }
+
+        function addWheelOption() {
+            const value = (wheelInput.value || '').trim();
+            if (!value) return;
+            if (wheelOptions.length >= 12) {
+                wheelResult.textContent = 'Max 12 options.';
+                return;
+            }
+            wheelOptions.push(value);
+            wheelInput.value = '';
+            wheelResult.textContent = '';
+            renderWheelOptions();
+            renderWheel();
+            wheelInput.focus();
+        }
+
+        function spinWheel() {
+            if (wheelSpinning) return;
+            if (wheelOptions.length < 2) {
+                wheelResult.textContent = 'Add at least 2 options.';
+                return;
+            }
+
+            wheelSpinning = true;
+            wheelResult.textContent = 'Spinning...';
+
+            const n = wheelOptions.length;
+            let picked = Math.floor(Math.random() * n);
+            if (n > 2 && picked === lastWheelPick) {
+                picked = (picked + 1 + Math.floor(Math.random() * (n - 1))) % n;
+            }
+            const targetCenter = wheelCenters[picked];
+            const targetRotation = ((360 - targetCenter) % 360 + 360) % 360;
+            const currentRotation = ((wheelRotation % 360) + 360) % 360;
+            const deltaToTarget = (targetRotation - currentRotation + 360) % 360;
+            const extraTurns = (2 + Math.floor(Math.random() * 4)) * 360; // 2 to 5 full turns
+            const startRotation = Number.isFinite(wheelRotation) ? wheelRotation : 0;
+            let endRotation = startRotation + extraTurns + deltaToTarget;
+            if (endRotation <= startRotation) endRotation = startRotation + 360;
+            if ((endRotation - startRotation) < 360) endRotation += 360;
+            const duration = 4000;
+            const start = performance.now();
+
+            if (wheelAnimFrame) cancelAnimationFrame(wheelAnimFrame);
+            const animate = (now) => {
+                const t = Math.min(1, (now - start) / duration);
+                // Monotonic easing, clockwise only.
+                const eased = 1 - Math.pow(1 - t, 3);
+                const current = startRotation + (endRotation - startRotation) * eased;
+                wheelDisc.style.transform = `rotate(${current}deg)`;
+                wheelLabels.style.transform = `rotate(${current}deg)`;
+
+                if (t < 1) {
+                    wheelAnimFrame = requestAnimationFrame(animate);
+                    return;
+                }
+
+                wheelRotation = endRotation;
+                wheelAnimFrame = null;
+                wheelSpinning = false;
+                lastWheelPick = picked;
+                wheelResult.textContent = `Decision made: ${wheelOptions[picked]}`;
+            };
+            wheelAnimFrame = requestAnimationFrame(animate);
+        }
+
+        function resetWheel() {
+            wheelOptions = ['pizza', 'sushi', 'burgers'];
+            wheelRotation = 0;
+            lastWheelPick = -1;
+            if (wheelAnimFrame) {
+                cancelAnimationFrame(wheelAnimFrame);
+                wheelAnimFrame = null;
+            }
+            wheelSpinning = false;
+            wheelDisc.style.transform = 'rotate(0deg)';
+            wheelLabels.style.transform = 'rotate(0deg)';
+            wheelResult.textContent = '';
+            renderWheelOptions();
+            renderWheel();
+        }
+
+        wheelAddBtn.addEventListener('click', addWheelOption);
+        wheelInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') addWheelOption(); });
+        wheelSpinBtn.addEventListener('click', spinWheel);
+        wheelResetBtn.addEventListener('click', resetWheel);
+        renderWheelOptions();
+        renderWheel();
 
         btn.addEventListener('click', handleDecide);
         q.addEventListener('keydown', e => { if (e.key === 'Enter') handleDecide(); });
@@ -2327,21 +2469,18 @@ if (v === 'yes' || v === 'no') {
         // Mode toggle (Humans / Agents)
         function setMode(mode) {
             const isAgents = mode === 'agents';
+            document.body.classList.toggle('agents', isAgents);
 
             // Toggle desktop/mobile nav variants based on viewport
             syncNavVisibility(isAgents);
-
-            // Show/hide mode containers
-            document.body.classList.toggle('agents', isAgents);
-            document.body.classList.toggle('overview', mode === 'overview');
 
             // Update toggle buttons
             document.querySelectorAll('.mode-toggle button').forEach(b => {
                 b.classList.toggle('active', b.dataset.mode === mode);
             });
 
-            // Keep URL clean (no hash); mode is stored in localStorage
-            history.replaceState(null, '', window.location.pathname + window.location.search);
+            // Update URL hash
+            history.replaceState(null, '', isAgents ? '#agents' : window.location.pathname);
 
             // Persist
             localStorage.setItem('decide-mode', mode);
@@ -3817,8 +3956,8 @@ if (v === 'yes' || v === 'no') {
             const href = link.getAttribute('href') || '';
             const label = (link.textContent || '').trim().toLowerCase();
             if (href === '#mcp-connect') trackEvent('nav_connect_click', { label });
+            if (href === '#mcp-playground') trackEvent('nav_playground_click', { label });
             if (href === '#pricing') trackEvent('nav_pricing_click', { label });
-            if (href.includes('/playground') || href.includes('/livedemo')) trackEvent('nav_playground_click', { label });
             if (link.classList.contains('install-badge')) trackEvent('install_badge_click', { href: link.getAttribute('href') || '' });
             const trackKey = link.getAttribute('data-track');
             if (trackKey) trackEvent(trackKey, { href: link.getAttribute('href') || '' });
@@ -3855,12 +3994,8 @@ if (v === 'yes' || v === 'no') {
             const saved = localStorage.getItem('decide-mode');
             if (hash === '#agents') {
                 setMode('agents');
-            } else if (hash === '#overview') {
-                setMode('overview');
-            } else {
-                if (saved === 'agents') setMode('agents');
-                else if (saved === 'overview') setMode('overview');
-                else setMode('humans');
+            } else if (hash === '#humans' || hash === '') {
+                if (saved === 'agents' && !hash) setMode('agents');
             }
         })();
 
