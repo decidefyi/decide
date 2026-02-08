@@ -1921,7 +1921,6 @@
         // calls the `/api/decide` route instead of sending the request directly
         // to Gemini. This keeps the key secret.
         const API_ENDPOINT = '/api/decide';
-        const API_MULTI_ENDPOINT = '/api/decide-multi';
         const q=document.getElementById('q'),btn=document.getElementById('btn'),ans=document.getElementById('ans'),refreshBtn=document.getElementById('refreshBtn'),charCount=document.getElementById('charCount'),decisionStatus=document.getElementById('decisionStatus'),inputInnerEl=document.getElementById('inputInner');
         const decisionModeButtons = Array.from(document.querySelectorAll('.decision-mode-btn'));
         const decisionModeCopy = document.getElementById('decisionModeCopy');
@@ -2069,10 +2068,10 @@
 
         async function callMultiDecision(stem, options) {
             try {
-                const response = await fetch(API_MULTI_ENDPOINT, {
+                const response = await fetch(API_ENDPOINT, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ stem, options }),
+                    body: JSON.stringify({ mode: 'multi', stem, options }),
                 });
 
                 if (response.status === 204) return { blocked: true };

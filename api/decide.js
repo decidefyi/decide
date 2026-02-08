@@ -34,6 +34,51 @@ function isLegalAdvice(q) {
   return (wantsAdvice(q) || action) && legal;
 }
 
+function parseMultiQuestion(raw = "") {
+  const text = String(raw || "").trim();
+  if (!text) return { stem: "best option", options: [] };
+  const segments = text.split("|").map((item) => item.trim()).filter(Boolean);
+  if (segments.length < 2) return { stem: text, options: [] };
+
+  let stem = "best option";
+  const first = segments[0];
+  const colonIndex = first.indexOf(":");
+  if (colonIndex !== -1) {
+    const parsedStem = first.slice(0, colonIndex).trim();
+    if (parsedStem) stem = parsedStem;
+    segments[0] = first.slice(colonIndex + 1).trim();
+  }
+
+  const options = segments.map((item) => item.replace(/\s+/g, " ").trim()).filter(Boolean);
+  return { stem, options };
+}
+
+function extractJson(text = "") {
+  const raw = String(text || "").trim();
+  if (!raw) return null;
+
+  const withoutFence = raw.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+  try {
+    return JSON.parse(withoutFence);
+  } catch {}
+
+  const start = withoutFence.indexOf("{");
+  const end = withoutFence.lastIndexOf("}");
+  if (start !== -1 && end !== -1 && end > start) {
+    try {
+      return JSON.parse(withoutFence.slice(start, end + 1));
+    } catch {}
+  }
+  return null;
+}
+
+function sanitizeScore(n) {
+  const parsed = Number(n);
+  if (!Number.isFinite(parsed)) return null;
+  const clamped = Math.max(1, Math.min(10, parsed));
+  return Number(clamped.toFixed(1));
+}
+
 export default async function handler(req, res) {
   const request_id = rid();
   const ua = req.headers["user-agent"] || "unknown";
@@ -43,113 +88,48 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // Handle preflight
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
     res.end();
     return;
   }
 
-  // Rate limiting
-  const clientIp = getClientIp(req);
-  const rateLimitResult = rateLimiter(clientIp);
-
-  if (!rateLimitResult.allowed) {
-    console.log(
-      JSON.stringify({
-        ts: new Date().toISOString(),
-        request_id,
-        event: "rate_limit_exceeded",
-        ip: clientIp,
-        ua,
-      })
-    );
-    sendRateLimitError(res, rateLimitResult, request_id);
-    await persistLog('decide_request', { request_id, event: 'rate_limit_exceeded', ip: clientIp, ua });
+  if (req.method !== "POST") {
+    res.setHeader("Allow", ["POST", "OPTIONS"]);
+    res.statusCode = 405;
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
     return;
   }
 
-  // Add rate limit headers to successful responses
+  const clientIp = getClientIp(req);
+  const rateLimitResult = rateLimiter(clientIp);
+  if (!rateLimitResult.allowed) {
+    sendRateLimitError(res, rateLimitResult, request_id);
+    await persistLog("decide_request", { request_id, event: "rate_limit_exceeded", ip: clientIp, ua });
+    return;
+  }
   addRateLimitHeaders(res, rateLimitResult);
 
   try {
-    // Extract question from POST
-    let question = "";
-    if (req.method === "POST") {
-      let body = req.body || {};
-      if (typeof req.body === "string") {
-        try {
-          body = JSON.parse(req.body);
-        } catch {
-          res.statusCode = 400;
-          res.setHeader("Content-Type", "application/json");
-          res.end(JSON.stringify({ c: "unclear", v: "Invalid JSON body", request_id }));
-          return;
-        }
+    let body = req.body || {};
+    if (typeof req.body === "string") {
+      try {
+        body = JSON.parse(req.body);
+      } catch {
+        res.statusCode = 400;
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ c: "unclear", v: "Invalid JSON body", request_id }));
+        return;
       }
-      question = body.question || "";
-    } else {
-      res.setHeader("Allow", ["POST", "OPTIONS"]);
-      console.log(
-        JSON.stringify({
-          ts: new Date().toISOString(),
-          request_id,
-          error: "METHOD_NOT_ALLOWED",
-          method: req.method,
-          ua,
-        })
-      );
-      res.statusCode = 405;
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
-      return;
     }
 
-    const q = typeof question === "string" ? question.trim() : "";
+    const question = typeof body.question === "string" ? body.question.trim() : "";
+    const mode = String(body.mode || "").toLowerCase().trim();
+    let stem = typeof body.stem === "string" ? body.stem.trim() : "";
+    let options = Array.isArray(body.options) ? body.options.map((item) => String(item || "").trim()).filter(Boolean) : [];
 
-    // Validate question length
-    if (q.length < 3) {
-      console.log(
-        JSON.stringify({
-          ts: new Date().toISOString(),
-          request_id,
-          error: "QUESTION_TOO_SHORT",
-          question_length: q.length,
-          ua,
-        })
-      );
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ c: "unclear", v: "Ask a question", request_id }));
-      return;
-    }
-
-    const nq = normalize(q);
-
-    // Filter sensitive advice categories
-    if (isFinanceAdvice(nq) || isMedicalAdvice(nq) || isLegalAdvice(nq)) {
-      const category = isFinanceAdvice(nq) ? "finance" : isMedicalAdvice(nq) ? "medical" : "legal";
-      console.log(
-        JSON.stringify({
-          ts: new Date().toISOString(),
-          request_id,
-          event: "filtered_question",
-          category,
-          ua,
-        })
-      );
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "application/json");
-      res.end(
-        JSON.stringify({
-          c: "filtered",
-          v: `Cannot provide ${category} advice`,
-          request_id,
-        })
-      );
-      await persistLog('decide_request', { request_id, event: 'filtered_question', category, ip: clientIp, ua });
-      return;
-    }
+    const multiRequested = mode === "multi" || options.length > 0 || question.includes("|");
 
     const API_KEY = process.env.GEMINI_API_KEY;
     if (!API_KEY) {
@@ -168,11 +148,145 @@ export default async function handler(req, res) {
     }
 
     const MODEL = "gemini-2.0-flash-lite";
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
+
+    if (multiRequested) {
+      if ((!stem || options.length < 2) && question) {
+        const parsed = parseMultiQuestion(question);
+        stem = stem || parsed.stem;
+        if (options.length < 2) options = parsed.options;
+      }
+
+      if (!stem) stem = "best option";
+
+      if (options.length < 2 || options.length > 8) {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ c: "unclear", v: "Need 2-8 options", request_id }));
+        return;
+      }
+
+      const normalizedForPolicy = normalize(`${stem} ${options.join(" ")}`);
+      if (isFinanceAdvice(normalizedForPolicy) || isMedicalAdvice(normalizedForPolicy) || isLegalAdvice(normalizedForPolicy)) {
+        const category = isFinanceAdvice(normalizedForPolicy) ? "finance" : isMedicalAdvice(normalizedForPolicy) ? "medical" : "legal";
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ c: "filtered", v: `Cannot provide ${category} advice`, request_id }));
+        await persistLog("decide_multi_request", { request_id, event: "filtered_question", category, ip: clientIp, ua });
+        return;
+      }
+
+      const optionList = options.map((opt, idx) => `${idx + 1}. ${opt}`).join("\n");
+      const prompt = `You are a strict comparative scoring engine.
+Task: score each option for this decision and pick the best.
+
+Decision stem: ${stem}
+Options:
+${optionList}
+
+Return ONLY JSON with this exact schema:
+{
+  "scores": [number, ...],
+  "reason": "short reason"
+}
+
+Rules:
+- scores length must be exactly ${options.length}
+- each score must be between 1.0 and 10.0
+- use one decimal place
+- evaluate comparatively, not independently
+- no markdown, no extra text`;
+
+      const apiRes = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": API_KEY,
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0, maxOutputTokens: 220 },
+        }),
+      });
+
+      const data = await apiRes.json();
+      if (!apiRes.ok) {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
+        return;
+      }
+
+      const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+      const parsed = extractJson(rawText);
+      const rawScores = Array.isArray(parsed?.scores) ? parsed.scores : [];
+
+      if (rawScores.length !== options.length) {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
+        return;
+      }
+
+      const scores = rawScores.map(sanitizeScore);
+      if (scores.some((score) => score === null)) {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
+        return;
+      }
+
+      const maxScore = Math.max(...scores);
+      const EPSILON = 0.05;
+      const tie_indices = scores
+        .map((score, idx) => ({ score, idx }))
+        .filter((entry) => Math.abs(entry.score - maxScore) <= EPSILON)
+        .map((entry) => entry.idx);
+
+      const winner_index = tie_indices[0] ?? 0;
+      const tie = tie_indices.length > 1;
+
+      const payload = {
+        c: "ok",
+        v: "ok",
+        request_id,
+        stem,
+        winner_index,
+        tie,
+        tie_indices,
+        scores,
+        options: options.map((option, idx) => ({ index: idx, option, score: scores[idx] })),
+      };
+
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "application/json");
+      res.end(JSON.stringify(payload));
+      await persistLog("decide_multi_request", { request_id, stem, winner_index, tie, tie_indices, scores, ip: clientIp, ua });
+      return;
+    }
+
+    const q = question;
+    if (q.length < 3) {
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "application/json");
+      res.end(JSON.stringify({ c: "unclear", v: "Ask a question", request_id }));
+      return;
+    }
+
+    const nq = normalize(q);
+    if (isFinanceAdvice(nq) || isMedicalAdvice(nq) || isLegalAdvice(nq)) {
+      const category = isFinanceAdvice(nq) ? "finance" : isMedicalAdvice(nq) ? "medical" : "legal";
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "application/json");
+      res.end(JSON.stringify({ c: "filtered", v: `Cannot provide ${category} advice`, request_id }));
+      await persistLog("decide_request", { request_id, event: "filtered_question", category, ip: clientIp, ua });
+      return;
+    }
+
     const prompt = `You're a decisive oracle. You must commit and find the differentiation factor. Output only "yes" or "no". No other text. Answer metaphorical questions based on intent.
 User's question: ${q}
 Output exactly one of: yes, no`;
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
     const apiRes = await fetch(url, {
       method: "POST",
       headers: {
@@ -186,18 +300,7 @@ Output exactly one of: yes, no`;
     });
 
     const data = await apiRes.json();
-
     if (!apiRes.ok) {
-      console.error(
-        JSON.stringify({
-          ts: new Date().toISOString(),
-          request_id,
-          error: "GEMINI_API_ERROR",
-          status: apiRes.status,
-          data,
-          ua,
-        })
-      );
       res.statusCode = 200;
       res.setHeader("Content-Type", "application/json");
       res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
@@ -207,19 +310,8 @@ Output exactly one of: yes, no`;
     let out = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
     out = out.toLowerCase().trim().replace(/^"+|"+$/g, "").replace(/[^\w\s]/g, "").trim();
 
-    // Log successful response
-    console.log(
-      JSON.stringify({
-        ts: new Date().toISOString(),
-        request_id,
-        method: req.method,
-        verdict: out,
-        ua,
-      })
-    );
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
-
     if (out === "yes") {
       res.end(JSON.stringify({ c: "yes", v: "yes", request_id }));
     } else if (out === "no") {
@@ -228,8 +320,7 @@ Output exactly one of: yes, no`;
       res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
     }
 
-    await persistLog('decide_request', { request_id, method: req.method, verdict: out, ip: clientIp, ua });
-    return;
+    await persistLog("decide_request", { request_id, method: req.method, verdict: out, ip: clientIp, ua });
   } catch (err) {
     console.error(
       JSON.stringify({
