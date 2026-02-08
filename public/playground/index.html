@@ -892,7 +892,7 @@
             }
             .logo-mark,.logo-mark img{width:22px;height:22px}
             .logo span{display:none}
-            .mode-toggle{max-width:148px;padding:1px}
+            .mode-toggle{max-width:220px;padding:1px}
             .mode-toggle button{padding:0.24rem 0.45rem;font-size:0.61rem;line-height:1.1}
             .mob{padding:0.35rem}
             .mob span{width:16px;height:1.4px;margin:3.5px 0}
@@ -920,6 +920,7 @@
             <div class="mode-toggle" id="modeToggle">
                 <button class="active" data-mode="humans" onclick="setMode('humans')">Humans</button>
                 <button data-mode="agents" onclick="setMode('agents')">Agents</button>
+                <button data-mode="overview" onclick="openOverviewLanding()">Overview</button>
             </div>
             <div class="nav-links" id="navLinksHuman">
                 <a href="#features">Features</a>
@@ -2487,6 +2488,11 @@ if (v === 'yes' || v === 'no') {
 
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        function openOverviewLanding() {
+            localStorage.setItem('decide-mode', 'overview');
+            window.location.href = '/';
         }
 
         // MCP playground + audit trail
