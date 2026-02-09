@@ -1,4 +1,7 @@
 import zendeskRefundWorkflow from "../api/v1/workflows/zendesk/refund.js";
+import zendeskCancelWorkflow from "../api/v1/workflows/zendesk/cancel.js";
+import zendeskReturnWorkflow from "../api/v1/workflows/zendesk/return.js";
+import zendeskTrialWorkflow from "../api/v1/workflows/zendesk/trial.js";
 
 function createReq({
   method = "GET",
@@ -49,34 +52,33 @@ function expect(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-async function runCase(label, reqOptions, assertFn) {
+async function runCase(label, handler, reqOptions, assertFn) {
   const req = createReq(reqOptions);
   const res = createRes();
-  await zendeskRefundWorkflow(req, res);
+  await handler(req, res);
   const json = parseJson(label, res.body);
   assertFn({ statusCode: res.statusCode, headers: res.headers, json });
   console.log(`PASS ${label}`);
 }
 
 async function main() {
-  const basePayload = {
-    ticket_id: "ZD-9001",
-    customer_id: "cus_789",
-    workflow_type: "refund",
-    question: "Should this Adobe annual plan refund request proceed under policy?",
-    vendor: "adobe",
-    region: "US",
-    plan: "individual",
-    days_since_purchase: 5,
-    idempotency_key: "ZD-9001:refund:adobe:5:US:individual",
-  };
-
   await runCase(
-    "workflow example => approve_refund",
+    "refund workflow => approve_refund",
+    zendeskRefundWorkflow,
     {
       method: "POST",
       headers: { "user-agent": "workflow-test", "content-type": "application/json" },
-      body: { ...basePayload, decision_override: "yes" },
+      body: {
+        ticket_id: "ZD-9001",
+        workflow_type: "refund",
+        question: "Should this Adobe annual plan refund request proceed under policy?",
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        days_since_purchase: 5,
+        idempotency_key: "ZD-9001:refund:adobe:5:US:individual",
+        decision_override: "yes",
+      },
       url: "/api/v1/workflows/zendesk/refund",
     },
     ({ statusCode, json }) => {
@@ -93,11 +95,107 @@ async function main() {
   );
 
   await runCase(
-    "idempotency replay returns cached result",
+    "cancel workflow => penalty escalation",
+    zendeskCancelWorkflow,
     {
       method: "POST",
       headers: { "user-agent": "workflow-test", "content-type": "application/json" },
-      body: { ...basePayload, decision_override: "yes" },
+      body: {
+        ticket_id: "ZD-9002",
+        workflow_type: "cancel",
+        question: "Should this Adobe cancellation request proceed under policy?",
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        idempotency_key: "ZD-9002:cancel:adobe::US:individual",
+        decision_override: "yes",
+      },
+      url: "/api/v1/workflows/zendesk/cancel",
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.ok === true, "expected ok=true");
+      expect(json.decision?.c === "yes", "expected decision yes");
+      expect(json.policy?.verdict === "PENALTY", "expected policy PENALTY");
+      expect(json.action?.type === "escalate_with_penalty_disclosure", "expected escalation with penalty");
+      expect(json.action.zendesk_tags.includes("cancel_penalty"), "expected cancel_penalty tag");
+    }
+  );
+
+  await runCase(
+    "return workflow => approve_return",
+    zendeskReturnWorkflow,
+    {
+      method: "POST",
+      headers: { "user-agent": "workflow-test", "content-type": "application/json" },
+      body: {
+        ticket_id: "ZD-9003",
+        workflow_type: "return",
+        question: "Should this Adobe return request proceed under policy?",
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        days_since_purchase: 5,
+        idempotency_key: "ZD-9003:return:adobe:5:US:individual",
+        decision_override: "yes",
+      },
+      url: "/api/v1/workflows/zendesk/return",
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.ok === true, "expected ok=true");
+      expect(json.decision?.c === "yes", "expected decision yes");
+      expect(json.policy?.verdict === "RETURNABLE", "expected policy RETURNABLE");
+      expect(json.action?.type === "approve_return", "expected action approve_return");
+      expect(json.action.zendesk_tags.includes("return_returnable"), "expected return_returnable tag");
+    }
+  );
+
+  await runCase(
+    "trial workflow => approve_trial",
+    zendeskTrialWorkflow,
+    {
+      method: "POST",
+      headers: { "user-agent": "workflow-test", "content-type": "application/json" },
+      body: {
+        ticket_id: "ZD-9004",
+        workflow_type: "trial",
+        question: "Should this Adobe trial request proceed under policy?",
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        idempotency_key: "ZD-9004:trial:adobe::US:individual",
+        decision_override: "yes",
+      },
+      url: "/api/v1/workflows/zendesk/trial",
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.ok === true, "expected ok=true");
+      expect(json.decision?.c === "yes", "expected decision yes");
+      expect(json.policy?.verdict === "TRIAL_AVAILABLE", "expected policy TRIAL_AVAILABLE");
+      expect(json.action?.type === "approve_trial", "expected action approve_trial");
+      expect(json.action.zendesk_tags.includes("trial_trial_available"), "expected trial_trial_available tag");
+    }
+  );
+
+  await runCase(
+    "refund idempotency replay returns cached result",
+    zendeskRefundWorkflow,
+    {
+      method: "POST",
+      headers: { "user-agent": "workflow-test", "content-type": "application/json" },
+      body: {
+        ticket_id: "ZD-9001",
+        workflow_type: "refund",
+        question: "Should this Adobe annual plan refund request proceed under policy?",
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        days_since_purchase: 5,
+        idempotency_key: "ZD-9001:refund:adobe:5:US:individual",
+        decision_override: "yes",
+      },
       url: "/api/v1/workflows/zendesk/refund",
     },
     ({ statusCode, headers, json }) => {
@@ -110,16 +208,20 @@ async function main() {
 
   await runCase(
     "tie path => escalate_policy_owner",
+    zendeskTrialWorkflow,
     {
       method: "POST",
       headers: { "user-agent": "workflow-test", "content-type": "application/json" },
       body: {
-        ...basePayload,
-        ticket_id: "ZD-9002",
-        idempotency_key: "ZD-9002:refund:adobe:5:US:individual",
+        ticket_id: "ZD-9010",
+        workflow_type: "trial",
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        idempotency_key: "ZD-9010:trial:adobe::US:individual",
         decision_override: "tie",
       },
-      url: "/api/v1/workflows/zendesk/refund",
+      url: "/api/v1/workflows/zendesk/trial",
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");

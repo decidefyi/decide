@@ -85,15 +85,20 @@ npm run workflow:test
 
 ---
 
-## Zendesk Refund Workflow (Orchestrator)
+## Zendesk Workflow Orchestrators
 
-**Endpoint:** `POST https://refund.decide.fyi/api/v1/workflows/zendesk/refund`
+Use workflow endpoints when you want one request to return:
 
-Runs a full refund decision chain for support automation:
+- decision classification (`yes | no | tie`) from `/api/decide`
+- policy result from the relevant notary endpoint
+- recommended Zendesk action + tags + private note with `request_id`
 
-1. Classify with `/api/decide` (`yes | no | tie`)
-2. If `yes`, run `/api/v1/refund/eligibility`
-3. Return recommended Zendesk action + tags + private note with `request_id`
+**Endpoints**
+
+- `POST https://refund.decide.fyi/api/v1/workflows/zendesk/refund`
+- `POST https://cancel.decide.fyi/api/v1/workflows/zendesk/cancel`
+- `POST https://return.decide.fyi/api/v1/workflows/zendesk/return`
+- `POST https://trial.decide.fyi/api/v1/workflows/zendesk/trial`
 
 ### Request
 
@@ -108,6 +113,8 @@ Runs a full refund decision chain for support automation:
   "days_since_purchase": 5
 }
 ```
+
+For `refund` and `return`, include `days_since_purchase`.
 
 ### Deterministic test mode
 

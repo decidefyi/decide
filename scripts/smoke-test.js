@@ -10,6 +10,9 @@ import trialMcp from "../api/trial-mcp.js";
 import track from "../api/track.js";
 import metrics from "../api/metrics.js";
 import zendeskRefundWorkflow from "../api/v1/workflows/zendesk/refund.js";
+import zendeskCancelWorkflow from "../api/v1/workflows/zendesk/cancel.js";
+import zendeskReturnWorkflow from "../api/v1/workflows/zendesk/return.js";
+import zendeskTrialWorkflow from "../api/v1/workflows/zendesk/trial.js";
 
 function createReq({
   method = "GET",
@@ -240,6 +243,88 @@ async function main() {
       expect(json.decision?.c === "yes", "expected decision yes");
       expect(json.policy?.verdict === "ALLOWED", "expected ALLOWED policy");
       expect(json.action?.type === "approve_refund", "expected approve_refund action");
+    }
+  );
+
+  await runCase(
+    "zendesk cancel workflow POST",
+    zendeskCancelWorkflow,
+    {
+      method: "POST",
+      headers: { "user-agent": "smoke-test", "content-type": "application/json" },
+      url: "/api/v1/workflows/zendesk/cancel",
+      body: {
+        ticket_id: "ZD-SMOKE-2",
+        workflow_type: "cancel",
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        question: "Should this Adobe cancellation request proceed under policy?",
+        decision_override: "yes",
+        idempotency_key: "ZD-SMOKE-2:cancel:adobe::US:individual",
+      },
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.ok === true, "expected ok=true");
+      expect(json.decision?.c === "yes", "expected decision yes");
+      expect(json.policy?.verdict === "PENALTY", "expected PENALTY policy");
+      expect(json.action?.type === "escalate_with_penalty_disclosure", "expected penalty escalation action");
+    }
+  );
+
+  await runCase(
+    "zendesk return workflow POST",
+    zendeskReturnWorkflow,
+    {
+      method: "POST",
+      headers: { "user-agent": "smoke-test", "content-type": "application/json" },
+      url: "/api/v1/workflows/zendesk/return",
+      body: {
+        ticket_id: "ZD-SMOKE-3",
+        workflow_type: "return",
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        days_since_purchase: 5,
+        question: "Should this Adobe return request proceed under policy?",
+        decision_override: "yes",
+        idempotency_key: "ZD-SMOKE-3:return:adobe:5:US:individual",
+      },
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.ok === true, "expected ok=true");
+      expect(json.decision?.c === "yes", "expected decision yes");
+      expect(json.policy?.verdict === "RETURNABLE", "expected RETURNABLE policy");
+      expect(json.action?.type === "approve_return", "expected approve_return action");
+    }
+  );
+
+  await runCase(
+    "zendesk trial workflow POST",
+    zendeskTrialWorkflow,
+    {
+      method: "POST",
+      headers: { "user-agent": "smoke-test", "content-type": "application/json" },
+      url: "/api/v1/workflows/zendesk/trial",
+      body: {
+        ticket_id: "ZD-SMOKE-4",
+        workflow_type: "trial",
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        question: "Should this Adobe trial request proceed under policy?",
+        decision_override: "yes",
+        idempotency_key: "ZD-SMOKE-4:trial:adobe::US:individual",
+      },
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.ok === true, "expected ok=true");
+      expect(json.decision?.c === "yes", "expected decision yes");
+      expect(json.policy?.verdict === "TRIAL_AVAILABLE", "expected TRIAL_AVAILABLE policy");
+      expect(json.action?.type === "approve_trial", "expected approve_trial action");
     }
   );
 
