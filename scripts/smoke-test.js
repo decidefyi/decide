@@ -9,6 +9,7 @@ import returnMcp from "../api/return-mcp.js";
 import trialMcp from "../api/trial-mcp.js";
 import track from "../api/track.js";
 import metrics from "../api/metrics.js";
+import zendeskRefundWorkflow from "../api/v1/workflows/zendesk/refund.js";
 
 function createReq({
   method = "GET",
@@ -211,6 +212,34 @@ async function main() {
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
       expect(Array.isArray(json.result?.content), "expected content array");
+    }
+  );
+
+  await runCase(
+    "zendesk refund workflow POST",
+    zendeskRefundWorkflow,
+    {
+      method: "POST",
+      headers: { "user-agent": "smoke-test", "content-type": "application/json" },
+      url: "/api/v1/workflows/zendesk/refund",
+      body: {
+        ticket_id: "ZD-SMOKE-1",
+        workflow_type: "refund",
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        days_since_purchase: 5,
+        question: "Should this Adobe refund request proceed under policy?",
+        decision_override: "yes",
+        idempotency_key: "ZD-SMOKE-1:refund:adobe:5:US:individual",
+      },
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.ok === true, "expected ok=true");
+      expect(json.decision?.c === "yes", "expected decision yes");
+      expect(json.policy?.verdict === "ALLOWED", "expected ALLOWED policy");
+      expect(json.action?.type === "approve_refund", "expected approve_refund action");
     }
   );
 

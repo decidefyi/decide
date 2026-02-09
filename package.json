@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "smoke": "node scripts/smoke-test.js",
-    "mcp:check": "bash scripts/mcp-check.sh"
+    "mcp:check": "bash scripts/mcp-check.sh",
+    "workflow:test": "node scripts/workflow-zendesk-refund-test.js"
   }
 }

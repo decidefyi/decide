@@ -78,6 +78,61 @@ npm run smoke
 
 # MCP endpoint checks (requires vercel dev running on localhost:3000)
 npm run mcp:check
+
+# End-to-end workflow fixture (example -> result)
+npm run workflow:test
+```
+
+---
+
+## Zendesk Refund Workflow (Orchestrator)
+
+**Endpoint:** `POST https://refund.decide.fyi/api/v1/workflows/zendesk/refund`
+
+Runs a full refund decision chain for support automation:
+
+1. Classify with `/api/decide` (`yes | no | tie`)
+2. If `yes`, run `/api/v1/refund/eligibility`
+3. Return recommended Zendesk action + tags + private note with `request_id`
+
+### Request
+
+```json
+{
+  "ticket_id": "ZD-9001",
+  "workflow_type": "refund",
+  "question": "Should this Adobe annual plan refund request proceed under policy?",
+  "vendor": "adobe",
+  "region": "US",
+  "plan": "individual",
+  "days_since_purchase": 5
+}
+```
+
+### Deterministic test mode
+
+Set `decision_override` to bypass model classification during fixtures and CI:
+
+```json
+{
+  "decision_override": "yes"
+}
+```
+
+### Response (example)
+
+```json
+{
+  "ok": true,
+  "flow": "zendesk_refund_v1",
+  "ticket_id": "ZD-9001",
+  "decision": { "c": "yes", "request_id": "req_123" },
+  "policy": { "verdict": "ALLOWED", "code": "WITHIN_WINDOW" },
+  "action": {
+    "type": "approve_refund",
+    "zendesk_tags": ["decide", "decide_yes", "refund_allowed"]
+  }
+}
 ```
 
 ---
