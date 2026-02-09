@@ -15,11 +15,11 @@ const DEFAULT_ALLOWED_HOSTS = new Set([
 ]);
 
 const KNOWN_EVENTS = new Set([
-  "playground_run",
+  "demo_run",
   "trust_suite_run",
   "signin_click",
   "nav_connect_click",
-  "nav_playground_click",
+  "nav_live_demo_click",
   "nav_pricing_click",
   "install_badge_click",
   "demo_mode_entered",
