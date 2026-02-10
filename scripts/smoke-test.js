@@ -1,18 +1,12 @@
 import health from "../api/health.js";
-import refundRest from "../api/v1/refund/eligibility.js";
-import cancelRest from "../api/v1/cancel/penalty.js";
-import returnRest from "../api/v1/return/eligibility.js";
-import trialRest from "../api/v1/trial/terms.js";
+import v1PolicyRoute from "../api/v1/[policy]/[action].js";
 import refundMcp from "../api/mcp.js";
 import cancelMcp from "../api/cancel-mcp.js";
 import returnMcp from "../api/return-mcp.js";
 import trialMcp from "../api/trial-mcp.js";
 import track from "../api/track.js";
 import metrics from "../api/metrics.js";
-import zendeskRefundWorkflow from "../api/v1/workflows/zendesk/refund.js";
-import zendeskCancelWorkflow from "../api/v1/workflows/zendesk/cancel.js";
-import zendeskReturnWorkflow from "../api/v1/workflows/zendesk/return.js";
-import zendeskTrialWorkflow from "../api/v1/workflows/zendesk/trial.js";
+import zendeskWorkflowRoute from "../api/v1/workflows/zendesk/[workflow].js";
 
 function createReq({
   method = "GET",
@@ -87,11 +81,12 @@ async function main() {
 
   await runCase(
     "refund REST POST",
-    refundRest,
+    v1PolicyRoute,
     {
       method: "POST",
       headers: { "user-agent": "smoke-test" },
       url: "/api/v1/refund/eligibility",
+      query: { policy: "refund", action: "eligibility" },
       body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
     },
     ({ statusCode, json }) => {
@@ -103,11 +98,12 @@ async function main() {
 
   await runCase(
     "cancel REST POST",
-    cancelRest,
+    v1PolicyRoute,
     {
       method: "POST",
       headers: { "user-agent": "smoke-test" },
       url: "/api/v1/cancel/penalty",
+      query: { policy: "cancel", action: "penalty" },
       body: { vendor: "adobe", region: "US", plan: "individual" },
     },
     ({ statusCode, json }) => {
@@ -118,11 +114,12 @@ async function main() {
 
   await runCase(
     "return REST POST",
-    returnRest,
+    v1PolicyRoute,
     {
       method: "POST",
       headers: { "user-agent": "smoke-test" },
       url: "/api/v1/return/eligibility",
+      query: { policy: "return", action: "eligibility" },
       body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
     },
     ({ statusCode, json }) => {
@@ -133,11 +130,12 @@ async function main() {
 
   await runCase(
     "trial REST POST",
-    trialRest,
+    v1PolicyRoute,
     {
       method: "POST",
       headers: { "user-agent": "smoke-test" },
       url: "/api/v1/trial/terms",
+      query: { policy: "trial", action: "terms" },
       body: { vendor: "adobe", region: "US", plan: "individual" },
     },
     ({ statusCode, json }) => {
@@ -220,11 +218,12 @@ async function main() {
 
   await runCase(
     "zendesk refund workflow POST",
-    zendeskRefundWorkflow,
+    zendeskWorkflowRoute,
     {
       method: "POST",
       headers: { "user-agent": "smoke-test", "content-type": "application/json" },
       url: "/api/v1/workflows/zendesk/refund",
+      query: { workflow: "refund" },
       body: {
         ticket_id: "ZD-SMOKE-1",
         workflow_type: "refund",
@@ -248,11 +247,12 @@ async function main() {
 
   await runCase(
     "zendesk cancel workflow POST",
-    zendeskCancelWorkflow,
+    zendeskWorkflowRoute,
     {
       method: "POST",
       headers: { "user-agent": "smoke-test", "content-type": "application/json" },
       url: "/api/v1/workflows/zendesk/cancel",
+      query: { workflow: "cancel" },
       body: {
         ticket_id: "ZD-SMOKE-2",
         workflow_type: "cancel",
@@ -275,11 +275,12 @@ async function main() {
 
   await runCase(
     "zendesk return workflow POST",
-    zendeskReturnWorkflow,
+    zendeskWorkflowRoute,
     {
       method: "POST",
       headers: { "user-agent": "smoke-test", "content-type": "application/json" },
       url: "/api/v1/workflows/zendesk/return",
+      query: { workflow: "return" },
       body: {
         ticket_id: "ZD-SMOKE-3",
         workflow_type: "return",
@@ -303,11 +304,12 @@ async function main() {
 
   await runCase(
     "zendesk trial workflow POST",
-    zendeskTrialWorkflow,
+    zendeskWorkflowRoute,
     {
       method: "POST",
       headers: { "user-agent": "smoke-test", "content-type": "application/json" },
       url: "/api/v1/workflows/zendesk/trial",
+      query: { workflow: "trial" },
       body: {
         ticket_id: "ZD-SMOKE-4",
         workflow_type: "trial",

@@ -1,7 +1,4 @@
-import zendeskRefundWorkflow from "../api/v1/workflows/zendesk/refund.js";
-import zendeskCancelWorkflow from "../api/v1/workflows/zendesk/cancel.js";
-import zendeskReturnWorkflow from "../api/v1/workflows/zendesk/return.js";
-import zendeskTrialWorkflow from "../api/v1/workflows/zendesk/trial.js";
+import zendeskWorkflowRoute from "../api/v1/workflows/zendesk/[workflow].js";
 
 function createReq({
   method = "GET",
@@ -64,7 +61,7 @@ async function runCase(label, handler, reqOptions, assertFn) {
 async function main() {
   await runCase(
     "refund workflow => approve_refund",
-    zendeskRefundWorkflow,
+    zendeskWorkflowRoute,
     {
       method: "POST",
       headers: { "user-agent": "workflow-test", "content-type": "application/json" },
@@ -80,6 +77,7 @@ async function main() {
         decision_override: "yes",
       },
       url: "/api/v1/workflows/zendesk/refund",
+      query: { workflow: "refund" },
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
@@ -96,7 +94,7 @@ async function main() {
 
   await runCase(
     "cancel workflow => penalty escalation",
-    zendeskCancelWorkflow,
+    zendeskWorkflowRoute,
     {
       method: "POST",
       headers: { "user-agent": "workflow-test", "content-type": "application/json" },
@@ -111,6 +109,7 @@ async function main() {
         decision_override: "yes",
       },
       url: "/api/v1/workflows/zendesk/cancel",
+      query: { workflow: "cancel" },
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
@@ -124,7 +123,7 @@ async function main() {
 
   await runCase(
     "return workflow => approve_return",
-    zendeskReturnWorkflow,
+    zendeskWorkflowRoute,
     {
       method: "POST",
       headers: { "user-agent": "workflow-test", "content-type": "application/json" },
@@ -140,6 +139,7 @@ async function main() {
         decision_override: "yes",
       },
       url: "/api/v1/workflows/zendesk/return",
+      query: { workflow: "return" },
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
@@ -153,7 +153,7 @@ async function main() {
 
   await runCase(
     "trial workflow => approve_trial",
-    zendeskTrialWorkflow,
+    zendeskWorkflowRoute,
     {
       method: "POST",
       headers: { "user-agent": "workflow-test", "content-type": "application/json" },
@@ -168,6 +168,7 @@ async function main() {
         decision_override: "yes",
       },
       url: "/api/v1/workflows/zendesk/trial",
+      query: { workflow: "trial" },
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
@@ -181,7 +182,7 @@ async function main() {
 
   await runCase(
     "refund idempotency replay returns cached result",
-    zendeskRefundWorkflow,
+    zendeskWorkflowRoute,
     {
       method: "POST",
       headers: { "user-agent": "workflow-test", "content-type": "application/json" },
@@ -197,6 +198,7 @@ async function main() {
         decision_override: "yes",
       },
       url: "/api/v1/workflows/zendesk/refund",
+      query: { workflow: "refund" },
     },
     ({ statusCode, headers, json }) => {
       expect(statusCode === 200, "expected 200");
@@ -208,7 +210,7 @@ async function main() {
 
   await runCase(
     "tie path => escalate_policy_owner",
-    zendeskTrialWorkflow,
+    zendeskWorkflowRoute,
     {
       method: "POST",
       headers: { "user-agent": "workflow-test", "content-type": "application/json" },
@@ -222,6 +224,7 @@ async function main() {
         decision_override: "tie",
       },
       url: "/api/v1/workflows/zendesk/trial",
+      query: { workflow: "trial" },
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
