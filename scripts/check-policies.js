@@ -16,6 +16,18 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const CHECKER_CONFIG = {
+  batchSize: Number.parseInt(process.env.POLICY_CHECK_BATCH_SIZE || "3", 10),
+  directAttempts: Number.parseInt(process.env.POLICY_CHECK_DIRECT_ATTEMPTS || "3", 10),
+  fallbackAttempts: Number.parseInt(process.env.POLICY_CHECK_FALLBACK_ATTEMPTS || "2", 10),
+  timeoutMs: Number.parseInt(process.env.POLICY_CHECK_TIMEOUT_MS || "18000", 10),
+  errorDetailLimit: Number.parseInt(process.env.POLICY_CHECK_ERROR_DETAIL_LIMIT || "12", 10),
+};
+const USER_AGENTS = [
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+  "Mozilla/5.0 (iPhone; CPU iPhone OS 18_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.2 Mobile/15E148 Safari/604.1",
+];
 
 const POLICY_SETS = [
   {
@@ -54,6 +66,10 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function jitter(ms) {
+  return Math.floor(Math.random() * ms);
+}
+
 function utcIsoTimestamp(date = new Date()) {
   return date.toISOString().replace(/\.\d{3}Z$/, "Z");
 }
@@ -74,32 +90,97 @@ function updateJsonStringField(filePath, fieldName, nextValue) {
 }
 
 async function fetchText(url, attempts = 3) {
+  let lastErrorMessage = "unknown";
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    const timeout = setTimeout(() => controller.abort(), CHECKER_CONFIG.timeoutMs);
     try {
       const res = await fetch(url, {
         signal: controller.signal,
         headers: {
-          "User-Agent":
-            "Mozilla/5.0 (compatible; DecidePolicyChecker/1.0; +https://decide.fyi)",
+          "User-Agent": USER_AGENTS[(attempt - 1) % USER_AGENTS.length],
           Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
           "Accept-Language": "en-US,en;q=0.9",
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
         },
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        lastErrorMessage = `HTTP ${res.status}`;
+        throw new Error(lastErrorMessage);
+      }
       const text = await res.text();
-      if (!text) throw new Error("empty body");
+      if (!text || !text.trim()) {
+        lastErrorMessage = "empty body";
+        throw new Error(lastErrorMessage);
+      }
       return text;
-    } catch {
+    } catch (error) {
+      const message = error?.name === "AbortError" ? "timeout" : error?.message || "request failed";
+      lastErrorMessage = message;
       if (attempt < attempts) {
-        await sleep(400 * attempt);
+        await sleep(450 * attempt + jitter(250));
       }
     } finally {
       clearTimeout(timeout);
     }
   }
-  return null;
+  return { text: null, error: lastErrorMessage };
+}
+
+function toJinaMirrorUrl(url) {
+  try {
+    const parsed = new URL(url);
+    return `https://r.jina.ai/${parsed.protocol}//${parsed.host}${parsed.pathname}${parsed.search}`;
+  } catch {
+    return null;
+  }
+}
+
+function buildCandidateUrls(vendorConfig) {
+  const candidateSet = new Set();
+  const config = typeof vendorConfig === "string" ? { url: vendorConfig } : vendorConfig || {};
+
+  if (typeof config.url === "string" && config.url.trim()) {
+    candidateSet.add(config.url.trim());
+  }
+
+  const backupUrls = Array.isArray(config.backup_urls) ? config.backup_urls : [];
+  for (const backupUrl of backupUrls) {
+    if (typeof backupUrl === "string" && backupUrl.trim()) {
+      candidateSet.add(backupUrl.trim());
+    }
+  }
+
+  return [...candidateSet];
+}
+
+async function fetchWithFallback(vendorConfig) {
+  const candidates = buildCandidateUrls(vendorConfig);
+  if (candidates.length === 0) {
+    return { text: null, error: "missing source URL" };
+  }
+
+  const failures = [];
+  for (const candidateUrl of candidates) {
+    const directResult = await fetchText(candidateUrl, CHECKER_CONFIG.directAttempts);
+    if (typeof directResult === "string") {
+      return { text: directResult, sourceUrl: candidateUrl };
+    }
+
+    failures.push(`${candidateUrl} (${directResult.error})`);
+
+    const mirrorUrl = toJinaMirrorUrl(candidateUrl);
+    if (!mirrorUrl) continue;
+
+    const mirrorResult = await fetchText(mirrorUrl, CHECKER_CONFIG.fallbackAttempts);
+    if (typeof mirrorResult === "string") {
+      return { text: mirrorResult, sourceUrl: candidateUrl };
+    }
+    failures.push(`${candidateUrl} [mirror] (${mirrorResult.error})`);
+  }
+
+  return { text: null, error: failures.join("; ") };
 }
 
 async function checkPolicySet({ name, sourcesPath, hashesPath, rulesFile }) {
@@ -116,28 +197,40 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, rulesFile }) {
   const vendors = Object.entries(sources.vendors);
   const changed = [];
   const errors = [];
+  const errorReasons = {};
   const newHashes = { ...storedHashes };
   let successfulChecks = 0;
 
-  // Process in batches of 5 to avoid hammering
-  for (let i = 0; i < vendors.length; i += 5) {
-    const batch = vendors.slice(i, i + 5);
+  // Process in gentler batches to reduce bot-defense blocks and rate limits.
+  const batchSize = Number.isFinite(CHECKER_CONFIG.batchSize) && CHECKER_CONFIG.batchSize > 0
+    ? CHECKER_CONFIG.batchSize
+    : 3;
+  for (let i = 0; i < vendors.length; i += batchSize) {
+    const batch = vendors.slice(i, i + batchSize);
     await Promise.all(
-      batch.map(async ([vendor, { url }]) => {
-        const text = await fetchText(url);
-        if (!text) {
+      batch.map(async ([vendor, vendorConfig]) => {
+        const fetchResult = await fetchWithFallback(vendorConfig);
+        if (!fetchResult.text) {
           errors.push(vendor);
+          errorReasons[vendor] = fetchResult.error || "request failed";
           return;
         }
-        const h = hash(text);
+        const h = hash(fetchResult.text);
         newHashes[vendor] = h;
         successfulChecks += 1;
 
+        const sourceUrl =
+          typeof vendorConfig?.url === "string" && vendorConfig.url
+            ? vendorConfig.url
+            : fetchResult.sourceUrl;
         if (!isUpdate && storedHashes[vendor] && storedHashes[vendor] !== h) {
-          changed.push({ vendor, url });
+          changed.push({ vendor, url: sourceUrl });
         }
       })
     );
+    if (i + batchSize < vendors.length) {
+      await sleep(250 + jitter(350));
+    }
   }
 
   const verifiedAtUtc = utcIsoTimestamp();
@@ -153,7 +246,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, rulesFile }) {
   // Write updated hashes
   writeFileSync(hashesPath, JSON.stringify(newHashes, null, 2) + "\n");
 
-  return { name, changed, errors, rulesFile };
+  return { name, changed, errors, errorReasons, rulesFile, successfulChecks, totalChecks: vendors.length };
 }
 
 async function main() {
@@ -165,8 +258,25 @@ async function main() {
 
     if (result.errors.length > 0) {
       console.log(`::warning::Could not fetch ${result.errors.length} ${result.name} vendor(s): ${result.errors.join(", ")}`);
+      const detailLimit = Number.isFinite(CHECKER_CONFIG.errorDetailLimit) && CHECKER_CONFIG.errorDetailLimit > 0
+        ? CHECKER_CONFIG.errorDetailLimit
+        : 12;
+      for (const vendor of result.errors.slice(0, detailLimit)) {
+        if (result.errorReasons[vendor]) {
+          console.log(`::notice::${result.name}:${vendor} -> ${result.errorReasons[vendor]}`);
+        }
+      }
+      if (result.errors.length > detailLimit) {
+        console.log(
+          `::notice::${result.name}: ${result.errors.length - detailLimit} additional vendor fetch failures omitted from detailed output.`
+        );
+      }
       allErrors.push(...result.errors.map((v) => `${result.name}:${v}`));
     }
+
+    console.log(
+      `Checked ${result.name}: ${result.successfulChecks}/${result.totalChecks} vendors fetched successfully.`
+    );
 
     for (const c of result.changed) {
       allChanged.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
