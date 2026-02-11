@@ -1,0 +1,436 @@
+{
+  "amazon_prime": {
+    "hash": "362688fa73560718",
+    "count": 1,
+    "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
+    "first_seen_utc": "2026-02-11T03:29:29Z",
+    "last_seen_utc": "2026-02-11T03:29:29Z"
+  },
+  "1password": {
+    "hash": "b861e7b433e09551",
+    "count": 1,
+    "source_url": "https://support.1password.com/cancel-subscription/",
+    "first_seen_utc": "2026-02-11T03:29:34Z",
+    "last_seen_utc": "2026-02-11T03:29:34Z"
+  },
+  "adobe": {
+    "hash": "caff1e5a13b9632d",
+    "count": 1,
+    "source_url": "https://www.adobe.com/legal/subscription-terms.html",
+    "first_seen_utc": "2026-02-11T03:30:04Z",
+    "last_seen_utc": "2026-02-11T03:30:04Z"
+  },
+  "apple_app_store": {
+    "hash": "fb7de8003f833c4e",
+    "count": 1,
+    "source_url": "https://support.apple.com/en-us/118223",
+    "first_seen_utc": "2026-02-11T03:30:04Z",
+    "last_seen_utc": "2026-02-11T03:30:04Z"
+  },
+  "apple_tv_plus": {
+    "hash": "fb7de8003f833c4e",
+    "count": 1,
+    "source_url": "https://support.apple.com/en-us/118223",
+    "first_seen_utc": "2026-02-11T03:30:04Z",
+    "last_seen_utc": "2026-02-11T03:30:04Z"
+  },
+  "apple_music": {
+    "hash": "fb7de8003f833c4e",
+    "count": 1,
+    "source_url": "https://support.apple.com/en-us/118223",
+    "first_seen_utc": "2026-02-11T03:30:04Z",
+    "last_seen_utc": "2026-02-11T03:30:04Z"
+  },
+  "bitwarden": {
+    "hash": "a341d65825aae3c0",
+    "count": 1,
+    "source_url": "https://bitwarden.com/help/cancel-a-subscription/",
+    "first_seen_utc": "2026-02-11T03:30:05Z",
+    "last_seen_utc": "2026-02-11T03:30:05Z"
+  },
+  "bumble": {
+    "hash": "c5a4dde60cd03e82",
+    "count": 1,
+    "source_url": "https://bumble.com/en-us/terms",
+    "first_seen_utc": "2026-02-11T03:30:06Z",
+    "last_seen_utc": "2026-02-11T03:30:06Z"
+  },
+  "audible": {
+    "hash": "2b2a64d4e4015e34",
+    "count": 1,
+    "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
+    "first_seen_utc": "2026-02-11T03:30:17Z",
+    "last_seen_utc": "2026-02-11T03:30:17Z"
+  },
+  "chatgpt_plus": {
+    "hash": "a4c7e5561dbac7fd",
+    "count": 1,
+    "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
+    "first_seen_utc": "2026-02-11T03:30:18Z",
+    "last_seen_utc": "2026-02-11T03:30:18Z"
+  },
+  "calm": {
+    "hash": "272957205d63c54d",
+    "count": 1,
+    "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
+    "first_seen_utc": "2026-02-11T03:30:22Z",
+    "last_seen_utc": "2026-02-11T03:30:22Z"
+  },
+  "canva": {
+    "hash": "e2f520d29cc71d73",
+    "count": 1,
+    "source_url": "https://www.canva.com/help/cancellation/",
+    "first_seen_utc": "2026-02-11T03:30:23Z",
+    "last_seen_utc": "2026-02-11T03:30:23Z"
+  },
+  "coursera_plus": {
+    "hash": "efa48986161ad513",
+    "count": 1,
+    "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
+    "first_seen_utc": "2026-02-11T03:30:24Z",
+    "last_seen_utc": "2026-02-11T03:30:24Z"
+  },
+  "crunchyroll": {
+    "hash": "a8fbb32cabb41d39",
+    "count": 1,
+    "source_url": "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
+    "first_seen_utc": "2026-02-11T03:30:27Z",
+    "last_seen_utc": "2026-02-11T03:30:27Z"
+  },
+  "claude_pro": {
+    "hash": "f0cdddc836ef98ac",
+    "count": 1,
+    "source_url": "https://support.anthropic.com/en/articles/9579605-how-do-i-cancel-my-plan",
+    "first_seen_utc": "2026-02-11T03:30:29Z",
+    "last_seen_utc": "2026-02-11T03:30:29Z"
+  },
+  "deezer": {
+    "hash": "6695a91331501384",
+    "count": 1,
+    "source_url": "https://www.deezer.com/legal/cgu",
+    "first_seen_utc": "2026-02-11T03:30:30Z",
+    "last_seen_utc": "2026-02-11T03:30:30Z"
+  },
+  "doordash_dashpass": {
+    "hash": "381722386c9d7ac8",
+    "count": 1,
+    "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
+    "first_seen_utc": "2026-02-11T03:30:30Z",
+    "last_seen_utc": "2026-02-11T03:30:30Z"
+  },
+  "duolingo": {
+    "hash": "be6a999624b589e8",
+    "count": 1,
+    "source_url": "https://support.duolingo.com/hc/en-us/articles/360030236551-How-do-I-cancel-my-Super-Duolingo-subscription",
+    "first_seen_utc": "2026-02-11T03:30:31Z",
+    "last_seen_utc": "2026-02-11T03:30:31Z"
+  },
+  "evernote": {
+    "hash": "9da393ae45ff7a8d",
+    "count": 1,
+    "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
+    "first_seen_utc": "2026-02-11T03:30:34Z",
+    "last_seen_utc": "2026-02-11T03:30:34Z"
+  },
+  "dropbox_us": {
+    "hash": "f1693e5d2ab864c6",
+    "count": 1,
+    "source_url": "https://help.dropbox.com/plans/cancel-plan",
+    "first_seen_utc": "2026-02-11T03:30:50Z",
+    "last_seen_utc": "2026-02-11T03:30:50Z"
+  },
+  "figma": {
+    "hash": "39705e4d9e090959",
+    "count": 1,
+    "source_url": "https://www.figma.com/legal/renewal-and-cancellation/",
+    "first_seen_utc": "2026-02-11T03:30:51Z",
+    "last_seen_utc": "2026-02-11T03:30:51Z"
+  },
+  "expressvpn": {
+    "hash": "c24809e8a2a4f68d",
+    "count": 1,
+    "source_url": "https://www.expressvpn.com/support/manage-account/cancel-subscription/",
+    "first_seen_utc": "2026-02-11T03:30:56Z",
+    "last_seen_utc": "2026-02-11T03:30:56Z"
+  },
+  "fubo_tv": {
+    "hash": "8691c813c88ea8a4",
+    "count": 1,
+    "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
+    "first_seen_utc": "2026-02-11T03:31:04Z",
+    "last_seen_utc": "2026-02-11T03:31:04Z"
+  },
+  "github_pro": {
+    "hash": "5f7fc65b6bacebb9",
+    "count": 1,
+    "source_url": "https://docs.github.com/en/billing/managing-the-plan-for-your-github-account/downgrading-your-accounts-plan",
+    "first_seen_utc": "2026-02-11T03:31:04Z",
+    "last_seen_utc": "2026-02-11T03:31:04Z"
+  },
+  "google_play": {
+    "hash": "3ca955197920a56d",
+    "count": 1,
+    "source_url": "https://support.google.com/googleplay/answer/7018481",
+    "first_seen_utc": "2026-02-11T03:31:05Z",
+    "last_seen_utc": "2026-02-11T03:31:05Z"
+  },
+  "grammarly": {
+    "hash": "1325c4faa38eb668",
+    "count": 1,
+    "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
+    "first_seen_utc": "2026-02-11T03:31:28Z",
+    "last_seen_utc": "2026-02-11T03:31:28Z"
+  },
+  "hellofresh": {
+    "hash": "6fa0328a494b59e9",
+    "count": 1,
+    "source_url": "https://www.hellofresh.com/about/faq",
+    "first_seen_utc": "2026-02-11T03:31:29Z",
+    "last_seen_utc": "2026-02-11T03:31:29Z"
+  },
+  "hinge": {
+    "hash": "7059a4f2568da84c",
+    "count": 1,
+    "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
+    "first_seen_utc": "2026-02-11T03:31:30Z",
+    "last_seen_utc": "2026-02-11T03:31:30Z"
+  },
+  "headspace": {
+    "hash": "b97da25f7f4c0081",
+    "count": 1,
+    "source_url": "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription",
+    "first_seen_utc": "2026-02-11T03:31:32Z",
+    "last_seen_utc": "2026-02-11T03:31:32Z"
+  },
+  "icloud_plus": {
+    "hash": "6be02ea27b3b27c1",
+    "count": 1,
+    "source_url": "https://support.apple.com/en-us/108052",
+    "first_seen_utc": "2026-02-11T03:31:33Z",
+    "last_seen_utc": "2026-02-11T03:31:33Z"
+  },
+  "instacart_plus": {
+    "hash": "9264c5666c35214a",
+    "count": 1,
+    "source_url": "https://www.instacart.com/help/section/360007797952/4408784716820",
+    "first_seen_utc": "2026-02-11T03:31:33Z",
+    "last_seen_utc": "2026-02-11T03:31:33Z"
+  },
+  "linkedin_premium": {
+    "hash": "d347e95c88aa9ce5",
+    "count": 1,
+    "source_url": "https://www.linkedin.com/help/linkedin/answer/a545555",
+    "first_seen_utc": "2026-02-11T03:31:34Z",
+    "last_seen_utc": "2026-02-11T03:31:34Z"
+  },
+  "max": {
+    "hash": "ddded283c9935291",
+    "count": 1,
+    "source_url": "https://help.max.com/US/Answer/Detail/000002536",
+    "first_seen_utc": "2026-02-11T03:31:35Z",
+    "last_seen_utc": "2026-02-11T03:31:35Z"
+  },
+  "masterclass": {
+    "hash": "9ad2b3a16fcb76b7",
+    "count": 1,
+    "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
+    "first_seen_utc": "2026-02-11T03:31:38Z",
+    "last_seen_utc": "2026-02-11T03:31:38Z"
+  },
+  "netflix": {
+    "hash": "a4734c6989c8ec80",
+    "count": 1,
+    "source_url": "https://help.netflix.com/en/node/407",
+    "first_seen_utc": "2026-02-11T03:31:39Z",
+    "last_seen_utc": "2026-02-11T03:31:39Z"
+  },
+  "microsoft_365": {
+    "hash": "1e4b171b201efdbb",
+    "count": 1,
+    "source_url": "https://support.microsoft.com/en-us/office/cancel-a-microsoft-365-subscription-46e2634a-c64d-4c57-820c-3aa8e525e4e0",
+    "first_seen_utc": "2026-02-11T03:31:40Z",
+    "last_seen_utc": "2026-02-11T03:31:40Z"
+  },
+  "midjourney": {
+    "hash": "abb2c72ad5c3163c",
+    "count": 1,
+    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
+    "first_seen_utc": "2026-02-11T03:31:43Z",
+    "last_seen_utc": "2026-02-11T03:31:43Z"
+  },
+  "nordvpn": {
+    "hash": "79b001c2310003ec",
+    "count": 1,
+    "source_url": "https://support.nordvpn.com/hc/en-us/articles/19476991311121-What-is-your-refund-policy",
+    "first_seen_utc": "2026-02-11T03:31:43Z",
+    "last_seen_utc": "2026-02-11T03:31:43Z"
+  },
+  "noom": {
+    "hash": "26f6e6cbe4ccef25",
+    "count": 1,
+    "source_url": "https://www.noom.com/support/faqs/programs/2025/10/noom-refund-policy/",
+    "first_seen_utc": "2026-02-11T03:31:43Z",
+    "last_seen_utc": "2026-02-11T03:31:43Z"
+  },
+  "nintendo_switch_online": {
+    "hash": "320b6463b541ca74",
+    "count": 1,
+    "source_url": "https://en-americas-support.nintendo.com/app/answers/detail/a_id/41228",
+    "first_seen_utc": "2026-02-11T03:31:45Z",
+    "last_seen_utc": "2026-02-11T03:31:45Z"
+  },
+  "notion": {
+    "hash": "e6313456b795a830",
+    "count": 1,
+    "source_url": "https://www.notion.so/help/manage-your-plan-and-billing",
+    "first_seen_utc": "2026-02-11T03:31:47Z",
+    "last_seen_utc": "2026-02-11T03:31:47Z"
+  },
+  "peacock": {
+    "hash": "f10a6f0ae8d2f044",
+    "count": 1,
+    "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
+    "first_seen_utc": "2026-02-11T03:31:48Z",
+    "last_seen_utc": "2026-02-11T03:31:48Z"
+  },
+  "paramount_plus": {
+    "hash": "1ab8b474a64cf20c",
+    "count": 1,
+    "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
+    "first_seen_utc": "2026-02-11T03:31:54Z",
+    "last_seen_utc": "2026-02-11T03:31:54Z"
+  },
+  "playstation_plus": {
+    "hash": "d481c0644ef8b811",
+    "count": 1,
+    "source_url": "https://www.playstation.com/en-us/legal/playstation-store-cancellation-policy/",
+    "first_seen_utc": "2026-02-11T03:31:54Z",
+    "last_seen_utc": "2026-02-11T03:31:54Z"
+  },
+  "peloton": {
+    "hash": "5f4beffa91996af5",
+    "count": 1,
+    "source_url": "https://support.onepeloton.com/hc/en-us/articles/360029339052-Cancel-Your-Peloton-Membership",
+    "first_seen_utc": "2026-02-11T03:31:56Z",
+    "last_seen_utc": "2026-02-11T03:31:56Z"
+  },
+  "scribd": {
+    "hash": "d35116d6ac7a2aa5",
+    "count": 1,
+    "source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
+    "first_seen_utc": "2026-02-11T03:32:00Z",
+    "last_seen_utc": "2026-02-11T03:32:00Z"
+  },
+  "sling_tv": {
+    "hash": "62e1d378a3e365b8",
+    "count": 1,
+    "source_url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
+    "first_seen_utc": "2026-02-11T03:32:00Z",
+    "last_seen_utc": "2026-02-11T03:32:00Z"
+  },
+  "slack": {
+    "hash": "c4f6127b5a56c07a",
+    "count": 1,
+    "source_url": "https://slack.com/help/articles/218915077-Slacks-Fair-Billing-Policy",
+    "first_seen_utc": "2026-02-11T03:32:00Z",
+    "last_seen_utc": "2026-02-11T03:32:00Z"
+  },
+  "shutterstock": {
+    "hash": "93fce0170819948f",
+    "count": 1,
+    "source_url": "https://www.shutterstock.com/help/en/articles/10594851-can-i-get-a-refund-if-i-cancel-my-plan",
+    "first_seen_utc": "2026-02-11T03:32:04Z",
+    "last_seen_utc": "2026-02-11T03:32:04Z"
+  },
+  "spotify": {
+    "hash": "2e306f4aabe05989",
+    "count": 1,
+    "source_url": "https://support.spotify.com/us/article/cancel-premium/",
+    "first_seen_utc": "2026-02-11T03:32:04Z",
+    "last_seen_utc": "2026-02-11T03:32:04Z"
+  },
+  "squarespace": {
+    "hash": "7a0bf2ce974a7e13",
+    "count": 1,
+    "source_url": "https://support.squarespace.com/hc/en-us/articles/205815928-Canceling-your-Squarespace-subscription",
+    "first_seen_utc": "2026-02-11T03:32:05Z",
+    "last_seen_utc": "2026-02-11T03:32:05Z"
+  },
+  "strava": {
+    "hash": "e36c3971a7a9fcf6",
+    "count": 1,
+    "source_url": "https://support.strava.com/hc/en-us/articles/216917967-Cancel-Subscription",
+    "first_seen_utc": "2026-02-11T03:32:09Z",
+    "last_seen_utc": "2026-02-11T03:32:09Z"
+  },
+  "surfshark": {
+    "hash": "c41cdebe9267944c",
+    "count": 1,
+    "source_url": "https://support.surfshark.com/hc/en-us/articles/360003103653-What-is-Surfshark-s-refund-policy",
+    "first_seen_utc": "2026-02-11T03:32:09Z",
+    "last_seen_utc": "2026-02-11T03:32:09Z"
+  },
+  "tidal": {
+    "hash": "e67c66d571663c5a",
+    "count": 1,
+    "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
+    "first_seen_utc": "2026-02-11T03:32:13Z",
+    "last_seen_utc": "2026-02-11T03:32:13Z"
+  },
+  "tinder": {
+    "hash": "57bd413a59f57fd3",
+    "count": 1,
+    "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
+    "first_seen_utc": "2026-02-11T03:32:13Z",
+    "last_seen_utc": "2026-02-11T03:32:13Z"
+  },
+  "walmart_plus": {
+    "hash": "a1db564ba162d3c1",
+    "count": 1,
+    "source_url": "https://www.walmart.com/help/article/walmart-plus-cancellation/eacb97cd44a84d0c877d5e7f2b7e39c4",
+    "first_seen_utc": "2026-02-11T03:32:14Z",
+    "last_seen_utc": "2026-02-11T03:32:14Z"
+  },
+  "todoist": {
+    "hash": "1e23c2d0e4e8c641",
+    "count": 1,
+    "source_url": "https://www.todoist.com/help/articles/manage-your-plan-or-billing-tRBHzjBBT",
+    "first_seen_utc": "2026-02-11T03:32:14Z",
+    "last_seen_utc": "2026-02-11T03:32:14Z"
+  },
+  "twitch": {
+    "hash": "02b38cb7c96d860a",
+    "count": 1,
+    "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
+    "first_seen_utc": "2026-02-11T03:32:21Z",
+    "last_seen_utc": "2026-02-11T03:32:21Z"
+  },
+  "xbox_game_pass": {
+    "hash": "b2b64b0a1fb05d56",
+    "count": 1,
+    "source_url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
+    "first_seen_utc": "2026-02-11T03:32:21Z",
+    "last_seen_utc": "2026-02-11T03:32:21Z"
+  },
+  "youtube_premium": {
+    "hash": "300628614a9272a5",
+    "count": 1,
+    "source_url": "https://support.google.com/youtube/answer/6308278",
+    "first_seen_utc": "2026-02-11T03:32:22Z",
+    "last_seen_utc": "2026-02-11T03:32:22Z"
+  },
+  "wix": {
+    "hash": "331a7a5672d09f39",
+    "count": 1,
+    "source_url": "https://support.wix.com/en/article/canceling-a-premium-plan",
+    "first_seen_utc": "2026-02-11T03:32:24Z",
+    "last_seen_utc": "2026-02-11T03:32:24Z"
+  },
+  "zoom": {
+    "hash": "030e697c8d4c7c9f",
+    "count": 1,
+    "source_url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0060842",
+    "first_seen_utc": "2026-02-11T03:32:24Z",
+    "last_seen_utc": "2026-02-11T03:32:24Z"
+  }
+}
