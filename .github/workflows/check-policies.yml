@@ -47,6 +47,7 @@ jobs:
 
       - name: Commit updated hashes
         run: |
+          set +e
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           files=(
@@ -76,9 +77,29 @@ jobs:
           if ! git diff --cached --quiet; then
             git commit -m "chore: update policy page hashes [skip ci]"
             git push
+            push_status=$?
+            if [ "$push_status" -ne 0 ]; then
+              echo "::warning::Initial push failed (likely concurrent update). Retrying with rebase..."
+              git fetch origin main
+              git rebase origin/main
+              rebase_status=$?
+              if [ "$rebase_status" -ne 0 ]; then
+                echo "::warning::Rebase failed; skipping push for this run."
+                exit 0
+              fi
+
+              git push
+              retry_status=$?
+              if [ "$retry_status" -ne 0 ]; then
+                echo "::warning::Retry push failed; another run likely committed first."
+                exit 0
+              fi
+            fi
           else
             echo "No hash changes to commit."
           fi
+
+          exit 0
 
       - name: Open issue if policies changed
         if: steps.check.outputs.changed
