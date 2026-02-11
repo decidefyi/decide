@@ -1,450 +1,51 @@
 {
-  "1password": {
-    "hash": "86337fb8f2be7b04",
-    "count": 1,
-    "source_url": "https://1password.com/sign-up",
-    "first_seen_utc": "2026-02-11T03:34:07Z",
-    "last_seen_utc": "2026-02-11T03:34:07Z"
-  },
   "amazon_prime": {
-    "hash": "7452dc4c3d8d5209",
+    "hash": "e21de82f6603489d",
     "count": 1,
     "source_url": "https://www.amazon.com/amazonprime",
-    "first_seen_utc": "2026-02-11T03:34:08Z",
-    "last_seen_utc": "2026-02-11T03:34:08Z"
-  },
-  "adobe": {
-    "hash": "4145d89cfead5a57",
-    "count": 1,
-    "source_url": "https://www.adobe.com/creativecloud/plans.html",
-    "first_seen_utc": "2026-02-11T03:34:43Z",
-    "last_seen_utc": "2026-02-11T03:34:43Z"
-  },
-  "apple_app_store": {
-    "hash": "fb7de8003f833c4e",
-    "count": 1,
-    "source_url": "https://support.apple.com/en-us/118223",
-    "first_seen_utc": "2026-02-11T03:34:44Z",
-    "last_seen_utc": "2026-02-11T03:34:44Z"
+    "first_seen_utc": "2026-02-11T08:20:30Z",
+    "last_seen_utc": "2026-02-11T08:20:30Z"
   },
   "apple_tv_plus": {
-    "hash": "a4260e74689f036d",
+    "hash": "a64220768560c192",
     "count": 1,
     "source_url": "https://www.apple.com/apple-tv-plus/",
-    "first_seen_utc": "2026-02-11T03:34:44Z",
-    "last_seen_utc": "2026-02-11T03:34:44Z"
-  },
-  "apple_music": {
-    "hash": "2c2cc906eeee4764",
-    "count": 1,
-    "source_url": "https://www.apple.com/apple-music/",
-    "first_seen_utc": "2026-02-11T03:34:44Z",
-    "last_seen_utc": "2026-02-11T03:34:44Z"
-  },
-  "bitwarden": {
-    "hash": "cb729e3c30eb1c7f",
-    "count": 1,
-    "source_url": "https://bitwarden.com/pricing/",
-    "first_seen_utc": "2026-02-11T03:34:45Z",
-    "last_seen_utc": "2026-02-11T03:34:45Z"
-  },
-  "audible": {
-    "hash": "1ed69d0799bd60ec",
-    "count": 1,
-    "source_url": "https://www.audible.com/ep/freetrial",
-    "first_seen_utc": "2026-02-11T03:34:45Z",
-    "last_seen_utc": "2026-02-11T03:34:45Z"
-  },
-  "bumble": {
-    "hash": "70cea0b9151fda52",
-    "count": 1,
-    "source_url": "https://bumble.com/en-us/the-buzz/bumble-premium",
-    "first_seen_utc": "2026-02-11T03:34:46Z",
-    "last_seen_utc": "2026-02-11T03:34:46Z"
+    "first_seen_utc": "2026-02-11T08:21:01Z",
+    "last_seen_utc": "2026-02-11T08:21:01Z"
   },
   "chatgpt_plus": {
-    "hash": "303b8582ac335773",
+    "hash": "0436926f1c91a051",
     "count": 1,
     "source_url": "https://openai.com/chatgpt/pricing/",
-    "first_seen_utc": "2026-02-11T03:34:47Z",
-    "last_seen_utc": "2026-02-11T03:34:47Z"
-  },
-  "calm": {
-    "hash": "e766e2ac066061aa",
-    "count": 1,
-    "source_url": "https://www.calm.com/subscribe",
-    "first_seen_utc": "2026-02-11T03:34:49Z",
-    "last_seen_utc": "2026-02-11T03:34:49Z"
-  },
-  "canva": {
-    "hash": "7feccf8efb57c489",
-    "count": 1,
-    "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-11T03:34:49Z",
-    "last_seen_utc": "2026-02-11T03:34:49Z"
-  },
-  "crunchyroll": {
-    "hash": "21479421dcc9a4cb",
-    "count": 1,
-    "source_url": "https://www.crunchyroll.com/welcome",
-    "first_seen_utc": "2026-02-11T03:34:50Z",
-    "last_seen_utc": "2026-02-11T03:34:50Z"
-  },
-  "coursera_plus": {
-    "hash": "242022e57b720901",
-    "count": 1,
-    "source_url": "https://www.coursera.org/courseraplus",
-    "first_seen_utc": "2026-02-11T03:34:50Z",
-    "last_seen_utc": "2026-02-11T03:34:50Z"
-  },
-  "claude_pro": {
-    "hash": "0b97ddcd750b46a3",
-    "count": 1,
-    "source_url": "https://claude.ai/upgrade",
-    "first_seen_utc": "2026-02-11T03:34:50Z",
-    "last_seen_utc": "2026-02-11T03:34:50Z"
-  },
-  "disney_plus": {
-    "hash": "2369a2960633ddcb",
-    "count": 1,
-    "source_url": "https://www.disneyplus.com/",
-    "first_seen_utc": "2026-02-11T03:34:51Z",
-    "last_seen_utc": "2026-02-11T03:34:51Z"
-  },
-  "deezer": {
-    "hash": "0266d62a60974ef0",
-    "count": 1,
-    "source_url": "https://www.deezer.com/en/offers",
-    "first_seen_utc": "2026-02-11T03:34:51Z",
-    "last_seen_utc": "2026-02-11T03:34:51Z"
+    "first_seen_utc": "2026-02-11T08:21:05Z",
+    "last_seen_utc": "2026-02-11T08:21:05Z"
   },
   "doordash_dashpass": {
-    "hash": "95d1d63d5d4edbfa",
+    "hash": "36183157d82b5fc7",
     "count": 1,
     "source_url": "https://www.doordash.com/dashpass/",
-    "first_seen_utc": "2026-02-11T03:35:01Z",
-    "last_seen_utc": "2026-02-11T03:35:01Z"
-  },
-  "evernote": {
-    "hash": "65a7c681dde18249",
-    "count": 1,
-    "source_url": "https://evernote.com/compare-plans",
-    "first_seen_utc": "2026-02-11T03:35:02Z",
-    "last_seen_utc": "2026-02-11T03:35:02Z"
-  },
-  "duolingo": {
-    "hash": "be6a999624b589e8",
-    "count": 1,
-    "source_url": "https://www.duolingo.com/super",
-    "first_seen_utc": "2026-02-11T03:35:02Z",
-    "last_seen_utc": "2026-02-11T03:35:02Z"
-  },
-  "dropbox_us": {
-    "hash": "6ddb904506181b10",
-    "count": 1,
-    "source_url": "https://www.dropbox.com/plans",
-    "first_seen_utc": "2026-02-11T03:35:03Z",
-    "last_seen_utc": "2026-02-11T03:35:03Z"
-  },
-  "figma": {
-    "hash": "452daa2f00edc3d5",
-    "count": 1,
-    "source_url": "https://www.figma.com/pricing/",
-    "first_seen_utc": "2026-02-11T03:35:04Z",
-    "last_seen_utc": "2026-02-11T03:35:04Z"
-  },
-  "expressvpn": {
-    "hash": "1a9d1f1250df420f",
-    "count": 1,
-    "source_url": "https://www.expressvpn.com/order",
-    "first_seen_utc": "2026-02-11T03:35:04Z",
-    "last_seen_utc": "2026-02-11T03:35:04Z"
+    "first_seen_utc": "2026-02-11T08:21:33Z",
+    "last_seen_utc": "2026-02-11T08:21:33Z"
   },
   "fubo_tv": {
-    "hash": "730cfac095b9423b",
+    "hash": "54e00c0597dbe2aa",
     "count": 1,
     "source_url": "https://www.fubo.tv/welcome",
-    "first_seen_utc": "2026-02-11T03:35:04Z",
-    "last_seen_utc": "2026-02-11T03:35:04Z"
-  },
-  "google_play": {
-    "hash": "fec629eab4a3fc9c",
-    "count": 1,
-    "source_url": "https://play.google.com/store",
-    "first_seen_utc": "2026-02-11T03:35:04Z",
-    "last_seen_utc": "2026-02-11T03:35:04Z"
-  },
-  "grammarly": {
-    "hash": "85ed56b4e76ab1a4",
-    "count": 1,
-    "source_url": "https://www.grammarly.com/plans",
-    "first_seen_utc": "2026-02-11T03:35:04Z",
-    "last_seen_utc": "2026-02-11T03:35:04Z"
-  },
-  "github_pro": {
-    "hash": "eefaf772605abfb5",
-    "count": 1,
-    "source_url": "https://github.com/pricing",
-    "first_seen_utc": "2026-02-11T03:35:05Z",
-    "last_seen_utc": "2026-02-11T03:35:05Z"
-  },
-  "headspace": {
-    "hash": "6b4fa4c2247bf42a",
-    "count": 1,
-    "source_url": "https://www.headspace.com/subscriptions",
-    "first_seen_utc": "2026-02-11T03:35:05Z",
-    "last_seen_utc": "2026-02-11T03:35:05Z"
-  },
-  "hellofresh": {
-    "hash": "725edd71183e42f4",
-    "count": 1,
-    "source_url": "https://www.hellofresh.com/plans",
-    "first_seen_utc": "2026-02-11T03:35:06Z",
-    "last_seen_utc": "2026-02-11T03:35:06Z"
-  },
-  "hinge": {
-    "hash": "0a3041330bcc9dd7",
-    "count": 1,
-    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "first_seen_utc": "2026-02-11T03:35:07Z",
-    "last_seen_utc": "2026-02-11T03:35:07Z"
-  },
-  "icloud_plus": {
-    "hash": "6be02ea27b3b27c1",
-    "count": 1,
-    "source_url": "https://support.apple.com/en-us/108052",
-    "first_seen_utc": "2026-02-11T03:35:07Z",
-    "last_seen_utc": "2026-02-11T03:35:07Z"
-  },
-  "hulu": {
-    "hash": "aab23a4fb6eeef36",
-    "count": 1,
-    "source_url": "https://www.hulu.com/start",
-    "first_seen_utc": "2026-02-11T03:35:08Z",
-    "last_seen_utc": "2026-02-11T03:35:08Z"
-  },
-  "instacart_plus": {
-    "hash": "f93d706434bd5225",
-    "count": 1,
-    "source_url": "https://www.instacart.com/store/instacart-plus",
-    "first_seen_utc": "2026-02-11T03:35:11Z",
-    "last_seen_utc": "2026-02-11T03:35:11Z"
-  },
-  "linkedin_premium": {
-    "hash": "70341643314698b2",
-    "count": 1,
-    "source_url": "https://premium.linkedin.com/",
-    "first_seen_utc": "2026-02-11T03:35:11Z",
-    "last_seen_utc": "2026-02-11T03:35:11Z"
-  },
-  "max": {
-    "hash": "2a821aec73cf09bb",
-    "count": 1,
-    "source_url": "https://www.max.com/",
-    "first_seen_utc": "2026-02-11T03:35:12Z",
-    "last_seen_utc": "2026-02-11T03:35:12Z"
+    "first_seen_utc": "2026-02-11T08:21:38Z",
+    "last_seen_utc": "2026-02-11T08:21:38Z"
   },
   "masterclass": {
-    "hash": "15ab8a60e31040d3",
+    "hash": "9ad2b3a16fcb76b7",
     "count": 1,
     "source_url": "https://www.masterclass.com/",
-    "first_seen_utc": "2026-02-11T03:35:16Z",
-    "last_seen_utc": "2026-02-11T03:35:16Z"
-  },
-  "microsoft_365": {
-    "hash": "01ece44e678cf100",
-    "count": 1,
-    "source_url": "https://www.microsoft.com/en-us/microsoft-365/try",
-    "first_seen_utc": "2026-02-11T03:35:16Z",
-    "last_seen_utc": "2026-02-11T03:35:16Z"
-  },
-  "netflix": {
-    "hash": "9266dbce2122cbb1",
-    "count": 1,
-    "source_url": "https://www.netflix.com/signup",
-    "first_seen_utc": "2026-02-11T03:35:17Z",
-    "last_seen_utc": "2026-02-11T03:35:17Z"
-  },
-  "midjourney": {
-    "hash": "6fd1f6702ff22793",
-    "count": 1,
-    "source_url": "https://www.midjourney.com/home",
-    "first_seen_utc": "2026-02-11T03:35:18Z",
-    "last_seen_utc": "2026-02-11T03:35:18Z"
-  },
-  "nintendo_switch_online": {
-    "hash": "90d018971f9f15cc",
-    "count": 1,
-    "source_url": "https://www.nintendo.com/us/switch/online/",
-    "first_seen_utc": "2026-02-11T03:35:19Z",
-    "last_seen_utc": "2026-02-11T03:35:19Z"
-  },
-  "noom": {
-    "hash": "5f62fb6e1454bb0f",
-    "count": 1,
-    "source_url": "https://www.noom.com/",
-    "first_seen_utc": "2026-02-11T03:35:19Z",
-    "last_seen_utc": "2026-02-11T03:35:19Z"
-  },
-  "nordvpn": {
-    "hash": "fc578859de7a4d56",
-    "count": 1,
-    "source_url": "https://nordvpn.com/pricing/",
-    "first_seen_utc": "2026-02-11T03:35:27Z",
-    "last_seen_utc": "2026-02-11T03:35:27Z"
-  },
-  "paramount_plus": {
-    "hash": "c69c4521c6b27476",
-    "count": 1,
-    "source_url": "https://www.paramountplus.com/",
-    "first_seen_utc": "2026-02-11T03:35:27Z",
-    "last_seen_utc": "2026-02-11T03:35:27Z"
-  },
-  "notion": {
-    "hash": "1ef1d89b58892fcf",
-    "count": 1,
-    "source_url": "https://www.notion.so/pricing",
-    "first_seen_utc": "2026-02-11T03:35:27Z",
-    "last_seen_utc": "2026-02-11T03:35:27Z"
-  },
-  "peacock": {
-    "hash": "0683e934a1cb1b33",
-    "count": 1,
-    "source_url": "https://www.peacocktv.com/plans",
-    "first_seen_utc": "2026-02-11T03:35:31Z",
-    "last_seen_utc": "2026-02-11T03:35:31Z"
-  },
-  "peloton": {
-    "hash": "82d6c086a0be65c4",
-    "count": 1,
-    "source_url": "https://www.onepeloton.com/app",
-    "first_seen_utc": "2026-02-11T03:35:32Z",
-    "last_seen_utc": "2026-02-11T03:35:32Z"
-  },
-  "scribd": {
-    "hash": "ed8aa00d5a256dfd",
-    "count": 1,
-    "source_url": "https://www.scribd.com/subscribe",
-    "first_seen_utc": "2026-02-11T03:35:32Z",
-    "last_seen_utc": "2026-02-11T03:35:32Z"
-  },
-  "playstation_plus": {
-    "hash": "4a6bcec92b6d2c66",
-    "count": 1,
-    "source_url": "https://store.playstation.com/en-us/category/ps-plus",
-    "first_seen_utc": "2026-02-11T03:35:32Z",
-    "last_seen_utc": "2026-02-11T03:35:32Z"
-  },
-  "sling_tv": {
-    "hash": "48e190da88fadcf9",
-    "count": 1,
-    "source_url": "https://www.sling.com/",
-    "first_seen_utc": "2026-02-11T03:35:33Z",
-    "last_seen_utc": "2026-02-11T03:35:33Z"
-  },
-  "slack": {
-    "hash": "32969f6d30bc36b5",
-    "count": 1,
-    "source_url": "https://slack.com/pricing",
-    "first_seen_utc": "2026-02-11T03:35:33Z",
-    "last_seen_utc": "2026-02-11T03:35:33Z"
-  },
-  "shutterstock": {
-    "hash": "93fce0170819948f",
-    "count": 1,
-    "source_url": "https://www.shutterstock.com/pricing",
-    "first_seen_utc": "2026-02-11T03:35:36Z",
-    "last_seen_utc": "2026-02-11T03:35:36Z"
-  },
-  "spotify": {
-    "hash": "bcd9ed53cddd0bd4",
-    "count": 1,
-    "source_url": "https://www.spotify.com/us/premium/",
-    "first_seen_utc": "2026-02-11T03:35:37Z",
-    "last_seen_utc": "2026-02-11T03:35:37Z"
-  },
-  "squarespace": {
-    "hash": "978e382932020217",
-    "count": 1,
-    "source_url": "https://www.squarespace.com/pricing",
-    "first_seen_utc": "2026-02-11T03:35:37Z",
-    "last_seen_utc": "2026-02-11T03:35:37Z"
-  },
-  "strava": {
-    "hash": "9787fd1057fed5ad",
-    "count": 1,
-    "source_url": "https://www.strava.com/subscribe",
-    "first_seen_utc": "2026-02-11T03:35:37Z",
-    "last_seen_utc": "2026-02-11T03:35:37Z"
-  },
-  "tinder": {
-    "hash": "c95eab4e0cd01166",
-    "count": 1,
-    "source_url": "https://tinder.com/feature/subscription-tiers",
-    "first_seen_utc": "2026-02-11T03:35:38Z",
-    "last_seen_utc": "2026-02-11T03:35:38Z"
-  },
-  "surfshark": {
-    "hash": "006e65c5403ca85d",
-    "count": 1,
-    "source_url": "https://surfshark.com/pricing",
-    "first_seen_utc": "2026-02-11T03:35:38Z",
-    "last_seen_utc": "2026-02-11T03:35:38Z"
-  },
-  "tidal": {
-    "hash": "0e8b379821983a86",
-    "count": 1,
-    "source_url": "https://tidal.com/pricing",
-    "first_seen_utc": "2026-02-11T03:35:41Z",
-    "last_seen_utc": "2026-02-11T03:35:41Z"
+    "first_seen_utc": "2026-02-11T08:21:54Z",
+    "last_seen_utc": "2026-02-11T08:21:54Z"
   },
   "twitch": {
-    "hash": "78afe4a126277f08",
+    "hash": "795446aba9a37ef8",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-11T03:35:41Z",
-    "last_seen_utc": "2026-02-11T03:35:41Z"
-  },
-  "walmart_plus": {
-    "hash": "a1db564ba162d3c1",
-    "count": 1,
-    "source_url": "https://www.walmart.com/plus",
-    "first_seen_utc": "2026-02-11T03:35:42Z",
-    "last_seen_utc": "2026-02-11T03:35:42Z"
-  },
-  "todoist": {
-    "hash": "31b9580fbe0fc3d9",
-    "count": 1,
-    "source_url": "https://todoist.com/pricing",
-    "first_seen_utc": "2026-02-11T03:35:42Z",
-    "last_seen_utc": "2026-02-11T03:35:42Z"
-  },
-  "xbox_game_pass": {
-    "hash": "483f92c95b780707",
-    "count": 1,
-    "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
-    "first_seen_utc": "2026-02-11T03:35:43Z",
-    "last_seen_utc": "2026-02-11T03:35:43Z"
-  },
-  "wix": {
-    "hash": "b607af69787881db",
-    "count": 1,
-    "source_url": "https://www.wix.com/upgrade/website",
-    "first_seen_utc": "2026-02-11T03:35:43Z",
-    "last_seen_utc": "2026-02-11T03:35:43Z"
-  },
-  "youtube_premium": {
-    "hash": "424b647972ef8510",
-    "count": 1,
-    "source_url": "https://www.youtube.com/premium",
-    "first_seen_utc": "2026-02-11T03:35:43Z",
-    "last_seen_utc": "2026-02-11T03:35:43Z"
-  },
-  "zoom": {
-    "hash": "21c03864945efe64",
-    "count": 1,
-    "source_url": "https://zoom.us/pricing",
-    "first_seen_utc": "2026-02-11T03:35:44Z",
-    "last_seen_utc": "2026-02-11T03:35:44Z"
+    "first_seen_utc": "2026-02-11T08:22:21Z",
+    "last_seen_utc": "2026-02-11T08:22:21Z"
   }
 }
