@@ -1,79 +1,44 @@
 {
-  "chatgpt_plus": {
-    "hash": "11a905af93581046",
-    "count": 1,
-    "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-    "first_seen_utc": "2026-02-11T08:18:55Z",
-    "last_seen_utc": "2026-02-11T08:18:55Z"
-  },
   "calm": {
-    "hash": "9fa08e10961935ba",
+    "hash": "d72f75609e5be554",
     "count": 1,
     "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-    "first_seen_utc": "2026-02-11T08:18:57Z",
-    "last_seen_utc": "2026-02-11T08:18:57Z"
-  },
-  "canva": {
-    "hash": "535eee8234d58201",
-    "count": 1,
-    "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-11T08:19:19Z",
-    "last_seen_utc": "2026-02-11T08:19:19Z"
-  },
-  "fubo_tv": {
-    "hash": "07b9ddc474879ff9",
-    "count": 1,
-    "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-    "first_seen_utc": "2026-02-11T08:19:27Z",
-    "last_seen_utc": "2026-02-11T08:19:27Z"
+    "first_seen_utc": "2026-02-11T09:00:43Z",
+    "last_seen_utc": "2026-02-11T09:00:43Z"
   },
   "google_play": {
-    "hash": "9877490852c709c2",
+    "hash": "d4256d304714cc43",
     "count": 1,
     "source_url": "https://support.google.com/googleplay/answer/2479637",
-    "first_seen_utc": "2026-02-11T08:19:28Z",
-    "last_seen_utc": "2026-02-11T08:19:28Z"
+    "first_seen_utc": "2026-02-11T09:00:53Z",
+    "last_seen_utc": "2026-02-11T09:00:53Z"
   },
   "grammarly": {
-    "hash": "1325c4faa38eb668",
+    "hash": "cc0f445cbd52a487",
     "count": 1,
     "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-    "first_seen_utc": "2026-02-11T08:19:32Z",
-    "last_seen_utc": "2026-02-11T08:19:32Z"
+    "first_seen_utc": "2026-02-11T09:01:32Z",
+    "last_seen_utc": "2026-02-11T09:01:32Z"
   },
-  "hellofresh": {
-    "hash": "e1932a0a1ad63947",
+  "masterclass": {
+    "hash": "e5a2ddecdfd237e6",
     "count": 1,
-    "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-    "first_seen_utc": "2026-02-11T08:19:37Z",
-    "last_seen_utc": "2026-02-11T08:19:37Z"
+    "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
+    "first_seen_utc": "2026-02-11T09:01:38Z",
+    "last_seen_utc": "2026-02-11T09:01:38Z"
   },
-  "midjourney": {
-    "hash": "f9ffb21272b332ea",
+  "tinder": {
+    "hash": "a8d3299203cb31a3",
     "count": 1,
-    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-    "first_seen_utc": "2026-02-11T08:20:05Z",
-    "last_seen_utc": "2026-02-11T08:20:05Z"
-  },
-  "scribd": {
-    "hash": "f02b46a52a4d5787",
-    "count": 1,
-    "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-    "first_seen_utc": "2026-02-11T08:20:09Z",
-    "last_seen_utc": "2026-02-11T08:20:09Z"
-  },
-  "tidal": {
-    "hash": "7ad7676e6a77bfde",
-    "count": 1,
-    "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-    "first_seen_utc": "2026-02-11T08:20:17Z",
-    "last_seen_utc": "2026-02-11T08:20:17Z"
+    "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
+    "first_seen_utc": "2026-02-11T09:01:53Z",
+    "last_seen_utc": "2026-02-11T09:01:53Z"
   },
   "youtube_premium": {
-    "hash": "fbb643315c4a6279",
+    "hash": "a124f2e4cf7900b6",
     "count": 1,
     "source_url": "https://support.google.com/youtube/answer/12014038",
-    "first_seen_utc": "2026-02-11T08:20:22Z",
-    "last_seen_utc": "2026-02-11T08:20:22Z"
+    "first_seen_utc": "2026-02-11T09:01:55Z",
+    "last_seen_utc": "2026-02-11T09:01:55Z"
   }
 }
