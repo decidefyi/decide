@@ -35,16 +35,14 @@ jobs:
             echo "::warning::Policy checker exited with code $status (non-blocking)."
           fi
 
-          # Extract changed vendors if any
-          if echo "$output" | grep -q "^CHANGED_VENDORS="; then
-            changed=$(echo "$output" | grep "^CHANGED_VENDORS=" | cut -d= -f2)
-            echo "changed=$changed" >> "$GITHUB_OUTPUT"
+          changed_count=$(echo "$output" | awk -F= '/^CHANGED_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
+          changed_by_policy=$(echo "$output" | awk -F= '/^CHANGED_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
+          changed_sample=$(echo "$output" | awk -F= '/^CHANGED_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
 
-            # Extract issue body
-            body=$(echo "$output" | sed -n '/^ISSUE_BODY<<EOF$/,/^EOF$/{ /^ISSUE_BODY<<EOF$/d; /^EOF$/d; p; }')
-            echo "body<<EOF" >> "$GITHUB_OUTPUT"
-            echo "$body" >> "$GITHUB_OUTPUT"
-            echo "EOF" >> "$GITHUB_OUTPUT"
+          if [ -n "$changed_count" ]; then
+            echo "changed_count=$changed_count" >> "$GITHUB_OUTPUT"
+            echo "changed_by_policy=$changed_by_policy" >> "$GITHUB_OUTPUT"
+            echo "changed_sample=$changed_sample" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Commit updated hashes
@@ -108,30 +106,55 @@ jobs:
           exit 0
 
       - name: Open issue if policies changed
-        if: steps.check.outputs.changed
+        if: steps.check.outputs.changed_count && steps.check.outputs.changed_count != '0'
         continue-on-error: true
         uses: actions/github-script@v7
         env:
-          CHANGED_VENDORS: ${{ steps.check.outputs.changed }}
-          ISSUE_BODY: ${{ steps.check.outputs.body }}
+          CHANGED_COUNT: ${{ steps.check.outputs.changed_count }}
+          CHANGED_BY_POLICY: ${{ steps.check.outputs.changed_by_policy }}
+          CHANGED_SAMPLE: ${{ steps.check.outputs.changed_sample }}
         with:
           script: |
-            const changed = process.env.CHANGED_VENDORS || '';
-            const body = process.env.ISSUE_BODY || '';
+            const changedCount = Number.parseInt(process.env.CHANGED_COUNT || '0', 10) || 0;
+            const changedByPolicy = process.env.CHANGED_BY_POLICY || '';
+            const changedSample = process.env.CHANGED_SAMPLE || '';
             const today = new Date().toISOString().split('T')[0];
+            const sampleList = changedSample
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .slice(0, 10)
+              .map((item) => `- \`${item}\``)
+              .join('\n');
+            const byPolicyList = changedByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
 
-            // GitHub issue titles have a 256 char limit. Our changed-vendors list can exceed that,
-            // so we summarize in the title and keep the full list in the body.
-            const changedList = changed.split(',').map(s => s.trim()).filter(Boolean);
-            const shortList = changedList.slice(0, 6).join(', ');
-            const more = changedList.length > 6 ? ` +${changedList.length - 6} more` : '';
-            let title = `Policy pages changed (${today}): ${shortList}${more}`.trim();
-            if (title.length > 256) title = title.slice(0, 252) + '...';
+            const title = `Policy pages changed (${today}): ${changedCount} vendor(s)`;
 
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title,
-              body: `## Vendor policy pages changed\n\nThe following vendor policy pages have changed since the last check:\n\n${body}\n\nPlease review and update the corresponding rules file if the policy has changed.\n\nThis issue was created automatically by the daily policy checker.`,
+              body: [
+                "## Vendor policy pages changed",
+                "",
+                `Total changed vendors: **${changedCount}**`,
+                "",
+                changedByPolicy ? "### By policy\n" + byPolicyList + "\n" : "",
+                sampleList ? "### Sample (first 10)\n" + sampleList + "\n" : "",
+                "### Full review source",
+                "- `rules/policy-change-candidates.json`",
+                "- `rules/cancel-policy-change-candidates.json`",
+                "- `rules/return-policy-change-candidates.json`",
+                "- `rules/trial-policy-change-candidates.json`",
+                "",
+                `Run: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                "",
+                "This issue was created automatically by the daily policy checker."
+              ].filter(Boolean).join("\n"),
               labels: ['policy-update']
             });

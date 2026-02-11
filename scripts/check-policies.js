@@ -88,6 +88,15 @@ function utcIsoTimestamp(date = new Date()) {
   return date.toISOString().replace(/\.\d{3}Z$/, "Z");
 }
 
+function summarizePolicyCounts(changedItems) {
+  const counts = {};
+  for (const item of changedItems) {
+    const policyType = item?.policyType || "unknown";
+    counts[policyType] = (counts[policyType] || 0) + 1;
+  }
+  return counts;
+}
+
 function updateJsonStringField(filePath, fieldName, nextValue) {
   const raw = readFileSync(filePath, "utf8");
   const pattern = new RegExp(`"${fieldName}"\\s*:\\s*"[^"]*"`);
@@ -399,13 +408,25 @@ async function main() {
     console.log("No policy page changes detected.");
     process.exitCode = 0;
   } else {
-    const vendorNames = allChanged.map((c) => `${c.policyType}:${c.vendor}`).join(",");
-    console.log(`CHANGED_VENDORS=${vendorNames}`);
-    // Build issue body for the GitHub Action
-    const body = allChanged
-      .map((c) => `- **[${c.policyType}] ${c.vendor}**: [policy page](${c.url}) — update \`rules/${c.rulesFile}\``)
+    const countsByPolicy = summarizePolicyCounts(allChanged);
+    const byPolicy = Object.entries(countsByPolicy)
+      .map(([policy, count]) => `${policy}:${count}`)
+      .join(",");
+    const sample = allChanged
+      .slice(0, 15)
+      .map((c) => `${c.policyType}:${c.vendor}`)
+      .join(",");
+
+    console.log(`CHANGED_COUNT=${allChanged.length}`);
+    console.log(`CHANGED_BY_POLICY=${byPolicy}`);
+    console.log(`CHANGED_SAMPLE=${sample}`);
+
+    // Keep a concise preview in logs while details remain in updated candidate files.
+    const preview = allChanged
+      .slice(0, 20)
+      .map((c) => `- [${c.policyType}] ${c.vendor} -> rules/${c.rulesFile}`)
       .join("\n");
-    console.log(`ISSUE_BODY<<EOF\n${body}\nEOF`);
+    console.log(`::notice::Changed vendor preview (first ${Math.min(allChanged.length, 20)}):\n${preview}`);
     process.exitCode = 0;
   }
 }
