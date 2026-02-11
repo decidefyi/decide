@@ -2,69 +2,361 @@
   "description": "Source URLs for each vendor's free trial terms. Used by the daily policy-check action to detect changes.",
   "last_checked": "2026-02-02",
   "vendors": {
-    "1password": { "url": "https://1password.com/sign-up", "notes": "14-day free trial; no card required" },
-    "adobe": { "url": "https://www.adobe.com/creativecloud/plans.html", "notes": "7-day Creative Cloud trial; card required" },
-    "amazon_prime": { "url": "https://www.amazon.com/amazonprime", "notes": "30-day free trial; card required" },
-    "apple_app_store": { "url": "https://support.apple.com/en-us/118223", "notes": "No platform-level trial" },
-    "apple_music": { "url": "https://www.apple.com/apple-music/", "notes": "1-month free trial for new subscribers" },
-    "apple_tv_plus": { "url": "https://www.apple.com/apple-tv-plus/", "notes": "7-day trial; 3 months with new device" },
-    "audible": { "url": "https://www.audible.com/ep/freetrial", "notes": "30-day free trial with 1 credit" },
-    "bitwarden": { "url": "https://bitwarden.com/pricing/", "notes": "7-day premium trial" },
-    "bumble": { "url": "https://bumble.com/en-us/the-buzz/bumble-premium", "notes": "7-day Premium trial" },
-    "calm": { "url": "https://www.calm.com/subscribe", "notes": "7-day free trial" },
-    "canva": { "url": "https://www.canva.com/pro/", "notes": "30-day Canva Pro trial" },
-    "chatgpt_plus": { "url": "https://openai.com/chatgpt/pricing/", "notes": "No free trial for Plus" },
-    "claude_pro": { "url": "https://claude.ai/upgrade", "notes": "No free trial for Pro" },
-    "coursera_plus": { "url": "https://www.coursera.org/courseraplus", "notes": "7-day free trial" },
-    "crunchyroll": { "url": "https://www.crunchyroll.com/welcome", "notes": "7-day Premium trial" },
-    "deezer": { "url": "https://www.deezer.com/en/offers", "notes": "1-month free trial" },
-    "disney_plus": { "url": "https://www.disneyplus.com/", "notes": "No free trial in US" },
-    "doordash_dashpass": { "url": "https://www.doordash.com/dashpass/", "notes": "30-day DashPass trial" },
-    "dropbox_us": { "url": "https://www.dropbox.com/plans", "notes": "30-day trial for paid plans" },
-    "duolingo": { "url": "https://www.duolingo.com/super", "notes": "14-day Super trial" },
-    "evernote": { "url": "https://evernote.com/compare-plans", "notes": "14-day trial" },
-    "expressvpn": { "url": "https://www.expressvpn.com/order", "notes": "7-day mobile trial; 30-day MBG" },
-    "figma": { "url": "https://www.figma.com/pricing/", "notes": "Free starter plan; Professional trial" },
-    "fubo_tv": { "url": "https://www.fubo.tv/welcome", "notes": "7-day free trial" },
-    "github_pro": { "url": "https://github.com/pricing", "notes": "No trial; free tier available" },
-    "google_play": { "url": "https://play.google.com/store", "notes": "No platform-level trial" },
-    "grammarly": { "url": "https://www.grammarly.com/plans", "notes": "7-day Premium trial" },
-    "headspace": { "url": "https://www.headspace.com/subscriptions", "notes": "7-day free trial" },
-    "hellofresh": { "url": "https://www.hellofresh.com/plans", "notes": "No trial; first-box discounts" },
-    "hinge": { "url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034", "notes": "Occasional 7-day HingeX trial" },
-    "hulu": { "url": "https://www.hulu.com/start", "notes": "30-day free trial" },
-    "icloud_plus": { "url": "https://support.apple.com/en-us/108052", "notes": "No trial; 5GB free tier" },
-    "instacart_plus": { "url": "https://www.instacart.com/store/instacart-plus", "notes": "14-day trial" },
-    "linkedin_premium": { "url": "https://premium.linkedin.com/", "notes": "1-month free trial" },
-    "masterclass": { "url": "https://www.masterclass.com/", "notes": "No trial; 30-day guarantee" },
-    "max": { "url": "https://www.max.com/", "notes": "No free trial in US" },
-    "microsoft_365": { "url": "https://www.microsoft.com/en-us/microsoft-365/try", "notes": "1-month free trial" },
-    "midjourney": { "url": "https://www.midjourney.com/home", "notes": "No trial currently" },
-    "netflix": { "url": "https://www.netflix.com/signup", "notes": "No free trial since 2020" },
-    "nintendo_switch_online": { "url": "https://www.nintendo.com/us/switch/online/", "notes": "7-day free trial" },
-    "noom": { "url": "https://www.noom.com/", "notes": "7-day free trial" },
-    "nordvpn": { "url": "https://nordvpn.com/pricing/", "notes": "7-day mobile trial; 30-day MBG" },
-    "notion": { "url": "https://www.notion.so/pricing", "notes": "No trial; free plan available" },
-    "paramount_plus": { "url": "https://www.paramountplus.com/", "notes": "7-day free trial" },
-    "peacock": { "url": "https://www.peacocktv.com/plans", "notes": "7-day Premium trial" },
-    "peloton": { "url": "https://www.onepeloton.com/app", "notes": "30-day App trial" },
-    "playstation_plus": { "url": "https://store.playstation.com/en-us/category/ps-plus", "notes": "14-day trial" },
-    "scribd": { "url": "https://www.scribd.com/subscribe", "notes": "30-day free trial" },
-    "shutterstock": { "url": "https://www.shutterstock.com/pricing", "notes": "1-month trial with 10 images" },
-    "slack": { "url": "https://slack.com/pricing", "notes": "90-day Pro trial for teams" },
-    "sling_tv": { "url": "https://www.sling.com/", "notes": "No standard trial" },
-    "spotify": { "url": "https://www.spotify.com/us/premium/", "notes": "1-month Premium trial" },
-    "squarespace": { "url": "https://www.squarespace.com/pricing", "notes": "14-day trial; no card needed" },
-    "strava": { "url": "https://www.strava.com/subscribe", "notes": "30-day subscription trial" },
-    "surfshark": { "url": "https://surfshark.com/pricing", "notes": "7-day mobile trial; 30-day MBG" },
-    "tidal": { "url": "https://tidal.com/pricing", "notes": "30-day free trial" },
-    "tinder": { "url": "https://tinder.com/feature/subscription-tiers", "notes": "No trial for paid tiers" },
-    "todoist": { "url": "https://todoist.com/pricing", "notes": "30-day Pro trial; no card needed" },
-    "twitch": { "url": "https://www.twitch.tv/turbo", "notes": "No trial for Turbo" },
-    "walmart_plus": { "url": "https://www.walmart.com/plus", "notes": "30-day free trial" },
-    "wix": { "url": "https://www.wix.com/upgrade/website", "notes": "14-day MBG; free plan available" },
-    "xbox_game_pass": { "url": "https://www.xbox.com/en-US/xbox-game-pass", "notes": "14-day trial or $1 first month" },
-    "youtube_premium": { "url": "https://www.youtube.com/premium", "notes": "1-month free trial" },
-    "zoom": { "url": "https://zoom.us/pricing", "notes": "No paid plan trial; free Basic plan" }
+    "1password": {
+      "url": "https://1password.com/sign-up",
+      "notes": "14-day free trial; no card required",
+      "backup_urls": [
+        "https://support.1password.com/billing/",
+        "https://1password.com/legal/"
+      ]
+    },
+    "adobe": {
+      "url": "https://www.adobe.com/creativecloud/plans.html",
+      "notes": "7-day Creative Cloud trial; card required"
+    },
+    "amazon_prime": {
+      "url": "https://www.amazon.com/amazonprime",
+      "notes": "30-day free trial; card required",
+      "backup_urls": [
+        "https://www.amazon.com/amazonprime",
+        "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC"
+      ]
+    },
+    "apple_app_store": {
+      "url": "https://support.apple.com/en-us/118223",
+      "notes": "No platform-level trial"
+    },
+    "apple_music": {
+      "url": "https://www.apple.com/apple-music/",
+      "notes": "1-month free trial for new subscribers"
+    },
+    "apple_tv_plus": {
+      "url": "https://www.apple.com/apple-tv-plus/",
+      "notes": "7-day trial; 3 months with new device"
+    },
+    "audible": {
+      "url": "https://www.audible.com/ep/freetrial",
+      "notes": "30-day free trial with 1 credit",
+      "backup_urls": [
+        "https://www.audible.com/legal/conditions-of-use",
+        "https://help.audible.com/s/topic/0TO4N0000004kQZWAY/membership"
+      ]
+    },
+    "bitwarden": {
+      "url": "https://bitwarden.com/pricing/",
+      "notes": "7-day premium trial"
+    },
+    "bumble": {
+      "url": "https://bumble.com/en-us/the-buzz/bumble-premium",
+      "notes": "7-day Premium trial"
+    },
+    "calm": {
+      "url": "https://www.calm.com/subscribe",
+      "notes": "7-day free trial",
+      "backup_urls": [
+        "https://support.calm.com/hc/en-us",
+        "https://www.calm.com/terms"
+      ]
+    },
+    "canva": {
+      "url": "https://www.canva.com/pro/",
+      "notes": "30-day Canva Pro trial",
+      "backup_urls": [
+        "https://www.canva.com/policies/terms-of-use/",
+        "https://www.canva.com/help/"
+      ]
+    },
+    "chatgpt_plus": {
+      "url": "https://openai.com/chatgpt/pricing/",
+      "notes": "No free trial for Plus",
+      "backup_urls": [
+        "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus",
+        "https://openai.com/chatgpt/pricing/"
+      ]
+    },
+    "claude_pro": {
+      "url": "https://claude.ai/upgrade",
+      "notes": "No free trial for Pro",
+      "backup_urls": [
+        "https://support.anthropic.com/en/articles/9579605-how-do-i-cancel-my-plan",
+        "https://www.anthropic.com/pricing"
+      ]
+    },
+    "coursera_plus": {
+      "url": "https://www.coursera.org/courseraplus",
+      "notes": "7-day free trial"
+    },
+    "crunchyroll": {
+      "url": "https://www.crunchyroll.com/welcome",
+      "notes": "7-day Premium trial",
+      "backup_urls": [
+        "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
+        "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies"
+      ]
+    },
+    "deezer": {
+      "url": "https://www.deezer.com/en/offers",
+      "notes": "1-month free trial"
+    },
+    "disney_plus": {
+      "url": "https://www.disneyplus.com/",
+      "notes": "No free trial in US"
+    },
+    "doordash_dashpass": {
+      "url": "https://www.doordash.com/dashpass/",
+      "notes": "30-day DashPass trial"
+    },
+    "dropbox_us": {
+      "url": "https://www.dropbox.com/plans",
+      "notes": "30-day trial for paid plans",
+      "backup_urls": [
+        "https://www.dropbox.com/plans",
+        "https://www.dropbox.com/terms"
+      ]
+    },
+    "duolingo": {
+      "url": "https://www.duolingo.com/super",
+      "notes": "14-day Super trial"
+    },
+    "evernote": {
+      "url": "https://evernote.com/compare-plans",
+      "notes": "14-day trial",
+      "backup_urls": [
+        "https://evernote.com/compare-plans",
+        "https://evernote.com/legal/terms-of-service"
+      ]
+    },
+    "expressvpn": {
+      "url": "https://www.expressvpn.com/order",
+      "notes": "7-day mobile trial; 30-day MBG",
+      "backup_urls": [
+        "https://www.expressvpn.com/support/manage-account/cancel-subscription/",
+        "https://www.expressvpn.com/support/manage-account/what-is-expressvpns-refund-policy/"
+      ]
+    },
+    "figma": {
+      "url": "https://www.figma.com/pricing/",
+      "notes": "Free starter plan; Professional trial"
+    },
+    "fubo_tv": {
+      "url": "https://www.fubo.tv/welcome",
+      "notes": "7-day free trial",
+      "backup_urls": [
+        "https://www.fubo.tv/welcome",
+        "https://support.fubo.tv/hc/en-us"
+      ]
+    },
+    "github_pro": {
+      "url": "https://github.com/pricing",
+      "notes": "No trial; free tier available"
+    },
+    "google_play": {
+      "url": "https://play.google.com/store",
+      "notes": "No platform-level trial"
+    },
+    "grammarly": {
+      "url": "https://www.grammarly.com/plans",
+      "notes": "7-day Premium trial",
+      "backup_urls": [
+        "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
+        "https://www.grammarly.com/plans"
+      ]
+    },
+    "headspace": {
+      "url": "https://www.headspace.com/subscriptions",
+      "notes": "7-day free trial",
+      "backup_urls": [
+        "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription",
+        "https://www.headspace.com/subscriptions"
+      ]
+    },
+    "hellofresh": {
+      "url": "https://www.hellofresh.com/plans",
+      "notes": "No trial; first-box discounts",
+      "backup_urls": [
+        "https://www.hellofresh.com/plans",
+        "https://www.hellofresh.com/about/faq"
+      ]
+    },
+    "hinge": {
+      "url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+      "notes": "Occasional 7-day HingeX trial",
+      "backup_urls": [
+        "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+        "https://help.hinge.co/hc/en-us"
+      ]
+    },
+    "hulu": {
+      "url": "https://www.hulu.com/start",
+      "notes": "30-day free trial"
+    },
+    "icloud_plus": {
+      "url": "https://support.apple.com/en-us/108052",
+      "notes": "No trial; 5GB free tier"
+    },
+    "instacart_plus": {
+      "url": "https://www.instacart.com/store/instacart-plus",
+      "notes": "14-day trial",
+      "backup_urls": [
+        "https://www.instacart.com/store/instacart-plus",
+        "https://www.instacart.com/help"
+      ]
+    },
+    "linkedin_premium": {
+      "url": "https://premium.linkedin.com/",
+      "notes": "1-month free trial"
+    },
+    "masterclass": {
+      "url": "https://www.masterclass.com/",
+      "notes": "No trial; 30-day guarantee",
+      "backup_urls": [
+        "https://www.masterclass.com/legal/terms",
+        "https://www.masterclass.com/"
+      ]
+    },
+    "max": {
+      "url": "https://www.max.com/",
+      "notes": "No free trial in US"
+    },
+    "microsoft_365": {
+      "url": "https://www.microsoft.com/en-us/microsoft-365/try",
+      "notes": "1-month free trial",
+      "backup_urls": [
+        "https://www.microsoft.com/en-us/microsoft-365/try",
+        "https://support.microsoft.com/en-us/account-billing"
+      ]
+    },
+    "midjourney": {
+      "url": "https://www.midjourney.com/home",
+      "notes": "No trial currently",
+      "backup_urls": [
+        "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
+        "https://www.midjourney.com/home"
+      ]
+    },
+    "netflix": {
+      "url": "https://www.netflix.com/signup",
+      "notes": "No free trial since 2020"
+    },
+    "nintendo_switch_online": {
+      "url": "https://www.nintendo.com/us/switch/online/",
+      "notes": "7-day free trial"
+    },
+    "noom": {
+      "url": "https://www.noom.com/",
+      "notes": "7-day free trial"
+    },
+    "nordvpn": {
+      "url": "https://nordvpn.com/pricing/",
+      "notes": "7-day mobile trial; 30-day MBG",
+      "backup_urls": [
+        "https://nordvpn.com/pricing/",
+        "https://support.nordvpn.com/hc/en-us"
+      ]
+    },
+    "notion": {
+      "url": "https://www.notion.so/pricing",
+      "notes": "No trial; free plan available"
+    },
+    "paramount_plus": {
+      "url": "https://www.paramountplus.com/",
+      "notes": "7-day free trial"
+    },
+    "peacock": {
+      "url": "https://www.peacocktv.com/plans",
+      "notes": "7-day Premium trial",
+      "backup_urls": [
+        "https://www.peacocktv.com/plans",
+        "https://www.peacocktv.com/help"
+      ]
+    },
+    "peloton": {
+      "url": "https://www.onepeloton.com/app",
+      "notes": "30-day App trial"
+    },
+    "playstation_plus": {
+      "url": "https://store.playstation.com/en-us/category/ps-plus",
+      "notes": "14-day trial"
+    },
+    "scribd": {
+      "url": "https://www.scribd.com/subscribe",
+      "notes": "30-day free trial"
+    },
+    "shutterstock": {
+      "url": "https://www.shutterstock.com/pricing",
+      "notes": "1-month trial with 10 images",
+      "backup_urls": [
+        "https://www.shutterstock.com/pricing",
+        "https://www.shutterstock.com/legal/terms-and-conditions"
+      ]
+    },
+    "slack": {
+      "url": "https://slack.com/pricing",
+      "notes": "90-day Pro trial for teams"
+    },
+    "sling_tv": {
+      "url": "https://www.sling.com/",
+      "notes": "No standard trial"
+    },
+    "spotify": {
+      "url": "https://www.spotify.com/us/premium/",
+      "notes": "1-month Premium trial"
+    },
+    "squarespace": {
+      "url": "https://www.squarespace.com/pricing",
+      "notes": "14-day trial; no card needed"
+    },
+    "strava": {
+      "url": "https://www.strava.com/subscribe",
+      "notes": "30-day subscription trial"
+    },
+    "surfshark": {
+      "url": "https://surfshark.com/pricing",
+      "notes": "7-day mobile trial; 30-day MBG"
+    },
+    "tidal": {
+      "url": "https://tidal.com/pricing",
+      "notes": "30-day free trial",
+      "backup_urls": [
+        "https://tidal.com/pricing",
+        "https://support.tidal.com/hc/en-us"
+      ]
+    },
+    "tinder": {
+      "url": "https://tinder.com/feature/subscription-tiers",
+      "notes": "No trial for paid tiers",
+      "backup_urls": [
+        "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
+        "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests"
+      ]
+    },
+    "todoist": {
+      "url": "https://todoist.com/pricing",
+      "notes": "30-day Pro trial; no card needed"
+    },
+    "twitch": {
+      "url": "https://www.twitch.tv/turbo",
+      "notes": "No trial for Turbo"
+    },
+    "walmart_plus": {
+      "url": "https://www.walmart.com/plus",
+      "notes": "30-day free trial"
+    },
+    "wix": {
+      "url": "https://www.wix.com/upgrade/website",
+      "notes": "14-day MBG; free plan available"
+    },
+    "xbox_game_pass": {
+      "url": "https://www.xbox.com/en-US/xbox-game-pass",
+      "notes": "14-day trial or $1 first month"
+    },
+    "youtube_premium": {
+      "url": "https://www.youtube.com/premium",
+      "notes": "1-month free trial"
+    },
+    "zoom": {
+      "url": "https://zoom.us/pricing",
+      "notes": "No paid plan trial; free Basic plan"
+    }
   }
 }

@@ -2,69 +2,361 @@
   "description": "Source URLs for each vendor's cancellation policy. Used by the daily policy-check action to detect changes.",
   "last_checked": "2026-02-02",
   "vendors": {
-    "1password": { "url": "https://support.1password.com/cancel-subscription/", "notes": "Cancel anytime; access until end of billing cycle" },
-    "adobe": { "url": "https://www.adobe.com/legal/subscription-terms.html", "notes": "Annual plan: 50% ETF; monthly: cancel anytime" },
-    "amazon_prime": { "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP", "notes": "Cancel anytime; partial refund if no benefits used" },
-    "apple_app_store": { "url": "https://support.apple.com/en-us/118223", "notes": "Cancel via Settings; access until end of period" },
-    "apple_music": { "url": "https://support.apple.com/en-us/118223", "notes": "Cancel anytime; access until end of billing period" },
-    "apple_tv_plus": { "url": "https://support.apple.com/en-us/118223", "notes": "Cancel anytime; access until end of billing period" },
-    "audible": { "url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership", "notes": "Cancel anytime; unused credits retained 12 months" },
-    "bitwarden": { "url": "https://bitwarden.com/help/cancel-a-subscription/", "notes": "Cancel anytime; reverts to free tier" },
-    "bumble": { "url": "https://bumble.com/en-us/terms", "notes": "Cancel anytime; no prorated refunds" },
-    "calm": { "url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund", "notes": "Cancel anytime; access until end of billing period" },
-    "canva": { "url": "https://www.canva.com/help/cancellation/", "notes": "Cancel anytime; reverts to free tier" },
-    "chatgpt_plus": { "url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription", "notes": "Cancel anytime; access until end of billing period" },
-    "claude_pro": { "url": "https://support.anthropic.com/en/articles/9579605-how-do-i-cancel-my-plan", "notes": "Cancel anytime; access until end of billing period" },
-    "coursera_plus": { "url": "https://www.coursera.support/s/article/208280266-Refund-policies", "notes": "Cancel anytime; annual plan non-refundable but access continues" },
-    "crunchyroll": { "url": "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription", "notes": "Cancel anytime; access until end of billing period" },
-    "deezer": { "url": "https://www.deezer.com/legal/cgu", "notes": "Cancel anytime; access until end of billing period" },
-    "disney_plus": { "url": "https://help.disneyplus.com/article/disneyplus-cancel-subscription", "notes": "Cancel anytime; no partial refunds" },
-    "doordash_dashpass": { "url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription", "notes": "Cancel anytime; benefits until end of cycle" },
-    "dropbox_us": { "url": "https://help.dropbox.com/plans/cancel-plan", "notes": "Cancel anytime; files retained 90 days" },
-    "duolingo": { "url": "https://support.duolingo.com/hc/en-us/articles/360030236551-How-do-I-cancel-my-Super-Duolingo-subscription", "notes": "Cancel anytime; reverts to free tier" },
-    "evernote": { "url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy", "notes": "Cancel anytime; reverts to free tier" },
-    "expressvpn": { "url": "https://www.expressvpn.com/support/manage-account/cancel-subscription/", "notes": "Cancel anytime; 30-day MBG on first purchase" },
-    "figma": { "url": "https://www.figma.com/legal/renewal-and-cancellation/", "notes": "Cancel anytime; annual plans non-refundable" },
-    "fubo_tv": { "url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy", "notes": "Cancel anytime; no partial month refunds" },
-    "github_pro": { "url": "https://docs.github.com/en/billing/managing-the-plan-for-your-github-account/downgrading-your-accounts-plan", "notes": "Cancel anytime; access until end of billing period" },
-    "google_play": { "url": "https://support.google.com/googleplay/answer/7018481", "notes": "Cancel via Play Store; access until end of period" },
-    "grammarly": { "url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription", "notes": "Cancel anytime; reverts to free tier" },
-    "headspace": { "url": "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription", "notes": "Cancel anytime; access until end of billing period" },
-    "hellofresh": { "url": "https://www.hellofresh.com/about/faq", "notes": "Cancel 5 days before next delivery" },
-    "hinge": { "url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund", "notes": "Cancel anytime; access until end of billing period" },
-    "hulu": { "url": "https://help.hulu.com/article/cancel-subscription", "notes": "Cancel anytime; no partial month refunds" },
-    "icloud_plus": { "url": "https://support.apple.com/en-us/108052", "notes": "Cancel anytime; storage downgrades at end of period" },
-    "instacart_plus": { "url": "https://www.instacart.com/help/section/360007797952/4408784716820", "notes": "Cancel anytime; annual refundable within 5 days if no orders" },
-    "linkedin_premium": { "url": "https://www.linkedin.com/help/linkedin/answer/a545555", "notes": "Cancel anytime; access until end of billing period" },
-    "masterclass": { "url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g", "notes": "Cancel anytime; annual plan access until end of period" },
-    "max": { "url": "https://help.max.com/US/Answer/Detail/000002536", "notes": "Cancel anytime; access until end of billing period" },
-    "microsoft_365": { "url": "https://support.microsoft.com/en-us/office/cancel-a-microsoft-365-subscription-46e2634a-c64d-4c57-820c-3aa8e525e4e0", "notes": "Cancel anytime; prorated refund within 30 days" },
-    "midjourney": { "url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan", "notes": "Cancel anytime; access until end of billing period" },
-    "netflix": { "url": "https://help.netflix.com/en/node/407", "notes": "Cancel anytime; access until end of billing period; account saved 10 months" },
-    "nintendo_switch_online": { "url": "https://en-americas-support.nintendo.com/app/answers/detail/a_id/41228", "notes": "Turn off auto-renewal; access until end of period" },
-    "noom": { "url": "https://www.noom.com/support/faqs/programs/2025/10/noom-refund-policy/", "notes": "Cancel anytime; renewals non-refundable" },
-    "nordvpn": { "url": "https://support.nordvpn.com/hc/en-us/articles/19476991311121-What-is-your-refund-policy", "notes": "Cancel anytime; 30-day MBG on first purchase" },
-    "notion": { "url": "https://www.notion.so/help/manage-your-plan-and-billing", "notes": "Cancel anytime; reverts to free tier" },
-    "paramount_plus": { "url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription", "notes": "Cancel anytime; access until end of billing period" },
-    "peacock": { "url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan", "notes": "Cancel anytime; reverts to free tier" },
-    "peloton": { "url": "https://support.onepeloton.com/hc/en-us/articles/360029339052-Cancel-Your-Peloton-Membership", "notes": "Cancel anytime; no prorated refunds" },
-    "playstation_plus": { "url": "https://www.playstation.com/en-us/legal/playstation-store-cancellation-policy/", "notes": "Cancel auto-renewal; 14-day pro-rated refund window" },
-    "scribd": { "url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription", "notes": "Cancel anytime; access until end of billing period" },
-    "shutterstock": { "url": "https://www.shutterstock.com/help/en/articles/10594851-can-i-get-a-refund-if-i-cancel-my-plan", "notes": "Annual plan: 50% ETF; monthly: cancel anytime" },
-    "slack": { "url": "https://slack.com/help/articles/218915077-Slacks-Fair-Billing-Policy", "notes": "Cancel anytime; prorated credit via Fair Billing" },
-    "sling_tv": { "url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription", "notes": "Cancel anytime; no partial month refunds" },
-    "spotify": { "url": "https://support.spotify.com/us/article/cancel-premium/", "notes": "Cancel anytime; reverts to free tier" },
-    "squarespace": { "url": "https://support.squarespace.com/hc/en-us/articles/205815928-Canceling-your-Squarespace-subscription", "notes": "Cancel anytime; site goes offline at end of period" },
-    "strava": { "url": "https://support.strava.com/hc/en-us/articles/216917967-Cancel-Subscription", "notes": "Cancel anytime; reverts to free tier" },
-    "surfshark": { "url": "https://support.surfshark.com/hc/en-us/articles/360003103653-What-is-Surfshark-s-refund-policy", "notes": "Cancel anytime; 30-day MBG on first purchase" },
-    "tidal": { "url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy", "notes": "Cancel anytime; access until end of billing period" },
-    "tinder": { "url": "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription", "notes": "Cancel anytime; access until end of billing period" },
-    "todoist": { "url": "https://www.todoist.com/help/articles/manage-your-plan-or-billing-tRBHzjBBT", "notes": "Cancel anytime; reverts to free tier" },
-    "twitch": { "url": "https://help.twitch.tv/s/article/cancel-twitch-turbo", "notes": "Cancel Turbo anytime; access until end of billing period" },
-    "walmart_plus": { "url": "https://www.walmart.com/help/article/walmart-plus-cancellation/eacb97cd44a84d0c877d5e7f2b7e39c4", "notes": "Cancel anytime; benefits until end of billing cycle" },
-    "wix": { "url": "https://support.wix.com/en/article/canceling-a-premium-plan", "notes": "Cancel anytime; 14-day refund for new plans" },
-    "xbox_game_pass": { "url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription", "notes": "Cancel anytime; access until end of billing period" },
-    "youtube_premium": { "url": "https://support.google.com/youtube/answer/6308278", "notes": "Cancel anytime; reverts to free tier" },
-    "zoom": { "url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0060842", "notes": "Cancel anytime; annual plans non-refundable" }
+    "1password": {
+      "url": "https://support.1password.com/cancel-subscription/",
+      "notes": "Cancel anytime; access until end of billing cycle",
+      "backup_urls": [
+        "https://support.1password.com/billing/",
+        "https://1password.com/legal/"
+      ]
+    },
+    "adobe": {
+      "url": "https://www.adobe.com/legal/subscription-terms.html",
+      "notes": "Annual plan: 50% ETF; monthly: cancel anytime"
+    },
+    "amazon_prime": {
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
+      "notes": "Cancel anytime; partial refund if no benefits used",
+      "backup_urls": [
+        "https://www.amazon.com/amazonprime",
+        "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC"
+      ]
+    },
+    "apple_app_store": {
+      "url": "https://support.apple.com/en-us/118223",
+      "notes": "Cancel via Settings; access until end of period"
+    },
+    "apple_music": {
+      "url": "https://support.apple.com/en-us/118223",
+      "notes": "Cancel anytime; access until end of billing period"
+    },
+    "apple_tv_plus": {
+      "url": "https://support.apple.com/en-us/118223",
+      "notes": "Cancel anytime; access until end of billing period"
+    },
+    "audible": {
+      "url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
+      "notes": "Cancel anytime; unused credits retained 12 months",
+      "backup_urls": [
+        "https://www.audible.com/legal/conditions-of-use",
+        "https://help.audible.com/s/topic/0TO4N0000004kQZWAY/membership"
+      ]
+    },
+    "bitwarden": {
+      "url": "https://bitwarden.com/help/cancel-a-subscription/",
+      "notes": "Cancel anytime; reverts to free tier"
+    },
+    "bumble": {
+      "url": "https://bumble.com/en-us/terms",
+      "notes": "Cancel anytime; no prorated refunds"
+    },
+    "calm": {
+      "url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
+      "notes": "Cancel anytime; access until end of billing period",
+      "backup_urls": [
+        "https://support.calm.com/hc/en-us",
+        "https://www.calm.com/terms"
+      ]
+    },
+    "canva": {
+      "url": "https://www.canva.com/help/cancellation/",
+      "notes": "Cancel anytime; reverts to free tier",
+      "backup_urls": [
+        "https://www.canva.com/policies/terms-of-use/",
+        "https://www.canva.com/help/"
+      ]
+    },
+    "chatgpt_plus": {
+      "url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
+      "notes": "Cancel anytime; access until end of billing period",
+      "backup_urls": [
+        "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus",
+        "https://openai.com/chatgpt/pricing/"
+      ]
+    },
+    "claude_pro": {
+      "url": "https://support.anthropic.com/en/articles/9579605-how-do-i-cancel-my-plan",
+      "notes": "Cancel anytime; access until end of billing period",
+      "backup_urls": [
+        "https://support.anthropic.com/en/articles/9579605-how-do-i-cancel-my-plan",
+        "https://www.anthropic.com/pricing"
+      ]
+    },
+    "coursera_plus": {
+      "url": "https://www.coursera.support/s/article/208280266-Refund-policies",
+      "notes": "Cancel anytime; annual plan non-refundable but access continues"
+    },
+    "crunchyroll": {
+      "url": "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
+      "notes": "Cancel anytime; access until end of billing period",
+      "backup_urls": [
+        "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
+        "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies"
+      ]
+    },
+    "deezer": {
+      "url": "https://www.deezer.com/legal/cgu",
+      "notes": "Cancel anytime; access until end of billing period"
+    },
+    "disney_plus": {
+      "url": "https://help.disneyplus.com/article/disneyplus-cancel-subscription",
+      "notes": "Cancel anytime; no partial refunds"
+    },
+    "doordash_dashpass": {
+      "url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
+      "notes": "Cancel anytime; benefits until end of cycle"
+    },
+    "dropbox_us": {
+      "url": "https://help.dropbox.com/plans/cancel-plan",
+      "notes": "Cancel anytime; files retained 90 days",
+      "backup_urls": [
+        "https://www.dropbox.com/plans",
+        "https://www.dropbox.com/terms"
+      ]
+    },
+    "duolingo": {
+      "url": "https://support.duolingo.com/hc/en-us/articles/360030236551-How-do-I-cancel-my-Super-Duolingo-subscription",
+      "notes": "Cancel anytime; reverts to free tier"
+    },
+    "evernote": {
+      "url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
+      "notes": "Cancel anytime; reverts to free tier",
+      "backup_urls": [
+        "https://evernote.com/compare-plans",
+        "https://evernote.com/legal/terms-of-service"
+      ]
+    },
+    "expressvpn": {
+      "url": "https://www.expressvpn.com/support/manage-account/cancel-subscription/",
+      "notes": "Cancel anytime; 30-day MBG on first purchase",
+      "backup_urls": [
+        "https://www.expressvpn.com/support/manage-account/cancel-subscription/",
+        "https://www.expressvpn.com/support/manage-account/what-is-expressvpns-refund-policy/"
+      ]
+    },
+    "figma": {
+      "url": "https://www.figma.com/legal/renewal-and-cancellation/",
+      "notes": "Cancel anytime; annual plans non-refundable"
+    },
+    "fubo_tv": {
+      "url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
+      "notes": "Cancel anytime; no partial month refunds",
+      "backup_urls": [
+        "https://www.fubo.tv/welcome",
+        "https://support.fubo.tv/hc/en-us"
+      ]
+    },
+    "github_pro": {
+      "url": "https://docs.github.com/en/billing/managing-the-plan-for-your-github-account/downgrading-your-accounts-plan",
+      "notes": "Cancel anytime; access until end of billing period"
+    },
+    "google_play": {
+      "url": "https://support.google.com/googleplay/answer/7018481",
+      "notes": "Cancel via Play Store; access until end of period"
+    },
+    "grammarly": {
+      "url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
+      "notes": "Cancel anytime; reverts to free tier",
+      "backup_urls": [
+        "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
+        "https://www.grammarly.com/plans"
+      ]
+    },
+    "headspace": {
+      "url": "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription",
+      "notes": "Cancel anytime; access until end of billing period",
+      "backup_urls": [
+        "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription",
+        "https://www.headspace.com/subscriptions"
+      ]
+    },
+    "hellofresh": {
+      "url": "https://www.hellofresh.com/about/faq",
+      "notes": "Cancel 5 days before next delivery",
+      "backup_urls": [
+        "https://www.hellofresh.com/plans",
+        "https://www.hellofresh.com/about/faq"
+      ]
+    },
+    "hinge": {
+      "url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
+      "notes": "Cancel anytime; access until end of billing period",
+      "backup_urls": [
+        "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+        "https://help.hinge.co/hc/en-us"
+      ]
+    },
+    "hulu": {
+      "url": "https://help.hulu.com/article/cancel-subscription",
+      "notes": "Cancel anytime; no partial month refunds"
+    },
+    "icloud_plus": {
+      "url": "https://support.apple.com/en-us/108052",
+      "notes": "Cancel anytime; storage downgrades at end of period"
+    },
+    "instacart_plus": {
+      "url": "https://www.instacart.com/help/section/360007797952/4408784716820",
+      "notes": "Cancel anytime; annual refundable within 5 days if no orders",
+      "backup_urls": [
+        "https://www.instacart.com/store/instacart-plus",
+        "https://www.instacart.com/help"
+      ]
+    },
+    "linkedin_premium": {
+      "url": "https://www.linkedin.com/help/linkedin/answer/a545555",
+      "notes": "Cancel anytime; access until end of billing period"
+    },
+    "masterclass": {
+      "url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
+      "notes": "Cancel anytime; annual plan access until end of period",
+      "backup_urls": [
+        "https://www.masterclass.com/legal/terms",
+        "https://www.masterclass.com/"
+      ]
+    },
+    "max": {
+      "url": "https://help.max.com/US/Answer/Detail/000002536",
+      "notes": "Cancel anytime; access until end of billing period"
+    },
+    "microsoft_365": {
+      "url": "https://support.microsoft.com/en-us/office/cancel-a-microsoft-365-subscription-46e2634a-c64d-4c57-820c-3aa8e525e4e0",
+      "notes": "Cancel anytime; prorated refund within 30 days",
+      "backup_urls": [
+        "https://www.microsoft.com/en-us/microsoft-365/try",
+        "https://support.microsoft.com/en-us/account-billing"
+      ]
+    },
+    "midjourney": {
+      "url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
+      "notes": "Cancel anytime; access until end of billing period",
+      "backup_urls": [
+        "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
+        "https://www.midjourney.com/home"
+      ]
+    },
+    "netflix": {
+      "url": "https://help.netflix.com/en/node/407",
+      "notes": "Cancel anytime; access until end of billing period; account saved 10 months"
+    },
+    "nintendo_switch_online": {
+      "url": "https://en-americas-support.nintendo.com/app/answers/detail/a_id/41228",
+      "notes": "Turn off auto-renewal; access until end of period"
+    },
+    "noom": {
+      "url": "https://www.noom.com/support/faqs/programs/2025/10/noom-refund-policy/",
+      "notes": "Cancel anytime; renewals non-refundable"
+    },
+    "nordvpn": {
+      "url": "https://support.nordvpn.com/hc/en-us/articles/19476991311121-What-is-your-refund-policy",
+      "notes": "Cancel anytime; 30-day MBG on first purchase",
+      "backup_urls": [
+        "https://nordvpn.com/pricing/",
+        "https://support.nordvpn.com/hc/en-us"
+      ]
+    },
+    "notion": {
+      "url": "https://www.notion.so/help/manage-your-plan-and-billing",
+      "notes": "Cancel anytime; reverts to free tier"
+    },
+    "paramount_plus": {
+      "url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
+      "notes": "Cancel anytime; access until end of billing period"
+    },
+    "peacock": {
+      "url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
+      "notes": "Cancel anytime; reverts to free tier",
+      "backup_urls": [
+        "https://www.peacocktv.com/plans",
+        "https://www.peacocktv.com/help"
+      ]
+    },
+    "peloton": {
+      "url": "https://support.onepeloton.com/hc/en-us/articles/360029339052-Cancel-Your-Peloton-Membership",
+      "notes": "Cancel anytime; no prorated refunds"
+    },
+    "playstation_plus": {
+      "url": "https://www.playstation.com/en-us/legal/playstation-store-cancellation-policy/",
+      "notes": "Cancel auto-renewal; 14-day pro-rated refund window"
+    },
+    "scribd": {
+      "url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
+      "notes": "Cancel anytime; access until end of billing period"
+    },
+    "shutterstock": {
+      "url": "https://www.shutterstock.com/help/en/articles/10594851-can-i-get-a-refund-if-i-cancel-my-plan",
+      "notes": "Annual plan: 50% ETF; monthly: cancel anytime",
+      "backup_urls": [
+        "https://www.shutterstock.com/pricing",
+        "https://www.shutterstock.com/legal/terms-and-conditions"
+      ]
+    },
+    "slack": {
+      "url": "https://slack.com/help/articles/218915077-Slacks-Fair-Billing-Policy",
+      "notes": "Cancel anytime; prorated credit via Fair Billing"
+    },
+    "sling_tv": {
+      "url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
+      "notes": "Cancel anytime; no partial month refunds"
+    },
+    "spotify": {
+      "url": "https://support.spotify.com/us/article/cancel-premium/",
+      "notes": "Cancel anytime; reverts to free tier"
+    },
+    "squarespace": {
+      "url": "https://support.squarespace.com/hc/en-us/articles/205815928-Canceling-your-Squarespace-subscription",
+      "notes": "Cancel anytime; site goes offline at end of period"
+    },
+    "strava": {
+      "url": "https://support.strava.com/hc/en-us/articles/216917967-Cancel-Subscription",
+      "notes": "Cancel anytime; reverts to free tier"
+    },
+    "surfshark": {
+      "url": "https://support.surfshark.com/hc/en-us/articles/360003103653-What-is-Surfshark-s-refund-policy",
+      "notes": "Cancel anytime; 30-day MBG on first purchase"
+    },
+    "tidal": {
+      "url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
+      "notes": "Cancel anytime; access until end of billing period",
+      "backup_urls": [
+        "https://tidal.com/pricing",
+        "https://support.tidal.com/hc/en-us"
+      ]
+    },
+    "tinder": {
+      "url": "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
+      "notes": "Cancel anytime; access until end of billing period",
+      "backup_urls": [
+        "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
+        "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests"
+      ]
+    },
+    "todoist": {
+      "url": "https://www.todoist.com/help/articles/manage-your-plan-or-billing-tRBHzjBBT",
+      "notes": "Cancel anytime; reverts to free tier"
+    },
+    "twitch": {
+      "url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
+      "notes": "Cancel Turbo anytime; access until end of billing period"
+    },
+    "walmart_plus": {
+      "url": "https://www.walmart.com/help/article/walmart-plus-cancellation/eacb97cd44a84d0c877d5e7f2b7e39c4",
+      "notes": "Cancel anytime; benefits until end of billing cycle"
+    },
+    "wix": {
+      "url": "https://support.wix.com/en/article/canceling-a-premium-plan",
+      "notes": "Cancel anytime; 14-day refund for new plans"
+    },
+    "xbox_game_pass": {
+      "url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
+      "notes": "Cancel anytime; access until end of billing period"
+    },
+    "youtube_premium": {
+      "url": "https://support.google.com/youtube/answer/6308278",
+      "notes": "Cancel anytime; reverts to free tier"
+    },
+    "zoom": {
+      "url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0060842",
+      "notes": "Cancel anytime; annual plans non-refundable"
+    }
   }
 }
