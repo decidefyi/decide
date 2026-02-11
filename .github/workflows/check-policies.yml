@@ -13,6 +13,7 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
 
@@ -56,6 +57,10 @@ jobs:
             rules/cancel-policy-hashes.json
             rules/return-policy-hashes.json
             rules/trial-policy-hashes.json
+            rules/policy-change-candidates.json
+            rules/cancel-policy-change-candidates.json
+            rules/return-policy-change-candidates.json
+            rules/trial-policy-change-candidates.json
             rules/policy-sources.json
             rules/cancel-policy-sources.json
             rules/return-policy-sources.json
