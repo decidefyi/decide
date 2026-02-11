@@ -1,37 +1,44 @@
 {
-  "amazon_prime": {
-    "hash": "5cee728d631aa708",
-    "count": 1,
-    "source_url": "https://www.amazon.com/amazonprime",
-    "first_seen_utc": "2026-02-11T09:01:56Z",
-    "last_seen_utc": "2026-02-11T09:01:56Z"
-  },
-  "chatgpt_plus": {
-    "hash": "81789a121e0e5aad",
-    "count": 1,
-    "source_url": "https://openai.com/chatgpt/pricing/",
-    "first_seen_utc": "2026-02-11T09:02:36Z",
-    "last_seen_utc": "2026-02-11T09:02:36Z"
-  },
   "doordash_dashpass": {
-    "hash": "34432d32b7385c65",
+    "hash": "95d1d63d5d4edbfa",
     "count": 1,
     "source_url": "https://www.doordash.com/dashpass/",
-    "first_seen_utc": "2026-02-11T09:03:05Z",
-    "last_seen_utc": "2026-02-11T09:03:05Z"
+    "first_seen_utc": "2026-02-11T09:52:43Z",
+    "last_seen_utc": "2026-02-11T09:52:43Z"
+  },
+  "fubo_tv": {
+    "hash": "730cfac095b9423b",
+    "count": 1,
+    "source_url": "https://www.fubo.tv/welcome",
+    "first_seen_utc": "2026-02-11T09:52:46Z",
+    "last_seen_utc": "2026-02-11T09:52:46Z"
+  },
+  "hinge": {
+    "hash": "9fa4e3113725a005",
+    "count": 1,
+    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+    "first_seen_utc": "2026-02-11T09:52:52Z",
+    "last_seen_utc": "2026-02-11T09:52:52Z"
   },
   "masterclass": {
-    "hash": "b52af6fb15e72032",
+    "hash": "9ad2b3a16fcb76b7",
     "count": 1,
     "source_url": "https://www.masterclass.com/",
-    "first_seen_utc": "2026-02-11T09:03:43Z",
-    "last_seen_utc": "2026-02-11T09:03:43Z"
+    "first_seen_utc": "2026-02-11T09:53:24Z",
+    "last_seen_utc": "2026-02-11T09:53:24Z"
+  },
+  "peacock": {
+    "hash": "fa94093d8883849d",
+    "count": 1,
+    "source_url": "https://www.peacocktv.com/plans",
+    "first_seen_utc": "2026-02-11T09:54:19Z",
+    "last_seen_utc": "2026-02-11T09:54:19Z"
   },
   "twitch": {
-    "hash": "9804ee8693f61a0d",
+    "hash": "6a1b06647d639730",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-11T09:04:10Z",
-    "last_seen_utc": "2026-02-11T09:04:10Z"
+    "first_seen_utc": "2026-02-11T09:54:32Z",
+    "last_seen_utc": "2026-02-11T09:54:32Z"
   }
 }
