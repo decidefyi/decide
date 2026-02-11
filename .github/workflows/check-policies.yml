@@ -49,7 +49,30 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add rules/policy-hashes.json rules/cancel-policy-hashes.json rules/return-policy-hashes.json rules/trial-policy-hashes.json
+          files=(
+            rules/policy-hashes.json
+            rules/cancel-policy-hashes.json
+            rules/return-policy-hashes.json
+            rules/trial-policy-hashes.json
+            rules/policy-sources.json
+            rules/cancel-policy-sources.json
+            rules/return-policy-sources.json
+            rules/trial-policy-sources.json
+          )
+
+          existing=()
+          for f in "${files[@]}"; do
+            if [ -f "$f" ]; then
+              existing+=("$f")
+            fi
+          done
+
+          if [ "${#existing[@]}" -eq 0 ]; then
+            echo "No policy artifacts generated; skipping commit."
+            exit 0
+          fi
+
+          git add "${existing[@]}"
           if ! git diff --cached --quiet; then
             git commit -m "chore: update policy page hashes [skip ci]"
             git push

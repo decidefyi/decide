@@ -163,7 +163,7 @@ export default async function handler(req, res) {
 
       const payload = compute(args);
 
-      const textMessage = `Cancellation Status: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}\nSource: ${payload.policy_source_url || "N/A"}\nSource Notes: ${payload.policy_source_notes || "N/A"}\nLast Checked: ${payload.policy_last_checked || "N/A"}`;
+      const textMessage = `Cancellation Status: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}\nSource: ${payload.policy_source_url || "N/A"}\nSource Notes: ${payload.policy_source_notes || "N/A"}\nPolicy Updated: ${payload.policy_last_checked || "N/A"}\nLast Verified (UTC): ${payload.policy_last_verified_utc || "N/A"}`;
 
       send(
         res,

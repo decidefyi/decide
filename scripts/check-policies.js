@@ -54,6 +54,25 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function utcIsoTimestamp(date = new Date()) {
+  return date.toISOString().replace(/\.\d{3}Z$/, "Z");
+}
+
+function updateJsonStringField(filePath, fieldName, nextValue) {
+  const raw = readFileSync(filePath, "utf8");
+  const pattern = new RegExp(`"${fieldName}"\\s*:\\s*"[^"]*"`);
+  if (pattern.test(raw)) {
+    const updated = raw.replace(pattern, `"${fieldName}": "${nextValue}"`);
+    if (updated !== raw) {
+      writeFileSync(filePath, updated, "utf8");
+      return true;
+    }
+    return false;
+  }
+
+  return false;
+}
+
 async function fetchText(url, attempts = 3) {
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     const controller = new AbortController();
@@ -98,6 +117,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, rulesFile }) {
   const changed = [];
   const errors = [];
   const newHashes = { ...storedHashes };
+  let successfulChecks = 0;
 
   // Process in batches of 5 to avoid hammering
   for (let i = 0; i < vendors.length; i += 5) {
@@ -111,12 +131,23 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, rulesFile }) {
         }
         const h = hash(text);
         newHashes[vendor] = h;
+        successfulChecks += 1;
 
         if (!isUpdate && storedHashes[vendor] && storedHashes[vendor] !== h) {
           changed.push({ vendor, url });
         }
       })
     );
+  }
+
+  const verifiedAtUtc = utcIsoTimestamp();
+  if (vendors.length > 0 && successfulChecks === 0) {
+    console.log(`::warning::No successful checks for ${name}; preserving existing last_verified_utc.`);
+  } else if (successfulChecks > 0) {
+    sources.last_verified_utc = verifiedAtUtc;
+    if (!updateJsonStringField(sourcesPath, "last_verified_utc", verifiedAtUtc)) {
+      writeFileSync(sourcesPath, JSON.stringify(sources, null, 2) + "\n");
+    }
   }
 
   // Write updated hashes
