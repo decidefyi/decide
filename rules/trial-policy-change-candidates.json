@@ -1,44 +1,79 @@
 {
-  "doordash_dashpass": {
-    "hash": "95d1d63d5d4edbfa",
+  "amazon_prime": {
+    "hash": "93dc3cf496005ae9",
     "count": 1,
-    "source_url": "https://www.doordash.com/dashpass/",
-    "first_seen_utc": "2026-02-11T09:52:43Z",
-    "last_seen_utc": "2026-02-11T09:52:43Z"
+    "source_url": "https://www.amazon.com/amazonprime",
+    "first_seen_utc": "2026-02-12T09:01:52Z",
+    "last_seen_utc": "2026-02-12T09:01:52Z"
+  },
+  "chatgpt_plus": {
+    "hash": "0436926f1c91a051",
+    "count": 1,
+    "source_url": "https://openai.com/chatgpt/pricing/",
+    "first_seen_utc": "2026-02-12T09:02:26Z",
+    "last_seen_utc": "2026-02-12T09:02:26Z"
+  },
+  "claude_pro": {
+    "hash": "50e8ab3da6c704bd",
+    "count": 1,
+    "source_url": "https://claude.ai/upgrade",
+    "first_seen_utc": "2026-02-12T09:02:29Z",
+    "last_seen_utc": "2026-02-12T09:02:29Z"
   },
   "fubo_tv": {
-    "hash": "730cfac095b9423b",
+    "hash": "6e40c3846554c96b",
     "count": 1,
     "source_url": "https://www.fubo.tv/welcome",
-    "first_seen_utc": "2026-02-11T09:52:46Z",
-    "last_seen_utc": "2026-02-11T09:52:46Z"
+    "first_seen_utc": "2026-02-12T09:02:43Z",
+    "last_seen_utc": "2026-02-12T09:02:43Z"
   },
-  "hinge": {
-    "hash": "9fa4e3113725a005",
+  "google_play": {
+    "hash": "5f30c7982302a98c",
     "count": 1,
-    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "first_seen_utc": "2026-02-11T09:52:52Z",
-    "last_seen_utc": "2026-02-11T09:52:52Z"
+    "source_url": "https://play.google.com/store",
+    "first_seen_utc": "2026-02-12T09:02:43Z",
+    "last_seen_utc": "2026-02-12T09:02:43Z"
+  },
+  "linkedin_premium": {
+    "hash": "cb157c40a6e48b6a",
+    "count": 1,
+    "source_url": "https://premium.linkedin.com/",
+    "first_seen_utc": "2026-02-12T09:02:53Z",
+    "last_seen_utc": "2026-02-12T09:02:53Z"
   },
   "masterclass": {
-    "hash": "9ad2b3a16fcb76b7",
+    "hash": "b852ddd7e8c288fa",
     "count": 1,
     "source_url": "https://www.masterclass.com/",
-    "first_seen_utc": "2026-02-11T09:53:24Z",
-    "last_seen_utc": "2026-02-11T09:53:24Z"
+    "first_seen_utc": "2026-02-12T09:02:57Z",
+    "last_seen_utc": "2026-02-12T09:02:57Z"
   },
-  "peacock": {
-    "hash": "fa94093d8883849d",
+  "nintendo_switch_online": {
+    "hash": "9e026f326b523a33",
     "count": 1,
-    "source_url": "https://www.peacocktv.com/plans",
-    "first_seen_utc": "2026-02-11T09:54:19Z",
-    "last_seen_utc": "2026-02-11T09:54:19Z"
+    "source_url": "https://www.nintendo.com/us/switch/online/",
+    "first_seen_utc": "2026-02-12T09:03:08Z",
+    "last_seen_utc": "2026-02-12T09:03:08Z"
+  },
+  "nordvpn": {
+    "hash": "26addcd33afd7750",
+    "count": 1,
+    "source_url": "https://nordvpn.com/pricing/",
+    "first_seen_utc": "2026-02-12T09:03:12Z",
+    "last_seen_utc": "2026-02-12T09:03:12Z"
+  },
+  "sling_tv": {
+    "hash": "4c5e8cc70bb04f54",
+    "count": 1,
+    "source_url": "https://www.sling.com/",
+    "first_seen_utc": "2026-02-12T09:03:19Z",
+    "last_seen_utc": "2026-02-12T09:03:19Z"
   },
   "twitch": {
-    "hash": "6a1b06647d639730",
+    "hash": "1115ba6a003e9f79",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-11T09:54:32Z",
-    "last_seen_utc": "2026-02-11T09:54:32Z"
+    "first_seen_utc": "2026-02-12T09:03:30Z",
+    "last_seen_utc": "2026-02-12T09:03:30Z"
   }
 }
