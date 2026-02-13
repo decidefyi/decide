@@ -1,79 +1,72 @@
 {
-  "amazon_prime": {
-    "hash": "93dc3cf496005ae9",
+  "bitwarden": {
+    "hash": "6558ed2be82093c1",
     "count": 1,
-    "source_url": "https://www.amazon.com/amazonprime",
-    "first_seen_utc": "2026-02-12T09:01:52Z",
-    "last_seen_utc": "2026-02-12T09:01:52Z"
+    "source_url": "https://bitwarden.com/pricing/",
+    "first_seen_utc": "2026-02-13T09:00:27Z",
+    "last_seen_utc": "2026-02-13T09:00:27Z"
   },
   "chatgpt_plus": {
-    "hash": "0436926f1c91a051",
+    "hash": "303b8582ac335773",
     "count": 1,
     "source_url": "https://openai.com/chatgpt/pricing/",
-    "first_seen_utc": "2026-02-12T09:02:26Z",
-    "last_seen_utc": "2026-02-12T09:02:26Z"
+    "first_seen_utc": "2026-02-13T09:00:29Z",
+    "last_seen_utc": "2026-02-13T09:00:29Z"
   },
-  "claude_pro": {
-    "hash": "50e8ab3da6c704bd",
+  "canva": {
+    "hash": "06ed497c222880f9",
     "count": 1,
-    "source_url": "https://claude.ai/upgrade",
-    "first_seen_utc": "2026-02-12T09:02:29Z",
-    "last_seen_utc": "2026-02-12T09:02:29Z"
+    "source_url": "https://www.canva.com/pro/",
+    "first_seen_utc": "2026-02-13T09:00:30Z",
+    "last_seen_utc": "2026-02-13T09:00:30Z"
+  },
+  "doordash_dashpass": {
+    "hash": "36183157d82b5fc7",
+    "count": 1,
+    "source_url": "https://www.doordash.com/dashpass/",
+    "first_seen_utc": "2026-02-13T09:00:41Z",
+    "last_seen_utc": "2026-02-13T09:00:41Z"
   },
   "fubo_tv": {
-    "hash": "6e40c3846554c96b",
+    "hash": "730cfac095b9423b",
     "count": 1,
     "source_url": "https://www.fubo.tv/welcome",
-    "first_seen_utc": "2026-02-12T09:02:43Z",
-    "last_seen_utc": "2026-02-12T09:02:43Z"
+    "first_seen_utc": "2026-02-13T09:00:43Z",
+    "last_seen_utc": "2026-02-13T09:00:43Z"
   },
-  "google_play": {
-    "hash": "5f30c7982302a98c",
+  "hinge": {
+    "hash": "ae12aaf98998e173",
     "count": 1,
-    "source_url": "https://play.google.com/store",
-    "first_seen_utc": "2026-02-12T09:02:43Z",
-    "last_seen_utc": "2026-02-12T09:02:43Z"
+    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+    "first_seen_utc": "2026-02-13T09:00:48Z",
+    "last_seen_utc": "2026-02-13T09:00:48Z"
   },
-  "linkedin_premium": {
-    "hash": "cb157c40a6e48b6a",
+  "hulu": {
+    "hash": "769f51ed969750ab",
     "count": 1,
-    "source_url": "https://premium.linkedin.com/",
-    "first_seen_utc": "2026-02-12T09:02:53Z",
-    "last_seen_utc": "2026-02-12T09:02:53Z"
-  },
-  "masterclass": {
-    "hash": "b852ddd7e8c288fa",
-    "count": 1,
-    "source_url": "https://www.masterclass.com/",
-    "first_seen_utc": "2026-02-12T09:02:57Z",
-    "last_seen_utc": "2026-02-12T09:02:57Z"
+    "source_url": "https://www.hulu.com/start",
+    "first_seen_utc": "2026-02-13T09:00:49Z",
+    "last_seen_utc": "2026-02-13T09:00:49Z"
   },
   "nintendo_switch_online": {
-    "hash": "9e026f326b523a33",
+    "hash": "988ed90141f8f1b0",
     "count": 1,
     "source_url": "https://www.nintendo.com/us/switch/online/",
-    "first_seen_utc": "2026-02-12T09:03:08Z",
-    "last_seen_utc": "2026-02-12T09:03:08Z"
-  },
-  "nordvpn": {
-    "hash": "26addcd33afd7750",
-    "count": 1,
-    "source_url": "https://nordvpn.com/pricing/",
-    "first_seen_utc": "2026-02-12T09:03:12Z",
-    "last_seen_utc": "2026-02-12T09:03:12Z"
+    "first_seen_utc": "2026-02-13T09:01:04Z",
+    "last_seen_utc": "2026-02-13T09:01:04Z"
   },
   "sling_tv": {
-    "hash": "4c5e8cc70bb04f54",
+    "hash": "78b8f04dd249cdad",
     "count": 1,
     "source_url": "https://www.sling.com/",
-    "first_seen_utc": "2026-02-12T09:03:19Z",
-    "last_seen_utc": "2026-02-12T09:03:19Z"
+    "first_seen_utc": "2026-02-13T09:01:15Z",
+    "last_seen_utc": "2026-02-13T09:01:15Z"
   },
   "twitch": {
-    "hash": "1115ba6a003e9f79",
+    "hash": "6e11b7e84b205d7b",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-12T09:03:30Z",
-    "last_seen_utc": "2026-02-12T09:03:30Z"
+    "first_seen_utc": "2026-02-13T09:01:23Z",
+    "last_seen_utc": "2026-02-13T09:01:23Z"
   }
 }

@@ -1,87 +1,80 @@
 {
+  "audible": {
+    "hash": "a88d392d2052d701",
+    "count": 1,
+    "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
+    "first_seen_utc": "2026-02-13T08:53:45Z",
+    "last_seen_utc": "2026-02-13T08:53:45Z"
+  },
   "chatgpt_plus": {
-    "hash": "a083902f60232066",
+    "hash": "cce1d0fa6942ea88",
     "count": 1,
     "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-    "first_seen_utc": "2026-02-12T08:58:53Z",
-    "last_seen_utc": "2026-02-12T08:58:53Z"
+    "first_seen_utc": "2026-02-13T08:53:46Z",
+    "last_seen_utc": "2026-02-13T08:53:46Z"
   },
   "calm": {
-    "hash": "cd59f19965219dd0",
+    "hash": "d72f75609e5be554",
     "count": 1,
     "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-    "first_seen_utc": "2026-02-12T08:58:55Z",
-    "last_seen_utc": "2026-02-12T08:58:55Z"
+    "first_seen_utc": "2026-02-13T08:53:48Z",
+    "last_seen_utc": "2026-02-13T08:53:48Z"
   },
   "canva": {
-    "hash": "34dcaff517451921",
+    "hash": "00a8659abd454f37",
     "count": 1,
     "source_url": "https://www.canva.com/help/cancellation/",
-    "first_seen_utc": "2026-02-12T08:59:01Z",
-    "last_seen_utc": "2026-02-12T08:59:01Z"
+    "first_seen_utc": "2026-02-13T08:53:50Z",
+    "last_seen_utc": "2026-02-13T08:53:50Z"
   },
   "crunchyroll": {
-    "hash": "6c82ce55b288204d",
+    "hash": "9315e456fbf9c2b5",
     "count": 1,
     "source_url": "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
-    "first_seen_utc": "2026-02-12T08:59:07Z",
-    "last_seen_utc": "2026-02-12T08:59:07Z"
+    "first_seen_utc": "2026-02-13T08:53:56Z",
+    "last_seen_utc": "2026-02-13T08:53:56Z"
   },
   "disney_plus": {
-    "hash": "e9358c084831c8cf",
+    "hash": "7496841d408966b2",
     "count": 1,
     "source_url": "https://help.disneyplus.com/article/disneyplus-cancel-subscription",
-    "first_seen_utc": "2026-02-12T08:59:09Z",
-    "last_seen_utc": "2026-02-12T08:59:09Z"
-  },
-  "evernote": {
-    "hash": "4b824608bf47873f",
-    "count": 1,
-    "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
-    "first_seen_utc": "2026-02-12T08:59:11Z",
-    "last_seen_utc": "2026-02-12T08:59:11Z"
+    "first_seen_utc": "2026-02-13T08:53:58Z",
+    "last_seen_utc": "2026-02-13T08:53:58Z"
   },
   "dropbox_us": {
-    "hash": "6c37f08bc6e7dc60",
+    "hash": "6ddb904506181b10",
     "count": 1,
     "source_url": "https://help.dropbox.com/plans/cancel-plan",
-    "first_seen_utc": "2026-02-12T08:59:14Z",
-    "last_seen_utc": "2026-02-12T08:59:14Z"
-  },
-  "fubo_tv": {
-    "hash": "2e62a293afa659c7",
-    "count": 1,
-    "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-    "first_seen_utc": "2026-02-12T08:59:17Z",
-    "last_seen_utc": "2026-02-12T08:59:17Z"
+    "first_seen_utc": "2026-02-13T08:54:39Z",
+    "last_seen_utc": "2026-02-13T08:54:39Z"
   },
   "google_play": {
-    "hash": "6ae6ddce71e6081c",
+    "hash": "8a3a274478595e13",
     "count": 1,
     "source_url": "https://support.google.com/googleplay/answer/7018481",
-    "first_seen_utc": "2026-02-12T08:59:22Z",
-    "last_seen_utc": "2026-02-12T08:59:22Z"
+    "first_seen_utc": "2026-02-13T08:54:48Z",
+    "last_seen_utc": "2026-02-13T08:54:48Z"
   },
   "grammarly": {
-    "hash": "cc0f445cbd52a487",
+    "hash": "e5adcea469f4a180",
     "count": 1,
     "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
-    "first_seen_utc": "2026-02-12T08:59:23Z",
-    "last_seen_utc": "2026-02-12T08:59:23Z"
-  },
-  "hulu": {
-    "hash": "bac2501ba8ffe961",
-    "count": 1,
-    "source_url": "https://help.hulu.com/article/cancel-subscription",
-    "first_seen_utc": "2026-02-12T08:59:28Z",
-    "last_seen_utc": "2026-02-12T08:59:28Z"
+    "first_seen_utc": "2026-02-13T08:54:53Z",
+    "last_seen_utc": "2026-02-13T08:54:53Z"
   },
   "masterclass": {
-    "hash": "e5a2ddecdfd237e6",
+    "hash": "b852ddd7e8c288fa",
     "count": 1,
     "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-    "first_seen_utc": "2026-02-12T08:59:31Z",
-    "last_seen_utc": "2026-02-12T08:59:31Z"
+    "first_seen_utc": "2026-02-13T08:55:07Z",
+    "last_seen_utc": "2026-02-13T08:55:07Z"
+  },
+  "paramount_plus": {
+    "hash": "4704e0b46faa2f90",
+    "count": 1,
+    "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
+    "first_seen_utc": "2026-02-13T08:55:23Z",
+    "last_seen_utc": "2026-02-13T08:55:23Z"
   },
   "notion": {
     "hash": "deea2e4e0ffb6f44",
@@ -90,46 +83,32 @@
     "first_seen_utc": "2026-02-12T08:59:46Z",
     "last_seen_utc": "2026-02-12T08:59:46Z"
   },
-  "paramount_plus": {
-    "hash": "06bc4a6cd9ae1d27",
-    "count": 1,
-    "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-    "first_seen_utc": "2026-02-12T08:59:48Z",
-    "last_seen_utc": "2026-02-12T08:59:48Z"
-  },
   "strava": {
-    "hash": "86bd4e17073cab57",
+    "hash": "8765312b0342e7f6",
     "count": 1,
     "source_url": "https://support.strava.com/hc/en-us/articles/216917967-Cancel-Subscription",
-    "first_seen_utc": "2026-02-12T09:00:04Z",
-    "last_seen_utc": "2026-02-12T09:00:04Z"
+    "first_seen_utc": "2026-02-13T08:56:08Z",
+    "last_seen_utc": "2026-02-13T08:56:08Z"
   },
-  "tinder": {
-    "hash": "c2924a1871e8577e",
+  "tidal": {
+    "hash": "d6866fff681e5e52",
     "count": 1,
-    "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
-    "first_seen_utc": "2026-02-12T09:00:09Z",
-    "last_seen_utc": "2026-02-12T09:00:09Z"
-  },
-  "todoist": {
-    "hash": "8d062c27b1e7cd29",
-    "count": 1,
-    "source_url": "https://www.todoist.com/help/articles/manage-your-plan-or-billing-tRBHzjBBT",
-    "first_seen_utc": "2026-02-12T09:00:10Z",
-    "last_seen_utc": "2026-02-12T09:00:10Z"
+    "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
+    "first_seen_utc": "2026-02-13T08:56:14Z",
+    "last_seen_utc": "2026-02-13T08:56:14Z"
   },
   "twitch": {
-    "hash": "9804b23525478fea",
+    "hash": "d9a8156173508a88",
     "count": 1,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-    "first_seen_utc": "2026-02-12T09:00:18Z",
-    "last_seen_utc": "2026-02-12T09:00:18Z"
+    "first_seen_utc": "2026-02-13T08:56:42Z",
+    "last_seen_utc": "2026-02-13T08:56:42Z"
   },
   "youtube_premium": {
-    "hash": "e1780eba269b8759",
+    "hash": "137a723746ad8052",
     "count": 1,
     "source_url": "https://support.google.com/youtube/answer/6308278",
-    "first_seen_utc": "2026-02-12T09:00:19Z",
-    "last_seen_utc": "2026-02-12T09:00:19Z"
+    "first_seen_utc": "2026-02-13T08:56:43Z",
+    "last_seen_utc": "2026-02-13T08:56:43Z"
   }
 }
