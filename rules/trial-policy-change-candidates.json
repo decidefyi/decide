@@ -1,72 +1,44 @@
 {
-  "bitwarden": {
-    "hash": "6558ed2be82093c1",
-    "count": 1,
-    "source_url": "https://bitwarden.com/pricing/",
-    "first_seen_utc": "2026-02-13T09:00:27Z",
-    "last_seen_utc": "2026-02-13T09:00:27Z"
-  },
-  "chatgpt_plus": {
-    "hash": "303b8582ac335773",
-    "count": 1,
-    "source_url": "https://openai.com/chatgpt/pricing/",
-    "first_seen_utc": "2026-02-13T09:00:29Z",
-    "last_seen_utc": "2026-02-13T09:00:29Z"
-  },
   "canva": {
-    "hash": "06ed497c222880f9",
+    "hash": "f6a51721324680b9",
     "count": 1,
     "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-13T09:00:30Z",
-    "last_seen_utc": "2026-02-13T09:00:30Z"
+    "first_seen_utc": "2026-02-14T08:45:36Z",
+    "last_seen_utc": "2026-02-14T08:45:36Z"
   },
-  "doordash_dashpass": {
-    "hash": "36183157d82b5fc7",
+  "claude_pro": {
+    "hash": "e3f2e29a39b1a6af",
     "count": 1,
-    "source_url": "https://www.doordash.com/dashpass/",
-    "first_seen_utc": "2026-02-13T09:00:41Z",
-    "last_seen_utc": "2026-02-13T09:00:41Z"
+    "source_url": "https://claude.ai/upgrade",
+    "first_seen_utc": "2026-02-14T08:45:38Z",
+    "last_seen_utc": "2026-02-14T08:45:38Z"
   },
-  "fubo_tv": {
-    "hash": "730cfac095b9423b",
+  "google_play": {
+    "hash": "862f2a038baf3771",
     "count": 1,
-    "source_url": "https://www.fubo.tv/welcome",
-    "first_seen_utc": "2026-02-13T09:00:43Z",
-    "last_seen_utc": "2026-02-13T09:00:43Z"
+    "source_url": "https://play.google.com/store",
+    "first_seen_utc": "2026-02-14T08:46:13Z",
+    "last_seen_utc": "2026-02-14T08:46:13Z"
   },
   "hinge": {
-    "hash": "ae12aaf98998e173",
+    "hash": "708eef0a4d8b60ad",
     "count": 1,
     "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "first_seen_utc": "2026-02-13T09:00:48Z",
-    "last_seen_utc": "2026-02-13T09:00:48Z"
+    "first_seen_utc": "2026-02-14T08:46:21Z",
+    "last_seen_utc": "2026-02-14T08:46:21Z"
   },
-  "hulu": {
-    "hash": "769f51ed969750ab",
+  "notion": {
+    "hash": "15bb0b052249848d",
     "count": 1,
-    "source_url": "https://www.hulu.com/start",
-    "first_seen_utc": "2026-02-13T09:00:49Z",
-    "last_seen_utc": "2026-02-13T09:00:49Z"
-  },
-  "nintendo_switch_online": {
-    "hash": "988ed90141f8f1b0",
-    "count": 1,
-    "source_url": "https://www.nintendo.com/us/switch/online/",
-    "first_seen_utc": "2026-02-13T09:01:04Z",
-    "last_seen_utc": "2026-02-13T09:01:04Z"
-  },
-  "sling_tv": {
-    "hash": "78b8f04dd249cdad",
-    "count": 1,
-    "source_url": "https://www.sling.com/",
-    "first_seen_utc": "2026-02-13T09:01:15Z",
-    "last_seen_utc": "2026-02-13T09:01:15Z"
+    "source_url": "https://www.notion.so/pricing",
+    "first_seen_utc": "2026-02-14T08:46:39Z",
+    "last_seen_utc": "2026-02-14T08:46:39Z"
   },
   "twitch": {
-    "hash": "6e11b7e84b205d7b",
+    "hash": "3431c0790beadf7c",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-13T09:01:23Z",
-    "last_seen_utc": "2026-02-13T09:01:23Z"
+    "first_seen_utc": "2026-02-14T08:46:54Z",
+    "last_seen_utc": "2026-02-14T08:46:54Z"
   }
 }
