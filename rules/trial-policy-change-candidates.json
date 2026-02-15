@@ -1,44 +1,51 @@
 {
+  "chatgpt_plus": {
+    "hash": "0436926f1c91a051",
+    "count": 1,
+    "source_url": "https://openai.com/chatgpt/pricing/",
+    "first_seen_utc": "2026-02-15T08:46:33Z",
+    "last_seen_utc": "2026-02-15T08:46:33Z"
+  },
   "canva": {
-    "hash": "f6a51721324680b9",
+    "hash": "d588994ebcf10869",
     "count": 1,
     "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-14T08:45:36Z",
-    "last_seen_utc": "2026-02-14T08:45:36Z"
-  },
-  "claude_pro": {
-    "hash": "e3f2e29a39b1a6af",
-    "count": 1,
-    "source_url": "https://claude.ai/upgrade",
-    "first_seen_utc": "2026-02-14T08:45:38Z",
-    "last_seen_utc": "2026-02-14T08:45:38Z"
-  },
-  "google_play": {
-    "hash": "862f2a038baf3771",
-    "count": 1,
-    "source_url": "https://play.google.com/store",
-    "first_seen_utc": "2026-02-14T08:46:13Z",
-    "last_seen_utc": "2026-02-14T08:46:13Z"
+    "first_seen_utc": "2026-02-15T08:46:35Z",
+    "last_seen_utc": "2026-02-15T08:46:35Z"
   },
   "hinge": {
-    "hash": "708eef0a4d8b60ad",
+    "hash": "e57ca60f9cfa9d94",
     "count": 1,
     "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "first_seen_utc": "2026-02-14T08:46:21Z",
-    "last_seen_utc": "2026-02-14T08:46:21Z"
+    "first_seen_utc": "2026-02-15T08:47:16Z",
+    "last_seen_utc": "2026-02-15T08:47:16Z"
   },
-  "notion": {
-    "hash": "15bb0b052249848d",
+  "hulu": {
+    "hash": "3a593b491615aa0c",
     "count": 1,
-    "source_url": "https://www.notion.so/pricing",
-    "first_seen_utc": "2026-02-14T08:46:39Z",
-    "last_seen_utc": "2026-02-14T08:46:39Z"
+    "source_url": "https://www.hulu.com/start",
+    "first_seen_utc": "2026-02-15T08:47:17Z",
+    "last_seen_utc": "2026-02-15T08:47:17Z"
+  },
+  "sling_tv": {
+    "hash": "0ef1b740da648207",
+    "count": 1,
+    "source_url": "https://www.sling.com/",
+    "first_seen_utc": "2026-02-15T08:48:08Z",
+    "last_seen_utc": "2026-02-15T08:48:08Z"
   },
   "twitch": {
-    "hash": "3431c0790beadf7c",
+    "hash": "d693e69b223938b8",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-14T08:46:54Z",
-    "last_seen_utc": "2026-02-14T08:46:54Z"
+    "first_seen_utc": "2026-02-15T08:48:19Z",
+    "last_seen_utc": "2026-02-15T08:48:19Z"
+  },
+  "xbox_game_pass": {
+    "hash": "2e59c16077934be5",
+    "count": 1,
+    "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
+    "first_seen_utc": "2026-02-15T08:48:20Z",
+    "last_seen_utc": "2026-02-15T08:48:20Z"
   }
 }
