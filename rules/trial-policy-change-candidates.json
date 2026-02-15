@@ -1,51 +1,51 @@
 {
-  "amazon_music_unlimited": {
-    "hash": "f7b84407ea188a5b",
+  "chatgpt_plus": {
+    "hash": "0436926f1c91a051",
     "count": 1,
-    "source_url": "https://www.amazon.com/music/unlimited",
-    "first_seen_utc": "2026-02-15T17:22:12Z",
-    "last_seen_utc": "2026-02-15T17:22:12Z"
+    "source_url": "https://openai.com/chatgpt/pricing/",
+    "first_seen_utc": "2026-02-15T17:45:18Z",
+    "last_seen_utc": "2026-02-15T17:45:18Z"
   },
-  "amazon_prime": {
-    "hash": "5326441876aae1a0",
+  "claude_pro": {
+    "hash": "335f7732a186e612",
     "count": 1,
-    "source_url": "https://www.amazon.com/amazonprime",
-    "first_seen_utc": "2026-02-15T17:22:56Z",
-    "last_seen_utc": "2026-02-15T17:22:56Z"
-  },
-  "canva": {
-    "hash": "87fff735a8c3e515",
-    "count": 1,
-    "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-15T17:23:03Z",
-    "last_seen_utc": "2026-02-15T17:23:03Z"
+    "source_url": "https://claude.ai/upgrade",
+    "first_seen_utc": "2026-02-15T17:45:18Z",
+    "last_seen_utc": "2026-02-15T17:45:18Z"
   },
   "espn_plus": {
-    "hash": "469f59c84ef62888",
+    "hash": "3b7df1218c026d79",
     "count": 1,
     "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-15T17:23:41Z",
-    "last_seen_utc": "2026-02-15T17:23:41Z"
+    "first_seen_utc": "2026-02-15T17:45:51Z",
+    "last_seen_utc": "2026-02-15T17:45:51Z"
   },
-  "hinge": {
-    "hash": "0a3041330bcc9dd7",
+  "nordvpn": {
+    "hash": "3fe9621bc65a77b9",
     "count": 1,
-    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "first_seen_utc": "2026-02-15T17:23:50Z",
-    "last_seen_utc": "2026-02-15T17:23:50Z"
+    "source_url": "https://nordvpn.com/pricing/",
+    "first_seen_utc": "2026-02-15T17:47:12Z",
+    "last_seen_utc": "2026-02-15T17:47:12Z"
   },
   "peacock": {
-    "hash": "0683e934a1cb1b33",
+    "hash": "302a703c0563cfc7",
     "count": 1,
     "source_url": "https://www.peacocktv.com/plans",
-    "first_seen_utc": "2026-02-15T17:24:15Z",
-    "last_seen_utc": "2026-02-15T17:24:15Z"
+    "first_seen_utc": "2026-02-15T17:47:53Z",
+    "last_seen_utc": "2026-02-15T17:47:53Z"
+  },
+  "proton": {
+    "hash": "965ce7f58c37abd3",
+    "count": 1,
+    "source_url": "https://proton.me/pricing",
+    "first_seen_utc": "2026-02-15T17:47:54Z",
+    "last_seen_utc": "2026-02-15T17:47:54Z"
   },
   "twitch": {
-    "hash": "485fdfb475708573",
+    "hash": "90c8a6216f09fe82",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-15T17:24:28Z",
-    "last_seen_utc": "2026-02-15T17:24:28Z"
+    "first_seen_utc": "2026-02-15T17:48:05Z",
+    "last_seen_utc": "2026-02-15T17:48:05Z"
   }
 }
