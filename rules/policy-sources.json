@@ -435,8 +435,12 @@
       ]
     },
     "dashlane": {
-      "url": "https://www.dashlane.com/terms-of-service",
-      "notes": "30-day money-back guarantee on direct subscriptions."
+      "url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
+      "notes": "Dashlane subscription management and billing guidance.",
+      "backup_urls": [
+        "https://support.dashlane.com/hc/en-us",
+        "https://www.dashlane.com/pricing"
+      ]
     },
     "lastpass": {
       "url": "https://www.lastpass.com/legal-center/terms-of-service",
