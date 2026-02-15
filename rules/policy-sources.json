@@ -507,8 +507,12 @@
       ]
     },
     "washington_post": {
-      "url": "https://www.washingtonpost.com/terms-of-sale/",
-      "notes": "Subscription terms and billing conditions for Washington Post plans."
+      "url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
+      "notes": "Washington Post subscription management and cancellation guidance.",
+      "backup_urls": [
+        "https://helpcenter.washingtonpost.com/hc/en-us",
+        "https://www.washingtonpost.com/subscribe/"
+      ]
     },
     "substack": {
       "url": "https://substack.com/terms",
@@ -531,8 +535,12 @@
       "notes": "Telegram terms page covering subscription terms and billing behavior."
     },
     "soundcloud_go": {
-      "url": "https://checkout.soundcloud.com/terms",
-      "notes": "SoundCloud Go subscription terms and billing conditions."
+      "url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+      "notes": "SoundCloud Go subscription management and cancellation guidance.",
+      "backup_urls": [
+        "https://help.soundcloud.com/hc/en-us",
+        "https://soundcloud.com/go"
+      ]
     },
     "discovery_plus": {
       "url": "https://www.discoveryplus.com/terms",
