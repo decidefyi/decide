@@ -463,8 +463,12 @@
       "notes": "Cancellation terms vary by commitment and plan type."
     },
     "siriusxm": {
-      "url": "https://www.siriusxm.com/help/manage-or-cancel-your-subscription",
-      "notes": "Cancel anytime; service usually continues through billed term."
+      "url": "https://www.siriusxm.com/help/manage-or-cancel-service/",
+      "notes": "Cancellation path and billed-term access behavior for SiriusXM subscriptions.",
+      "backup_urls": [
+        "https://www.siriusxm.com/help/manage-or-cancel-your-subscription",
+        "https://www.siriusxm.com/customeragreement/"
+      ]
     },
     "patreon": {
       "url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
@@ -488,15 +492,23 @@
     },
     "mlb_tv": {
       "url": "https://www.mlb.com/live-stream-games/help-center",
-      "notes": "Cancel auto-renewal anytime; access remains through paid term."
+      "notes": "Cancel auto-renewal anytime; access remains through paid term.",
+      "backup_urls": [
+        "https://www.mlb.com/official-information/terms-of-use",
+        "https://www.mlb.com/live-stream-games/subscribe"
+      ]
     },
     "new_york_times": {
       "url": "https://help.nytimes.com/hc/en-us/articles/360003499613-Cancel-your-subscription",
       "notes": "NYT cancellation flow and renewal behavior."
     },
     "wall_street_journal": {
-      "url": "https://www.wsj.com/customercenter",
-      "notes": "WSJ account and cancellation management portal."
+      "url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
+      "notes": "WSJ cancellation and refund policy guidance.",
+      "backup_urls": [
+        "https://customercenter.wsj.com/contact",
+        "https://secure.wsj-asia.com/subscription1/supplementary2.html"
+      ]
     },
     "washington_post": {
       "url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
@@ -531,8 +543,12 @@
       "notes": "Discovery+ cancellation instructions and renewal behavior."
     },
     "starz": {
-      "url": "https://help.starz.com/en/articles/6661904-how-do-i-cancel-starz",
-      "notes": "STARZ cancellation instructions and renewal behavior."
+      "url": "https://www.starz.com/us/en/termsofuse",
+      "notes": "STARZ subscription cancellation and billing behavior.",
+      "backup_urls": [
+        "https://help.starz.com/en/articles/6661904-how-do-i-cancel-starz",
+        "https://www.starz.com/us/en/help"
+      ]
     },
     "britbox": {
       "url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",

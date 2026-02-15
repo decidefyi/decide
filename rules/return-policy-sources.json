@@ -459,8 +459,12 @@
       "notes": "Refund eligibility depends on selected plan and commitment."
     },
     "siriusxm": {
-      "url": "https://www.siriusxm.com/help/subscription-terms",
-      "notes": "Subscription fees are generally non-refundable after billing."
+      "url": "https://www.siriusxm.com/customeragreement/",
+      "notes": "Customer agreement and billing terms for SiriusXM subscriptions.",
+      "backup_urls": [
+        "https://www.siriusxm.com/help/manage-or-cancel-service/",
+        "https://www.siriusxm.com/help/manage-or-cancel-your-subscription"
+      ]
     },
     "patreon": {
       "url": "https://www.patreon.com/policy/legal",
@@ -483,16 +487,24 @@
       "notes": "Subscription fees are generally non-refundable after billing."
     },
     "mlb_tv": {
-      "url": "https://www.mlb.com/live-stream-games/subscribe/terms",
-      "notes": "Subscription fees are generally non-refundable after billing."
+      "url": "https://www.mlb.com/official-information/terms-of-use",
+      "notes": "MLB terms of use and paid product billing conditions.",
+      "backup_urls": [
+        "https://www.mlb.com/live-stream-games/help-center",
+        "https://www.mlb.com/live-stream-games/subscribe"
+      ]
     },
     "new_york_times": {
       "url": "https://www.nytimes.com/subscription/terms-of-sale",
       "notes": "Subscription billing and refund terms for NYT digital products."
     },
     "wall_street_journal": {
-      "url": "https://www.wsj.com/policy/subscription-agreement",
-      "notes": "Subscription agreement and billing terms for WSJ digital subscriptions."
+      "url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
+      "notes": "WSJ cancellation and refund policy guidance.",
+      "backup_urls": [
+        "https://customercenter.wsj.com/contact",
+        "https://secure.wsj-asia.com/subscription1/supplementary2.html"
+      ]
     },
     "washington_post": {
       "url": "https://www.washingtonpost.com/terms-of-sale/",
@@ -527,8 +539,12 @@
       "notes": "Discovery+ subscription terms and billing behavior."
     },
     "starz": {
-      "url": "https://www.starz.com/us/en/legal/terms-of-use",
-      "notes": "STARZ subscription terms and billing behavior."
+      "url": "https://www.starz.com/us/en/termsofuse",
+      "notes": "STARZ subscription terms and billing behavior.",
+      "backup_urls": [
+        "https://www.starz.com/us/en/legal/terms-of-use",
+        "https://www.starz.com/us/en/help"
+      ]
     },
     "britbox": {
       "url": "https://www.britbox.com/us/terms",
