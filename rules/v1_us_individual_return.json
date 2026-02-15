@@ -88,6 +88,19 @@
     "ubisoft_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
     "nfl_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription fees are generally non-refundable after billing." },
     "mlb_tv": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription fees are generally non-refundable after billing." },
+    "new_york_times": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
+    "wall_street_journal": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
+    "washington_post": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
+    "substack": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Paid subscriptions are generally non-refundable unless required by law." },
+    "snapchat_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
+    "x_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
+    "reddit_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
+    "telegram_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
+    "soundcloud_go": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
+    "discovery_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
+    "starz": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
+    "britbox": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
+    "amc_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
     "zoom": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "All subscription fees non-refundable" }
   }
 }

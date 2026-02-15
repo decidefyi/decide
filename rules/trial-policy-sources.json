@@ -486,6 +486,58 @@
       "url": "https://www.mlb.com/live-stream-games/subscribe",
       "notes": "No standing free trial; promotions may vary seasonally."
     },
+    "new_york_times": {
+      "url": "https://www.nytimes.com/subscription",
+      "notes": "Trial and promotional access may vary by offer and period."
+    },
+    "wall_street_journal": {
+      "url": "https://www.wsj.com/subscribe",
+      "notes": "Trial and promotional access may vary by offer and period."
+    },
+    "washington_post": {
+      "url": "https://www.washingtonpost.com/subscribe/",
+      "notes": "Trial and promotional access may vary by offer and period."
+    },
+    "substack": {
+      "url": "https://substack.com/going-paid",
+      "notes": "No platform-wide trial; creators can configure free or paid offers."
+    },
+    "snapchat_plus": {
+      "url": "https://www.snapchat.com/plus",
+      "notes": "Trial availability varies by account and purchase channel."
+    },
+    "x_premium": {
+      "url": "https://x.com/i/premium_sign_up",
+      "notes": "No standing free trial; promotional offers may vary."
+    },
+    "reddit_premium": {
+      "url": "https://www.reddit.com/premium",
+      "notes": "No standing free trial; promotional offers may vary."
+    },
+    "telegram_premium": {
+      "url": "https://telegram.org/premium",
+      "notes": "No standing free trial for Telegram Premium."
+    },
+    "soundcloud_go": {
+      "url": "https://soundcloud.com/go",
+      "notes": "Trial availability and duration vary by region and offer."
+    },
+    "discovery_plus": {
+      "url": "https://www.discoveryplus.com/",
+      "notes": "Trial availability and duration can vary by promotion."
+    },
+    "starz": {
+      "url": "https://www.starz.com/us/en/",
+      "notes": "Trial availability and duration can vary by promotion."
+    },
+    "britbox": {
+      "url": "https://www.britbox.com/us/",
+      "notes": "Trial availability and duration can vary by promotion."
+    },
+    "amc_plus": {
+      "url": "https://www.amcplus.com/",
+      "notes": "Trial availability and duration can vary by promotion."
+    },
     "zoom": {
       "url": "https://zoom.us/pricing",
       "notes": "No paid plan trial; free Basic plan"

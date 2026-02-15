@@ -88,6 +88,19 @@
     "ubisoft_plus": { "window_days": 0 },
     "nfl_plus": { "window_days": 0 },
     "mlb_tv": { "window_days": 0 },
+    "new_york_times": { "window_days": 0 },
+    "wall_street_journal": { "window_days": 0 },
+    "washington_post": { "window_days": 0 },
+    "substack": { "window_days": 0 },
+    "snapchat_plus": { "window_days": 0 },
+    "x_premium": { "window_days": 0 },
+    "reddit_premium": { "window_days": 0 },
+    "telegram_premium": { "window_days": 0 },
+    "soundcloud_go": { "window_days": 0 },
+    "discovery_plus": { "window_days": 0 },
+    "starz": { "window_days": 0 },
+    "britbox": { "window_days": 0 },
+    "amc_plus": { "window_days": 0 },
     "zoom": { "window_days": 0 }
   }
 }

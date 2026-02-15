@@ -486,6 +486,58 @@
       "url": "https://www.mlb.com/live-stream-games/subscribe/terms",
       "notes": "Subscription fees are generally non-refundable after billing."
     },
+    "new_york_times": {
+      "url": "https://www.nytimes.com/subscription/terms-of-sale",
+      "notes": "Subscription billing and refund terms for NYT digital products."
+    },
+    "wall_street_journal": {
+      "url": "https://www.wsj.com/policy/subscription-agreement",
+      "notes": "Subscription agreement and billing terms for WSJ digital subscriptions."
+    },
+    "washington_post": {
+      "url": "https://www.washingtonpost.com/terms-of-sale/",
+      "notes": "Subscription terms and billing conditions for Washington Post plans."
+    },
+    "substack": {
+      "url": "https://substack.com/terms",
+      "notes": "Platform terms covering paid subscriptions and billing behavior."
+    },
+    "snapchat_plus": {
+      "url": "https://www.snap.com/terms",
+      "notes": "Snap subscription terms and billing conditions."
+    },
+    "x_premium": {
+      "url": "https://help.x.com/en/using-x/x-premium",
+      "notes": "X Premium subscription details and billing behavior."
+    },
+    "reddit_premium": {
+      "url": "https://support.reddithelp.com/hc/en-us/articles/360043034412-What-is-Reddit-Premium",
+      "notes": "Reddit Premium subscription details and billing behavior."
+    },
+    "telegram_premium": {
+      "url": "https://telegram.org/tos",
+      "notes": "Telegram terms page covering subscription terms and billing behavior."
+    },
+    "soundcloud_go": {
+      "url": "https://checkout.soundcloud.com/terms",
+      "notes": "SoundCloud Go subscription terms and billing conditions."
+    },
+    "discovery_plus": {
+      "url": "https://www.discoveryplus.com/terms",
+      "notes": "Discovery+ subscription terms and billing behavior."
+    },
+    "starz": {
+      "url": "https://www.starz.com/us/en/legal/terms-of-use",
+      "notes": "STARZ subscription terms and billing behavior."
+    },
+    "britbox": {
+      "url": "https://www.britbox.com/us/terms",
+      "notes": "BritBox subscription terms and billing behavior."
+    },
+    "amc_plus": {
+      "url": "https://www.amcplus.com/terms",
+      "notes": "AMC+ subscription terms and billing behavior."
+    },
     "zoom": {
       "url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066687",
       "notes": "Non-refundable"

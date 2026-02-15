@@ -88,6 +88,19 @@
     "ubisoft_plus": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel auto-renewal anytime; access remains through the current billing period." },
     "nfl_plus": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel auto-renewal anytime; access remains through current billing term." },
     "mlb_tv": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel auto-renewal anytime; access remains through the billed term." },
+    "new_york_times": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access continues until end of billing period." },
+    "wall_street_journal": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access continues until end of billing period." },
+    "washington_post": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access continues until end of billing period." },
+    "substack": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; creator benefits usually continue through billed term." },
+    "snapchat_plus": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access typically continues until end of billing period." },
+    "x_premium": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; features remain until billing period ends." },
+    "reddit_premium": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; benefits remain until end of billing period." },
+    "telegram_premium": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime via purchase channel; benefits remain until end of paid term." },
+    "soundcloud_go": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access remains until current billing period ends." },
+    "discovery_plus": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access remains until current billing period ends." },
+    "starz": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access remains until current billing period ends." },
+    "britbox": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access remains until current billing period ends." },
+    "amc_plus": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access remains until current billing period ends." },
     "zoom": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; annual plans non-refundable; access until end of period" }
   }
 }

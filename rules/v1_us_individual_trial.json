@@ -88,6 +88,19 @@
     "ubisoft_plus": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standing free trial; promotional offers may vary by region and period." },
     "nfl_plus": { "trial_available": true, "trial_days": 7, "card_required": true, "auto_converts": true, "notes": "Free-trial availability and duration can vary by account and promotion." },
     "mlb_tv": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standing free trial; promotions may vary seasonally." },
+    "new_york_times": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standing free trial; promotional offers may vary." },
+    "wall_street_journal": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standing free trial; promotional offers may vary." },
+    "washington_post": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standing free trial; promotional offers may vary." },
+    "substack": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No platform-wide trial; creators can set their own offers." },
+    "snapchat_plus": { "trial_available": true, "trial_days": 7, "card_required": true, "auto_converts": true, "notes": "Free-trial availability varies by account and purchase channel." },
+    "x_premium": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standing free trial; promotions may vary." },
+    "reddit_premium": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standing free trial; promotional offers may vary." },
+    "telegram_premium": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standing free trial for Telegram Premium." },
+    "soundcloud_go": { "trial_available": true, "trial_days": 30, "card_required": true, "auto_converts": true, "notes": "Trial length varies by region and offer; auto-converts unless canceled." },
+    "discovery_plus": { "trial_available": true, "trial_days": 7, "card_required": true, "auto_converts": true, "notes": "Free-trial availability and duration can vary by promotion." },
+    "starz": { "trial_available": true, "trial_days": 7, "card_required": true, "auto_converts": true, "notes": "Free-trial availability and duration can vary by promotion." },
+    "britbox": { "trial_available": true, "trial_days": 7, "card_required": true, "auto_converts": true, "notes": "Free-trial availability and duration can vary by promotion." },
+    "amc_plus": { "trial_available": true, "trial_days": 7, "card_required": true, "auto_converts": true, "notes": "Free-trial availability and duration can vary by promotion." },
     "zoom": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No paid plan trial; free Basic plan with 40-minute group meeting limit" }
   }
 }
