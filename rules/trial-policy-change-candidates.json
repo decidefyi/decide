@@ -1,44 +1,51 @@
 {
   "amazon_prime": {
-    "hash": "5326441876aae1a0",
+    "hash": "22c4670ec8175149",
     "count": 1,
     "source_url": "https://www.amazon.com/amazonprime",
-    "first_seen_utc": "2026-02-15T14:09:10Z",
-    "last_seen_utc": "2026-02-15T14:09:10Z"
+    "first_seen_utc": "2026-02-15T16:12:09Z",
+    "last_seen_utc": "2026-02-15T16:12:09Z"
+  },
+  "chatgpt_plus": {
+    "hash": "303b8582ac335773",
+    "count": 1,
+    "source_url": "https://openai.com/chatgpt/pricing/",
+    "first_seen_utc": "2026-02-15T16:12:15Z",
+    "last_seen_utc": "2026-02-15T16:12:15Z"
+  },
+  "claude_pro": {
+    "hash": "335f7732a186e612",
+    "count": 1,
+    "source_url": "https://claude.ai/upgrade",
+    "first_seen_utc": "2026-02-15T16:12:15Z",
+    "last_seen_utc": "2026-02-15T16:12:15Z"
   },
   "canva": {
-    "hash": "a35c5efb2f768252",
+    "hash": "c39ac1dee00870fd",
     "count": 1,
     "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-15T14:09:45Z",
-    "last_seen_utc": "2026-02-15T14:09:45Z"
-  },
-  "fubo_tv": {
-    "hash": "54e00c0597dbe2aa",
-    "count": 1,
-    "source_url": "https://www.fubo.tv/welcome",
-    "first_seen_utc": "2026-02-15T14:10:02Z",
-    "last_seen_utc": "2026-02-15T14:10:02Z"
+    "first_seen_utc": "2026-02-15T16:12:17Z",
+    "last_seen_utc": "2026-02-15T16:12:17Z"
   },
   "hinge": {
-    "hash": "708eef0a4d8b60ad",
+    "hash": "bfea7a2d55013a4b",
     "count": 1,
     "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "first_seen_utc": "2026-02-15T14:10:10Z",
-    "last_seen_utc": "2026-02-15T14:10:10Z"
+    "first_seen_utc": "2026-02-15T16:12:58Z",
+    "last_seen_utc": "2026-02-15T16:12:58Z"
   },
-  "peacock": {
-    "hash": "302a703c0563cfc7",
+  "tidal": {
+    "hash": "f71912ba41233094",
     "count": 1,
-    "source_url": "https://www.peacocktv.com/plans",
-    "first_seen_utc": "2026-02-15T14:11:30Z",
-    "last_seen_utc": "2026-02-15T14:11:30Z"
+    "source_url": "https://tidal.com/pricing",
+    "first_seen_utc": "2026-02-15T16:14:09Z",
+    "last_seen_utc": "2026-02-15T16:14:09Z"
   },
   "twitch": {
-    "hash": "af3e0d8a2f494c98",
+    "hash": "554b6221eb63b9cc",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-15T14:11:42Z",
-    "last_seen_utc": "2026-02-15T14:11:42Z"
+    "first_seen_utc": "2026-02-15T16:14:09Z",
+    "last_seen_utc": "2026-02-15T16:14:09Z"
   }
 }
