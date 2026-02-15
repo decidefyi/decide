@@ -1,37 +1,23 @@
 {
+  "espn_plus": {
+    "hash": "9eb3c865d477523a",
+    "count": 1,
+    "source_url": "https://www.espn.com/espnplus/",
+    "first_seen_utc": "2026-02-15T16:42:46Z",
+    "last_seen_utc": "2026-02-15T16:42:46Z"
+  },
   "google_play": {
-    "hash": "39a7dbeddf352e80",
+    "hash": "0956840dc16903d7",
     "count": 1,
     "source_url": "https://support.google.com/googleplay/answer/2479637",
-    "first_seen_utc": "2026-02-15T16:10:57Z",
-    "last_seen_utc": "2026-02-15T16:10:57Z"
-  },
-  "masterclass": {
-    "hash": "e5a2ddecdfd237e6",
-    "count": 1,
-    "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-    "first_seen_utc": "2026-02-15T16:11:05Z",
-    "last_seen_utc": "2026-02-15T16:11:05Z"
-  },
-  "midjourney": {
-    "hash": "f9ffb21272b332ea",
-    "count": 1,
-    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-    "first_seen_utc": "2026-02-15T16:11:08Z",
-    "last_seen_utc": "2026-02-15T16:11:08Z"
-  },
-  "scribd": {
-    "hash": "bb0fdc3ccf056336",
-    "count": 1,
-    "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-    "first_seen_utc": "2026-02-15T16:11:18Z",
-    "last_seen_utc": "2026-02-15T16:11:18Z"
+    "first_seen_utc": "2026-02-15T16:42:53Z",
+    "last_seen_utc": "2026-02-15T16:42:53Z"
   },
   "youtube_premium": {
-    "hash": "16918be8c03dda00",
+    "hash": "bf4a74feef54fce9",
     "count": 1,
     "source_url": "https://support.google.com/youtube/answer/12014038",
-    "first_seen_utc": "2026-02-15T16:11:24Z",
-    "last_seen_utc": "2026-02-15T16:11:24Z"
+    "first_seen_utc": "2026-02-15T16:43:19Z",
+    "last_seen_utc": "2026-02-15T16:43:19Z"
   }
 }

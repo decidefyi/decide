@@ -1,51 +1,51 @@
 {
-  "amazon_prime": {
-    "hash": "22c4670ec8175149",
+  "amazon_music_unlimited": {
+    "hash": "97e6d896b222c940",
     "count": 1,
-    "source_url": "https://www.amazon.com/amazonprime",
-    "first_seen_utc": "2026-02-15T16:12:09Z",
-    "last_seen_utc": "2026-02-15T16:12:09Z"
+    "source_url": "https://www.amazon.com/music/unlimited",
+    "first_seen_utc": "2026-02-15T16:43:46Z",
+    "last_seen_utc": "2026-02-15T16:43:46Z"
   },
-  "chatgpt_plus": {
-    "hash": "303b8582ac335773",
+  "espn_plus": {
+    "hash": "4a5e4e9158235eb0",
     "count": 1,
-    "source_url": "https://openai.com/chatgpt/pricing/",
-    "first_seen_utc": "2026-02-15T16:12:15Z",
-    "last_seen_utc": "2026-02-15T16:12:15Z"
-  },
-  "claude_pro": {
-    "hash": "335f7732a186e612",
-    "count": 1,
-    "source_url": "https://claude.ai/upgrade",
-    "first_seen_utc": "2026-02-15T16:12:15Z",
-    "last_seen_utc": "2026-02-15T16:12:15Z"
-  },
-  "canva": {
-    "hash": "c39ac1dee00870fd",
-    "count": 1,
-    "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-15T16:12:17Z",
-    "last_seen_utc": "2026-02-15T16:12:17Z"
+    "source_url": "https://www.espn.com/espnplus/",
+    "first_seen_utc": "2026-02-15T16:44:48Z",
+    "last_seen_utc": "2026-02-15T16:44:48Z"
   },
   "hinge": {
-    "hash": "bfea7a2d55013a4b",
+    "hash": "708eef0a4d8b60ad",
     "count": 1,
     "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "first_seen_utc": "2026-02-15T16:12:58Z",
-    "last_seen_utc": "2026-02-15T16:12:58Z"
+    "first_seen_utc": "2026-02-15T16:44:57Z",
+    "last_seen_utc": "2026-02-15T16:44:57Z"
   },
-  "tidal": {
-    "hash": "f71912ba41233094",
+  "kindle_unlimited": {
+    "hash": "8261e0b98c3bf140",
     "count": 1,
-    "source_url": "https://tidal.com/pricing",
-    "first_seen_utc": "2026-02-15T16:14:09Z",
-    "last_seen_utc": "2026-02-15T16:14:09Z"
+    "source_url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku",
+    "first_seen_utc": "2026-02-15T16:44:59Z",
+    "last_seen_utc": "2026-02-15T16:44:59Z"
+  },
+  "peacock": {
+    "hash": "68ea7e8c0900f03c",
+    "count": 1,
+    "source_url": "https://www.peacocktv.com/plans",
+    "first_seen_utc": "2026-02-15T16:45:21Z",
+    "last_seen_utc": "2026-02-15T16:45:21Z"
   },
   "twitch": {
-    "hash": "554b6221eb63b9cc",
+    "hash": "3cbff58268246331",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-15T16:14:09Z",
-    "last_seen_utc": "2026-02-15T16:14:09Z"
+    "first_seen_utc": "2026-02-15T16:45:35Z",
+    "last_seen_utc": "2026-02-15T16:45:35Z"
+  },
+  "xbox_game_pass": {
+    "hash": "2e59c16077934be5",
+    "count": 1,
+    "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
+    "first_seen_utc": "2026-02-15T16:45:36Z",
+    "last_seen_utc": "2026-02-15T16:45:36Z"
   }
 }
