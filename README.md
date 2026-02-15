@@ -283,6 +283,7 @@ Policies are sourced from official vendor documentation and terms of service.
 
 - **Daily automated checks** — GitHub Action runs at 08:00 UTC, hashing vendor policy pages across all 4 services (refund, cancel, return, trial). If a page changes, an issue is opened for review.
 - **Policy source URLs tracked** — Each service has its own sources file in `rules/` linking to official policy pages.
+- **Compliance export** — `GET /api/compliance-export` returns a CSV snapshot of tracked sources, hashes, and pending candidate changes (`?format=json` for machine-readable output).
 - **Versioned rules** — Each rules file includes a `rules_version` field for staleness detection.
 
 ## Architecture
@@ -303,6 +304,12 @@ Policies are sourced from official vendor documentation and terms of service.
 - **Static Rules** — Does not account for promotional offers or special circumstances
 
 ## Changelog
+
+### Unreleased
+
+**Added:**
+- `GET /api/compliance-export` endpoint for policy monitoring evidence export (CSV default, JSON via `?format=json`).
+- Smoke test coverage for compliance export JSON and CSV paths.
 
 ### v1.2.1 (2026-02-08)
 

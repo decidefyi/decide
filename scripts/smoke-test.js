@@ -6,6 +6,7 @@ import returnMcp from "../api/return-mcp.js";
 import trialMcp from "../api/trial-mcp.js";
 import track from "../api/track.js";
 import metrics from "../api/metrics.js";
+import complianceExport from "../api/compliance-export.js";
 import zendeskWorkflowRoute from "../api/v1/workflows/zendesk/[workflow].js";
 
 function createReq({
@@ -359,6 +360,37 @@ async function main() {
       expect(typeof json.total_events === "number", "expected total_events number");
     }
   );
+
+  await runCase(
+    "compliance export GET (json)",
+    complianceExport,
+    {
+      method: "GET",
+      headers: { "user-agent": "smoke-test" },
+      url: "/api/compliance-export?format=json",
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.ok === true, "expected ok=true");
+      expect(typeof json.tracked_vendors === "number" && json.tracked_vendors > 0, "expected tracked_vendors > 0");
+      expect(Array.isArray(json.vendors), "expected vendors array");
+      expect(Array.isArray(json.policies) && json.policies.length === 4, "expected 4 policies");
+    }
+  );
+
+  {
+    const req = createReq({
+      method: "GET",
+      headers: { "user-agent": "smoke-test" },
+      url: "/api/compliance-export",
+    });
+    const res = createRes();
+    await complianceExport(req, res);
+    expect(res.statusCode === 200, "expected 200");
+    expect(String(res.headers["Content-Type"] || "").includes("text/csv"), "expected csv content type");
+    expect(res.body.includes("Compliance Export"), "expected csv body");
+    console.log("PASS compliance export GET (csv)");
+  }
 
   console.log("Smoke test complete.");
 }
