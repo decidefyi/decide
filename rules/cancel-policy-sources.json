@@ -438,6 +438,58 @@
         "https://support.google.com/youtubetv/"
       ]
     },
+    "dashlane": {
+      "url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
+      "notes": "Cancel anytime; access continues through current term."
+    },
+    "lastpass": {
+      "url": "https://support.lastpass.com/help/cancel-a-lastpass-subscription",
+      "notes": "Cancel anytime; service remains active through current billing period."
+    },
+    "keeper": {
+      "url": "https://docs.keeper.io/user-guides/keeper-subscriptions-and-billing",
+      "notes": "Cancel anytime; service remains active through current billing period."
+    },
+    "fitbit_premium": {
+      "url": "https://support.google.com/fitbit/",
+      "notes": "Cancel via account purchase channel; access continues through current term."
+    },
+    "myfitnesspal_premium": {
+      "url": "https://support.myfitnesspal.com/hc/en-us",
+      "notes": "Cancel via web or app-store billing channel; access continues through current term."
+    },
+    "weightwatchers": {
+      "url": "https://www.weightwatchers.com/us/help",
+      "notes": "Cancellation terms vary by commitment and plan type."
+    },
+    "siriusxm": {
+      "url": "https://www.siriusxm.com/help/manage-or-cancel-your-subscription",
+      "notes": "Cancel anytime; service usually continues through billed term."
+    },
+    "patreon": {
+      "url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
+      "notes": "Cancel anytime; benefits continue through paid period."
+    },
+    "roblox_premium": {
+      "url": "https://en.help.roblox.com/hc/en-us/articles/203312800-How-to-Cancel-Membership",
+      "notes": "Cancel auto-renewal anytime; benefits continue through paid term."
+    },
+    "ea_play": {
+      "url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
+      "notes": "Cancel auto-renewal anytime; access remains through paid term."
+    },
+    "ubisoft_plus": {
+      "url": "https://www.ubisoft.com/help/article/canceling-a-ubisoft-subscription/000064975",
+      "notes": "Cancel auto-renewal anytime; access remains through paid term."
+    },
+    "nfl_plus": {
+      "url": "https://support.nfl.com/hc/en-us/articles/5402041435292-NFL-Subscription-Renewals-Cancellations",
+      "notes": "Cancel auto-renewal anytime; access remains through paid term."
+    },
+    "mlb_tv": {
+      "url": "https://www.mlb.com/live-stream-games/help-center",
+      "notes": "Cancel auto-renewal anytime; access remains through paid term."
+    },
     "zoom": {
       "url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0060842",
       "notes": "Cancel anytime; annual plans non-refundable"

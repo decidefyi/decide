@@ -75,6 +75,19 @@
     "xbox_game_pass": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access until end of billing period" },
     "youtube_premium": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access until end of billing period; reverts to free tier" },
     "youtube_tv": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access continues until end of billing period." },
+    "dashlane": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access continues until end of billing period." },
+    "lastpass": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access continues until end of billing period." },
+    "keeper": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access continues until end of billing period." },
+    "fitbit_premium": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access continues until end of billing period." },
+    "myfitnesspal_premium": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; access continues until end of billing period." },
+    "weightwatchers": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; current term remains active until period end." },
+    "siriusxm": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; service typically remains active through current billing term." },
+    "patreon": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; membership benefits continue through the billed period." },
+    "roblox_premium": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel auto-renewal anytime; benefits remain until period end." },
+    "ea_play": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel auto-renewal anytime; access remains through the paid term." },
+    "ubisoft_plus": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel auto-renewal anytime; access remains through the current billing period." },
+    "nfl_plus": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel auto-renewal anytime; access remains through current billing term." },
+    "mlb_tv": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel auto-renewal anytime; access remains through the billed term." },
     "zoom": { "policy": "free_cancel", "penalty": "none", "notice_days": 0, "notes": "Cancel anytime; annual plans non-refundable; access until end of period" }
   }
 }

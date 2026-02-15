@@ -434,6 +434,58 @@
         "https://support.google.com/youtubetv/"
       ]
     },
+    "dashlane": {
+      "url": "https://www.dashlane.com/pricing",
+      "notes": "Free-trial availability can vary by plan and promotion."
+    },
+    "lastpass": {
+      "url": "https://www.lastpass.com/pricing",
+      "notes": "Free-trial availability can vary by plan and promotion."
+    },
+    "keeper": {
+      "url": "https://www.keepersecurity.com/pricing/personal-and-family.html",
+      "notes": "Free-trial availability can vary by plan and promotion."
+    },
+    "fitbit_premium": {
+      "url": "https://www.fitbit.com/global/us/products/services/premium",
+      "notes": "Trial availability and duration vary by account and promotion."
+    },
+    "myfitnesspal_premium": {
+      "url": "https://www.myfitnesspal.com/premium",
+      "notes": "Trial availability and duration vary by account and promotion."
+    },
+    "weightwatchers": {
+      "url": "https://www.weightwatchers.com/us/plans",
+      "notes": "No standing free trial; promotions vary by period and plan."
+    },
+    "siriusxm": {
+      "url": "https://www.siriusxm.com/offers",
+      "notes": "Trial availability and duration vary by account and promotion."
+    },
+    "patreon": {
+      "url": "https://www.patreon.com/",
+      "notes": "No platform-wide trial for memberships; creator-level offers may vary."
+    },
+    "roblox_premium": {
+      "url": "https://www.roblox.com/premium/membership",
+      "notes": "No standard free trial for Roblox Premium."
+    },
+    "ea_play": {
+      "url": "https://www.ea.com/ea-play",
+      "notes": "No standing free trial; promotions vary by platform and period."
+    },
+    "ubisoft_plus": {
+      "url": "https://store.ubisoft.com/us/ubisoftplus",
+      "notes": "No standing free trial; promotions vary by region and period."
+    },
+    "nfl_plus": {
+      "url": "https://www.nfl.com/plus/",
+      "notes": "Free-trial availability and duration can vary by account and promotion."
+    },
+    "mlb_tv": {
+      "url": "https://www.mlb.com/live-stream-games/subscribe",
+      "notes": "No standing free trial; promotions may vary seasonally."
+    },
     "zoom": {
       "url": "https://zoom.us/pricing",
       "notes": "No paid plan trial; free Basic plan"

@@ -75,6 +75,19 @@
     "xbox_game_pass": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "30-day refund window from initial purchase" },
     "youtube_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "No refunds for current billing period" },
     "youtube_tv": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription; no physical return process." },
+    "dashlane": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "30-day money-back guarantee for new direct subscriptions." },
+    "lastpass": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "Refunds may be available within 30 days for new paid subscriptions." },
+    "keeper": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "Refunds may be requested within 30 days of purchase." },
+    "fitbit_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription refunds depend on the purchase channel and platform policies." },
+    "myfitnesspal_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable except where required by law." },
+    "weightwatchers": { "return_window_days": 14, "return_type": "full_refund", "method": "contact_support", "conditions": "Refund availability depends on selected plan and commitment terms." },
+    "siriusxm": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription fees are generally non-refundable after billing." },
+    "patreon": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Membership payments are generally non-refundable and creator-specific." },
+    "roblox_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
+    "ea_play": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
+    "ubisoft_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
+    "nfl_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription fees are generally non-refundable after billing." },
+    "mlb_tv": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription fees are generally non-refundable after billing." },
     "zoom": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "All subscription fees non-refundable" }
   }
 }

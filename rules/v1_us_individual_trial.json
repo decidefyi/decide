@@ -75,6 +75,19 @@
     "xbox_game_pass": { "trial_available": true, "trial_days": 14, "card_required": true, "auto_converts": true, "notes": "14-day trial or $1 first month promotions; auto-converts to full price" },
     "youtube_premium": { "trial_available": true, "trial_days": 30, "card_required": true, "auto_converts": true, "notes": "1-month free trial for new subscribers; auto-converts to paid" },
     "youtube_tv": { "trial_available": true, "trial_days": 7, "card_required": true, "auto_converts": true, "notes": "Free-trial availability and length vary by account and promotion." },
+    "dashlane": { "trial_available": true, "trial_days": 30, "card_required": true, "auto_converts": true, "notes": "30-day free trial for paid tiers; auto-converts unless canceled." },
+    "lastpass": { "trial_available": true, "trial_days": 30, "card_required": true, "auto_converts": true, "notes": "30-day free trial for paid tiers; auto-converts unless canceled." },
+    "keeper": { "trial_available": true, "trial_days": 30, "card_required": true, "auto_converts": true, "notes": "30-day free trial for personal plans; auto-converts unless canceled." },
+    "fitbit_premium": { "trial_available": true, "trial_days": 7, "card_required": true, "auto_converts": true, "notes": "Trial length can vary by account and promotion; auto-converts unless canceled." },
+    "myfitnesspal_premium": { "trial_available": true, "trial_days": 30, "card_required": true, "auto_converts": true, "notes": "Free-trial length varies by promotion; auto-converts unless canceled." },
+    "weightwatchers": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standard free trial; introductory offers may vary by plan and promotion." },
+    "siriusxm": { "trial_available": true, "trial_days": 30, "card_required": true, "auto_converts": true, "notes": "Trial length varies by offer and eligibility; auto-converts unless canceled." },
+    "patreon": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No platform-wide trial for memberships; creator-level offers may vary." },
+    "roblox_premium": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standard free trial for Roblox Premium." },
+    "ea_play": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standing free trial; pricing promotions may vary by platform." },
+    "ubisoft_plus": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standing free trial; promotional offers may vary by region and period." },
+    "nfl_plus": { "trial_available": true, "trial_days": 7, "card_required": true, "auto_converts": true, "notes": "Free-trial availability and duration can vary by account and promotion." },
+    "mlb_tv": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No standing free trial; promotions may vary seasonally." },
     "zoom": { "trial_available": false, "trial_days": 0, "card_required": false, "auto_converts": false, "notes": "No paid plan trial; free Basic plan with 40-minute group meeting limit" }
   }
 }

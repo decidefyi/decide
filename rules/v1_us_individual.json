@@ -75,6 +75,19 @@
     "xbox_game_pass": { "window_days": 30 },
     "youtube_premium": { "window_days": 0 },
     "youtube_tv": { "window_days": 0 },
+    "dashlane": { "window_days": 30 },
+    "lastpass": { "window_days": 30 },
+    "keeper": { "window_days": 30 },
+    "fitbit_premium": { "window_days": 0 },
+    "myfitnesspal_premium": { "window_days": 0 },
+    "weightwatchers": { "window_days": 14 },
+    "siriusxm": { "window_days": 0 },
+    "patreon": { "window_days": 0 },
+    "roblox_premium": { "window_days": 0 },
+    "ea_play": { "window_days": 0 },
+    "ubisoft_plus": { "window_days": 0 },
+    "nfl_plus": { "window_days": 0 },
+    "mlb_tv": { "window_days": 0 },
     "zoom": { "window_days": 0 }
   }
 }

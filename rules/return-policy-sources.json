@@ -434,6 +434,58 @@
         "https://support.google.com/youtubetv/"
       ]
     },
+    "dashlane": {
+      "url": "https://www.dashlane.com/terms-of-service",
+      "notes": "30-day money-back guarantee on direct subscriptions."
+    },
+    "lastpass": {
+      "url": "https://www.lastpass.com/legal-center/terms-of-service",
+      "notes": "Refund/return handling depends on purchase channel and plan."
+    },
+    "keeper": {
+      "url": "https://www.keepersecurity.com/terms.html",
+      "notes": "Refund requests may be available for recent purchases."
+    },
+    "fitbit_premium": {
+      "url": "https://www.fitbit.com/global/us/legal/terms-of-service",
+      "notes": "Refund handling depends on purchase channel and platform policies."
+    },
+    "myfitnesspal_premium": {
+      "url": "https://www.myfitnesspal.com/terms-of-use",
+      "notes": "Subscription charges are generally non-refundable."
+    },
+    "weightwatchers": {
+      "url": "https://www.weightwatchers.com/us/terms-and-conditions",
+      "notes": "Refund eligibility depends on selected plan and commitment."
+    },
+    "siriusxm": {
+      "url": "https://www.siriusxm.com/help/subscription-terms",
+      "notes": "Subscription fees are generally non-refundable after billing."
+    },
+    "patreon": {
+      "url": "https://www.patreon.com/policy/legal",
+      "notes": "Membership payments are generally non-refundable."
+    },
+    "roblox_premium": {
+      "url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
+      "notes": "Digital subscription charges are generally non-refundable."
+    },
+    "ea_play": {
+      "url": "https://www.ea.com/legal/user-agreement",
+      "notes": "Subscription charges are generally non-refundable after billing."
+    },
+    "ubisoft_plus": {
+      "url": "https://legal.ubi.com/termsofuse/en-US",
+      "notes": "Subscription charges are generally non-refundable after billing."
+    },
+    "nfl_plus": {
+      "url": "https://www.nfl.com/legal/subscriptions_terms",
+      "notes": "Subscription fees are generally non-refundable after billing."
+    },
+    "mlb_tv": {
+      "url": "https://www.mlb.com/live-stream-games/subscribe/terms",
+      "notes": "Subscription fees are generally non-refundable after billing."
+    },
     "zoom": {
       "url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066687",
       "notes": "Non-refundable"
