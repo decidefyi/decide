@@ -519,8 +519,12 @@
       ]
     },
     "substack": {
-      "url": "https://substack.com/terms",
-      "notes": "Platform terms covering paid subscriptions and billing behavior."
+      "url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "notes": "Substack subscription management and cancellation guidance.",
+      "backup_urls": [
+        "https://substack.com/going-paid",
+        "https://substack.com"
+      ]
     },
     "snapchat_plus": {
       "url": "https://www.snap.com/terms",
@@ -531,8 +535,12 @@
       "notes": "X Premium subscription details and billing behavior."
     },
     "reddit_premium": {
-      "url": "https://support.reddithelp.com/hc/en-us/articles/360043034412-What-is-Reddit-Premium",
-      "notes": "Reddit Premium subscription details and billing behavior."
+      "url": "https://www.reddit.com/premium",
+      "notes": "Reddit Premium plan and billing details.",
+      "backup_urls": [
+        "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
+        "https://www.redditinc.com/policies/user-agreement"
+      ]
     },
     "telegram_premium": {
       "url": "https://telegram.org/tos",

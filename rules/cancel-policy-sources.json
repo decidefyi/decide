@@ -539,8 +539,12 @@
       "notes": "SoundCloud Go cancellation instructions and renewal behavior."
     },
     "discovery_plus": {
-      "url": "https://help.discoveryplus.com/hc/en-us/articles/360057441733-How-do-I-cancel-my-subscription",
-      "notes": "Discovery+ cancellation instructions and renewal behavior."
+      "url": "https://help.discoveryplus.com/hc/en-us",
+      "notes": "Discovery+ support center for cancellation and subscription management.",
+      "backup_urls": [
+        "https://www.discoveryplus.com/terms",
+        "https://www.discoveryplus.com/"
+      ]
     },
     "starz": {
       "url": "https://www.starz.com/us/en/termsofuse",
