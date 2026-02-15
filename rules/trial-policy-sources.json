@@ -14,6 +14,14 @@
       "url": "https://www.adobe.com/creativecloud/plans.html",
       "notes": "7-day Creative Cloud trial; card required"
     },
+    "amazon_music_unlimited": {
+      "url": "https://www.amazon.com/music/unlimited",
+      "notes": "Free-trial length varies by eligibility and promotion.",
+      "backup_urls": [
+        "https://www.amazon.com/gp/help/customer/display.html?nodeId=201380010",
+        "https://www.amazon.com/music/unlimited"
+      ]
+    },
     "amazon_prime": {
       "url": "https://www.amazon.com/amazonprime",
       "notes": "30-day free trial; card required",
@@ -25,6 +33,14 @@
     "apple_app_store": {
       "url": "https://support.apple.com/en-us/118223",
       "notes": "No platform-level trial"
+    },
+    "apple_arcade": {
+      "url": "https://www.apple.com/apple-arcade/",
+      "notes": "Typically includes a 1-month free trial for eligible users.",
+      "backup_urls": [
+        "https://www.apple.com/legal/internet-services/itunes/us/terms.html",
+        "https://support.apple.com/en-us/118428"
+      ]
     },
     "apple_music": {
       "url": "https://www.apple.com/apple-music/",
@@ -98,6 +114,14 @@
       "url": "https://www.deezer.com/en/offers",
       "notes": "1-month free trial"
     },
+    "discord_nitro": {
+      "url": "https://discord.com/nitro",
+      "notes": "No standing free trial in US; occasional promotions may appear.",
+      "backup_urls": [
+        "https://discord.com/terms",
+        "https://discord.com/nitro"
+      ]
+    },
     "disney_plus": {
       "url": "https://www.disneyplus.com/",
       "notes": "No free trial in US"
@@ -117,6 +141,14 @@
     "duolingo": {
       "url": "https://www.duolingo.com/super",
       "notes": "14-day Super trial"
+    },
+    "espn_plus": {
+      "url": "https://www.espn.com/espnplus/",
+      "notes": "No standing free trial in US; promotions may vary.",
+      "backup_urls": [
+        "https://www.espn.com/subscribe/espnplus/",
+        "https://www.disneyplus.com/legal/subscriber-agreement"
+      ]
     },
     "evernote": {
       "url": "https://evernote.com/compare-plans",
@@ -149,6 +181,14 @@
     "github_pro": {
       "url": "https://github.com/pricing",
       "notes": "No trial; free tier available"
+    },
+    "google_one": {
+      "url": "https://one.google.com/about/plans",
+      "notes": "No universal free trial; promotional offers may vary by account/product.",
+      "backup_urls": [
+        "https://one.google.com/terms-of-service",
+        "https://support.google.com/googleone/"
+      ]
     },
     "google_play": {
       "url": "https://play.google.com/store",
@@ -200,6 +240,14 @@
       "backup_urls": [
         "https://www.instacart.com/store/instacart-plus",
         "https://www.instacart.com/help"
+      ]
+    },
+    "kindle_unlimited": {
+      "url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku",
+      "notes": "Typically offers a 30-day free trial for eligible users.",
+      "backup_urls": [
+        "https://www.amazon.com/gp/help/customer/display.html?nodeId=201014950",
+        "https://www.amazon.com/kindle-dbs/hz/subscribe/ku"
       ]
     },
     "linkedin_premium": {
@@ -278,6 +326,22 @@
       "url": "https://store.playstation.com/en-us/category/ps-plus",
       "notes": "14-day trial"
     },
+    "proton": {
+      "url": "https://proton.me/pricing",
+      "notes": "No universal free trial for paid plans; free tier is available.",
+      "backup_urls": [
+        "https://proton.me/legal/terms",
+        "https://proton.me/support"
+      ]
+    },
+    "ring_protect": {
+      "url": "https://ring.com/protect-plans",
+      "notes": "New devices commonly include a limited Ring Protect trial.",
+      "backup_urls": [
+        "https://ring.com/terms",
+        "https://ring.com/support"
+      ]
+    },
     "scribd": {
       "url": "https://www.scribd.com/subscribe",
       "notes": "30-day free trial"
@@ -338,6 +402,14 @@
       "url": "https://www.twitch.tv/turbo",
       "notes": "No trial for Turbo"
     },
+    "uber_one": {
+      "url": "https://www.uber.com/us/en/u/uber-one/",
+      "notes": "No universal free trial; promotional offers may vary by account.",
+      "backup_urls": [
+        "https://www.uber.com/legal/en/",
+        "https://www.uber.com/legal/en/document/?name=general-terms-of-use&country=united-states&lang=en"
+      ]
+    },
     "walmart_plus": {
       "url": "https://www.walmart.com/plus",
       "notes": "30-day free trial"
@@ -353,6 +425,14 @@
     "youtube_premium": {
       "url": "https://www.youtube.com/premium",
       "notes": "1-month free trial"
+    },
+    "youtube_tv": {
+      "url": "https://tv.youtube.com/",
+      "notes": "Free-trial availability and length vary by account and promotion.",
+      "backup_urls": [
+        "https://www.youtube.com/t/terms_paidservice",
+        "https://support.google.com/youtubetv/"
+      ]
     },
     "zoom": {
       "url": "https://zoom.us/pricing",

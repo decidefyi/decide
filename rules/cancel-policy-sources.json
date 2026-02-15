@@ -14,6 +14,14 @@
       "url": "https://www.adobe.com/legal/subscription-terms.html",
       "notes": "Annual plan: 50% ETF; monthly: cancel anytime"
     },
+    "amazon_music_unlimited": {
+      "url": "https://www.amazon.com/music/unlimited",
+      "notes": "Cancel anytime; access continues until end of billing period.",
+      "backup_urls": [
+        "https://www.amazon.com/gp/help/customer/display.html?nodeId=201380010",
+        "https://www.amazon.com/music/unlimited"
+      ]
+    },
     "amazon_prime": {
       "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
       "notes": "Cancel anytime; partial refund if no benefits used",
@@ -25,6 +33,14 @@
     "apple_app_store": {
       "url": "https://support.apple.com/en-us/118223",
       "notes": "Cancel via Settings; access until end of period"
+    },
+    "apple_arcade": {
+      "url": "https://www.apple.com/apple-arcade/",
+      "notes": "Cancel anytime via Apple subscriptions; access continues until period end.",
+      "backup_urls": [
+        "https://www.apple.com/legal/internet-services/itunes/us/terms.html",
+        "https://support.apple.com/en-us/118428"
+      ]
     },
     "apple_music": {
       "url": "https://support.apple.com/en-us/118223",
@@ -98,6 +114,14 @@
       "url": "https://www.deezer.com/legal/cgu",
       "notes": "Cancel anytime; access until end of billing period"
     },
+    "discord_nitro": {
+      "url": "https://discord.com/nitro",
+      "notes": "Cancel anytime; perks remain until end of billing period.",
+      "backup_urls": [
+        "https://discord.com/terms",
+        "https://discord.com/nitro"
+      ]
+    },
     "disney_plus": {
       "url": "https://help.disneyplus.com/article/disneyplus-cancel-subscription",
       "notes": "Cancel anytime; no partial refunds"
@@ -117,6 +141,14 @@
     "duolingo": {
       "url": "https://support.duolingo.com/hc/en-us/articles/360030236551-How-do-I-cancel-my-Super-Duolingo-subscription",
       "notes": "Cancel anytime; reverts to free tier"
+    },
+    "espn_plus": {
+      "url": "https://www.espn.com/espnplus/",
+      "notes": "Cancel anytime; access continues until end of billing period.",
+      "backup_urls": [
+        "https://www.espn.com/subscribe/espnplus/",
+        "https://www.disneyplus.com/legal/subscriber-agreement"
+      ]
     },
     "evernote": {
       "url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
@@ -149,6 +181,14 @@
     "github_pro": {
       "url": "https://docs.github.com/en/billing/managing-the-plan-for-your-github-account/downgrading-your-accounts-plan",
       "notes": "Cancel anytime; access until end of billing period"
+    },
+    "google_one": {
+      "url": "https://one.google.com/about/plans",
+      "notes": "Cancel anytime; plan remains active until end of billing period.",
+      "backup_urls": [
+        "https://one.google.com/terms-of-service",
+        "https://support.google.com/googleone/"
+      ]
     },
     "google_play": {
       "url": "https://support.google.com/googleplay/answer/7018481",
@@ -200,6 +240,14 @@
       "backup_urls": [
         "https://www.instacart.com/store/instacart-plus",
         "https://www.instacart.com/help"
+      ]
+    },
+    "kindle_unlimited": {
+      "url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku",
+      "notes": "Cancel anytime; access continues until end of billing period.",
+      "backup_urls": [
+        "https://www.amazon.com/gp/help/customer/display.html?nodeId=201014950",
+        "https://www.amazon.com/kindle-dbs/hz/subscribe/ku"
       ]
     },
     "linkedin_premium": {
@@ -282,6 +330,22 @@
       "url": "https://www.playstation.com/en-us/legal/playstation-store-cancellation-policy/",
       "notes": "Cancel auto-renewal; 14-day pro-rated refund window"
     },
+    "proton": {
+      "url": "https://proton.me/pricing",
+      "notes": "Cancel anytime; service continues until end of billing period.",
+      "backup_urls": [
+        "https://proton.me/legal/terms",
+        "https://proton.me/support"
+      ]
+    },
+    "ring_protect": {
+      "url": "https://ring.com/protect-plans",
+      "notes": "Cancel anytime; coverage continues until end of billing period.",
+      "backup_urls": [
+        "https://ring.com/terms",
+        "https://ring.com/support"
+      ]
+    },
     "scribd": {
       "url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
       "notes": "Cancel anytime; access until end of billing period"
@@ -342,6 +406,14 @@
       "url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
       "notes": "Cancel Turbo anytime; access until end of billing period"
     },
+    "uber_one": {
+      "url": "https://www.uber.com/us/en/u/uber-one/",
+      "notes": "Cancel anytime; benefits continue until end of billing cycle.",
+      "backup_urls": [
+        "https://www.uber.com/legal/en/",
+        "https://www.uber.com/legal/en/document/?name=general-terms-of-use&country=united-states&lang=en"
+      ]
+    },
     "walmart_plus": {
       "url": "https://www.walmart.com/help/article/walmart-plus-cancellation/eacb97cd44a84d0c877d5e7f2b7e39c4",
       "notes": "Cancel anytime; benefits until end of billing cycle"
@@ -357,6 +429,14 @@
     "youtube_premium": {
       "url": "https://support.google.com/youtube/answer/6308278",
       "notes": "Cancel anytime; reverts to free tier"
+    },
+    "youtube_tv": {
+      "url": "https://tv.youtube.com/",
+      "notes": "Cancel anytime; access continues until end of billing period.",
+      "backup_urls": [
+        "https://www.youtube.com/t/terms_paidservice",
+        "https://support.google.com/youtubetv/"
+      ]
     },
     "zoom": {
       "url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0060842",
