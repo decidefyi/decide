@@ -1,51 +1,51 @@
 {
-  "amazon_music_unlimited": {
-    "hash": "97e6d896b222c940",
+  "chatgpt_plus": {
+    "hash": "0436926f1c91a051",
     "count": 1,
-    "source_url": "https://www.amazon.com/music/unlimited",
-    "first_seen_utc": "2026-02-15T16:43:46Z",
-    "last_seen_utc": "2026-02-15T16:43:46Z"
+    "source_url": "https://openai.com/chatgpt/pricing/",
+    "first_seen_utc": "2026-02-15T17:00:56Z",
+    "last_seen_utc": "2026-02-15T17:00:56Z"
+  },
+  "claude_pro": {
+    "hash": "335f7732a186e612",
+    "count": 1,
+    "source_url": "https://claude.ai/upgrade",
+    "first_seen_utc": "2026-02-15T17:00:57Z",
+    "last_seen_utc": "2026-02-15T17:00:57Z"
+  },
+  "canva": {
+    "hash": "ca3a72a4c6901a77",
+    "count": 1,
+    "source_url": "https://www.canva.com/pro/",
+    "first_seen_utc": "2026-02-15T17:01:08Z",
+    "last_seen_utc": "2026-02-15T17:01:08Z"
+  },
+  "doordash_dashpass": {
+    "hash": "25ee3bafd9451c5a",
+    "count": 1,
+    "source_url": "https://www.doordash.com/dashpass/",
+    "first_seen_utc": "2026-02-15T17:01:20Z",
+    "last_seen_utc": "2026-02-15T17:01:20Z"
   },
   "espn_plus": {
-    "hash": "4a5e4e9158235eb0",
+    "hash": "d929024a8cbc59f2",
     "count": 1,
     "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-15T16:44:48Z",
-    "last_seen_utc": "2026-02-15T16:44:48Z"
+    "first_seen_utc": "2026-02-15T17:01:21Z",
+    "last_seen_utc": "2026-02-15T17:01:21Z"
   },
-  "hinge": {
-    "hash": "708eef0a4d8b60ad",
+  "proton": {
+    "hash": "744e200142e80a76",
     "count": 1,
-    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "first_seen_utc": "2026-02-15T16:44:57Z",
-    "last_seen_utc": "2026-02-15T16:44:57Z"
-  },
-  "kindle_unlimited": {
-    "hash": "8261e0b98c3bf140",
-    "count": 1,
-    "source_url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku",
-    "first_seen_utc": "2026-02-15T16:44:59Z",
-    "last_seen_utc": "2026-02-15T16:44:59Z"
-  },
-  "peacock": {
-    "hash": "68ea7e8c0900f03c",
-    "count": 1,
-    "source_url": "https://www.peacocktv.com/plans",
-    "first_seen_utc": "2026-02-15T16:45:21Z",
-    "last_seen_utc": "2026-02-15T16:45:21Z"
+    "source_url": "https://proton.me/pricing",
+    "first_seen_utc": "2026-02-15T17:02:13Z",
+    "last_seen_utc": "2026-02-15T17:02:13Z"
   },
   "twitch": {
-    "hash": "3cbff58268246331",
+    "hash": "366325a49f05592f",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-15T16:45:35Z",
-    "last_seen_utc": "2026-02-15T16:45:35Z"
-  },
-  "xbox_game_pass": {
-    "hash": "2e59c16077934be5",
-    "count": 1,
-    "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
-    "first_seen_utc": "2026-02-15T16:45:36Z",
-    "last_seen_utc": "2026-02-15T16:45:36Z"
+    "first_seen_utc": "2026-02-15T17:02:24Z",
+    "last_seen_utc": "2026-02-15T17:02:24Z"
   }
 }

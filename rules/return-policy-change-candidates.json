@@ -1,23 +1,72 @@
 {
+  "calm": {
+    "hash": "fdf62f10705a38f5",
+    "count": 1,
+    "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
+    "first_seen_utc": "2026-02-15T16:58:11Z",
+    "last_seen_utc": "2026-02-15T16:58:11Z"
+  },
   "espn_plus": {
-    "hash": "9eb3c865d477523a",
+    "hash": "d929024a8cbc59f2",
     "count": 1,
     "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-15T16:42:46Z",
-    "last_seen_utc": "2026-02-15T16:42:46Z"
+    "first_seen_utc": "2026-02-15T16:58:19Z",
+    "last_seen_utc": "2026-02-15T16:58:19Z"
+  },
+  "fubo_tv": {
+    "hash": "2e62a293afa659c7",
+    "count": 1,
+    "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
+    "first_seen_utc": "2026-02-15T16:58:24Z",
+    "last_seen_utc": "2026-02-15T16:58:24Z"
   },
   "google_play": {
-    "hash": "0956840dc16903d7",
+    "hash": "8f66ada079e1c767",
     "count": 1,
     "source_url": "https://support.google.com/googleplay/answer/2479637",
-    "first_seen_utc": "2026-02-15T16:42:53Z",
-    "last_seen_utc": "2026-02-15T16:42:53Z"
+    "first_seen_utc": "2026-02-15T16:58:24Z",
+    "last_seen_utc": "2026-02-15T16:58:24Z"
+  },
+  "proton": {
+    "hash": "744e200142e80a76",
+    "count": 1,
+    "source_url": "https://proton.me/pricing",
+    "first_seen_utc": "2026-02-15T16:58:39Z",
+    "last_seen_utc": "2026-02-15T16:58:39Z"
+  },
+  "scribd": {
+    "hash": "29d49431bce5939c",
+    "count": 1,
+    "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
+    "first_seen_utc": "2026-02-15T16:58:44Z",
+    "last_seen_utc": "2026-02-15T16:58:44Z"
   },
   "youtube_premium": {
-    "hash": "bf4a74feef54fce9",
+    "hash": "10774f25d1ae2e8f",
     "count": 1,
     "source_url": "https://support.google.com/youtube/answer/12014038",
-    "first_seen_utc": "2026-02-15T16:43:19Z",
-    "last_seen_utc": "2026-02-15T16:43:19Z"
+    "first_seen_utc": "2026-02-15T16:58:51Z",
+    "last_seen_utc": "2026-02-15T16:58:51Z"
+  },
+  "fitbit_premium": {
+    "hash": "13aac9c75e5206f3",
+    "count": 1,
+    "source_url": "https://www.fitbit.com/global/us/legal/terms-of-service",
+    "first_seen_utc": "2026-02-15T16:58:56Z",
+    "last_seen_utc": "2026-02-15T16:58:56Z"
+  },
+  "myfitnesspal_premium": {
+    "hash": "3f2cd4b355fc07f7",
+    "count": 1,
+    "source_url": "https://www.myfitnesspal.com/terms-of-use",
+    "first_seen_utc": "2026-02-15T16:59:01Z",
+    "last_seen_utc": "2026-02-15T16:59:01Z"
+  },
+  "roblox_premium": {
+    "hash": "4f996b022e63949c",
+    "count": 1,
+    "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
+    "first_seen_utc": "2026-02-15T16:59:10Z",
+    "last_seen_utc": "2026-02-15T16:59:10Z"
   }
 }
