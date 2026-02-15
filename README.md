@@ -4,7 +4,7 @@
 
 [![Version](https://img.shields.io/badge/version-1.2.1-blue.svg)](https://decide.fyi)
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
-[![Vendors](https://img.shields.io/badge/vendors-64-orange.svg)](https://decide.fyi)
+[![Vendors](https://img.shields.io/badge/vendors-100-orange.svg)](https://decide.fyi)
 
 ## One-Click Install
 
@@ -21,7 +21,7 @@
 | **Return Notary** | [return.decide.fyi](https://return.decide.fyi) | `return_eligibility` | RETURNABLE / EXPIRED / NON_RETURNABLE / UNKNOWN |
 | **Trial Notary** | [trial.decide.fyi](https://trial.decide.fyi) | `trial_terms` | TRIAL_AVAILABLE / NO_TRIAL / UNKNOWN |
 
-All servers: 64 vendors, US region, individual plans, stateless, no auth, 100 req/min.
+All servers: 100 vendors, US region, individual plans, stateless, no auth, 100 req/min.
 
 ## Quick Start
 
@@ -206,7 +206,7 @@ Checks free trial availability, length, card requirement, and auto-conversion st
 
 ---
 
-## Supported Vendors (64)
+## Supported Vendors (100)
 
 | Vendor | Identifier | Refund | Cancel | Return | Trial |
 |--------|-----------|--------|--------|--------|-------|
@@ -335,7 +335,7 @@ Policies are sourced from official vendor documentation and terms of service.
 ### v1.1.0 (2026-02-01)
 
 **Added:**
-- Expanded from 9 to 64 supported vendors
+- Expanded from 64 to 100 supported vendors
 - Daily policy-check GitHub Action (cron at 08:00 UTC)
 - Policy source URLs tracked in `rules/policy-sources.json`
 - MCP vendor `enum` in inputSchema for agent discoverability

@@ -152,9 +152,9 @@ Claude will call the `refund_eligibility` tool automatically.
 
 ---
 
-## Supported Vendors (64)
+## Supported Vendors (100)
 
-See the full vendor table in the [README](../README.md#supported-vendors-64). A few highlights:
+See the full vendor table in the [README](../README.md#supported-vendors-100). A few highlights:
 
 | Vendor | ID | Refund Window |
 |--------|-----|---------------|
@@ -167,7 +167,7 @@ See the full vendor table in the [README](../README.md#supported-vendors-64). A 
 | Netflix | `netflix` | No refunds |
 | Spotify | `spotify` | No refunds |
 
-...and 57 more. Vendor list updates daily via automated policy checks.
+...and 92 more. Vendor list updates daily via automated policy checks.
 
 ---
 
