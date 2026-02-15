@@ -1,58 +1,44 @@
 {
+  "amazon_prime": {
+    "hash": "c27421d054275a06",
+    "count": 1,
+    "source_url": "https://www.amazon.com/amazonprime",
+    "first_seen_utc": "2026-02-15T18:32:13Z",
+    "last_seen_utc": "2026-02-15T18:32:13Z"
+  },
+  "claude_pro": {
+    "hash": "e3f2e29a39b1a6af",
+    "count": 1,
+    "source_url": "https://claude.ai/upgrade",
+    "first_seen_utc": "2026-02-15T18:32:18Z",
+    "last_seen_utc": "2026-02-15T18:32:18Z"
+  },
   "canva": {
-    "hash": "7feccf8efb57c489",
+    "hash": "b83082c055dd645e",
     "count": 1,
     "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-15T18:05:22Z",
-    "last_seen_utc": "2026-02-15T18:05:22Z"
+    "first_seen_utc": "2026-02-15T18:32:20Z",
+    "last_seen_utc": "2026-02-15T18:32:20Z"
   },
   "doordash_dashpass": {
-    "hash": "585bddc7d754e359",
+    "hash": "34432d32b7385c65",
     "count": 1,
     "source_url": "https://www.doordash.com/dashpass/",
-    "first_seen_utc": "2026-02-15T18:05:32Z",
-    "last_seen_utc": "2026-02-15T18:05:32Z"
+    "first_seen_utc": "2026-02-15T18:32:31Z",
+    "last_seen_utc": "2026-02-15T18:32:31Z"
   },
   "espn_plus": {
-    "hash": "255ffb1d8ff231fd",
+    "hash": "b1f1b81f54fea049",
     "count": 1,
     "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-15T18:05:33Z",
-    "last_seen_utc": "2026-02-15T18:05:33Z"
-  },
-  "masterclass": {
-    "hash": "5120f8c35a12aa3b",
-    "count": 1,
-    "source_url": "https://www.masterclass.com/",
-    "first_seen_utc": "2026-02-15T18:05:47Z",
-    "last_seen_utc": "2026-02-15T18:05:47Z"
-  },
-  "peacock": {
-    "hash": "9845cecfa923fc40",
-    "count": 1,
-    "source_url": "https://www.peacocktv.com/plans",
-    "first_seen_utc": "2026-02-15T18:05:57Z",
-    "last_seen_utc": "2026-02-15T18:05:57Z"
+    "first_seen_utc": "2026-02-15T18:32:32Z",
+    "last_seen_utc": "2026-02-15T18:32:32Z"
   },
   "twitch": {
-    "hash": "2cdd859ea2083f81",
+    "hash": "f1c7f5e0708e48f0",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-15T18:06:09Z",
-    "last_seen_utc": "2026-02-15T18:06:09Z"
-  },
-  "xbox_game_pass": {
-    "hash": "2e59c16077934be5",
-    "count": 1,
-    "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
-    "first_seen_utc": "2026-02-15T18:06:10Z",
-    "last_seen_utc": "2026-02-15T18:06:10Z"
-  },
-  "substack": {
-    "hash": "2d3a3babbde43703",
-    "count": 1,
-    "source_url": "https://substack.com/going-paid",
-    "first_seen_utc": "2026-02-15T18:06:24Z",
-    "last_seen_utc": "2026-02-15T18:06:24Z"
+    "first_seen_utc": "2026-02-15T18:33:16Z",
+    "last_seen_utc": "2026-02-15T18:33:16Z"
   }
 }

@@ -1,79 +1,100 @@
 {
-  "amazon_prime": {
-    "hash": "dd1cf3b0abf20dfb",
+  "calm": {
+    "hash": "fdf62f10705a38f5",
     "count": 1,
-    "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-    "first_seen_utc": "2026-02-15T18:03:14Z",
-    "last_seen_utc": "2026-02-15T18:03:14Z"
+    "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
+    "first_seen_utc": "2026-02-15T18:29:30Z",
+    "last_seen_utc": "2026-02-15T18:29:30Z"
   },
   "espn_plus": {
-    "hash": "96774b7d13935f6d",
+    "hash": "b3df23e997aff883",
     "count": 1,
     "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-15T18:03:23Z",
-    "last_seen_utc": "2026-02-15T18:03:23Z"
+    "first_seen_utc": "2026-02-15T18:29:37Z",
+    "last_seen_utc": "2026-02-15T18:29:37Z"
+  },
+  "fubo_tv": {
+    "hash": "2e62a293afa659c7",
+    "count": 1,
+    "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
+    "first_seen_utc": "2026-02-15T18:29:45Z",
+    "last_seen_utc": "2026-02-15T18:29:45Z"
   },
   "google_play": {
-    "hash": "40a38c86e53adb19",
+    "hash": "cf3e619f5f2c6d64",
     "count": 1,
     "source_url": "https://support.google.com/googleplay/answer/2479637",
-    "first_seen_utc": "2026-02-15T18:03:29Z",
-    "last_seen_utc": "2026-02-15T18:03:29Z"
+    "first_seen_utc": "2026-02-15T18:29:47Z",
+    "last_seen_utc": "2026-02-15T18:29:47Z"
   },
-  "hellofresh": {
-    "hash": "e1932a0a1ad63947",
+  "grammarly": {
+    "hash": "e5adcea469f4a180",
     "count": 1,
-    "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-    "first_seen_utc": "2026-02-15T18:03:34Z",
-    "last_seen_utc": "2026-02-15T18:03:34Z"
-  },
-  "proton": {
-    "hash": "744e200142e80a76",
-    "count": 1,
-    "source_url": "https://proton.me/pricing",
-    "first_seen_utc": "2026-02-15T18:03:44Z",
-    "last_seen_utc": "2026-02-15T18:03:44Z"
+    "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
+    "first_seen_utc": "2026-02-15T18:30:30Z",
+    "last_seen_utc": "2026-02-15T18:30:30Z"
   },
   "youtube_premium": {
-    "hash": "fed27182795751e2",
+    "hash": "eeaf559b03ffd9a4",
     "count": 1,
     "source_url": "https://support.google.com/youtube/answer/12014038",
-    "first_seen_utc": "2026-02-15T18:03:56Z",
-    "last_seen_utc": "2026-02-15T18:03:56Z"
-  },
-  "dashlane": {
-    "hash": "6fa071231c522fca",
-    "count": 1,
-    "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-    "first_seen_utc": "2026-02-15T18:03:59Z",
-    "last_seen_utc": "2026-02-15T18:03:59Z"
+    "first_seen_utc": "2026-02-15T18:30:52Z",
+    "last_seen_utc": "2026-02-15T18:30:52Z"
   },
   "fitbit_premium": {
-    "hash": "b2e97404946c3b00",
+    "hash": "73e47a205e1580a4",
     "count": 1,
     "source_url": "https://www.fitbit.com/global/us/legal/terms-of-service",
-    "first_seen_utc": "2026-02-15T18:03:59Z",
-    "last_seen_utc": "2026-02-15T18:03:59Z"
+    "first_seen_utc": "2026-02-15T18:30:56Z",
+    "last_seen_utc": "2026-02-15T18:30:56Z"
   },
   "myfitnesspal_premium": {
-    "hash": "307374a20f4f3f38",
+    "hash": "32d3f1f57f1a7693",
     "count": 1,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-15T18:04:04Z",
-    "last_seen_utc": "2026-02-15T18:04:04Z"
+    "first_seen_utc": "2026-02-15T18:31:02Z",
+    "last_seen_utc": "2026-02-15T18:31:02Z"
+  },
+  "patreon": {
+    "hash": "1506604b349eccdd",
+    "count": 1,
+    "source_url": "https://www.patreon.com/policy/legal",
+    "first_seen_utc": "2026-02-15T18:31:05Z",
+    "last_seen_utc": "2026-02-15T18:31:05Z"
   },
   "roblox_premium": {
-    "hash": "d72f75609e5be554",
+    "hash": "91f00b3d92f96370",
     "count": 1,
     "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-    "first_seen_utc": "2026-02-15T18:04:12Z",
-    "last_seen_utc": "2026-02-15T18:04:12Z"
+    "first_seen_utc": "2026-02-15T18:31:08Z",
+    "last_seen_utc": "2026-02-15T18:31:08Z"
   },
   "washington_post": {
-    "hash": "1f49403c3147b0bd",
+    "hash": "2ad2f52295d36f68",
     "count": 1,
     "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-    "first_seen_utc": "2026-02-15T18:04:18Z",
-    "last_seen_utc": "2026-02-15T18:04:18Z"
+    "first_seen_utc": "2026-02-15T18:31:12Z",
+    "last_seen_utc": "2026-02-15T18:31:12Z"
+  },
+  "substack": {
+    "hash": "a075c0a26844f083",
+    "count": 1,
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "first_seen_utc": "2026-02-15T18:31:14Z",
+    "last_seen_utc": "2026-02-15T18:31:14Z"
+  },
+  "reddit_premium": {
+    "hash": "f7d1a14f0e2d7430",
+    "count": 1,
+    "source_url": "https://www.reddit.com/premium",
+    "first_seen_utc": "2026-02-15T18:31:18Z",
+    "last_seen_utc": "2026-02-15T18:31:18Z"
+  },
+  "soundcloud_go": {
+    "hash": "57e78e9a95558e54",
+    "count": 1,
+    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+    "first_seen_utc": "2026-02-15T18:31:24Z",
+    "last_seen_utc": "2026-02-15T18:31:24Z"
   }
 }
