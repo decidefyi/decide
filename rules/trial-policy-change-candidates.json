@@ -1,51 +1,51 @@
 {
-  "chatgpt_plus": {
-    "hash": "0436926f1c91a051",
+  "amazon_music_unlimited": {
+    "hash": "f7b84407ea188a5b",
     "count": 1,
-    "source_url": "https://openai.com/chatgpt/pricing/",
-    "first_seen_utc": "2026-02-15T17:00:56Z",
-    "last_seen_utc": "2026-02-15T17:00:56Z"
+    "source_url": "https://www.amazon.com/music/unlimited",
+    "first_seen_utc": "2026-02-15T17:22:12Z",
+    "last_seen_utc": "2026-02-15T17:22:12Z"
   },
-  "claude_pro": {
-    "hash": "335f7732a186e612",
+  "amazon_prime": {
+    "hash": "5326441876aae1a0",
     "count": 1,
-    "source_url": "https://claude.ai/upgrade",
-    "first_seen_utc": "2026-02-15T17:00:57Z",
-    "last_seen_utc": "2026-02-15T17:00:57Z"
+    "source_url": "https://www.amazon.com/amazonprime",
+    "first_seen_utc": "2026-02-15T17:22:56Z",
+    "last_seen_utc": "2026-02-15T17:22:56Z"
   },
   "canva": {
-    "hash": "ca3a72a4c6901a77",
+    "hash": "87fff735a8c3e515",
     "count": 1,
     "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-15T17:01:08Z",
-    "last_seen_utc": "2026-02-15T17:01:08Z"
-  },
-  "doordash_dashpass": {
-    "hash": "25ee3bafd9451c5a",
-    "count": 1,
-    "source_url": "https://www.doordash.com/dashpass/",
-    "first_seen_utc": "2026-02-15T17:01:20Z",
-    "last_seen_utc": "2026-02-15T17:01:20Z"
+    "first_seen_utc": "2026-02-15T17:23:03Z",
+    "last_seen_utc": "2026-02-15T17:23:03Z"
   },
   "espn_plus": {
-    "hash": "d929024a8cbc59f2",
+    "hash": "469f59c84ef62888",
     "count": 1,
     "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-15T17:01:21Z",
-    "last_seen_utc": "2026-02-15T17:01:21Z"
+    "first_seen_utc": "2026-02-15T17:23:41Z",
+    "last_seen_utc": "2026-02-15T17:23:41Z"
   },
-  "proton": {
-    "hash": "744e200142e80a76",
+  "hinge": {
+    "hash": "0a3041330bcc9dd7",
     "count": 1,
-    "source_url": "https://proton.me/pricing",
-    "first_seen_utc": "2026-02-15T17:02:13Z",
-    "last_seen_utc": "2026-02-15T17:02:13Z"
+    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+    "first_seen_utc": "2026-02-15T17:23:50Z",
+    "last_seen_utc": "2026-02-15T17:23:50Z"
+  },
+  "peacock": {
+    "hash": "0683e934a1cb1b33",
+    "count": 1,
+    "source_url": "https://www.peacocktv.com/plans",
+    "first_seen_utc": "2026-02-15T17:24:15Z",
+    "last_seen_utc": "2026-02-15T17:24:15Z"
   },
   "twitch": {
-    "hash": "366325a49f05592f",
+    "hash": "485fdfb475708573",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-15T17:02:24Z",
-    "last_seen_utc": "2026-02-15T17:02:24Z"
+    "first_seen_utc": "2026-02-15T17:24:28Z",
+    "last_seen_utc": "2026-02-15T17:24:28Z"
   }
 }
