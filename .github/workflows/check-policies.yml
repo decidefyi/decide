@@ -6,6 +6,10 @@ on:
     - cron: "0 8 * * *"
   workflow_dispatch: # Allow manual trigger
 
+concurrency:
+  group: daily-policy-check-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
   contents: write
   issues: write
@@ -120,6 +124,7 @@ jobs:
             const changedByPolicy = process.env.CHANGED_BY_POLICY || '';
             const changedSample = process.env.CHANGED_SAMPLE || '';
             const today = new Date().toISOString().split('T')[0];
+            const dailyTitlePrefix = `Policy pages changed (${today}):`;
             const sampleList = changedSample
               .split(',')
               .map((s) => s.trim())
@@ -135,29 +140,59 @@ jobs:
               .join('\n');
 
             const title = `Policy pages changed (${today}): ${changedCount} vendor(s)`;
+            const body = [
+              "## Vendor policy pages changed",
+              "",
+              `Total changed vendors: **${changedCount}**`,
+              "",
+              changedByPolicy ? "### By policy\n" + byPolicyList + "\n" : "",
+              sampleList ? "### Sample (first 10)\n" + sampleList + "\n" : "",
+              "### Full review source",
+              "- `rules/policy-change-candidates.json`",
+              "- `rules/cancel-policy-change-candidates.json`",
+              "- `rules/return-policy-change-candidates.json`",
+              "- `rules/trial-policy-change-candidates.json`",
+              "",
+              `Run: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              "",
+              "This issue was created automatically by the daily policy checker."
+            ].filter(Boolean).join("\n");
 
             try {
+              const openPolicyIssues = await github.paginate(github.rest.issues.listForRepo, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                labels: 'policy-update',
+                per_page: 100
+              });
+
+              const existingToday = openPolicyIssues.find((issue) =>
+                !issue.pull_request && typeof issue.title === 'string' && issue.title.startsWith(dailyTitlePrefix)
+              );
+
+              if (existingToday) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existingToday.number,
+                  body: [
+                    `New run update: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                    "",
+                    `Updated changed vendor count: **${changedCount}**`,
+                    changedByPolicy ? `By policy: ${changedByPolicy}` : "",
+                    changedSample ? `Sample: ${changedSample}` : ""
+                  ].filter(Boolean).join("\n")
+                });
+                console.log(`::notice::Updated existing policy issue #${existingToday.number} for ${today}.`);
+                return;
+              }
+
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 title,
-                body: [
-                  "## Vendor policy pages changed",
-                  "",
-                  `Total changed vendors: **${changedCount}**`,
-                  "",
-                  changedByPolicy ? "### By policy\n" + byPolicyList + "\n" : "",
-                  sampleList ? "### Sample (first 10)\n" + sampleList + "\n" : "",
-                  "### Full review source",
-                  "- `rules/policy-change-candidates.json`",
-                  "- `rules/cancel-policy-change-candidates.json`",
-                  "- `rules/return-policy-change-candidates.json`",
-                  "- `rules/trial-policy-change-candidates.json`",
-                  "",
-                  `Run: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
-                  "",
-                  "This issue was created automatically by the daily policy checker."
-                ].filter(Boolean).join("\n"),
+                body,
                 labels: ['policy-update']
               });
             } catch (error) {

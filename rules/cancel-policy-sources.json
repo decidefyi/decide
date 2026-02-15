@@ -255,8 +255,12 @@
       ]
     },
     "notion": {
-      "url": "https://www.notion.so/help/manage-your-plan-and-billing",
-      "notes": "Cancel anytime; reverts to free tier"
+      "url": "https://www.notion.com/help/upgrade-or-downgrade-your-plan",
+      "notes": "Cancel anytime; reverts to free tier",
+      "backup_urls": [
+        "https://www.notion.com/help/plan-downgrade",
+        "https://www.notion.com/help/billing"
+      ]
     },
     "paramount_plus": {
       "url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
