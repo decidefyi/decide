@@ -1,149 +1,114 @@
 {
   "audible": {
-    "hash": "00c0323974e10995",
+    "hash": "d47356270ce72dd6",
     "count": 1,
     "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-    "first_seen_utc": "2026-02-16T08:59:43Z",
-    "last_seen_utc": "2026-02-16T08:59:43Z"
+    "first_seen_utc": "2026-02-16T09:51:34Z",
+    "last_seen_utc": "2026-02-16T09:51:34Z"
   },
   "canva": {
-    "hash": "0bbffe76caf6abe7",
+    "hash": "1133c6535a2b5eb5",
     "count": 1,
     "source_url": "https://www.canva.com/help/cancellation/",
-    "first_seen_utc": "2026-02-16T08:59:51Z",
-    "last_seen_utc": "2026-02-16T08:59:51Z"
-  },
-  "crunchyroll": {
-    "hash": "6c82ce55b288204d",
-    "count": 1,
-    "source_url": "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
-    "first_seen_utc": "2026-02-16T08:59:58Z",
-    "last_seen_utc": "2026-02-16T08:59:58Z"
+    "first_seen_utc": "2026-02-16T09:51:44Z",
+    "last_seen_utc": "2026-02-16T09:51:44Z"
   },
   "espn_plus": {
-    "hash": "0821cd08b02b4db3",
+    "hash": "c1b21be30d843536",
     "count": 1,
     "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-16T09:00:00Z",
-    "last_seen_utc": "2026-02-16T09:00:00Z"
+    "first_seen_utc": "2026-02-16T09:51:51Z",
+    "last_seen_utc": "2026-02-16T09:51:51Z"
   },
   "dropbox_us": {
-    "hash": "f1693e5d2ab864c6",
+    "hash": "6ddb904506181b10",
     "count": 1,
     "source_url": "https://help.dropbox.com/plans/cancel-plan",
-    "first_seen_utc": "2026-02-16T09:00:16Z",
-    "last_seen_utc": "2026-02-16T09:00:16Z"
+    "first_seen_utc": "2026-02-16T09:52:30Z",
+    "last_seen_utc": "2026-02-16T09:52:30Z"
+  },
+  "fubo_tv": {
+    "hash": "2e62a293afa659c7",
+    "count": 1,
+    "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
+    "first_seen_utc": "2026-02-16T09:52:40Z",
+    "last_seen_utc": "2026-02-16T09:52:40Z"
   },
   "google_play": {
-    "hash": "13fe8ca9a37f47ee",
+    "hash": "ead8fdc4d2aeb8df",
     "count": 1,
     "source_url": "https://support.google.com/googleplay/answer/7018481",
-    "first_seen_utc": "2026-02-16T09:00:27Z",
-    "last_seen_utc": "2026-02-16T09:00:27Z"
-  },
-  "headspace": {
-    "hash": "82deb78dab11aeb8",
-    "count": 1,
-    "source_url": "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription",
-    "first_seen_utc": "2026-02-16T09:00:31Z",
-    "last_seen_utc": "2026-02-16T09:00:31Z"
+    "first_seen_utc": "2026-02-16T09:52:40Z",
+    "last_seen_utc": "2026-02-16T09:52:40Z"
   },
   "grammarly": {
-    "hash": "180925e88982390f",
+    "hash": "cc0f445cbd52a487",
     "count": 1,
     "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
-    "first_seen_utc": "2026-02-16T09:00:34Z",
-    "last_seen_utc": "2026-02-16T09:00:34Z"
+    "first_seen_utc": "2026-02-16T09:52:42Z",
+    "last_seen_utc": "2026-02-16T09:52:42Z"
   },
-  "masterclass": {
-    "hash": "b852ddd7e8c288fa",
+  "midjourney": {
+    "hash": "709056b3a65db128",
     "count": 1,
-    "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-    "first_seen_utc": "2026-02-16T09:01:02Z",
-    "last_seen_utc": "2026-02-16T09:01:02Z"
+    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
+    "first_seen_utc": "2026-02-16T09:52:53Z",
+    "last_seen_utc": "2026-02-16T09:52:53Z"
+  },
+  "peacock": {
+    "hash": "f10a6f0ae8d2f044",
+    "count": 1,
+    "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
+    "first_seen_utc": "2026-02-16T09:52:57Z",
+    "last_seen_utc": "2026-02-16T09:52:57Z"
   },
   "paramount_plus": {
-    "hash": "908ee1f045a7e762",
+    "hash": "abda937fd1b4f8cf",
     "count": 1,
     "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-    "first_seen_utc": "2026-02-16T09:01:20Z",
-    "last_seen_utc": "2026-02-16T09:01:20Z"
+    "first_seen_utc": "2026-02-16T09:53:08Z",
+    "last_seen_utc": "2026-02-16T09:53:08Z"
+  },
+  "scribd": {
+    "hash": "64aecd4a6b3a2db0",
+    "count": 1,
+    "source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
+    "first_seen_utc": "2026-02-16T09:53:16Z",
+    "last_seen_utc": "2026-02-16T09:53:16Z"
   },
   "strava": {
-    "hash": "8765312b0342e7f6",
+    "hash": "86bd4e17073cab57",
     "count": 1,
     "source_url": "https://support.strava.com/hc/en-us/articles/216917967-Cancel-Subscription",
-    "first_seen_utc": "2026-02-16T09:01:35Z",
-    "last_seen_utc": "2026-02-16T09:01:35Z"
-  },
-  "tinder": {
-    "hash": "c2924a1871e8577e",
-    "count": 1,
-    "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
-    "first_seen_utc": "2026-02-16T09:01:41Z",
-    "last_seen_utc": "2026-02-16T09:01:41Z"
+    "first_seen_utc": "2026-02-16T09:53:23Z",
+    "last_seen_utc": "2026-02-16T09:53:23Z"
   },
   "twitch": {
-    "hash": "430341304161dcc1",
+    "hash": "c2aad210b69d3be2",
     "count": 1,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-    "first_seen_utc": "2026-02-16T09:01:51Z",
-    "last_seen_utc": "2026-02-16T09:01:51Z"
+    "first_seen_utc": "2026-02-16T09:53:41Z",
+    "last_seen_utc": "2026-02-16T09:53:41Z"
   },
   "youtube_premium": {
-    "hash": "30562b85a807fba9",
+    "hash": "748d1c1e63212924",
     "count": 1,
     "source_url": "https://support.google.com/youtube/answer/6308278",
-    "first_seen_utc": "2026-02-16T09:01:52Z",
-    "last_seen_utc": "2026-02-16T09:01:52Z"
+    "first_seen_utc": "2026-02-16T09:53:41Z",
+    "last_seen_utc": "2026-02-16T09:53:41Z"
   },
   "fitbit_premium": {
-    "hash": "b56c7d8423983a74",
+    "hash": "e70687c07f8b68e4",
     "count": 1,
     "source_url": "https://support.google.com/fitbit/",
-    "first_seen_utc": "2026-02-16T09:02:04Z",
-    "last_seen_utc": "2026-02-16T09:02:04Z"
+    "first_seen_utc": "2026-02-16T09:53:47Z",
+    "last_seen_utc": "2026-02-16T09:53:47Z"
   },
-  "myfitnesspal_premium": {
-    "hash": "ee7a190b5c2f2f56",
+  "substack": {
+    "hash": "a075c0a26844f083",
     "count": 1,
-    "source_url": "https://support.myfitnesspal.com/hc/en-us",
-    "first_seen_utc": "2026-02-16T09:02:07Z",
-    "last_seen_utc": "2026-02-16T09:02:07Z"
-  },
-  "patreon": {
-    "hash": "f15fed559dff8102",
-    "count": 1,
-    "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-    "first_seen_utc": "2026-02-16T09:02:18Z",
-    "last_seen_utc": "2026-02-16T09:02:18Z"
-  },
-  "nfl_plus": {
-    "hash": "24f019911735559c",
-    "count": 1,
-    "source_url": "https://support.nfl.com/hc/en-us/articles/5402041435292-NFL-Subscription-Renewals-Cancellations",
-    "first_seen_utc": "2026-02-16T09:02:27Z",
-    "last_seen_utc": "2026-02-16T09:02:27Z"
-  },
-  "reddit_premium": {
-    "hash": "b6565f21368ba926",
-    "count": 1,
-    "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
-    "first_seen_utc": "2026-02-16T09:02:38Z",
-    "last_seen_utc": "2026-02-16T09:02:38Z"
-  },
-  "soundcloud_go": {
-    "hash": "57e78e9a95558e54",
-    "count": 1,
-    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-    "first_seen_utc": "2026-02-16T09:02:40Z",
-    "last_seen_utc": "2026-02-16T09:02:40Z"
-  },
-  "starz": {
-    "hash": "e61f25dd480c02a2",
-    "count": 1,
-    "source_url": "https://www.starz.com/us/en/termsofuse",
-    "first_seen_utc": "2026-02-16T09:02:41Z",
-    "last_seen_utc": "2026-02-16T09:02:41Z"
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "first_seen_utc": "2026-02-16T09:54:07Z",
+    "last_seen_utc": "2026-02-16T09:54:07Z"
   }
 }

@@ -1,79 +1,51 @@
 {
-  "canva": {
-    "hash": "51f6511b3bc8f522",
-    "count": 1,
-    "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-16T09:03:59Z",
-    "last_seen_utc": "2026-02-16T09:03:59Z"
-  },
   "crunchyroll": {
-    "hash": "c710493f7d58b0e5",
+    "hash": "9315e456fbf9c2b5",
     "count": 1,
     "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-    "first_seen_utc": "2026-02-16T09:04:05Z",
-    "last_seen_utc": "2026-02-16T09:04:05Z"
+    "first_seen_utc": "2026-02-16T09:55:22Z",
+    "last_seen_utc": "2026-02-16T09:55:22Z"
   },
   "espn_plus": {
-    "hash": "27897da7ddde40c5",
+    "hash": "c1b21be30d843536",
     "count": 1,
     "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-16T09:04:08Z",
-    "last_seen_utc": "2026-02-16T09:04:08Z"
+    "first_seen_utc": "2026-02-16T09:55:24Z",
+    "last_seen_utc": "2026-02-16T09:55:24Z"
   },
   "google_play": {
-    "hash": "95ddf2ac1d03e6dc",
+    "hash": "39e63393572d7bdd",
     "count": 1,
     "source_url": "https://support.google.com/googleplay/answer/2479637",
-    "first_seen_utc": "2026-02-16T09:04:14Z",
-    "last_seen_utc": "2026-02-16T09:04:14Z"
-  },
-  "grammarly": {
-    "hash": "85ed56b4e76ab1a4",
-    "count": 1,
-    "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-    "first_seen_utc": "2026-02-16T09:05:30Z",
-    "last_seen_utc": "2026-02-16T09:05:30Z"
+    "first_seen_utc": "2026-02-16T09:55:30Z",
+    "last_seen_utc": "2026-02-16T09:55:30Z"
   },
   "youtube_premium": {
-    "hash": "e9d03b89478d02ba",
+    "hash": "84aefe5c2e62bc09",
     "count": 1,
     "source_url": "https://support.google.com/youtube/answer/12014038",
-    "first_seen_utc": "2026-02-16T09:05:55Z",
-    "last_seen_utc": "2026-02-16T09:05:55Z"
+    "first_seen_utc": "2026-02-16T09:55:54Z",
+    "last_seen_utc": "2026-02-16T09:55:54Z"
   },
   "fitbit_premium": {
-    "hash": "c664ea22fb3717b8",
+    "hash": "1d5b9752fb61fffe",
     "count": 1,
     "source_url": "https://www.fitbit.com/global/us/legal/terms-of-service",
-    "first_seen_utc": "2026-02-16T09:05:59Z",
-    "last_seen_utc": "2026-02-16T09:05:59Z"
+    "first_seen_utc": "2026-02-16T09:55:58Z",
+    "last_seen_utc": "2026-02-16T09:55:58Z"
   },
   "myfitnesspal_premium": {
-    "hash": "e272c735fa1ad73e",
+    "hash": "3b79c732e4a66cb1",
     "count": 1,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-16T09:06:03Z",
-    "last_seen_utc": "2026-02-16T09:06:03Z"
+    "first_seen_utc": "2026-02-16T09:56:05Z",
+    "last_seen_utc": "2026-02-16T09:56:05Z"
   },
-  "substack": {
-    "hash": "f24ae0e2bdefd489",
+  "reddit_premium": {
+    "hash": "9a48f534906232ac",
     "count": 1,
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-16T09:06:18Z",
-    "last_seen_utc": "2026-02-16T09:06:18Z"
-  },
-  "x_premium": {
-    "hash": "49497ba07c4439bf",
-    "count": 1,
-    "source_url": "https://help.x.com/en/using-x/x-premium",
-    "first_seen_utc": "2026-02-16T09:06:21Z",
-    "last_seen_utc": "2026-02-16T09:06:21Z"
-  },
-  "starz": {
-    "hash": "e61f25dd480c02a2",
-    "count": 1,
-    "source_url": "https://www.starz.com/us/en/termsofuse",
-    "first_seen_utc": "2026-02-16T09:06:25Z",
-    "last_seen_utc": "2026-02-16T09:06:25Z"
+    "source_url": "https://www.reddit.com/premium",
+    "first_seen_utc": "2026-02-16T09:56:34Z",
+    "last_seen_utc": "2026-02-16T09:56:34Z"
   }
 }
