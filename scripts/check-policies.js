@@ -23,6 +23,7 @@ const CHECKER_CONFIG = {
   timeoutMs: Number.parseInt(process.env.POLICY_CHECK_TIMEOUT_MS || "18000", 10),
   errorDetailLimit: Number.parseInt(process.env.POLICY_CHECK_ERROR_DETAIL_LIMIT || "12", 10),
   changeConfirmRuns: Number.parseInt(process.env.POLICY_CHECK_CHANGE_CONFIRM_RUNS || "2", 10),
+  candidateTtlDays: Number.parseInt(process.env.POLICY_CHECK_CANDIDATE_TTL_DAYS || "7", 10),
 };
 const USER_AGENTS = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
@@ -162,6 +163,24 @@ function getConfirmRuns() {
   return Math.max(1, CHECKER_CONFIG.changeConfirmRuns);
 }
 
+function getCandidateTtlDays() {
+  if (!Number.isFinite(CHECKER_CONFIG.candidateTtlDays)) return 7;
+  return Math.max(0, CHECKER_CONFIG.candidateTtlDays);
+}
+
+function isStaleCandidate(candidate, nowMs = Date.now()) {
+  const ttlDays = getCandidateTtlDays();
+  if (ttlDays <= 0) return false;
+
+  const lastSeen = candidate?.last_seen_utc || candidate?.first_seen_utc;
+  if (!lastSeen) return false;
+
+  const seenMs = Date.parse(lastSeen);
+  if (!Number.isFinite(seenMs)) return false;
+
+  return nowMs - seenMs > ttlDays * 24 * 60 * 60 * 1000;
+}
+
 async function fetchText(url, attempts = 3) {
   let lastErrorMessage = "unknown";
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
@@ -265,6 +284,17 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
   const sources = readJson(sourcesPath, { vendors: {} });
   const storedHashes = readJson(hashesPath, {});
   const storedCandidates = readJson(candidatesPath, {});
+  const activeStoredCandidates = {};
+  const staleDropped = [];
+
+  const nowMs = Date.now();
+  for (const [vendor, candidate] of Object.entries(storedCandidates)) {
+    if (isStaleCandidate(candidate, nowMs)) {
+      staleDropped.push(vendor);
+      continue;
+    }
+    activeStoredCandidates[vendor] = candidate;
+  }
 
   const vendors = Object.entries(sources.vendors);
   const changed = [];
@@ -288,8 +318,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
         if (!fetchResult.text) {
           errors.push(vendor);
           errorReasons[vendor] = fetchResult.error || "request failed";
-          if (storedCandidates[vendor]) {
-            newCandidates[vendor] = storedCandidates[vendor];
+          if (activeStoredCandidates[vendor]) {
+            newCandidates[vendor] = activeStoredCandidates[vendor];
           }
           return;
         }
@@ -308,7 +338,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
           return;
         }
 
-        const priorCandidate = storedCandidates[vendor];
+        const priorCandidate = activeStoredCandidates[vendor];
         const nextCount = priorCandidate?.hash === h ? Number(priorCandidate.count || 1) + 1 : 1;
         if (nextCount >= confirmRuns) {
           changed.push({ vendor, url: sourceUrl });
@@ -356,7 +386,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
     errorReasons,
     rulesFile,
     successfulChecks,
-    totalChecks: vendors.length
+    totalChecks: vendors.length,
+    staleDropped,
   };
 }
 
@@ -387,6 +418,11 @@ async function main() {
     if (result.pending.length > 0) {
       console.log(
         `::notice::${result.name}: ${result.pending.length} candidate change(s) observed; waiting for confirmation in next run.`
+      );
+    }
+    if (result.staleDropped.length > 0) {
+      console.log(
+        `::notice::${result.name}: stale_pending_dropped=${result.staleDropped.length} (older than ${getCandidateTtlDays()} day(s)).`
       );
     }
 
