@@ -112,6 +112,7 @@ const POLICY_FOCUS_KEYWORDS = {
     "promo",
   ],
 };
+const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v1";
 
 const isUpdate = process.argv.includes("--update");
 
@@ -382,10 +383,22 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
   }
 
   const sources = readJson(sourcesPath, { vendors: {} });
+  const storedHashProfile =
+    typeof sources.hash_profile === "string" && sources.hash_profile.trim()
+      ? sources.hash_profile.trim()
+      : "";
+  const rebaselineForProfile = storedHashProfile !== HASH_PROFILE_ID;
   const storedHashes = readJson(hashesPath, {});
   const storedCandidates = readJson(candidatesPath, {});
   const activeStoredCandidates = {};
   const staleDropped = [];
+
+  if (rebaselineForProfile) {
+    const fromProfile = storedHashProfile || "legacy";
+    console.log(
+      `::notice::${name}: hash_profile migration ${fromProfile} -> ${HASH_PROFILE_ID}; rebaselining hashes for this run.`
+    );
+  }
 
   const nowMs = Date.now();
   for (const [vendor, candidate] of Object.entries(storedCandidates)) {
@@ -433,7 +446,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
             : fetchResult.sourceUrl;
 
         const previousHash = storedHashes[vendor];
-        if (isUpdate || !previousHash || previousHash === h) {
+        if (isUpdate || rebaselineForProfile || !previousHash || previousHash === h) {
           newHashes[vendor] = h;
           return;
         }
@@ -469,7 +482,10 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
     console.log(`::warning::No successful checks for ${name}; preserving existing last_verified_utc.`);
   } else if (successfulChecks > 0) {
     sources.last_verified_utc = verifiedAtUtc;
-    if (!updateJsonStringField(sourcesPath, "last_verified_utc", verifiedAtUtc)) {
+    sources.hash_profile = HASH_PROFILE_ID;
+    const updatedLastVerified = updateJsonStringField(sourcesPath, "last_verified_utc", verifiedAtUtc);
+    const updatedHashProfile = updateJsonStringField(sourcesPath, "hash_profile", HASH_PROFILE_ID);
+    if (!updatedLastVerified || !updatedHashProfile) {
       writeFileSync(sourcesPath, JSON.stringify(sources, null, 2) + "\n");
     }
   }
@@ -488,6 +504,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
     successfulChecks,
     totalChecks: vendors.length,
     staleDropped,
+    rebaselineForProfile,
   };
 }
 
@@ -523,6 +540,11 @@ async function main() {
     if (result.staleDropped.length > 0) {
       console.log(
         `::notice::${result.name}: stale_pending_dropped=${result.staleDropped.length} (older than ${getCandidateTtlDays()} day(s)).`
+      );
+    }
+    if (result.rebaselineForProfile) {
+      console.log(
+        `::notice::${result.name}: hash_profile_rebaselined=${HASH_PROFILE_ID}; pending candidates reset for this policy set.`
       );
     }
 
