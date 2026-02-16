@@ -1,1 +1,135 @@
-{}
+{
+  "calm": {
+    "hash": "d72f75609e5be554",
+    "count": 1,
+    "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
+    "first_seen_utc": "2026-02-16T19:29:04Z",
+    "last_seen_utc": "2026-02-16T19:29:04Z"
+  },
+  "chatgpt_plus": {
+    "hash": "2748e6816fd5301f",
+    "count": 1,
+    "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
+    "first_seen_utc": "2026-02-16T19:29:05Z",
+    "last_seen_utc": "2026-02-16T19:29:05Z"
+  },
+  "canva": {
+    "hash": "517c325d0608c82e",
+    "count": 1,
+    "source_url": "https://www.canva.com/policies/terms-of-use/",
+    "first_seen_utc": "2026-02-16T19:29:12Z",
+    "last_seen_utc": "2026-02-16T19:29:12Z"
+  },
+  "crunchyroll": {
+    "hash": "ff7ed05235b2a237",
+    "count": 1,
+    "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
+    "first_seen_utc": "2026-02-16T19:29:14Z",
+    "last_seen_utc": "2026-02-16T19:29:14Z"
+  },
+  "espn_plus": {
+    "hash": "f78c737608ffd6a5",
+    "count": 1,
+    "source_url": "https://www.espn.com/espnplus/",
+    "first_seen_utc": "2026-02-16T19:29:17Z",
+    "last_seen_utc": "2026-02-16T19:29:17Z"
+  },
+  "evernote": {
+    "hash": "ca973400279b5e45",
+    "count": 1,
+    "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
+    "first_seen_utc": "2026-02-16T19:29:25Z",
+    "last_seen_utc": "2026-02-16T19:29:25Z"
+  },
+  "fubo_tv": {
+    "hash": "d72f75609e5be554",
+    "count": 1,
+    "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
+    "first_seen_utc": "2026-02-16T19:29:27Z",
+    "last_seen_utc": "2026-02-16T19:29:27Z"
+  },
+  "headspace": {
+    "hash": "0adf99c7d56b66bb",
+    "count": 1,
+    "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
+    "first_seen_utc": "2026-02-16T19:29:30Z",
+    "last_seen_utc": "2026-02-16T19:29:30Z"
+  },
+  "grammarly": {
+    "hash": "e5adcea469f4a180",
+    "count": 1,
+    "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
+    "first_seen_utc": "2026-02-16T19:29:33Z",
+    "last_seen_utc": "2026-02-16T19:29:33Z"
+  },
+  "hellofresh": {
+    "hash": "d72f75609e5be554",
+    "count": 1,
+    "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
+    "first_seen_utc": "2026-02-16T19:29:35Z",
+    "last_seen_utc": "2026-02-16T19:29:35Z"
+  },
+  "midjourney": {
+    "hash": "4605764702134417",
+    "count": 1,
+    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
+    "first_seen_utc": "2026-02-16T19:29:53Z",
+    "last_seen_utc": "2026-02-16T19:29:53Z"
+  },
+  "proton": {
+    "hash": "274a5ed74b27e80f",
+    "count": 1,
+    "source_url": "https://proton.me/pricing",
+    "first_seen_utc": "2026-02-16T19:29:56Z",
+    "last_seen_utc": "2026-02-16T19:29:56Z"
+  },
+  "scribd": {
+    "hash": "bb0fdc3ccf056336",
+    "count": 1,
+    "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
+    "first_seen_utc": "2026-02-16T19:30:03Z",
+    "last_seen_utc": "2026-02-16T19:30:03Z"
+  },
+  "tinder": {
+    "hash": "d72f75609e5be554",
+    "count": 1,
+    "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
+    "first_seen_utc": "2026-02-16T19:30:08Z",
+    "last_seen_utc": "2026-02-16T19:30:08Z"
+  },
+  "tidal": {
+    "hash": "d6866fff681e5e52",
+    "count": 1,
+    "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
+    "first_seen_utc": "2026-02-16T19:30:10Z",
+    "last_seen_utc": "2026-02-16T19:30:10Z"
+  },
+  "dashlane": {
+    "hash": "ecb0305cbbbc2b71",
+    "count": 1,
+    "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
+    "first_seen_utc": "2026-02-16T19:30:19Z",
+    "last_seen_utc": "2026-02-16T19:30:19Z"
+  },
+  "roblox_premium": {
+    "hash": "d72f75609e5be554",
+    "count": 1,
+    "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
+    "first_seen_utc": "2026-02-16T19:31:07Z",
+    "last_seen_utc": "2026-02-16T19:31:07Z"
+  },
+  "washington_post": {
+    "hash": "1b67b6f75b4383a6",
+    "count": 1,
+    "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
+    "first_seen_utc": "2026-02-16T19:31:13Z",
+    "last_seen_utc": "2026-02-16T19:31:13Z"
+  },
+  "substack": {
+    "hash": "a075c0a26844f083",
+    "count": 1,
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "first_seen_utc": "2026-02-16T19:31:14Z",
+    "last_seen_utc": "2026-02-16T19:31:14Z"
+  }
+}
