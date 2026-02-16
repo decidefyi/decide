@@ -28,7 +28,8 @@
       "backup_urls": [
         "https://www.amazon.com/amazonprime",
         "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC"
-      ]
+      ],
+      "confirm_runs": 3
     },
     "apple_app_store": {
       "url": "https://support.apple.com/en-us/118223",
@@ -192,7 +193,8 @@
     },
     "google_play": {
       "url": "https://support.google.com/googleplay/answer/7018481",
-      "notes": "Cancel via Play Store; access until end of period"
+      "notes": "Cancel via Play Store; access until end of period",
+      "confirm_runs": 3
     },
     "grammarly": {
       "url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
@@ -260,7 +262,8 @@
       "backup_urls": [
         "https://www.masterclass.com/legal/terms",
         "https://www.masterclass.com/"
-      ]
+      ],
+      "confirm_runs": 3
     },
     "max": {
       "url": "https://help.max.com/US/Answer/Detail/000002536",
@@ -364,7 +367,8 @@
     },
     "sling_tv": {
       "url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
-      "notes": "Cancel anytime; no partial month refunds"
+      "notes": "Cancel anytime; no partial month refunds",
+      "confirm_runs": 3
     },
     "spotify": {
       "url": "https://support.spotify.com/us/article/cancel-premium/",
@@ -516,7 +520,8 @@
     },
     "substack": {
       "url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "notes": "Substack cancellation steps for paid subscriptions."
+      "notes": "Substack cancellation steps for paid subscriptions.",
+      "confirm_runs": 3
     },
     "snapchat_plus": {
       "url": "https://help.snapchat.com/hc/en-us/articles/7012334940948-Snapchat-",
@@ -536,7 +541,8 @@
     },
     "soundcloud_go": {
       "url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "notes": "SoundCloud Go cancellation instructions and renewal behavior."
+      "notes": "SoundCloud Go cancellation instructions and renewal behavior.",
+      "confirm_runs": 3
     },
     "discovery_plus": {
       "url": "https://help.discoveryplus.com/hc/en-us",
@@ -552,7 +558,8 @@
       "backup_urls": [
         "https://help.starz.com/en/articles/6661904-how-do-i-cancel-starz",
         "https://www.starz.com/us/en/help"
-      ]
+      ],
+      "confirm_runs": 3
     },
     "britbox": {
       "url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",

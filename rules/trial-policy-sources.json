@@ -23,12 +23,13 @@
       ]
     },
     "amazon_prime": {
-      "url": "https://www.amazon.com/amazonprime",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
       "notes": "30-day free trial; card required",
       "backup_urls": [
-        "https://www.amazon.com/amazonprime",
-        "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC"
-      ]
+        "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
+        "https://www.amazon.com/amazonprime"
+      ],
+      "confirm_runs": 3
     },
     "apple_app_store": {
       "url": "https://support.apple.com/en-us/118223",
@@ -191,8 +192,13 @@
       ]
     },
     "google_play": {
-      "url": "https://play.google.com/store",
-      "notes": "No platform-level trial"
+      "url": "https://support.google.com/googleplay/answer/7018481",
+      "notes": "No platform-level trial",
+      "confirm_runs": 3,
+      "backup_urls": [
+        "https://support.google.com/googleplay/answer/2479637",
+        "https://play.google.com/store"
+      ]
     },
     "grammarly": {
       "url": "https://www.grammarly.com/plans",
@@ -255,12 +261,13 @@
       "notes": "1-month free trial"
     },
     "masterclass": {
-      "url": "https://www.masterclass.com/",
+      "url": "https://www.masterclass.com/legal/terms",
       "notes": "No trial; 30-day guarantee",
       "backup_urls": [
-        "https://www.masterclass.com/legal/terms",
+        "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
         "https://www.masterclass.com/"
-      ]
+      ],
+      "confirm_runs": 3
     },
     "max": {
       "url": "https://www.max.com/",
@@ -359,8 +366,12 @@
       "notes": "90-day Pro trial for teams"
     },
     "sling_tv": {
-      "url": "https://www.sling.com/",
-      "notes": "No standard trial"
+      "url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
+      "notes": "No standard trial",
+      "confirm_runs": 3,
+      "backup_urls": [
+        "https://www.sling.com/"
+      ]
     },
     "spotify": {
       "url": "https://www.spotify.com/us/premium/",
@@ -499,8 +510,13 @@
       "notes": "Trial and promotional access may vary by offer and period."
     },
     "substack": {
-      "url": "https://substack.com/going-paid",
-      "notes": "No platform-wide trial; creators can configure free or paid offers."
+      "url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "notes": "No platform-wide trial; creators can configure free or paid offers.",
+      "confirm_runs": 3,
+      "backup_urls": [
+        "https://substack.com/going-paid",
+        "https://substack.com"
+      ]
     },
     "snapchat_plus": {
       "url": "https://www.snapchat.com/plus",
@@ -519,16 +535,26 @@
       "notes": "No standing free trial for Telegram Premium."
     },
     "soundcloud_go": {
-      "url": "https://soundcloud.com/go",
-      "notes": "Trial availability and duration vary by region and offer."
+      "url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+      "notes": "Trial availability and duration vary by region and offer.",
+      "confirm_runs": 3,
+      "backup_urls": [
+        "https://help.soundcloud.com/hc/en-us",
+        "https://soundcloud.com/go"
+      ]
     },
     "discovery_plus": {
       "url": "https://www.discoveryplus.com/",
       "notes": "Trial availability and duration can vary by promotion."
     },
     "starz": {
-      "url": "https://www.starz.com/us/en/",
-      "notes": "Trial availability and duration can vary by promotion."
+      "url": "https://www.starz.com/us/en/termsofuse",
+      "notes": "Trial availability and duration can vary by promotion.",
+      "confirm_runs": 3,
+      "backup_urls": [
+        "https://www.starz.com/us/en/legal/terms-of-use",
+        "https://www.starz.com/us/en/help"
+      ]
     },
     "britbox": {
       "url": "https://www.britbox.com/us/",

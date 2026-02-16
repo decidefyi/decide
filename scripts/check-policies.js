@@ -62,6 +62,57 @@ const POLICY_SETS = [
   },
 ];
 
+const POLICY_FOCUS_KEYWORDS = {
+  default: [
+    "policy",
+    "terms",
+    "subscription",
+    "billing",
+    "payment",
+    "membership",
+    "renew",
+    "renewal",
+    "auto-renew",
+    "cancel",
+    "refund",
+    "return",
+    "trial",
+  ],
+  refund: [
+    "refund",
+    "reimbursement",
+    "money back",
+    "chargeback",
+    "credited",
+    "credited back",
+  ],
+  cancel: [
+    "cancel",
+    "cancellation",
+    "terminate",
+    "termination",
+    "opt out",
+    "end subscription",
+  ],
+  return: [
+    "return",
+    "returned",
+    "eligibility",
+    "window",
+    "days",
+    "exchange",
+  ],
+  trial: [
+    "trial",
+    "free trial",
+    "introductory",
+    "intro offer",
+    "after trial",
+    "billed after",
+    "promo",
+  ],
+};
+
 const isUpdate = process.argv.includes("--update");
 
 function hash(text) {
@@ -125,7 +176,46 @@ function decodeHtmlEntities(input) {
     .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number.parseInt(code, 10)));
 }
 
-function normalizeFetchedText(rawText) {
+function escapeRegexLiteral(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function getPolicyKeywordRegex(policyType) {
+  const typedKeywords = POLICY_FOCUS_KEYWORDS[policyType] || [];
+  const keywords = [...new Set([...POLICY_FOCUS_KEYWORDS.default, ...typedKeywords])];
+  if (keywords.length === 0) return null;
+  const pattern = keywords
+    .filter((keyword) => typeof keyword === "string" && keyword.trim())
+    .map((keyword) => escapeRegexLiteral(keyword.trim()))
+    .join("|");
+  if (!pattern) return null;
+  return new RegExp(`\\b(?:${pattern})\\b`, "i");
+}
+
+function extractPolicyFocusedText(lines, policyType) {
+  if (!Array.isArray(lines) || lines.length === 0) return "";
+  const keywordRegex = getPolicyKeywordRegex(policyType);
+  if (!keywordRegex) return "";
+
+  const selectedIndexes = new Set();
+  for (let i = 0; i < lines.length; i += 1) {
+    if (!keywordRegex.test(lines[i])) continue;
+    for (let j = Math.max(0, i - 1); j <= Math.min(lines.length - 1, i + 1); j += 1) {
+      selectedIndexes.add(j);
+    }
+  }
+
+  if (selectedIndexes.size < 6) {
+    return "";
+  }
+
+  return [...selectedIndexes]
+    .sort((a, b) => a - b)
+    .map((index) => lines[index])
+    .join("\n");
+}
+
+function normalizeFetchedText(rawText, policyType = "default") {
   let text = String(rawText || "");
   if (!text.trim()) return "";
 
@@ -155,12 +245,22 @@ function normalizeFetchedText(rawText) {
     if (line !== deduped[deduped.length - 1]) deduped.push(line);
   }
 
+  const focused = extractPolicyFocusedText(deduped, policyType);
+  if (focused) return focused;
   return deduped.join("\n");
 }
 
 function getConfirmRuns() {
   if (!Number.isFinite(CHECKER_CONFIG.changeConfirmRuns)) return 2;
   return Math.max(1, CHECKER_CONFIG.changeConfirmRuns);
+}
+
+function getConfirmRunsForVendor(vendorConfig) {
+  const defaultRuns = getConfirmRuns();
+  if (!vendorConfig || typeof vendorConfig !== "object") return defaultRuns;
+  const configured = Number.parseInt(vendorConfig.confirm_runs, 10);
+  if (!Number.isFinite(configured)) return defaultRuns;
+  return Math.max(1, configured);
 }
 
 function getCandidateTtlDays() {
@@ -304,7 +404,6 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
   const newHashes = { ...storedHashes };
   const newCandidates = {};
   let successfulChecks = 0;
-  const confirmRuns = getConfirmRuns();
 
   // Process in gentler batches to reduce bot-defense blocks and rate limits.
   const batchSize = Number.isFinite(CHECKER_CONFIG.batchSize) && CHECKER_CONFIG.batchSize > 0
@@ -323,9 +422,10 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
           }
           return;
         }
-        const normalized = normalizeFetchedText(fetchResult.text);
+        const normalized = normalizeFetchedText(fetchResult.text, name);
         const h = hash(normalized || fetchResult.text);
         successfulChecks += 1;
+        const confirmRuns = getConfirmRunsForVendor(vendorConfig);
 
         const sourceUrl =
           typeof vendorConfig?.url === "string" && vendorConfig.url

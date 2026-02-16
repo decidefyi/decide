@@ -2,8 +2,8 @@ name: Daily Policy Check
 
 on:
   schedule:
-    # Run daily at 08:00 UTC
-    - cron: "0 8 * * *"
+    # Run every 12 hours (00:00 UTC and 12:00 UTC)
+    - cron: "0 */12 * * *"
   workflow_dispatch: # Allow manual trigger
 
 concurrency:

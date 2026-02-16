@@ -28,7 +28,8 @@
       "backup_urls": [
         "https://www.amazon.com/amazonprime",
         "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC"
-      ]
+      ],
+      "confirm_runs": 3
     },
     "apple_app_store": {
       "url": "https://support.apple.com/en-us/118223",
@@ -192,7 +193,8 @@
     },
     "google_play": {
       "url": "https://support.google.com/googleplay/answer/2479637",
-      "notes": "48-hour return window"
+      "notes": "48-hour return window",
+      "confirm_runs": 3
     },
     "grammarly": {
       "url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
@@ -260,7 +262,8 @@
       "backup_urls": [
         "https://www.masterclass.com/legal/terms",
         "https://www.masterclass.com/"
-      ]
+      ],
+      "confirm_runs": 3
     },
     "max": {
       "url": "https://help.hbomax.com/US/Answer/Detail/000002522",
@@ -360,7 +363,8 @@
     },
     "sling_tv": {
       "url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
-      "notes": "Non-refundable"
+      "notes": "Non-refundable",
+      "confirm_runs": 3
     },
     "spotify": {
       "url": "https://www.spotify.com/us/legal/end-user-agreement/",
@@ -524,7 +528,8 @@
       "backup_urls": [
         "https://substack.com/going-paid",
         "https://substack.com"
-      ]
+      ],
+      "confirm_runs": 3
     },
     "snapchat_plus": {
       "url": "https://www.snap.com/terms",
@@ -552,7 +557,8 @@
       "backup_urls": [
         "https://help.soundcloud.com/hc/en-us",
         "https://soundcloud.com/go"
-      ]
+      ],
+      "confirm_runs": 3
     },
     "discovery_plus": {
       "url": "https://www.discoveryplus.com/terms",
@@ -564,7 +570,8 @@
       "backup_urls": [
         "https://www.starz.com/us/en/legal/terms-of-use",
         "https://www.starz.com/us/en/help"
-      ]
+      ],
+      "confirm_runs": 3
     },
     "britbox": {
       "url": "https://www.britbox.com/us/terms",
