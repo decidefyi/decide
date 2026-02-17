@@ -28,8 +28,12 @@ const CHECKER_CONFIG = {
   sameRunRecheckPasses: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_PASSES || "1", 10),
   sameRunRecheckDelayMs: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_DELAY_MS || "1200", 10),
   sameRunRecheckBatchSize: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_BATCH_SIZE || "3", 10),
+  sameRunMajorityMinVotes: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_MAJORITY_MIN_VOTES || "2", 10),
   stalePendingDays: Number.parseInt(process.env.POLICY_CHECK_STALE_PENDING_DAYS || "3", 10),
   volatileFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_VOLATILE_FLIP_THRESHOLD || "2", 10),
+  escalationPendingDays: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_PENDING_DAYS || "5", 10),
+  escalationFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_FLIP_THRESHOLD || "3", 10),
+  noConfirmEscalationDays: Number.parseInt(process.env.POLICY_CHECK_NO_CONFIRM_ESCALATION_DAYS || "7", 10),
 };
 const USER_AGENTS = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
@@ -43,6 +47,7 @@ const POLICY_SETS = [
     sourcesPath: join(__dirname, "..", "rules", "policy-sources.json"),
     hashesPath: join(__dirname, "..", "rules", "policy-hashes.json"),
     candidatesPath: join(__dirname, "..", "rules", "policy-change-candidates.json"),
+    coveragePath: join(__dirname, "..", "rules", "policy-coverage-state.json"),
     rulesFile: "v1_us_individual.json",
   },
   {
@@ -50,6 +55,7 @@ const POLICY_SETS = [
     sourcesPath: join(__dirname, "..", "rules", "cancel-policy-sources.json"),
     hashesPath: join(__dirname, "..", "rules", "cancel-policy-hashes.json"),
     candidatesPath: join(__dirname, "..", "rules", "cancel-policy-change-candidates.json"),
+    coveragePath: join(__dirname, "..", "rules", "cancel-policy-coverage-state.json"),
     rulesFile: "v1_us_individual_cancel.json",
   },
   {
@@ -57,6 +63,7 @@ const POLICY_SETS = [
     sourcesPath: join(__dirname, "..", "rules", "return-policy-sources.json"),
     hashesPath: join(__dirname, "..", "rules", "return-policy-hashes.json"),
     candidatesPath: join(__dirname, "..", "rules", "return-policy-change-candidates.json"),
+    coveragePath: join(__dirname, "..", "rules", "return-policy-coverage-state.json"),
     rulesFile: "v1_us_individual_return.json",
   },
   {
@@ -64,6 +71,7 @@ const POLICY_SETS = [
     sourcesPath: join(__dirname, "..", "rules", "trial-policy-sources.json"),
     hashesPath: join(__dirname, "..", "rules", "trial-policy-hashes.json"),
     candidatesPath: join(__dirname, "..", "rules", "trial-policy-change-candidates.json"),
+    coveragePath: join(__dirname, "..", "rules", "trial-policy-coverage-state.json"),
     rulesFile: "v1_us_individual_trial.json",
   },
 ];
@@ -295,6 +303,11 @@ function getSameRunRecheckBatchSize(defaultSize = 3) {
   return Math.max(1, CHECKER_CONFIG.sameRunRecheckBatchSize);
 }
 
+function getSameRunMajorityMinVotes() {
+  if (!Number.isFinite(CHECKER_CONFIG.sameRunMajorityMinVotes)) return 2;
+  return Math.max(2, CHECKER_CONFIG.sameRunMajorityMinVotes);
+}
+
 function getStalePendingDays() {
   if (!Number.isFinite(CHECKER_CONFIG.stalePendingDays)) return 3;
   return Math.max(1, CHECKER_CONFIG.stalePendingDays);
@@ -305,12 +318,69 @@ function getVolatileFlipThreshold() {
   return Math.max(1, CHECKER_CONFIG.volatileFlipThreshold);
 }
 
+function getEscalationPendingDays() {
+  if (!Number.isFinite(CHECKER_CONFIG.escalationPendingDays)) return 5;
+  return Math.max(1, CHECKER_CONFIG.escalationPendingDays);
+}
+
+function getEscalationFlipThreshold() {
+  if (!Number.isFinite(CHECKER_CONFIG.escalationFlipThreshold)) return 3;
+  return Math.max(1, CHECKER_CONFIG.escalationFlipThreshold);
+}
+
+function getNoConfirmEscalationDays() {
+  if (!Number.isFinite(CHECKER_CONFIG.noConfirmEscalationDays)) return 7;
+  return Math.max(1, CHECKER_CONFIG.noConfirmEscalationDays);
+}
+
 function getCandidateAgeDays(candidate, nowMs = Date.now()) {
   const firstSeen = candidate?.first_seen_utc;
   if (!firstSeen) return 0;
   const firstSeenMs = Date.parse(firstSeen);
   if (!Number.isFinite(firstSeenMs)) return 0;
   return Math.max(0, Math.floor((nowMs - firstSeenMs) / (24 * 60 * 60 * 1000)));
+}
+
+function toMsOrNaN(isoValue) {
+  if (typeof isoValue !== "string" || !isoValue) return Number.NaN;
+  return Date.parse(isoValue);
+}
+
+function getRunMajorityDecision(observations) {
+  if (!observations || typeof observations !== "object") return null;
+  const baselineVotes = Number(observations.baselineVotes || 0);
+  const hashVotes = observations.hashVotes || {};
+  const nonBaselineEntries = Object.entries(hashVotes);
+  const nonBaselineVotes = nonBaselineEntries.reduce((sum, [, count]) => sum + Number(count || 0), 0);
+  const totalVotes = baselineVotes + nonBaselineVotes;
+  if (totalVotes < 2) return null;
+
+  let winnerHash = "";
+  let winnerVotes = 0;
+  let runnerUpVotes = 0;
+  for (const [hashValue, countRaw] of nonBaselineEntries) {
+    const count = Number(countRaw || 0);
+    if (count > winnerVotes) {
+      runnerUpVotes = winnerVotes;
+      winnerVotes = count;
+      winnerHash = hashValue;
+    } else if (count > runnerUpVotes) {
+      runnerUpVotes = count;
+    }
+  }
+
+  const majorityThreshold = Math.floor(totalVotes / 2) + 1;
+  const requiredVotes = Math.max(getSameRunMajorityMinVotes(), majorityThreshold);
+
+  if (baselineVotes >= requiredVotes && baselineVotes > winnerVotes) {
+    return { type: "baseline", requiredVotes, baselineVotes, totalVotes };
+  }
+
+  if (winnerHash && winnerVotes >= requiredVotes && winnerVotes > Math.max(baselineVotes, runnerUpVotes)) {
+    return { type: "hash", hash: winnerHash, requiredVotes, winnerVotes, baselineVotes, totalVotes };
+  }
+
+  return null;
 }
 
 function sortedLimitedVendors(vendors, limit = getPendingDetailLimit()) {
@@ -425,7 +495,7 @@ async function fetchWithFallback(vendorConfig) {
   return { text: null, error: failures.join("; ") };
 }
 
-async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, rulesFile }) {
+async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, coveragePath, rulesFile }) {
   if (!existsSync(sourcesPath)) {
     console.log(`::warning::Sources file not found for ${name}: ${sourcesPath}`);
     return {
@@ -444,6 +514,9 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
       recheckConfirmed: [],
       recheckResolved: [],
       recheckFetchFailures: [],
+      escalatedPending: [],
+      escalatedReasons: {},
+      coverageGaps: [],
     };
   }
 
@@ -455,6 +528,10 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
   const rebaselineForProfile = storedHashProfile !== HASH_PROFILE_ID;
   const storedHashes = readJson(hashesPath, {});
   const storedCandidates = readJson(candidatesPath, {});
+  const storedCoverage = readJson(coveragePath, { vendors: {} });
+  const coverageVendors = storedCoverage && typeof storedCoverage.vendors === "object" && storedCoverage.vendors
+    ? { ...storedCoverage.vendors }
+    : {};
   const activeStoredCandidates = {};
   const staleDropped = [];
 
@@ -482,10 +559,28 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
   const errorReasons = {};
   const newHashes = { ...storedHashes };
   const newCandidates = {};
+  const runObservations = {};
   const recheckConfirmedSet = new Set();
   const recheckResolvedSet = new Set();
   const recheckFetchFailureSet = new Set();
   let successfulChecks = 0;
+
+  const ensureCoverageEntry = (vendor) => {
+    if (!coverageVendors[vendor] || typeof coverageVendors[vendor] !== "object") {
+      coverageVendors[vendor] = {};
+    }
+    return coverageVendors[vendor];
+  };
+
+  const markSuccessfulFetch = (vendor, whenUtc) => {
+    const coverage = ensureCoverageEntry(vendor);
+    coverage.last_successful_fetch_utc = whenUtc;
+  };
+
+  const markConfirmedChange = (vendor, whenUtc) => {
+    const coverage = ensureCoverageEntry(vendor);
+    coverage.last_confirmed_change_utc = whenUtc;
+  };
 
   // Process in gentler batches to reduce bot-defense blocks and rate limits.
   const batchSize = Number.isFinite(CHECKER_CONFIG.batchSize) && CHECKER_CONFIG.batchSize > 0
@@ -499,6 +594,9 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
         if (!fetchResult.text) {
           errors.push(vendor);
           errorReasons[vendor] = fetchResult.error || "request failed";
+          const coverage = ensureCoverageEntry(vendor);
+          coverage.last_fetch_failure_utc = utcIsoTimestamp();
+          coverage.last_fetch_failure_reason = fetchResult.error || "request failed";
           if (activeStoredCandidates[vendor]) {
             newCandidates[vendor] = activeStoredCandidates[vendor];
           }
@@ -507,6 +605,11 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
         const normalized = normalizeFetchedText(fetchResult.text, name);
         const h = hash(normalized || fetchResult.text);
         successfulChecks += 1;
+        const fetchedAtUtc = utcIsoTimestamp();
+        markSuccessfulFetch(vendor, fetchedAtUtc);
+        const coverage = ensureCoverageEntry(vendor);
+        delete coverage.last_fetch_failure_utc;
+        delete coverage.last_fetch_failure_reason;
         const confirmRuns = getConfirmRunsForVendor(vendorConfig);
 
         const sourceUrl =
@@ -517,6 +620,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
         const previousHash = storedHashes[vendor];
         if (isUpdate || rebaselineForProfile || !previousHash || previousHash === h) {
           newHashes[vendor] = h;
+          delete newCandidates[vendor];
           return;
         }
 
@@ -529,6 +633,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
         if (nextCount >= confirmRuns) {
           changed.push({ vendor, url: sourceUrl });
           newHashes[vendor] = h;
+          markConfirmedChange(vendor, fetchedAtUtc);
           return;
         }
 
@@ -541,14 +646,18 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
           source_url: sourceUrl || "",
           first_seen_utc: priorHash === h && priorCandidate.first_seen_utc
             ? priorCandidate.first_seen_utc
-            : utcIsoTimestamp(),
-          last_seen_utc: utcIsoTimestamp(),
+            : fetchedAtUtc,
+          last_seen_utc: fetchedAtUtc,
         };
         pendingMetadata[vendor] = {
           vendorConfig,
           confirmRuns,
           previousHash,
           sourceUrl: sourceUrl || priorCandidate?.source_url || "",
+        };
+        runObservations[vendor] = {
+          baselineVotes: 0,
+          hashVotes: { [h]: 1 },
         };
       })
     );
@@ -573,15 +682,55 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
           const metadata = pendingMetadata[vendor];
           const candidate = newCandidates[vendor];
           if (!metadata || !candidate) return;
+          if (!runObservations[vendor]) {
+            runObservations[vendor] = {
+              baselineVotes: 0,
+              hashVotes: { [candidate.hash]: 1 },
+            };
+          }
 
           const recheckResult = await fetchWithFallback(metadata.vendorConfig);
           if (!recheckResult.text) {
             recheckFetchFailureSet.add(vendor);
+            const coverage = ensureCoverageEntry(vendor);
+            coverage.last_fetch_failure_utc = utcIsoTimestamp();
+            coverage.last_fetch_failure_reason = recheckResult.error || "request failed";
             return;
           }
 
+          const fetchedAtUtc = utcIsoTimestamp();
+          markSuccessfulFetch(vendor, fetchedAtUtc);
+          const coverage = ensureCoverageEntry(vendor);
+          delete coverage.last_fetch_failure_utc;
+          delete coverage.last_fetch_failure_reason;
+
           const normalized = normalizeFetchedText(recheckResult.text, name);
           const h = hash(normalized || recheckResult.text);
+          const observations = runObservations[vendor];
+          if (h === metadata.previousHash) {
+            observations.baselineVotes = Number(observations.baselineVotes || 0) + 1;
+          } else {
+            observations.hashVotes[h] = Number(observations.hashVotes[h] || 0) + 1;
+          }
+
+          const majorityDecision = getRunMajorityDecision(observations);
+          if (majorityDecision?.type === "baseline") {
+            delete newCandidates[vendor];
+            pendingSet.delete(vendor);
+            recheckResolvedSet.add(vendor);
+            return;
+          }
+          if (majorityDecision?.type === "hash" && majorityDecision.hash) {
+            const sourceUrl = recheckResult.sourceUrl || metadata.sourceUrl || "";
+            changed.push({ vendor, url: sourceUrl });
+            newHashes[vendor] = majorityDecision.hash;
+            markConfirmedChange(vendor, fetchedAtUtc);
+            delete newCandidates[vendor];
+            pendingSet.delete(vendor);
+            recheckConfirmedSet.add(vendor);
+            return;
+          }
+
           if (h === metadata.previousHash) {
             delete newCandidates[vendor];
             pendingSet.delete(vendor);
@@ -600,11 +749,12 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
 
           const sourceUrl = recheckResult.sourceUrl || metadata.sourceUrl || "";
           if (sourceUrl) candidate.source_url = sourceUrl;
-          candidate.last_seen_utc = utcIsoTimestamp();
+          candidate.last_seen_utc = fetchedAtUtc;
 
           if (Number(candidate.count || 0) >= metadata.confirmRuns) {
             changed.push({ vendor, url: sourceUrl });
             newHashes[vendor] = h;
+            markConfirmedChange(vendor, fetchedAtUtc);
             delete newCandidates[vendor];
             pendingSet.delete(vendor);
             recheckConfirmedSet.add(vendor);
@@ -623,17 +773,55 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
   const pending = [...pendingSet].sort((a, b) => a.localeCompare(b));
   const stalePending = [];
   const volatilePending = [];
+  const escalatedPending = [];
+  const escalatedReasons = {};
+  const coverageGaps = [];
   const summaryNowMs = Date.now();
   for (const [vendor, candidate] of Object.entries(newCandidates)) {
-    if (getCandidateAgeDays(candidate, summaryNowMs) >= getStalePendingDays()) {
+    const ageDays = getCandidateAgeDays(candidate, summaryNowMs);
+    const flipCount = Number(candidate?.flip_count || 0);
+    if (ageDays >= getStalePendingDays()) {
       stalePending.push(vendor);
     }
-    if (Number(candidate?.flip_count || 0) >= getVolatileFlipThreshold()) {
+    if (flipCount >= getVolatileFlipThreshold()) {
       volatilePending.push(vendor);
+    }
+    const coverage = ensureCoverageEntry(vendor);
+    coverage.last_pending_seen_utc = utcIsoTimestamp();
+    coverage.last_pending_age_days = ageDays;
+    coverage.last_pending_flip_count = flipCount;
+    coverage.last_pending_source_url = candidate?.source_url || coverage.last_pending_source_url || "";
+
+    const escalationReasons = [];
+    if (ageDays >= getEscalationPendingDays()) {
+      escalationReasons.push(`pending_age_days>=${getEscalationPendingDays()}`);
+    }
+    if (flipCount >= getEscalationFlipThreshold()) {
+      escalationReasons.push(`flip_count>=${getEscalationFlipThreshold()}`);
+    }
+    if (escalationReasons.length > 0) {
+      escalatedPending.push(vendor);
+      escalatedReasons[vendor] = escalationReasons.join("&");
+      coverage.last_escalated_utc = utcIsoTimestamp();
+    }
+
+    const firstSeenMs = toMsOrNaN(candidate?.first_seen_utc);
+    const lastConfirmedMs = toMsOrNaN(coverage?.last_confirmed_change_utc);
+    const lastEscalatedMs = toMsOrNaN(coverage?.last_escalated_utc);
+    const resolutionMs = [lastConfirmedMs, lastEscalatedMs].filter((value) => Number.isFinite(value));
+    const latestResolutionMs = resolutionMs.length > 0 ? Math.max(...resolutionMs) : Number.NaN;
+    if (
+      ageDays >= getNoConfirmEscalationDays() &&
+      Number.isFinite(firstSeenMs) &&
+      (!Number.isFinite(latestResolutionMs) || latestResolutionMs < firstSeenMs)
+    ) {
+      coverageGaps.push(vendor);
     }
   }
   stalePending.sort((a, b) => a.localeCompare(b));
   volatilePending.sort((a, b) => a.localeCompare(b));
+  escalatedPending.sort((a, b) => a.localeCompare(b));
+  coverageGaps.sort((a, b) => a.localeCompare(b));
 
   const verifiedAtUtc = utcIsoTimestamp();
   if (vendors.length > 0 && successfulChecks === 0) {
@@ -648,9 +836,29 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
     }
   }
 
-  // Write updated hashes
+  for (const [vendor] of vendors) {
+    if (pendingSet.has(vendor)) continue;
+    const coverage = ensureCoverageEntry(vendor);
+    coverage.last_pending_age_days = 0;
+    coverage.last_pending_flip_count = 0;
+    delete coverage.last_pending_source_url;
+  }
+
+  // Write updated hashes and state artifacts.
   writeFileSync(hashesPath, JSON.stringify(newHashes, null, 2) + "\n");
   writeFileSync(candidatesPath, JSON.stringify(newCandidates, null, 2) + "\n");
+  writeFileSync(
+    coveragePath,
+    JSON.stringify(
+      {
+        updated_utc: verifiedAtUtc,
+        policy: name,
+        vendors: coverageVendors,
+      },
+      null,
+      2
+    ) + "\n"
+  );
 
   return {
     name,
@@ -668,6 +876,9 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
     recheckConfirmed: [...recheckConfirmedSet].sort((a, b) => a.localeCompare(b)),
     recheckResolved: [...recheckResolvedSet].sort((a, b) => a.localeCompare(b)),
     recheckFetchFailures: [...recheckFetchFailureSet].sort((a, b) => a.localeCompare(b)),
+    escalatedPending,
+    escalatedReasons,
+    coverageGaps,
   };
 }
 
@@ -677,7 +888,10 @@ async function main() {
   const allPending = [];
   const allStalePending = [];
   const allVolatilePending = [];
+  const allEscalatedPending = [];
+  const allCoverageGaps = [];
   const pendingDetailByPolicy = {};
+  const escalationDetailByPolicy = {};
 
   for (const policySet of POLICY_SETS) {
     const result = await checkPolicySet(policySet);
@@ -748,6 +962,18 @@ async function main() {
         `::notice::${result.name}: volatile_pending=${result.volatilePending.length} (flip_count>=${getVolatileFlipThreshold()}); first ${volatileNames.length}: ${volatileNames.join(", ")}`
       );
     }
+    if (result.escalatedPending.length > 0) {
+      const escalatedNames = sortedLimitedVendors(result.escalatedPending, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: hard_escalation=${result.escalatedPending.length}; first ${escalatedNames.length}: ${escalatedNames.join(", ")}`
+      );
+    }
+    if (result.coverageGaps.length > 0) {
+      const gapNames = sortedLimitedVendors(result.coverageGaps, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: pending_without_confirm_or_escalation=${result.coverageGaps.length} (>=${getNoConfirmEscalationDays()} day(s)); first ${gapNames.length}: ${gapNames.join(", ")}`
+      );
+    }
     if (result.rebaselineForProfile) {
       console.log(
         `::notice::${result.name}: hash_profile_rebaselined=${HASH_PROFILE_ID}; pending candidates reset for this policy set.`
@@ -772,6 +998,17 @@ async function main() {
     }
     for (const vendor of result.volatilePending) {
       allVolatilePending.push({ policyType: result.name, vendor });
+    }
+    for (const vendor of result.escalatedPending) {
+      const reason = result.escalatedReasons?.[vendor] || "unknown";
+      allEscalatedPending.push({ policyType: result.name, vendor, reason });
+    }
+    if (result.escalatedPending.length > 0) {
+      escalationDetailByPolicy[result.name] = result.escalatedPending
+        .map((vendor) => `${vendor}(${result.escalatedReasons?.[vendor] || "unknown"})`);
+    }
+    for (const vendor of result.coverageGaps) {
+      allCoverageGaps.push({ policyType: result.name, vendor });
     }
   }
 
@@ -800,6 +1037,21 @@ async function main() {
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
 
+  const escalationByPolicy = toPolicyCountString(allEscalatedPending);
+  const escalationSample = allEscalatedPending
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const escalationDetail = Object.entries(escalationDetailByPolicy)
+    .map(([policy, vendors]) => `${policy}:${sortedLimitedVendors(vendors, getPendingDetailLimit()).join("|")}`)
+    .join(";");
+
+  const coverageGapByPolicy = toPolicyCountString(allCoverageGaps);
+  const coverageGapSample = allCoverageGaps
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+
   console.log(`PENDING_COUNT=${allPending.length}`);
   console.log(`PENDING_BY_POLICY=${pendingByPolicy}`);
   console.log(`PENDING_SAMPLE=${pendingSample}`);
@@ -810,6 +1062,13 @@ async function main() {
   console.log(`VOLATILE_PENDING_COUNT=${allVolatilePending.length}`);
   console.log(`VOLATILE_PENDING_BY_POLICY=${volatilePendingByPolicy}`);
   console.log(`VOLATILE_PENDING_SAMPLE=${volatilePendingSample}`);
+  console.log(`ESCALATION_COUNT=${allEscalatedPending.length}`);
+  console.log(`ESCALATION_BY_POLICY=${escalationByPolicy}`);
+  console.log(`ESCALATION_SAMPLE=${escalationSample}`);
+  console.log(`ESCALATION_DETAIL=${escalationDetail}`);
+  console.log(`COVERAGE_GAP_COUNT=${allCoverageGaps.length}`);
+  console.log(`COVERAGE_GAP_BY_POLICY=${coverageGapByPolicy}`);
+  console.log(`COVERAGE_GAP_SAMPLE=${coverageGapSample}`);
 
   if (isUpdate) {
     console.log(`Hashes updated for all policy sets.`);

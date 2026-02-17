@@ -52,6 +52,13 @@ jobs:
           volatile_pending_count=$(echo "$output" | awk -F= '/^VOLATILE_PENDING_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
           volatile_pending_by_policy=$(echo "$output" | awk -F= '/^VOLATILE_PENDING_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
           volatile_pending_sample=$(echo "$output" | awk -F= '/^VOLATILE_PENDING_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
+          escalation_count=$(echo "$output" | awk -F= '/^ESCALATION_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
+          escalation_by_policy=$(echo "$output" | awk -F= '/^ESCALATION_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
+          escalation_sample=$(echo "$output" | awk -F= '/^ESCALATION_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
+          escalation_detail=$(echo "$output" | awk -F= '/^ESCALATION_DETAIL=/{print $2}' | tail -n1 | tr -d '\r')
+          coverage_gap_count=$(echo "$output" | awk -F= '/^COVERAGE_GAP_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
+          coverage_gap_by_policy=$(echo "$output" | awk -F= '/^COVERAGE_GAP_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
+          coverage_gap_sample=$(echo "$output" | awk -F= '/^COVERAGE_GAP_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
 
           if [ -n "$changed_count" ]; then
             echo "changed_count=$changed_count" >> "$GITHUB_OUTPUT"
@@ -62,6 +69,8 @@ jobs:
           if [ -z "$pending_count" ]; then pending_count=0; fi
           if [ -z "$stale_pending_count" ]; then stale_pending_count=0; fi
           if [ -z "$volatile_pending_count" ]; then volatile_pending_count=0; fi
+          if [ -z "$escalation_count" ]; then escalation_count=0; fi
+          if [ -z "$coverage_gap_count" ]; then coverage_gap_count=0; fi
           echo "pending_count=$pending_count" >> "$GITHUB_OUTPUT"
           echo "pending_by_policy=$pending_by_policy" >> "$GITHUB_OUTPUT"
           echo "pending_sample=$pending_sample" >> "$GITHUB_OUTPUT"
@@ -72,6 +81,13 @@ jobs:
           echo "volatile_pending_count=$volatile_pending_count" >> "$GITHUB_OUTPUT"
           echo "volatile_pending_by_policy=$volatile_pending_by_policy" >> "$GITHUB_OUTPUT"
           echo "volatile_pending_sample=$volatile_pending_sample" >> "$GITHUB_OUTPUT"
+          echo "escalation_count=$escalation_count" >> "$GITHUB_OUTPUT"
+          echo "escalation_by_policy=$escalation_by_policy" >> "$GITHUB_OUTPUT"
+          echo "escalation_sample=$escalation_sample" >> "$GITHUB_OUTPUT"
+          echo "escalation_detail=$escalation_detail" >> "$GITHUB_OUTPUT"
+          echo "coverage_gap_count=$coverage_gap_count" >> "$GITHUB_OUTPUT"
+          echo "coverage_gap_by_policy=$coverage_gap_by_policy" >> "$GITHUB_OUTPUT"
+          echo "coverage_gap_sample=$coverage_gap_sample" >> "$GITHUB_OUTPUT"
 
       - name: Commit updated hashes
         run: |
@@ -91,6 +107,10 @@ jobs:
             rules/cancel-policy-sources.json
             rules/return-policy-sources.json
             rules/trial-policy-sources.json
+            rules/policy-coverage-state.json
+            rules/cancel-policy-coverage-state.json
+            rules/return-policy-coverage-state.json
+            rules/trial-policy-coverage-state.json
           )
 
           existing=()
@@ -151,6 +171,13 @@ jobs:
           VOLATILE_PENDING_COUNT: ${{ steps.check.outputs.volatile_pending_count }}
           VOLATILE_PENDING_BY_POLICY: ${{ steps.check.outputs.volatile_pending_by_policy }}
           VOLATILE_PENDING_SAMPLE: ${{ steps.check.outputs.volatile_pending_sample }}
+          ESCALATION_COUNT: ${{ steps.check.outputs.escalation_count }}
+          ESCALATION_BY_POLICY: ${{ steps.check.outputs.escalation_by_policy }}
+          ESCALATION_SAMPLE: ${{ steps.check.outputs.escalation_sample }}
+          ESCALATION_DETAIL: ${{ steps.check.outputs.escalation_detail }}
+          COVERAGE_GAP_COUNT: ${{ steps.check.outputs.coverage_gap_count }}
+          COVERAGE_GAP_BY_POLICY: ${{ steps.check.outputs.coverage_gap_by_policy }}
+          COVERAGE_GAP_SAMPLE: ${{ steps.check.outputs.coverage_gap_sample }}
         with:
           retries: 3
           script: |
@@ -167,6 +194,13 @@ jobs:
             const volatilePendingCount = Number.parseInt(process.env.VOLATILE_PENDING_COUNT || '0', 10) || 0;
             const volatilePendingByPolicy = process.env.VOLATILE_PENDING_BY_POLICY || '';
             const volatilePendingSample = process.env.VOLATILE_PENDING_SAMPLE || '';
+            const escalationCount = Number.parseInt(process.env.ESCALATION_COUNT || '0', 10) || 0;
+            const escalationByPolicy = process.env.ESCALATION_BY_POLICY || '';
+            const escalationSample = process.env.ESCALATION_SAMPLE || '';
+            const escalationDetail = process.env.ESCALATION_DETAIL || '';
+            const coverageGapCount = Number.parseInt(process.env.COVERAGE_GAP_COUNT || '0', 10) || 0;
+            const coverageGapByPolicy = process.env.COVERAGE_GAP_BY_POLICY || '';
+            const coverageGapSample = process.env.COVERAGE_GAP_SAMPLE || '';
             const today = new Date().toISOString().split('T')[0];
             const changedTitlePrefix = `Policy pages changed (${today}):`;
             const pendingTitlePrefix = `Policy checker pending candidates (${today}):`;
@@ -201,8 +235,37 @@ jobs:
               .filter(Boolean)
               .map((item) => `- ${item.replace(':', ': ')}`)
               .join('\n');
+            const escalationByPolicyList = escalationByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
+            const coverageGapByPolicyList = coverageGapByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
 
             const pendingDetailList = pendingDetail
+              .split(';')
+              .map((entry) => entry.trim())
+              .filter(Boolean)
+              .map((entry) => {
+                const [policy, vendorsRaw] = entry.split(':');
+                if (!policy || !vendorsRaw) return '';
+                const vendors = vendorsRaw
+                  .split('|')
+                  .map((v) => v.trim())
+                  .filter(Boolean)
+                  .join(', ');
+                return vendors ? `- ${policy}: ${vendors}` : '';
+              })
+              .filter(Boolean)
+              .join('\n');
+
+            const escalationDetailList = escalationDetail
               .split(';')
               .map((entry) => entry.trim())
               .filter(Boolean)
@@ -235,6 +298,8 @@ jobs:
               pendingSample ? `Pending sample: \`${pendingSample}\`\n` : "",
               stalePendingCount > 0 ? `### Stale pending (>=3 day(s))\n- Total: **${stalePendingCount}**\n${staleByPolicyList}\n${stalePendingSample ? `Sample: \`${stalePendingSample}\`` : ""}\n` : "",
               volatilePendingCount > 0 ? `### Volatile pending (flip_count threshold)\n- Total: **${volatilePendingCount}**\n${volatileByPolicyList}\n${volatilePendingSample ? `Sample: \`${volatilePendingSample}\`` : ""}\n` : "",
+              escalationCount > 0 ? `### Escalation candidates (SLA)\n- Total: **${escalationCount}**\n${escalationByPolicyList}\n${escalationDetailList ? `${escalationDetailList}\n` : ""}${escalationSample ? `Sample: \`${escalationSample}\`` : ""}\n` : "",
+              coverageGapCount > 0 ? `### Pending without confirm/escalation (coverage gap)\n- Total: **${coverageGapCount}**\n${coverageGapByPolicyList}\n${coverageGapSample ? `Sample: \`${coverageGapSample}\`` : ""}\n` : "",
               "### Full review source",
               "- `rules/policy-change-candidates.json`",
               "- `rules/cancel-policy-change-candidates.json`",
@@ -277,7 +342,12 @@ jobs:
                     pendingDetail ? `Pending detail: ${pendingDetail}` : "",
                     stalePendingCount > 0 ? `Stale pending: ${stalePendingCount} (${stalePendingByPolicy || 'by-policy-unavailable'})` : "",
                     volatilePendingCount > 0 ? `Volatile pending: ${volatilePendingCount} (${volatilePendingByPolicy || 'by-policy-unavailable'})` : "",
+                    escalationCount > 0 ? `Escalation candidates: ${escalationCount} (${escalationByPolicy || 'by-policy-unavailable'})` : "",
+                    escalationDetail ? `Escalation detail: ${escalationDetail}` : "",
+                    coverageGapCount > 0 ? `Coverage gaps: ${coverageGapCount} (${coverageGapByPolicy || 'by-policy-unavailable'})` : "",
                     changedSample ? `Confirmed sample: ${changedSample}` : "",
+                    escalationSample ? `Escalation sample: ${escalationSample}` : "",
+                    coverageGapSample ? `Coverage gap sample: ${coverageGapSample}` : "",
                     pendingSample ? `Pending sample: ${pendingSample}` : ""
                   ].filter(Boolean).join("\n")
                 });
@@ -296,4 +366,101 @@ jobs:
               const status = error?.status || "unknown";
               const message = error?.message || "unknown error";
               console.log(`::warning::Could not open policy update issue (status: ${status}): ${message}`);
+            }
+
+      - name: Open escalation issue if SLA thresholds are hit
+        if: (steps.check.outputs.escalation_count && steps.check.outputs.escalation_count != '0') || (steps.check.outputs.coverage_gap_count && steps.check.outputs.coverage_gap_count != '0')
+        continue-on-error: true
+        uses: actions/github-script@v7
+        env:
+          ESCALATION_COUNT: ${{ steps.check.outputs.escalation_count }}
+          ESCALATION_BY_POLICY: ${{ steps.check.outputs.escalation_by_policy }}
+          ESCALATION_SAMPLE: ${{ steps.check.outputs.escalation_sample }}
+          ESCALATION_DETAIL: ${{ steps.check.outputs.escalation_detail }}
+          COVERAGE_GAP_COUNT: ${{ steps.check.outputs.coverage_gap_count }}
+          COVERAGE_GAP_BY_POLICY: ${{ steps.check.outputs.coverage_gap_by_policy }}
+          COVERAGE_GAP_SAMPLE: ${{ steps.check.outputs.coverage_gap_sample }}
+        with:
+          retries: 3
+          script: |
+            const escalationCount = Number.parseInt(process.env.ESCALATION_COUNT || '0', 10) || 0;
+            const escalationByPolicy = process.env.ESCALATION_BY_POLICY || '';
+            const escalationSample = process.env.ESCALATION_SAMPLE || '';
+            const escalationDetail = process.env.ESCALATION_DETAIL || '';
+            const coverageGapCount = Number.parseInt(process.env.COVERAGE_GAP_COUNT || '0', 10) || 0;
+            const coverageGapByPolicy = process.env.COVERAGE_GAP_BY_POLICY || '';
+            const coverageGapSample = process.env.COVERAGE_GAP_SAMPLE || '';
+            const today = new Date().toISOString().split('T')[0];
+            const titlePrefix = `Policy checker escalation (${today}):`;
+            const title = `${titlePrefix} ${escalationCount} escalated, ${coverageGapCount} coverage-gap vendor(s)`;
+            const body = [
+              "## Policy checker escalation summary",
+              "",
+              `Escalated pending vendors: **${escalationCount}**`,
+              escalationByPolicy ? `By policy: ${escalationByPolicy}` : "",
+              escalationDetail ? `Detail: ${escalationDetail}` : "",
+              escalationSample ? `Sample: \`${escalationSample}\`` : "",
+              "",
+              `Coverage-gap pending vendors: **${coverageGapCount}**`,
+              coverageGapByPolicy ? `By policy: ${coverageGapByPolicy}` : "",
+              coverageGapSample ? `Sample: \`${coverageGapSample}\`` : "",
+              "",
+              "### Tracking files",
+              "- `rules/policy-coverage-state.json`",
+              "- `rules/cancel-policy-coverage-state.json`",
+              "- `rules/return-policy-coverage-state.json`",
+              "- `rules/trial-policy-coverage-state.json`",
+              "",
+              `Run: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              "",
+              "This issue was created automatically by the daily policy checker escalation logic."
+            ].filter(Boolean).join("\n");
+
+            try {
+              const openEscalationIssues = await github.paginate(github.rest.issues.listForRepo, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                labels: 'policy-escalation',
+                per_page: 100
+              });
+
+              const existingToday = openEscalationIssues.find((issue) =>
+                !issue.pull_request &&
+                typeof issue.title === 'string' &&
+                issue.title.startsWith(titlePrefix)
+              );
+
+              if (existingToday) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existingToday.number,
+                  body: [
+                    `New run update: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                    "",
+                    `Escalated pending vendors: **${escalationCount}**`,
+                    escalationByPolicy ? `Escalated by policy: ${escalationByPolicy}` : "",
+                    escalationDetail ? `Escalated detail: ${escalationDetail}` : "",
+                    `Coverage-gap pending vendors: **${coverageGapCount}**`,
+                    coverageGapByPolicy ? `Coverage-gap by policy: ${coverageGapByPolicy}` : "",
+                    escalationSample ? `Escalation sample: ${escalationSample}` : "",
+                    coverageGapSample ? `Coverage-gap sample: ${coverageGapSample}` : ""
+                  ].filter(Boolean).join("\n")
+                });
+                console.log(`::notice::Updated existing escalation issue #${existingToday.number} for ${today}.`);
+                return;
+              }
+
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['policy-update', 'policy-escalation']
+              });
+            } catch (error) {
+              const status = error?.status || "unknown";
+              const message = error?.message || "unknown error";
+              console.log(`::warning::Could not open policy escalation issue (status: ${status}): ${message}`);
             }
