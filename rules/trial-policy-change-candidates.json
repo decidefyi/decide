@@ -1,37 +1,10 @@
 {
   "canva": {
-    "hash": "990035c693f6f19c",
+    "hash": "ba4cc152b966ac06",
     "count": 1,
+    "flip_count": 2,
     "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-17T02:56:55Z",
-    "last_seen_utc": "2026-02-17T02:56:55Z"
-  },
-  "espn_plus": {
-    "hash": "a42658cc31108c17",
-    "count": 1,
-    "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-17T02:57:09Z",
-    "last_seen_utc": "2026-02-17T02:57:09Z"
-  },
-  "proton": {
-    "hash": "7eee55087667d851",
-    "count": 1,
-    "source_url": "https://proton.me/pricing",
-    "first_seen_utc": "2026-02-17T02:58:05Z",
-    "last_seen_utc": "2026-02-17T02:58:05Z"
-  },
-  "twitch": {
-    "hash": "68e9ce5af527bfcc",
-    "count": 1,
-    "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-17T02:58:17Z",
-    "last_seen_utc": "2026-02-17T02:58:17Z"
-  },
-  "substack": {
-    "hash": "a075c0a26844f083",
-    "count": 1,
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-17T02:58:35Z",
-    "last_seen_utc": "2026-02-17T02:58:35Z"
+    "first_seen_utc": "2026-02-17T11:34:39Z",
+    "last_seen_utc": "2026-02-17T11:34:39Z"
   }
 }

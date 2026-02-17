@@ -1,51 +1,10 @@
 {
-  "canva": {
-    "hash": "92e6a42364828fbb",
-    "count": 1,
-    "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-17T02:54:56Z",
-    "last_seen_utc": "2026-02-17T02:54:56Z"
-  },
-  "crunchyroll": {
-    "hash": "d72f75609e5be554",
-    "count": 1,
-    "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-    "first_seen_utc": "2026-02-17T02:54:59Z",
-    "last_seen_utc": "2026-02-17T02:54:59Z"
-  },
-  "espn_plus": {
-    "hash": "a42658cc31108c17",
-    "count": 1,
-    "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-17T02:55:01Z",
-    "last_seen_utc": "2026-02-17T02:55:01Z"
-  },
-  "grammarly": {
-    "hash": "249cbcf366535b3a",
-    "count": 1,
-    "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-    "first_seen_utc": "2026-02-17T02:55:09Z",
-    "last_seen_utc": "2026-02-17T02:55:09Z"
-  },
-  "midjourney": {
-    "hash": "0451c06bd6018630",
-    "count": 1,
-    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-    "first_seen_utc": "2026-02-17T02:55:29Z",
-    "last_seen_utc": "2026-02-17T02:55:29Z"
-  },
   "myfitnesspal_premium": {
-    "hash": "9a005306071c740f",
+    "hash": "6bc5f7aa37e8b983",
     "count": 1,
+    "flip_count": 2,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T02:55:51Z",
-    "last_seen_utc": "2026-02-17T02:55:51Z"
-  },
-  "substack": {
-    "hash": "a075c0a26844f083",
-    "count": 2,
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-16T19:31:14Z",
-    "last_seen_utc": "2026-02-17T02:56:08Z"
+    "first_seen_utc": "2026-02-17T11:31:28Z",
+    "last_seen_utc": "2026-02-17T11:31:28Z"
   }
 }

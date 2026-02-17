@@ -2,85 +2,25 @@
   "canva": {
     "hash": "16a8f6649c309916",
     "count": 1,
+    "flip_count": 2,
     "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-17T02:45:51Z",
-    "last_seen_utc": "2026-02-17T02:45:51Z"
-  },
-  "crunchyroll": {
-    "hash": "d72f75609e5be554",
-    "count": 1,
-    "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-    "first_seen_utc": "2026-02-17T02:45:54Z",
-    "last_seen_utc": "2026-02-17T02:45:54Z"
-  },
-  "espn_plus": {
-    "hash": "fce385fab175899a",
-    "count": 1,
-    "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-17T02:45:56Z",
-    "last_seen_utc": "2026-02-17T02:45:56Z"
-  },
-  "headspace": {
-    "hash": "0c210cf171140b4d",
-    "count": 1,
-    "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-    "first_seen_utc": "2026-02-17T02:46:09Z",
-    "last_seen_utc": "2026-02-17T02:46:09Z"
-  },
-  "hinge": {
-    "hash": "0f4d43528e0bcee3",
-    "count": 1,
-    "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
-    "first_seen_utc": "2026-02-17T02:47:15Z",
-    "last_seen_utc": "2026-02-17T02:47:15Z"
+    "first_seen_utc": "2026-02-17T11:23:09Z",
+    "last_seen_utc": "2026-02-17T11:23:09Z"
   },
   "midjourney": {
     "hash": "0451c06bd6018630",
     "count": 1,
+    "flip_count": 2,
     "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-    "first_seen_utc": "2026-02-17T02:47:27Z",
-    "last_seen_utc": "2026-02-17T02:47:27Z"
-  },
-  "scribd": {
-    "hash": "0cac65b719c1c5b6",
-    "count": 1,
-    "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-    "first_seen_utc": "2026-02-17T02:47:37Z",
-    "last_seen_utc": "2026-02-17T02:47:37Z"
-  },
-  "tidal": {
-    "hash": "83506f0bf73b7b21",
-    "count": 1,
-    "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-    "first_seen_utc": "2026-02-17T02:47:47Z",
-    "last_seen_utc": "2026-02-17T02:47:47Z"
-  },
-  "dashlane": {
-    "hash": "5b339b17835cdb72",
-    "count": 1,
-    "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-    "first_seen_utc": "2026-02-17T02:47:56Z",
-    "last_seen_utc": "2026-02-17T02:47:56Z"
+    "first_seen_utc": "2026-02-17T11:23:20Z",
+    "last_seen_utc": "2026-02-17T11:23:20Z"
   },
   "myfitnesspal_premium": {
-    "hash": "89981ad05957f665",
+    "hash": "f973db58f25b85e7",
     "count": 1,
+    "flip_count": 2,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T02:48:01Z",
-    "last_seen_utc": "2026-02-17T02:48:01Z"
-  },
-  "patreon": {
-    "hash": "3e024cbc8f455cf4",
-    "count": 1,
-    "source_url": "https://www.patreon.com/policy/legal",
-    "first_seen_utc": "2026-02-17T02:48:04Z",
-    "last_seen_utc": "2026-02-17T02:48:04Z"
-  },
-  "roblox_premium": {
-    "hash": "d72f75609e5be554",
-    "count": 1,
-    "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-    "first_seen_utc": "2026-02-17T02:48:07Z",
-    "last_seen_utc": "2026-02-17T02:48:07Z"
+    "first_seen_utc": "2026-02-17T11:23:28Z",
+    "last_seen_utc": "2026-02-17T11:23:28Z"
   }
 }
