@@ -1,86 +1,37 @@
 {
-  "amazon_prime": {
-    "hash": "7a2bfd93bfca2814",
-    "count": 1,
-    "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-    "first_seen_utc": "2026-02-16T19:32:13Z",
-    "last_seen_utc": "2026-02-16T19:32:13Z"
-  },
-  "chatgpt_plus": {
-    "hash": "de6e0eae450406f9",
-    "count": 1,
-    "source_url": "https://openai.com/chatgpt/pricing/",
-    "first_seen_utc": "2026-02-16T19:32:18Z",
-    "last_seen_utc": "2026-02-16T19:32:18Z"
-  },
-  "claude_pro": {
-    "hash": "be542c04706a08ae",
-    "count": 1,
-    "source_url": "https://claude.ai/upgrade",
-    "first_seen_utc": "2026-02-16T19:32:18Z",
-    "last_seen_utc": "2026-02-16T19:32:18Z"
-  },
   "canva": {
-    "hash": "7c17abb405cd1931",
+    "hash": "990035c693f6f19c",
     "count": 1,
     "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-16T19:32:20Z",
-    "last_seen_utc": "2026-02-16T19:32:20Z"
+    "first_seen_utc": "2026-02-17T02:56:55Z",
+    "last_seen_utc": "2026-02-17T02:56:55Z"
   },
   "espn_plus": {
-    "hash": "f78c737608ffd6a5",
+    "hash": "a42658cc31108c17",
     "count": 1,
     "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-16T19:32:39Z",
-    "last_seen_utc": "2026-02-16T19:32:39Z"
+    "first_seen_utc": "2026-02-17T02:57:09Z",
+    "last_seen_utc": "2026-02-17T02:57:09Z"
   },
-  "hinge": {
-    "hash": "3943940d88f5ce36",
+  "proton": {
+    "hash": "7eee55087667d851",
     "count": 1,
-    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "first_seen_utc": "2026-02-16T19:32:47Z",
-    "last_seen_utc": "2026-02-16T19:32:47Z"
-  },
-  "nintendo_switch_online": {
-    "hash": "11dc334d29e78c90",
-    "count": 1,
-    "source_url": "https://www.nintendo.com/us/switch/online/",
-    "first_seen_utc": "2026-02-16T19:33:02Z",
-    "last_seen_utc": "2026-02-16T19:33:02Z"
-  },
-  "nordvpn": {
-    "hash": "26addcd33afd7750",
-    "count": 1,
-    "source_url": "https://nordvpn.com/pricing/",
-    "first_seen_utc": "2026-02-16T19:33:07Z",
-    "last_seen_utc": "2026-02-16T19:33:07Z"
-  },
-  "peacock": {
-    "hash": "302a703c0563cfc7",
-    "count": 1,
-    "source_url": "https://www.peacocktv.com/plans",
-    "first_seen_utc": "2026-02-16T19:33:47Z",
-    "last_seen_utc": "2026-02-16T19:33:47Z"
-  },
-  "tidal": {
-    "hash": "bd3e1a2450b95223",
-    "count": 1,
-    "source_url": "https://tidal.com/pricing",
-    "first_seen_utc": "2026-02-16T19:33:59Z",
-    "last_seen_utc": "2026-02-16T19:33:59Z"
+    "source_url": "https://proton.me/pricing",
+    "first_seen_utc": "2026-02-17T02:58:05Z",
+    "last_seen_utc": "2026-02-17T02:58:05Z"
   },
   "twitch": {
-    "hash": "7b26aba2a4d2575d",
+    "hash": "68e9ce5af527bfcc",
     "count": 1,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-16T19:33:59Z",
-    "last_seen_utc": "2026-02-16T19:33:59Z"
+    "first_seen_utc": "2026-02-17T02:58:17Z",
+    "last_seen_utc": "2026-02-17T02:58:17Z"
   },
   "substack": {
-    "hash": "20fab989e6c94724",
+    "hash": "a075c0a26844f083",
     "count": 1,
     "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-16T19:34:17Z",
-    "last_seen_utc": "2026-02-16T19:34:17Z"
+    "first_seen_utc": "2026-02-17T02:58:35Z",
+    "last_seen_utc": "2026-02-17T02:58:35Z"
   }
 }
