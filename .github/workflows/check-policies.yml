@@ -39,26 +39,30 @@ jobs:
             echo "::warning::Policy checker exited with code $status (non-blocking)."
           fi
 
-          changed_count=$(echo "$output" | awk -F= '/^CHANGED_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
-          changed_by_policy=$(echo "$output" | awk -F= '/^CHANGED_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
-          changed_sample=$(echo "$output" | awk -F= '/^CHANGED_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
-          pending_count=$(echo "$output" | awk -F= '/^PENDING_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
-          pending_by_policy=$(echo "$output" | awk -F= '/^PENDING_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
-          pending_sample=$(echo "$output" | awk -F= '/^PENDING_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
-          pending_detail=$(echo "$output" | awk -F= '/^PENDING_DETAIL=/{print $2}' | tail -n1 | tr -d '\r')
-          stale_pending_count=$(echo "$output" | awk -F= '/^STALE_PENDING_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
-          stale_pending_by_policy=$(echo "$output" | awk -F= '/^STALE_PENDING_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
-          stale_pending_sample=$(echo "$output" | awk -F= '/^STALE_PENDING_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
-          volatile_pending_count=$(echo "$output" | awk -F= '/^VOLATILE_PENDING_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
-          volatile_pending_by_policy=$(echo "$output" | awk -F= '/^VOLATILE_PENDING_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
-          volatile_pending_sample=$(echo "$output" | awk -F= '/^VOLATILE_PENDING_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
-          escalation_count=$(echo "$output" | awk -F= '/^ESCALATION_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
-          escalation_by_policy=$(echo "$output" | awk -F= '/^ESCALATION_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
-          escalation_sample=$(echo "$output" | awk -F= '/^ESCALATION_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
-          escalation_detail=$(echo "$output" | awk -F= '/^ESCALATION_DETAIL=/{print $2}' | tail -n1 | tr -d '\r')
-          coverage_gap_count=$(echo "$output" | awk -F= '/^COVERAGE_GAP_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
-          coverage_gap_by_policy=$(echo "$output" | awk -F= '/^COVERAGE_GAP_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
-          coverage_gap_sample=$(echo "$output" | awk -F= '/^COVERAGE_GAP_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
+          extract_output_value() {
+            local key="$1"
+            echo "$output" | sed -n "s/^${key}=//p" | tail -n1 | tr -d '\r'
+          }
+          changed_count=$(extract_output_value "CHANGED_COUNT" | tr -d '[:space:]')
+          changed_by_policy=$(extract_output_value "CHANGED_BY_POLICY")
+          changed_sample=$(extract_output_value "CHANGED_SAMPLE")
+          pending_count=$(extract_output_value "PENDING_COUNT" | tr -d '[:space:]')
+          pending_by_policy=$(extract_output_value "PENDING_BY_POLICY")
+          pending_sample=$(extract_output_value "PENDING_SAMPLE")
+          pending_detail=$(extract_output_value "PENDING_DETAIL")
+          stale_pending_count=$(extract_output_value "STALE_PENDING_COUNT" | tr -d '[:space:]')
+          stale_pending_by_policy=$(extract_output_value "STALE_PENDING_BY_POLICY")
+          stale_pending_sample=$(extract_output_value "STALE_PENDING_SAMPLE")
+          volatile_pending_count=$(extract_output_value "VOLATILE_PENDING_COUNT" | tr -d '[:space:]')
+          volatile_pending_by_policy=$(extract_output_value "VOLATILE_PENDING_BY_POLICY")
+          volatile_pending_sample=$(extract_output_value "VOLATILE_PENDING_SAMPLE")
+          escalation_count=$(extract_output_value "ESCALATION_COUNT" | tr -d '[:space:]')
+          escalation_by_policy=$(extract_output_value "ESCALATION_BY_POLICY")
+          escalation_sample=$(extract_output_value "ESCALATION_SAMPLE")
+          escalation_detail=$(extract_output_value "ESCALATION_DETAIL")
+          coverage_gap_count=$(extract_output_value "COVERAGE_GAP_COUNT" | tr -d '[:space:]')
+          coverage_gap_by_policy=$(extract_output_value "COVERAGE_GAP_BY_POLICY")
+          coverage_gap_sample=$(extract_output_value "COVERAGE_GAP_SAMPLE")
 
           if [ -n "$changed_count" ]; then
             echo "changed_count=$changed_count" >> "$GITHUB_OUTPUT"
