@@ -326,8 +326,12 @@
       ]
     },
     "peloton": {
-      "url": "https://support.onepeloton.com/hc/en-us/articles/360029339052-Cancel-Your-Peloton-Membership",
-      "notes": "Cancel anytime; no prorated refunds"
+      "url": "https://www.onepeloton.com/membership-terms",
+      "notes": "Cancel anytime; no prorated refunds",
+      "backup_urls": [
+        "https://www.onepeloton.com/terms-of-service",
+        "https://www.onepeloton.com/app-membership"
+      ]
     },
     "playstation_plus": {
       "url": "https://www.playstation.com/en-us/legal/playstation-store-cancellation-policy/",
