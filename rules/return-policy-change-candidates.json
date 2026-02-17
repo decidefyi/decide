@@ -1,18 +1,10 @@
 {
-  "midjourney": {
-    "hash": "6a5833c2c5273b43",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-    "first_seen_utc": "2026-02-17T18:06:49Z",
-    "last_seen_utc": "2026-02-17T18:06:49Z"
-  },
   "myfitnesspal_premium": {
-    "hash": "379b6841f7514b2c",
+    "hash": "4126303cc809e069",
     "count": 1,
-    "flip_count": 9,
+    "flip_count": 11,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T18:06:55Z",
-    "last_seen_utc": "2026-02-17T18:06:55Z"
+    "first_seen_utc": "2026-02-17T18:32:36Z",
+    "last_seen_utc": "2026-02-17T18:32:36Z"
   }
 }

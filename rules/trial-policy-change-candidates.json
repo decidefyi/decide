@@ -1,26 +1,18 @@
 {
   "canva": {
-    "hash": "47a0911790bcda62",
+    "hash": "976c6e673417af96",
     "count": 1,
-    "flip_count": 10,
+    "flip_count": 12,
     "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-17T18:10:10Z",
-    "last_seen_utc": "2026-02-17T18:10:10Z"
-  },
-  "hinge": {
-    "hash": "0f4d43528e0bcee3",
-    "count": 1,
-    "flip_count": 3,
-    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "first_seen_utc": "2026-02-17T18:10:14Z",
-    "last_seen_utc": "2026-02-17T18:10:14Z"
+    "first_seen_utc": "2026-02-17T18:35:43Z",
+    "last_seen_utc": "2026-02-17T18:35:43Z"
   },
   "twitch": {
-    "hash": "7d4fa672f6603001",
+    "hash": "0c196bd2c96d78e8",
     "count": 1,
-    "flip_count": 3,
+    "flip_count": 5,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-17T18:10:14Z",
-    "last_seen_utc": "2026-02-17T18:10:14Z"
+    "first_seen_utc": "2026-02-17T18:35:49Z",
+    "last_seen_utc": "2026-02-17T18:35:49Z"
   }
 }
