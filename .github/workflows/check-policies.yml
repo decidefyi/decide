@@ -2,8 +2,8 @@ name: Daily Policy Check
 
 on:
   schedule:
-    # Run every 12 hours (00:00 UTC and 12:00 UTC)
-    - cron: "0 */12 * * *"
+    # Run every 6 hours
+    - cron: "0 */6 * * *"
   workflow_dispatch: # Allow manual trigger
 
 concurrency:
@@ -17,7 +17,7 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -42,12 +42,36 @@ jobs:
           changed_count=$(echo "$output" | awk -F= '/^CHANGED_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
           changed_by_policy=$(echo "$output" | awk -F= '/^CHANGED_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
           changed_sample=$(echo "$output" | awk -F= '/^CHANGED_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
+          pending_count=$(echo "$output" | awk -F= '/^PENDING_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
+          pending_by_policy=$(echo "$output" | awk -F= '/^PENDING_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
+          pending_sample=$(echo "$output" | awk -F= '/^PENDING_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
+          pending_detail=$(echo "$output" | awk -F= '/^PENDING_DETAIL=/{print $2}' | tail -n1 | tr -d '\r')
+          stale_pending_count=$(echo "$output" | awk -F= '/^STALE_PENDING_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
+          stale_pending_by_policy=$(echo "$output" | awk -F= '/^STALE_PENDING_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
+          stale_pending_sample=$(echo "$output" | awk -F= '/^STALE_PENDING_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
+          volatile_pending_count=$(echo "$output" | awk -F= '/^VOLATILE_PENDING_COUNT=/{print $2}' | tail -n1 | tr -d '[:space:]')
+          volatile_pending_by_policy=$(echo "$output" | awk -F= '/^VOLATILE_PENDING_BY_POLICY=/{print $2}' | tail -n1 | tr -d '\r')
+          volatile_pending_sample=$(echo "$output" | awk -F= '/^VOLATILE_PENDING_SAMPLE=/{print $2}' | tail -n1 | tr -d '\r')
 
           if [ -n "$changed_count" ]; then
             echo "changed_count=$changed_count" >> "$GITHUB_OUTPUT"
             echo "changed_by_policy=$changed_by_policy" >> "$GITHUB_OUTPUT"
             echo "changed_sample=$changed_sample" >> "$GITHUB_OUTPUT"
           fi
+
+          if [ -z "$pending_count" ]; then pending_count=0; fi
+          if [ -z "$stale_pending_count" ]; then stale_pending_count=0; fi
+          if [ -z "$volatile_pending_count" ]; then volatile_pending_count=0; fi
+          echo "pending_count=$pending_count" >> "$GITHUB_OUTPUT"
+          echo "pending_by_policy=$pending_by_policy" >> "$GITHUB_OUTPUT"
+          echo "pending_sample=$pending_sample" >> "$GITHUB_OUTPUT"
+          echo "pending_detail=$pending_detail" >> "$GITHUB_OUTPUT"
+          echo "stale_pending_count=$stale_pending_count" >> "$GITHUB_OUTPUT"
+          echo "stale_pending_by_policy=$stale_pending_by_policy" >> "$GITHUB_OUTPUT"
+          echo "stale_pending_sample=$stale_pending_sample" >> "$GITHUB_OUTPUT"
+          echo "volatile_pending_count=$volatile_pending_count" >> "$GITHUB_OUTPUT"
+          echo "volatile_pending_by_policy=$volatile_pending_by_policy" >> "$GITHUB_OUTPUT"
+          echo "volatile_pending_sample=$volatile_pending_sample" >> "$GITHUB_OUTPUT"
 
       - name: Commit updated hashes
         run: |
@@ -109,22 +133,43 @@ jobs:
 
           exit 0
 
-      - name: Open issue if policies changed
-        if: steps.check.outputs.changed_count && steps.check.outputs.changed_count != '0'
+      - name: Open issue if policies changed or candidates pending
+        if: (steps.check.outputs.changed_count && steps.check.outputs.changed_count != '0') || (steps.check.outputs.pending_count && steps.check.outputs.pending_count != '0')
         continue-on-error: true
         uses: actions/github-script@v7
         env:
           CHANGED_COUNT: ${{ steps.check.outputs.changed_count }}
           CHANGED_BY_POLICY: ${{ steps.check.outputs.changed_by_policy }}
           CHANGED_SAMPLE: ${{ steps.check.outputs.changed_sample }}
+          PENDING_COUNT: ${{ steps.check.outputs.pending_count }}
+          PENDING_BY_POLICY: ${{ steps.check.outputs.pending_by_policy }}
+          PENDING_SAMPLE: ${{ steps.check.outputs.pending_sample }}
+          PENDING_DETAIL: ${{ steps.check.outputs.pending_detail }}
+          STALE_PENDING_COUNT: ${{ steps.check.outputs.stale_pending_count }}
+          STALE_PENDING_BY_POLICY: ${{ steps.check.outputs.stale_pending_by_policy }}
+          STALE_PENDING_SAMPLE: ${{ steps.check.outputs.stale_pending_sample }}
+          VOLATILE_PENDING_COUNT: ${{ steps.check.outputs.volatile_pending_count }}
+          VOLATILE_PENDING_BY_POLICY: ${{ steps.check.outputs.volatile_pending_by_policy }}
+          VOLATILE_PENDING_SAMPLE: ${{ steps.check.outputs.volatile_pending_sample }}
         with:
           retries: 3
           script: |
             const changedCount = Number.parseInt(process.env.CHANGED_COUNT || '0', 10) || 0;
             const changedByPolicy = process.env.CHANGED_BY_POLICY || '';
             const changedSample = process.env.CHANGED_SAMPLE || '';
+            const pendingCount = Number.parseInt(process.env.PENDING_COUNT || '0', 10) || 0;
+            const pendingByPolicy = process.env.PENDING_BY_POLICY || '';
+            const pendingSample = process.env.PENDING_SAMPLE || '';
+            const pendingDetail = process.env.PENDING_DETAIL || '';
+            const stalePendingCount = Number.parseInt(process.env.STALE_PENDING_COUNT || '0', 10) || 0;
+            const stalePendingByPolicy = process.env.STALE_PENDING_BY_POLICY || '';
+            const stalePendingSample = process.env.STALE_PENDING_SAMPLE || '';
+            const volatilePendingCount = Number.parseInt(process.env.VOLATILE_PENDING_COUNT || '0', 10) || 0;
+            const volatilePendingByPolicy = process.env.VOLATILE_PENDING_BY_POLICY || '';
+            const volatilePendingSample = process.env.VOLATILE_PENDING_SAMPLE || '';
             const today = new Date().toISOString().split('T')[0];
-            const dailyTitlePrefix = `Policy pages changed (${today}):`;
+            const changedTitlePrefix = `Policy pages changed (${today}):`;
+            const pendingTitlePrefix = `Policy checker pending candidates (${today}):`;
             const sampleList = changedSample
               .split(',')
               .map((s) => s.trim())
@@ -138,15 +183,58 @@ jobs:
               .filter(Boolean)
               .map((item) => `- ${item.replace(':', ': ')}`)
               .join('\n');
+            const pendingByPolicyList = pendingByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
+            const staleByPolicyList = stalePendingByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
+            const volatileByPolicyList = volatilePendingByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
 
-            const title = `Policy pages changed (${today}): ${changedCount} vendor(s)`;
+            const pendingDetailList = pendingDetail
+              .split(';')
+              .map((entry) => entry.trim())
+              .filter(Boolean)
+              .map((entry) => {
+                const [policy, vendorsRaw] = entry.split(':');
+                if (!policy || !vendorsRaw) return '';
+                const vendors = vendorsRaw
+                  .split('|')
+                  .map((v) => v.trim())
+                  .filter(Boolean)
+                  .join(', ');
+                return vendors ? `- ${policy}: ${vendors}` : '';
+              })
+              .filter(Boolean)
+              .join('\n');
+
+            const title = changedCount > 0
+              ? `Policy pages changed (${today}): ${changedCount} vendor(s)`
+              : `Policy checker pending candidates (${today}): ${pendingCount} vendor(s)`;
             const body = [
-              "## Vendor policy pages changed",
+              "## Policy checker summary",
               "",
-              `Total changed vendors: **${changedCount}**`,
+              `Confirmed changed vendors: **${changedCount}**`,
+              `Pending candidates: **${pendingCount}**`,
               "",
-              changedByPolicy ? "### By policy\n" + byPolicyList + "\n" : "",
-              sampleList ? "### Sample (first 10)\n" + sampleList + "\n" : "",
+              changedByPolicy ? "### Confirmed by policy\n" + byPolicyList + "\n" : "",
+              sampleList ? "### Confirmed sample (first 10)\n" + sampleList + "\n" : "",
+              pendingByPolicy ? "### Pending by policy\n" + pendingByPolicyList + "\n" : "",
+              pendingDetailList ? "### Pending vendors (first slice per policy)\n" + pendingDetailList + "\n" : "",
+              pendingSample ? `Pending sample: \`${pendingSample}\`\n` : "",
+              stalePendingCount > 0 ? `### Stale pending (>=3 day(s))\n- Total: **${stalePendingCount}**\n${staleByPolicyList}\n${stalePendingSample ? `Sample: \`${stalePendingSample}\`` : ""}\n` : "",
+              volatilePendingCount > 0 ? `### Volatile pending (flip_count threshold)\n- Total: **${volatilePendingCount}**\n${volatileByPolicyList}\n${volatilePendingSample ? `Sample: \`${volatilePendingSample}\`` : ""}\n` : "",
               "### Full review source",
               "- `rules/policy-change-candidates.json`",
               "- `rules/cancel-policy-change-candidates.json`",
@@ -167,8 +255,11 @@ jobs:
                 per_page: 100
               });
 
+              const dailyPrefixes = [changedTitlePrefix, pendingTitlePrefix];
               const existingToday = openPolicyIssues.find((issue) =>
-                !issue.pull_request && typeof issue.title === 'string' && issue.title.startsWith(dailyTitlePrefix)
+                !issue.pull_request &&
+                typeof issue.title === 'string' &&
+                dailyPrefixes.some((prefix) => issue.title.startsWith(prefix))
               );
 
               if (existingToday) {
@@ -179,9 +270,15 @@ jobs:
                   body: [
                     `New run update: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
                     "",
-                    `Updated changed vendor count: **${changedCount}**`,
-                    changedByPolicy ? `By policy: ${changedByPolicy}` : "",
-                    changedSample ? `Sample: ${changedSample}` : ""
+                    `Confirmed changed vendors: **${changedCount}**`,
+                    `Pending candidates: **${pendingCount}**`,
+                    changedByPolicy ? `Confirmed by policy: ${changedByPolicy}` : "",
+                    pendingByPolicy ? `Pending by policy: ${pendingByPolicy}` : "",
+                    pendingDetail ? `Pending detail: ${pendingDetail}` : "",
+                    stalePendingCount > 0 ? `Stale pending: ${stalePendingCount} (${stalePendingByPolicy || 'by-policy-unavailable'})` : "",
+                    volatilePendingCount > 0 ? `Volatile pending: ${volatilePendingCount} (${volatilePendingByPolicy || 'by-policy-unavailable'})` : "",
+                    changedSample ? `Confirmed sample: ${changedSample}` : "",
+                    pendingSample ? `Pending sample: ${pendingSample}` : ""
                   ].filter(Boolean).join("\n")
                 });
                 console.log(`::notice::Updated existing policy issue #${existingToday.number} for ${today}.`);

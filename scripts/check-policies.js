@@ -24,6 +24,12 @@ const CHECKER_CONFIG = {
   errorDetailLimit: Number.parseInt(process.env.POLICY_CHECK_ERROR_DETAIL_LIMIT || "12", 10),
   changeConfirmRuns: Number.parseInt(process.env.POLICY_CHECK_CHANGE_CONFIRM_RUNS || "2", 10),
   candidateTtlDays: Number.parseInt(process.env.POLICY_CHECK_CANDIDATE_TTL_DAYS || "7", 10),
+  pendingDetailLimit: Number.parseInt(process.env.POLICY_CHECK_PENDING_DETAIL_LIMIT || "20", 10),
+  sameRunRecheckPasses: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_PASSES || "1", 10),
+  sameRunRecheckDelayMs: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_DELAY_MS || "1200", 10),
+  sameRunRecheckBatchSize: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_BATCH_SIZE || "3", 10),
+  stalePendingDays: Number.parseInt(process.env.POLICY_CHECK_STALE_PENDING_DAYS || "3", 10),
+  volatileFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_VOLATILE_FLIP_THRESHOLD || "2", 10),
 };
 const USER_AGENTS = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
@@ -269,6 +275,49 @@ function getCandidateTtlDays() {
   return Math.max(0, CHECKER_CONFIG.candidateTtlDays);
 }
 
+function getPendingDetailLimit() {
+  if (!Number.isFinite(CHECKER_CONFIG.pendingDetailLimit)) return 20;
+  return Math.max(1, CHECKER_CONFIG.pendingDetailLimit);
+}
+
+function getSameRunRecheckPasses() {
+  if (!Number.isFinite(CHECKER_CONFIG.sameRunRecheckPasses)) return 1;
+  return Math.max(0, CHECKER_CONFIG.sameRunRecheckPasses);
+}
+
+function getSameRunRecheckDelayMs() {
+  if (!Number.isFinite(CHECKER_CONFIG.sameRunRecheckDelayMs)) return 1200;
+  return Math.max(0, CHECKER_CONFIG.sameRunRecheckDelayMs);
+}
+
+function getSameRunRecheckBatchSize(defaultSize = 3) {
+  if (!Number.isFinite(CHECKER_CONFIG.sameRunRecheckBatchSize)) return defaultSize;
+  return Math.max(1, CHECKER_CONFIG.sameRunRecheckBatchSize);
+}
+
+function getStalePendingDays() {
+  if (!Number.isFinite(CHECKER_CONFIG.stalePendingDays)) return 3;
+  return Math.max(1, CHECKER_CONFIG.stalePendingDays);
+}
+
+function getVolatileFlipThreshold() {
+  if (!Number.isFinite(CHECKER_CONFIG.volatileFlipThreshold)) return 2;
+  return Math.max(1, CHECKER_CONFIG.volatileFlipThreshold);
+}
+
+function getCandidateAgeDays(candidate, nowMs = Date.now()) {
+  const firstSeen = candidate?.first_seen_utc;
+  if (!firstSeen) return 0;
+  const firstSeenMs = Date.parse(firstSeen);
+  if (!Number.isFinite(firstSeenMs)) return 0;
+  return Math.max(0, Math.floor((nowMs - firstSeenMs) / (24 * 60 * 60 * 1000)));
+}
+
+function sortedLimitedVendors(vendors, limit = getPendingDetailLimit()) {
+  const sorted = [...vendors].sort((a, b) => a.localeCompare(b));
+  return sorted.slice(0, Math.max(1, limit));
+}
+
 function isStaleCandidate(candidate, nowMs = Date.now()) {
   const ttlDays = getCandidateTtlDays();
   if (ttlDays <= 0) return false;
@@ -379,7 +428,23 @@ async function fetchWithFallback(vendorConfig) {
 async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, rulesFile }) {
   if (!existsSync(sourcesPath)) {
     console.log(`::warning::Sources file not found for ${name}: ${sourcesPath}`);
-    return { name, changed: [], errors: [] };
+    return {
+      name,
+      changed: [],
+      pending: [],
+      errors: [],
+      errorReasons: {},
+      rulesFile,
+      successfulChecks: 0,
+      totalChecks: 0,
+      staleDropped: [],
+      rebaselineForProfile: false,
+      stalePending: [],
+      volatilePending: [],
+      recheckConfirmed: [],
+      recheckResolved: [],
+      recheckFetchFailures: [],
+    };
   }
 
   const sources = readJson(sourcesPath, { vendors: {} });
@@ -411,11 +476,15 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
 
   const vendors = Object.entries(sources.vendors);
   const changed = [];
-  const pending = [];
+  const pendingSet = new Set();
+  const pendingMetadata = {};
   const errors = [];
   const errorReasons = {};
   const newHashes = { ...storedHashes };
   const newCandidates = {};
+  const recheckConfirmedSet = new Set();
+  const recheckResolvedSet = new Set();
+  const recheckFetchFailureSet = new Set();
   let successfulChecks = 0;
 
   // Process in gentler batches to reduce bot-defense blocks and rate limits.
@@ -452,7 +521,11 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
         }
 
         const priorCandidate = activeStoredCandidates[vendor];
-        const nextCount = priorCandidate?.hash === h ? Number(priorCandidate.count || 1) + 1 : 1;
+        const priorCount = Number(priorCandidate?.count || 0);
+        const priorFlipCount = Number(priorCandidate?.flip_count || 0);
+        const priorHash = typeof priorCandidate?.hash === "string" ? priorCandidate.hash : "";
+        const nextCount = priorHash === h ? Math.max(1, priorCount) + 1 : 1;
+        const nextFlipCount = priorHash && priorHash !== h ? priorFlipCount + 1 : priorFlipCount;
         if (nextCount >= confirmRuns) {
           changed.push({ vendor, url: sourceUrl });
           newHashes[vendor] = h;
@@ -460,15 +533,22 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
         }
 
         newHashes[vendor] = previousHash;
-        pending.push(vendor);
+        pendingSet.add(vendor);
         newCandidates[vendor] = {
           hash: h,
           count: nextCount,
+          flip_count: nextFlipCount,
           source_url: sourceUrl || "",
-          first_seen_utc: priorCandidate?.hash === h && priorCandidate.first_seen_utc
+          first_seen_utc: priorHash === h && priorCandidate.first_seen_utc
             ? priorCandidate.first_seen_utc
             : utcIsoTimestamp(),
           last_seen_utc: utcIsoTimestamp(),
+        };
+        pendingMetadata[vendor] = {
+          vendorConfig,
+          confirmRuns,
+          previousHash,
+          sourceUrl: sourceUrl || priorCandidate?.source_url || "",
         };
       })
     );
@@ -476,6 +556,84 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
       await sleep(250 + jitter(350));
     }
   }
+
+  const sameRunRecheckPasses = getSameRunRecheckPasses();
+  const sameRunRecheckDelayMs = getSameRunRecheckDelayMs();
+  const sameRunRecheckBatchSize = getSameRunRecheckBatchSize(batchSize);
+  for (let pass = 0; pass < sameRunRecheckPasses && pendingSet.size > 0; pass += 1) {
+    if (sameRunRecheckDelayMs > 0) {
+      await sleep(sameRunRecheckDelayMs + jitter(Math.min(400, sameRunRecheckDelayMs)));
+    }
+
+    const vendorsToRecheck = [...pendingSet];
+    for (let i = 0; i < vendorsToRecheck.length; i += sameRunRecheckBatchSize) {
+      const batch = vendorsToRecheck.slice(i, i + sameRunRecheckBatchSize);
+      await Promise.all(
+        batch.map(async (vendor) => {
+          const metadata = pendingMetadata[vendor];
+          const candidate = newCandidates[vendor];
+          if (!metadata || !candidate) return;
+
+          const recheckResult = await fetchWithFallback(metadata.vendorConfig);
+          if (!recheckResult.text) {
+            recheckFetchFailureSet.add(vendor);
+            return;
+          }
+
+          const normalized = normalizeFetchedText(recheckResult.text, name);
+          const h = hash(normalized || recheckResult.text);
+          if (h === metadata.previousHash) {
+            delete newCandidates[vendor];
+            pendingSet.delete(vendor);
+            recheckResolvedSet.add(vendor);
+            return;
+          }
+
+          if (candidate.hash === h) {
+            candidate.count = Number(candidate.count || 1) + 1;
+          } else {
+            candidate.hash = h;
+            candidate.count = 1;
+            candidate.flip_count = Number(candidate.flip_count || 0) + 1;
+            candidate.first_seen_utc = utcIsoTimestamp();
+          }
+
+          const sourceUrl = recheckResult.sourceUrl || metadata.sourceUrl || "";
+          if (sourceUrl) candidate.source_url = sourceUrl;
+          candidate.last_seen_utc = utcIsoTimestamp();
+
+          if (Number(candidate.count || 0) >= metadata.confirmRuns) {
+            changed.push({ vendor, url: sourceUrl });
+            newHashes[vendor] = h;
+            delete newCandidates[vendor];
+            pendingSet.delete(vendor);
+            recheckConfirmedSet.add(vendor);
+            return;
+          }
+
+          newCandidates[vendor] = candidate;
+        })
+      );
+      if (i + sameRunRecheckBatchSize < vendorsToRecheck.length) {
+        await sleep(180 + jitter(220));
+      }
+    }
+  }
+
+  const pending = [...pendingSet].sort((a, b) => a.localeCompare(b));
+  const stalePending = [];
+  const volatilePending = [];
+  const summaryNowMs = Date.now();
+  for (const [vendor, candidate] of Object.entries(newCandidates)) {
+    if (getCandidateAgeDays(candidate, summaryNowMs) >= getStalePendingDays()) {
+      stalePending.push(vendor);
+    }
+    if (Number(candidate?.flip_count || 0) >= getVolatileFlipThreshold()) {
+      volatilePending.push(vendor);
+    }
+  }
+  stalePending.sort((a, b) => a.localeCompare(b));
+  volatilePending.sort((a, b) => a.localeCompare(b));
 
   const verifiedAtUtc = utcIsoTimestamp();
   if (vendors.length > 0 && successfulChecks === 0) {
@@ -505,12 +663,21 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, r
     totalChecks: vendors.length,
     staleDropped,
     rebaselineForProfile,
+    stalePending,
+    volatilePending,
+    recheckConfirmed: [...recheckConfirmedSet].sort((a, b) => a.localeCompare(b)),
+    recheckResolved: [...recheckResolvedSet].sort((a, b) => a.localeCompare(b)),
+    recheckFetchFailures: [...recheckFetchFailureSet].sort((a, b) => a.localeCompare(b)),
   };
 }
 
 async function main() {
   const allChanged = [];
   const allErrors = [];
+  const allPending = [];
+  const allStalePending = [];
+  const allVolatilePending = [];
+  const pendingDetailByPolicy = {};
 
   for (const policySet of POLICY_SETS) {
     const result = await checkPolicySet(policySet);
@@ -536,10 +703,49 @@ async function main() {
       console.log(
         `::notice::${result.name}: ${result.pending.length} candidate change(s) observed; waiting for confirmation in next run.`
       );
+      const pendingNames = sortedLimitedVendors(result.pending, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: pending vendors (first ${pendingNames.length}): ${pendingNames.join(", ")}`
+      );
+    }
+    if (result.recheckConfirmed.length > 0 || result.recheckResolved.length > 0 || result.recheckFetchFailures.length > 0) {
+      console.log(
+        `::notice::${result.name}: same_run_recheck confirmed=${result.recheckConfirmed.length}, resolved=${result.recheckResolved.length}, fetch_failures=${result.recheckFetchFailures.length}.`
+      );
+    }
+    if (result.recheckConfirmed.length > 0) {
+      const confirmedNames = sortedLimitedVendors(result.recheckConfirmed, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: recheck_confirmed vendors (first ${confirmedNames.length}): ${confirmedNames.join(", ")}`
+      );
+    }
+    if (result.recheckResolved.length > 0) {
+      const resolvedNames = sortedLimitedVendors(result.recheckResolved, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: recheck_resolved_to_baseline vendors (first ${resolvedNames.length}): ${resolvedNames.join(", ")}`
+      );
+    }
+    if (result.recheckFetchFailures.length > 0) {
+      const failureNames = sortedLimitedVendors(result.recheckFetchFailures, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: recheck_fetch_failures vendors (first ${failureNames.length}): ${failureNames.join(", ")}`
+      );
     }
     if (result.staleDropped.length > 0) {
       console.log(
         `::notice::${result.name}: stale_pending_dropped=${result.staleDropped.length} (older than ${getCandidateTtlDays()} day(s)).`
+      );
+    }
+    if (result.stalePending.length > 0) {
+      const staleNames = sortedLimitedVendors(result.stalePending, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: stale_pending=${result.stalePending.length} (>=${getStalePendingDays()} day(s)); first ${staleNames.length}: ${staleNames.join(", ")}`
+      );
+    }
+    if (result.volatilePending.length > 0) {
+      const volatileNames = sortedLimitedVendors(result.volatilePending, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: volatile_pending=${result.volatilePending.length} (flip_count>=${getVolatileFlipThreshold()}); first ${volatileNames.length}: ${volatileNames.join(", ")}`
       );
     }
     if (result.rebaselineForProfile) {
@@ -555,7 +761,55 @@ async function main() {
     for (const c of result.changed) {
       allChanged.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
     }
+    for (const vendor of result.pending) {
+      allPending.push({ policyType: result.name, vendor });
+    }
+    if (result.pending.length > 0) {
+      pendingDetailByPolicy[result.name] = [...result.pending];
+    }
+    for (const vendor of result.stalePending) {
+      allStalePending.push({ policyType: result.name, vendor });
+    }
+    for (const vendor of result.volatilePending) {
+      allVolatilePending.push({ policyType: result.name, vendor });
+    }
   }
+
+  const toPolicyCountString = (items) => Object.entries(summarizePolicyCounts(items))
+    .map(([policy, count]) => `${policy}:${count}`)
+    .join(",");
+
+  const pendingByPolicy = toPolicyCountString(allPending);
+  const pendingSample = allPending
+    .slice(0, 25)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const pendingDetail = Object.entries(pendingDetailByPolicy)
+    .map(([policy, vendors]) => `${policy}:${sortedLimitedVendors(vendors, getPendingDetailLimit()).join("|")}`)
+    .join(";");
+
+  const stalePendingByPolicy = toPolicyCountString(allStalePending);
+  const stalePendingSample = allStalePending
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+
+  const volatilePendingByPolicy = toPolicyCountString(allVolatilePending);
+  const volatilePendingSample = allVolatilePending
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+
+  console.log(`PENDING_COUNT=${allPending.length}`);
+  console.log(`PENDING_BY_POLICY=${pendingByPolicy}`);
+  console.log(`PENDING_SAMPLE=${pendingSample}`);
+  console.log(`PENDING_DETAIL=${pendingDetail}`);
+  console.log(`STALE_PENDING_COUNT=${allStalePending.length}`);
+  console.log(`STALE_PENDING_BY_POLICY=${stalePendingByPolicy}`);
+  console.log(`STALE_PENDING_SAMPLE=${stalePendingSample}`);
+  console.log(`VOLATILE_PENDING_COUNT=${allVolatilePending.length}`);
+  console.log(`VOLATILE_PENDING_BY_POLICY=${volatilePendingByPolicy}`);
+  console.log(`VOLATILE_PENDING_SAMPLE=${volatilePendingSample}`);
 
   if (isUpdate) {
     console.log(`Hashes updated for all policy sets.`);
