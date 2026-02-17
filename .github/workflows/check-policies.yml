@@ -132,21 +132,29 @@ jobs:
           git add "${existing[@]}"
           if ! git diff --cached --quiet; then
             git commit -m "chore: update policy page hashes [skip ci]"
+            git fetch origin main
+            git rebase origin/main
+            rebase_status=$?
+            if [ "$rebase_status" -ne 0 ]; then
+              echo "::warning::Pre-push rebase failed; skipping push for this run."
+              exit 0
+            fi
+
             git push
             push_status=$?
             if [ "$push_status" -ne 0 ]; then
-              echo "::warning::Initial push failed (likely concurrent update). Retrying with rebase..."
+              echo "::warning::Push failed after pre-push rebase (likely concurrent update). Retrying once..."
               git fetch origin main
               git rebase origin/main
-              rebase_status=$?
-              if [ "$rebase_status" -ne 0 ]; then
-                echo "::warning::Rebase failed; skipping push for this run."
+              retry_rebase_status=$?
+              if [ "$retry_rebase_status" -ne 0 ]; then
+                echo "::warning::Retry rebase failed; skipping push for this run."
                 exit 0
               fi
 
               git push
-              retry_status=$?
-              if [ "$retry_status" -ne 0 ]; then
+              retry_push_status=$?
+              if [ "$retry_push_status" -ne 0 ]; then
                 echo "::warning::Retry push failed; another run likely committed first."
                 exit 0
               fi
