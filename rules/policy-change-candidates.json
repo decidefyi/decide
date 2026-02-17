@@ -1,26 +1,18 @@
 {
   "canva": {
-    "hash": "16a8f6649c309916",
+    "hash": "3efdc6f7585b2760",
     "count": 1,
-    "flip_count": 4,
+    "flip_count": 6,
     "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-17T12:41:11Z",
-    "last_seen_utc": "2026-02-17T12:41:11Z"
-  },
-  "headspace": {
-    "hash": "f17fc7b5eea1f336",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-    "first_seen_utc": "2026-02-17T12:41:24Z",
-    "last_seen_utc": "2026-02-17T12:41:24Z"
+    "first_seen_utc": "2026-02-17T14:52:07Z",
+    "last_seen_utc": "2026-02-17T14:52:07Z"
   },
   "myfitnesspal_premium": {
-    "hash": "1750e7fb141ba093",
+    "hash": "76fc90b655557bbf",
     "count": 1,
-    "flip_count": 4,
+    "flip_count": 6,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T12:41:34Z",
-    "last_seen_utc": "2026-02-17T12:41:34Z"
+    "first_seen_utc": "2026-02-17T14:52:31Z",
+    "last_seen_utc": "2026-02-17T14:52:31Z"
   }
 }

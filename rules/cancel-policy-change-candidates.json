@@ -1,58 +1,50 @@
 {
   "audible": {
-    "hash": "1d990633c9a14367",
+    "hash": "0a7a60bcbb2f9d1c",
     "count": 1,
-    "flip_count": 4,
+    "flip_count": 6,
     "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-    "first_seen_utc": "2026-02-17T12:46:06Z",
-    "last_seen_utc": "2026-02-17T12:46:06Z"
+    "first_seen_utc": "2026-02-17T14:57:09Z",
+    "last_seen_utc": "2026-02-17T14:57:09Z"
   },
   "canva": {
-    "hash": "6d65fc2f83d0f10b",
+    "hash": "7ea3f9f1489e3840",
     "count": 1,
-    "flip_count": 4,
+    "flip_count": 6,
     "source_url": "https://www.canva.com/help/cancellation/",
-    "first_seen_utc": "2026-02-17T12:46:01Z",
-    "last_seen_utc": "2026-02-17T12:46:01Z"
+    "first_seen_utc": "2026-02-17T14:57:04Z",
+    "last_seen_utc": "2026-02-17T14:57:04Z"
   },
-  "midjourney": {
-    "hash": "155db6a31e145ad8",
+  "grammarly": {
+    "hash": "55624efd938f0d4e",
     "count": 1,
     "flip_count": 1,
-    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-    "first_seen_utc": "2026-02-17T12:46:26Z",
-    "last_seen_utc": "2026-02-17T12:46:26Z"
+    "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
+    "first_seen_utc": "2026-02-17T14:57:18Z",
+    "last_seen_utc": "2026-02-17T14:57:18Z"
   },
   "paramount_plus": {
-    "hash": "b42d7e7393a1d571",
+    "hash": "434bbed7f0e63b2e",
     "count": 1,
-    "flip_count": 4,
+    "flip_count": 6,
     "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-    "first_seen_utc": "2026-02-17T12:46:27Z",
-    "last_seen_utc": "2026-02-17T12:46:27Z"
+    "first_seen_utc": "2026-02-17T14:57:24Z",
+    "last_seen_utc": "2026-02-17T14:57:24Z"
   },
   "twitch": {
-    "hash": "4ee5cd46682faab5",
+    "hash": "4658df47b7789afe",
     "count": 1,
-    "flip_count": 4,
+    "flip_count": 6,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-    "first_seen_utc": "2026-02-17T12:46:34Z",
-    "last_seen_utc": "2026-02-17T12:46:34Z"
+    "first_seen_utc": "2026-02-17T14:57:39Z",
+    "last_seen_utc": "2026-02-17T14:57:39Z"
   },
   "fitbit_premium": {
-    "hash": "3ba1b908c131964e",
+    "hash": "26a3e5d010ecdc5c",
     "count": 1,
-    "flip_count": 4,
+    "flip_count": 6,
     "source_url": "https://support.google.com/fitbit/",
-    "first_seen_utc": "2026-02-17T12:46:28Z",
-    "last_seen_utc": "2026-02-17T12:46:28Z"
-  },
-  "substack": {
-    "hash": "f24ae0e2bdefd489",
-    "count": 2,
-    "flip_count": 0,
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-17T12:45:41Z",
-    "last_seen_utc": "2026-02-17T12:46:52Z"
+    "first_seen_utc": "2026-02-17T14:57:33Z",
+    "last_seen_utc": "2026-02-17T14:57:33Z"
   }
 }
