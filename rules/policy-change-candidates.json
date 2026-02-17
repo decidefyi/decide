@@ -2,41 +2,57 @@
   "canva": {
     "hash": "16a8f6649c309916",
     "count": 1,
-    "flip_count": 8,
+    "flip_count": 10,
     "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-17T16:26:31Z",
-    "last_seen_utc": "2026-02-17T16:26:31Z"
+    "first_seen_utc": "2026-02-17T17:58:09Z",
+    "last_seen_utc": "2026-02-17T17:58:09Z"
   },
-  "midjourney": {
-    "hash": "4605764702134417",
+  "espn_plus": {
+    "hash": "cd2a7dbeac76e248",
     "count": 1,
     "flip_count": 1,
-    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-    "first_seen_utc": "2026-02-17T16:26:47Z",
-    "last_seen_utc": "2026-02-17T16:26:47Z"
+    "source_url": "https://www.espn.com/espnplus/",
+    "first_seen_utc": "2026-02-17T17:58:07Z",
+    "last_seen_utc": "2026-02-17T17:58:07Z"
   },
-  "tidal": {
-    "hash": "21e61b19663ae09c",
+  "evernote": {
+    "hash": "36a4c809605b53e6",
     "count": 1,
     "flip_count": 1,
-    "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-    "first_seen_utc": "2026-02-17T16:26:47Z",
-    "last_seen_utc": "2026-02-17T16:26:47Z"
+    "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
+    "first_seen_utc": "2026-02-17T17:58:11Z",
+    "last_seen_utc": "2026-02-17T17:58:11Z"
+  },
+  "grammarly": {
+    "hash": "249cbcf366535b3a",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
+    "first_seen_utc": "2026-02-17T17:58:21Z",
+    "last_seen_utc": "2026-02-17T17:58:21Z"
+  },
+  "scribd": {
+    "hash": "4d36180bf702e4c9",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
+    "first_seen_utc": "2026-02-17T17:58:26Z",
+    "last_seen_utc": "2026-02-17T17:58:26Z"
+  },
+  "dashlane": {
+    "hash": "ecb0305cbbbc2b71",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
+    "first_seen_utc": "2026-02-17T17:58:34Z",
+    "last_seen_utc": "2026-02-17T17:58:34Z"
   },
   "myfitnesspal_premium": {
-    "hash": "9e7c9dd2cd28beac",
+    "hash": "d23da36432d32b16",
     "count": 1,
-    "flip_count": 8,
+    "flip_count": 10,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T16:26:53Z",
-    "last_seen_utc": "2026-02-17T16:26:53Z"
-  },
-  "washington_post": {
-    "hash": "e4d6bdfc45bd6a39",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-    "first_seen_utc": "2026-02-17T16:26:59Z",
-    "last_seen_utc": "2026-02-17T16:26:59Z"
+    "first_seen_utc": "2026-02-17T17:58:33Z",
+    "last_seen_utc": "2026-02-17T17:58:33Z"
   }
 }

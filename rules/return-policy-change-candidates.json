@@ -1,18 +1,18 @@
 {
-  "myfitnesspal_premium": {
-    "hash": "71fa63f74bb7da53",
-    "count": 1,
-    "flip_count": 7,
-    "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T16:35:30Z",
-    "last_seen_utc": "2026-02-17T16:35:30Z"
-  },
-  "washington_post": {
-    "hash": "1b67b6f75b4383a6",
+  "midjourney": {
+    "hash": "6a5833c2c5273b43",
     "count": 1,
     "flip_count": 1,
-    "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-    "first_seen_utc": "2026-02-17T16:35:36Z",
-    "last_seen_utc": "2026-02-17T16:35:36Z"
+    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
+    "first_seen_utc": "2026-02-17T18:06:49Z",
+    "last_seen_utc": "2026-02-17T18:06:49Z"
+  },
+  "myfitnesspal_premium": {
+    "hash": "379b6841f7514b2c",
+    "count": 1,
+    "flip_count": 9,
+    "source_url": "https://www.myfitnesspal.com/terms-of-use",
+    "first_seen_utc": "2026-02-17T18:06:55Z",
+    "last_seen_utc": "2026-02-17T18:06:55Z"
   }
 }
