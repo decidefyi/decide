@@ -29,6 +29,8 @@ const CHECKER_CONFIG = {
   sameRunRecheckDelayMs: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_DELAY_MS || "1200", 10),
   sameRunRecheckBatchSize: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_BATCH_SIZE || "3", 10),
   sameRunMajorityMinVotes: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_MAJORITY_MIN_VOTES || "2", 10),
+  crossRunWindowSize: Number.parseInt(process.env.POLICY_CHECK_CROSS_RUN_WINDOW_SIZE || "6", 10),
+  crossRunWindowRequired: Number.parseInt(process.env.POLICY_CHECK_CROSS_RUN_WINDOW_REQUIRED || "3", 10),
   stalePendingDays: Number.parseInt(process.env.POLICY_CHECK_STALE_PENDING_DAYS || "3", 10),
   volatileFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_VOLATILE_FLIP_THRESHOLD || "2", 10),
   escalationPendingDays: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_PENDING_DAYS || "5", 10),
@@ -126,6 +128,18 @@ const POLICY_FOCUS_KEYWORDS = {
     "promo",
   ],
 };
+const BASELINE_SIGNAL = "__baseline__";
+const VENDOR_STABILITY_KEYWORDS = {
+  canva: ["canva pro", "canva teams", "manage billing", "cancel canva", "subscription"],
+  myfitnesspal_premium: ["myfitnesspal premium", "premium subscription", "renewal", "cancel premium"],
+  twitch: ["twitch turbo", "subscription renews", "cancel recurring", "subscription payment"],
+  fitbit_premium: ["fitbit premium", "subscription", "google payments", "renews"],
+  paramount_plus: ["paramount+", "subscription", "cancel", "billing"],
+  audible: ["audible membership", "audible premium plus", "cancel", "billing"],
+  hinge: ["hinge+", "hinge x", "subscription", "refund", "cancel"],
+  midjourney: ["midjourney", "subscription", "billing", "cancel"],
+  crunchyroll: ["crunchyroll premium", "subscription", "cancel", "billing"],
+};
 const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v1";
 
 const isUpdate = process.argv.includes("--update");
@@ -207,6 +221,37 @@ function getPolicyKeywordRegex(policyType) {
   return new RegExp(`\\b(?:${pattern})\\b`, "i");
 }
 
+function getVendorKeywordRegex(vendorKey) {
+  const keywords = VENDOR_STABILITY_KEYWORDS[vendorKey];
+  if (!Array.isArray(keywords) || keywords.length === 0) return null;
+  const pattern = keywords
+    .filter((keyword) => typeof keyword === "string" && keyword.trim())
+    .map((keyword) => escapeRegexLiteral(keyword.trim()))
+    .join("|");
+  if (!pattern) return null;
+  return new RegExp(`\\b(?:${pattern})\\b`, "i");
+}
+
+function extractVendorStableText(lines, vendorKey) {
+  if (!Array.isArray(lines) || lines.length === 0) return "";
+  const vendorRegex = getVendorKeywordRegex(vendorKey);
+  if (!vendorRegex) return "";
+
+  const selectedIndexes = new Set();
+  for (let i = 0; i < lines.length; i += 1) {
+    if (!vendorRegex.test(lines[i])) continue;
+    for (let j = Math.max(0, i - 2); j <= Math.min(lines.length - 1, i + 2); j += 1) {
+      selectedIndexes.add(j);
+    }
+  }
+
+  if (selectedIndexes.size < 6) return "";
+  return [...selectedIndexes]
+    .sort((a, b) => a - b)
+    .map((index) => lines[index])
+    .join("\n");
+}
+
 function extractPolicyFocusedText(lines, policyType) {
   if (!Array.isArray(lines) || lines.length === 0) return "";
   const keywordRegex = getPolicyKeywordRegex(policyType);
@@ -230,7 +275,7 @@ function extractPolicyFocusedText(lines, policyType) {
     .join("\n");
 }
 
-function normalizeFetchedText(rawText, policyType = "default") {
+function normalizeFetchedText(rawText, policyType = "default", vendorKey = "") {
   let text = String(rawText || "");
   if (!text.trim()) return "";
 
@@ -259,6 +304,9 @@ function normalizeFetchedText(rawText, policyType = "default") {
   for (const line of lines) {
     if (line !== deduped[deduped.length - 1]) deduped.push(line);
   }
+
+  const vendorStable = extractVendorStableText(deduped, vendorKey);
+  if (vendorStable) return vendorStable;
 
   const focused = extractPolicyFocusedText(deduped, policyType);
   if (focused) return focused;
@@ -308,6 +356,19 @@ function getSameRunMajorityMinVotes() {
   return Math.max(2, CHECKER_CONFIG.sameRunMajorityMinVotes);
 }
 
+function getCrossRunWindowSize() {
+  if (!Number.isFinite(CHECKER_CONFIG.crossRunWindowSize)) return 6;
+  return Math.max(2, CHECKER_CONFIG.crossRunWindowSize);
+}
+
+function getCrossRunWindowRequired() {
+  const windowSize = getCrossRunWindowSize();
+  if (!Number.isFinite(CHECKER_CONFIG.crossRunWindowRequired)) {
+    return Math.min(3, windowSize);
+  }
+  return Math.max(2, Math.min(windowSize, CHECKER_CONFIG.crossRunWindowRequired));
+}
+
 function getStalePendingDays() {
   if (!Number.isFinite(CHECKER_CONFIG.stalePendingDays)) return 3;
   return Math.max(1, CHECKER_CONFIG.stalePendingDays);
@@ -344,6 +405,49 @@ function getCandidateAgeDays(candidate, nowMs = Date.now()) {
 function toMsOrNaN(isoValue) {
   if (typeof isoValue !== "string" || !isoValue) return Number.NaN;
   return Date.parse(isoValue);
+}
+
+function appendSignalWindow(coverageEntry, signal) {
+  const existing = Array.isArray(coverageEntry?.signal_window)
+    ? coverageEntry.signal_window.filter((value) => typeof value === "string" && value)
+    : [];
+  const next = [...existing, signal];
+  const windowSize = getCrossRunWindowSize();
+  const trimmed = next.slice(Math.max(0, next.length - windowSize));
+  if (coverageEntry && typeof coverageEntry === "object") {
+    coverageEntry.signal_window = trimmed;
+  }
+  return trimmed;
+}
+
+function evaluateSignalWindow(signalWindow) {
+  const list = Array.isArray(signalWindow) ? signalWindow : [];
+  const required = getCrossRunWindowRequired();
+  let baselineVotes = 0;
+  const hashVotes = {};
+  for (const signal of list) {
+    if (signal === BASELINE_SIGNAL) {
+      baselineVotes += 1;
+      continue;
+    }
+    hashVotes[signal] = Number(hashVotes[signal] || 0) + 1;
+  }
+
+  const sortedHashes = Object.entries(hashVotes).sort((a, b) => b[1] - a[1]);
+  const [topHash, topVotesRaw] = sortedHashes[0] || ["", 0];
+  const topVotes = Number(topVotesRaw || 0);
+  const secondVotes = Number(sortedHashes[1]?.[1] || 0);
+  const hashDecision = topHash && topVotes >= required && topVotes > secondVotes
+    ? topHash
+    : "";
+  const baselineDecision = baselineVotes >= required && baselineVotes > topVotes;
+
+  return {
+    required,
+    baselineVotes,
+    hashDecision,
+    topVotes,
+  };
 }
 
 function getRunMajorityDecision(observations) {
@@ -514,6 +618,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       recheckConfirmed: [],
       recheckResolved: [],
       recheckFetchFailures: [],
+      crossRunWindowConfirmed: [],
+      crossRunWindowHeld: [],
       escalatedPending: [],
       escalatedReasons: {},
       coverageGaps: [],
@@ -563,6 +669,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const recheckConfirmedSet = new Set();
   const recheckResolvedSet = new Set();
   const recheckFetchFailureSet = new Set();
+  const crossRunWindowConfirmedSet = new Set();
+  const crossRunWindowHeldSet = new Set();
   let successfulChecks = 0;
 
   const ensureCoverageEntry = (vendor) => {
@@ -602,7 +710,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           }
           return;
         }
-        const normalized = normalizeFetchedText(fetchResult.text, name);
+        const normalized = normalizeFetchedText(fetchResult.text, name, vendor);
         const h = hash(normalized || fetchResult.text);
         successfulChecks += 1;
         const fetchedAtUtc = utcIsoTimestamp();
@@ -617,14 +725,63 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             ? vendorConfig.url
             : fetchResult.sourceUrl;
 
+        const priorCandidate = activeStoredCandidates[vendor];
         const previousHash = storedHashes[vendor];
-        if (isUpdate || rebaselineForProfile || !previousHash || previousHash === h) {
+        const signal = previousHash && previousHash === h ? BASELINE_SIGNAL : h;
+        const signalWindow = appendSignalWindow(coverage, signal);
+        const windowDecision = evaluateSignalWindow(signalWindow);
+
+        if (isUpdate || rebaselineForProfile || !previousHash) {
           newHashes[vendor] = h;
           delete newCandidates[vendor];
           return;
         }
 
-        const priorCandidate = activeStoredCandidates[vendor];
+        if (previousHash === h) {
+          newHashes[vendor] = h;
+          if (!priorCandidate) {
+            delete newCandidates[vendor];
+            return;
+          }
+          if (windowDecision.baselineVotes >= windowDecision.required) {
+            delete newCandidates[vendor];
+            return;
+          }
+
+          const carriedCandidate = {
+            ...priorCandidate,
+            last_seen_utc: fetchedAtUtc,
+            source_url: priorCandidate.source_url || sourceUrl || "",
+            flip_count: Number(priorCandidate.flip_count || 0) + 1,
+            baseline_observations: Number(priorCandidate.baseline_observations || 0) + 1,
+          };
+          newCandidates[vendor] = carriedCandidate;
+          pendingSet.add(vendor);
+          pendingMetadata[vendor] = {
+            vendorConfig,
+            confirmRuns,
+            previousHash,
+            sourceUrl: carriedCandidate.source_url,
+          };
+          runObservations[vendor] = {
+            baselineVotes: 1,
+            hashVotes: carriedCandidate.hash
+              ? { [carriedCandidate.hash]: Number(carriedCandidate.count || 1) }
+              : {},
+          };
+          crossRunWindowHeldSet.add(vendor);
+          return;
+        }
+
+        if (windowDecision.hashDecision && windowDecision.hashDecision !== previousHash) {
+          changed.push({ vendor, url: sourceUrl });
+          newHashes[vendor] = windowDecision.hashDecision;
+          markConfirmedChange(vendor, fetchedAtUtc);
+          delete newCandidates[vendor];
+          crossRunWindowConfirmedSet.add(vendor);
+          return;
+        }
+
         const priorCount = Number(priorCandidate?.count || 0);
         const priorFlipCount = Number(priorCandidate?.flip_count || 0);
         const priorHash = typeof priorCandidate?.hash === "string" ? priorCandidate.hash : "";
@@ -648,6 +805,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             ? priorCandidate.first_seen_utc
             : fetchedAtUtc,
           last_seen_utc: fetchedAtUtc,
+          baseline_observations: 0,
         };
         pendingMetadata[vendor] = {
           vendorConfig,
@@ -704,7 +862,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           delete coverage.last_fetch_failure_utc;
           delete coverage.last_fetch_failure_reason;
 
-          const normalized = normalizeFetchedText(recheckResult.text, name);
+          const normalized = normalizeFetchedText(recheckResult.text, name, vendor);
           const h = hash(normalized || recheckResult.text);
           const observations = runObservations[vendor];
           if (h === metadata.previousHash) {
@@ -876,6 +1034,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     recheckConfirmed: [...recheckConfirmedSet].sort((a, b) => a.localeCompare(b)),
     recheckResolved: [...recheckResolvedSet].sort((a, b) => a.localeCompare(b)),
     recheckFetchFailures: [...recheckFetchFailureSet].sort((a, b) => a.localeCompare(b)),
+    crossRunWindowConfirmed: [...crossRunWindowConfirmedSet].sort((a, b) => a.localeCompare(b)),
+    crossRunWindowHeld: [...crossRunWindowHeldSet].sort((a, b) => a.localeCompare(b)),
     escalatedPending,
     escalatedReasons,
     coverageGaps,
@@ -943,6 +1103,18 @@ async function main() {
       const failureNames = sortedLimitedVendors(result.recheckFetchFailures, getPendingDetailLimit());
       console.log(
         `::notice::${result.name}: recheck_fetch_failures vendors (first ${failureNames.length}): ${failureNames.join(", ")}`
+      );
+    }
+    if (result.crossRunWindowConfirmed.length > 0) {
+      const names = sortedLimitedVendors(result.crossRunWindowConfirmed, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: cross_run_window_confirmed=${result.crossRunWindowConfirmed.length} (required=${getCrossRunWindowRequired()}, window=${getCrossRunWindowSize()}); first ${names.length}: ${names.join(", ")}`
+      );
+    }
+    if (result.crossRunWindowHeld.length > 0) {
+      const names = sortedLimitedVendors(result.crossRunWindowHeld, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: cross_run_window_held_pending=${result.crossRunWindowHeld.length} (baseline not dominant in window); first ${names.length}: ${names.join(", ")}`
       );
     }
     if (result.staleDropped.length > 0) {
