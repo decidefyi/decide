@@ -1,47 +1,29 @@
 {
   "canva": {
-    "hash": "1f607a7a216c843a",
+    "hash": "bf4dca8284b0a26d",
     "count": 1,
-    "flip_count": 1,
+    "flip_count": 3,
     "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-17T20:36:07Z",
-    "last_seen_utc": "2026-02-17T20:36:07Z",
+    "first_seen_utc": "2026-02-17T21:13:36Z",
+    "last_seen_utc": "2026-02-17T21:13:36Z",
     "baseline_observations": 0
   },
   "espn_plus": {
-    "hash": "88ed3f59708b6888",
+    "hash": "b0237bcf6bbda5f3",
     "count": 1,
-    "flip_count": 1,
+    "flip_count": 3,
     "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-17T20:36:00Z",
-    "last_seen_utc": "2026-02-17T20:36:00Z",
-    "baseline_observations": 0
-  },
-  "headspace": {
-    "hash": "82deb78dab11aeb8",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-    "first_seen_utc": "2026-02-17T20:36:15Z",
-    "last_seen_utc": "2026-02-17T20:36:15Z",
+    "first_seen_utc": "2026-02-17T21:13:31Z",
+    "last_seen_utc": "2026-02-17T21:13:31Z",
     "baseline_observations": 0
   },
   "myfitnesspal_premium": {
-    "hash": "af9c8a3a1ebf8d61",
+    "hash": "f1d68c0845d7637e",
     "count": 1,
-    "flip_count": 16,
+    "flip_count": 18,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T20:37:04Z",
-    "last_seen_utc": "2026-02-17T20:37:04Z",
-    "baseline_observations": 0
-  },
-  "soundcloud_go": {
-    "hash": "bf6f426a2126312f",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-    "first_seen_utc": "2026-02-17T20:37:36Z",
-    "last_seen_utc": "2026-02-17T20:37:36Z",
+    "first_seen_utc": "2026-02-17T21:13:46Z",
+    "last_seen_utc": "2026-02-17T21:13:46Z",
     "baseline_observations": 0
   }
 }

@@ -1,29 +1,38 @@
 {
-  "peacock": {
-    "hash": "1a2175b6aa8271c2",
+  "chatgpt_plus": {
+    "hash": "943f18d6cd7e1667",
     "count": 1,
     "flip_count": 1,
-    "source_url": "https://www.peacocktv.com/plans",
-    "first_seen_utc": "2026-02-17T20:52:27Z",
-    "last_seen_utc": "2026-02-17T20:52:27Z",
+    "source_url": "https://openai.com/chatgpt/pricing/",
+    "first_seen_utc": "2026-02-17T21:24:07Z",
+    "last_seen_utc": "2026-02-17T21:24:07Z",
+    "baseline_observations": 0
+  },
+  "canva": {
+    "hash": "698941cef248e599",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://www.canva.com/pro/",
+    "first_seen_utc": "2026-02-17T21:24:09Z",
+    "last_seen_utc": "2026-02-17T21:24:09Z",
     "baseline_observations": 0
   },
   "twitch": {
-    "hash": "7925a569893e4077",
+    "hash": "c9c0783352619a30",
     "count": 1,
-    "flip_count": 9,
+    "flip_count": 11,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-17T20:52:22Z",
-    "last_seen_utc": "2026-02-17T20:52:22Z",
+    "first_seen_utc": "2026-02-17T21:24:13Z",
+    "last_seen_utc": "2026-02-17T21:24:13Z",
     "baseline_observations": 0
   },
   "substack": {
-    "hash": "2503d68572b96eea",
+    "hash": "a075c0a26844f083",
     "count": 1,
-    "flip_count": 3,
+    "flip_count": 5,
     "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-17T20:52:33Z",
-    "last_seen_utc": "2026-02-17T20:52:33Z",
-    "baseline_observations": 1
+    "first_seen_utc": "2026-02-17T21:24:19Z",
+    "last_seen_utc": "2026-02-17T21:24:19Z",
+    "baseline_observations": 2
   }
 }
