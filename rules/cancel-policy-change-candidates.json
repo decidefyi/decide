@@ -1,56 +1,74 @@
 {
   "audible": {
-    "hash": "acc701b44f4cae92",
+    "hash": "697fd5108ca66597",
     "count": 1,
-    "flip_count": 14,
+    "flip_count": 16,
     "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-    "first_seen_utc": "2026-02-17T18:47:41Z",
-    "last_seen_utc": "2026-02-17T18:47:41Z",
+    "first_seen_utc": "2026-02-17T20:43:30Z",
+    "last_seen_utc": "2026-02-17T20:43:30Z",
     "baseline_observations": 0
   },
   "canva": {
-    "hash": "2f51b31c55a4057f",
+    "hash": "2e8e815a204198aa",
     "count": 1,
-    "flip_count": 14,
+    "flip_count": 16,
     "source_url": "https://www.canva.com/help/cancellation/",
-    "first_seen_utc": "2026-02-17T18:47:33Z",
-    "last_seen_utc": "2026-02-17T18:47:33Z",
+    "first_seen_utc": "2026-02-17T20:43:27Z",
+    "last_seen_utc": "2026-02-17T20:43:27Z",
     "baseline_observations": 0
   },
-  "dropbox_us": {
-    "hash": "c609144e56e2f6f1",
+  "headspace": {
+    "hash": "421527e83c3004f5",
     "count": 1,
     "flip_count": 1,
-    "source_url": "https://www.dropbox.com/plans",
-    "first_seen_utc": "2026-02-17T18:48:21Z",
-    "last_seen_utc": "2026-02-17T18:48:21Z",
+    "source_url": "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription",
+    "first_seen_utc": "2026-02-17T20:43:36Z",
+    "last_seen_utc": "2026-02-17T20:43:36Z",
+    "baseline_observations": 0
+  },
+  "midjourney": {
+    "hash": "6a5833c2c5273b43",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
+    "first_seen_utc": "2026-02-17T20:44:16Z",
+    "last_seen_utc": "2026-02-17T20:44:16Z",
     "baseline_observations": 0
   },
   "paramount_plus": {
-    "hash": "ad4d78ba1305f5f7",
+    "hash": "18537bbce3ad2a42",
     "count": 1,
-    "flip_count": 14,
+    "flip_count": 16,
     "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-    "first_seen_utc": "2026-02-17T18:48:29Z",
-    "last_seen_utc": "2026-02-17T18:48:29Z",
+    "first_seen_utc": "2026-02-17T20:44:27Z",
+    "last_seen_utc": "2026-02-17T20:44:27Z",
     "baseline_observations": 0
   },
   "twitch": {
-    "hash": "b43c16bf5833174c",
+    "hash": "0d79f84b8df95c3a",
     "count": 1,
-    "flip_count": 14,
+    "flip_count": 16,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-    "first_seen_utc": "2026-02-17T18:48:37Z",
-    "last_seen_utc": "2026-02-17T18:48:37Z",
+    "first_seen_utc": "2026-02-17T20:44:35Z",
+    "last_seen_utc": "2026-02-17T20:44:35Z",
     "baseline_observations": 0
   },
   "fitbit_premium": {
-    "hash": "889fda622b569766",
+    "hash": "901d3501f4c44360",
     "count": 1,
-    "flip_count": 14,
+    "flip_count": 16,
     "source_url": "https://support.google.com/fitbit/",
-    "first_seen_utc": "2026-02-17T18:48:30Z",
-    "last_seen_utc": "2026-02-17T18:48:30Z",
+    "first_seen_utc": "2026-02-17T20:44:27Z",
+    "last_seen_utc": "2026-02-17T20:44:27Z",
+    "baseline_observations": 0
+  },
+  "roblox_premium": {
+    "hash": "2db08dbc86d85732",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://en.help.roblox.com/hc/en-us/articles/203312800-How-to-Cancel-Membership",
+    "first_seen_utc": "2026-02-17T20:44:40Z",
+    "last_seen_utc": "2026-02-17T20:44:40Z",
     "baseline_observations": 0
   }
 }

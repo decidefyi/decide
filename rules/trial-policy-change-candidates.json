@@ -1,20 +1,29 @@
 {
-  "twitch": {
-    "hash": "70dd8bc153168d79",
+  "peacock": {
+    "hash": "1a2175b6aa8271c2",
     "count": 1,
-    "flip_count": 7,
+    "flip_count": 1,
+    "source_url": "https://www.peacocktv.com/plans",
+    "first_seen_utc": "2026-02-17T20:52:27Z",
+    "last_seen_utc": "2026-02-17T20:52:27Z",
+    "baseline_observations": 0
+  },
+  "twitch": {
+    "hash": "7925a569893e4077",
+    "count": 1,
+    "flip_count": 9,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-17T18:53:57Z",
-    "last_seen_utc": "2026-02-17T18:53:57Z",
+    "first_seen_utc": "2026-02-17T20:52:22Z",
+    "last_seen_utc": "2026-02-17T20:52:22Z",
     "baseline_observations": 0
   },
   "substack": {
-    "hash": "f24ae0e2bdefd489",
+    "hash": "2503d68572b96eea",
     "count": 1,
-    "flip_count": 1,
+    "flip_count": 3,
     "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-17T18:54:06Z",
-    "last_seen_utc": "2026-02-17T18:54:06Z",
-    "baseline_observations": 0
+    "first_seen_utc": "2026-02-17T20:52:33Z",
+    "last_seen_utc": "2026-02-17T20:52:33Z",
+    "baseline_observations": 1
   }
 }

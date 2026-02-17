@@ -1,20 +1,38 @@
 {
-  "myfitnesspal_premium": {
-    "hash": "bc979f2ce04bac34",
+  "canva": {
+    "hash": "2852e51bb74a5356",
     "count": 1,
-    "flip_count": 13,
+    "flip_count": 1,
+    "source_url": "https://www.canva.com/policies/terms-of-use/",
+    "first_seen_utc": "2026-02-17T20:48:09Z",
+    "last_seen_utc": "2026-02-17T20:48:09Z",
+    "baseline_observations": 0
+  },
+  "headspace": {
+    "hash": "421527e83c3004f5",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
+    "first_seen_utc": "2026-02-17T20:48:08Z",
+    "last_seen_utc": "2026-02-17T20:48:08Z",
+    "baseline_observations": 0
+  },
+  "myfitnesspal_premium": {
+    "hash": "aec241032142d64d",
+    "count": 1,
+    "flip_count": 15,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T18:50:30Z",
-    "last_seen_utc": "2026-02-17T18:50:30Z",
+    "first_seen_utc": "2026-02-17T20:48:17Z",
+    "last_seen_utc": "2026-02-17T20:48:17Z",
     "baseline_observations": 0
   },
   "substack": {
-    "hash": "20fab989e6c94724",
+    "hash": "a075c0a26844f083",
     "count": 1,
-    "flip_count": 1,
+    "flip_count": 3,
     "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-17T18:50:36Z",
-    "last_seen_utc": "2026-02-17T18:50:36Z",
-    "baseline_observations": 0
+    "first_seen_utc": "2026-02-17T20:48:23Z",
+    "last_seen_utc": "2026-02-17T20:48:23Z",
+    "baseline_observations": 1
   }
 }
