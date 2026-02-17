@@ -1,10 +1,20 @@
 {
   "myfitnesspal_premium": {
-    "hash": "4126303cc809e069",
+    "hash": "bc979f2ce04bac34",
     "count": 1,
-    "flip_count": 11,
+    "flip_count": 13,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T18:32:36Z",
-    "last_seen_utc": "2026-02-17T18:32:36Z"
+    "first_seen_utc": "2026-02-17T18:50:30Z",
+    "last_seen_utc": "2026-02-17T18:50:30Z",
+    "baseline_observations": 0
+  },
+  "substack": {
+    "hash": "20fab989e6c94724",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "first_seen_utc": "2026-02-17T18:50:36Z",
+    "last_seen_utc": "2026-02-17T18:50:36Z",
+    "baseline_observations": 0
   }
 }

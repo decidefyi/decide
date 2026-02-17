@@ -1,18 +1,20 @@
 {
-  "canva": {
-    "hash": "976c6e673417af96",
-    "count": 1,
-    "flip_count": 12,
-    "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-17T18:35:43Z",
-    "last_seen_utc": "2026-02-17T18:35:43Z"
-  },
   "twitch": {
-    "hash": "0c196bd2c96d78e8",
+    "hash": "70dd8bc153168d79",
     "count": 1,
-    "flip_count": 5,
+    "flip_count": 7,
     "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-17T18:35:49Z",
-    "last_seen_utc": "2026-02-17T18:35:49Z"
+    "first_seen_utc": "2026-02-17T18:53:57Z",
+    "last_seen_utc": "2026-02-17T18:53:57Z",
+    "baseline_observations": 0
+  },
+  "substack": {
+    "hash": "f24ae0e2bdefd489",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "first_seen_utc": "2026-02-17T18:54:06Z",
+    "last_seen_utc": "2026-02-17T18:54:06Z",
+    "baseline_observations": 0
   }
 }
