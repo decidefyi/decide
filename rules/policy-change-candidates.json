@@ -1,18 +1,42 @@
 {
   "canva": {
-    "hash": "3efdc6f7585b2760",
+    "hash": "16a8f6649c309916",
     "count": 1,
-    "flip_count": 6,
+    "flip_count": 8,
     "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-17T14:52:07Z",
-    "last_seen_utc": "2026-02-17T14:52:07Z"
+    "first_seen_utc": "2026-02-17T16:26:31Z",
+    "last_seen_utc": "2026-02-17T16:26:31Z"
+  },
+  "midjourney": {
+    "hash": "4605764702134417",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
+    "first_seen_utc": "2026-02-17T16:26:47Z",
+    "last_seen_utc": "2026-02-17T16:26:47Z"
+  },
+  "tidal": {
+    "hash": "21e61b19663ae09c",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
+    "first_seen_utc": "2026-02-17T16:26:47Z",
+    "last_seen_utc": "2026-02-17T16:26:47Z"
   },
   "myfitnesspal_premium": {
-    "hash": "76fc90b655557bbf",
+    "hash": "9e7c9dd2cd28beac",
     "count": 1,
-    "flip_count": 6,
+    "flip_count": 8,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T14:52:31Z",
-    "last_seen_utc": "2026-02-17T14:52:31Z"
+    "first_seen_utc": "2026-02-17T16:26:53Z",
+    "last_seen_utc": "2026-02-17T16:26:53Z"
+  },
+  "washington_post": {
+    "hash": "e4d6bdfc45bd6a39",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
+    "first_seen_utc": "2026-02-17T16:26:59Z",
+    "last_seen_utc": "2026-02-17T16:26:59Z"
   }
 }

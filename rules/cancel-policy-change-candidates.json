@@ -1,50 +1,58 @@
 {
   "audible": {
-    "hash": "0a7a60bcbb2f9d1c",
+    "hash": "594ee2aa662e9503",
     "count": 1,
-    "flip_count": 6,
+    "flip_count": 8,
     "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-    "first_seen_utc": "2026-02-17T14:57:09Z",
-    "last_seen_utc": "2026-02-17T14:57:09Z"
+    "first_seen_utc": "2026-02-17T16:32:34Z",
+    "last_seen_utc": "2026-02-17T16:32:34Z"
   },
   "canva": {
-    "hash": "7ea3f9f1489e3840",
+    "hash": "8262d77a6d06137f",
     "count": 1,
-    "flip_count": 6,
+    "flip_count": 8,
     "source_url": "https://www.canva.com/help/cancellation/",
-    "first_seen_utc": "2026-02-17T14:57:04Z",
-    "last_seen_utc": "2026-02-17T14:57:04Z"
+    "first_seen_utc": "2026-02-17T16:32:31Z",
+    "last_seen_utc": "2026-02-17T16:32:31Z"
   },
   "grammarly": {
     "hash": "55624efd938f0d4e",
     "count": 1,
-    "flip_count": 1,
+    "flip_count": 3,
     "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
-    "first_seen_utc": "2026-02-17T14:57:18Z",
-    "last_seen_utc": "2026-02-17T14:57:18Z"
+    "first_seen_utc": "2026-02-17T16:32:36Z",
+    "last_seen_utc": "2026-02-17T16:32:36Z"
   },
   "paramount_plus": {
-    "hash": "434bbed7f0e63b2e",
+    "hash": "62c22c8e9076ec3d",
     "count": 1,
-    "flip_count": 6,
+    "flip_count": 8,
     "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-    "first_seen_utc": "2026-02-17T14:57:24Z",
-    "last_seen_utc": "2026-02-17T14:57:24Z"
+    "first_seen_utc": "2026-02-17T16:32:52Z",
+    "last_seen_utc": "2026-02-17T16:32:52Z"
   },
   "twitch": {
-    "hash": "4658df47b7789afe",
+    "hash": "94d72eefbc2423e3",
     "count": 1,
-    "flip_count": 6,
+    "flip_count": 8,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-    "first_seen_utc": "2026-02-17T14:57:39Z",
-    "last_seen_utc": "2026-02-17T14:57:39Z"
+    "first_seen_utc": "2026-02-17T16:33:01Z",
+    "last_seen_utc": "2026-02-17T16:33:01Z"
   },
   "fitbit_premium": {
-    "hash": "26a3e5d010ecdc5c",
+    "hash": "d05b1741ec0fdd92",
     "count": 1,
-    "flip_count": 6,
+    "flip_count": 8,
     "source_url": "https://support.google.com/fitbit/",
-    "first_seen_utc": "2026-02-17T14:57:33Z",
-    "last_seen_utc": "2026-02-17T14:57:33Z"
+    "first_seen_utc": "2026-02-17T16:32:53Z",
+    "last_seen_utc": "2026-02-17T16:32:53Z"
+  },
+  "nfl_plus": {
+    "hash": "8ed9e2f088ca8172",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://support.nfl.com/hc/en-us/articles/5402041435292-NFL-Subscription-Renewals-Cancellations",
+    "first_seen_utc": "2026-02-17T16:33:07Z",
+    "last_seen_utc": "2026-02-17T16:33:07Z"
   }
 }

@@ -1,42 +1,18 @@
 {
-  "canva": {
-    "hash": "fd8f40b499fdbc6b",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-17T15:00:11Z",
-    "last_seen_utc": "2026-02-17T15:00:11Z"
-  },
-  "grammarly": {
-    "hash": "e5adcea469f4a180",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-    "first_seen_utc": "2026-02-17T15:00:16Z",
-    "last_seen_utc": "2026-02-17T15:00:16Z"
-  },
-  "midjourney": {
-    "hash": "f4cdff9a1953e6e5",
-    "count": 1,
-    "flip_count": 3,
-    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-    "first_seen_utc": "2026-02-17T15:00:15Z",
-    "last_seen_utc": "2026-02-17T15:00:15Z"
-  },
   "myfitnesspal_premium": {
-    "hash": "5736fa04d02857c9",
+    "hash": "71fa63f74bb7da53",
     "count": 1,
-    "flip_count": 5,
+    "flip_count": 7,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T15:00:22Z",
-    "last_seen_utc": "2026-02-17T15:00:22Z"
+    "first_seen_utc": "2026-02-17T16:35:30Z",
+    "last_seen_utc": "2026-02-17T16:35:30Z"
   },
-  "roblox_premium": {
-    "hash": "d72f75609e5be554",
+  "washington_post": {
+    "hash": "1b67b6f75b4383a6",
     "count": 1,
-    "flip_count": 0,
-    "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-    "first_seen_utc": "2026-02-17T14:59:44Z",
-    "last_seen_utc": "2026-02-17T14:59:44Z"
+    "flip_count": 1,
+    "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
+    "first_seen_utc": "2026-02-17T16:35:36Z",
+    "last_seen_utc": "2026-02-17T16:35:36Z"
   }
 }

@@ -1,10 +1,42 @@
 {
   "canva": {
-    "hash": "ba4cc152b966ac06",
+    "hash": "b490dd48a5558444",
     "count": 1,
-    "flip_count": 6,
+    "flip_count": 8,
     "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-17T15:04:18Z",
-    "last_seen_utc": "2026-02-17T15:04:18Z"
+    "first_seen_utc": "2026-02-17T16:39:22Z",
+    "last_seen_utc": "2026-02-17T16:39:22Z"
+  },
+  "doordash_dashpass": {
+    "hash": "01f7153f7a1ea719",
+    "count": 1,
+    "flip_count": 0,
+    "source_url": "https://www.doordash.com/dashpass/",
+    "first_seen_utc": "2026-02-17T16:36:41Z",
+    "last_seen_utc": "2026-02-17T16:36:41Z"
+  },
+  "hinge": {
+    "hash": "0f4d43528e0bcee3",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+    "first_seen_utc": "2026-02-17T16:40:04Z",
+    "last_seen_utc": "2026-02-17T16:40:04Z"
+  },
+  "peacock": {
+    "hash": "1a2175b6aa8271c2",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://www.peacocktv.com/plans",
+    "first_seen_utc": "2026-02-17T16:40:07Z",
+    "last_seen_utc": "2026-02-17T16:40:07Z"
+  },
+  "twitch": {
+    "hash": "55df5ecc63d473cb",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://www.twitch.tv/turbo",
+    "first_seen_utc": "2026-02-17T16:40:04Z",
+    "last_seen_utc": "2026-02-17T16:40:04Z"
   }
 }
