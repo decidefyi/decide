@@ -34,7 +34,7 @@ const CHECKER_CONFIG = {
   stalePendingDays: Number.parseInt(process.env.POLICY_CHECK_STALE_PENDING_DAYS || "3", 10),
   volatileFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_VOLATILE_FLIP_THRESHOLD || "2", 10),
   escalationPendingDays: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_PENDING_DAYS || "5", 10),
-  escalationFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_FLIP_THRESHOLD || "3", 10),
+  escalationFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_FLIP_THRESHOLD || "4", 10),
   noConfirmEscalationDays: Number.parseInt(process.env.POLICY_CHECK_NO_CONFIRM_ESCALATION_DAYS || "7", 10),
 };
 const USER_AGENTS = [
@@ -131,7 +131,9 @@ const POLICY_FOCUS_KEYWORDS = {
 const BASELINE_SIGNAL = "__baseline__";
 const VENDOR_STABILITY_KEYWORDS = {
   canva: ["canva pro", "canva teams", "manage billing", "cancel canva", "subscription"],
+  espn_plus: ["espn+", "subscription", "bundle", "billing", "cancel"],
   myfitnesspal_premium: ["myfitnesspal premium", "premium subscription", "renewal", "cancel premium"],
+  substack: ["substack", "subscription", "paid subscription", "cancel", "refund"],
   twitch: ["twitch turbo", "subscription renews", "cancel recurring", "subscription payment"],
   fitbit_premium: ["fitbit premium", "subscription", "google payments", "renews"],
   paramount_plus: ["paramount+", "subscription", "cancel", "billing"],
@@ -385,7 +387,7 @@ function getEscalationPendingDays() {
 }
 
 function getEscalationFlipThreshold() {
-  if (!Number.isFinite(CHECKER_CONFIG.escalationFlipThreshold)) return 3;
+  if (!Number.isFinite(CHECKER_CONFIG.escalationFlipThreshold)) return 4;
   return Math.max(1, CHECKER_CONFIG.escalationFlipThreshold);
 }
 
