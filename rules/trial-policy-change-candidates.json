@@ -2,9 +2,25 @@
   "canva": {
     "hash": "ba4cc152b966ac06",
     "count": 1,
-    "flip_count": 2,
+    "flip_count": 4,
     "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-17T11:34:39Z",
-    "last_seen_utc": "2026-02-17T11:34:39Z"
+    "first_seen_utc": "2026-02-17T12:52:59Z",
+    "last_seen_utc": "2026-02-17T12:52:59Z"
+  },
+  "doordash_dashpass": {
+    "hash": "36183157d82b5fc7",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://www.doordash.com/dashpass/",
+    "first_seen_utc": "2026-02-17T12:53:11Z",
+    "last_seen_utc": "2026-02-17T12:53:11Z"
+  },
+  "masterclass": {
+    "hash": "e6d641115730b63f",
+    "count": 2,
+    "flip_count": 0,
+    "source_url": "https://www.masterclass.com/legal/terms",
+    "first_seen_utc": "2026-02-17T12:51:23Z",
+    "last_seen_utc": "2026-02-17T12:53:15Z"
   }
 }

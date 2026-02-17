@@ -1,10 +1,42 @@
 {
-  "myfitnesspal_premium": {
-    "hash": "6bc5f7aa37e8b983",
+  "masterclass": {
+    "hash": "25073741b6741db6",
+    "count": 2,
+    "flip_count": 0,
+    "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
+    "first_seen_utc": "2026-02-17T12:48:39Z",
+    "last_seen_utc": "2026-02-17T12:49:48Z"
+  },
+  "midjourney": {
+    "hash": "f4cdff9a1953e6e5",
     "count": 1,
-    "flip_count": 2,
+    "flip_count": 1,
+    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
+    "first_seen_utc": "2026-02-17T12:49:48Z",
+    "last_seen_utc": "2026-02-17T12:49:48Z"
+  },
+  "tinder": {
+    "hash": "6262b9b931b4e93b",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
+    "first_seen_utc": "2026-02-17T12:49:56Z",
+    "last_seen_utc": "2026-02-17T12:49:56Z"
+  },
+  "myfitnesspal_premium": {
+    "hash": "3c143c8f7585220d",
+    "count": 1,
+    "flip_count": 3,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T11:31:28Z",
-    "last_seen_utc": "2026-02-17T11:31:28Z"
+    "first_seen_utc": "2026-02-17T12:49:11Z",
+    "last_seen_utc": "2026-02-17T12:49:11Z"
+  },
+  "substack": {
+    "hash": "1298185158b704e8",
+    "count": 2,
+    "flip_count": 0,
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "first_seen_utc": "2026-02-17T12:49:27Z",
+    "last_seen_utc": "2026-02-17T12:50:01Z"
   }
 }

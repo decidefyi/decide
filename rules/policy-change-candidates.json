@@ -2,25 +2,25 @@
   "canva": {
     "hash": "16a8f6649c309916",
     "count": 1,
-    "flip_count": 2,
+    "flip_count": 4,
     "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-17T11:23:09Z",
-    "last_seen_utc": "2026-02-17T11:23:09Z"
+    "first_seen_utc": "2026-02-17T12:41:11Z",
+    "last_seen_utc": "2026-02-17T12:41:11Z"
   },
-  "midjourney": {
-    "hash": "0451c06bd6018630",
+  "headspace": {
+    "hash": "f17fc7b5eea1f336",
     "count": 1,
-    "flip_count": 2,
-    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-    "first_seen_utc": "2026-02-17T11:23:20Z",
-    "last_seen_utc": "2026-02-17T11:23:20Z"
+    "flip_count": 1,
+    "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
+    "first_seen_utc": "2026-02-17T12:41:24Z",
+    "last_seen_utc": "2026-02-17T12:41:24Z"
   },
   "myfitnesspal_premium": {
-    "hash": "f973db58f25b85e7",
+    "hash": "1750e7fb141ba093",
     "count": 1,
-    "flip_count": 2,
+    "flip_count": 4,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T11:23:28Z",
-    "last_seen_utc": "2026-02-17T11:23:28Z"
+    "first_seen_utc": "2026-02-17T12:41:34Z",
+    "last_seen_utc": "2026-02-17T12:41:34Z"
   }
 }
