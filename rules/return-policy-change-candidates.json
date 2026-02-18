@@ -1,29 +1,32 @@
 {
-  "midjourney": {
-    "hash": "f992155a8ebbbb53",
+  "evernote": {
+    "hash": "4384632937987f9b",
     "count": 1,
-    "flip_count": 0,
-    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-    "first_seen_utc": "2026-02-18T09:00:07Z",
-    "last_seen_utc": "2026-02-18T09:00:07Z",
+    "flip_count": 2,
+    "source_url": "https://evernote.com/compare-plans",
+    "pending_since_utc": "2026-02-18T09:50:04Z",
+    "first_seen_utc": "2026-02-18T09:51:36Z",
+    "last_seen_utc": "2026-02-18T09:51:36Z",
     "baseline_observations": 0
   },
   "myfitnesspal_premium": {
-    "hash": "a619cb7fb54f2fe9",
+    "hash": "7fced8bfe3beb2a9",
     "count": 1,
-    "flip_count": 21,
+    "flip_count": 23,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-18T09:00:33Z",
-    "last_seen_utc": "2026-02-18T09:00:33Z",
+    "pending_since_utc": "2026-02-18T09:00:33Z",
+    "first_seen_utc": "2026-02-18T09:51:39Z",
+    "last_seen_utc": "2026-02-18T09:51:39Z",
     "baseline_observations": 0
   },
-  "substack": {
-    "hash": "23fa85dbd1c94013",
+  "roblox_premium": {
+    "hash": "d15eabe459d7d36d",
     "count": 1,
-    "flip_count": 11,
-    "source_url": "https://substack.com/going-paid",
-    "first_seen_utc": "2026-02-18T09:01:16Z",
-    "last_seen_utc": "2026-02-18T09:01:16Z",
+    "flip_count": 1,
+    "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
+    "pending_since_utc": "2026-02-18T09:50:54Z",
+    "first_seen_utc": "2026-02-18T09:51:42Z",
+    "last_seen_utc": "2026-02-18T09:51:42Z",
     "baseline_observations": 0
   }
 }
