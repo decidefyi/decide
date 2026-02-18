@@ -1,32 +1,32 @@
 {
-  "evernote": {
-    "hash": "4384632937987f9b",
+  "calm": {
+    "hash": "d0fcb92a8b1a4efc",
     "count": 1,
     "flip_count": 2,
-    "source_url": "https://evernote.com/compare-plans",
-    "pending_since_utc": "2026-02-18T09:50:04Z",
-    "first_seen_utc": "2026-02-18T09:51:36Z",
-    "last_seen_utc": "2026-02-18T09:51:36Z",
+    "source_url": "https://www.calm.com/terms",
+    "pending_since_utc": "2026-02-18T12:46:48Z",
+    "first_seen_utc": "2026-02-18T12:49:00Z",
+    "last_seen_utc": "2026-02-18T12:49:00Z",
+    "baseline_observations": 0
+  },
+  "canva": {
+    "hash": "15bcf3b3809f9aa4",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://www.canva.com/help/",
+    "pending_since_utc": "2026-02-18T12:46:54Z",
+    "first_seen_utc": "2026-02-18T12:49:02Z",
+    "last_seen_utc": "2026-02-18T12:49:02Z",
     "baseline_observations": 0
   },
   "myfitnesspal_premium": {
-    "hash": "7fced8bfe3beb2a9",
+    "hash": "bdd999c09fd69b5f",
     "count": 1,
-    "flip_count": 23,
+    "flip_count": 25,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T09:00:33Z",
-    "first_seen_utc": "2026-02-18T09:51:39Z",
-    "last_seen_utc": "2026-02-18T09:51:39Z",
-    "baseline_observations": 0
-  },
-  "roblox_premium": {
-    "hash": "d15eabe459d7d36d",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-    "pending_since_utc": "2026-02-18T09:50:54Z",
-    "first_seen_utc": "2026-02-18T09:51:42Z",
-    "last_seen_utc": "2026-02-18T09:51:42Z",
+    "first_seen_utc": "2026-02-18T12:48:51Z",
+    "last_seen_utc": "2026-02-18T12:48:51Z",
     "baseline_observations": 0
   }
 }
