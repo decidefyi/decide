@@ -25,8 +25,8 @@ const CHECKER_CONFIG = {
   changeConfirmRuns: Number.parseInt(process.env.POLICY_CHECK_CHANGE_CONFIRM_RUNS || "2", 10),
   candidateTtlDays: Number.parseInt(process.env.POLICY_CHECK_CANDIDATE_TTL_DAYS || "7", 10),
   pendingDetailLimit: Number.parseInt(process.env.POLICY_CHECK_PENDING_DETAIL_LIMIT || "20", 10),
-  sameRunRecheckPasses: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_PASSES || "1", 10),
-  sameRunRecheckDelayMs: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_DELAY_MS || "1200", 10),
+  sameRunRecheckPasses: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_PASSES || "2", 10),
+  sameRunRecheckDelayMs: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_DELAY_MS || "1600", 10),
   sameRunRecheckBatchSize: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_BATCH_SIZE || "3", 10),
   sameRunMajorityMinVotes: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_MAJORITY_MIN_VOTES || "2", 10),
   crossRunWindowSize: Number.parseInt(process.env.POLICY_CHECK_CROSS_RUN_WINDOW_SIZE || "6", 10),
@@ -138,6 +138,15 @@ const VENDOR_STABILITY_KEYWORDS = {
   fitbit_premium: ["fitbit premium", "subscription", "google payments", "renews"],
   paramount_plus: ["paramount+", "subscription", "cancel", "billing"],
   audible: ["audible membership", "audible premium plus", "cancel", "billing"],
+  grammarly: ["grammarly premium", "subscription", "billing", "renewal", "cancel"],
+  evernote: ["evernote personal", "evernote professional", "subscription", "billing", "cancel"],
+  nfl_plus: ["nfl+", "subscription", "billing", "cancel", "trial"],
+  dashlane: ["dashlane premium", "subscription", "billing", "auto-renew", "cancel"],
+  headspace: ["headspace", "subscription", "billing", "cancel", "renewal"],
+  soundcloud_go: ["soundcloud go", "soundcloud go+", "subscription", "billing", "cancel"],
+  roblox_premium: ["roblox premium", "subscription", "billing", "cancel", "renewal"],
+  x_premium: ["x premium", "premium+", "subscription", "billing", "cancel"],
+  calm: ["calm premium", "subscription", "billing", "cancel", "renewal"],
   hinge: ["hinge+", "hinge x", "subscription", "refund", "cancel"],
   midjourney: ["midjourney", "subscription", "billing", "cancel"],
   crunchyroll: ["crunchyroll premium", "subscription", "cancel", "billing"],
@@ -339,12 +348,12 @@ function getPendingDetailLimit() {
 }
 
 function getSameRunRecheckPasses() {
-  if (!Number.isFinite(CHECKER_CONFIG.sameRunRecheckPasses)) return 1;
+  if (!Number.isFinite(CHECKER_CONFIG.sameRunRecheckPasses)) return 2;
   return Math.max(0, CHECKER_CONFIG.sameRunRecheckPasses);
 }
 
 function getSameRunRecheckDelayMs() {
-  if (!Number.isFinite(CHECKER_CONFIG.sameRunRecheckDelayMs)) return 1200;
+  if (!Number.isFinite(CHECKER_CONFIG.sameRunRecheckDelayMs)) return 1600;
   return Math.max(0, CHECKER_CONFIG.sameRunRecheckDelayMs);
 }
 
@@ -396,12 +405,23 @@ function getNoConfirmEscalationDays() {
   return Math.max(1, CHECKER_CONFIG.noConfirmEscalationDays);
 }
 
+function getCandidatePendingSinceUtc(candidate) {
+  if (!candidate || typeof candidate !== "object") return "";
+  if (typeof candidate.pending_since_utc === "string" && candidate.pending_since_utc) {
+    return candidate.pending_since_utc;
+  }
+  if (typeof candidate.first_seen_utc === "string" && candidate.first_seen_utc) {
+    return candidate.first_seen_utc;
+  }
+  return "";
+}
+
 function getCandidateAgeDays(candidate, nowMs = Date.now()) {
-  const firstSeen = candidate?.first_seen_utc;
-  if (!firstSeen) return 0;
-  const firstSeenMs = Date.parse(firstSeen);
-  if (!Number.isFinite(firstSeenMs)) return 0;
-  return Math.max(0, Math.floor((nowMs - firstSeenMs) / (24 * 60 * 60 * 1000)));
+  const pendingSinceUtc = getCandidatePendingSinceUtc(candidate);
+  if (!pendingSinceUtc) return 0;
+  const pendingSinceMs = Date.parse(pendingSinceUtc);
+  if (!Number.isFinite(pendingSinceMs)) return 0;
+  return Math.max(0, Math.floor((nowMs - pendingSinceMs) / (24 * 60 * 60 * 1000)));
 }
 
 function toMsOrNaN(isoValue) {
@@ -756,6 +776,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             source_url: priorCandidate.source_url || sourceUrl || "",
             flip_count: Number(priorCandidate.flip_count || 0) + 1,
             baseline_observations: Number(priorCandidate.baseline_observations || 0) + 1,
+            pending_since_utc: getCandidatePendingSinceUtc(priorCandidate) || fetchedAtUtc,
           };
           newCandidates[vendor] = carriedCandidate;
           pendingSet.add(vendor);
@@ -803,6 +824,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           count: nextCount,
           flip_count: nextFlipCount,
           source_url: sourceUrl || "",
+          pending_since_utc: getCandidatePendingSinceUtc(priorCandidate) || fetchedAtUtc,
           first_seen_utc: priorHash === h && priorCandidate.first_seen_utc
             ? priorCandidate.first_seen_utc
             : fetchedAtUtc,
@@ -904,8 +926,10 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             candidate.hash = h;
             candidate.count = 1;
             candidate.flip_count = Number(candidate.flip_count || 0) + 1;
+            candidate.pending_since_utc = getCandidatePendingSinceUtc(candidate) || fetchedAtUtc;
             candidate.first_seen_utc = utcIsoTimestamp();
           }
+          candidate.pending_since_utc = getCandidatePendingSinceUtc(candidate) || fetchedAtUtc;
 
           const sourceUrl = recheckResult.sourceUrl || metadata.sourceUrl || "";
           if (sourceUrl) candidate.source_url = sourceUrl;
@@ -965,15 +989,15 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       coverage.last_escalated_utc = utcIsoTimestamp();
     }
 
-    const firstSeenMs = toMsOrNaN(candidate?.first_seen_utc);
+    const pendingSinceMs = toMsOrNaN(getCandidatePendingSinceUtc(candidate));
     const lastConfirmedMs = toMsOrNaN(coverage?.last_confirmed_change_utc);
     const lastEscalatedMs = toMsOrNaN(coverage?.last_escalated_utc);
     const resolutionMs = [lastConfirmedMs, lastEscalatedMs].filter((value) => Number.isFinite(value));
     const latestResolutionMs = resolutionMs.length > 0 ? Math.max(...resolutionMs) : Number.NaN;
     if (
       ageDays >= getNoConfirmEscalationDays() &&
-      Number.isFinite(firstSeenMs) &&
-      (!Number.isFinite(latestResolutionMs) || latestResolutionMs < firstSeenMs)
+      Number.isFinite(pendingSinceMs) &&
+      (!Number.isFinite(latestResolutionMs) || latestResolutionMs < pendingSinceMs)
     ) {
       coverageGaps.push(vendor);
     }
