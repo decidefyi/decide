@@ -1,38 +1,29 @@
 {
   "canva": {
-    "hash": "91e7b39f62dad0f6",
+    "hash": "49c16dcc523f932c",
     "count": 1,
-    "flip_count": 3,
+    "flip_count": 5,
     "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-18T01:28:48Z",
-    "last_seen_utc": "2026-02-18T01:28:48Z",
+    "first_seen_utc": "2026-02-18T07:06:18Z",
+    "last_seen_utc": "2026-02-18T07:06:18Z",
     "baseline_observations": 0
   },
-  "nordvpn": {
-    "hash": "2b10ce8783059da7",
+  "hinge": {
+    "hash": "ae12aaf98998e173",
     "count": 1,
     "flip_count": 1,
-    "source_url": "https://nordvpn.com/pricing/",
-    "first_seen_utc": "2026-02-18T01:28:53Z",
-    "last_seen_utc": "2026-02-18T01:28:53Z",
+    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+    "first_seen_utc": "2026-02-18T07:06:19Z",
+    "last_seen_utc": "2026-02-18T07:06:19Z",
     "baseline_observations": 0
   },
-  "peacock": {
-    "hash": "9d5ebe1adff952a6",
+  "soundcloud_go": {
+    "hash": "f89dc263e8d11e16",
     "count": 1,
     "flip_count": 1,
-    "source_url": "https://www.peacocktv.com/plans",
-    "first_seen_utc": "2026-02-18T01:28:52Z",
-    "last_seen_utc": "2026-02-18T01:28:52Z",
-    "baseline_observations": 0
-  },
-  "substack": {
-    "hash": "1fc132f3609dd8b1",
-    "count": 1,
-    "flip_count": 7,
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-18T01:28:58Z",
-    "last_seen_utc": "2026-02-18T01:28:58Z",
+    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+    "first_seen_utc": "2026-02-18T07:06:27Z",
+    "last_seen_utc": "2026-02-18T07:06:27Z",
     "baseline_observations": 0
   }
 }

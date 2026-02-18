@@ -1,20 +1,47 @@
 {
-  "myfitnesspal_premium": {
-    "hash": "16c1fa71e9dbbf3d",
+  "calm": {
+    "hash": "a09dfaaca132f515",
     "count": 1,
-    "flip_count": 18,
+    "flip_count": 1,
+    "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
+    "first_seen_utc": "2026-02-18T07:01:41Z",
+    "last_seen_utc": "2026-02-18T07:01:41Z",
+    "baseline_observations": 0
+  },
+  "canva": {
+    "hash": "6d34e8b463ae7896",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://www.canva.com/policies/terms-of-use/",
+    "first_seen_utc": "2026-02-18T07:01:43Z",
+    "last_seen_utc": "2026-02-18T07:01:43Z",
+    "baseline_observations": 0
+  },
+  "myfitnesspal_premium": {
+    "hash": "e219999df6799e8c",
+    "count": 1,
+    "flip_count": 20,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-18T01:24:34Z",
-    "last_seen_utc": "2026-02-18T01:24:34Z",
+    "first_seen_utc": "2026-02-18T07:01:59Z",
+    "last_seen_utc": "2026-02-18T07:01:59Z",
     "baseline_observations": 0
   },
   "substack": {
-    "hash": "3f28c09f903bcffe",
+    "hash": "20fab989e6c94724",
     "count": 1,
-    "flip_count": 7,
-    "source_url": "https://substack.com",
-    "first_seen_utc": "2026-02-18T01:25:21Z",
-    "last_seen_utc": "2026-02-18T01:25:21Z",
+    "flip_count": 9,
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "first_seen_utc": "2026-02-18T07:01:56Z",
+    "last_seen_utc": "2026-02-18T07:01:56Z",
+    "baseline_observations": 0
+  },
+  "soundcloud_go": {
+    "hash": "f89dc263e8d11e16",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+    "first_seen_utc": "2026-02-18T07:02:05Z",
+    "last_seen_utc": "2026-02-18T07:02:05Z",
     "baseline_observations": 0
   }
 }

@@ -1,83 +1,92 @@
 {
   "audible": {
-    "hash": "17a7b9b204ada1d0",
+    "hash": "318868da51995130",
     "count": 1,
-    "flip_count": 20,
+    "flip_count": 22,
     "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-    "first_seen_utc": "2026-02-18T01:21:24Z",
-    "last_seen_utc": "2026-02-18T01:21:24Z",
+    "first_seen_utc": "2026-02-18T06:58:01Z",
+    "last_seen_utc": "2026-02-18T06:58:01Z",
     "baseline_observations": 0
   },
   "canva": {
-    "hash": "a9b8afc8643db72c",
+    "hash": "cd18e6d5200fa647",
     "count": 1,
-    "flip_count": 20,
+    "flip_count": 22,
     "source_url": "https://www.canva.com/help/cancellation/",
-    "first_seen_utc": "2026-02-18T01:21:18Z",
-    "last_seen_utc": "2026-02-18T01:21:18Z",
+    "first_seen_utc": "2026-02-18T06:57:39Z",
+    "last_seen_utc": "2026-02-18T06:57:39Z",
     "baseline_observations": 0
   },
-  "dropbox_us": {
-    "hash": "0adfdc179206e059",
-    "count": 1,
-    "flip_count": 3,
-    "source_url": "https://help.dropbox.com/plans/cancel-plan",
-    "first_seen_utc": "2026-02-18T01:21:58Z",
-    "last_seen_utc": "2026-02-18T01:21:58Z",
-    "baseline_observations": 1
-  },
-  "grammarly": {
-    "hash": "e5adcea469f4a180",
+  "crunchyroll": {
+    "hash": "80ff2d77a4d4576e",
     "count": 1,
     "flip_count": 1,
+    "source_url": "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
+    "first_seen_utc": "2026-02-18T06:58:06Z",
+    "last_seen_utc": "2026-02-18T06:58:06Z",
+    "baseline_observations": 0
+  },
+  "evernote": {
+    "hash": "36a4c809605b53e6",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
+    "first_seen_utc": "2026-02-18T06:58:10Z",
+    "last_seen_utc": "2026-02-18T06:58:10Z",
+    "baseline_observations": 0
+  },
+  "grammarly": {
+    "hash": "180925e88982390f",
+    "count": 1,
+    "flip_count": 3,
     "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
-    "first_seen_utc": "2026-02-18T01:21:29Z",
-    "last_seen_utc": "2026-02-18T01:21:29Z",
+    "first_seen_utc": "2026-02-18T06:58:16Z",
+    "last_seen_utc": "2026-02-18T06:58:16Z",
     "baseline_observations": 0
   },
   "paramount_plus": {
-    "hash": "95e7e8fac62ca492",
+    "hash": "329341ddf58f1164",
     "count": 1,
-    "flip_count": 20,
+    "flip_count": 22,
     "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-    "first_seen_utc": "2026-02-18T01:22:14Z",
-    "last_seen_utc": "2026-02-18T01:22:14Z",
+    "first_seen_utc": "2026-02-18T06:58:25Z",
+    "last_seen_utc": "2026-02-18T06:58:25Z",
     "baseline_observations": 0
   },
   "twitch": {
-    "hash": "0bb6c8b7be99293f",
+    "hash": "c59e87e2f8a26996",
     "count": 1,
-    "flip_count": 20,
+    "flip_count": 22,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-    "first_seen_utc": "2026-02-18T01:22:22Z",
-    "last_seen_utc": "2026-02-18T01:22:22Z",
+    "first_seen_utc": "2026-02-18T06:58:32Z",
+    "last_seen_utc": "2026-02-18T06:58:32Z",
     "baseline_observations": 0
   },
   "fitbit_premium": {
-    "hash": "11599f6c5e8b45b2",
+    "hash": "097e29239b8d4baf",
     "count": 1,
-    "flip_count": 20,
+    "flip_count": 22,
     "source_url": "https://support.google.com/fitbit/",
-    "first_seen_utc": "2026-02-18T01:22:15Z",
-    "last_seen_utc": "2026-02-18T01:22:15Z",
+    "first_seen_utc": "2026-02-18T06:58:25Z",
+    "last_seen_utc": "2026-02-18T06:58:25Z",
     "baseline_observations": 0
   },
-  "myfitnesspal_premium": {
-    "hash": "48efd7de634c32b2",
+  "nfl_plus": {
+    "hash": "24f019911735559c",
     "count": 1,
     "flip_count": 1,
-    "source_url": "https://support.myfitnesspal.com/hc/en-us",
-    "first_seen_utc": "2026-02-18T01:22:19Z",
-    "last_seen_utc": "2026-02-18T01:22:19Z",
+    "source_url": "https://support.nfl.com/hc/en-us/articles/5402041435292-NFL-Subscription-Renewals-Cancellations",
+    "first_seen_utc": "2026-02-18T06:58:45Z",
+    "last_seen_utc": "2026-02-18T06:58:45Z",
     "baseline_observations": 0
   },
   "substack": {
-    "hash": "f5fa5608fc35aee4",
+    "hash": "9c2c688df8eb6cb4",
     "count": 1,
-    "flip_count": 1,
+    "flip_count": 2,
     "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-18T01:22:28Z",
-    "last_seen_utc": "2026-02-18T01:22:28Z",
+    "first_seen_utc": "2026-02-18T06:58:48Z",
+    "last_seen_utc": "2026-02-18T06:58:48Z",
     "baseline_observations": 0
   }
 }
