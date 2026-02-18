@@ -128,8 +128,12 @@
       "notes": "No free trial in US"
     },
     "doordash_dashpass": {
-      "url": "https://www.doordash.com/dashpass/",
-      "notes": "30-day DashPass trial"
+      "url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
+      "notes": "DashPass membership help and cancellation terms (includes trial and renewal context).",
+      "backup_urls": [
+        "https://www.doordash.com/dashpass/",
+        "https://www.doordash.com/consumer/terms/"
+      ]
     },
     "dropbox_us": {
       "url": "https://www.dropbox.com/plans",
