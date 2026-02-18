@@ -1,29 +1,29 @@
 {
   "canva": {
-    "hash": "bf4dca8284b0a26d",
+    "hash": "0a76d4cd7010a98a",
     "count": 1,
-    "flip_count": 3,
+    "flip_count": 5,
     "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-17T21:13:36Z",
-    "last_seen_utc": "2026-02-17T21:13:36Z",
-    "baseline_observations": 0
-  },
-  "espn_plus": {
-    "hash": "b0237bcf6bbda5f3",
-    "count": 1,
-    "flip_count": 3,
-    "source_url": "https://www.espn.com/espnplus/",
-    "first_seen_utc": "2026-02-17T21:13:31Z",
-    "last_seen_utc": "2026-02-17T21:13:31Z",
+    "first_seen_utc": "2026-02-18T01:16:29Z",
+    "last_seen_utc": "2026-02-18T01:16:29Z",
     "baseline_observations": 0
   },
   "myfitnesspal_premium": {
-    "hash": "f1d68c0845d7637e",
+    "hash": "a3acb8c6ff9af003",
     "count": 1,
-    "flip_count": 18,
+    "flip_count": 20,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-17T21:13:46Z",
-    "last_seen_utc": "2026-02-17T21:13:46Z",
+    "first_seen_utc": "2026-02-18T01:16:41Z",
+    "last_seen_utc": "2026-02-18T01:16:41Z",
+    "baseline_observations": 0
+  },
+  "substack": {
+    "hash": "1fc132f3609dd8b1",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "first_seen_utc": "2026-02-18T01:16:47Z",
+    "last_seen_utc": "2026-02-18T01:16:47Z",
     "baseline_observations": 0
   }
 }

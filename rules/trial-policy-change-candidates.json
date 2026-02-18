@@ -1,38 +1,38 @@
 {
-  "chatgpt_plus": {
-    "hash": "943f18d6cd7e1667",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://openai.com/chatgpt/pricing/",
-    "first_seen_utc": "2026-02-17T21:24:07Z",
-    "last_seen_utc": "2026-02-17T21:24:07Z",
-    "baseline_observations": 0
-  },
   "canva": {
-    "hash": "698941cef248e599",
+    "hash": "91e7b39f62dad0f6",
     "count": 1,
-    "flip_count": 1,
+    "flip_count": 3,
     "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-17T21:24:09Z",
-    "last_seen_utc": "2026-02-17T21:24:09Z",
+    "first_seen_utc": "2026-02-18T01:28:48Z",
+    "last_seen_utc": "2026-02-18T01:28:48Z",
     "baseline_observations": 0
   },
-  "twitch": {
-    "hash": "c9c0783352619a30",
+  "nordvpn": {
+    "hash": "2b10ce8783059da7",
     "count": 1,
-    "flip_count": 11,
-    "source_url": "https://www.twitch.tv/turbo",
-    "first_seen_utc": "2026-02-17T21:24:13Z",
-    "last_seen_utc": "2026-02-17T21:24:13Z",
+    "flip_count": 1,
+    "source_url": "https://nordvpn.com/pricing/",
+    "first_seen_utc": "2026-02-18T01:28:53Z",
+    "last_seen_utc": "2026-02-18T01:28:53Z",
+    "baseline_observations": 0
+  },
+  "peacock": {
+    "hash": "9d5ebe1adff952a6",
+    "count": 1,
+    "flip_count": 1,
+    "source_url": "https://www.peacocktv.com/plans",
+    "first_seen_utc": "2026-02-18T01:28:52Z",
+    "last_seen_utc": "2026-02-18T01:28:52Z",
     "baseline_observations": 0
   },
   "substack": {
-    "hash": "a075c0a26844f083",
+    "hash": "1fc132f3609dd8b1",
     "count": 1,
-    "flip_count": 5,
+    "flip_count": 7,
     "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-17T21:24:19Z",
-    "last_seen_utc": "2026-02-17T21:24:19Z",
-    "baseline_observations": 2
+    "first_seen_utc": "2026-02-18T01:28:58Z",
+    "last_seen_utc": "2026-02-18T01:28:58Z",
+    "baseline_observations": 0
   }
 }
