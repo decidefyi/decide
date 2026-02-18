@@ -1,29 +1,20 @@
 {
-  "canva": {
-    "hash": "49c16dcc523f932c",
-    "count": 1,
-    "flip_count": 5,
-    "source_url": "https://www.canva.com/pro/",
-    "first_seen_utc": "2026-02-18T07:06:18Z",
-    "last_seen_utc": "2026-02-18T07:06:18Z",
-    "baseline_observations": 0
-  },
   "hinge": {
-    "hash": "ae12aaf98998e173",
+    "hash": "708eef0a4d8b60ad",
     "count": 1,
-    "flip_count": 1,
+    "flip_count": 3,
     "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "first_seen_utc": "2026-02-18T07:06:19Z",
-    "last_seen_utc": "2026-02-18T07:06:19Z",
+    "first_seen_utc": "2026-02-18T09:04:37Z",
+    "last_seen_utc": "2026-02-18T09:04:37Z",
     "baseline_observations": 0
   },
-  "soundcloud_go": {
-    "hash": "f89dc263e8d11e16",
+  "substack": {
+    "hash": "f5fa5608fc35aee4",
     "count": 1,
     "flip_count": 1,
-    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-    "first_seen_utc": "2026-02-18T07:06:27Z",
-    "last_seen_utc": "2026-02-18T07:06:27Z",
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "first_seen_utc": "2026-02-18T09:04:46Z",
+    "last_seen_utc": "2026-02-18T09:04:46Z",
     "baseline_observations": 0
   }
 }

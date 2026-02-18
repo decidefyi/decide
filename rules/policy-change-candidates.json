@@ -1,56 +1,11 @@
 {
-  "canva": {
-    "hash": "4dd2409bddff5d96",
-    "count": 1,
-    "flip_count": 7,
-    "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-18T06:52:36Z",
-    "last_seen_utc": "2026-02-18T06:52:36Z",
-    "baseline_observations": 0
-  },
-  "grammarly": {
-    "hash": "180925e88982390f",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-    "first_seen_utc": "2026-02-18T06:53:03Z",
-    "last_seen_utc": "2026-02-18T06:53:03Z",
-    "baseline_observations": 0
-  },
-  "midjourney": {
-    "hash": "6a5833c2c5273b43",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-    "first_seen_utc": "2026-02-18T06:52:43Z",
-    "last_seen_utc": "2026-02-18T06:52:43Z",
-    "baseline_observations": 0
-  },
-  "dashlane": {
-    "hash": "49c1675725ee1c85",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-    "first_seen_utc": "2026-02-18T06:53:08Z",
-    "last_seen_utc": "2026-02-18T06:53:08Z",
-    "baseline_observations": 0
-  },
   "myfitnesspal_premium": {
-    "hash": "073832b96f4f5486",
+    "hash": "f777c5b6f147f4e0",
     "count": 1,
-    "flip_count": 22,
+    "flip_count": 24,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-18T06:53:11Z",
-    "last_seen_utc": "2026-02-18T06:53:11Z",
-    "baseline_observations": 0
-  },
-  "substack": {
-    "hash": "f5fa5608fc35aee4",
-    "count": 1,
-    "flip_count": 3,
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-18T06:53:33Z",
-    "last_seen_utc": "2026-02-18T06:53:33Z",
+    "first_seen_utc": "2026-02-18T08:51:39Z",
+    "last_seen_utc": "2026-02-18T08:51:39Z",
     "baseline_observations": 0
   }
 }

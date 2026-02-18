@@ -1,47 +1,29 @@
 {
-  "calm": {
-    "hash": "a09dfaaca132f515",
+  "midjourney": {
+    "hash": "f992155a8ebbbb53",
     "count": 1,
-    "flip_count": 1,
-    "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-    "first_seen_utc": "2026-02-18T07:01:41Z",
-    "last_seen_utc": "2026-02-18T07:01:41Z",
-    "baseline_observations": 0
-  },
-  "canva": {
-    "hash": "6d34e8b463ae7896",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "first_seen_utc": "2026-02-18T07:01:43Z",
-    "last_seen_utc": "2026-02-18T07:01:43Z",
+    "flip_count": 0,
+    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
+    "first_seen_utc": "2026-02-18T09:00:07Z",
+    "last_seen_utc": "2026-02-18T09:00:07Z",
     "baseline_observations": 0
   },
   "myfitnesspal_premium": {
-    "hash": "e219999df6799e8c",
+    "hash": "a619cb7fb54f2fe9",
     "count": 1,
-    "flip_count": 20,
+    "flip_count": 21,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "first_seen_utc": "2026-02-18T07:01:59Z",
-    "last_seen_utc": "2026-02-18T07:01:59Z",
+    "first_seen_utc": "2026-02-18T09:00:33Z",
+    "last_seen_utc": "2026-02-18T09:00:33Z",
     "baseline_observations": 0
   },
   "substack": {
-    "hash": "20fab989e6c94724",
+    "hash": "23fa85dbd1c94013",
     "count": 1,
-    "flip_count": 9,
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "first_seen_utc": "2026-02-18T07:01:56Z",
-    "last_seen_utc": "2026-02-18T07:01:56Z",
-    "baseline_observations": 0
-  },
-  "soundcloud_go": {
-    "hash": "f89dc263e8d11e16",
-    "count": 1,
-    "flip_count": 1,
-    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-    "first_seen_utc": "2026-02-18T07:02:05Z",
-    "last_seen_utc": "2026-02-18T07:02:05Z",
+    "flip_count": 11,
+    "source_url": "https://substack.com/going-paid",
+    "first_seen_utc": "2026-02-18T09:01:16Z",
+    "last_seen_utc": "2026-02-18T09:01:16Z",
     "baseline_observations": 0
   }
 }
