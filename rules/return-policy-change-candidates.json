@@ -1,32 +1,12 @@
 {
-  "calm": {
-    "hash": "d0fcb92a8b1a4efc",
-    "count": 1,
-    "flip_count": 2,
-    "source_url": "https://www.calm.com/terms",
-    "pending_since_utc": "2026-02-18T12:46:48Z",
-    "first_seen_utc": "2026-02-18T12:49:00Z",
-    "last_seen_utc": "2026-02-18T12:49:00Z",
-    "baseline_observations": 0
-  },
-  "canva": {
-    "hash": "15bcf3b3809f9aa4",
-    "count": 1,
-    "flip_count": 2,
-    "source_url": "https://www.canva.com/help/",
-    "pending_since_utc": "2026-02-18T12:46:54Z",
-    "first_seen_utc": "2026-02-18T12:49:02Z",
-    "last_seen_utc": "2026-02-18T12:49:02Z",
-    "baseline_observations": 0
-  },
   "myfitnesspal_premium": {
-    "hash": "bdd999c09fd69b5f",
+    "hash": "9398bcd9ae0e07d8",
     "count": 1,
-    "flip_count": 25,
+    "flip_count": 28,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T09:00:33Z",
-    "first_seen_utc": "2026-02-18T12:48:51Z",
-    "last_seen_utc": "2026-02-18T12:48:51Z",
+    "first_seen_utc": "2026-02-18T18:49:55Z",
+    "last_seen_utc": "2026-02-18T18:49:55Z",
     "baseline_observations": 0
   }
 }

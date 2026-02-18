@@ -1,52 +1,52 @@
 {
-  "audible": {
-    "hash": "bd73ceb6d92aec20",
-    "count": 1,
-    "flip_count": 2,
-    "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-    "pending_since_utc": "2026-02-18T12:40:48Z",
-    "first_seen_utc": "2026-02-18T12:45:45Z",
-    "last_seen_utc": "2026-02-18T12:45:45Z",
-    "baseline_observations": 0
-  },
   "canva": {
-    "hash": "51b9629c52f94ecf",
+    "hash": "c2ed249bacdcd168",
     "count": 1,
-    "flip_count": 30,
+    "flip_count": 33,
     "source_url": "https://www.canva.com/help/cancellation/",
     "pending_since_utc": "2026-02-18T08:56:18Z",
-    "first_seen_utc": "2026-02-18T12:45:42Z",
-    "last_seen_utc": "2026-02-18T12:45:42Z",
+    "first_seen_utc": "2026-02-18T18:47:00Z",
+    "last_seen_utc": "2026-02-18T18:47:00Z",
+    "baseline_observations": 0
+  },
+  "grammarly": {
+    "hash": "c4982f46749a6ceb",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
+    "pending_since_utc": "2026-02-18T18:43:23Z",
+    "first_seen_utc": "2026-02-18T18:46:59Z",
+    "last_seen_utc": "2026-02-18T18:46:59Z",
     "baseline_observations": 0
   },
   "paramount_plus": {
-    "hash": "474343cfafab4d28",
+    "hash": "49931afda79f3dc4",
     "count": 1,
-    "flip_count": 29,
+    "flip_count": 32,
     "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-18T12:45:57Z",
-    "last_seen_utc": "2026-02-18T12:45:57Z",
+    "first_seen_utc": "2026-02-18T18:47:17Z",
+    "last_seen_utc": "2026-02-18T18:47:17Z",
     "baseline_observations": 0
   },
   "twitch": {
-    "hash": "655f4daab1a680e2",
+    "hash": "6271f0c467469e42",
     "count": 1,
-    "flip_count": 29,
+    "flip_count": 32,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
     "pending_since_utc": "2026-02-18T08:57:57Z",
-    "first_seen_utc": "2026-02-18T12:46:05Z",
-    "last_seen_utc": "2026-02-18T12:46:05Z",
+    "first_seen_utc": "2026-02-18T18:47:15Z",
+    "last_seen_utc": "2026-02-18T18:47:15Z",
     "baseline_observations": 0
   },
   "fitbit_premium": {
-    "hash": "9593bf76a5d703a3",
+    "hash": "a7a2c13018222687",
     "count": 1,
-    "flip_count": 30,
+    "flip_count": 33,
     "source_url": "https://support.google.com/fitbit/",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-18T12:45:58Z",
-    "last_seen_utc": "2026-02-18T12:45:58Z",
+    "first_seen_utc": "2026-02-18T18:47:08Z",
+    "last_seen_utc": "2026-02-18T18:47:08Z",
     "baseline_observations": 0
   }
 }
