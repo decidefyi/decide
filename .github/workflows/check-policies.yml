@@ -395,6 +395,13 @@ jobs:
               );
 
               if (existingToday) {
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existingToday.number,
+                  title,
+                  body
+                });
                 await github.rest.issues.createComment({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
