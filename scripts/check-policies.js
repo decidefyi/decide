@@ -151,6 +151,23 @@ const VENDOR_STABILITY_KEYWORDS = {
   midjourney: ["midjourney", "subscription", "billing", "cancel"],
   crunchyroll: ["crunchyroll premium", "subscription", "cancel", "billing"],
 };
+// Targeted noise-reduction overrides for persistently volatile vendors.
+// Keep this list intentionally small and explicit.
+const ESCALATION_FLIP_THRESHOLD_OVERRIDES = {
+  refund: {
+    myfitnesspal_premium: 30,
+  },
+  cancel: {
+    audible: 30,
+    canva: 30,
+    fitbit_premium: 30,
+    paramount_plus: 30,
+    twitch: 30,
+  },
+  return: {
+    myfitnesspal_premium: 30,
+  },
+};
 const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v1";
 
 const isUpdate = process.argv.includes("--update");
@@ -400,6 +417,25 @@ function getEscalationFlipThreshold() {
   return Math.max(1, CHECKER_CONFIG.escalationFlipThreshold);
 }
 
+function getEscalationFlipThresholdForVendor(policyName, vendor) {
+  const defaultThreshold = getEscalationFlipThreshold();
+  if (typeof policyName !== "string" || typeof vendor !== "string") {
+    return { threshold: defaultThreshold, overridden: false };
+  }
+  const policyOverrides = ESCALATION_FLIP_THRESHOLD_OVERRIDES[policyName];
+  if (!policyOverrides || typeof policyOverrides !== "object") {
+    return { threshold: defaultThreshold, overridden: false };
+  }
+  const overrideValue = Number(policyOverrides[vendor]);
+  if (!Number.isFinite(overrideValue)) {
+    return { threshold: defaultThreshold, overridden: false };
+  }
+  return {
+    threshold: Math.max(1, Math.floor(overrideValue)),
+    overridden: true,
+  };
+}
+
 function getNoConfirmEscalationDays() {
   if (!Number.isFinite(CHECKER_CONFIG.noConfirmEscalationDays)) return 7;
   return Math.max(1, CHECKER_CONFIG.noConfirmEscalationDays);
@@ -644,6 +680,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       crossRunWindowHeld: [],
       escalatedPending: [],
       escalatedReasons: {},
+      escalationFlipOverrides: {},
       coverageGaps: [],
     };
   }
@@ -959,11 +996,19 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const volatilePending = [];
   const escalatedPending = [];
   const escalatedReasons = {};
+  const escalationFlipOverrides = {};
   const coverageGaps = [];
   const summaryNowMs = Date.now();
   for (const [vendor, candidate] of Object.entries(newCandidates)) {
     const ageDays = getCandidateAgeDays(candidate, summaryNowMs);
     const flipCount = Number(candidate?.flip_count || 0);
+    const escalationFlipConfig = getEscalationFlipThresholdForVendor(name, vendor);
+    if (escalationFlipConfig.overridden) {
+      escalationFlipOverrides[vendor] = {
+        threshold: escalationFlipConfig.threshold,
+        flipCount,
+      };
+    }
     if (ageDays >= getStalePendingDays()) {
       stalePending.push(vendor);
     }
@@ -980,8 +1025,12 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     if (ageDays >= getEscalationPendingDays()) {
       escalationReasons.push(`pending_age_days>=${getEscalationPendingDays()}`);
     }
-    if (flipCount >= getEscalationFlipThreshold()) {
-      escalationReasons.push(`flip_count>=${getEscalationFlipThreshold()}`);
+    if (flipCount >= escalationFlipConfig.threshold) {
+      escalationReasons.push(
+        escalationFlipConfig.overridden
+          ? `flip_count>=${escalationFlipConfig.threshold}(override)`
+          : `flip_count>=${escalationFlipConfig.threshold}`
+      );
     }
     if (escalationReasons.length > 0) {
       escalatedPending.push(vendor);
@@ -1064,6 +1113,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     crossRunWindowHeld: [...crossRunWindowHeldSet].sort((a, b) => a.localeCompare(b)),
     escalatedPending,
     escalatedReasons,
+    escalationFlipOverrides,
     coverageGaps,
   };
 }
@@ -1158,6 +1208,16 @@ async function main() {
       const volatileNames = sortedLimitedVendors(result.volatilePending, getPendingDetailLimit());
       console.log(
         `::notice::${result.name}: volatile_pending=${result.volatilePending.length} (flip_count>=${getVolatileFlipThreshold()}); first ${volatileNames.length}: ${volatileNames.join(", ")}`
+      );
+    }
+    const escalationOverrideEntries = Object.entries(result.escalationFlipOverrides || {});
+    if (escalationOverrideEntries.length > 0) {
+      const sampledOverrideEntries = escalationOverrideEntries
+        .sort(([a], [b]) => a.localeCompare(b))
+        .slice(0, getPendingDetailLimit())
+        .map(([vendor, details]) => `${vendor}(flip=${details.flipCount},threshold=${details.threshold})`);
+      console.log(
+        `::notice::${result.name}: escalation_flip_threshold_override_applied=${escalationOverrideEntries.length}; first ${sampledOverrideEntries.length}: ${sampledOverrideEntries.join(", ")}`
       );
     }
     if (result.escalatedPending.length > 0) {
