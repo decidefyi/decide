@@ -43,6 +43,13 @@ jobs:
             local key="$1"
             echo "$output" | sed -n "s/^${key}=//p" | tail -n1 | tr -d '\r'
           }
+          observed_changed_count=$(extract_output_value "OBSERVED_CHANGED_COUNT" | tr -d '[:space:]')
+          observed_changed_by_policy=$(extract_output_value "OBSERVED_CHANGED_BY_POLICY")
+          observed_changed_sample=$(extract_output_value "OBSERVED_CHANGED_SAMPLE")
+          material_changed_count=$(extract_output_value "MATERIAL_CHANGED_COUNT" | tr -d '[:space:]')
+          material_changed_by_policy=$(extract_output_value "MATERIAL_CHANGED_BY_POLICY")
+          material_changed_sample=$(extract_output_value "MATERIAL_CHANGED_SAMPLE")
+          material_diff_sample=$(extract_output_value "MATERIAL_DIFF_SAMPLE")
           changed_count=$(extract_output_value "CHANGED_COUNT" | tr -d '[:space:]')
           changed_by_policy=$(extract_output_value "CHANGED_BY_POLICY")
           changed_sample=$(extract_output_value "CHANGED_SAMPLE")
@@ -64,17 +71,26 @@ jobs:
           coverage_gap_by_policy=$(extract_output_value "COVERAGE_GAP_BY_POLICY")
           coverage_gap_sample=$(extract_output_value "COVERAGE_GAP_SAMPLE")
 
-          if [ -n "$changed_count" ]; then
-            echo "changed_count=$changed_count" >> "$GITHUB_OUTPUT"
-            echo "changed_by_policy=$changed_by_policy" >> "$GITHUB_OUTPUT"
-            echo "changed_sample=$changed_sample" >> "$GITHUB_OUTPUT"
-          fi
-
+          if [ -z "$material_changed_count" ]; then material_changed_count=0; fi
+          if [ -z "$observed_changed_count" ]; then observed_changed_count=0; fi
+          if [ -z "$changed_count" ]; then changed_count=$material_changed_count; fi
+          if [ -z "$changed_by_policy" ]; then changed_by_policy="$material_changed_by_policy"; fi
+          if [ -z "$changed_sample" ]; then changed_sample="$material_changed_sample"; fi
           if [ -z "$pending_count" ]; then pending_count=0; fi
           if [ -z "$stale_pending_count" ]; then stale_pending_count=0; fi
           if [ -z "$volatile_pending_count" ]; then volatile_pending_count=0; fi
           if [ -z "$escalation_count" ]; then escalation_count=0; fi
           if [ -z "$coverage_gap_count" ]; then coverage_gap_count=0; fi
+          echo "observed_changed_count=$observed_changed_count" >> "$GITHUB_OUTPUT"
+          echo "observed_changed_by_policy=$observed_changed_by_policy" >> "$GITHUB_OUTPUT"
+          echo "observed_changed_sample=$observed_changed_sample" >> "$GITHUB_OUTPUT"
+          echo "material_changed_count=$material_changed_count" >> "$GITHUB_OUTPUT"
+          echo "material_changed_by_policy=$material_changed_by_policy" >> "$GITHUB_OUTPUT"
+          echo "material_changed_sample=$material_changed_sample" >> "$GITHUB_OUTPUT"
+          echo "material_diff_sample=$material_diff_sample" >> "$GITHUB_OUTPUT"
+          echo "changed_count=$changed_count" >> "$GITHUB_OUTPUT"
+          echo "changed_by_policy=$changed_by_policy" >> "$GITHUB_OUTPUT"
+          echo "changed_sample=$changed_sample" >> "$GITHUB_OUTPUT"
           echo "pending_count=$pending_count" >> "$GITHUB_OUTPUT"
           echo "pending_by_policy=$pending_by_policy" >> "$GITHUB_OUTPUT"
           echo "pending_sample=$pending_sample" >> "$GITHUB_OUTPUT"
@@ -115,6 +131,10 @@ jobs:
             rules/cancel-policy-coverage-state.json
             rules/return-policy-coverage-state.json
             rules/trial-policy-coverage-state.json
+            rules/policy-semantic-state.json
+            rules/cancel-policy-semantic-state.json
+            rules/return-policy-semantic-state.json
+            rules/trial-policy-semantic-state.json
           )
 
           existing=()
@@ -166,10 +186,17 @@ jobs:
           exit 0
 
       - name: Open issue if policies changed or candidates pending
-        if: (steps.check.outputs.changed_count && steps.check.outputs.changed_count != '0') || (steps.check.outputs.pending_count && steps.check.outputs.pending_count != '0')
+        if: (steps.check.outputs.material_changed_count && steps.check.outputs.material_changed_count != '0') || (steps.check.outputs.pending_count && steps.check.outputs.pending_count != '0')
         continue-on-error: true
         uses: actions/github-script@v7
         env:
+          OBSERVED_CHANGED_COUNT: ${{ steps.check.outputs.observed_changed_count }}
+          OBSERVED_CHANGED_BY_POLICY: ${{ steps.check.outputs.observed_changed_by_policy }}
+          OBSERVED_CHANGED_SAMPLE: ${{ steps.check.outputs.observed_changed_sample }}
+          MATERIAL_CHANGED_COUNT: ${{ steps.check.outputs.material_changed_count }}
+          MATERIAL_CHANGED_BY_POLICY: ${{ steps.check.outputs.material_changed_by_policy }}
+          MATERIAL_CHANGED_SAMPLE: ${{ steps.check.outputs.material_changed_sample }}
+          MATERIAL_DIFF_SAMPLE: ${{ steps.check.outputs.material_diff_sample }}
           CHANGED_COUNT: ${{ steps.check.outputs.changed_count }}
           CHANGED_BY_POLICY: ${{ steps.check.outputs.changed_by_policy }}
           CHANGED_SAMPLE: ${{ steps.check.outputs.changed_sample }}
@@ -193,9 +220,16 @@ jobs:
         with:
           retries: 3
           script: |
-            const changedCount = Number.parseInt(process.env.CHANGED_COUNT || '0', 10) || 0;
-            const changedByPolicy = process.env.CHANGED_BY_POLICY || '';
-            const changedSample = process.env.CHANGED_SAMPLE || '';
+            const observedCount = Number.parseInt(process.env.OBSERVED_CHANGED_COUNT || '0', 10) || 0;
+            const observedByPolicy = process.env.OBSERVED_CHANGED_BY_POLICY || '';
+            const observedSample = process.env.OBSERVED_CHANGED_SAMPLE || '';
+            const materialCount = Number.parseInt(process.env.MATERIAL_CHANGED_COUNT || '0', 10) || 0;
+            const materialByPolicy = process.env.MATERIAL_CHANGED_BY_POLICY || '';
+            const materialSample = process.env.MATERIAL_CHANGED_SAMPLE || '';
+            const materialDiffSample = process.env.MATERIAL_DIFF_SAMPLE || '';
+            const changedCount = Number.parseInt(process.env.CHANGED_COUNT || String(materialCount), 10) || materialCount;
+            const changedByPolicy = process.env.CHANGED_BY_POLICY || materialByPolicy;
+            const changedSample = process.env.CHANGED_SAMPLE || materialSample;
             const pendingCount = Number.parseInt(process.env.PENDING_COUNT || '0', 10) || 0;
             const pendingByPolicy = process.env.PENDING_BY_POLICY || '';
             const pendingSample = process.env.PENDING_SAMPLE || '';
@@ -214,18 +248,24 @@ jobs:
             const coverageGapByPolicy = process.env.COVERAGE_GAP_BY_POLICY || '';
             const coverageGapSample = process.env.COVERAGE_GAP_SAMPLE || '';
             const today = new Date().toISOString().split('T')[0];
-            const changedTitlePrefix = `Policy page content changed (${today}):`;
+            const changedTitlePrefix = `Policy material changes (${today}):`;
             const pendingTitlePrefix = `Policy page checker pending candidates (${today}):`;
             const legacyChangedTitlePrefix = `Policy pages changed (${today}):`;
             const legacyPendingTitlePrefix = `Policy checker pending candidates (${today}):`;
-            const sampleList = changedSample
+            const sampleList = materialSample
               .split(',')
               .map((s) => s.trim())
               .filter(Boolean)
               .slice(0, 10)
               .map((item) => `- \`${item}\``)
               .join('\n');
-            const byPolicyList = changedByPolicy
+            const materialByPolicyList = materialByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
+            const observedByPolicyList = observedByPolicy
               .split(',')
               .map((s) => s.trim())
               .filter(Boolean)
@@ -296,17 +336,21 @@ jobs:
               .filter(Boolean)
               .join('\n');
 
-            const title = changedCount > 0
-              ? `Policy page content changed (${today}): ${changedCount} vendor(s)`
-              : `Policy page checker pending candidates (${today}): ${pendingCount} vendor(s)`;
+            const title = materialCount > 0
+              ? `Policy material changes (${today}): ${materialCount} vendor(s)`
+              : `Policy page checker pending candidates (${today}): ${pendingCount} candidate(s)`;
             const body = [
               "## Policy checker summary",
               "",
-              `Confirmed policy-page content changes: **${changedCount}**`,
+              `Material policy changes: **${materialCount}**`,
+              `Observed page-content changes: **${observedCount}**`,
               `Pending candidates (needs confirmation): **${pendingCount}**`,
               "",
-              changedByPolicy ? "### Confirmed by policy\n" + byPolicyList + "\n" : "",
+              materialByPolicy ? "### By policy\n" + materialByPolicyList + "\n" : "",
               sampleList ? "### Confirmed sample (first 10)\n" + sampleList + "\n" : "",
+              materialDiffSample ? `Material diff sample: \`${materialDiffSample}\`\n` : "",
+              observedByPolicy ? "### Observed by policy\n" + observedByPolicyList + "\n" : "",
+              observedSample ? `Observed sample: \`${observedSample}\`\n` : "",
               pendingByPolicy ? "### Pending by policy\n" + pendingByPolicyList + "\n" : "",
               pendingDetailList ? "### Pending vendors (first slice per policy)\n" + pendingDetailList + "\n" : "",
               pendingSample ? `Pending sample: \`${pendingSample}\`\n` : "",
@@ -319,6 +363,10 @@ jobs:
               "- `rules/cancel-policy-change-candidates.json`",
               "- `rules/return-policy-change-candidates.json`",
               "- `rules/trial-policy-change-candidates.json`",
+              "- `rules/policy-semantic-state.json`",
+              "- `rules/cancel-policy-semantic-state.json`",
+              "- `rules/return-policy-semantic-state.json`",
+              "- `rules/trial-policy-semantic-state.json`",
               "",
               `Run: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
               "",
@@ -354,9 +402,11 @@ jobs:
                   body: [
                     `New run update: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
                     "",
-                    `Confirmed policy-page content changes: **${changedCount}**`,
+                    `Material policy changes: **${materialCount}**`,
+                    `Observed page-content changes: **${observedCount}**`,
                     `Pending candidates (needs confirmation): **${pendingCount}**`,
-                    changedByPolicy ? `Confirmed by policy: ${changedByPolicy}` : "",
+                    materialByPolicy ? `Material by policy: ${materialByPolicy}` : "",
+                    observedByPolicy ? `Observed by policy: ${observedByPolicy}` : "",
                     pendingByPolicy ? `Pending by policy: ${pendingByPolicy}` : "",
                     pendingDetail ? `Pending detail: ${pendingDetail}` : "",
                     stalePendingCount > 0 ? `Stale pending: ${stalePendingCount} (${stalePendingByPolicy || 'by-policy-unavailable'})` : "",
@@ -364,7 +414,9 @@ jobs:
                     escalationCount > 0 ? `Escalation candidates: ${escalationCount} (${escalationByPolicy || 'by-policy-unavailable'})` : "",
                     escalationDetail ? `Escalation detail: ${escalationDetail}` : "",
                     coverageGapCount > 0 ? `Coverage gaps: ${coverageGapCount} (${coverageGapByPolicy || 'by-policy-unavailable'})` : "",
-                    changedSample ? `Confirmed sample: ${changedSample}` : "",
+                    materialSample ? `Material sample: ${materialSample}` : "",
+                    materialDiffSample ? `Material diff sample: ${materialDiffSample}` : "",
+                    observedSample ? `Observed sample: ${observedSample}` : "",
                     escalationSample ? `Escalation sample: ${escalationSample}` : "",
                     coverageGapSample ? `Coverage gap sample: ${coverageGapSample}` : "",
                     pendingSample ? `Pending sample: ${pendingSample}` : ""

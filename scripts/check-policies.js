@@ -50,6 +50,7 @@ const POLICY_SETS = [
     hashesPath: join(__dirname, "..", "rules", "policy-hashes.json"),
     candidatesPath: join(__dirname, "..", "rules", "policy-change-candidates.json"),
     coveragePath: join(__dirname, "..", "rules", "policy-coverage-state.json"),
+    semanticPath: join(__dirname, "..", "rules", "policy-semantic-state.json"),
     rulesFile: "v1_us_individual.json",
   },
   {
@@ -58,6 +59,7 @@ const POLICY_SETS = [
     hashesPath: join(__dirname, "..", "rules", "cancel-policy-hashes.json"),
     candidatesPath: join(__dirname, "..", "rules", "cancel-policy-change-candidates.json"),
     coveragePath: join(__dirname, "..", "rules", "cancel-policy-coverage-state.json"),
+    semanticPath: join(__dirname, "..", "rules", "cancel-policy-semantic-state.json"),
     rulesFile: "v1_us_individual_cancel.json",
   },
   {
@@ -66,6 +68,7 @@ const POLICY_SETS = [
     hashesPath: join(__dirname, "..", "rules", "return-policy-hashes.json"),
     candidatesPath: join(__dirname, "..", "rules", "return-policy-change-candidates.json"),
     coveragePath: join(__dirname, "..", "rules", "return-policy-coverage-state.json"),
+    semanticPath: join(__dirname, "..", "rules", "return-policy-semantic-state.json"),
     rulesFile: "v1_us_individual_return.json",
   },
   {
@@ -74,6 +77,7 @@ const POLICY_SETS = [
     hashesPath: join(__dirname, "..", "rules", "trial-policy-hashes.json"),
     candidatesPath: join(__dirname, "..", "rules", "trial-policy-change-candidates.json"),
     coveragePath: join(__dirname, "..", "rules", "trial-policy-coverage-state.json"),
+    semanticPath: join(__dirname, "..", "rules", "trial-policy-semantic-state.json"),
     rulesFile: "v1_us_individual_trial.json",
   },
 ];
@@ -339,6 +343,175 @@ function normalizeFetchedText(rawText, policyType = "default", vendorKey = "") {
   const focused = extractPolicyFocusedText(deduped, policyType);
   if (focused) return focused;
   return deduped.join("\n");
+}
+
+function normalizeSemanticTokens(tokens) {
+  if (!Array.isArray(tokens)) return [];
+  const normalized = tokens
+    .map((token) => String(token || "").trim().toLowerCase())
+    .filter(Boolean);
+  return [...new Set(normalized)].sort((a, b) => a.localeCompare(b));
+}
+
+function extractDurationTokens(text, anchors = [], tokenPrefix = "window_days") {
+  const output = new Set();
+  if (!text) return output;
+  const anchorPattern = anchors
+    .filter((anchor) => typeof anchor === "string" && anchor.trim())
+    .map((anchor) => escapeRegexLiteral(anchor.trim()))
+    .join("|");
+  const anchorRegex = anchorPattern ? new RegExp(`\\b(?:${anchorPattern})\\b`, "i") : null;
+  const durationRegex = /(\d{1,3})\s*(day|days|week|weeks|month|months|year|years)\b/gi;
+  let match;
+  while ((match = durationRegex.exec(text)) !== null) {
+    const value = Number.parseInt(match[1], 10);
+    if (!Number.isFinite(value) || value <= 0) continue;
+    const unit = String(match[2] || "").toLowerCase();
+    let days = value;
+    if (unit.startsWith("week")) days = value * 7;
+    if (unit.startsWith("month")) days = value * 30;
+    if (unit.startsWith("year")) days = value * 365;
+    if (days <= 0 || days > 366) continue;
+    const contextStart = Math.max(0, match.index - 80);
+    const contextEnd = Math.min(text.length, durationRegex.lastIndex + 80);
+    const context = text.slice(contextStart, contextEnd);
+    if (anchorRegex && !anchorRegex.test(context)) continue;
+    output.add(`${tokenPrefix}:${days}`);
+  }
+  return output;
+}
+
+function extractSemanticTokens(text, policyType = "default") {
+  const normalizedText = String(text || "").toLowerCase();
+  const tokens = new Set();
+  if (!normalizedText.trim()) return [];
+
+  const addIfMatch = (token, regex) => {
+    if (regex.test(normalizedText)) tokens.add(token);
+  };
+
+  // Cross-policy structural tokens.
+  addIfMatch("billing:auto_renew", /\b(auto[-\s]?renew|renews?\s+automatically|automatic renewal)\b/i);
+  addIfMatch("restriction:no_refund_or_final_sale", /\b(no refunds?|non[-\s]?refundable|final sale|all sales final)\b/i);
+  addIfMatch("risk:chargeback_or_dispute", /\b(chargeback|dispute)\b/i);
+  addIfMatch("flow:support_request", /\b(contact support|support request|submit (a )?(request|ticket)|reach out to support)\b/i);
+  addIfMatch("billing:prorated", /\b(pro[-\s]?rated|prorated|pro rata)\b/i);
+
+  if (policyType === "refund") {
+    addIfMatch("refund:allowed_language", /\b(refunds?\s+(are|is)\s+(available|eligible)|eligible for refunds?|money[-\s]?back)\b/i);
+    addIfMatch("refund:partial_allowed", /\b(partial refunds?|pro[-\s]?rated refunds?)\b/i);
+    addIfMatch("refund:store_credit_only", /\b(store credit|account credit|credits? only)\b/i);
+    for (const token of extractDurationTokens(
+      normalizedText,
+      ["refund", "money back", "chargeback", "dispute", "purchase", "billing"],
+      "refund_window_days"
+    )) {
+      tokens.add(token);
+    }
+  } else if (policyType === "cancel") {
+    addIfMatch("cancel:anytime", /\b(cancel any ?time|cancel at any time|can cancel anytime)\b/i);
+    addIfMatch("cancel:non_cancellable", /\b(cannot cancel|can't cancel|non[-\s]?cancellable|no cancellation)\b/i);
+    addIfMatch("cancel:fee_or_penalty", /\b(cancellation fee|cancel(?:lation)? penalty|early termination fee|termination fee|penalty fee)\b/i);
+    addIfMatch("cancel:effective_end_of_term", /\b(end of (the )?(current )?(billing|subscription) period)\b/i);
+    for (const token of extractDurationTokens(
+      normalizedText,
+      ["cancel", "cancellation", "terminate", "termination", "renew", "billing"],
+      "cancel_window_days"
+    )) {
+      tokens.add(token);
+    }
+  } else if (policyType === "return") {
+    addIfMatch("return:restocking_fee", /\b(restocking fee)\b/i);
+    addIfMatch("return:shipping_costs", /\b(return shipping|shipping costs?|shipping fee)\b/i);
+    addIfMatch("return:condition_unopened_or_unused", /\b(unopened|unused|original packaging|in original condition)\b/i);
+    for (const token of extractDurationTokens(
+      normalizedText,
+      ["return", "returned", "exchange", "item", "product", "delivery"],
+      "return_window_days"
+    )) {
+      tokens.add(token);
+    }
+  } else if (policyType === "trial") {
+    addIfMatch("trial:auto_converts_to_paid", /\b(trial.*(auto[-\s]?renew|billed|charged)|after (the )?trial.*(billed|charged|renews?))\b/i);
+    addIfMatch("trial:payment_method_required", /\b(card required|credit card required|payment method required)\b/i);
+    addIfMatch("trial:cancel_before_end", /\b(cancel before .*trial (ends?|end)|before trial ends?\s*,?\s*cancel)\b/i);
+    for (const token of extractDurationTokens(
+      normalizedText,
+      ["trial", "free trial", "introductory", "promo", "promotion"],
+      "trial_window_days"
+    )) {
+      tokens.add(token);
+    }
+  }
+
+  return [...tokens].sort((a, b) => a.localeCompare(b));
+}
+
+function buildSemanticProfile(text, policyType, metadata = {}) {
+  const sourceHash = typeof metadata.hash === "string" ? metadata.hash : "";
+  const sourceUrl = typeof metadata.sourceUrl === "string" ? metadata.sourceUrl : "";
+  const extractedAtUtc =
+    typeof metadata.extractedAtUtc === "string" && metadata.extractedAtUtc
+      ? metadata.extractedAtUtc
+      : utcIsoTimestamp();
+  return {
+    hash: sourceHash,
+    source_url: sourceUrl,
+    extracted_at_utc: extractedAtUtc,
+    tokens: normalizeSemanticTokens(extractSemanticTokens(text, policyType)),
+  };
+}
+
+function normalizeSemanticProfile(input, metadata = {}) {
+  if (!input || typeof input !== "object") {
+    return buildSemanticProfile("", "default", metadata);
+  }
+  return {
+    hash: typeof input.hash === "string" && input.hash ? input.hash : (metadata.hash || ""),
+    source_url:
+      typeof input.source_url === "string"
+        ? input.source_url
+        : (typeof metadata.sourceUrl === "string" ? metadata.sourceUrl : ""),
+    extracted_at_utc:
+      typeof input.extracted_at_utc === "string" && input.extracted_at_utc
+        ? input.extracted_at_utc
+        : (typeof metadata.extractedAtUtc === "string" ? metadata.extractedAtUtc : utcIsoTimestamp()),
+    tokens: normalizeSemanticTokens(input.tokens),
+  };
+}
+
+function diffSemanticProfiles(previousProfile, nextProfile) {
+  const hasPrevious = Boolean(previousProfile && Array.isArray(previousProfile.tokens));
+  const previousTokens = hasPrevious ? normalizeSemanticTokens(previousProfile.tokens) : [];
+  const nextTokens = normalizeSemanticTokens(nextProfile?.tokens);
+  if (!hasPrevious) {
+    return {
+      material: false,
+      baselineMissing: true,
+      added: [],
+      removed: [],
+    };
+  }
+  const previousSet = new Set(previousTokens);
+  const nextSet = new Set(nextTokens);
+  const added = nextTokens.filter((token) => !previousSet.has(token));
+  const removed = previousTokens.filter((token) => !nextSet.has(token));
+  return {
+    material: added.length > 0 || removed.length > 0,
+    baselineMissing: false,
+    added,
+    removed,
+  };
+}
+
+function formatSemanticDiffSummary(semanticDiff) {
+  if (!semanticDiff || semanticDiff.baselineMissing) return "semantic-baseline-missing";
+  const added = Array.isArray(semanticDiff.added) ? semanticDiff.added : [];
+  const removed = Array.isArray(semanticDiff.removed) ? semanticDiff.removed : [];
+  const parts = [];
+  if (added.length > 0) parts.push(`+${added.join(",+")}`);
+  if (removed.length > 0) parts.push(`-${removed.join(",-")}`);
+  return parts.length > 0 ? parts.join(" | ") : "no-material-diff";
 }
 
 function getConfirmRuns() {
@@ -657,12 +830,13 @@ async function fetchWithFallback(vendorConfig) {
   return { text: null, error: failures.join("; ") };
 }
 
-async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, coveragePath, rulesFile }) {
+async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, coveragePath, semanticPath, rulesFile }) {
   if (!existsSync(sourcesPath)) {
     console.log(`::warning::Sources file not found for ${name}: ${sourcesPath}`);
     return {
       name,
-      changed: [],
+      observedChanged: [],
+      materialChanged: [],
       pending: [],
       errors: [],
       errorReasons: {},
@@ -694,6 +868,15 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const storedHashes = readJson(hashesPath, {});
   const storedCandidates = readJson(candidatesPath, {});
   const storedCoverage = readJson(coveragePath, { vendors: {} });
+  const storedSemanticState = readJson(semanticPath, { vendors: {} });
+  const storedSemanticProfilesRaw =
+    storedSemanticState && typeof storedSemanticState.vendors === "object" && storedSemanticState.vendors
+      ? storedSemanticState.vendors
+      : (storedSemanticState && typeof storedSemanticState === "object" ? storedSemanticState : {});
+  const storedSemanticProfiles = {};
+  for (const [vendorKey, profileValue] of Object.entries(storedSemanticProfilesRaw)) {
+    storedSemanticProfiles[vendorKey] = normalizeSemanticProfile(profileValue);
+  }
   const coverageVendors = storedCoverage && typeof storedCoverage.vendors === "object" && storedCoverage.vendors
     ? { ...storedCoverage.vendors }
     : {};
@@ -717,13 +900,15 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   }
 
   const vendors = Object.entries(sources.vendors);
-  const changed = [];
+  const observedChanged = [];
+  const materialChanged = [];
   const pendingSet = new Set();
   const pendingMetadata = {};
   const errors = [];
   const errorReasons = {};
   const newHashes = { ...storedHashes };
   const newCandidates = {};
+  const newSemanticProfiles = { ...storedSemanticProfilesRaw };
   const runObservations = {};
   const recheckConfirmedSet = new Set();
   const recheckResolvedSet = new Set();
@@ -747,6 +932,27 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const markConfirmedChange = (vendor, whenUtc) => {
     const coverage = ensureCoverageEntry(vendor);
     coverage.last_confirmed_change_utc = whenUtc;
+  };
+
+  const registerConfirmedChange = ({ vendor, sourceUrl, confirmedHash, confirmedProfile, confirmedAtUtc }) => {
+    const normalizedProfile = normalizeSemanticProfile(confirmedProfile, {
+      hash: confirmedHash,
+      sourceUrl,
+      extractedAtUtc: confirmedAtUtc,
+    });
+    const semanticDiff = diffSemanticProfiles(storedSemanticProfiles[vendor], normalizedProfile);
+    const entry = {
+      vendor,
+      url: sourceUrl,
+      semantic_diff: semanticDiff,
+      semantic_diff_summary: formatSemanticDiffSummary(semanticDiff),
+    };
+    observedChanged.push(entry);
+    if (semanticDiff.material) {
+      materialChanged.push(entry);
+    }
+    newSemanticProfiles[vendor] = normalizedProfile;
+    markConfirmedChange(vendor, confirmedAtUtc);
   };
 
   // Process in gentler batches to reduce bot-defense blocks and rate limits.
@@ -783,6 +989,11 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           typeof vendorConfig?.url === "string" && vendorConfig.url
             ? vendorConfig.url
             : fetchResult.sourceUrl;
+        const semanticProfile = buildSemanticProfile(normalized || fetchResult.text, name, {
+          hash: h,
+          sourceUrl: sourceUrl || "",
+          extractedAtUtc: fetchedAtUtc,
+        });
 
         const priorCandidate = activeStoredCandidates[vendor];
         const previousHash = storedHashes[vendor];
@@ -792,12 +1003,14 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
 
         if (isUpdate || rebaselineForProfile || !previousHash) {
           newHashes[vendor] = h;
+          newSemanticProfiles[vendor] = semanticProfile;
           delete newCandidates[vendor];
           return;
         }
 
         if (previousHash === h) {
           newHashes[vendor] = h;
+          newSemanticProfiles[vendor] = storedSemanticProfiles[vendor] || semanticProfile;
           if (!priorCandidate) {
             delete newCandidates[vendor];
             return;
@@ -814,6 +1027,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             flip_count: Number(priorCandidate.flip_count || 0) + 1,
             baseline_observations: Number(priorCandidate.baseline_observations || 0) + 1,
             pending_since_utc: getCandidatePendingSinceUtc(priorCandidate) || fetchedAtUtc,
+            profile: priorCandidate.profile || semanticProfile,
           };
           newCandidates[vendor] = carriedCandidate;
           pendingSet.add(vendor);
@@ -828,15 +1042,29 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             hashVotes: carriedCandidate.hash
               ? { [carriedCandidate.hash]: Number(carriedCandidate.count || 1) }
               : {},
+            hashProfiles: carriedCandidate.hash && carriedCandidate.profile
+              ? { [carriedCandidate.hash]: carriedCandidate.profile }
+              : {},
           };
           crossRunWindowHeldSet.add(vendor);
           return;
         }
 
         if (windowDecision.hashDecision && windowDecision.hashDecision !== previousHash) {
-          changed.push({ vendor, url: sourceUrl });
+          const confirmedProfile =
+            windowDecision.hashDecision === h
+              ? semanticProfile
+              : (priorCandidate?.hash === windowDecision.hashDecision && priorCandidate?.profile
+                  ? priorCandidate.profile
+                  : semanticProfile);
+          registerConfirmedChange({
+            vendor,
+            sourceUrl: sourceUrl || "",
+            confirmedHash: windowDecision.hashDecision,
+            confirmedProfile,
+            confirmedAtUtc: fetchedAtUtc,
+          });
           newHashes[vendor] = windowDecision.hashDecision;
-          markConfirmedChange(vendor, fetchedAtUtc);
           delete newCandidates[vendor];
           crossRunWindowConfirmedSet.add(vendor);
           return;
@@ -848,9 +1076,14 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         const nextCount = priorHash === h ? Math.max(1, priorCount) + 1 : 1;
         const nextFlipCount = priorHash && priorHash !== h ? priorFlipCount + 1 : priorFlipCount;
         if (nextCount >= confirmRuns) {
-          changed.push({ vendor, url: sourceUrl });
+          registerConfirmedChange({
+            vendor,
+            sourceUrl: sourceUrl || "",
+            confirmedHash: h,
+            confirmedProfile: semanticProfile,
+            confirmedAtUtc: fetchedAtUtc,
+          });
           newHashes[vendor] = h;
-          markConfirmedChange(vendor, fetchedAtUtc);
           return;
         }
 
@@ -867,6 +1100,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             : fetchedAtUtc,
           last_seen_utc: fetchedAtUtc,
           baseline_observations: 0,
+          profile: semanticProfile,
         };
         pendingMetadata[vendor] = {
           vendorConfig,
@@ -877,6 +1111,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         runObservations[vendor] = {
           baselineVotes: 0,
           hashVotes: { [h]: 1 },
+          hashProfiles: { [h]: semanticProfile },
         };
       })
     );
@@ -905,6 +1140,9 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             runObservations[vendor] = {
               baselineVotes: 0,
               hashVotes: { [candidate.hash]: 1 },
+              hashProfiles: candidate.hash && candidate.profile
+                ? { [candidate.hash]: candidate.profile }
+                : {},
             };
           }
 
@@ -925,11 +1163,21 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
 
           const normalized = normalizeFetchedText(recheckResult.text, name, vendor);
           const h = hash(normalized || recheckResult.text);
+          const sourceUrl = recheckResult.sourceUrl || metadata.sourceUrl || "";
+          const semanticProfile = buildSemanticProfile(normalized || recheckResult.text, name, {
+            hash: h,
+            sourceUrl,
+            extractedAtUtc: fetchedAtUtc,
+          });
           const observations = runObservations[vendor];
           if (h === metadata.previousHash) {
             observations.baselineVotes = Number(observations.baselineVotes || 0) + 1;
           } else {
             observations.hashVotes[h] = Number(observations.hashVotes[h] || 0) + 1;
+            if (!observations.hashProfiles || typeof observations.hashProfiles !== "object") {
+              observations.hashProfiles = {};
+            }
+            observations.hashProfiles[h] = semanticProfile;
           }
 
           const majorityDecision = getRunMajorityDecision(observations);
@@ -940,10 +1188,16 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             return;
           }
           if (majorityDecision?.type === "hash" && majorityDecision.hash) {
-            const sourceUrl = recheckResult.sourceUrl || metadata.sourceUrl || "";
-            changed.push({ vendor, url: sourceUrl });
+            const majorityProfile =
+              observations.hashProfiles?.[majorityDecision.hash] || candidate.profile || semanticProfile;
+            registerConfirmedChange({
+              vendor,
+              sourceUrl: sourceUrl || "",
+              confirmedHash: majorityDecision.hash,
+              confirmedProfile: majorityProfile,
+              confirmedAtUtc: fetchedAtUtc,
+            });
             newHashes[vendor] = majorityDecision.hash;
-            markConfirmedChange(vendor, fetchedAtUtc);
             delete newCandidates[vendor];
             pendingSet.delete(vendor);
             recheckConfirmedSet.add(vendor);
@@ -965,17 +1219,22 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             candidate.flip_count = Number(candidate.flip_count || 0) + 1;
             candidate.pending_since_utc = getCandidatePendingSinceUtc(candidate) || fetchedAtUtc;
             candidate.first_seen_utc = utcIsoTimestamp();
+            candidate.profile = semanticProfile;
           }
           candidate.pending_since_utc = getCandidatePendingSinceUtc(candidate) || fetchedAtUtc;
-
-          const sourceUrl = recheckResult.sourceUrl || metadata.sourceUrl || "";
+          candidate.profile = candidate.hash === h ? semanticProfile : candidate.profile;
           if (sourceUrl) candidate.source_url = sourceUrl;
           candidate.last_seen_utc = fetchedAtUtc;
 
           if (Number(candidate.count || 0) >= metadata.confirmRuns) {
-            changed.push({ vendor, url: sourceUrl });
+            registerConfirmedChange({
+              vendor,
+              sourceUrl: sourceUrl || "",
+              confirmedHash: h,
+              confirmedProfile: semanticProfile,
+              confirmedAtUtc: fetchedAtUtc,
+            });
             newHashes[vendor] = h;
-            markConfirmedChange(vendor, fetchedAtUtc);
             delete newCandidates[vendor];
             pendingSet.delete(vendor);
             recheckConfirmedSet.add(vendor);
@@ -1081,6 +1340,19 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   writeFileSync(hashesPath, JSON.stringify(newHashes, null, 2) + "\n");
   writeFileSync(candidatesPath, JSON.stringify(newCandidates, null, 2) + "\n");
   writeFileSync(
+    semanticPath,
+    JSON.stringify(
+      {
+        updated_utc: verifiedAtUtc,
+        policy: name,
+        hash_profile: HASH_PROFILE_ID,
+        vendors: newSemanticProfiles,
+      },
+      null,
+      2
+    ) + "\n"
+  );
+  writeFileSync(
     coveragePath,
     JSON.stringify(
       {
@@ -1095,7 +1367,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
 
   return {
     name,
-    changed,
+    observedChanged,
+    materialChanged,
     pending,
     errors,
     errorReasons,
@@ -1119,7 +1392,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
 }
 
 async function main() {
-  const allChanged = [];
+  const allObservedChanged = [];
+  const allMaterialChanged = [];
   const allErrors = [];
   const allPending = [];
   const allStalePending = [];
@@ -1242,8 +1516,11 @@ async function main() {
       `Checked ${result.name}: ${result.successfulChecks}/${result.totalChecks} vendors fetched successfully.`
     );
 
-    for (const c of result.changed) {
-      allChanged.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
+    for (const c of result.observedChanged) {
+      allObservedChanged.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
+    }
+    for (const c of result.materialChanged) {
+      allMaterialChanged.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
     }
     for (const vendor of result.pending) {
       allPending.push({ policyType: result.name, vendor });
@@ -1309,6 +1586,20 @@ async function main() {
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
+  const observedByPolicy = toPolicyCountString(allObservedChanged);
+  const observedSample = allObservedChanged
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const materialByPolicy = toPolicyCountString(allMaterialChanged);
+  const materialSample = allMaterialChanged
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const materialDiffSample = allMaterialChanged
+    .slice(0, 10)
+    .map((item) => `${item.policyType}:${item.vendor}:${item.semantic_diff_summary}`)
+    .join(",");
 
   console.log(`PENDING_COUNT=${allPending.length}`);
   console.log(`PENDING_BY_POLICY=${pendingByPolicy}`);
@@ -1327,37 +1618,47 @@ async function main() {
   console.log(`COVERAGE_GAP_COUNT=${allCoverageGaps.length}`);
   console.log(`COVERAGE_GAP_BY_POLICY=${coverageGapByPolicy}`);
   console.log(`COVERAGE_GAP_SAMPLE=${coverageGapSample}`);
+  console.log(`OBSERVED_CHANGED_COUNT=${allObservedChanged.length}`);
+  console.log(`OBSERVED_CHANGED_BY_POLICY=${observedByPolicy}`);
+  console.log(`OBSERVED_CHANGED_SAMPLE=${observedSample}`);
+  console.log(`MATERIAL_CHANGED_COUNT=${allMaterialChanged.length}`);
+  console.log(`MATERIAL_CHANGED_BY_POLICY=${materialByPolicy}`);
+  console.log(`MATERIAL_CHANGED_SAMPLE=${materialSample}`);
+  console.log(`MATERIAL_DIFF_SAMPLE=${materialDiffSample}`);
+  // Backward-compatible aliases consumed by workflow and frontend feed.
+  console.log(`CHANGED_COUNT=${allMaterialChanged.length}`);
+  console.log(`CHANGED_BY_POLICY=${materialByPolicy}`);
+  console.log(`CHANGED_SAMPLE=${materialSample}`);
 
   if (isUpdate) {
     console.log(`Hashes updated for all policy sets.`);
     return;
   }
 
-  if (allChanged.length === 0) {
-    console.log("No policy page changes detected.");
-    process.exitCode = 0;
+  if (allObservedChanged.length === 0) {
+    console.log("No policy page-content updates observed.");
   } else {
-    const countsByPolicy = summarizePolicyCounts(allChanged);
-    const byPolicy = Object.entries(countsByPolicy)
-      .map(([policy, count]) => `${policy}:${count}`)
-      .join(",");
-    const sample = allChanged
-      .slice(0, 15)
-      .map((c) => `${c.policyType}:${c.vendor}`)
-      .join(",");
-
-    console.log(`CHANGED_COUNT=${allChanged.length}`);
-    console.log(`CHANGED_BY_POLICY=${byPolicy}`);
-    console.log(`CHANGED_SAMPLE=${sample}`);
-
-    // Keep a concise preview in logs while details remain in updated candidate files.
-    const preview = allChanged
+    const preview = allObservedChanged
       .slice(0, 20)
       .map((c) => `- [${c.policyType}] ${c.vendor} -> rules/${c.rulesFile}`)
       .join("\n");
-    console.log(`::notice::Changed vendor preview (first ${Math.min(allChanged.length, 20)}):\n${preview}`);
-    process.exitCode = 0;
+    console.log(
+      `::notice::Observed page-content updates (first ${Math.min(allObservedChanged.length, 20)}):\n${preview}`
+    );
   }
+
+  if (allMaterialChanged.length === 0) {
+    console.log("No material policy changes confirmed.");
+  } else {
+    const materialPreview = allMaterialChanged
+      .slice(0, 20)
+      .map((c) => `- [${c.policyType}] ${c.vendor} -> ${c.semantic_diff_summary}`)
+      .join("\n");
+    console.log(
+      `::notice::Material policy change preview (first ${Math.min(allMaterialChanged.length, 20)}):\n${materialPreview}`
+    );
+  }
+  process.exitCode = 0;
 }
 
 main();
