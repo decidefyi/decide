@@ -214,8 +214,10 @@ jobs:
             const coverageGapByPolicy = process.env.COVERAGE_GAP_BY_POLICY || '';
             const coverageGapSample = process.env.COVERAGE_GAP_SAMPLE || '';
             const today = new Date().toISOString().split('T')[0];
-            const changedTitlePrefix = `Policy pages changed (${today}):`;
-            const pendingTitlePrefix = `Policy checker pending candidates (${today}):`;
+            const changedTitlePrefix = `Policy page content changed (${today}):`;
+            const pendingTitlePrefix = `Policy page checker pending candidates (${today}):`;
+            const legacyChangedTitlePrefix = `Policy pages changed (${today}):`;
+            const legacyPendingTitlePrefix = `Policy checker pending candidates (${today}):`;
             const sampleList = changedSample
               .split(',')
               .map((s) => s.trim())
@@ -295,13 +297,13 @@ jobs:
               .join('\n');
 
             const title = changedCount > 0
-              ? `Policy pages changed (${today}): ${changedCount} vendor(s)`
-              : `Policy checker pending candidates (${today}): ${pendingCount} vendor(s)`;
+              ? `Policy page content changed (${today}): ${changedCount} vendor(s)`
+              : `Policy page checker pending candidates (${today}): ${pendingCount} vendor(s)`;
             const body = [
               "## Policy checker summary",
               "",
-              `Confirmed changed vendors: **${changedCount}**`,
-              `Pending candidates: **${pendingCount}**`,
+              `Confirmed policy-page content changes: **${changedCount}**`,
+              `Pending candidates (needs confirmation): **${pendingCount}**`,
               "",
               changedByPolicy ? "### Confirmed by policy\n" + byPolicyList + "\n" : "",
               sampleList ? "### Confirmed sample (first 10)\n" + sampleList + "\n" : "",
@@ -320,7 +322,7 @@ jobs:
               "",
               `Run: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
               "",
-              "This issue was created automatically by the daily policy checker."
+              "This issue was created automatically by the daily policy-page checker."
             ].filter(Boolean).join("\n");
 
             try {
@@ -332,7 +334,12 @@ jobs:
                 per_page: 100
               });
 
-              const dailyPrefixes = [changedTitlePrefix, pendingTitlePrefix];
+              const dailyPrefixes = [
+                changedTitlePrefix,
+                pendingTitlePrefix,
+                legacyChangedTitlePrefix,
+                legacyPendingTitlePrefix
+              ];
               const existingToday = openPolicyIssues.find((issue) =>
                 !issue.pull_request &&
                 typeof issue.title === 'string' &&
@@ -347,8 +354,8 @@ jobs:
                   body: [
                     `New run update: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
                     "",
-                    `Confirmed changed vendors: **${changedCount}**`,
-                    `Pending candidates: **${pendingCount}**`,
+                    `Confirmed policy-page content changes: **${changedCount}**`,
+                    `Pending candidates (needs confirmation): **${pendingCount}**`,
                     changedByPolicy ? `Confirmed by policy: ${changedByPolicy}` : "",
                     pendingByPolicy ? `Pending by policy: ${pendingByPolicy}` : "",
                     pendingDetail ? `Pending detail: ${pendingDetail}` : "",
