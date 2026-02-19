@@ -1,12 +1,12 @@
 {
-  "hinge": {
-    "hash": "0f4d43528e0bcee3",
+  "canva": {
+    "hash": "9dfa440b825baf50",
     "count": 1,
     "flip_count": 2,
-    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "pending_since_utc": "2026-02-19T06:59:55Z",
-    "first_seen_utc": "2026-02-19T07:02:37Z",
-    "last_seen_utc": "2026-02-19T07:02:37Z",
+    "source_url": "https://www.canva.com/pro/",
+    "pending_since_utc": "2026-02-19T09:00:43Z",
+    "first_seen_utc": "2026-02-19T09:04:07Z",
+    "last_seen_utc": "2026-02-19T09:04:07Z",
     "baseline_observations": 0
   }
 }

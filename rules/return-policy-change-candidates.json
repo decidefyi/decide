@@ -1,12 +1,32 @@
 {
-  "myfitnesspal_premium": {
-    "hash": "68c4ec78be54bc69",
+  "hinge": {
+    "hash": "708eef0a4d8b60ad",
     "count": 1,
-    "flip_count": 34,
+    "flip_count": 2,
+    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+    "pending_since_utc": "2026-02-19T08:57:45Z",
+    "first_seen_utc": "2026-02-19T08:59:40Z",
+    "last_seen_utc": "2026-02-19T08:59:40Z",
+    "baseline_observations": 0
+  },
+  "dashlane": {
+    "hash": "1776dcd2a2d09e0e",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://www.dashlane.com/pricing",
+    "pending_since_utc": "2026-02-19T08:58:24Z",
+    "first_seen_utc": "2026-02-19T08:59:38Z",
+    "last_seen_utc": "2026-02-19T08:59:38Z",
+    "baseline_observations": 0
+  },
+  "myfitnesspal_premium": {
+    "hash": "989aa84d7d15f248",
+    "count": 1,
+    "flip_count": 37,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T09:00:33Z",
-    "first_seen_utc": "2026-02-19T06:58:42Z",
-    "last_seen_utc": "2026-02-19T06:58:42Z",
+    "first_seen_utc": "2026-02-19T08:59:48Z",
+    "last_seen_utc": "2026-02-19T08:59:48Z",
     "baseline_observations": 0
   }
 }
