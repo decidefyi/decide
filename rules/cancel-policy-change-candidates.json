@@ -1,52 +1,52 @@
 {
   "audible": {
-    "hash": "8339000c11a173cf",
+    "hash": "7754ea4a30ebc9ad",
     "count": 1,
-    "flip_count": 2,
+    "flip_count": 5,
     "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
     "pending_since_utc": "2026-02-19T01:15:23Z",
-    "first_seen_utc": "2026-02-19T01:19:41Z",
-    "last_seen_utc": "2026-02-19T01:19:41Z",
+    "first_seen_utc": "2026-02-19T06:55:46Z",
+    "last_seen_utc": "2026-02-19T06:55:46Z",
     "baseline_observations": 0
   },
   "canva": {
-    "hash": "7974880fbae85aff",
+    "hash": "8270ba9eb3fc49b1",
     "count": 1,
-    "flip_count": 36,
+    "flip_count": 39,
     "source_url": "https://www.canva.com/help/cancellation/",
     "pending_since_utc": "2026-02-18T08:56:18Z",
-    "first_seen_utc": "2026-02-19T01:19:34Z",
-    "last_seen_utc": "2026-02-19T01:19:34Z",
+    "first_seen_utc": "2026-02-19T06:55:41Z",
+    "last_seen_utc": "2026-02-19T06:55:41Z",
     "baseline_observations": 0
   },
   "paramount_plus": {
-    "hash": "efc00d435644d3bd",
+    "hash": "d39b4433feb274b0",
     "count": 1,
-    "flip_count": 35,
+    "flip_count": 38,
     "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-19T01:19:40Z",
-    "last_seen_utc": "2026-02-19T01:19:40Z",
+    "first_seen_utc": "2026-02-19T06:55:55Z",
+    "last_seen_utc": "2026-02-19T06:55:55Z",
     "baseline_observations": 0
   },
   "twitch": {
-    "hash": "642173ced9aa155d",
+    "hash": "7e28eed8dbda09cf",
     "count": 1,
-    "flip_count": 35,
+    "flip_count": 38,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
     "pending_since_utc": "2026-02-18T08:57:57Z",
-    "first_seen_utc": "2026-02-19T01:19:48Z",
-    "last_seen_utc": "2026-02-19T01:19:48Z",
+    "first_seen_utc": "2026-02-19T06:56:03Z",
+    "last_seen_utc": "2026-02-19T06:56:03Z",
     "baseline_observations": 0
   },
   "fitbit_premium": {
-    "hash": "345acce7b62accee",
+    "hash": "f834892a3355bb57",
     "count": 1,
-    "flip_count": 36,
+    "flip_count": 39,
     "source_url": "https://support.google.com/fitbit/",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-19T01:19:42Z",
-    "last_seen_utc": "2026-02-19T01:19:42Z",
+    "first_seen_utc": "2026-02-19T06:55:56Z",
+    "last_seen_utc": "2026-02-19T06:55:56Z",
     "baseline_observations": 0
   }
 }
