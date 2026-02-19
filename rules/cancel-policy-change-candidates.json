@@ -1,42 +1,42 @@
 {
   "canva": {
-    "hash": "d29e9e4e84a7e04c",
+    "hash": "0fd6f50ae8a4936b",
     "count": 1,
-    "flip_count": 45,
+    "flip_count": 48,
     "source_url": "https://www.canva.com/help/cancellation/",
     "pending_since_utc": "2026-02-18T08:56:18Z",
-    "first_seen_utc": "2026-02-19T12:46:33Z",
-    "last_seen_utc": "2026-02-19T12:46:33Z",
+    "first_seen_utc": "2026-02-19T18:47:04Z",
+    "last_seen_utc": "2026-02-19T18:47:04Z",
     "baseline_observations": 0
   },
   "paramount_plus": {
-    "hash": "afeab8cef98f7808",
+    "hash": "d1b87ff2481c41dd",
     "count": 1,
-    "flip_count": 43,
+    "flip_count": 46,
     "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-19T12:46:10Z",
-    "last_seen_utc": "2026-02-19T12:46:10Z",
+    "first_seen_utc": "2026-02-19T18:47:09Z",
+    "last_seen_utc": "2026-02-19T18:47:09Z",
     "baseline_observations": 0
   },
   "twitch": {
-    "hash": "97a05a856d74daf0",
+    "hash": "61852c798dd5b54e",
     "count": 1,
-    "flip_count": 43,
+    "flip_count": 46,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
     "pending_since_utc": "2026-02-18T08:57:57Z",
-    "first_seen_utc": "2026-02-19T12:46:19Z",
-    "last_seen_utc": "2026-02-19T12:46:19Z",
+    "first_seen_utc": "2026-02-19T18:47:11Z",
+    "last_seen_utc": "2026-02-19T18:47:11Z",
     "baseline_observations": 0
   },
   "fitbit_premium": {
-    "hash": "c4a47c3f3c1932b7",
+    "hash": "d75d50d1da9377b5",
     "count": 1,
-    "flip_count": 45,
+    "flip_count": 48,
     "source_url": "https://support.google.com/fitbit/",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-19T12:46:40Z",
-    "last_seen_utc": "2026-02-19T12:46:40Z",
+    "first_seen_utc": "2026-02-19T18:47:12Z",
+    "last_seen_utc": "2026-02-19T18:47:12Z",
     "baseline_observations": 0
   }
 }

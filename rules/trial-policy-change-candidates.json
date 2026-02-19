@@ -1,12 +1,1 @@
-{
-  "canva": {
-    "hash": "5ca04faf474648f0",
-    "count": 1,
-    "flip_count": 5,
-    "source_url": "https://www.canva.com/pro/",
-    "pending_since_utc": "2026-02-19T09:00:43Z",
-    "first_seen_utc": "2026-02-19T12:53:00Z",
-    "last_seen_utc": "2026-02-19T12:53:00Z",
-    "baseline_observations": 0
-  }
-}
+{}
