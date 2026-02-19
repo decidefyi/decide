@@ -1,12 +1,36 @@
 {
-  "myfitnesspal_premium": {
-    "hash": "17b4c83b6a563f4b",
+  "canva": {
+    "hash": "eb6ca0b667c8cad8",
     "count": 1,
-    "flip_count": 42,
+    "flip_count": 2,
+    "source_url": "https://www.canva.com/policies/terms-of-use/",
+    "pending_since_utc": "2026-02-19T23:21:20Z",
+    "first_seen_utc": "2026-02-19T23:24:39Z",
+    "last_seen_utc": "2026-02-19T23:24:39Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "eb6ca0b667c8cad8",
+      "source_url": "https://www.canva.com/policies/terms-of-use/",
+      "extracted_at_utc": "2026-02-19T23:24:39Z",
+      "tokens": []
+    }
+  },
+  "myfitnesspal_premium": {
+    "hash": "12f63ce3d02702ae",
+    "count": 1,
+    "flip_count": 45,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T08:51:39Z",
-    "first_seen_utc": "2026-02-19T18:42:37Z",
-    "last_seen_utc": "2026-02-19T18:42:37Z",
-    "baseline_observations": 0
+    "first_seen_utc": "2026-02-19T23:24:50Z",
+    "last_seen_utc": "2026-02-19T23:24:50Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "12f63ce3d02702ae",
+      "source_url": "https://www.myfitnesspal.com/terms-of-use",
+      "extracted_at_utc": "2026-02-19T23:24:50Z",
+      "tokens": [
+        "flow:support_request"
+      ]
+    }
   }
 }

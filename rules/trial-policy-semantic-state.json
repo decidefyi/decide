@@ -1,0 +1,655 @@
+{
+  "updated_utc": "2026-02-19T23:37:59Z",
+  "policy": "trial",
+  "hash_profile": "focus-v1",
+  "vendors": {
+    "1password": {
+      "hash": "7710a49d47f57e29",
+      "source_url": "https://1password.com/sign-up",
+      "extracted_at_utc": "2026-02-19T23:34:35Z",
+      "tokens": []
+    },
+    "amazon_music_unlimited": {
+      "hash": "aa196cbede9badd6",
+      "source_url": "https://www.amazon.com/music/unlimited",
+      "extracted_at_utc": "2026-02-19T23:34:36Z",
+      "tokens": []
+    },
+    "adobe": {
+      "hash": "0cefd9fe1290780e",
+      "source_url": "https://www.adobe.com/creativecloud/plans.html",
+      "extracted_at_utc": "2026-02-19T23:35:12Z",
+      "tokens": []
+    },
+    "apple_app_store": {
+      "hash": "91882bfe2276dfad",
+      "source_url": "https://support.apple.com/en-us/118223",
+      "extracted_at_utc": "2026-02-19T23:35:12Z",
+      "tokens": []
+    },
+    "apple_arcade": {
+      "hash": "87314795832633cc",
+      "source_url": "https://www.apple.com/apple-arcade/",
+      "extracted_at_utc": "2026-02-19T23:35:13Z",
+      "tokens": []
+    },
+    "amazon_prime": {
+      "hash": "7c8f77fcdb4c1914",
+      "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
+      "extracted_at_utc": "2026-02-19T23:35:20Z",
+      "tokens": []
+    },
+    "apple_music": {
+      "hash": "0f140479c54c5ae2",
+      "source_url": "https://www.apple.com/apple-music/",
+      "extracted_at_utc": "2026-02-19T23:35:21Z",
+      "tokens": []
+    },
+    "apple_tv_plus": {
+      "hash": "0162fb9fe559644a",
+      "source_url": "https://www.apple.com/apple-tv-plus/",
+      "extracted_at_utc": "2026-02-19T23:35:21Z",
+      "tokens": [
+        "trial_window_days:7",
+        "trial_window_days:90"
+      ]
+    },
+    "audible": {
+      "hash": "c3b865c9c2cea937",
+      "source_url": "https://www.audible.com/ep/freetrial",
+      "extracted_at_utc": "2026-02-19T23:35:21Z",
+      "tokens": []
+    },
+    "bitwarden": {
+      "hash": "c7f9da1a9f79cf08",
+      "source_url": "https://bitwarden.com/pricing/",
+      "extracted_at_utc": "2026-02-19T23:35:22Z",
+      "tokens": []
+    },
+    "bumble": {
+      "hash": "70cea0b9151fda52",
+      "source_url": "https://bumble.com/en-us/the-buzz/bumble-premium",
+      "extracted_at_utc": "2026-02-19T23:35:22Z",
+      "tokens": []
+    },
+    "calm": {
+      "hash": "e766e2ac066061aa",
+      "source_url": "https://www.calm.com/subscribe",
+      "extracted_at_utc": "2026-02-19T23:35:24Z",
+      "tokens": []
+    },
+    "claude_pro": {
+      "hash": "fff53cc5006a0a31",
+      "source_url": "https://claude.ai/upgrade",
+      "extracted_at_utc": "2026-02-19T23:35:26Z",
+      "tokens": []
+    },
+    "chatgpt_plus": {
+      "hash": "de6e0eae450406f9",
+      "source_url": "https://openai.com/chatgpt/pricing/",
+      "extracted_at_utc": "2026-02-19T23:35:27Z",
+      "tokens": []
+    },
+    "crunchyroll": {
+      "hash": "21479421dcc9a4cb",
+      "source_url": "https://www.crunchyroll.com/welcome",
+      "extracted_at_utc": "2026-02-19T23:35:28Z",
+      "tokens": []
+    },
+    "coursera_plus": {
+      "hash": "d2d2c98862ceb021",
+      "source_url": "https://www.coursera.org/courseraplus",
+      "extracted_at_utc": "2026-02-19T23:35:28Z",
+      "tokens": []
+    },
+    "deezer": {
+      "hash": "188275d3f6edae21",
+      "source_url": "https://www.deezer.com/en/offers",
+      "extracted_at_utc": "2026-02-19T23:35:28Z",
+      "tokens": [
+        "trial_window_days:30",
+        "trial_window_days:7"
+      ]
+    },
+    "discord_nitro": {
+      "hash": "b2cc96111a90e2dd",
+      "source_url": "https://discord.com/nitro",
+      "extracted_at_utc": "2026-02-19T23:35:29Z",
+      "tokens": []
+    },
+    "disney_plus": {
+      "hash": "5b1fc566ddcc5ae1",
+      "source_url": "https://www.disneyplus.com/",
+      "extracted_at_utc": "2026-02-19T23:35:29Z",
+      "tokens": []
+    },
+    "doordash_dashpass": {
+      "hash": "381722386c9d7ac8",
+      "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
+      "extracted_at_utc": "2026-02-19T23:35:29Z",
+      "tokens": []
+    },
+    "duolingo": {
+      "hash": "be6a999624b589e8",
+      "source_url": "https://www.duolingo.com/super",
+      "extracted_at_utc": "2026-02-19T23:35:30Z",
+      "tokens": []
+    },
+    "dropbox_us": {
+      "hash": "c609144e56e2f6f1",
+      "source_url": "https://www.dropbox.com/plans",
+      "extracted_at_utc": "2026-02-19T23:35:31Z",
+      "tokens": [
+        "trial_window_days:30"
+      ]
+    },
+    "evernote": {
+      "hash": "4384632937987f9b",
+      "source_url": "https://evernote.com/compare-plans",
+      "extracted_at_utc": "2026-02-19T23:35:32Z",
+      "tokens": [
+        "trial_window_days:30",
+        "trial_window_days:7",
+        "trial:auto_converts_to_paid",
+        "trial:cancel_before_end"
+      ]
+    },
+    "figma": {
+      "hash": "8e8468579a34db86",
+      "source_url": "https://www.figma.com/pricing/",
+      "extracted_at_utc": "2026-02-19T23:35:32Z",
+      "tokens": []
+    },
+    "expressvpn": {
+      "hash": "a4c2feed7f5303c9",
+      "source_url": "https://www.expressvpn.com/order",
+      "extracted_at_utc": "2026-02-19T23:35:33Z",
+      "tokens": []
+    },
+    "github_pro": {
+      "hash": "f73aa1330677bbcb",
+      "source_url": "https://github.com/pricing",
+      "extracted_at_utc": "2026-02-19T23:35:33Z",
+      "tokens": [
+        "trial_window_days:30",
+        "trial_window_days:360"
+      ]
+    },
+    "fubo_tv": {
+      "hash": "730cfac095b9423b",
+      "source_url": "https://www.fubo.tv/welcome",
+      "extracted_at_utc": "2026-02-19T23:35:34Z",
+      "tokens": []
+    },
+    "grammarly": {
+      "hash": "26791c8310c0a959",
+      "source_url": "https://www.grammarly.com/plans",
+      "extracted_at_utc": "2026-02-19T23:35:35Z",
+      "tokens": [
+        "billing:prorated"
+      ]
+    },
+    "google_play": {
+      "hash": "b5cf2e31119e8d8d",
+      "source_url": "https://support.google.com/googleplay/answer/7018481",
+      "extracted_at_utc": "2026-02-19T23:35:35Z",
+      "tokens": []
+    },
+    "headspace": {
+      "hash": "17a9980875628a18",
+      "source_url": "https://www.headspace.com/subscriptions",
+      "extracted_at_utc": "2026-02-19T23:35:35Z",
+      "tokens": []
+    },
+    "hulu": {
+      "hash": "87d052d9e83ae09a",
+      "source_url": "https://www.hulu.com/start",
+      "extracted_at_utc": "2026-02-19T23:35:36Z",
+      "tokens": []
+    },
+    "hellofresh": {
+      "hash": "725edd71183e42f4",
+      "source_url": "https://www.hellofresh.com/plans",
+      "extracted_at_utc": "2026-02-19T23:35:36Z",
+      "tokens": []
+    },
+    "hinge": {
+      "hash": "708eef0a4d8b60ad",
+      "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+      "extracted_at_utc": "2026-02-19T23:35:40Z",
+      "tokens": []
+    },
+    "icloud_plus": {
+      "hash": "6be02ea27b3b27c1",
+      "source_url": "https://support.apple.com/en-us/108052",
+      "extracted_at_utc": "2026-02-19T23:35:41Z",
+      "tokens": []
+    },
+    "kindle_unlimited": {
+      "hash": "354bf928cf1aaf25",
+      "source_url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku",
+      "extracted_at_utc": "2026-02-19T23:35:41Z",
+      "tokens": []
+    },
+    "instacart_plus": {
+      "hash": "f93d706434bd5225",
+      "source_url": "https://www.instacart.com/store/instacart-plus",
+      "extracted_at_utc": "2026-02-19T23:35:44Z",
+      "tokens": []
+    },
+    "linkedin_premium": {
+      "hash": "a614ae0b90b19141",
+      "source_url": "https://premium.linkedin.com/",
+      "extracted_at_utc": "2026-02-19T23:35:44Z",
+      "tokens": [
+        "trial_window_days:360"
+      ]
+    },
+    "max": {
+      "hash": "a0969f437aa2729a",
+      "source_url": "https://www.max.com/",
+      "extracted_at_utc": "2026-02-19T23:35:46Z",
+      "tokens": []
+    },
+    "masterclass": {
+      "hash": "b852ddd7e8c288fa",
+      "source_url": "https://www.masterclass.com/legal/terms",
+      "extracted_at_utc": "2026-02-19T23:35:49Z",
+      "tokens": []
+    },
+    "microsoft_365": {
+      "hash": "9871730e5db07f70",
+      "source_url": "https://www.microsoft.com/en-us/microsoft-365/try",
+      "extracted_at_utc": "2026-02-19T23:35:50Z",
+      "tokens": [
+        "trial_window_days:30"
+      ]
+    },
+    "netflix": {
+      "hash": "9266dbce2122cbb1",
+      "source_url": "https://www.netflix.com/signup",
+      "extracted_at_utc": "2026-02-19T23:35:50Z",
+      "tokens": []
+    },
+    "midjourney": {
+      "hash": "b0e044ead39b017e",
+      "source_url": "https://www.midjourney.com/home",
+      "extracted_at_utc": "2026-02-19T23:35:52Z",
+      "tokens": []
+    },
+    "noom": {
+      "hash": "54e7088ed1b4551b",
+      "source_url": "https://www.noom.com/",
+      "extracted_at_utc": "2026-02-19T23:35:53Z",
+      "tokens": []
+    },
+    "nintendo_switch_online": {
+      "hash": "7cee623b2b7da97d",
+      "source_url": "https://www.nintendo.com/us/switch/online/",
+      "extracted_at_utc": "2026-02-19T23:35:53Z",
+      "tokens": [
+        "billing:auto_renew"
+      ]
+    },
+    "paramount_plus": {
+      "hash": "c69c4521c6b27476",
+      "source_url": "https://www.paramountplus.com/",
+      "extracted_at_utc": "2026-02-19T23:36:00Z",
+      "tokens": []
+    },
+    "notion": {
+      "hash": "09255b785f7fc90b",
+      "source_url": "https://www.notion.so/pricing",
+      "extracted_at_utc": "2026-02-19T23:36:00Z",
+      "tokens": [
+        "billing:prorated"
+      ]
+    },
+    "peloton": {
+      "hash": "c5965fffd8b50842",
+      "source_url": "https://www.onepeloton.com/app",
+      "extracted_at_utc": "2026-02-19T23:36:32Z",
+      "tokens": [
+        "trial:payment_method_required"
+      ]
+    },
+    "playstation_plus": {
+      "hash": "4a6bcec92b6d2c66",
+      "source_url": "https://store.playstation.com/en-us/category/ps-plus",
+      "extracted_at_utc": "2026-02-19T23:36:32Z",
+      "tokens": []
+    },
+    "proton": {
+      "hash": "274a5ed74b27e80f",
+      "source_url": "https://proton.me/pricing",
+      "extracted_at_utc": "2026-02-19T23:36:32Z",
+      "tokens": [
+        "billing:auto_renew"
+      ]
+    },
+    "scribd": {
+      "hash": "ed8aa00d5a256dfd",
+      "source_url": "https://www.scribd.com/subscribe",
+      "extracted_at_utc": "2026-02-19T23:36:33Z",
+      "tokens": []
+    },
+    "ring_protect": {
+      "hash": "027def0b27e933b3",
+      "source_url": "https://ring.com/protect-plans",
+      "extracted_at_utc": "2026-02-19T23:36:33Z",
+      "tokens": [
+        "billing:auto_renew"
+      ]
+    },
+    "shutterstock": {
+      "hash": "93fce0170819948f",
+      "source_url": "https://www.shutterstock.com/pricing",
+      "extracted_at_utc": "2026-02-19T23:36:38Z",
+      "tokens": []
+    },
+    "spotify": {
+      "hash": "03e441da9837e9f0",
+      "source_url": "https://www.spotify.com/us/premium/",
+      "extracted_at_utc": "2026-02-19T23:36:39Z",
+      "tokens": []
+    },
+    "sling_tv": {
+      "hash": "886ae9f832fefa12",
+      "source_url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
+      "extracted_at_utc": "2026-02-19T23:36:39Z",
+      "tokens": []
+    },
+    "slack": {
+      "hash": "da520986611c033e",
+      "source_url": "https://slack.com/pricing",
+      "extracted_at_utc": "2026-02-19T23:36:39Z",
+      "tokens": [
+        "billing:prorated"
+      ]
+    },
+    "squarespace": {
+      "hash": "978e382932020217",
+      "source_url": "https://www.squarespace.com/pricing",
+      "extracted_at_utc": "2026-02-19T23:36:40Z",
+      "tokens": []
+    },
+    "surfshark": {
+      "hash": "482e6351013f4c7c",
+      "source_url": "https://surfshark.com/pricing",
+      "extracted_at_utc": "2026-02-19T23:36:40Z",
+      "tokens": []
+    },
+    "tinder": {
+      "hash": "1c3615d9e17f826e",
+      "source_url": "https://tinder.com/feature/subscription-tiers",
+      "extracted_at_utc": "2026-02-19T23:36:41Z",
+      "tokens": []
+    },
+    "todoist": {
+      "hash": "55c68b1a80268cfe",
+      "source_url": "https://todoist.com/pricing",
+      "extracted_at_utc": "2026-02-19T23:36:41Z",
+      "tokens": []
+    },
+    "tidal": {
+      "hash": "0e8b379821983a86",
+      "source_url": "https://tidal.com/pricing",
+      "extracted_at_utc": "2026-02-19T23:36:45Z",
+      "tokens": []
+    },
+    "walmart_plus": {
+      "hash": "a1db564ba162d3c1",
+      "source_url": "https://www.walmart.com/plus",
+      "extracted_at_utc": "2026-02-19T23:36:45Z",
+      "tokens": []
+    },
+    "uber_one": {
+      "hash": "c3255cd8b0a50462",
+      "source_url": "https://www.uber.com/us/en/u/uber-one/",
+      "extracted_at_utc": "2026-02-19T23:36:46Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale"
+      ]
+    },
+    "xbox_game_pass": {
+      "hash": "ce330fda34db25f0",
+      "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
+      "extracted_at_utc": "2026-02-19T23:36:46Z",
+      "tokens": [
+        "trial:payment_method_required"
+      ]
+    },
+    "wix": {
+      "hash": "1abafad9d4f4c488",
+      "source_url": "https://www.wix.com/upgrade/website",
+      "extracted_at_utc": "2026-02-19T23:36:47Z",
+      "tokens": []
+    },
+    "youtube_premium": {
+      "hash": "424b647972ef8510",
+      "source_url": "https://www.youtube.com/premium",
+      "extracted_at_utc": "2026-02-19T23:36:47Z",
+      "tokens": []
+    },
+    "youtube_tv": {
+      "hash": "9289e3332faf6ea2",
+      "source_url": "https://tv.youtube.com/",
+      "extracted_at_utc": "2026-02-19T23:36:48Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale"
+      ]
+    },
+    "dashlane": {
+      "hash": "fa83d0676efeb3f4",
+      "source_url": "https://www.dashlane.com/pricing",
+      "extracted_at_utc": "2026-02-19T23:36:48Z",
+      "tokens": []
+    },
+    "lastpass": {
+      "hash": "470e6e8272bc567e",
+      "source_url": "https://www.lastpass.com/pricing",
+      "extracted_at_utc": "2026-02-19T23:36:49Z",
+      "tokens": []
+    },
+    "keeper": {
+      "hash": "f8c89940eb18bd34",
+      "source_url": "https://www.keepersecurity.com/pricing/personal-and-family.html",
+      "extracted_at_utc": "2026-02-19T23:36:49Z",
+      "tokens": []
+    },
+    "myfitnesspal_premium": {
+      "hash": "70610a6305eb2b33",
+      "source_url": "https://www.myfitnesspal.com/premium",
+      "extracted_at_utc": "2026-02-19T23:36:50Z",
+      "tokens": [
+        "billing:auto_renew",
+        "trial:auto_converts_to_paid"
+      ]
+    },
+    "fitbit_premium": {
+      "hash": "9e8e86f26ca1dd52",
+      "source_url": "https://www.fitbit.com/global/us/products/services/premium",
+      "extracted_at_utc": "2026-02-19T23:36:50Z",
+      "tokens": []
+    },
+    "siriusxm": {
+      "hash": "c500048500083645",
+      "source_url": "https://www.siriusxm.com/offers",
+      "extracted_at_utc": "2026-02-19T23:36:50Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale",
+        "trial:payment_method_required"
+      ]
+    },
+    "weightwatchers": {
+      "hash": "c895da3ebcc382ae",
+      "source_url": "https://www.weightwatchers.com/us/plans",
+      "extracted_at_utc": "2026-02-19T23:36:51Z",
+      "tokens": [
+        "trial_window_days:180"
+      ]
+    },
+    "patreon": {
+      "hash": "5deb8e1ef09d50b3",
+      "source_url": "https://www.patreon.com/",
+      "extracted_at_utc": "2026-02-19T23:36:56Z",
+      "tokens": []
+    },
+    "roblox_premium": {
+      "hash": "c271f2df9b943cfd",
+      "source_url": "https://www.roblox.com/premium/membership",
+      "extracted_at_utc": "2026-02-19T23:36:57Z",
+      "tokens": []
+    },
+    "ea_play": {
+      "hash": "62a25f60f18a5db3",
+      "source_url": "https://www.ea.com/ea-play",
+      "extracted_at_utc": "2026-02-19T23:36:57Z",
+      "tokens": []
+    },
+    "ubisoft_plus": {
+      "hash": "aef6e514797ffb3b",
+      "source_url": "https://store.ubisoft.com/us/ubisoftplus",
+      "extracted_at_utc": "2026-02-19T23:36:57Z",
+      "tokens": []
+    },
+    "nfl_plus": {
+      "hash": "0287af11bc9a6715",
+      "source_url": "https://www.nfl.com/plus/",
+      "extracted_at_utc": "2026-02-19T23:36:58Z",
+      "tokens": []
+    },
+    "new_york_times": {
+      "hash": "85a7cdfc9e15947a",
+      "source_url": "https://www.nytimes.com/subscription",
+      "extracted_at_utc": "2026-02-19T23:36:58Z",
+      "tokens": []
+    },
+    "mlb_tv": {
+      "hash": "a03b3804ebebd1c3",
+      "source_url": "https://www.mlb.com/live-stream-games/subscribe",
+      "extracted_at_utc": "2026-02-19T23:36:58Z",
+      "tokens": []
+    },
+    "wall_street_journal": {
+      "hash": "7fd54c1abc110349",
+      "source_url": "https://www.wsj.com/subscribe",
+      "extracted_at_utc": "2026-02-19T23:36:59Z",
+      "tokens": [
+        "billing:auto_renew",
+        "billing:prorated"
+      ]
+    },
+    "substack": {
+      "hash": "f5fa5608fc35aee4",
+      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "extracted_at_utc": "2026-02-19T23:37:05Z",
+      "tokens": [
+        "flow:support_request"
+      ]
+    },
+    "washington_post": {
+      "hash": "c30363ea9c588163",
+      "source_url": "https://www.washingtonpost.com/subscribe/",
+      "extracted_at_utc": "2026-02-19T23:37:37Z",
+      "tokens": []
+    },
+    "x_premium": {
+      "hash": "03001a3f04989a6b",
+      "source_url": "https://x.com/i/premium_sign_up",
+      "extracted_at_utc": "2026-02-19T23:37:37Z",
+      "tokens": []
+    },
+    "snapchat_plus": {
+      "hash": "8422edc2c23478c2",
+      "source_url": "https://www.snapchat.com/plus",
+      "extracted_at_utc": "2026-02-19T23:37:38Z",
+      "tokens": []
+    },
+    "reddit_premium": {
+      "hash": "f7d1a14f0e2d7430",
+      "source_url": "https://www.reddit.com/premium",
+      "extracted_at_utc": "2026-02-19T23:37:41Z",
+      "tokens": []
+    },
+    "discovery_plus": {
+      "hash": "96e3445570eb8be7",
+      "source_url": "https://www.discoveryplus.com/",
+      "extracted_at_utc": "2026-02-19T23:37:41Z",
+      "tokens": []
+    },
+    "telegram_premium": {
+      "hash": "fcc01b1e1cec8cda",
+      "source_url": "https://telegram.org/premium",
+      "extracted_at_utc": "2026-02-19T23:37:42Z",
+      "tokens": []
+    },
+    "soundcloud_go": {
+      "hash": "bf6f426a2126312f",
+      "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+      "extracted_at_utc": "2026-02-19T23:37:43Z",
+      "tokens": []
+    },
+    "starz": {
+      "hash": "5d31288a471e88bb",
+      "source_url": "https://www.starz.com/us/en/termsofuse",
+      "extracted_at_utc": "2026-02-19T23:37:44Z",
+      "tokens": [
+        "billing:prorated",
+        "restriction:no_refund_or_final_sale",
+        "risk:chargeback_or_dispute"
+      ]
+    },
+    "britbox": {
+      "hash": "abde46f4fa373e5a",
+      "source_url": "https://www.britbox.com/us/",
+      "extracted_at_utc": "2026-02-19T23:37:44Z",
+      "tokens": []
+    },
+    "amc_plus": {
+      "hash": "ee6405a0ed5930be",
+      "source_url": "https://www.amcplus.com/",
+      "extracted_at_utc": "2026-02-19T23:37:44Z",
+      "tokens": []
+    },
+    "zoom": {
+      "hash": "21c03864945efe64",
+      "source_url": "https://zoom.us/pricing",
+      "extracted_at_utc": "2026-02-19T23:37:45Z",
+      "tokens": []
+    },
+    "google_one": {
+      "hash": "47fe303a75ca7032",
+      "source_url": "https://one.google.com/about/plans",
+      "extracted_at_utc": "2026-02-19T23:37:47Z",
+      "tokens": []
+    },
+    "strava": {
+      "hash": "8d76ab811428e272",
+      "source_url": "https://www.strava.com/subscribe",
+      "extracted_at_utc": "2026-02-19T23:37:49Z",
+      "tokens": [
+        "trial_window_days:2",
+        "trial_window_days:30"
+      ]
+    },
+    "espn_plus": {
+      "hash": "6751d0f943b872aa",
+      "source_url": "https://www.espn.com/espnplus/",
+      "extracted_at_utc": "2026-02-19T23:37:57Z",
+      "tokens": []
+    },
+    "peacock": {
+      "hash": "9d5ebe1adff952a6",
+      "source_url": "https://www.peacocktv.com/plans",
+      "extracted_at_utc": "2026-02-19T23:37:59Z",
+      "tokens": []
+    },
+    "twitch": {
+      "hash": "7d033201f0c4bc2c",
+      "source_url": "https://www.twitch.tv/turbo",
+      "extracted_at_utc": "2026-02-19T23:37:59Z",
+      "tokens": []
+    }
+  }
+}
