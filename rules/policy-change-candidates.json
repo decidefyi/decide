@@ -1,17 +1,51 @@
 {
-  "myfitnesspal_premium": {
-    "hash": "db2aa65ae2134bc6",
+  "hellofresh": {
+    "hash": "14c2a5d6f2117b70",
     "count": 1,
-    "flip_count": 48,
-    "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "pending_since_utc": "2026-02-18T08:51:39Z",
-    "first_seen_utc": "2026-02-20T00:23:08Z",
-    "last_seen_utc": "2026-02-20T00:23:08Z",
+    "flip_count": 2,
+    "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
+    "pending_since_utc": "2026-02-20T01:09:04Z",
+    "first_seen_utc": "2026-02-20T01:10:34Z",
+    "last_seen_utc": "2026-02-20T01:10:34Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "db2aa65ae2134bc6",
+      "hash": "14c2a5d6f2117b70",
+      "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
+      "extracted_at_utc": "2026-02-20T01:10:34Z",
+      "tokens": []
+    }
+  },
+  "myfitnesspal_premium": {
+    "hash": "d0238cd779173a6b",
+    "count": 1,
+    "flip_count": 50,
+    "source_url": "https://www.myfitnesspal.com/terms-of-use",
+    "pending_since_utc": "2026-02-18T08:51:39Z",
+    "first_seen_utc": "2026-02-20T01:10:23Z",
+    "last_seen_utc": "2026-02-20T01:10:23Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "d0238cd779173a6b",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-20T00:23:08Z",
+      "extracted_at_utc": "2026-02-20T01:10:23Z",
+      "tokens": [
+        "flow:support_request"
+      ]
+    }
+  },
+  "substack": {
+    "hash": "f5fa5608fc35aee4",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "pending_since_utc": "2026-02-20T01:09:51Z",
+    "first_seen_utc": "2026-02-20T01:10:44Z",
+    "last_seen_utc": "2026-02-20T01:10:44Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "f5fa5608fc35aee4",
+      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "extracted_at_utc": "2026-02-20T01:10:44Z",
       "tokens": [
         "flow:support_request"
       ]

@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T00:23:08Z",
+  "updated_utc": "2026-02-20T01:10:44Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -99,16 +99,10 @@
       ]
     },
     "calm": {
-      "hash": "32092096ec499d3b",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-19T23:21:15Z",
-      "tokens": [
-        "flow:support_request",
-        "refund_window_days:10",
-        "refund_window_days:30",
-        "refund:allowed_language",
-        "refund:partial_allowed"
-      ]
+      "extracted_at_utc": "2026-02-20T01:10:03Z",
+      "tokens": []
     },
     "chatgpt_plus": {
       "hash": "2748e6816fd5301f",
@@ -218,14 +212,10 @@
       ]
     },
     "hinge": {
-      "hash": "0ea183e83914b9fd",
-      "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
-      "extracted_at_utc": "2026-02-20T00:23:06Z",
-      "tokens": [
-        "flow:support_request",
-        "refund_window_days:14",
-        "restriction:no_refund_or_final_sale"
-      ]
+      "hash": "0f4d43528e0bcee3",
+      "source_url": "https://help.hinge.co/hc/en-us",
+      "extracted_at_utc": "2026-02-20T01:10:38Z",
+      "tokens": []
     },
     "icloud_plus": {
       "hash": "91882bfe2276dfad",
@@ -267,9 +257,9 @@
       ]
     },
     "masterclass": {
-      "hash": "b852ddd7e8c288fa",
+      "hash": "31e9c6990d098854",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-19T23:22:12Z",
+      "extracted_at_utc": "2026-02-20T01:10:09Z",
       "tokens": []
     },
     "microsoft_365": {
@@ -361,9 +351,9 @@
       ]
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-20T00:22:51Z",
+      "extracted_at_utc": "2026-02-20T01:09:17Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -676,9 +666,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "bf6f426a2126312f",
+      "hash": "353aa0508fd129df",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-20T00:22:58Z",
+      "extracted_at_utc": "2026-02-20T01:10:26Z",
       "tokens": []
     },
     "starz": {
@@ -759,15 +749,15 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "d49a74b7a0147f50",
+      "hash": "47c9be34bb2fae73",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T00:23:04Z",
+      "extracted_at_utc": "2026-02-20T01:10:02Z",
       "tokens": []
     },
     "headspace": {
-      "hash": "d3367b15f8565870",
+      "hash": "a16dc64c1531c468",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-20T00:22:37Z",
+      "extracted_at_utc": "2026-02-20T01:10:30Z",
       "tokens": [
         "flow:support_request"
       ]
@@ -789,10 +779,19 @@
       ]
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "9afa3be5696ac85a",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-20T00:22:44Z",
+      "extracted_at_utc": "2026-02-20T01:10:43Z",
       "tokens": []
+    },
+    "canva": {
+      "hash": "69d172f6c0185ed3",
+      "source_url": "https://www.canva.com/policies/terms-of-use/",
+      "extracted_at_utc": "2026-02-20T01:07:59Z",
+      "tokens": [
+        "billing:prorated",
+        "refund_window_days:90"
+      ]
     }
   }
 }

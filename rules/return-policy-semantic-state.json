@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T00:31:41Z",
+  "updated_utc": "2026-02-20T01:18:48Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -183,9 +183,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-19T23:32:50Z",
+      "extracted_at_utc": "2026-02-20T01:18:19Z",
       "tokens": []
     },
     "google_play": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "180925e88982390f",
+      "hash": "287ff660877b52d8",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-20T00:31:35Z",
+      "extracted_at_utc": "2026-02-20T01:18:19Z",
       "tokens": []
     },
     "hulu": {
@@ -212,19 +212,16 @@
       ]
     },
     "hellofresh": {
-      "hash": "14c2a5d6f2117b70",
+      "hash": "d0fe4030fbecd2c7",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-20T00:31:34Z",
+      "extracted_at_utc": "2026-02-20T01:18:47Z",
       "tokens": []
     },
     "hinge": {
-      "hash": "0ea183e83914b9fd",
+      "hash": "0f4d43528e0bcee3",
       "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
-      "extracted_at_utc": "2026-02-19T23:32:56Z",
-      "tokens": [
-        "flow:support_request",
-        "restriction:no_refund_or_final_sale"
-      ]
+      "extracted_at_utc": "2026-02-20T01:18:28Z",
+      "tokens": []
     },
     "icloud_plus": {
       "hash": "91882bfe2276dfad",
@@ -557,9 +554,9 @@
       ]
     },
     "ubisoft_plus": {
-      "hash": "6d335c3d4924aae8",
+      "hash": "6d2ce2c2cf0fd518",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-19T23:33:38Z",
+      "extracted_at_utc": "2026-02-20T01:18:28Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "return:condition_unopened_or_unused",
@@ -641,9 +638,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "f89dc263e8d11e16",
+      "hash": "353aa0508fd129df",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-20T00:31:26Z",
+      "extracted_at_utc": "2026-02-20T01:18:47Z",
       "tokens": []
     },
     "britbox": {
@@ -702,9 +699,9 @@
       "tokens": []
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "9797e79eb7ad6a9c",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-19T23:34:08Z",
+      "extracted_at_utc": "2026-02-20T01:17:29Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -722,9 +719,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "5937b74ce5bfdce9",
+      "hash": "47c9be34bb2fae73",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T00:31:05Z",
+      "extracted_at_utc": "2026-02-20T01:18:22Z",
       "tokens": []
     },
     "canva": {
@@ -736,20 +733,18 @@
       ]
     },
     "headspace": {
-      "hash": "d3367b15f8565870",
+      "hash": "a16dc64c1531c468",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-20T00:29:23Z",
+      "extracted_at_utc": "2026-02-20T01:18:25Z",
       "tokens": [
         "flow:support_request"
       ]
     },
     "substack": {
-      "hash": "f5fa5608fc35aee4",
+      "hash": "1fc132f3609dd8b1",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-20T00:30:33Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-20T01:18:40Z",
+      "tokens": []
     }
   }
 }

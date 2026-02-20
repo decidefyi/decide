@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T00:28:22Z",
+  "updated_utc": "2026-02-20T01:16:07Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -186,9 +186,9 @@
       ]
     },
     "headspace": {
-      "hash": "89241ceb28e6ead7",
+      "hash": "2cab70d0dd11eed9",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription",
-      "extracted_at_utc": "2026-02-19T23:27:14Z",
+      "extracted_at_utc": "2026-02-20T01:15:03Z",
       "tokens": []
     },
     "hulu": {
@@ -252,9 +252,9 @@
       "tokens": []
     },
     "midjourney": {
-      "hash": "cda38716917340a8",
+      "hash": "9afa3be5696ac85a",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-02-20T00:27:43Z",
+      "extracted_at_utc": "2026-02-20T01:13:08Z",
       "tokens": []
     },
     "noom": {
@@ -380,9 +380,9 @@
       ]
     },
     "strava": {
-      "hash": "8212454c1334eca9",
+      "hash": "8765312b0342e7f6",
       "source_url": "https://support.strava.com/hc/en-us/articles/216917967-Cancel-Subscription",
-      "extracted_at_utc": "2026-02-19T23:28:15Z",
+      "extracted_at_utc": "2026-02-20T01:15:29Z",
       "tokens": []
     },
     "todoist": {
@@ -461,9 +461,9 @@
       "tokens": []
     },
     "myfitnesspal_premium": {
-      "hash": "728ba934933006cc",
+      "hash": "302ffaaa5882feed",
       "source_url": "https://support.myfitnesspal.com/hc/en-us",
-      "extracted_at_utc": "2026-02-19T23:28:40Z",
+      "extracted_at_utc": "2026-02-20T01:15:39Z",
       "tokens": []
     },
     "keeper": {
@@ -502,9 +502,9 @@
       ]
     },
     "roblox_premium": {
-      "hash": "cf66697863766f38",
+      "hash": "dd8274318409a7cf",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/203312800-How-to-Cancel-Membership",
-      "extracted_at_utc": "2026-02-19T23:28:51Z",
+      "extracted_at_utc": "2026-02-20T01:15:39Z",
       "tokens": []
     },
     "new_york_times": {
@@ -568,9 +568,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "29ef335eedc7bef5",
+      "hash": "b017b99c33184386",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-19T23:29:17Z",
+      "extracted_at_utc": "2026-02-20T01:15:41Z",
       "tokens": []
     },
     "starz": {
@@ -596,9 +596,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "6751d0f943b872aa",
+      "hash": "81d825132084aaa3",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T00:27:35Z",
+      "extracted_at_utc": "2026-02-20T01:14:58Z",
       "tokens": []
     },
     "google_one": {
@@ -610,9 +610,9 @@
       ]
     },
     "masterclass": {
-      "hash": "b852ddd7e8c288fa",
+      "hash": "31e9c6990d098854",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-19T23:30:17Z",
+      "extracted_at_utc": "2026-02-20T01:15:06Z",
       "tokens": []
     },
     "peacock": {
@@ -630,24 +630,21 @@
       ]
     },
     "grammarly": {
-      "hash": "c4982f46749a6ceb",
+      "hash": "e5adcea469f4a180",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
-      "extracted_at_utc": "2026-02-20T00:25:14Z",
+      "extracted_at_utc": "2026-02-20T01:15:03Z",
       "tokens": []
     },
     "hinge": {
-      "hash": "0ea183e83914b9fd",
+      "hash": "0f4d43528e0bcee3",
       "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
-      "extracted_at_utc": "2026-02-20T00:25:17Z",
-      "tokens": [
-        "flow:support_request",
-        "restriction:no_refund_or_final_sale"
-      ]
+      "extracted_at_utc": "2026-02-20T01:15:51Z",
+      "tokens": []
     },
     "scribd": {
-      "hash": "64aecd4a6b3a2db0",
+      "hash": "bb0fdc3ccf056336",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
-      "extracted_at_utc": "2026-02-20T00:26:25Z",
+      "extracted_at_utc": "2026-02-20T01:15:21Z",
       "tokens": []
     },
     "britbox": {
@@ -657,15 +654,21 @@
       "tokens": []
     },
     "patreon": {
-      "hash": "658852cb63b73f34",
+      "hash": "d8bea36c057205d0",
       "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-      "extracted_at_utc": "2026-02-20T00:27:52Z",
+      "extracted_at_utc": "2026-02-20T01:15:38Z",
       "tokens": []
     },
     "substack": {
       "hash": "1fc132f3609dd8b1",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
       "extracted_at_utc": "2026-02-20T00:28:03Z",
+      "tokens": []
+    },
+    "dropbox_us": {
+      "hash": "c609144e56e2f6f1",
+      "source_url": "https://help.dropbox.com/plans/cancel-plan",
+      "extracted_at_utc": "2026-02-20T01:12:37Z",
       "tokens": []
     }
   }
