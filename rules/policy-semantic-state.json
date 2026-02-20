@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T01:10:44Z",
+  "updated_utc": "2026-02-20T06:45:01Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -99,10 +99,16 @@
       ]
     },
     "calm": {
-      "hash": "d72f75609e5be554",
+      "hash": "32092096ec499d3b",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-20T01:10:03Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T06:42:20Z",
+      "tokens": [
+        "flow:support_request",
+        "refund_window_days:10",
+        "refund_window_days:30",
+        "refund:allowed_language",
+        "refund:partial_allowed"
+      ]
     },
     "chatgpt_plus": {
       "hash": "2748e6816fd5301f",
@@ -257,9 +263,9 @@
       ]
     },
     "masterclass": {
-      "hash": "31e9c6990d098854",
+      "hash": "b852ddd7e8c288fa",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-20T01:10:09Z",
+      "extracted_at_utc": "2026-02-20T06:44:26Z",
       "tokens": []
     },
     "microsoft_365": {
@@ -359,9 +365,9 @@
       ]
     },
     "ring_protect": {
-      "hash": "027def0b27e933b3",
+      "hash": "f844d5782fdca127",
       "source_url": "https://ring.com/protect-plans",
-      "extracted_at_utc": "2026-02-19T23:22:24Z",
+      "extracted_at_utc": "2026-02-20T06:44:21Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -450,9 +456,9 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "83506f0bf73b7b21",
+      "hash": "40f97abcc26dc12b",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-19T23:22:48Z",
+      "extracted_at_utc": "2026-02-20T06:44:29Z",
       "tokens": [
         "refund_window_days:365"
       ]
@@ -522,9 +528,9 @@
       ]
     },
     "dashlane": {
-      "hash": "5b339b17835cdb72",
+      "hash": "49c1675725ee1c85",
       "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "extracted_at_utc": "2026-02-19T23:23:04Z",
+      "extracted_at_utc": "2026-02-20T06:44:31Z",
       "tokens": []
     },
     "fitbit_premium": {
@@ -585,10 +591,13 @@
       ]
     },
     "roblox_premium": {
-      "hash": "d72f75609e5be554",
+      "hash": "d15eabe459d7d36d",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-19T23:23:38Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T06:44:36Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale",
+        "risk:chargeback_or_dispute"
+      ]
     },
     "mlb_tv": {
       "hash": "2df9478a4bf6f184",
@@ -622,10 +631,12 @@
       "tokens": []
     },
     "substack": {
-      "hash": "1fc132f3609dd8b1",
+      "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-20T00:23:02Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T06:44:38Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "snapchat_plus": {
       "hash": "99ce8296a9878690",
@@ -737,9 +748,9 @@
       ]
     },
     "hellofresh": {
-      "hash": "d0fe4030fbecd2c7",
+      "hash": "e7946aa83dabde63",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-19T23:24:16Z",
+      "extracted_at_utc": "2026-02-20T06:42:50Z",
       "tokens": []
     },
     "washington_post": {
@@ -749,23 +760,21 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "47c9be34bb2fae73",
+      "hash": "534f43374df46cdf",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T01:10:02Z",
+      "extracted_at_utc": "2026-02-20T06:44:15Z",
       "tokens": []
     },
     "headspace": {
-      "hash": "a16dc64c1531c468",
+      "hash": "d72f75609e5be554",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-20T01:10:30Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-20T06:44:48Z",
+      "tokens": []
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
+      "hash": "e5adcea469f4a180",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-19T23:24:42Z",
+      "extracted_at_utc": "2026-02-20T06:42:44Z",
       "tokens": []
     },
     "scribd": {

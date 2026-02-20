@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T01:18:48Z",
+  "updated_utc": "2026-02-20T06:53:48Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
-      "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-20T01:18:19Z",
+      "hash": "e5adcea469f4a180",
+      "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
+      "extracted_at_utc": "2026-02-20T06:53:43Z",
       "tokens": []
     },
     "hulu": {
@@ -218,10 +218,13 @@
       "tokens": []
     },
     "hinge": {
-      "hash": "0f4d43528e0bcee3",
+      "hash": "0ea183e83914b9fd",
       "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
-      "extracted_at_utc": "2026-02-20T01:18:28Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T06:52:28Z",
+      "tokens": [
+        "flow:support_request",
+        "restriction:no_refund_or_final_sale"
+      ]
     },
     "icloud_plus": {
       "hash": "91882bfe2276dfad",
@@ -343,9 +346,9 @@
       ]
     },
     "ring_protect": {
-      "hash": "76bb335ff33e0b87",
+      "hash": "3f8557f772818b8f",
       "source_url": "https://ring.com/protect-plans",
-      "extracted_at_utc": "2026-02-19T23:33:12Z",
+      "extracted_at_utc": "2026-02-20T06:53:44Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -432,9 +435,9 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "83506f0bf73b7b21",
+      "hash": "40f97abcc26dc12b",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-19T23:33:20Z",
+      "extracted_at_utc": "2026-02-20T06:52:35Z",
       "tokens": []
     },
     "twitch": {
@@ -554,9 +557,9 @@
       ]
     },
     "ubisoft_plus": {
-      "hash": "6d2ce2c2cf0fd518",
+      "hash": "6d335c3d4924aae8",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-20T01:18:28Z",
+      "extracted_at_utc": "2026-02-20T06:52:35Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "return:condition_unopened_or_unused",
@@ -638,9 +641,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "353aa0508fd129df",
+      "hash": "bf6f426a2126312f",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-20T01:18:47Z",
+      "extracted_at_utc": "2026-02-20T06:52:17Z",
       "tokens": []
     },
     "britbox": {
@@ -699,29 +702,32 @@
       "tokens": []
     },
     "proton": {
-      "hash": "9797e79eb7ad6a9c",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-20T01:17:29Z",
+      "extracted_at_utc": "2026-02-20T06:52:33Z",
       "tokens": [
         "billing:auto_renew"
       ]
     },
     "masterclass": {
-      "hash": "25073741b6741db6",
+      "hash": "b852ddd7e8c288fa",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-20T00:31:12Z",
+      "extracted_at_utc": "2026-02-20T06:52:33Z",
       "tokens": []
     },
     "roblox_premium": {
-      "hash": "d72f75609e5be554",
+      "hash": "d15eabe459d7d36d",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-19T23:34:15Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T06:52:03Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale",
+        "risk:chargeback_or_dispute"
+      ]
     },
     "espn_plus": {
-      "hash": "47c9be34bb2fae73",
+      "hash": "534f43374df46cdf",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T01:18:22Z",
+      "extracted_at_utc": "2026-02-20T06:52:22Z",
       "tokens": []
     },
     "canva": {
@@ -733,17 +739,15 @@
       ]
     },
     "headspace": {
-      "hash": "a16dc64c1531c468",
+      "hash": "d72f75609e5be554",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-20T01:18:25Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-20T06:52:45Z",
+      "tokens": []
     },
     "substack": {
-      "hash": "1fc132f3609dd8b1",
+      "hash": "20fab989e6c94724",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-20T01:18:40Z",
+      "extracted_at_utc": "2026-02-20T06:52:40Z",
       "tokens": []
     }
   }

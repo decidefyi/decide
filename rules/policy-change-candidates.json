@@ -1,54 +1,52 @@
 {
-  "hellofresh": {
-    "hash": "14c2a5d6f2117b70",
+  "canva": {
+    "hash": "90b48af9c9b95956",
     "count": 1,
     "flip_count": 2,
-    "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-    "pending_since_utc": "2026-02-20T01:09:04Z",
-    "first_seen_utc": "2026-02-20T01:10:34Z",
-    "last_seen_utc": "2026-02-20T01:10:34Z",
+    "source_url": "https://www.canva.com/policies/terms-of-use/",
+    "pending_since_utc": "2026-02-20T06:42:25Z",
+    "first_seen_utc": "2026-02-20T06:44:51Z",
+    "last_seen_utc": "2026-02-20T06:44:51Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "14c2a5d6f2117b70",
-      "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-20T01:10:34Z",
+      "hash": "90b48af9c9b95956",
+      "source_url": "https://www.canva.com/policies/terms-of-use/",
+      "extracted_at_utc": "2026-02-20T06:44:51Z",
       "tokens": []
     }
   },
   "myfitnesspal_premium": {
-    "hash": "d0238cd779173a6b",
+    "hash": "7e6d6f173b8ca8b2",
     "count": 1,
-    "flip_count": 50,
+    "flip_count": 53,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T08:51:39Z",
-    "first_seen_utc": "2026-02-20T01:10:23Z",
-    "last_seen_utc": "2026-02-20T01:10:23Z",
+    "first_seen_utc": "2026-02-20T06:44:54Z",
+    "last_seen_utc": "2026-02-20T06:44:54Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "d0238cd779173a6b",
+      "hash": "7e6d6f173b8ca8b2",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-20T01:10:23Z",
+      "extracted_at_utc": "2026-02-20T06:44:54Z",
       "tokens": [
         "flow:support_request"
       ]
     }
   },
-  "substack": {
-    "hash": "f5fa5608fc35aee4",
+  "soundcloud_go": {
+    "hash": "5bcfeeab491cb24c",
     "count": 1,
     "flip_count": 2,
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "pending_since_utc": "2026-02-20T01:09:51Z",
-    "first_seen_utc": "2026-02-20T01:10:44Z",
-    "last_seen_utc": "2026-02-20T01:10:44Z",
+    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+    "pending_since_utc": "2026-02-20T06:44:10Z",
+    "first_seen_utc": "2026-02-20T06:45:01Z",
+    "last_seen_utc": "2026-02-20T06:45:01Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "f5fa5608fc35aee4",
-      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-20T01:10:44Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "hash": "5bcfeeab491cb24c",
+      "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+      "extracted_at_utc": "2026-02-20T06:45:01Z",
+      "tokens": []
     }
   }
 }
