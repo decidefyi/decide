@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T12:42:31Z",
+  "updated_utc": "2026-02-20T18:43:03Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -10,9 +10,9 @@
       "tokens": []
     },
     "1password": {
-      "hash": "b861e7b433e09551",
+      "hash": "229f4e9a9a5cc299",
       "source_url": "https://support.1password.com/cancel-subscription/",
-      "extracted_at_utc": "2026-02-20T12:41:41Z",
+      "extracted_at_utc": "2026-02-20T18:37:29Z",
       "tokens": [
         "flow:support_request"
       ]
@@ -84,10 +84,12 @@
       ]
     },
     "calm": {
-      "hash": "d72f75609e5be554",
+      "hash": "32092096ec499d3b",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-19T23:26:01Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T18:38:14Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "chatgpt_plus": {
       "hash": "2748e6816fd5301f",
@@ -315,9 +317,9 @@
       ]
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-20T12:41:50Z",
+      "extracted_at_utc": "2026-02-20T18:40:26Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -337,9 +339,9 @@
       "tokens": []
     },
     "sling_tv": {
-      "hash": "62e1d378a3e365b8",
+      "hash": "b3a8fae523ad2980",
       "source_url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
-      "extracted_at_utc": "2026-02-19T23:28:09Z",
+      "extracted_at_utc": "2026-02-20T18:42:32Z",
       "tokens": [
         "cancel_window_days:1",
         "cancel_window_days:3",
@@ -422,10 +424,12 @@
       ]
     },
     "xbox_game_pass": {
-      "hash": "b2b64b0a1fb05d56",
+      "hash": "000c3cabe65092a5",
       "source_url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
-      "extracted_at_utc": "2026-02-19T23:28:27Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T18:42:39Z",
+      "tokens": [
+        "billing:prorated"
+      ]
     },
     "youtube_premium": {
       "hash": "e0ac585b7096e62f",
@@ -491,9 +495,9 @@
       "tokens": []
     },
     "ea_play": {
-      "hash": "6e12fc1bb74a1d6c",
+      "hash": "ec5fed4d6b8fbece",
       "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-      "extracted_at_utc": "2026-02-20T12:42:06Z",
+      "extracted_at_utc": "2026-02-20T18:42:37Z",
       "tokens": []
     },
     "ubisoft_plus": {
@@ -505,9 +509,9 @@
       ]
     },
     "roblox_premium": {
-      "hash": "dd8274318409a7cf",
+      "hash": "cf66697863766f38",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/203312800-How-to-Cancel-Membership",
-      "extracted_at_utc": "2026-02-20T01:15:39Z",
+      "extracted_at_utc": "2026-02-20T18:42:41Z",
       "tokens": []
     },
     "new_york_times": {
@@ -599,9 +603,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "c6e7440e78c81ca7",
+      "hash": "b5f6198d2eece287",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T12:41:47Z",
+      "extracted_at_utc": "2026-02-20T18:42:43Z",
       "tokens": []
     },
     "google_one": {
@@ -660,9 +664,9 @@
       "tokens": []
     },
     "patreon": {
-      "hash": "658852cb63b73f34",
+      "hash": "82837f17e72715f7",
       "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-      "extracted_at_utc": "2026-02-20T06:49:54Z",
+      "extracted_at_utc": "2026-02-20T18:41:38Z",
       "tokens": []
     },
     "substack": {

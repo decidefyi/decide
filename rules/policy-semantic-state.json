@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T12:37:02Z",
+  "updated_utc": "2026-02-20T18:37:20Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -248,9 +248,9 @@
       "tokens": []
     },
     "max": {
-      "hash": "9a0c33ee8a69779a",
+      "hash": "8e52c1430b6f47ea",
       "source_url": "https://help.hbomax.com/US/Answer/Detail/000002522",
-      "extracted_at_utc": "2026-02-19T23:22:07Z",
+      "extracted_at_utc": "2026-02-20T18:36:59Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
@@ -273,9 +273,9 @@
       "tokens": []
     },
     "microsoft_365": {
-      "hash": "b1bd3eb3d72a938e",
+      "hash": "32a5fda3b8a0b263",
       "source_url": "https://support.microsoft.com/en-us/account-billing/returning-items-you-bought-from-microsoft-for-exchange-or-refund-81629012-aa4f-f48b-2394-8596f415072b",
-      "extracted_at_utc": "2026-02-19T23:22:13Z",
+      "extracted_at_utc": "2026-02-20T18:36:59Z",
       "tokens": [
         "flow:support_request"
       ]
@@ -361,9 +361,9 @@
       ]
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-20T01:09:17Z",
+      "extracted_at_utc": "2026-02-20T18:35:11Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -460,12 +460,10 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "83506f0bf73b7b21",
+      "hash": "21e61b19663ae09c",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-20T12:36:43Z",
-      "tokens": [
-        "refund_window_days:365"
-      ]
+      "extracted_at_utc": "2026-02-20T18:37:05Z",
+      "tokens": []
     },
     "twitch": {
       "hash": "69193932ed81a517",
@@ -492,10 +490,13 @@
       "tokens": []
     },
     "xbox_game_pass": {
-      "hash": "b2b64b0a1fb05d56",
+      "hash": "000c3cabe65092a5",
       "source_url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
-      "extracted_at_utc": "2026-02-19T23:22:49Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T18:37:01Z",
+      "tokens": [
+        "billing:prorated",
+        "refund:partial_allowed"
+      ]
     },
     "wix": {
       "hash": "a30d3e0398b157fd",
@@ -764,21 +765,23 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "c6e7440e78c81ca7",
+      "hash": "1a570f400c5af39d",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T12:35:52Z",
+      "extracted_at_utc": "2026-02-20T18:36:54Z",
       "tokens": []
     },
     "headspace": {
-      "hash": "d72f75609e5be554",
+      "hash": "8f69b60d284caff0",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-20T06:44:48Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T18:36:56Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "grammarly": {
-      "hash": "e5adcea469f4a180",
+      "hash": "287ff660877b52d8",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-20T06:42:44Z",
+      "extracted_at_utc": "2026-02-20T18:37:15Z",
       "tokens": []
     },
     "scribd": {

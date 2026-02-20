@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T12:45:53Z",
+  "updated_utc": "2026-02-20T18:45:50Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -247,9 +247,9 @@
       "tokens": []
     },
     "max": {
-      "hash": "9a0c33ee8a69779a",
+      "hash": "8e52c1430b6f47ea",
       "source_url": "https://help.hbomax.com/US/Answer/Detail/000002522",
-      "extracted_at_utc": "2026-02-19T23:32:59Z",
+      "extracted_at_utc": "2026-02-20T18:45:28Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
@@ -263,9 +263,9 @@
       ]
     },
     "microsoft_365": {
-      "hash": "b1bd3eb3d72a938e",
+      "hash": "32a5fda3b8a0b263",
       "source_url": "https://support.microsoft.com/en-us/account-billing/returning-items-you-bought-from-microsoft-for-exchange-or-refund-81629012-aa4f-f48b-2394-8596f415072b",
-      "extracted_at_utc": "2026-02-19T23:33:05Z",
+      "extracted_at_utc": "2026-02-20T18:45:43Z",
       "tokens": [
         "flow:support_request"
       ]
@@ -368,9 +368,9 @@
       "tokens": []
     },
     "sling_tv": {
-      "hash": "886ae9f832fefa12",
+      "hash": "133a0bf847eeda20",
       "source_url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
-      "extracted_at_utc": "2026-02-19T23:33:16Z",
+      "extracted_at_utc": "2026-02-20T18:45:43Z",
       "tokens": []
     },
     "slack": {
@@ -466,10 +466,12 @@
       ]
     },
     "xbox_game_pass": {
-      "hash": "b2b64b0a1fb05d56",
+      "hash": "000c3cabe65092a5",
       "source_url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
-      "extracted_at_utc": "2026-02-19T23:33:21Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T18:45:31Z",
+      "tokens": [
+        "billing:prorated"
+      ]
     },
     "wix": {
       "hash": "5b74f0289164ad48",
@@ -727,9 +729,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "c6e7440e78c81ca7",
+      "hash": "1a570f400c5af39d",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T12:45:09Z",
+      "extracted_at_utc": "2026-02-20T18:45:26Z",
       "tokens": []
     },
     "canva": {
@@ -747,10 +749,12 @@
       "tokens": []
     },
     "substack": {
-      "hash": "20fab989e6c94724",
+      "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-20T06:52:40Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T18:45:50Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     }
   }
 }
