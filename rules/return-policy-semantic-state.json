@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-19T23:34:35Z",
+  "updated_utc": "2026-02-20T00:31:41Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
+      "hash": "180925e88982390f",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-19T23:32:53Z",
+      "extracted_at_utc": "2026-02-20T00:31:35Z",
       "tokens": []
     },
     "hulu": {
@@ -212,9 +212,9 @@
       ]
     },
     "hellofresh": {
-      "hash": "d0fe4030fbecd2c7",
+      "hash": "14c2a5d6f2117b70",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-19T23:32:56Z",
+      "extracted_at_utc": "2026-02-20T00:31:34Z",
       "tokens": []
     },
     "hinge": {
@@ -279,9 +279,9 @@
       ]
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "9afa3be5696ac85a",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-19T23:33:07Z",
+      "extracted_at_utc": "2026-02-20T00:31:14Z",
       "tokens": []
     },
     "nintendo_switch_online": {
@@ -641,9 +641,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "bf6f426a2126312f",
+      "hash": "f89dc263e8d11e16",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-19T23:33:52Z",
+      "extracted_at_utc": "2026-02-20T00:31:26Z",
       "tokens": []
     },
     "britbox": {
@@ -710,9 +710,9 @@
       ]
     },
     "masterclass": {
-      "hash": "b852ddd7e8c288fa",
+      "hash": "25073741b6741db6",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-19T23:34:12Z",
+      "extracted_at_utc": "2026-02-20T00:31:12Z",
       "tokens": []
     },
     "roblox_premium": {
@@ -722,10 +722,34 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "6751d0f943b872aa",
+      "hash": "5937b74ce5bfdce9",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-19T23:34:20Z",
+      "extracted_at_utc": "2026-02-20T00:31:05Z",
       "tokens": []
+    },
+    "canva": {
+      "hash": "69d172f6c0185ed3",
+      "source_url": "https://www.canva.com/policies/terms-of-use/",
+      "extracted_at_utc": "2026-02-20T00:29:09Z",
+      "tokens": [
+        "billing:prorated"
+      ]
+    },
+    "headspace": {
+      "hash": "d3367b15f8565870",
+      "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
+      "extracted_at_utc": "2026-02-20T00:29:23Z",
+      "tokens": [
+        "flow:support_request"
+      ]
+    },
+    "substack": {
+      "hash": "f5fa5608fc35aee4",
+      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "extracted_at_utc": "2026-02-20T00:30:33Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     }
   }
 }

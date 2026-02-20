@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-19T23:37:59Z",
+  "updated_utc": "2026-02-20T00:34:46Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -79,9 +79,9 @@
       "tokens": []
     },
     "claude_pro": {
-      "hash": "fff53cc5006a0a31",
+      "hash": "be542c04706a08ae",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-02-19T23:35:26Z",
+      "extracted_at_utc": "2026-02-20T00:32:27Z",
       "tokens": []
     },
     "chatgpt_plus": {
@@ -214,9 +214,9 @@
       "tokens": []
     },
     "hinge": {
-      "hash": "708eef0a4d8b60ad",
+      "hash": "0f4d43528e0bcee3",
       "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-02-19T23:35:40Z",
+      "extracted_at_utc": "2026-02-20T00:34:37Z",
       "tokens": []
     },
     "icloud_plus": {
@@ -585,9 +585,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "bf6f426a2126312f",
+      "hash": "353aa0508fd129df",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-19T23:37:43Z",
+      "extracted_at_utc": "2026-02-20T00:34:46Z",
       "tokens": []
     },
     "starz": {
@@ -634,9 +634,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "6751d0f943b872aa",
+      "hash": "5937b74ce5bfdce9",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-19T23:37:57Z",
+      "extracted_at_utc": "2026-02-20T00:34:30Z",
       "tokens": []
     },
     "peacock": {
@@ -646,9 +646,15 @@
       "tokens": []
     },
     "twitch": {
-      "hash": "7d033201f0c4bc2c",
+      "hash": "cdea315827f28cd4",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-19T23:37:59Z",
+      "extracted_at_utc": "2026-02-20T00:34:32Z",
+      "tokens": []
+    },
+    "nordvpn": {
+      "hash": "26addcd33afd7750",
+      "source_url": "https://nordvpn.com/pricing/",
+      "extracted_at_utc": "2026-02-20T00:33:05Z",
       "tokens": []
     }
   }

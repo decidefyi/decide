@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-19T23:31:48Z",
+  "updated_utc": "2026-02-20T00:28:22Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -172,13 +172,10 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-19T23:27:08Z",
-      "tokens": [
-        "cancel:anytime",
-        "cancel:fee_or_penalty"
-      ]
+      "extracted_at_utc": "2026-02-20T00:27:37Z",
+      "tokens": []
     },
     "google_play": {
       "hash": "b5cf2e31119e8d8d",
@@ -255,9 +252,9 @@
       "tokens": []
     },
     "midjourney": {
-      "hash": "05a4746cf3c4be3c",
+      "hash": "cda38716917340a8",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-02-19T23:27:51Z",
+      "extracted_at_utc": "2026-02-20T00:27:43Z",
       "tokens": []
     },
     "noom": {
@@ -599,9 +596,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "47c9be34bb2fae73",
+      "hash": "6751d0f943b872aa",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-19T23:29:26Z",
+      "extracted_at_utc": "2026-02-20T00:27:35Z",
       "tokens": []
     },
     "google_one": {
@@ -619,9 +616,56 @@
       "tokens": []
     },
     "peacock": {
-      "hash": "1ee376168c2f131d",
+      "hash": "f10a6f0ae8d2f044",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-02-19T23:30:24Z",
+      "extracted_at_utc": "2026-02-20T00:26:11Z",
+      "tokens": []
+    },
+    "evernote": {
+      "hash": "5fb98c6ad4e6367d",
+      "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
+      "extracted_at_utc": "2026-02-20T00:25:05Z",
+      "tokens": [
+        "billing:prorated"
+      ]
+    },
+    "grammarly": {
+      "hash": "c4982f46749a6ceb",
+      "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
+      "extracted_at_utc": "2026-02-20T00:25:14Z",
+      "tokens": []
+    },
+    "hinge": {
+      "hash": "0ea183e83914b9fd",
+      "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
+      "extracted_at_utc": "2026-02-20T00:25:17Z",
+      "tokens": [
+        "flow:support_request",
+        "restriction:no_refund_or_final_sale"
+      ]
+    },
+    "scribd": {
+      "hash": "64aecd4a6b3a2db0",
+      "source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
+      "extracted_at_utc": "2026-02-20T00:26:25Z",
+      "tokens": []
+    },
+    "britbox": {
+      "hash": "6d8506d3859a38d8",
+      "source_url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",
+      "extracted_at_utc": "2026-02-20T00:27:22Z",
+      "tokens": []
+    },
+    "patreon": {
+      "hash": "658852cb63b73f34",
+      "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
+      "extracted_at_utc": "2026-02-20T00:27:52Z",
+      "tokens": []
+    },
+    "substack": {
+      "hash": "1fc132f3609dd8b1",
+      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "extracted_at_utc": "2026-02-20T00:28:03Z",
       "tokens": []
     }
   }

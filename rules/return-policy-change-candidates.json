@@ -1,52 +1,20 @@
 {
-  "canva": {
-    "hash": "908eda2f52b66159",
-    "count": 1,
-    "flip_count": 2,
-    "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "pending_since_utc": "2026-02-19T23:32:38Z",
-    "first_seen_utc": "2026-02-19T23:34:25Z",
-    "last_seen_utc": "2026-02-19T23:34:25Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "908eda2f52b66159",
-      "source_url": "https://www.canva.com/policies/terms-of-use/",
-      "extracted_at_utc": "2026-02-19T23:34:25Z",
-      "tokens": []
-    }
-  },
   "myfitnesspal_premium": {
-    "hash": "d20c4555bd0fc707",
+    "hash": "a43a2dcd198ac210",
     "count": 1,
-    "flip_count": 46,
+    "flip_count": 49,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T09:00:33Z",
-    "first_seen_utc": "2026-02-19T23:34:23Z",
-    "last_seen_utc": "2026-02-19T23:34:23Z",
+    "first_seen_utc": "2026-02-20T00:31:41Z",
+    "last_seen_utc": "2026-02-20T00:31:41Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "d20c4555bd0fc707",
+      "hash": "a43a2dcd198ac210",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-19T23:34:23Z",
+      "extracted_at_utc": "2026-02-20T00:31:41Z",
       "tokens": [
         "flow:support_request"
       ]
-    }
-  },
-  "substack": {
-    "hash": "1fc132f3609dd8b1",
-    "count": 1,
-    "flip_count": 2,
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "pending_since_utc": "2026-02-19T23:33:45Z",
-    "first_seen_utc": "2026-02-19T23:34:35Z",
-    "last_seen_utc": "2026-02-19T23:34:35Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "1fc132f3609dd8b1",
-      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-19T23:34:35Z",
-      "tokens": []
     }
   }
 }

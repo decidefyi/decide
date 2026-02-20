@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-19T23:24:50Z",
+  "updated_utc": "2026-02-20T00:23:08Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -218,10 +218,14 @@
       ]
     },
     "hinge": {
-      "hash": "a1eb9af0e6420b90",
+      "hash": "0ea183e83914b9fd",
       "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
-      "extracted_at_utc": "2026-02-19T23:22:05Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T00:23:06Z",
+      "tokens": [
+        "flow:support_request",
+        "refund_window_days:14",
+        "restriction:no_refund_or_final_sale"
+      ]
     },
     "icloud_plus": {
       "hash": "91882bfe2276dfad",
@@ -357,9 +361,9 @@
       ]
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-19T23:22:20Z",
+      "extracted_at_utc": "2026-02-20T00:22:51Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -628,12 +632,10 @@
       "tokens": []
     },
     "substack": {
-      "hash": "f5fa5608fc35aee4",
+      "hash": "1fc132f3609dd8b1",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-19T23:23:46Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-20T00:23:02Z",
+      "tokens": []
     },
     "snapchat_plus": {
       "hash": "99ce8296a9878690",
@@ -674,9 +676,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "f89dc263e8d11e16",
+      "hash": "bf6f426a2126312f",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-19T23:23:59Z",
+      "extracted_at_utc": "2026-02-20T00:22:58Z",
       "tokens": []
     },
     "starz": {
@@ -735,10 +737,14 @@
       "tokens": []
     },
     "evernote": {
-      "hash": "fb8cc299016a951c",
+      "hash": "5fb98c6ad4e6367d",
       "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
-      "extracted_at_utc": "2026-02-19T23:24:14Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T00:22:34Z",
+      "tokens": [
+        "billing:prorated",
+        "refund:allowed_language",
+        "refund:partial_allowed"
+      ]
     },
     "hellofresh": {
       "hash": "d0fe4030fbecd2c7",
@@ -747,27 +753,45 @@
       "tokens": []
     },
     "washington_post": {
-      "hash": "1b67b6f75b4383a6",
+      "hash": "facbda2fc8418cb4",
       "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-      "extracted_at_utc": "2026-02-19T23:24:32Z",
+      "extracted_at_utc": "2026-02-20T00:22:53Z",
       "tokens": []
     },
     "espn_plus": {
-      "hash": "1a570f400c5af39d",
+      "hash": "d49a74b7a0147f50",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-19T23:24:35Z",
+      "extracted_at_utc": "2026-02-20T00:23:04Z",
       "tokens": []
     },
     "headspace": {
-      "hash": "2cab70d0dd11eed9",
+      "hash": "d3367b15f8565870",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-19T23:24:38Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T00:22:37Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "grammarly": {
       "hash": "287ff660877b52d8",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
       "extracted_at_utc": "2026-02-19T23:24:42Z",
+      "tokens": []
+    },
+    "scribd": {
+      "hash": "0cac65b719c1c5b6",
+      "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
+      "extracted_at_utc": "2026-02-20T00:21:46Z",
+      "tokens": [
+        "refund_window_days:30",
+        "refund:allowed_language",
+        "refund:partial_allowed"
+      ]
+    },
+    "midjourney": {
+      "hash": "1b2f6e20c6cb63ba",
+      "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
+      "extracted_at_utc": "2026-02-20T00:22:44Z",
       "tokens": []
     }
   }
