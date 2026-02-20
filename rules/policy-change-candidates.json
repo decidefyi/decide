@@ -1,52 +1,20 @@
 {
-  "canva": {
-    "hash": "90b48af9c9b95956",
-    "count": 1,
-    "flip_count": 2,
-    "source_url": "https://www.canva.com/policies/terms-of-use/",
-    "pending_since_utc": "2026-02-20T06:42:25Z",
-    "first_seen_utc": "2026-02-20T06:44:51Z",
-    "last_seen_utc": "2026-02-20T06:44:51Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "90b48af9c9b95956",
-      "source_url": "https://www.canva.com/policies/terms-of-use/",
-      "extracted_at_utc": "2026-02-20T06:44:51Z",
-      "tokens": []
-    }
-  },
   "myfitnesspal_premium": {
-    "hash": "7e6d6f173b8ca8b2",
+    "hash": "6fa7ab4261e6ef7a",
     "count": 1,
-    "flip_count": 53,
+    "flip_count": 56,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T08:51:39Z",
-    "first_seen_utc": "2026-02-20T06:44:54Z",
-    "last_seen_utc": "2026-02-20T06:44:54Z",
+    "first_seen_utc": "2026-02-20T12:37:00Z",
+    "last_seen_utc": "2026-02-20T12:37:00Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "7e6d6f173b8ca8b2",
+      "hash": "6fa7ab4261e6ef7a",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-20T06:44:54Z",
+      "extracted_at_utc": "2026-02-20T12:37:00Z",
       "tokens": [
         "flow:support_request"
       ]
-    }
-  },
-  "soundcloud_go": {
-    "hash": "5bcfeeab491cb24c",
-    "count": 1,
-    "flip_count": 2,
-    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-    "pending_since_utc": "2026-02-20T06:44:10Z",
-    "first_seen_utc": "2026-02-20T06:45:01Z",
-    "last_seen_utc": "2026-02-20T06:45:01Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "5bcfeeab491cb24c",
-      "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-20T06:45:01Z",
-      "tokens": []
     }
   }
 }

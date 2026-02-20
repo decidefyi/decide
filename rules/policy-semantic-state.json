@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T06:45:01Z",
+  "updated_utc": "2026-02-20T12:37:02Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -218,10 +218,14 @@
       ]
     },
     "hinge": {
-      "hash": "0f4d43528e0bcee3",
-      "source_url": "https://help.hinge.co/hc/en-us",
-      "extracted_at_utc": "2026-02-20T01:10:38Z",
-      "tokens": []
+      "hash": "0ea183e83914b9fd",
+      "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
+      "extracted_at_utc": "2026-02-20T12:36:40Z",
+      "tokens": [
+        "flow:support_request",
+        "refund_window_days:14",
+        "restriction:no_refund_or_final_sale"
+      ]
     },
     "icloud_plus": {
       "hash": "91882bfe2276dfad",
@@ -456,9 +460,9 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "40f97abcc26dc12b",
+      "hash": "83506f0bf73b7b21",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-20T06:44:29Z",
+      "extracted_at_utc": "2026-02-20T12:36:43Z",
       "tokens": [
         "refund_window_days:365"
       ]
@@ -528,9 +532,9 @@
       ]
     },
     "dashlane": {
-      "hash": "49c1675725ee1c85",
+      "hash": "5b339b17835cdb72",
       "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "extracted_at_utc": "2026-02-20T06:44:31Z",
+      "extracted_at_utc": "2026-02-20T12:36:43Z",
       "tokens": []
     },
     "fitbit_premium": {
@@ -677,9 +681,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "353aa0508fd129df",
+      "hash": "bf6f426a2126312f",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-20T01:10:26Z",
+      "extracted_at_utc": "2026-02-20T12:37:02Z",
       "tokens": []
     },
     "starz": {
@@ -748,9 +752,9 @@
       ]
     },
     "hellofresh": {
-      "hash": "e7946aa83dabde63",
+      "hash": "d0fe4030fbecd2c7",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-20T06:42:50Z",
+      "extracted_at_utc": "2026-02-20T12:36:36Z",
       "tokens": []
     },
     "washington_post": {
@@ -760,9 +764,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "534f43374df46cdf",
+      "hash": "c6e7440e78c81ca7",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T06:44:15Z",
+      "extracted_at_utc": "2026-02-20T12:35:52Z",
       "tokens": []
     },
     "headspace": {
@@ -788,9 +792,9 @@
       ]
     },
     "midjourney": {
-      "hash": "9afa3be5696ac85a",
+      "hash": "1b2f6e20c6cb63ba",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-20T01:10:43Z",
+      "extracted_at_utc": "2026-02-20T12:36:56Z",
       "tokens": []
     },
     "canva": {

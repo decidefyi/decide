@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T06:50:01Z",
+  "updated_utc": "2026-02-20T12:42:31Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -10,9 +10,9 @@
       "tokens": []
     },
     "1password": {
-      "hash": "229f4e9a9a5cc299",
+      "hash": "b861e7b433e09551",
       "source_url": "https://support.1password.com/cancel-subscription/",
-      "extracted_at_utc": "2026-02-20T06:48:49Z",
+      "extracted_at_utc": "2026-02-20T12:41:41Z",
       "tokens": [
         "flow:support_request"
       ]
@@ -172,10 +172,13 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-20T00:27:37Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T12:41:49Z",
+      "tokens": [
+        "cancel:anytime",
+        "cancel:fee_or_penalty"
+      ]
     },
     "google_play": {
       "hash": "b5cf2e31119e8d8d",
@@ -312,9 +315,9 @@
       ]
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-20T06:47:07Z",
+      "extracted_at_utc": "2026-02-20T12:41:50Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -392,9 +395,9 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "40f97abcc26dc12b",
+      "hash": "83506f0bf73b7b21",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-20T06:49:27Z",
+      "extracted_at_utc": "2026-02-20T12:42:01Z",
       "tokens": []
     },
     "tinder": {
@@ -488,9 +491,9 @@
       "tokens": []
     },
     "ea_play": {
-      "hash": "ebc738c6bcf654ce",
+      "hash": "6e12fc1bb74a1d6c",
       "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-      "extracted_at_utc": "2026-02-19T23:28:48Z",
+      "extracted_at_utc": "2026-02-20T12:42:06Z",
       "tokens": []
     },
     "ubisoft_plus": {
@@ -596,9 +599,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "534f43374df46cdf",
+      "hash": "c6e7440e78c81ca7",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T06:48:53Z",
+      "extracted_at_utc": "2026-02-20T12:41:47Z",
       "tokens": []
     },
     "google_one": {
@@ -616,9 +619,9 @@
       "tokens": []
     },
     "peacock": {
-      "hash": "1ee376168c2f131d",
+      "hash": "f10a6f0ae8d2f044",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-02-20T06:49:14Z",
+      "extracted_at_utc": "2026-02-20T12:40:00Z",
       "tokens": []
     },
     "evernote": {
@@ -630,9 +633,9 @@
       ]
     },
     "grammarly": {
-      "hash": "e5adcea469f4a180",
+      "hash": "c4982f46749a6ceb",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
-      "extracted_at_utc": "2026-02-20T01:15:03Z",
+      "extracted_at_utc": "2026-02-20T12:42:14Z",
       "tokens": []
     },
     "hinge": {
@@ -645,9 +648,9 @@
       ]
     },
     "scribd": {
-      "hash": "4d36180bf702e4c9",
+      "hash": "64aecd4a6b3a2db0",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
-      "extracted_at_utc": "2026-02-20T06:49:25Z",
+      "extracted_at_utc": "2026-02-20T12:41:53Z",
       "tokens": []
     },
     "britbox": {
@@ -669,9 +672,9 @@
       "tokens": []
     },
     "dropbox_us": {
-      "hash": "0adfdc179206e059",
+      "hash": "c609144e56e2f6f1",
       "source_url": "https://help.dropbox.com/plans/cancel-plan",
-      "extracted_at_utc": "2026-02-20T06:49:03Z",
+      "extracted_at_utc": "2026-02-20T12:38:49Z",
       "tokens": []
     }
   }

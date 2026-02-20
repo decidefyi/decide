@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T06:53:48Z",
+  "updated_utc": "2026-02-20T12:45:53Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -183,9 +183,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-20T01:18:19Z",
+      "extracted_at_utc": "2026-02-20T12:45:10Z",
       "tokens": []
     },
     "google_play": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "e5adcea469f4a180",
-      "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
-      "extracted_at_utc": "2026-02-20T06:53:43Z",
+      "hash": "287ff660877b52d8",
+      "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
+      "extracted_at_utc": "2026-02-20T12:45:47Z",
       "tokens": []
     },
     "hulu": {
@@ -279,9 +279,9 @@
       ]
     },
     "midjourney": {
-      "hash": "9afa3be5696ac85a",
+      "hash": "1b2f6e20c6cb63ba",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-20T00:31:14Z",
+      "extracted_at_utc": "2026-02-20T12:45:46Z",
       "tokens": []
     },
     "nintendo_switch_online": {
@@ -435,9 +435,9 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "40f97abcc26dc12b",
+      "hash": "83506f0bf73b7b21",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-20T06:52:35Z",
+      "extracted_at_utc": "2026-02-20T12:45:47Z",
       "tokens": []
     },
     "twitch": {
@@ -690,10 +690,12 @@
       ]
     },
     "calm": {
-      "hash": "d72f75609e5be554",
+      "hash": "32092096ec499d3b",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-19T23:33:59Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T12:45:10Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "google_one": {
       "hash": "47fe303a75ca7032",
@@ -702,9 +704,9 @@
       "tokens": []
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "9797e79eb7ad6a9c",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-20T06:52:33Z",
+      "extracted_at_utc": "2026-02-20T12:44:24Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -725,9 +727,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "534f43374df46cdf",
+      "hash": "c6e7440e78c81ca7",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T06:52:22Z",
+      "extracted_at_utc": "2026-02-20T12:45:09Z",
       "tokens": []
     },
     "canva": {

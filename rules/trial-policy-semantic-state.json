@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T06:57:26Z",
+  "updated_utc": "2026-02-20T12:49:21Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -214,9 +214,9 @@
       "tokens": []
     },
     "hinge": {
-      "hash": "708eef0a4d8b60ad",
+      "hash": "12dd44bb8ff498c8",
       "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-02-20T01:19:46Z",
+      "extracted_at_utc": "2026-02-20T12:49:14Z",
       "tokens": []
     },
     "icloud_plus": {
@@ -348,9 +348,9 @@
       "tokens": []
     },
     "spotify": {
-      "hash": "03e441da9837e9f0",
+      "hash": "3f336a724caec41d",
       "source_url": "https://www.spotify.com/us/premium/",
-      "extracted_at_utc": "2026-02-19T23:36:39Z",
+      "extracted_at_utc": "2026-02-20T12:49:12Z",
       "tokens": []
     },
     "sling_tv": {
@@ -632,28 +632,30 @@
       ]
     },
     "espn_plus": {
-      "hash": "534f43374df46cdf",
+      "hash": "c6e7440e78c81ca7",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T06:57:08Z",
+      "extracted_at_utc": "2026-02-20T12:49:09Z",
       "tokens": []
     },
     "peacock": {
-      "hash": "9d5ebe1adff952a6",
+      "hash": "302a703c0563cfc7",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-02-20T06:57:24Z",
+      "extracted_at_utc": "2026-02-20T12:47:56Z",
       "tokens": []
     },
     "twitch": {
-      "hash": "0af1a9e682f6fc69",
+      "hash": "0d5281866366a007",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-20T06:57:14Z",
+      "extracted_at_utc": "2026-02-20T12:49:15Z",
       "tokens": []
     },
     "nordvpn": {
-      "hash": "26addcd33afd7750",
+      "hash": "a3996a15bec3fa89",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-02-20T00:33:05Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-20T12:49:21Z",
+      "tokens": [
+        "billing:auto_renew"
+      ]
     }
   }
 }
