@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T18:49:59Z",
+  "updated_utc": "2026-02-21T01:21:15Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -79,9 +79,9 @@
       "tokens": []
     },
     "claude_pro": {
-      "hash": "be542c04706a08ae",
+      "hash": "fff53cc5006a0a31",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-02-20T00:32:27Z",
+      "extracted_at_utc": "2026-02-21T01:20:56Z",
       "tokens": []
     },
     "chatgpt_plus": {
@@ -214,9 +214,9 @@
       "tokens": []
     },
     "hinge": {
-      "hash": "12dd44bb8ff498c8",
+      "hash": "708eef0a4d8b60ad",
       "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-02-20T12:49:14Z",
+      "extracted_at_utc": "2026-02-21T01:21:01Z",
       "tokens": []
     },
     "icloud_plus": {
@@ -354,9 +354,9 @@
       "tokens": []
     },
     "sling_tv": {
-      "hash": "133a0bf847eeda20",
+      "hash": "886ae9f832fefa12",
       "source_url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
-      "extracted_at_utc": "2026-02-20T18:49:20Z",
+      "extracted_at_utc": "2026-02-21T01:21:01Z",
       "tokens": []
     },
     "slack": {
@@ -404,9 +404,9 @@
       "tokens": []
     },
     "uber_one": {
-      "hash": "e34084a60b9ae5ab",
+      "hash": "c3255cd8b0a50462",
       "source_url": "https://www.uber.com/us/en/u/uber-one/",
-      "extracted_at_utc": "2026-02-20T18:49:50Z",
+      "extracted_at_utc": "2026-02-21T01:21:08Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
@@ -541,12 +541,10 @@
       ]
     },
     "substack": {
-      "hash": "f5fa5608fc35aee4",
+      "hash": "1fc132f3609dd8b1",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-20T18:49:55Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-21T01:20:14Z",
+      "tokens": []
     },
     "washington_post": {
       "hash": "c30363ea9c588163",
@@ -634,30 +632,34 @@
       ]
     },
     "espn_plus": {
-      "hash": "1a570f400c5af39d",
+      "hash": "d1207304a8262659",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T18:49:10Z",
+      "extracted_at_utc": "2026-02-21T01:21:11Z",
       "tokens": []
     },
     "peacock": {
-      "hash": "9d5ebe1adff952a6",
+      "hash": "1a2175b6aa8271c2",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-02-20T18:49:59Z",
+      "extracted_at_utc": "2026-02-21T01:19:46Z",
       "tokens": []
     },
     "twitch": {
-      "hash": "883d94274f5513b1",
+      "hash": "8d46117b30133c4d",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-20T18:49:18Z",
+      "extracted_at_utc": "2026-02-21T01:21:08Z",
       "tokens": []
     },
     "nordvpn": {
-      "hash": "acd4f2305e325d3a",
+      "hash": "26addcd33afd7750",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-02-20T18:49:17Z",
-      "tokens": [
-        "billing:auto_renew"
-      ]
+      "extracted_at_utc": "2026-02-21T01:21:15Z",
+      "tokens": []
+    },
+    "canva": {
+      "hash": "8c8b2a79919eaa19",
+      "source_url": "https://www.canva.com/pro/",
+      "extracted_at_utc": "2026-02-21T01:19:11Z",
+      "tokens": []
     }
   }
 }

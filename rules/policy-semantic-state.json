@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-20T18:37:20Z",
+  "updated_utc": "2026-02-21T01:08:48Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -99,16 +99,10 @@
       ]
     },
     "calm": {
-      "hash": "32092096ec499d3b",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-20T06:42:20Z",
-      "tokens": [
-        "flow:support_request",
-        "refund_window_days:10",
-        "refund_window_days:30",
-        "refund:allowed_language",
-        "refund:partial_allowed"
-      ]
+      "extracted_at_utc": "2026-02-21T01:08:01Z",
+      "tokens": []
     },
     "chatgpt_plus": {
       "hash": "2748e6816fd5301f",
@@ -248,9 +242,9 @@
       "tokens": []
     },
     "max": {
-      "hash": "8e52c1430b6f47ea",
+      "hash": "9a0c33ee8a69779a",
       "source_url": "https://help.hbomax.com/US/Answer/Detail/000002522",
-      "extracted_at_utc": "2026-02-20T18:36:59Z",
+      "extracted_at_utc": "2026-02-21T01:08:23Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
@@ -273,9 +267,9 @@
       "tokens": []
     },
     "microsoft_365": {
-      "hash": "32a5fda3b8a0b263",
+      "hash": "b1bd3eb3d72a938e",
       "source_url": "https://support.microsoft.com/en-us/account-billing/returning-items-you-bought-from-microsoft-for-exchange-or-refund-81629012-aa4f-f48b-2394-8596f415072b",
-      "extracted_at_utc": "2026-02-20T18:36:59Z",
+      "extracted_at_utc": "2026-02-21T01:08:23Z",
       "tokens": [
         "flow:support_request"
       ]
@@ -460,10 +454,12 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "21e61b19663ae09c",
+      "hash": "83506f0bf73b7b21",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-20T18:37:05Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-21T01:08:46Z",
+      "tokens": [
+        "refund_window_days:365"
+      ]
     },
     "twitch": {
       "hash": "69193932ed81a517",
@@ -490,13 +486,10 @@
       "tokens": []
     },
     "xbox_game_pass": {
-      "hash": "000c3cabe65092a5",
+      "hash": "b2b64b0a1fb05d56",
       "source_url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
-      "extracted_at_utc": "2026-02-20T18:37:01Z",
-      "tokens": [
-        "billing:prorated",
-        "refund:partial_allowed"
-      ]
+      "extracted_at_utc": "2026-02-21T01:08:25Z",
+      "tokens": []
     },
     "wix": {
       "hash": "a30d3e0398b157fd",
@@ -533,9 +526,9 @@
       ]
     },
     "dashlane": {
-      "hash": "5b339b17835cdb72",
+      "hash": "49c1675725ee1c85",
       "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "extracted_at_utc": "2026-02-20T12:36:43Z",
+      "extracted_at_utc": "2026-02-21T01:08:37Z",
       "tokens": []
     },
     "fitbit_premium": {
@@ -682,9 +675,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "bf6f426a2126312f",
+      "hash": "f89dc263e8d11e16",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-20T12:37:02Z",
+      "extracted_at_utc": "2026-02-21T01:08:43Z",
       "tokens": []
     },
     "starz": {
@@ -753,35 +746,33 @@
       ]
     },
     "hellofresh": {
-      "hash": "d0fe4030fbecd2c7",
+      "hash": "e7946aa83dabde63",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-20T12:36:36Z",
+      "extracted_at_utc": "2026-02-21T01:06:45Z",
       "tokens": []
     },
     "washington_post": {
-      "hash": "facbda2fc8418cb4",
+      "hash": "e4d6bdfc45bd6a39",
       "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-      "extracted_at_utc": "2026-02-20T00:22:53Z",
+      "extracted_at_utc": "2026-02-21T01:08:37Z",
       "tokens": []
     },
     "espn_plus": {
-      "hash": "1a570f400c5af39d",
+      "hash": "81d825132084aaa3",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-20T18:36:54Z",
+      "extracted_at_utc": "2026-02-21T01:08:00Z",
       "tokens": []
     },
     "headspace": {
-      "hash": "8f69b60d284caff0",
+      "hash": "d72f75609e5be554",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-20T18:36:56Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-21T01:08:25Z",
+      "tokens": []
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
+      "hash": "e5adcea469f4a180",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-20T18:37:15Z",
+      "extracted_at_utc": "2026-02-21T01:06:40Z",
       "tokens": []
     },
     "scribd": {
@@ -795,9 +786,9 @@
       ]
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "f992155a8ebbbb53",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-20T12:36:56Z",
+      "extracted_at_utc": "2026-02-21T01:06:57Z",
       "tokens": []
     },
     "canva": {
