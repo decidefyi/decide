@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-21T06:42:18Z",
+  "updated_utc": "2026-02-21T12:35:57Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -183,9 +183,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-21T06:41:59Z",
+      "extracted_at_utc": "2026-02-21T12:35:41Z",
       "tokens": []
     },
     "google_play": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "e5adcea469f4a180",
-      "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-21T06:40:48Z",
+      "hash": "c4982f46749a6ceb",
+      "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
+      "extracted_at_utc": "2026-02-21T12:35:57Z",
       "tokens": []
     },
     "hulu": {
@@ -255,9 +255,9 @@
       ]
     },
     "linkedin_premium": {
-      "hash": "8793846025231e7a",
+      "hash": "b1cd57726c049352",
       "source_url": "https://www.linkedin.com/legal/l/refund-policy",
-      "extracted_at_utc": "2026-02-19T23:32:59Z",
+      "extracted_at_utc": "2026-02-21T12:35:42Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
@@ -712,9 +712,9 @@
       ]
     },
     "masterclass": {
-      "hash": "b852ddd7e8c288fa",
+      "hash": "25073741b6741db6",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-20T06:52:33Z",
+      "extracted_at_utc": "2026-02-21T12:35:43Z",
       "tokens": []
     },
     "roblox_premium": {
@@ -727,9 +727,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "2e489f6de671cbfd",
+      "hash": "9ed704f955c439a0",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-21T06:41:49Z",
+      "extracted_at_utc": "2026-02-21T12:35:39Z",
       "tokens": []
     },
     "canva": {
@@ -749,12 +749,10 @@
       ]
     },
     "substack": {
-      "hash": "f5fa5608fc35aee4",
+      "hash": "1fc132f3609dd8b1",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-21T06:42:10Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-21T12:35:51Z",
+      "tokens": []
     }
   }
 }

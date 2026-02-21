@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-21T06:32:35Z",
+  "updated_utc": "2026-02-21T12:28:05Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -256,13 +256,13 @@
       ]
     },
     "linkedin_premium": {
-      "hash": "8793846025231e7a",
+      "hash": "b1cd57726c049352",
       "source_url": "https://www.linkedin.com/legal/l/refund-policy",
-      "extracted_at_utc": "2026-02-19T23:22:08Z",
+      "extracted_at_utc": "2026-02-21T12:27:54Z",
       "tokens": [
         "refund_window_days:14",
         "refund_window_days:180",
-        "refund_window_days:60",
+        "refund_window_days:90",
         "restriction:no_refund_or_final_sale"
       ]
     },
@@ -361,9 +361,9 @@
       ]
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-21T06:32:16Z",
+      "extracted_at_utc": "2026-02-21T12:25:55Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -764,9 +764,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "2e489f6de671cbfd",
+      "hash": "9ed704f955c439a0",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-21T06:32:13Z",
+      "extracted_at_utc": "2026-02-21T12:28:00Z",
       "tokens": []
     },
     "headspace": {
@@ -784,14 +784,10 @@
       "tokens": []
     },
     "scribd": {
-      "hash": "0cac65b719c1c5b6",
+      "hash": "bb0fdc3ccf056336",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-      "extracted_at_utc": "2026-02-20T00:21:46Z",
-      "tokens": [
-        "refund_window_days:30",
-        "refund:allowed_language",
-        "refund:partial_allowed"
-      ]
+      "extracted_at_utc": "2026-02-21T12:26:01Z",
+      "tokens": []
     },
     "midjourney": {
       "hash": "f992155a8ebbbb53",

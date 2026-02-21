@@ -1,18 +1,1 @@
-{
-  "canva": {
-    "hash": "228ce9c4d9edb4bd",
-    "count": 1,
-    "flip_count": 2,
-    "source_url": "https://www.canva.com/pro/",
-    "pending_since_utc": "2026-02-21T06:43:06Z",
-    "first_seen_utc": "2026-02-21T06:45:45Z",
-    "last_seen_utc": "2026-02-21T06:45:45Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "228ce9c4d9edb4bd",
-      "source_url": "https://www.canva.com/pro/",
-      "extracted_at_utc": "2026-02-21T06:45:45Z",
-      "tokens": []
-    }
-  }
-}
+{}

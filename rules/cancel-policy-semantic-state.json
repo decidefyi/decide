@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-21T06:39:24Z",
+  "updated_utc": "2026-02-21T12:33:01Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -84,12 +84,10 @@
       ]
     },
     "calm": {
-      "hash": "32092096ec499d3b",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-21T06:33:29Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-21T12:32:06Z",
+      "tokens": []
     },
     "chatgpt_plus": {
       "hash": "2748e6816fd5301f",
@@ -122,9 +120,9 @@
       "tokens": []
     },
     "crunchyroll": {
-      "hash": "6c82ce55b288204d",
+      "hash": "9315e456fbf9c2b5",
       "source_url": "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
-      "extracted_at_utc": "2026-02-21T01:13:39Z",
+      "extracted_at_utc": "2026-02-21T12:32:12Z",
       "tokens": []
     },
     "discord_nitro": {
@@ -438,9 +436,9 @@
       ]
     },
     "wix": {
-      "hash": "c1178ef30a393d66",
+      "hash": "4f394029da07e192",
       "source_url": "https://support.wix.com/en/article/canceling-a-premium-plan",
-      "extracted_at_utc": "2026-02-19T23:28:32Z",
+      "extracted_at_utc": "2026-02-21T12:32:43Z",
       "tokens": []
     },
     "youtube_tv": {
@@ -525,9 +523,9 @@
       "tokens": []
     },
     "nfl_plus": {
-      "hash": "8ab3773b5ac7c822",
+      "hash": "8ed9e2f088ca8172",
       "source_url": "https://support.nfl.com/hc/en-us/articles/5402041435292-NFL-Subscription-Renewals-Cancellations",
-      "extracted_at_utc": "2026-02-21T06:38:34Z",
+      "extracted_at_utc": "2026-02-21T12:32:45Z",
       "tokens": []
     },
     "wall_street_journal": {
@@ -555,9 +553,9 @@
       "tokens": []
     },
     "reddit_premium": {
-      "hash": "bf0cb87af4daaa53",
+      "hash": "b6565f21368ba926",
       "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
-      "extracted_at_utc": "2026-02-21T06:38:40Z",
+      "extracted_at_utc": "2026-02-21T12:32:50Z",
       "tokens": []
     },
     "discovery_plus": {
@@ -601,9 +599,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "2e489f6de671cbfd",
+      "hash": "9ed704f955c439a0",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-21T06:37:24Z",
+      "extracted_at_utc": "2026-02-21T12:32:09Z",
       "tokens": []
     },
     "google_one": {
@@ -621,9 +619,9 @@
       "tokens": []
     },
     "peacock": {
-      "hash": "f10a6f0ae8d2f044",
+      "hash": "1ee376168c2f131d",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-02-20T12:40:00Z",
+      "extracted_at_utc": "2026-02-21T12:30:40Z",
       "tokens": []
     },
     "evernote": {
@@ -635,9 +633,9 @@
       ]
     },
     "grammarly": {
-      "hash": "c4982f46749a6ceb",
+      "hash": "e5adcea469f4a180",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
-      "extracted_at_utc": "2026-02-20T12:42:14Z",
+      "extracted_at_utc": "2026-02-21T12:32:31Z",
       "tokens": []
     },
     "hinge": {
@@ -656,9 +654,9 @@
       "tokens": []
     },
     "britbox": {
-      "hash": "4957bf44a62ade3c",
+      "hash": "6d8506d3859a38d8",
       "source_url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",
-      "extracted_at_utc": "2026-02-20T06:48:39Z",
+      "extracted_at_utc": "2026-02-21T12:32:02Z",
       "tokens": []
     },
     "patreon": {
@@ -679,6 +677,12 @@
       "hash": "0adfdc179206e059",
       "source_url": "https://help.dropbox.com/plans/cancel-plan",
       "extracted_at_utc": "2026-02-21T01:14:46Z",
+      "tokens": []
+    },
+    "audible": {
+      "hash": "54609b4d1c371512",
+      "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
+      "extracted_at_utc": "2026-02-21T12:28:57Z",
       "tokens": []
     }
   }
