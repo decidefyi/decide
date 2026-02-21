@@ -1,65 +1,83 @@
 {
   "canva": {
-    "hash": "a2d8dae2d7b60814",
+    "hash": "69d172f6c0185ed3",
     "count": 1,
-    "flip_count": 69,
-    "source_url": "https://www.canva.com/help/cancellation/",
+    "flip_count": 72,
+    "source_url": "https://www.canva.com/policies/terms-of-use/",
     "pending_since_utc": "2026-02-18T08:56:18Z",
-    "first_seen_utc": "2026-02-21T12:32:56Z",
-    "last_seen_utc": "2026-02-21T12:32:56Z",
+    "first_seen_utc": "2026-02-21T18:26:49Z",
+    "last_seen_utc": "2026-02-21T18:26:49Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "a2d8dae2d7b60814",
-      "source_url": "https://www.canva.com/help/cancellation/",
-      "extracted_at_utc": "2026-02-21T12:32:56Z",
+      "hash": "69d172f6c0185ed3",
+      "source_url": "https://www.canva.com/policies/terms-of-use/",
+      "extracted_at_utc": "2026-02-21T18:26:49Z",
+      "tokens": [
+        "billing:prorated"
+      ]
+    }
+  },
+  "midjourney": {
+    "hash": "cda38716917340a8",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
+    "pending_since_utc": "2026-02-21T18:24:24Z",
+    "first_seen_utc": "2026-02-21T18:26:45Z",
+    "last_seen_utc": "2026-02-21T18:26:45Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "cda38716917340a8",
+      "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
+      "extracted_at_utc": "2026-02-21T18:26:45Z",
       "tokens": []
     }
   },
   "paramount_plus": {
-    "hash": "a85083d5caadcf23",
+    "hash": "e57ce256bc0a9e1a",
     "count": 1,
-    "flip_count": 72,
+    "flip_count": 74,
     "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-21T12:33:00Z",
-    "last_seen_utc": "2026-02-21T12:33:00Z",
+    "first_seen_utc": "2026-02-21T18:26:26Z",
+    "last_seen_utc": "2026-02-21T18:26:26Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "a85083d5caadcf23",
+      "hash": "e57ce256bc0a9e1a",
       "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-      "extracted_at_utc": "2026-02-21T12:33:00Z",
+      "extracted_at_utc": "2026-02-21T18:26:26Z",
       "tokens": []
     }
   },
   "twitch": {
-    "hash": "d7afcc3476bb8b19",
+    "hash": "17164e8d89412f3e",
     "count": 1,
-    "flip_count": 73,
+    "flip_count": 75,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
     "pending_since_utc": "2026-02-18T08:57:57Z",
-    "first_seen_utc": "2026-02-21T12:32:59Z",
-    "last_seen_utc": "2026-02-21T12:32:59Z",
+    "first_seen_utc": "2026-02-21T18:26:33Z",
+    "last_seen_utc": "2026-02-21T18:26:33Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "d7afcc3476bb8b19",
+      "hash": "17164e8d89412f3e",
       "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-      "extracted_at_utc": "2026-02-21T12:32:59Z",
+      "extracted_at_utc": "2026-02-21T18:26:33Z",
       "tokens": []
     }
   },
   "fitbit_premium": {
-    "hash": "913f3eb2d52ba42f",
+    "hash": "b2d6e50740443033",
     "count": 1,
-    "flip_count": 75,
+    "flip_count": 78,
     "source_url": "https://support.google.com/fitbit/",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-21T12:33:01Z",
-    "last_seen_utc": "2026-02-21T12:33:01Z",
+    "first_seen_utc": "2026-02-21T18:26:49Z",
+    "last_seen_utc": "2026-02-21T18:26:49Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "913f3eb2d52ba42f",
+      "hash": "b2d6e50740443033",
       "source_url": "https://support.google.com/fitbit/",
-      "extracted_at_utc": "2026-02-21T12:33:01Z",
+      "extracted_at_utc": "2026-02-21T18:26:49Z",
       "tokens": []
     }
   }

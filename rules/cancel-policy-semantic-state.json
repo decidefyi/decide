@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-21T12:33:01Z",
+  "updated_utc": "2026-02-21T18:26:58Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -84,10 +84,12 @@
       ]
     },
     "calm": {
-      "hash": "d72f75609e5be554",
+      "hash": "32092096ec499d3b",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-21T12:32:06Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-21T18:23:41Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "chatgpt_plus": {
       "hash": "2748e6816fd5301f",
@@ -172,13 +174,10 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-21T06:37:26Z",
-      "tokens": [
-        "cancel:anytime",
-        "cancel:fee_or_penalty"
-      ]
+      "extracted_at_utc": "2026-02-21T18:26:08Z",
+      "tokens": []
     },
     "google_play": {
       "hash": "b5cf2e31119e8d8d",
@@ -189,9 +188,9 @@
       ]
     },
     "headspace": {
-      "hash": "89241ceb28e6ead7",
+      "hash": "2cab70d0dd11eed9",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription",
-      "extracted_at_utc": "2026-02-20T06:49:06Z",
+      "extracted_at_utc": "2026-02-21T18:26:16Z",
       "tokens": []
     },
     "hulu": {
@@ -315,9 +314,9 @@
       ]
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-20T18:40:26Z",
+      "extracted_at_utc": "2026-02-21T18:24:35Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -464,9 +463,9 @@
       "tokens": []
     },
     "myfitnesspal_premium": {
-      "hash": "728ba934933006cc",
+      "hash": "302ffaaa5882feed",
       "source_url": "https://support.myfitnesspal.com/hc/en-us",
-      "extracted_at_utc": "2026-02-20T06:49:36Z",
+      "extracted_at_utc": "2026-02-21T18:26:39Z",
       "tokens": []
     },
     "keeper": {
@@ -491,9 +490,9 @@
       "tokens": []
     },
     "ea_play": {
-      "hash": "ec5fed4d6b8fbece",
+      "hash": "8a24192e77bdfb52",
       "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-      "extracted_at_utc": "2026-02-20T18:42:37Z",
+      "extracted_at_utc": "2026-02-21T18:26:39Z",
       "tokens": []
     },
     "ubisoft_plus": {
@@ -599,9 +598,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "9ed704f955c439a0",
+      "hash": "9a66c18e2df64bc8",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-21T12:32:09Z",
+      "extracted_at_utc": "2026-02-21T18:26:06Z",
       "tokens": []
     },
     "google_one": {
@@ -613,9 +612,9 @@
       ]
     },
     "masterclass": {
-      "hash": "b852ddd7e8c288fa",
+      "hash": "31e9c6990d098854",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-20T06:49:18Z",
+      "extracted_at_utc": "2026-02-21T18:26:12Z",
       "tokens": []
     },
     "peacock": {
@@ -633,9 +632,9 @@
       ]
     },
     "grammarly": {
-      "hash": "e5adcea469f4a180",
+      "hash": "180925e88982390f",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
-      "extracted_at_utc": "2026-02-21T12:32:31Z",
+      "extracted_at_utc": "2026-02-21T18:26:15Z",
       "tokens": []
     },
     "hinge": {
@@ -654,15 +653,15 @@
       "tokens": []
     },
     "britbox": {
-      "hash": "6d8506d3859a38d8",
+      "hash": "4957bf44a62ade3c",
       "source_url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",
-      "extracted_at_utc": "2026-02-21T12:32:02Z",
+      "extracted_at_utc": "2026-02-21T18:26:58Z",
       "tokens": []
     },
     "patreon": {
-      "hash": "82837f17e72715f7",
+      "hash": "d8bea36c057205d0",
       "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-      "extracted_at_utc": "2026-02-20T18:41:38Z",
+      "extracted_at_utc": "2026-02-21T18:26:38Z",
       "tokens": []
     },
     "substack": {

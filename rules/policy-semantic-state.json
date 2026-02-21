@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-21T12:28:05Z",
+  "updated_utc": "2026-02-21T18:22:47Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -361,9 +361,9 @@
       ]
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-21T12:25:55Z",
+      "extracted_at_utc": "2026-02-21T18:22:29Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -460,12 +460,10 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "83506f0bf73b7b21",
+      "hash": "d6866fff681e5e52",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-21T01:08:46Z",
-      "tokens": [
-        "refund_window_days:365"
-      ]
+      "extracted_at_utc": "2026-02-21T18:22:32Z",
+      "tokens": []
     },
     "twitch": {
       "hash": "69193932ed81a517",
@@ -532,9 +530,9 @@
       ]
     },
     "dashlane": {
-      "hash": "5b339b17835cdb72",
+      "hash": "49c1675725ee1c85",
       "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "extracted_at_utc": "2026-02-21T06:32:20Z",
+      "extracted_at_utc": "2026-02-21T18:22:40Z",
       "tokens": []
     },
     "fitbit_premium": {
@@ -595,13 +593,10 @@
       ]
     },
     "roblox_premium": {
-      "hash": "d15eabe459d7d36d",
+      "hash": "d72f75609e5be554",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-20T06:44:36Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ]
+      "extracted_at_utc": "2026-02-21T18:22:37Z",
+      "tokens": []
     },
     "mlb_tv": {
       "hash": "2df9478a4bf6f184",
@@ -635,12 +630,10 @@
       "tokens": []
     },
     "substack": {
-      "hash": "f5fa5608fc35aee4",
+      "hash": "1fc132f3609dd8b1",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-20T06:44:38Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-21T18:21:48Z",
+      "tokens": []
     },
     "snapchat_plus": {
       "hash": "99ce8296a9878690",
@@ -736,9 +729,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-19T23:24:11Z",
+      "extracted_at_utc": "2026-02-21T18:20:39Z",
       "tokens": []
     },
     "evernote": {
@@ -764,9 +757,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "9ed704f955c439a0",
+      "hash": "9a66c18e2df64bc8",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-21T12:28:00Z",
+      "extracted_at_utc": "2026-02-21T18:22:05Z",
       "tokens": []
     },
     "headspace": {
