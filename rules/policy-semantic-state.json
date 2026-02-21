@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-21T01:08:48Z",
+  "updated_utc": "2026-02-21T06:32:35Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -99,10 +99,16 @@
       ]
     },
     "calm": {
-      "hash": "d72f75609e5be554",
+      "hash": "32092096ec499d3b",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-21T01:08:01Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-21T06:32:15Z",
+      "tokens": [
+        "flow:support_request",
+        "refund_window_days:10",
+        "refund_window_days:30",
+        "refund:allowed_language",
+        "refund:partial_allowed"
+      ]
     },
     "chatgpt_plus": {
       "hash": "2748e6816fd5301f",
@@ -140,9 +146,9 @@
       "tokens": []
     },
     "disney_plus": {
-      "hash": "dd8fddc6eaaf7fe5",
+      "hash": "3924b5248f0fcf34",
       "source_url": "https://help.disneyplus.com/article/disneyplus-refund",
-      "extracted_at_utc": "2026-02-19T23:21:24Z",
+      "extracted_at_utc": "2026-02-21T06:32:13Z",
       "tokens": []
     },
     "doordash_dashpass": {
@@ -355,9 +361,9 @@
       ]
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-20T18:35:11Z",
+      "extracted_at_utc": "2026-02-21T06:32:16Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -526,9 +532,9 @@
       ]
     },
     "dashlane": {
-      "hash": "49c1675725ee1c85",
+      "hash": "5b339b17835cdb72",
       "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "extracted_at_utc": "2026-02-21T01:08:37Z",
+      "extracted_at_utc": "2026-02-21T06:32:20Z",
       "tokens": []
     },
     "fitbit_premium": {
@@ -675,9 +681,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "f89dc263e8d11e16",
+      "hash": "bf6f426a2126312f",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-21T01:08:43Z",
+      "extracted_at_utc": "2026-02-21T06:32:26Z",
       "tokens": []
     },
     "starz": {
@@ -746,28 +752,30 @@
       ]
     },
     "hellofresh": {
-      "hash": "e7946aa83dabde63",
+      "hash": "d0fe4030fbecd2c7",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-21T01:06:45Z",
+      "extracted_at_utc": "2026-02-21T06:32:17Z",
       "tokens": []
     },
     "washington_post": {
-      "hash": "e4d6bdfc45bd6a39",
+      "hash": "facbda2fc8418cb4",
       "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-      "extracted_at_utc": "2026-02-21T01:08:37Z",
+      "extracted_at_utc": "2026-02-21T06:32:26Z",
       "tokens": []
     },
     "espn_plus": {
-      "hash": "81d825132084aaa3",
+      "hash": "2e489f6de671cbfd",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-21T01:08:00Z",
+      "extracted_at_utc": "2026-02-21T06:32:13Z",
       "tokens": []
     },
     "headspace": {
-      "hash": "d72f75609e5be554",
+      "hash": "8f69b60d284caff0",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-21T01:08:25Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-21T06:32:17Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "grammarly": {
       "hash": "e5adcea469f4a180",

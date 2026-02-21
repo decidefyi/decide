@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-21T01:21:15Z",
+  "updated_utc": "2026-02-21T06:45:48Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -34,9 +34,9 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "5d18b63bf1d694d2",
+      "hash": "4cf5a425dd295c82",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-02-20T06:57:10Z",
+      "extracted_at_utc": "2026-02-21T06:45:33Z",
       "tokens": []
     },
     "apple_music": {
@@ -85,9 +85,9 @@
       "tokens": []
     },
     "chatgpt_plus": {
-      "hash": "943f18d6cd7e1667",
+      "hash": "de6e0eae450406f9",
       "source_url": "https://openai.com/chatgpt/pricing/",
-      "extracted_at_utc": "2026-02-20T06:54:39Z",
+      "extracted_at_utc": "2026-02-21T06:45:29Z",
       "tokens": []
     },
     "crunchyroll": {
@@ -214,9 +214,9 @@
       "tokens": []
     },
     "hinge": {
-      "hash": "708eef0a4d8b60ad",
+      "hash": "12dd44bb8ff498c8",
       "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-02-21T01:21:01Z",
+      "extracted_at_utc": "2026-02-21T06:45:35Z",
       "tokens": []
     },
     "icloud_plus": {
@@ -541,10 +541,12 @@
       ]
     },
     "substack": {
-      "hash": "1fc132f3609dd8b1",
+      "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-21T01:20:14Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-21T06:45:41Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "washington_post": {
       "hash": "c30363ea9c588163",
@@ -632,9 +634,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "d1207304a8262659",
+      "hash": "2e489f6de671cbfd",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-21T01:21:11Z",
+      "extracted_at_utc": "2026-02-21T06:45:33Z",
       "tokens": []
     },
     "peacock": {
@@ -644,9 +646,9 @@
       "tokens": []
     },
     "twitch": {
-      "hash": "8d46117b30133c4d",
+      "hash": "03f9e13a09b4beb1",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-21T01:21:08Z",
+      "extracted_at_utc": "2026-02-21T06:45:37Z",
       "tokens": []
     },
     "nordvpn": {

@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-21T01:15:07Z",
+  "updated_utc": "2026-02-21T06:39:24Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -84,10 +84,12 @@
       ]
     },
     "calm": {
-      "hash": "d72f75609e5be554",
+      "hash": "32092096ec499d3b",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-21T01:13:28Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-21T06:33:29Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "chatgpt_plus": {
       "hash": "2748e6816fd5301f",
@@ -132,9 +134,9 @@
       "tokens": []
     },
     "disney_plus": {
-      "hash": "556b84cb445fb2e7",
+      "hash": "2427ba377c382c19",
       "source_url": "https://help.disneyplus.com/article/disneyplus-cancel-subscription",
-      "extracted_at_utc": "2026-02-19T23:26:16Z",
+      "extracted_at_utc": "2026-02-21T06:37:12Z",
       "tokens": []
     },
     "doordash_dashpass": {
@@ -172,10 +174,13 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-21T01:13:41Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-21T06:37:26Z",
+      "tokens": [
+        "cancel:anytime",
+        "cancel:fee_or_penalty"
+      ]
     },
     "google_play": {
       "hash": "b5cf2e31119e8d8d",
@@ -192,9 +197,9 @@
       "tokens": []
     },
     "hulu": {
-      "hash": "4b4552bdc3aba7a0",
+      "hash": "d9ed3d0bff701829",
       "source_url": "https://help.hulu.com/article/cancel-subscription",
-      "extracted_at_utc": "2026-02-19T23:27:32Z",
+      "extracted_at_utc": "2026-02-21T06:38:04Z",
       "tokens": []
     },
     "hellofresh": {
@@ -254,7 +259,7 @@
     "midjourney": {
       "hash": "9afa3be5696ac85a",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-02-20T01:13:08Z",
+      "extracted_at_utc": "2026-02-21T06:38:09Z",
       "tokens": []
     },
     "noom": {
@@ -380,9 +385,9 @@
       ]
     },
     "strava": {
-      "hash": "8765312b0342e7f6",
+      "hash": "8212454c1334eca9",
       "source_url": "https://support.strava.com/hc/en-us/articles/216917967-Cancel-Subscription",
-      "extracted_at_utc": "2026-02-21T01:14:12Z",
+      "extracted_at_utc": "2026-02-21T06:38:20Z",
       "tokens": []
     },
     "todoist": {
@@ -455,9 +460,9 @@
       "tokens": []
     },
     "dashlane": {
-      "hash": "49c1675725ee1c85",
+      "hash": "5b339b17835cdb72",
       "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "extracted_at_utc": "2026-02-21T01:14:20Z",
+      "extracted_at_utc": "2026-02-21T06:38:20Z",
       "tokens": []
     },
     "myfitnesspal_premium": {
@@ -502,9 +507,9 @@
       ]
     },
     "roblox_premium": {
-      "hash": "dd8274318409a7cf",
+      "hash": "cf66697863766f38",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/203312800-How-to-Cancel-Membership",
-      "extracted_at_utc": "2026-02-21T01:15:07Z",
+      "extracted_at_utc": "2026-02-21T06:38:29Z",
       "tokens": []
     },
     "new_york_times": {
@@ -520,9 +525,9 @@
       "tokens": []
     },
     "nfl_plus": {
-      "hash": "8ed9e2f088ca8172",
+      "hash": "8ab3773b5ac7c822",
       "source_url": "https://support.nfl.com/hc/en-us/articles/5402041435292-NFL-Subscription-Renewals-Cancellations",
-      "extracted_at_utc": "2026-02-21T01:14:26Z",
+      "extracted_at_utc": "2026-02-21T06:38:34Z",
       "tokens": []
     },
     "wall_street_journal": {
@@ -532,9 +537,9 @@
       "tokens": []
     },
     "washington_post": {
-      "hash": "e4d6bdfc45bd6a39",
+      "hash": "facbda2fc8418cb4",
       "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-      "extracted_at_utc": "2026-02-21T01:14:26Z",
+      "extracted_at_utc": "2026-02-21T06:38:34Z",
       "tokens": []
     },
     "snapchat_plus": {
@@ -550,9 +555,9 @@
       "tokens": []
     },
     "reddit_premium": {
-      "hash": "7338c1177bff7058",
+      "hash": "bf0cb87af4daaa53",
       "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
-      "extracted_at_utc": "2026-02-21T01:15:07Z",
+      "extracted_at_utc": "2026-02-21T06:38:40Z",
       "tokens": []
     },
     "discovery_plus": {
@@ -596,9 +601,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "81d825132084aaa3",
+      "hash": "2e489f6de671cbfd",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-21T01:13:34Z",
+      "extracted_at_utc": "2026-02-21T06:37:24Z",
       "tokens": []
     },
     "google_one": {
@@ -663,10 +668,12 @@
       "tokens": []
     },
     "substack": {
-      "hash": "1fc132f3609dd8b1",
+      "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-20T00:28:03Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-21T06:38:37Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "dropbox_us": {
       "hash": "0adfdc179206e059",
