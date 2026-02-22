@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-22T06:38:43Z",
+  "updated_utc": "2026-02-22T12:29:20Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -99,16 +99,10 @@
       ]
     },
     "calm": {
-      "hash": "32092096ec499d3b",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-21T06:32:15Z",
-      "tokens": [
-        "flow:support_request",
-        "refund_window_days:10",
-        "refund_window_days:30",
-        "refund:allowed_language",
-        "refund:partial_allowed"
-      ]
+      "extracted_at_utc": "2026-02-22T12:28:25Z",
+      "tokens": []
     },
     "chatgpt_plus": {
       "hash": "2748e6816fd5301f",
@@ -361,9 +355,9 @@
       ]
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-22T01:11:56Z",
+      "extracted_at_utc": "2026-02-22T12:27:23Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -460,12 +454,10 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "83506f0bf73b7b21",
+      "hash": "d6866fff681e5e52",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-22T01:13:01Z",
-      "tokens": [
-        "refund_window_days:365"
-      ]
+      "extracted_at_utc": "2026-02-22T12:27:39Z",
+      "tokens": []
     },
     "twitch": {
       "hash": "69193932ed81a517",
@@ -595,13 +587,10 @@
       ]
     },
     "roblox_premium": {
-      "hash": "d15eabe459d7d36d",
+      "hash": "d72f75609e5be554",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-22T06:38:36Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ]
+      "extracted_at_utc": "2026-02-22T12:28:59Z",
+      "tokens": []
     },
     "mlb_tv": {
       "hash": "2df9478a4bf6f184",
@@ -635,12 +624,10 @@
       "tokens": []
     },
     "substack": {
-      "hash": "f5fa5608fc35aee4",
+      "hash": "1fc132f3609dd8b1",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-22T01:13:09Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-22T12:28:09Z",
+      "tokens": []
     },
     "snapchat_plus": {
       "hash": "99ce8296a9878690",
@@ -736,9 +723,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-21T18:20:39Z",
+      "extracted_at_utc": "2026-02-22T12:28:48Z",
       "tokens": []
     },
     "evernote": {
@@ -758,15 +745,15 @@
       "tokens": []
     },
     "washington_post": {
-      "hash": "facbda2fc8418cb4",
+      "hash": "e4d6bdfc45bd6a39",
       "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-      "extracted_at_utc": "2026-02-21T06:32:26Z",
+      "extracted_at_utc": "2026-02-22T12:29:03Z",
       "tokens": []
     },
     "espn_plus": {
-      "hash": "534f43374df46cdf",
+      "hash": "e329ea53278d6f88",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-22T06:38:20Z",
+      "extracted_at_utc": "2026-02-22T12:29:11Z",
       "tokens": []
     },
     "headspace": {
@@ -778,20 +765,16 @@
       ]
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
+      "hash": "e5adcea469f4a180",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-22T06:38:40Z",
+      "extracted_at_utc": "2026-02-22T12:28:51Z",
       "tokens": []
     },
     "scribd": {
-      "hash": "0cac65b719c1c5b6",
+      "hash": "bb0fdc3ccf056336",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-      "extracted_at_utc": "2026-02-22T06:38:30Z",
-      "tokens": [
-        "refund_window_days:30",
-        "refund:allowed_language",
-        "refund:partial_allowed"
-      ]
+      "extracted_at_utc": "2026-02-22T12:29:15Z",
+      "tokens": []
     },
     "midjourney": {
       "hash": "f992155a8ebbbb53",

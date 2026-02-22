@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-22T06:48:49Z",
+  "updated_utc": "2026-02-22T12:40:27Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -85,9 +85,9 @@
       "tokens": []
     },
     "chatgpt_plus": {
-      "hash": "de6e0eae450406f9",
+      "hash": "c59fa3f9b63e83d2",
       "source_url": "https://openai.com/chatgpt/pricing/",
-      "extracted_at_utc": "2026-02-21T06:45:29Z",
+      "extracted_at_utc": "2026-02-22T12:37:53Z",
       "tokens": []
     },
     "crunchyroll": {
@@ -252,9 +252,9 @@
       "tokens": []
     },
     "masterclass": {
-      "hash": "b852ddd7e8c288fa",
+      "hash": "e6d641115730b63f",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-02-19T23:35:49Z",
+      "extracted_at_utc": "2026-02-22T12:38:17Z",
       "tokens": []
     },
     "microsoft_365": {
@@ -541,12 +541,10 @@
       ]
     },
     "substack": {
-      "hash": "f5fa5608fc35aee4",
+      "hash": "1fc132f3609dd8b1",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-21T06:45:41Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-22T12:40:20Z",
+      "tokens": []
     },
     "washington_post": {
       "hash": "c30363ea9c588163",
@@ -634,9 +632,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "534f43374df46cdf",
+      "hash": "e329ea53278d6f88",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-22T06:48:34Z",
+      "extracted_at_utc": "2026-02-22T12:40:06Z",
       "tokens": []
     },
     "peacock": {
@@ -646,9 +644,9 @@
       "tokens": []
     },
     "twitch": {
-      "hash": "d5add5c4dde33317",
+      "hash": "6a228a741a94748b",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-22T06:48:49Z",
+      "extracted_at_utc": "2026-02-22T12:40:10Z",
       "tokens": []
     },
     "nordvpn": {

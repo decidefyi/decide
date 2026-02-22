@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-22T06:45:27Z",
+  "updated_utc": "2026-02-22T12:37:04Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -183,9 +183,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-22T06:45:11Z",
+      "extracted_at_utc": "2026-02-22T12:36:45Z",
       "tokens": []
     },
     "google_play": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
+      "hash": "e5adcea469f4a180",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-22T01:20:51Z",
+      "extracted_at_utc": "2026-02-22T12:35:39Z",
       "tokens": []
     },
     "hulu": {
@@ -212,9 +212,9 @@
       ]
     },
     "hellofresh": {
-      "hash": "d0fe4030fbecd2c7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-22T06:45:11Z",
+      "extracted_at_utc": "2026-02-22T12:36:45Z",
       "tokens": []
     },
     "hinge": {
@@ -597,9 +597,9 @@
       "tokens": []
     },
     "washington_post": {
-      "hash": "093f3da85ae8ce44",
+      "hash": "e4d6bdfc45bd6a39",
       "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-      "extracted_at_utc": "2026-02-21T06:42:07Z",
+      "extracted_at_utc": "2026-02-22T12:36:57Z",
       "tokens": []
     },
     "x_premium": {
@@ -702,9 +702,9 @@
       "tokens": []
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "9797e79eb7ad6a9c",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-22T06:45:12Z",
+      "extracted_at_utc": "2026-02-22T12:35:56Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -716,18 +716,15 @@
       "tokens": []
     },
     "roblox_premium": {
-      "hash": "d15eabe459d7d36d",
+      "hash": "d72f75609e5be554",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-21T06:41:31Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ]
+      "extracted_at_utc": "2026-02-22T12:36:48Z",
+      "tokens": []
     },
     "espn_plus": {
-      "hash": "534f43374df46cdf",
+      "hash": "e329ea53278d6f88",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-22T06:45:10Z",
+      "extracted_at_utc": "2026-02-22T12:36:44Z",
       "tokens": []
     },
     "canva": {
