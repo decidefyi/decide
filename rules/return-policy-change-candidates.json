@@ -1,17 +1,17 @@
 {
   "myfitnesspal_premium": {
-    "hash": "d339d44f2c8d949f",
+    "hash": "b9d755ba7fcb2667",
     "count": 1,
-    "flip_count": 68,
+    "flip_count": 70,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T09:00:33Z",
-    "first_seen_utc": "2026-02-21T18:29:50Z",
-    "last_seen_utc": "2026-02-21T18:29:50Z",
+    "first_seen_utc": "2026-02-22T01:20:58Z",
+    "last_seen_utc": "2026-02-22T01:20:58Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "d339d44f2c8d949f",
+      "hash": "b9d755ba7fcb2667",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-21T18:29:50Z",
+      "extracted_at_utc": "2026-02-22T01:20:58Z",
       "tokens": [
         "flow:support_request"
       ]

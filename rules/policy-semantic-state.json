@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-21T18:22:47Z",
+  "updated_utc": "2026-02-22T01:13:17Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -361,9 +361,9 @@
       ]
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-21T18:22:29Z",
+      "extracted_at_utc": "2026-02-22T01:11:56Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -460,10 +460,12 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "d6866fff681e5e52",
+      "hash": "83506f0bf73b7b21",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-21T18:22:32Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-22T01:13:01Z",
+      "tokens": [
+        "refund_window_days:365"
+      ]
     },
     "twitch": {
       "hash": "69193932ed81a517",
@@ -630,10 +632,12 @@
       "tokens": []
     },
     "substack": {
-      "hash": "1fc132f3609dd8b1",
+      "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-21T18:21:48Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-22T01:13:09Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "snapchat_plus": {
       "hash": "99ce8296a9878690",
@@ -674,9 +678,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "bf6f426a2126312f",
+      "hash": "353aa0508fd129df",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-21T06:32:26Z",
+      "extracted_at_utc": "2026-02-22T01:13:13Z",
       "tokens": []
     },
     "starz": {
@@ -714,9 +718,9 @@
       "tokens": []
     },
     "claude_pro": {
-      "hash": "1f5fdc60b7f3ee38",
+      "hash": "59f67bb3f7534f5c",
       "source_url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
-      "extracted_at_utc": "2026-02-19T23:24:04Z",
+      "extracted_at_utc": "2026-02-22T01:12:54Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
@@ -757,9 +761,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "9a66c18e2df64bc8",
+      "hash": "1a570f400c5af39d",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-21T18:22:05Z",
+      "extracted_at_utc": "2026-02-22T01:12:54Z",
       "tokens": []
     },
     "headspace": {
