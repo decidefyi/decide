@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-22T12:40:27Z",
+  "updated_utc": "2026-02-22T18:35:43Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -214,9 +214,9 @@
       "tokens": []
     },
     "hinge": {
-      "hash": "708eef0a4d8b60ad",
+      "hash": "12dd44bb8ff498c8",
       "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-02-21T12:39:30Z",
+      "extracted_at_utc": "2026-02-22T18:35:12Z",
       "tokens": []
     },
     "icloud_plus": {
@@ -252,9 +252,9 @@
       "tokens": []
     },
     "masterclass": {
-      "hash": "e6d641115730b63f",
+      "hash": "b852ddd7e8c288fa",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-02-22T12:38:17Z",
+      "extracted_at_utc": "2026-02-22T18:35:15Z",
       "tokens": []
     },
     "microsoft_365": {
@@ -632,27 +632,27 @@
       ]
     },
     "espn_plus": {
-      "hash": "e329ea53278d6f88",
+      "hash": "f99705cad16abf04",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-22T12:40:06Z",
+      "extracted_at_utc": "2026-02-22T18:35:06Z",
       "tokens": []
     },
     "peacock": {
-      "hash": "1a2175b6aa8271c2",
+      "hash": "9d5ebe1adff952a6",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-02-22T06:48:47Z",
+      "extracted_at_utc": "2026-02-22T18:35:27Z",
       "tokens": []
     },
     "twitch": {
-      "hash": "6a228a741a94748b",
+      "hash": "3f0c3fafed2c0506",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-22T12:40:10Z",
+      "extracted_at_utc": "2026-02-22T18:35:15Z",
       "tokens": []
     },
     "nordvpn": {
-      "hash": "2b10ce8783059da7",
+      "hash": "26addcd33afd7750",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-02-22T01:25:28Z",
+      "extracted_at_utc": "2026-02-22T18:33:10Z",
       "tokens": []
     },
     "canva": {

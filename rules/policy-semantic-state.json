@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-22T12:29:20Z",
+  "updated_utc": "2026-02-22T18:24:08Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -454,10 +454,12 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "d6866fff681e5e52",
+      "hash": "83506f0bf73b7b21",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-22T12:27:39Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-22T18:23:50Z",
+      "tokens": [
+        "refund_window_days:365"
+      ]
     },
     "twitch": {
       "hash": "69193932ed81a517",
@@ -624,10 +626,12 @@
       "tokens": []
     },
     "substack": {
-      "hash": "1fc132f3609dd8b1",
+      "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-22T12:28:09Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-22T18:24:00Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "snapchat_plus": {
       "hash": "99ce8296a9878690",
@@ -739,9 +743,9 @@
       ]
     },
     "hellofresh": {
-      "hash": "d0fe4030fbecd2c7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-21T06:32:17Z",
+      "extracted_at_utc": "2026-02-22T18:23:45Z",
       "tokens": []
     },
     "washington_post": {
@@ -751,9 +755,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "e329ea53278d6f88",
+      "hash": "f99705cad16abf04",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-22T12:29:11Z",
+      "extracted_at_utc": "2026-02-22T18:23:38Z",
       "tokens": []
     },
     "headspace": {
@@ -771,15 +775,19 @@
       "tokens": []
     },
     "scribd": {
-      "hash": "bb0fdc3ccf056336",
+      "hash": "0cac65b719c1c5b6",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-      "extracted_at_utc": "2026-02-22T12:29:15Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-22T18:23:45Z",
+      "tokens": [
+        "refund_window_days:30",
+        "refund:allowed_language",
+        "refund:partial_allowed"
+      ]
     },
     "midjourney": {
-      "hash": "f992155a8ebbbb53",
+      "hash": "9afa3be5696ac85a",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-21T01:06:57Z",
+      "extracted_at_utc": "2026-02-22T18:22:33Z",
       "tokens": []
     },
     "canva": {

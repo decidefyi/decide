@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-22T12:37:04Z",
+  "updated_utc": "2026-02-22T18:31:44Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "e5adcea469f4a180",
+      "hash": "287ff660877b52d8",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-22T12:35:39Z",
+      "extracted_at_utc": "2026-02-22T18:31:26Z",
       "tokens": []
     },
     "hulu": {
@@ -279,9 +279,9 @@
       ]
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "9afa3be5696ac85a",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-20T12:45:46Z",
+      "extracted_at_utc": "2026-02-22T18:31:31Z",
       "tokens": []
     },
     "nintendo_switch_online": {
@@ -519,9 +519,9 @@
       ]
     },
     "keeper": {
-      "hash": "fe2e2fc8d560d7d3",
+      "hash": "e986961bb985f52f",
       "source_url": "https://www.keepersecurity.com/terms.html",
-      "extracted_at_utc": "2026-02-19T23:33:27Z",
+      "extracted_at_utc": "2026-02-22T18:31:40Z",
       "tokens": []
     },
     "siriusxm": {
@@ -597,9 +597,9 @@
       "tokens": []
     },
     "washington_post": {
-      "hash": "e4d6bdfc45bd6a39",
+      "hash": "093f3da85ae8ce44",
       "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-      "extracted_at_utc": "2026-02-22T12:36:57Z",
+      "extracted_at_utc": "2026-02-22T18:31:34Z",
       "tokens": []
     },
     "x_premium": {
@@ -690,10 +690,12 @@
       ]
     },
     "calm": {
-      "hash": "d72f75609e5be554",
+      "hash": "32092096ec499d3b",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-22T01:20:49Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-22T18:31:27Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "google_one": {
       "hash": "47fe303a75ca7032",
@@ -722,9 +724,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "e329ea53278d6f88",
+      "hash": "f99705cad16abf04",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-22T12:36:44Z",
+      "extracted_at_utc": "2026-02-22T18:31:25Z",
       "tokens": []
     },
     "canva": {
@@ -736,12 +738,10 @@
       ]
     },
     "headspace": {
-      "hash": "8f69b60d284caff0",
+      "hash": "d72f75609e5be554",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-21T06:41:59Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-22T18:31:29Z",
+      "tokens": []
     },
     "substack": {
       "hash": "b1db283c89c9bfc2",
