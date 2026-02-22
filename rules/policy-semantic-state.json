@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-22T01:13:17Z",
+  "updated_utc": "2026-02-22T06:38:43Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -532,9 +532,9 @@
       ]
     },
     "dashlane": {
-      "hash": "49c1675725ee1c85",
+      "hash": "5b339b17835cdb72",
       "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "extracted_at_utc": "2026-02-21T18:22:40Z",
+      "extracted_at_utc": "2026-02-22T06:38:30Z",
       "tokens": []
     },
     "fitbit_premium": {
@@ -595,10 +595,13 @@
       ]
     },
     "roblox_premium": {
-      "hash": "d72f75609e5be554",
+      "hash": "d15eabe459d7d36d",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-21T18:22:37Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-22T06:38:36Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale",
+        "risk:chargeback_or_dispute"
+      ]
     },
     "mlb_tv": {
       "hash": "2df9478a4bf6f184",
@@ -678,9 +681,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "353aa0508fd129df",
+      "hash": "bf6f426a2126312f",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-22T01:13:13Z",
+      "extracted_at_utc": "2026-02-22T06:38:35Z",
       "tokens": []
     },
     "starz": {
@@ -761,9 +764,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "1a570f400c5af39d",
+      "hash": "534f43374df46cdf",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-22T01:12:54Z",
+      "extracted_at_utc": "2026-02-22T06:38:20Z",
       "tokens": []
     },
     "headspace": {
@@ -775,16 +778,20 @@
       ]
     },
     "grammarly": {
-      "hash": "e5adcea469f4a180",
+      "hash": "287ff660877b52d8",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-21T01:06:40Z",
+      "extracted_at_utc": "2026-02-22T06:38:40Z",
       "tokens": []
     },
     "scribd": {
-      "hash": "bb0fdc3ccf056336",
+      "hash": "0cac65b719c1c5b6",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-      "extracted_at_utc": "2026-02-21T12:26:01Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-22T06:38:30Z",
+      "tokens": [
+        "refund_window_days:30",
+        "refund:allowed_language",
+        "refund:partial_allowed"
+      ]
     },
     "midjourney": {
       "hash": "f992155a8ebbbb53",

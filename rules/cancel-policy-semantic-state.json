@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-22T01:18:39Z",
+  "updated_utc": "2026-02-22T06:43:05Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -174,10 +174,13 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-21T18:26:08Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-22T06:42:14Z",
+      "tokens": [
+        "cancel:anytime",
+        "cancel:fee_or_penalty"
+      ]
     },
     "google_play": {
       "hash": "b5cf2e31119e8d8d",
@@ -188,9 +191,9 @@
       ]
     },
     "headspace": {
-      "hash": "2cab70d0dd11eed9",
+      "hash": "89241ceb28e6ead7",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription",
-      "extracted_at_utc": "2026-02-21T18:26:16Z",
+      "extracted_at_utc": "2026-02-22T06:42:20Z",
       "tokens": []
     },
     "hulu": {
@@ -463,9 +466,9 @@
       "tokens": []
     },
     "myfitnesspal_premium": {
-      "hash": "302ffaaa5882feed",
+      "hash": "728ba934933006cc",
       "source_url": "https://support.myfitnesspal.com/hc/en-us",
-      "extracted_at_utc": "2026-02-21T18:26:39Z",
+      "extracted_at_utc": "2026-02-22T06:42:31Z",
       "tokens": []
     },
     "keeper": {
@@ -522,9 +525,9 @@
       "tokens": []
     },
     "nfl_plus": {
-      "hash": "8ed9e2f088ca8172",
+      "hash": "8ab3773b5ac7c822",
       "source_url": "https://support.nfl.com/hc/en-us/articles/5402041435292-NFL-Subscription-Renewals-Cancellations",
-      "extracted_at_utc": "2026-02-21T12:32:45Z",
+      "extracted_at_utc": "2026-02-22T06:43:05Z",
       "tokens": []
     },
     "wall_street_journal": {
@@ -570,9 +573,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "b017b99c33184386",
+      "hash": "29ef335eedc7bef5",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-22T01:18:02Z",
+      "extracted_at_utc": "2026-02-22T06:42:39Z",
       "tokens": []
     },
     "starz": {
@@ -598,9 +601,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "1a570f400c5af39d",
+      "hash": "534f43374df46cdf",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-22T01:17:35Z",
+      "extracted_at_utc": "2026-02-22T06:42:13Z",
       "tokens": []
     },
     "google_one": {
@@ -618,9 +621,9 @@
       "tokens": []
     },
     "peacock": {
-      "hash": "1ee376168c2f131d",
+      "hash": "f10a6f0ae8d2f044",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-02-21T12:30:40Z",
+      "extracted_at_utc": "2026-02-22T06:42:20Z",
       "tokens": []
     },
     "evernote": {
@@ -647,9 +650,9 @@
       ]
     },
     "scribd": {
-      "hash": "bb0fdc3ccf056336",
+      "hash": "64aecd4a6b3a2db0",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
-      "extracted_at_utc": "2026-02-21T01:14:08Z",
+      "extracted_at_utc": "2026-02-22T06:40:49Z",
       "tokens": []
     },
     "britbox": {

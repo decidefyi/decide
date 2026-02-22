@@ -1,81 +1,83 @@
 {
   "audible": {
-    "hash": "bd84218b039c7018",
+    "hash": "e897bb3480375a36",
     "count": 1,
-    "flip_count": 2,
+    "flip_count": 5,
     "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
     "pending_since_utc": "2026-02-22T01:14:12Z",
-    "first_seen_utc": "2026-02-22T01:18:24Z",
-    "last_seen_utc": "2026-02-22T01:18:24Z",
+    "first_seen_utc": "2026-02-22T06:42:53Z",
+    "last_seen_utc": "2026-02-22T06:42:53Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "bd84218b039c7018",
+      "hash": "e897bb3480375a36",
       "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-02-22T01:18:24Z",
+      "extracted_at_utc": "2026-02-22T06:42:53Z",
       "tokens": []
     }
   },
   "canva": {
-    "hash": "66afc1f4d142e63f",
+    "hash": "69d172f6c0185ed3",
     "count": 1,
-    "flip_count": 75,
-    "source_url": "https://www.canva.com/help/cancellation/",
+    "flip_count": 78,
+    "source_url": "https://www.canva.com/policies/terms-of-use/",
     "pending_since_utc": "2026-02-18T08:56:18Z",
-    "first_seen_utc": "2026-02-22T01:18:18Z",
-    "last_seen_utc": "2026-02-22T01:18:18Z",
+    "first_seen_utc": "2026-02-22T06:42:45Z",
+    "last_seen_utc": "2026-02-22T06:42:45Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "66afc1f4d142e63f",
-      "source_url": "https://www.canva.com/help/cancellation/",
-      "extracted_at_utc": "2026-02-22T01:18:18Z",
-      "tokens": []
+      "hash": "69d172f6c0185ed3",
+      "source_url": "https://www.canva.com/policies/terms-of-use/",
+      "extracted_at_utc": "2026-02-22T06:42:45Z",
+      "tokens": [
+        "billing:prorated"
+      ]
     }
   },
   "paramount_plus": {
-    "hash": "bf161deb22cbcabd",
+    "hash": "93c4e932870b33b4",
     "count": 1,
-    "flip_count": 77,
+    "flip_count": 80,
     "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-22T01:18:35Z",
-    "last_seen_utc": "2026-02-22T01:18:35Z",
+    "first_seen_utc": "2026-02-22T06:43:03Z",
+    "last_seen_utc": "2026-02-22T06:43:03Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "bf161deb22cbcabd",
+      "hash": "93c4e932870b33b4",
       "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-      "extracted_at_utc": "2026-02-22T01:18:35Z",
+      "extracted_at_utc": "2026-02-22T06:43:03Z",
       "tokens": []
     }
   },
   "twitch": {
-    "hash": "b3d574089155a5d8",
+    "hash": "81f60bb296927f72",
     "count": 1,
-    "flip_count": 78,
+    "flip_count": 81,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
     "pending_since_utc": "2026-02-18T08:57:57Z",
-    "first_seen_utc": "2026-02-22T01:18:32Z",
-    "last_seen_utc": "2026-02-22T01:18:32Z",
+    "first_seen_utc": "2026-02-22T06:43:00Z",
+    "last_seen_utc": "2026-02-22T06:43:00Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "b3d574089155a5d8",
+      "hash": "81f60bb296927f72",
       "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-      "extracted_at_utc": "2026-02-22T01:18:32Z",
+      "extracted_at_utc": "2026-02-22T06:43:00Z",
       "tokens": []
     }
   },
   "fitbit_premium": {
-    "hash": "609adfba7f457aa0",
+    "hash": "d77af4d344175d02",
     "count": 1,
-    "flip_count": 81,
+    "flip_count": 84,
     "source_url": "https://support.google.com/fitbit/",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-22T01:18:35Z",
-    "last_seen_utc": "2026-02-22T01:18:35Z",
+    "first_seen_utc": "2026-02-22T06:42:54Z",
+    "last_seen_utc": "2026-02-22T06:42:54Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "609adfba7f457aa0",
+      "hash": "d77af4d344175d02",
       "source_url": "https://support.google.com/fitbit/",
-      "extracted_at_utc": "2026-02-22T01:18:35Z",
+      "extracted_at_utc": "2026-02-22T06:42:54Z",
       "tokens": []
     }
   }

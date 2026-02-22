@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-22T01:21:05Z",
+  "updated_utc": "2026-02-22T06:45:27Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -183,9 +183,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-22T01:19:40Z",
+      "extracted_at_utc": "2026-02-22T06:45:11Z",
       "tokens": []
     },
     "google_play": {
@@ -212,9 +212,9 @@
       ]
     },
     "hellofresh": {
-      "hash": "d72f75609e5be554",
+      "hash": "d0fe4030fbecd2c7",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-22T01:20:51Z",
+      "extracted_at_utc": "2026-02-22T06:45:11Z",
       "tokens": []
     },
     "hinge": {
@@ -346,9 +346,9 @@
       ]
     },
     "ring_protect": {
-      "hash": "a9d243d37ce4da29",
+      "hash": "3f8557f772818b8f",
       "source_url": "https://ring.com/protect-plans",
-      "extracted_at_utc": "2026-02-22T01:19:57Z",
+      "extracted_at_utc": "2026-02-22T06:45:12Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -641,9 +641,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "353aa0508fd129df",
+      "hash": "bf6f426a2126312f",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-22T01:21:04Z",
+      "extracted_at_utc": "2026-02-22T06:45:23Z",
       "tokens": []
     },
     "britbox": {
@@ -702,9 +702,9 @@
       "tokens": []
     },
     "proton": {
-      "hash": "9797e79eb7ad6a9c",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-21T18:28:48Z",
+      "extracted_at_utc": "2026-02-22T06:45:12Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -725,9 +725,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "d1207304a8262659",
+      "hash": "534f43374df46cdf",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-22T01:21:03Z",
+      "extracted_at_utc": "2026-02-22T06:45:10Z",
       "tokens": []
     },
     "canva": {
@@ -747,12 +747,10 @@
       ]
     },
     "substack": {
-      "hash": "f5fa5608fc35aee4",
+      "hash": "b1db283c89c9bfc2",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-21T18:29:22Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-22T06:44:50Z",
+      "tokens": []
     }
   }
 }
