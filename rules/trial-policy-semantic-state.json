@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-23T19:04:38Z",
+  "updated_utc": "2026-02-23T20:20:39Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -34,9 +34,9 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "9d7dee8472ee10d1",
+      "hash": "5d18b63bf1d694d2",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-02-23T19:04:25Z",
+      "extracted_at_utc": "2026-02-23T20:20:16Z",
       "tokens": []
     },
     "apple_music": {
@@ -85,9 +85,9 @@
       "tokens": []
     },
     "chatgpt_plus": {
-      "hash": "de6e0eae450406f9",
+      "hash": "943f18d6cd7e1667",
       "source_url": "https://openai.com/chatgpt/pricing/",
-      "extracted_at_utc": "2026-02-23T19:01:58Z",
+      "extracted_at_utc": "2026-02-23T20:20:15Z",
       "tokens": []
     },
     "crunchyroll": {
@@ -252,9 +252,9 @@
       "tokens": []
     },
     "masterclass": {
-      "hash": "e6d641115730b63f",
+      "hash": "b852ddd7e8c288fa",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-02-23T19:02:20Z",
+      "extracted_at_utc": "2026-02-23T20:18:13Z",
       "tokens": []
     },
     "microsoft_365": {
@@ -320,9 +320,9 @@
       "tokens": []
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-23T19:04:28Z",
+      "extracted_at_utc": "2026-02-23T20:19:01Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -646,18 +646,16 @@
       "tokens": []
     },
     "twitch": {
-      "hash": "63452ce734306f53",
+      "hash": "5040f99eeb0ae945",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-23T19:04:30Z",
+      "extracted_at_utc": "2026-02-23T20:20:19Z",
       "tokens": []
     },
     "nordvpn": {
-      "hash": "862002e8a8ec0d3e",
+      "hash": "26addcd33afd7750",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-02-23T19:04:30Z",
-      "tokens": [
-        "billing:auto_renew"
-      ]
+      "extracted_at_utc": "2026-02-23T20:20:24Z",
+      "tokens": []
     },
     "canva": {
       "hash": "8c8b2a79919eaa19",

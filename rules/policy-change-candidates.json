@@ -1,20 +1,52 @@
 {
-  "myfitnesspal_premium": {
-    "hash": "3438d9e2b9cde290",
+  "canva": {
+    "hash": "561044bf0fe61325",
     "count": 1,
-    "flip_count": 95,
-    "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "pending_since_utc": "2026-02-18T08:51:39Z",
-    "first_seen_utc": "2026-02-23T18:53:48Z",
-    "last_seen_utc": "2026-02-23T18:53:48Z",
+    "flip_count": 2,
+    "source_url": "https://www.canva.com/policies/terms-of-use/",
+    "pending_since_utc": "2026-02-23T20:04:59Z",
+    "first_seen_utc": "2026-02-23T20:07:10Z",
+    "last_seen_utc": "2026-02-23T20:07:10Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "3438d9e2b9cde290",
+      "hash": "561044bf0fe61325",
+      "source_url": "https://www.canva.com/policies/terms-of-use/",
+      "extracted_at_utc": "2026-02-23T20:07:10Z",
+      "tokens": []
+    }
+  },
+  "myfitnesspal_premium": {
+    "hash": "59306942dcf937ef",
+    "count": 1,
+    "flip_count": 97,
+    "source_url": "https://www.myfitnesspal.com/terms-of-use",
+    "pending_since_utc": "2026-02-18T08:51:39Z",
+    "first_seen_utc": "2026-02-23T20:06:57Z",
+    "last_seen_utc": "2026-02-23T20:06:57Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "59306942dcf937ef",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-23T18:53:48Z",
+      "extracted_at_utc": "2026-02-23T20:06:57Z",
       "tokens": [
         "flow:support_request"
       ]
+    }
+  },
+  "substack": {
+    "hash": "20fab989e6c94724",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "pending_since_utc": "2026-02-23T20:06:26Z",
+    "first_seen_utc": "2026-02-23T20:07:18Z",
+    "last_seen_utc": "2026-02-23T20:07:18Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "20fab989e6c94724",
+      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "extracted_at_utc": "2026-02-23T20:07:18Z",
+      "tokens": []
     }
   }
 }

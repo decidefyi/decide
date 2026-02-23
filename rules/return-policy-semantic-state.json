@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-23T19:01:15Z",
+  "updated_utc": "2026-02-23T20:16:57Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -38,13 +38,14 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "275bfcb68d90bd96",
+      "hash": "3b8e0a0a0072edec",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-02-23T19:00:58Z",
+      "extracted_at_utc": "2026-02-23T20:16:28Z",
       "tokens": [
         "billing:auto_renew",
         "billing:prorated",
         "restriction:no_refund_or_final_sale",
+        "return:shipping_costs",
         "risk:chargeback_or_dispute"
       ]
     },
@@ -91,9 +92,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "187a00acf650de20",
+      "hash": "3cc3413769c232cf",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-23T19:00:58Z",
+      "extracted_at_utc": "2026-02-23T20:16:49Z",
       "tokens": []
     },
     "deezer": {
@@ -112,9 +113,9 @@
       "tokens": []
     },
     "crunchyroll": {
-      "hash": "d72f75609e5be554",
+      "hash": "9315e456fbf9c2b5",
       "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-      "extracted_at_utc": "2026-02-19T23:32:41Z",
+      "extracted_at_utc": "2026-02-23T20:16:30Z",
       "tokens": []
     },
     "discord_nitro": {
@@ -278,9 +279,9 @@
       ]
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "6a5833c2c5273b43",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-23T01:21:17Z",
+      "extracted_at_utc": "2026-02-23T20:16:35Z",
       "tokens": []
     },
     "nintendo_switch_online": {
@@ -703,9 +704,9 @@
       "tokens": []
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "9797e79eb7ad6a9c",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-23T12:50:07Z",
+      "extracted_at_utc": "2026-02-23T20:16:37Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -726,9 +727,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "13aaffe3671762fc",
+      "hash": "e8753802f98b8b7d",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-23T19:00:59Z",
+      "extracted_at_utc": "2026-02-23T20:16:31Z",
       "tokens": []
     },
     "canva": {
@@ -748,12 +749,10 @@
       ]
     },
     "substack": {
-      "hash": "f5fa5608fc35aee4",
+      "hash": "1fc132f3609dd8b1",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-23T12:51:09Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-23T20:16:46Z",
+      "tokens": []
     }
   }
 }
