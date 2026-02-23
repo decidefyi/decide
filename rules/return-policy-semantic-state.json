@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-23T12:51:19Z",
+  "updated_utc": "2026-02-23T19:01:15Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -10,9 +10,9 @@
       "tokens": []
     },
     "amazon_music_unlimited": {
-      "hash": "af269df401abdbdc",
+      "hash": "68b9c2575d630fc0",
       "source_url": "https://www.amazon.com/music/unlimited",
-      "extracted_at_utc": "2026-02-19T23:31:49Z",
+      "extracted_at_utc": "2026-02-23T19:00:59Z",
       "tokens": []
     },
     "adobe": {
@@ -38,14 +38,13 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "3b8e0a0a0072edec",
+      "hash": "275bfcb68d90bd96",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-02-23T12:50:54Z",
+      "extracted_at_utc": "2026-02-23T19:00:58Z",
       "tokens": [
         "billing:auto_renew",
         "billing:prorated",
         "restriction:no_refund_or_final_sale",
-        "return:shipping_costs",
         "risk:chargeback_or_dispute"
       ]
     },
@@ -92,9 +91,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "2748e6816fd5301f",
+      "hash": "187a00acf650de20",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-19T23:32:33Z",
+      "extracted_at_utc": "2026-02-23T19:00:58Z",
       "tokens": []
     },
     "deezer": {
@@ -183,9 +182,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-23T01:19:20Z",
+      "extracted_at_utc": "2026-02-23T18:59:50Z",
       "tokens": []
     },
     "google_play": {
@@ -557,9 +556,9 @@
       ]
     },
     "ubisoft_plus": {
-      "hash": "6d335c3d4924aae8",
+      "hash": "6460af34e864332d",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-20T06:52:35Z",
+      "extracted_at_utc": "2026-02-23T19:01:02Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "return:condition_unopened_or_unused",
@@ -727,9 +726,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "4828427e2347d500",
+      "hash": "13aaffe3671762fc",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-23T12:50:52Z",
+      "extracted_at_utc": "2026-02-23T19:00:59Z",
       "tokens": []
     },
     "canva": {

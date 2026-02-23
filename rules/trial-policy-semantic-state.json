@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-23T12:54:41Z",
+  "updated_utc": "2026-02-23T19:04:38Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -10,9 +10,9 @@
       "tokens": []
     },
     "amazon_music_unlimited": {
-      "hash": "aa196cbede9badd6",
+      "hash": "68b9c2575d630fc0",
       "source_url": "https://www.amazon.com/music/unlimited",
-      "extracted_at_utc": "2026-02-19T23:34:36Z",
+      "extracted_at_utc": "2026-02-23T19:04:25Z",
       "tokens": []
     },
     "adobe": {
@@ -34,9 +34,9 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "5d18b63bf1d694d2",
+      "hash": "9d7dee8472ee10d1",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-02-23T12:54:29Z",
+      "extracted_at_utc": "2026-02-23T19:04:25Z",
       "tokens": []
     },
     "apple_music": {
@@ -85,9 +85,9 @@
       "tokens": []
     },
     "chatgpt_plus": {
-      "hash": "c59fa3f9b63e83d2",
+      "hash": "de6e0eae450406f9",
       "source_url": "https://openai.com/chatgpt/pricing/",
-      "extracted_at_utc": "2026-02-23T07:05:30Z",
+      "extracted_at_utc": "2026-02-23T19:01:58Z",
       "tokens": []
     },
     "crunchyroll": {
@@ -252,9 +252,9 @@
       "tokens": []
     },
     "masterclass": {
-      "hash": "b852ddd7e8c288fa",
+      "hash": "e6d641115730b63f",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-02-23T12:54:36Z",
+      "extracted_at_utc": "2026-02-23T19:02:20Z",
       "tokens": []
     },
     "microsoft_365": {
@@ -320,9 +320,9 @@
       "tokens": []
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-23T07:06:44Z",
+      "extracted_at_utc": "2026-02-23T19:04:28Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -526,9 +526,9 @@
       "tokens": []
     },
     "mlb_tv": {
-      "hash": "a03b3804ebebd1c3",
+      "hash": "0f1308faef8761f0",
       "source_url": "https://www.mlb.com/live-stream-games/subscribe",
-      "extracted_at_utc": "2026-02-19T23:36:58Z",
+      "extracted_at_utc": "2026-02-23T19:04:30Z",
       "tokens": []
     },
     "wall_street_journal": {
@@ -573,9 +573,9 @@
       "tokens": []
     },
     "discovery_plus": {
-      "hash": "96e3445570eb8be7",
+      "hash": "1d8c0959540e93c4",
       "source_url": "https://www.discoveryplus.com/",
-      "extracted_at_utc": "2026-02-19T23:37:41Z",
+      "extracted_at_utc": "2026-02-23T19:04:34Z",
       "tokens": []
     },
     "telegram_premium": {
@@ -634,28 +634,30 @@
       ]
     },
     "espn_plus": {
-      "hash": "4828427e2347d500",
+      "hash": "e8753802f98b8b7d",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-23T12:54:28Z",
+      "extracted_at_utc": "2026-02-23T19:04:28Z",
       "tokens": []
     },
     "peacock": {
-      "hash": "9d5ebe1adff952a6",
+      "hash": "302a703c0563cfc7",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-02-23T12:54:41Z",
+      "extracted_at_utc": "2026-02-23T19:03:12Z",
       "tokens": []
     },
     "twitch": {
-      "hash": "9799e2605019b48f",
+      "hash": "63452ce734306f53",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-23T12:54:36Z",
+      "extracted_at_utc": "2026-02-23T19:04:30Z",
       "tokens": []
     },
     "nordvpn": {
-      "hash": "26addcd33afd7750",
+      "hash": "862002e8a8ec0d3e",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-02-22T18:33:10Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-23T19:04:30Z",
+      "tokens": [
+        "billing:auto_renew"
+      ]
     },
     "canva": {
       "hash": "8c8b2a79919eaa19",

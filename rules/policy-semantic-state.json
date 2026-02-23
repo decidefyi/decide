@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-23T12:42:51Z",
+  "updated_utc": "2026-02-23T18:53:48Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -10,9 +10,9 @@
       "tokens": []
     },
     "amazon_music_unlimited": {
-      "hash": "aa196cbede9badd6",
+      "hash": "68b9c2575d630fc0",
       "source_url": "https://www.amazon.com/music/unlimited",
-      "extracted_at_utc": "2026-02-19T23:20:27Z",
+      "extracted_at_utc": "2026-02-23T18:53:14Z",
       "tokens": []
     },
     "adobe": {
@@ -40,9 +40,9 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "6bb8825a65099707",
+      "hash": "7c25d815528390c6",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-02-19T23:21:11Z",
+      "extracted_at_utc": "2026-02-23T18:53:14Z",
       "tokens": [
         "billing:auto_renew",
         "billing:prorated",
@@ -99,15 +99,21 @@
       ]
     },
     "calm": {
-      "hash": "d72f75609e5be554",
+      "hash": "32092096ec499d3b",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-22T12:28:25Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-23T18:53:16Z",
+      "tokens": [
+        "flow:support_request",
+        "refund_window_days:10",
+        "refund_window_days:30",
+        "refund:allowed_language",
+        "refund:partial_allowed"
+      ]
     },
     "chatgpt_plus": {
-      "hash": "2748e6816fd5301f",
+      "hash": "187a00acf650de20",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-19T23:21:15Z",
+      "extracted_at_utc": "2026-02-23T18:53:17Z",
       "tokens": [
         "refund_window_days:14"
       ]
@@ -578,9 +584,9 @@
       ]
     },
     "ubisoft_plus": {
-      "hash": "4a60542405bebc1a",
+      "hash": "24899eaa08ca808f",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-19T23:23:37Z",
+      "extracted_at_utc": "2026-02-23T18:53:29Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
@@ -728,9 +734,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-22T12:28:48Z",
+      "extracted_at_utc": "2026-02-23T18:53:21Z",
       "tokens": []
     },
     "evernote": {
@@ -756,9 +762,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "f23716751d4fe599",
+      "hash": "7426f4ab7a2d928d",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-23T06:56:11Z",
+      "extracted_at_utc": "2026-02-23T18:53:17Z",
       "tokens": []
     },
     "headspace": {
@@ -784,9 +790,9 @@
       ]
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "9afa3be5696ac85a",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-23T12:42:28Z",
+      "extracted_at_utc": "2026-02-23T18:51:43Z",
       "tokens": []
     },
     "canva": {

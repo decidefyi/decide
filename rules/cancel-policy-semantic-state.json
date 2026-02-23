@@ -1,12 +1,12 @@
 {
-  "updated_utc": "2026-02-23T12:48:52Z",
+  "updated_utc": "2026-02-23T18:58:54Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
     "amazon_music_unlimited": {
-      "hash": "aa196cbede9badd6",
+      "hash": "68b9c2575d630fc0",
       "source_url": "https://www.amazon.com/music/unlimited",
-      "extracted_at_utc": "2026-02-19T23:24:51Z",
+      "extracted_at_utc": "2026-02-23T18:57:09Z",
       "tokens": []
     },
     "1password": {
@@ -40,9 +40,9 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "6bb8825a65099707",
+      "hash": "7c25d815528390c6",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-02-23T12:47:04Z",
+      "extracted_at_utc": "2026-02-23T18:57:09Z",
       "tokens": [
         "billing:auto_renew",
         "billing:prorated",
@@ -92,9 +92,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "2748e6816fd5301f",
+      "hash": "187a00acf650de20",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-19T23:26:01Z",
+      "extracted_at_utc": "2026-02-23T18:57:18Z",
       "tokens": [
         "cancel_window_days:14"
       ]
@@ -317,9 +317,9 @@
       ]
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-23T12:48:00Z",
+      "extracted_at_utc": "2026-02-23T18:55:43Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -385,9 +385,9 @@
       ]
     },
     "strava": {
-      "hash": "8212454c1334eca9",
+      "hash": "8765312b0342e7f6",
       "source_url": "https://support.strava.com/hc/en-us/articles/216917967-Cancel-Subscription",
-      "extracted_at_utc": "2026-02-23T01:17:28Z",
+      "extracted_at_utc": "2026-02-23T18:55:57Z",
       "tokens": []
     },
     "todoist": {
@@ -403,9 +403,9 @@
       "tokens": []
     },
     "tinder": {
-      "hash": "d72f75609e5be554",
+      "hash": "6262b9b931b4e93b",
       "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
-      "extracted_at_utc": "2026-02-19T23:28:18Z",
+      "extracted_at_utc": "2026-02-23T18:58:05Z",
       "tokens": []
     },
     "walmart_plus": {
@@ -493,9 +493,9 @@
       "tokens": []
     },
     "ea_play": {
-      "hash": "8a24192e77bdfb52",
+      "hash": "55d3ae17fbcad187",
       "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-      "extracted_at_utc": "2026-02-21T18:26:39Z",
+      "extracted_at_utc": "2026-02-23T18:58:17Z",
       "tokens": []
     },
     "ubisoft_plus": {
@@ -555,9 +555,9 @@
       "tokens": []
     },
     "reddit_premium": {
-      "hash": "b6565f21368ba926",
+      "hash": "bf0cb87af4daaa53",
       "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
-      "extracted_at_utc": "2026-02-21T12:32:50Z",
+      "extracted_at_utc": "2026-02-23T18:58:41Z",
       "tokens": []
     },
     "discovery_plus": {
@@ -601,9 +601,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "4828427e2347d500",
+      "hash": "7426f4ab7a2d928d",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-23T12:47:13Z",
+      "extracted_at_utc": "2026-02-23T18:57:19Z",
       "tokens": []
     },
     "google_one": {
@@ -650,9 +650,9 @@
       ]
     },
     "scribd": {
-      "hash": "bb0fdc3ccf056336",
+      "hash": "64aecd4a6b3a2db0",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
-      "extracted_at_utc": "2026-02-23T01:18:18Z",
+      "extracted_at_utc": "2026-02-23T18:58:10Z",
       "tokens": []
     },
     "britbox": {
