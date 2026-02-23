@@ -1,18 +1,1 @@
-{
-  "hinge": {
-    "hash": "7f2d0be067148b37",
-    "count": 1,
-    "flip_count": 2,
-    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "pending_since_utc": "2026-02-23T07:05:45Z",
-    "first_seen_utc": "2026-02-23T07:08:13Z",
-    "last_seen_utc": "2026-02-23T07:08:13Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "7f2d0be067148b37",
-      "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-02-23T07:08:13Z",
-      "tokens": []
-    }
-  }
-}
+{}

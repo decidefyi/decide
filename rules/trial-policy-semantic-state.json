@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-23T07:08:13Z",
+  "updated_utc": "2026-02-23T12:54:41Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -34,9 +34,9 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "4cf5a425dd295c82",
+      "hash": "5d18b63bf1d694d2",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-02-23T07:07:58Z",
+      "extracted_at_utc": "2026-02-23T12:54:29Z",
       "tokens": []
     },
     "apple_music": {
@@ -161,9 +161,9 @@
       "tokens": []
     },
     "expressvpn": {
-      "hash": "5c184aa4043eb3e4",
+      "hash": "a4c2feed7f5303c9",
       "source_url": "https://www.expressvpn.com/order",
-      "extracted_at_utc": "2026-02-23T07:05:37Z",
+      "extracted_at_utc": "2026-02-23T12:54:30Z",
       "tokens": []
     },
     "github_pro": {
@@ -252,9 +252,9 @@
       "tokens": []
     },
     "masterclass": {
-      "hash": "e6d641115730b63f",
+      "hash": "b852ddd7e8c288fa",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-02-23T07:05:53Z",
+      "extracted_at_utc": "2026-02-23T12:54:36Z",
       "tokens": []
     },
     "microsoft_365": {
@@ -432,9 +432,9 @@
       "tokens": []
     },
     "youtube_tv": {
-      "hash": "9289e3332faf6ea2",
+      "hash": "ea3ffbff5bee096d",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-02-19T23:36:48Z",
+      "extracted_at_utc": "2026-02-23T12:54:36Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
@@ -446,9 +446,9 @@
       "tokens": []
     },
     "lastpass": {
-      "hash": "e529880e8d6a8199",
+      "hash": "78d94a532a3359bc",
       "source_url": "https://www.lastpass.com/pricing",
-      "extracted_at_utc": "2026-02-20T18:49:51Z",
+      "extracted_at_utc": "2026-02-23T12:54:37Z",
       "tokens": []
     },
     "keeper": {
@@ -634,21 +634,21 @@
       ]
     },
     "espn_plus": {
-      "hash": "a3fc2dd450c09a03",
+      "hash": "4828427e2347d500",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-23T07:07:56Z",
+      "extracted_at_utc": "2026-02-23T12:54:28Z",
       "tokens": []
     },
     "peacock": {
-      "hash": "1a2175b6aa8271c2",
+      "hash": "9d5ebe1adff952a6",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-02-23T07:08:12Z",
+      "extracted_at_utc": "2026-02-23T12:54:41Z",
       "tokens": []
     },
     "twitch": {
-      "hash": "22226771f76cad85",
+      "hash": "9799e2605019b48f",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-23T07:08:10Z",
+      "extracted_at_utc": "2026-02-23T12:54:36Z",
       "tokens": []
     },
     "nordvpn": {

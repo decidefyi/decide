@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-23T06:56:54Z",
+  "updated_utc": "2026-02-23T12:42:51Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -261,9 +261,9 @@
       ]
     },
     "masterclass": {
-      "hash": "31e9c6990d098854",
+      "hash": "b852ddd7e8c288fa",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-23T01:12:33Z",
+      "extracted_at_utc": "2026-02-23T12:42:31Z",
       "tokens": []
     },
     "microsoft_365": {
@@ -448,21 +448,16 @@
       ]
     },
     "tinder": {
-      "hash": "94874f35eb7a8496",
+      "hash": "d72f75609e5be554",
       "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
-      "extracted_at_utc": "2026-02-23T06:56:17Z",
-      "tokens": [
-        "refund_window_days:14",
-        "restriction:no_refund_or_final_sale"
-      ]
+      "extracted_at_utc": "2026-02-23T12:42:33Z",
+      "tokens": []
     },
     "tidal": {
-      "hash": "40f97abcc26dc12b",
+      "hash": "0b9d257da80273e5",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-23T06:56:31Z",
-      "tokens": [
-        "refund_window_days:365"
-      ]
+      "extracted_at_utc": "2026-02-23T12:42:33Z",
+      "tokens": []
     },
     "twitch": {
       "hash": "69193932ed81a517",
@@ -511,17 +506,17 @@
       "tokens": []
     },
     "youtube_tv": {
-      "hash": "9289e3332faf6ea2",
+      "hash": "ea3ffbff5bee096d",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-02-19T23:22:50Z",
+      "extracted_at_utc": "2026-02-23T12:42:34Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
     },
     "lastpass": {
-      "hash": "14c13f532350a513",
+      "hash": "bbe2469f4a09a9f9",
       "source_url": "https://www.lastpass.com/legal-center/terms-of-service",
-      "extracted_at_utc": "2026-02-19T23:22:52Z",
+      "extracted_at_utc": "2026-02-23T12:42:35Z",
       "tokens": [
         "billing:prorated",
         "refund:partial_allowed",
@@ -529,9 +524,9 @@
       ]
     },
     "dashlane": {
-      "hash": "5b339b17835cdb72",
+      "hash": "49c1675725ee1c85",
       "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "extracted_at_utc": "2026-02-22T06:38:30Z",
+      "extracted_at_utc": "2026-02-23T12:42:39Z",
       "tokens": []
     },
     "fitbit_premium": {
@@ -592,10 +587,13 @@
       ]
     },
     "roblox_premium": {
-      "hash": "d72f75609e5be554",
+      "hash": "d15eabe459d7d36d",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-23T06:56:23Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-23T12:41:56Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale",
+        "risk:chargeback_or_dispute"
+      ]
     },
     "mlb_tv": {
       "hash": "2df9478a4bf6f184",
@@ -764,17 +762,15 @@
       "tokens": []
     },
     "headspace": {
-      "hash": "8f69b60d284caff0",
+      "hash": "d72f75609e5be554",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-21T06:32:17Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-23T12:39:41Z",
+      "tokens": []
     },
     "grammarly": {
-      "hash": "e5adcea469f4a180",
+      "hash": "287ff660877b52d8",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-22T12:28:51Z",
+      "extracted_at_utc": "2026-02-23T12:42:48Z",
       "tokens": []
     },
     "scribd": {
@@ -788,9 +784,9 @@
       ]
     },
     "midjourney": {
-      "hash": "9afa3be5696ac85a",
+      "hash": "1b2f6e20c6cb63ba",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-23T06:54:51Z",
+      "extracted_at_utc": "2026-02-23T12:42:28Z",
       "tokens": []
     },
     "canva": {

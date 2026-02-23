@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-23T07:04:43Z",
+  "updated_utc": "2026-02-23T12:51:19Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -38,10 +38,16 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "4cf5a425dd295c82",
+      "hash": "3b8e0a0a0072edec",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-02-23T07:04:28Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-23T12:50:54Z",
+      "tokens": [
+        "billing:auto_renew",
+        "billing:prorated",
+        "restriction:no_refund_or_final_sale",
+        "return:shipping_costs",
+        "risk:chargeback_or_dispute"
+      ]
     },
     "apple_music": {
       "hash": "91882bfe2276dfad",
@@ -429,9 +435,9 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "40f97abcc26dc12b",
+      "hash": "0b9d257da80273e5",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-23T07:04:30Z",
+      "extracted_at_utc": "2026-02-23T12:50:56Z",
       "tokens": []
     },
     "twitch": {
@@ -480,17 +486,17 @@
       "tokens": []
     },
     "youtube_tv": {
-      "hash": "8d13e631b3e8e5ac",
+      "hash": "62c2e0e55d29d9e9",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-02-19T23:33:22Z",
+      "extracted_at_utc": "2026-02-23T12:50:54Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
     },
     "lastpass": {
-      "hash": "864b385aca0f9b16",
+      "hash": "a7240cfdcb06fb68",
       "source_url": "https://www.lastpass.com/legal-center/terms-of-service",
-      "extracted_at_utc": "2026-02-19T23:33:24Z",
+      "extracted_at_utc": "2026-02-23T12:51:01Z",
       "tokens": [
         "billing:prorated",
         "restriction:no_refund_or_final_sale",
@@ -698,29 +704,32 @@
       "tokens": []
     },
     "proton": {
-      "hash": "9797e79eb7ad6a9c",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-22T12:35:56Z",
+      "extracted_at_utc": "2026-02-23T12:50:07Z",
       "tokens": [
         "billing:auto_renew"
       ]
     },
     "masterclass": {
-      "hash": "25073741b6741db6",
+      "hash": "b852ddd7e8c288fa",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-23T01:21:20Z",
+      "extracted_at_utc": "2026-02-23T12:50:59Z",
       "tokens": []
     },
     "roblox_premium": {
-      "hash": "d72f75609e5be554",
+      "hash": "d15eabe459d7d36d",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-22T12:36:48Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-23T12:51:04Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale",
+        "risk:chargeback_or_dispute"
+      ]
     },
     "espn_plus": {
-      "hash": "a3fc2dd450c09a03",
+      "hash": "4828427e2347d500",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-23T07:04:26Z",
+      "extracted_at_utc": "2026-02-23T12:50:52Z",
       "tokens": []
     },
     "canva": {
@@ -740,10 +749,12 @@
       ]
     },
     "substack": {
-      "hash": "b1db283c89c9bfc2",
-      "source_url": "https://substack.com/going-paid",
-      "extracted_at_utc": "2026-02-23T07:04:43Z",
-      "tokens": []
+      "hash": "f5fa5608fc35aee4",
+      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "extracted_at_utc": "2026-02-23T12:51:09Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     }
   }
 }
