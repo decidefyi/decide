@@ -36,6 +36,7 @@ const CHECKER_CONFIG = {
   escalationPendingDays: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_PENDING_DAYS || "5", 10),
   escalationFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_FLIP_THRESHOLD || "4", 10),
   noConfirmEscalationDays: Number.parseInt(process.env.POLICY_CHECK_NO_CONFIRM_ESCALATION_DAYS || "7", 10),
+  materialCooldownDays: Number.parseInt(process.env.POLICY_CHECK_MATERIAL_COOLDOWN_DAYS || "14", 10),
 };
 const USER_AGENTS = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
@@ -514,6 +515,13 @@ function formatSemanticDiffSummary(semanticDiff) {
   return parts.length > 0 ? parts.join(" | ") : "no-material-diff";
 }
 
+function buildSemanticDiffSignature(semanticDiff) {
+  if (!semanticDiff || semanticDiff.baselineMissing || !semanticDiff.material) return "";
+  const added = Array.isArray(semanticDiff.added) ? [...semanticDiff.added].sort((a, b) => a.localeCompare(b)) : [];
+  const removed = Array.isArray(semanticDiff.removed) ? [...semanticDiff.removed].sort((a, b) => a.localeCompare(b)) : [];
+  return `added:${added.join("|")}::removed:${removed.join("|")}`;
+}
+
 function getConfirmRuns() {
   if (!Number.isFinite(CHECKER_CONFIG.changeConfirmRuns)) return 2;
   return Math.max(1, CHECKER_CONFIG.changeConfirmRuns);
@@ -612,6 +620,11 @@ function getEscalationFlipThresholdForVendor(policyName, vendor) {
 function getNoConfirmEscalationDays() {
   if (!Number.isFinite(CHECKER_CONFIG.noConfirmEscalationDays)) return 7;
   return Math.max(1, CHECKER_CONFIG.noConfirmEscalationDays);
+}
+
+function getMaterialCooldownDays() {
+  if (!Number.isFinite(CHECKER_CONFIG.materialCooldownDays)) return 14;
+  return Math.max(0, CHECKER_CONFIG.materialCooldownDays);
 }
 
 function getCandidatePendingSinceUtc(candidate) {
@@ -837,6 +850,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       name,
       observedChanged: [],
       materialChanged: [],
+      materialRepeatSuppressed: [],
       pending: [],
       errors: [],
       errorReasons: {},
@@ -902,6 +916,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const vendors = Object.entries(sources.vendors);
   const observedChanged = [];
   const materialChanged = [];
+  const materialRepeatSuppressed = [];
   const pendingSet = new Set();
   const pendingMetadata = {};
   const errors = [];
@@ -949,7 +964,41 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     };
     observedChanged.push(entry);
     if (semanticDiff.material) {
-      materialChanged.push(entry);
+      const coverage = ensureCoverageEntry(vendor);
+      const diffSignature = buildSemanticDiffSignature(semanticDiff);
+      const previousSignature =
+        typeof coverage.last_material_signature === "string" ? coverage.last_material_signature : "";
+      const previousEmittedUtc =
+        typeof coverage.last_material_emitted_utc === "string" ? coverage.last_material_emitted_utc : "";
+      const cooldownDays = getMaterialCooldownDays();
+      const nowMs = toMsOrNaN(confirmedAtUtc);
+      const previousMs = toMsOrNaN(previousEmittedUtc);
+      const suppressRepeatedSignature =
+        cooldownDays > 0 &&
+        diffSignature &&
+        previousSignature &&
+        diffSignature === previousSignature &&
+        Number.isFinite(nowMs) &&
+        Number.isFinite(previousMs) &&
+        (nowMs - previousMs) < cooldownDays * 24 * 60 * 60 * 1000;
+
+      if (suppressRepeatedSignature) {
+        materialRepeatSuppressed.push({
+          ...entry,
+          semantic_diff_signature: diffSignature,
+          last_material_emitted_utc: previousEmittedUtc,
+        });
+        coverage.last_material_repeat_suppressed_utc = confirmedAtUtc;
+        coverage.last_material_repeat_suppressed_signature = diffSignature;
+      } else {
+        materialChanged.push(entry);
+        if (diffSignature) {
+          coverage.last_material_signature = diffSignature;
+          coverage.last_material_emitted_utc = confirmedAtUtc;
+        }
+        delete coverage.last_material_repeat_suppressed_utc;
+        delete coverage.last_material_repeat_suppressed_signature;
+      }
     }
     newSemanticProfiles[vendor] = normalizedProfile;
     markConfirmedChange(vendor, confirmedAtUtc);
@@ -1369,6 +1418,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     name,
     observedChanged,
     materialChanged,
+    materialRepeatSuppressed,
     pending,
     errors,
     errorReasons,
@@ -1394,6 +1444,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
 async function main() {
   const allObservedChanged = [];
   const allMaterialChanged = [];
+  const allMaterialRepeatSuppressed = [];
   const allErrors = [];
   const allPending = [];
   const allStalePending = [];
@@ -1522,6 +1573,9 @@ async function main() {
     for (const c of result.materialChanged) {
       allMaterialChanged.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
     }
+    for (const c of result.materialRepeatSuppressed) {
+      allMaterialRepeatSuppressed.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
+    }
     for (const vendor of result.pending) {
       allPending.push({ policyType: result.name, vendor });
     }
@@ -1600,6 +1654,11 @@ async function main() {
     .slice(0, 10)
     .map((item) => `${item.policyType}:${item.vendor}:${item.semantic_diff_summary}`)
     .join(",");
+  const materialRepeatSuppressedByPolicy = toPolicyCountString(allMaterialRepeatSuppressed);
+  const materialRepeatSuppressedSample = allMaterialRepeatSuppressed
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
 
   console.log(`PENDING_COUNT=${allPending.length}`);
   console.log(`PENDING_BY_POLICY=${pendingByPolicy}`);
@@ -1625,6 +1684,9 @@ async function main() {
   console.log(`MATERIAL_CHANGED_BY_POLICY=${materialByPolicy}`);
   console.log(`MATERIAL_CHANGED_SAMPLE=${materialSample}`);
   console.log(`MATERIAL_DIFF_SAMPLE=${materialDiffSample}`);
+  console.log(`MATERIAL_REPEAT_SUPPRESSED_COUNT=${allMaterialRepeatSuppressed.length}`);
+  console.log(`MATERIAL_REPEAT_SUPPRESSED_BY_POLICY=${materialRepeatSuppressedByPolicy}`);
+  console.log(`MATERIAL_REPEAT_SUPPRESSED_SAMPLE=${materialRepeatSuppressedSample}`);
   // Backward-compatible aliases consumed by workflow and frontend feed.
   console.log(`CHANGED_COUNT=${allMaterialChanged.length}`);
   console.log(`CHANGED_BY_POLICY=${materialByPolicy}`);
@@ -1656,6 +1718,15 @@ async function main() {
       .join("\n");
     console.log(
       `::notice::Material policy change preview (first ${Math.min(allMaterialChanged.length, 20)}):\n${materialPreview}`
+    );
+  }
+  if (allMaterialRepeatSuppressed.length > 0) {
+    const suppressedPreview = allMaterialRepeatSuppressed
+      .slice(0, 20)
+      .map((c) => `- [${c.policyType}] ${c.vendor} -> repeated semantic diff (suppressed by cooldown)`)
+      .join("\n");
+    console.log(
+      `::notice::Suppressed repeated semantic diffs (first ${Math.min(allMaterialRepeatSuppressed.length, 20)}):\n${suppressedPreview}`
     );
   }
   process.exitCode = 0;
