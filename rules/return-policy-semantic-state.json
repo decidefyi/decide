@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-22T18:31:44Z",
+  "updated_utc": "2026-02-23T01:21:33Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -183,9 +183,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-22T12:36:45Z",
+      "extracted_at_utc": "2026-02-23T01:19:20Z",
       "tokens": []
     },
     "google_play": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
+      "hash": "e5adcea469f4a180",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-22T18:31:26Z",
+      "extracted_at_utc": "2026-02-23T01:19:44Z",
       "tokens": []
     },
     "hulu": {
@@ -279,9 +279,9 @@
       ]
     },
     "midjourney": {
-      "hash": "9afa3be5696ac85a",
+      "hash": "1b2f6e20c6cb63ba",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-22T18:31:31Z",
+      "extracted_at_utc": "2026-02-23T01:21:17Z",
       "tokens": []
     },
     "nintendo_switch_online": {
@@ -519,9 +519,9 @@
       ]
     },
     "keeper": {
-      "hash": "e986961bb985f52f",
+      "hash": "fe2e2fc8d560d7d3",
       "source_url": "https://www.keepersecurity.com/terms.html",
-      "extracted_at_utc": "2026-02-22T18:31:40Z",
+      "extracted_at_utc": "2026-02-23T01:21:18Z",
       "tokens": []
     },
     "siriusxm": {
@@ -641,9 +641,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "bf6f426a2126312f",
+      "hash": "353aa0508fd129df",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-22T06:45:23Z",
+      "extracted_at_utc": "2026-02-23T01:21:22Z",
       "tokens": []
     },
     "britbox": {
@@ -681,9 +681,9 @@
       "tokens": []
     },
     "claude_pro": {
-      "hash": "aff4dd614ee6628d",
+      "hash": "1f9fa988c5d26d50",
       "source_url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
-      "extracted_at_utc": "2026-02-22T01:20:45Z",
+      "extracted_at_utc": "2026-02-23T01:21:12Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
@@ -712,9 +712,9 @@
       ]
     },
     "masterclass": {
-      "hash": "b852ddd7e8c288fa",
+      "hash": "25073741b6741db6",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-22T01:20:56Z",
+      "extracted_at_utc": "2026-02-23T01:21:20Z",
       "tokens": []
     },
     "roblox_premium": {
@@ -724,9 +724,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "f99705cad16abf04",
+      "hash": "6a7ca70d560656ce",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-22T18:31:25Z",
+      "extracted_at_utc": "2026-02-23T01:21:12Z",
       "tokens": []
     },
     "canva": {
