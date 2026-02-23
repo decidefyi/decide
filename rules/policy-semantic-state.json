@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-23T01:12:46Z",
+  "updated_utc": "2026-02-23T06:56:54Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -448,15 +448,18 @@
       ]
     },
     "tinder": {
-      "hash": "d72f75609e5be554",
+      "hash": "94874f35eb7a8496",
       "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
-      "extracted_at_utc": "2026-02-19T23:22:44Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-23T06:56:17Z",
+      "tokens": [
+        "refund_window_days:14",
+        "restriction:no_refund_or_final_sale"
+      ]
     },
     "tidal": {
-      "hash": "83506f0bf73b7b21",
+      "hash": "40f97abcc26dc12b",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-02-22T18:23:50Z",
+      "extracted_at_utc": "2026-02-23T06:56:31Z",
       "tokens": [
         "refund_window_days:365"
       ]
@@ -589,13 +592,10 @@
       ]
     },
     "roblox_premium": {
-      "hash": "d15eabe459d7d36d",
+      "hash": "d72f75609e5be554",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-23T01:12:07Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ]
+      "extracted_at_utc": "2026-02-23T06:56:23Z",
+      "tokens": []
     },
     "mlb_tv": {
       "hash": "2df9478a4bf6f184",
@@ -675,9 +675,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "353aa0508fd129df",
+      "hash": "bf6f426a2126312f",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-23T01:12:43Z",
+      "extracted_at_utc": "2026-02-23T06:56:54Z",
       "tokens": []
     },
     "starz": {
@@ -752,15 +752,15 @@
       "tokens": []
     },
     "washington_post": {
-      "hash": "e4d6bdfc45bd6a39",
+      "hash": "facbda2fc8418cb4",
       "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-      "extracted_at_utc": "2026-02-22T12:29:03Z",
+      "extracted_at_utc": "2026-02-23T06:56:23Z",
       "tokens": []
     },
     "espn_plus": {
-      "hash": "6a7ca70d560656ce",
+      "hash": "f23716751d4fe599",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-23T01:12:29Z",
+      "extracted_at_utc": "2026-02-23T06:56:11Z",
       "tokens": []
     },
     "headspace": {
@@ -788,9 +788,9 @@
       ]
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "9afa3be5696ac85a",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-23T01:12:43Z",
+      "extracted_at_utc": "2026-02-23T06:54:51Z",
       "tokens": []
     },
     "canva": {

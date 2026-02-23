@@ -1,33 +1,17 @@
 {
-  "canva": {
-    "hash": "9c21f47d4b31351b",
-    "count": 1,
-    "flip_count": 5,
-    "source_url": "https://www.canva.com/pro/",
-    "pending_since_utc": "2026-02-22T18:32:37Z",
-    "first_seen_utc": "2026-02-23T01:24:52Z",
-    "last_seen_utc": "2026-02-23T01:24:52Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "9c21f47d4b31351b",
-      "source_url": "https://www.canva.com/pro/",
-      "extracted_at_utc": "2026-02-23T01:24:52Z",
-      "tokens": []
-    }
-  },
-  "twitch": {
-    "hash": "1c0882e664ddb7d6",
+  "hinge": {
+    "hash": "7f2d0be067148b37",
     "count": 1,
     "flip_count": 2,
-    "source_url": "https://www.twitch.tv/turbo",
-    "pending_since_utc": "2026-02-23T01:23:43Z",
-    "first_seen_utc": "2026-02-23T01:24:50Z",
-    "last_seen_utc": "2026-02-23T01:24:50Z",
+    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+    "pending_since_utc": "2026-02-23T07:05:45Z",
+    "first_seen_utc": "2026-02-23T07:08:13Z",
+    "last_seen_utc": "2026-02-23T07:08:13Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "1c0882e664ddb7d6",
-      "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-23T01:24:50Z",
+      "hash": "7f2d0be067148b37",
+      "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+      "extracted_at_utc": "2026-02-23T07:08:13Z",
       "tokens": []
     }
   }

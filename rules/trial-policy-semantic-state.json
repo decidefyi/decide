@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-23T01:24:52Z",
+  "updated_utc": "2026-02-23T07:08:13Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -34,9 +34,9 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "5d18b63bf1d694d2",
+      "hash": "4cf5a425dd295c82",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-02-21T18:33:09Z",
+      "extracted_at_utc": "2026-02-23T07:07:58Z",
       "tokens": []
     },
     "apple_music": {
@@ -85,9 +85,9 @@
       "tokens": []
     },
     "chatgpt_plus": {
-      "hash": "de6e0eae450406f9",
+      "hash": "c59fa3f9b63e83d2",
       "source_url": "https://openai.com/chatgpt/pricing/",
-      "extracted_at_utc": "2026-02-23T01:24:50Z",
+      "extracted_at_utc": "2026-02-23T07:05:30Z",
       "tokens": []
     },
     "crunchyroll": {
@@ -161,9 +161,9 @@
       "tokens": []
     },
     "expressvpn": {
-      "hash": "a4c2feed7f5303c9",
+      "hash": "5c184aa4043eb3e4",
       "source_url": "https://www.expressvpn.com/order",
-      "extracted_at_utc": "2026-02-19T23:35:33Z",
+      "extracted_at_utc": "2026-02-23T07:05:37Z",
       "tokens": []
     },
     "github_pro": {
@@ -252,9 +252,9 @@
       "tokens": []
     },
     "masterclass": {
-      "hash": "b852ddd7e8c288fa",
+      "hash": "e6d641115730b63f",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-02-22T18:35:15Z",
+      "extracted_at_utc": "2026-02-23T07:05:53Z",
       "tokens": []
     },
     "microsoft_365": {
@@ -320,9 +320,9 @@
       "tokens": []
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-20T01:22:18Z",
+      "extracted_at_utc": "2026-02-23T07:06:44Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -541,10 +541,12 @@
       ]
     },
     "substack": {
-      "hash": "1fc132f3609dd8b1",
+      "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-22T12:40:20Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-23T07:08:08Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "washington_post": {
       "hash": "c30363ea9c588163",
@@ -583,9 +585,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "353aa0508fd129df",
+      "hash": "bf6f426a2126312f",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-23T01:24:47Z",
+      "extracted_at_utc": "2026-02-23T07:08:05Z",
       "tokens": []
     },
     "starz": {
@@ -632,21 +634,21 @@
       ]
     },
     "espn_plus": {
-      "hash": "de235e336d75bb27",
+      "hash": "a3fc2dd450c09a03",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-23T01:24:43Z",
+      "extracted_at_utc": "2026-02-23T07:07:56Z",
       "tokens": []
     },
     "peacock": {
-      "hash": "9d5ebe1adff952a6",
+      "hash": "1a2175b6aa8271c2",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-02-22T18:35:27Z",
+      "extracted_at_utc": "2026-02-23T07:08:12Z",
       "tokens": []
     },
     "twitch": {
-      "hash": "3f0c3fafed2c0506",
+      "hash": "22226771f76cad85",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-22T18:35:15Z",
+      "extracted_at_utc": "2026-02-23T07:08:10Z",
       "tokens": []
     },
     "nordvpn": {

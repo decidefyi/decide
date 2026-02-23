@@ -1,81 +1,113 @@
 {
   "audible": {
-    "hash": "5087621c2a359ccd",
+    "hash": "f93ff7f8ecbaf4ea",
     "count": 1,
-    "flip_count": 2,
+    "flip_count": 5,
     "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
     "pending_since_utc": "2026-02-23T01:13:36Z",
-    "first_seen_utc": "2026-02-23T01:18:12Z",
-    "last_seen_utc": "2026-02-23T01:18:12Z",
+    "first_seen_utc": "2026-02-23T07:01:27Z",
+    "last_seen_utc": "2026-02-23T07:01:27Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "5087621c2a359ccd",
+      "hash": "f93ff7f8ecbaf4ea",
       "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-02-23T01:18:12Z",
+      "extracted_at_utc": "2026-02-23T07:01:27Z",
       "tokens": []
     }
   },
   "canva": {
-    "hash": "4d4ea002cc77ee8b",
+    "hash": "9f578cc34d5fb77e",
     "count": 1,
-    "flip_count": 87,
+    "flip_count": 90,
     "source_url": "https://www.canva.com/help/cancellation/",
     "pending_since_utc": "2026-02-18T08:56:18Z",
-    "first_seen_utc": "2026-02-23T01:18:07Z",
-    "last_seen_utc": "2026-02-23T01:18:07Z",
+    "first_seen_utc": "2026-02-23T07:01:21Z",
+    "last_seen_utc": "2026-02-23T07:01:21Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "4d4ea002cc77ee8b",
+      "hash": "9f578cc34d5fb77e",
       "source_url": "https://www.canva.com/help/cancellation/",
-      "extracted_at_utc": "2026-02-23T01:18:07Z",
+      "extracted_at_utc": "2026-02-23T07:01:21Z",
       "tokens": []
     }
   },
   "paramount_plus": {
-    "hash": "16d95c2a489d46cb",
+    "hash": "2d34355e647dd1ca",
     "count": 1,
-    "flip_count": 89,
+    "flip_count": 92,
     "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-23T01:18:11Z",
-    "last_seen_utc": "2026-02-23T01:18:11Z",
+    "first_seen_utc": "2026-02-23T07:01:27Z",
+    "last_seen_utc": "2026-02-23T07:01:27Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "16d95c2a489d46cb",
+      "hash": "2d34355e647dd1ca",
       "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-      "extracted_at_utc": "2026-02-23T01:18:11Z",
+      "extracted_at_utc": "2026-02-23T07:01:27Z",
       "tokens": []
     }
   },
   "twitch": {
-    "hash": "28797fd0065988ff",
+    "hash": "03182fa785d355ba",
     "count": 1,
-    "flip_count": 90,
+    "flip_count": 93,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
     "pending_since_utc": "2026-02-18T08:57:57Z",
-    "first_seen_utc": "2026-02-23T01:18:22Z",
-    "last_seen_utc": "2026-02-23T01:18:22Z",
+    "first_seen_utc": "2026-02-23T07:01:35Z",
+    "last_seen_utc": "2026-02-23T07:01:35Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "28797fd0065988ff",
+      "hash": "03182fa785d355ba",
       "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-      "extracted_at_utc": "2026-02-23T01:18:22Z",
+      "extracted_at_utc": "2026-02-23T07:01:35Z",
       "tokens": []
     }
   },
   "fitbit_premium": {
-    "hash": "6ea9c6afc71e913c",
+    "hash": "c082603d7328284c",
     "count": 1,
-    "flip_count": 93,
+    "flip_count": 96,
     "source_url": "https://support.google.com/fitbit/",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-23T01:18:12Z",
-    "last_seen_utc": "2026-02-23T01:18:12Z",
+    "first_seen_utc": "2026-02-23T07:01:27Z",
+    "last_seen_utc": "2026-02-23T07:01:27Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "6ea9c6afc71e913c",
+      "hash": "c082603d7328284c",
       "source_url": "https://support.google.com/fitbit/",
-      "extracted_at_utc": "2026-02-23T01:18:12Z",
+      "extracted_at_utc": "2026-02-23T07:01:27Z",
+      "tokens": []
+    }
+  },
+  "myfitnesspal_premium": {
+    "hash": "728ba934933006cc",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://support.myfitnesspal.com/hc/en-us",
+    "pending_since_utc": "2026-02-23T06:59:43Z",
+    "first_seen_utc": "2026-02-23T07:01:31Z",
+    "last_seen_utc": "2026-02-23T07:01:31Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "728ba934933006cc",
+      "source_url": "https://support.myfitnesspal.com/hc/en-us",
+      "extracted_at_utc": "2026-02-23T07:01:31Z",
+      "tokens": []
+    }
+  },
+  "britbox": {
+    "hash": "bd5e9f54605a49ab",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",
+    "pending_since_utc": "2026-02-23T07:00:19Z",
+    "first_seen_utc": "2026-02-23T07:01:42Z",
+    "last_seen_utc": "2026-02-23T07:01:42Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "bd5e9f54605a49ab",
+      "source_url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",
+      "extracted_at_utc": "2026-02-23T07:01:42Z",
       "tokens": []
     }
   }
