@@ -182,6 +182,8 @@ const ACTUAL_CONFIRM_RUN_OVERRIDES = {
   twitch: 3,
 };
 const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v1";
+const POLICY_ALERT_FEED_PATH = join(__dirname, "..", "rules", "policy-alert-feed.json");
+const POLICY_COUNT_KEYS = ["refund", "cancel", "return", "trial"];
 
 const isUpdate = process.argv.includes("--update");
 
@@ -217,6 +219,55 @@ function summarizePolicyCounts(changedItems) {
     counts[policyType] = (counts[policyType] || 0) + 1;
   }
   return counts;
+}
+
+function toPolicyCountObject(changedItems) {
+  const counts = summarizePolicyCounts(changedItems);
+  const result = {};
+  for (const key of POLICY_COUNT_KEYS) {
+    const value = Number.parseInt(String(counts[key] ?? 0), 10);
+    result[key] = Number.isFinite(value) && value >= 0 ? value : 0;
+  }
+  return result;
+}
+
+function getPolicyAlertFeedMaxEntries() {
+  const parsed = Number.parseInt(process.env.POLICY_ALERT_FEED_MAX_ENTRIES || "120", 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) return 120;
+  return Math.min(366, parsed);
+}
+
+function buildRunUrl() {
+  const repository = String(process.env.GITHUB_REPOSITORY || "").trim();
+  const runId = String(process.env.GITHUB_RUN_ID || "").trim();
+  if (!repository || !runId) return "";
+  return `https://github.com/${repository}/actions/runs/${runId}`;
+}
+
+function updatePolicyAlertFeed(entry) {
+  const existing = readJson(POLICY_ALERT_FEED_PATH, { alerts: [] });
+  const existingAlerts = Array.isArray(existing.alerts) ? existing.alerts : [];
+  const normalizedDate = String(entry?.date_utc || "").trim();
+  const merged = [
+    entry,
+    ...existingAlerts.filter((item) => String(item?.date_utc || "").trim() !== normalizedDate),
+  ].sort((a, b) => {
+    const dateA = String(a?.date_utc || "");
+    const dateB = String(b?.date_utc || "");
+    if (dateA !== dateB) return dateA > dateB ? -1 : 1;
+    const generatedA = String(a?.generated_at_utc || "");
+    const generatedB = String(b?.generated_at_utc || "");
+    return generatedA > generatedB ? -1 : generatedA < generatedB ? 1 : 0;
+  });
+
+  const nextPayload = {
+    schema_version: 1,
+    updated_utc: utcIsoTimestamp(),
+    source: "check-policies.js",
+    alerts: merged.slice(0, getPolicyAlertFeedMaxEntries()),
+  };
+
+  writeFileSync(POLICY_ALERT_FEED_PATH, JSON.stringify(nextPayload, null, 2) + "\n");
 }
 
 function updateJsonStringField(filePath, fieldName, nextValue) {
@@ -1627,7 +1678,11 @@ async function main() {
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
+  const actualByPolicyObject = toPolicyCountObject(allMaterialChanged);
   const actualByPolicy = toPolicyCountString(allMaterialChanged);
+  const actualSampleList = allMaterialChanged
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`);
   const actualSample = allMaterialChanged
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
@@ -1641,6 +1696,30 @@ async function main() {
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
+  const pendingByPolicyObject = toPolicyCountObject(allPending);
+  const generatedAtUtc = utcIsoTimestamp();
+  const changedDateUtc = generatedAtUtc.slice(0, 10);
+
+  if (!isUpdate) {
+    updatePolicyAlertFeed({
+      date_utc: changedDateUtc,
+      generated_at_utc: generatedAtUtc,
+      changed_count: allMaterialChanged.length,
+      by_policy: actualByPolicyObject,
+      changed_sample: actualSampleList,
+      pending_count: allPending.length,
+      pending_by_policy: pendingByPolicyObject,
+      stale_pending_count: allStalePending.length,
+      volatile_pending_count: allVolatilePending.length,
+      escalation_count: allEscalatedPending.length,
+      coverage_gap_count: allCoverageGaps.length,
+      run_url: buildRunUrl(),
+      run_id: String(process.env.GITHUB_RUN_ID || "").trim(),
+      run_attempt: String(process.env.GITHUB_RUN_ATTEMPT || "").trim(),
+      commit_sha: String(process.env.GITHUB_SHA || "").trim(),
+      source: "check-policies.js",
+    });
+  }
 
   console.log(`PENDING_COUNT=${allPending.length}`);
   console.log(`PENDING_BY_POLICY=${pendingByPolicy}`);
