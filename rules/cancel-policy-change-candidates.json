@@ -1,65 +1,97 @@
 {
-  "canva": {
-    "hash": "860a2b861ff5d9fc",
+  "audible": {
+    "hash": "001fcff19c4d26fc",
     "count": 1,
-    "flip_count": 105,
-    "source_url": "https://www.canva.com/help/cancellation/",
-    "pending_since_utc": "2026-02-18T08:56:18Z",
-    "first_seen_utc": "2026-02-24T06:55:48Z",
-    "last_seen_utc": "2026-02-24T06:55:48Z",
+    "flip_count": 2,
+    "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
+    "pending_since_utc": "2026-02-24T12:42:57Z",
+    "first_seen_utc": "2026-02-24T12:47:42Z",
+    "last_seen_utc": "2026-02-24T12:47:42Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "860a2b861ff5d9fc",
+      "hash": "001fcff19c4d26fc",
+      "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
+      "extracted_at_utc": "2026-02-24T12:47:42Z",
+      "tokens": []
+    }
+  },
+  "canva": {
+    "hash": "5cc54645c0836636",
+    "count": 1,
+    "flip_count": 108,
+    "source_url": "https://www.canva.com/help/cancellation/",
+    "pending_since_utc": "2026-02-18T08:56:18Z",
+    "first_seen_utc": "2026-02-24T12:47:37Z",
+    "last_seen_utc": "2026-02-24T12:47:37Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "5cc54645c0836636",
       "source_url": "https://www.canva.com/help/cancellation/",
-      "extracted_at_utc": "2026-02-24T06:55:48Z",
+      "extracted_at_utc": "2026-02-24T12:47:37Z",
+      "tokens": []
+    }
+  },
+  "midjourney": {
+    "hash": "408f076fa629b5a3",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
+    "pending_since_utc": "2026-02-24T12:44:22Z",
+    "first_seen_utc": "2026-02-24T12:48:01Z",
+    "last_seen_utc": "2026-02-24T12:48:01Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "408f076fa629b5a3",
+      "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
+      "extracted_at_utc": "2026-02-24T12:48:01Z",
       "tokens": []
     }
   },
   "paramount_plus": {
-    "hash": "06b4339aa4c19b49",
+    "hash": "0465200712aee91e",
     "count": 1,
-    "flip_count": 106,
+    "flip_count": 109,
     "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-24T06:55:25Z",
-    "last_seen_utc": "2026-02-24T06:55:25Z",
+    "first_seen_utc": "2026-02-24T12:48:07Z",
+    "last_seen_utc": "2026-02-24T12:48:07Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "06b4339aa4c19b49",
+      "hash": "0465200712aee91e",
       "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-      "extracted_at_utc": "2026-02-24T06:55:25Z",
+      "extracted_at_utc": "2026-02-24T12:48:07Z",
       "tokens": []
     }
   },
   "twitch": {
-    "hash": "6e02d51d1d131d05",
+    "hash": "295a5dbab6b458c2",
     "count": 1,
-    "flip_count": 108,
+    "flip_count": 111,
     "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
     "pending_since_utc": "2026-02-18T08:57:57Z",
-    "first_seen_utc": "2026-02-24T06:55:57Z",
-    "last_seen_utc": "2026-02-24T06:55:57Z",
+    "first_seen_utc": "2026-02-24T12:48:14Z",
+    "last_seen_utc": "2026-02-24T12:48:14Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "6e02d51d1d131d05",
+      "hash": "295a5dbab6b458c2",
       "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-      "extracted_at_utc": "2026-02-24T06:55:57Z",
+      "extracted_at_utc": "2026-02-24T12:48:14Z",
       "tokens": []
     }
   },
   "fitbit_premium": {
-    "hash": "92d821a285dd2a70",
+    "hash": "47a5368f4b576757",
     "count": 1,
-    "flip_count": 111,
+    "flip_count": 114,
     "source_url": "https://support.google.com/fitbit/",
     "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-24T06:55:49Z",
-    "last_seen_utc": "2026-02-24T06:55:49Z",
+    "first_seen_utc": "2026-02-24T12:48:07Z",
+    "last_seen_utc": "2026-02-24T12:48:07Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "92d821a285dd2a70",
+      "hash": "47a5368f4b576757",
       "source_url": "https://support.google.com/fitbit/",
-      "extracted_at_utc": "2026-02-24T06:55:49Z",
+      "extracted_at_utc": "2026-02-24T12:48:07Z",
       "tokens": []
     }
   }

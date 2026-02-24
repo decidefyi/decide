@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-24T07:02:21Z",
+  "updated_utc": "2026-02-24T12:55:13Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -34,9 +34,9 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "4cf5a425dd295c82",
+      "hash": "5d18b63bf1d694d2",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-02-24T07:02:08Z",
+      "extracted_at_utc": "2026-02-24T12:52:01Z",
       "tokens": []
     },
     "apple_music": {
@@ -214,9 +214,9 @@
       "tokens": []
     },
     "hinge": {
-      "hash": "12dd44bb8ff498c8",
+      "hash": "e57ca60f9cfa9d94",
       "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-02-22T18:35:12Z",
+      "extracted_at_utc": "2026-02-24T12:55:13Z",
       "tokens": []
     },
     "icloud_plus": {
@@ -348,9 +348,9 @@
       "tokens": []
     },
     "spotify": {
-      "hash": "3f336a724caec41d",
+      "hash": "cb1d541475b18476",
       "source_url": "https://www.spotify.com/us/premium/",
-      "extracted_at_utc": "2026-02-20T12:49:12Z",
+      "extracted_at_utc": "2026-02-24T12:55:00Z",
       "tokens": []
     },
     "sling_tv": {
@@ -392,9 +392,9 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "f71912ba41233094",
+      "hash": "0e8b379821983a86",
       "source_url": "https://tidal.com/pricing",
-      "extracted_at_utc": "2026-02-24T07:02:21Z",
+      "extracted_at_utc": "2026-02-24T12:55:03Z",
       "tokens": []
     },
     "walmart_plus": {
@@ -585,9 +585,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "bf6f426a2126312f",
+      "hash": "353aa0508fd129df",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-23T07:08:05Z",
+      "extracted_at_utc": "2026-02-24T12:55:07Z",
       "tokens": []
     },
     "starz": {
@@ -634,9 +634,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "534f43374df46cdf",
+      "hash": "a983d4146c6e7178",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-24T07:02:04Z",
+      "extracted_at_utc": "2026-02-24T12:54:56Z",
       "tokens": []
     },
     "peacock": {
@@ -646,9 +646,9 @@
       "tokens": []
     },
     "twitch": {
-      "hash": "3b8ff5f32ffd204c",
+      "hash": "a89c391a4f8a97a8",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-24T07:02:17Z",
+      "extracted_at_utc": "2026-02-24T12:55:05Z",
       "tokens": []
     },
     "nordvpn": {

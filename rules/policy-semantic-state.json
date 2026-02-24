@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-24T06:50:07Z",
+  "updated_utc": "2026-02-24T12:42:08Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -111,9 +111,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "96b93751ff0c218a",
+      "hash": "d64d47b9563269f3",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-24T06:49:36Z",
+      "extracted_at_utc": "2026-02-24T12:41:09Z",
       "tokens": [
         "refund_window_days:14"
       ]
@@ -134,9 +134,9 @@
       "tokens": []
     },
     "crunchyroll": {
-      "hash": "ff7ed05235b2a237",
+      "hash": "d72f75609e5be554",
       "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-      "extracted_at_utc": "2026-02-24T01:11:20Z",
+      "extracted_at_utc": "2026-02-24T12:41:11Z",
       "tokens": []
     },
     "discord_nitro": {
@@ -593,13 +593,10 @@
       ]
     },
     "roblox_premium": {
-      "hash": "d15eabe459d7d36d",
+      "hash": "d72f75609e5be554",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-23T12:41:56Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ]
+      "extracted_at_utc": "2026-02-24T12:41:23Z",
+      "tokens": []
     },
     "mlb_tv": {
       "hash": "2df9478a4bf6f184",
@@ -677,9 +674,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "bf6f426a2126312f",
+      "hash": "353aa0508fd129df",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-24T01:11:40Z",
+      "extracted_at_utc": "2026-02-24T12:42:02Z",
       "tokens": []
     },
     "starz": {
@@ -732,20 +729,16 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-23T18:53:21Z",
+      "extracted_at_utc": "2026-02-24T12:39:35Z",
       "tokens": []
     },
     "evernote": {
-      "hash": "5fb98c6ad4e6367d",
+      "hash": "fb8cc299016a951c",
       "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
-      "extracted_at_utc": "2026-02-24T06:49:41Z",
-      "tokens": [
-        "billing:prorated",
-        "refund:allowed_language",
-        "refund:partial_allowed"
-      ]
+      "extracted_at_utc": "2026-02-24T12:41:42Z",
+      "tokens": []
     },
     "hellofresh": {
       "hash": "d0fe4030fbecd2c7",
@@ -760,16 +753,18 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "534f43374df46cdf",
+      "hash": "a983d4146c6e7178",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-24T06:49:39Z",
+      "extracted_at_utc": "2026-02-24T12:41:17Z",
       "tokens": []
     },
     "headspace": {
-      "hash": "d72f75609e5be554",
+      "hash": "8f69b60d284caff0",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-23T12:39:41Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-24T12:39:38Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "grammarly": {
       "hash": "e5adcea469f4a180",
@@ -778,14 +773,10 @@
       "tokens": []
     },
     "scribd": {
-      "hash": "0cac65b719c1c5b6",
+      "hash": "bb0fdc3ccf056336",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-      "extracted_at_utc": "2026-02-22T18:23:45Z",
-      "tokens": [
-        "refund_window_days:30",
-        "refund:allowed_language",
-        "refund:partial_allowed"
-      ]
+      "extracted_at_utc": "2026-02-24T12:40:11Z",
+      "tokens": []
     },
     "midjourney": {
       "hash": "1b2f6e20c6cb63ba",

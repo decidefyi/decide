@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-24T06:58:52Z",
+  "updated_utc": "2026-02-24T12:51:17Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -92,9 +92,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "96b93751ff0c218a",
+      "hash": "d64d47b9563269f3",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-24T06:58:33Z",
+      "extracted_at_utc": "2026-02-24T12:50:33Z",
       "tokens": []
     },
     "deezer": {
@@ -168,13 +168,10 @@
       ]
     },
     "evernote": {
-      "hash": "5fb98c6ad4e6367d",
+      "hash": "fb8cc299016a951c",
       "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
-      "extracted_at_utc": "2026-02-19T23:32:47Z",
-      "tokens": [
-        "billing:prorated",
-        "return:condition_unopened_or_unused"
-      ]
+      "extracted_at_utc": "2026-02-24T12:50:38Z",
+      "tokens": []
     },
     "github_pro": {
       "hash": "5dc0d485fc4afc81",
@@ -197,9 +194,9 @@
       ]
     },
     "grammarly": {
-      "hash": "c4982f46749a6ceb",
+      "hash": "180925e88982390f",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-24T06:57:34Z",
+      "extracted_at_utc": "2026-02-24T12:51:01Z",
       "tokens": []
     },
     "hulu": {
@@ -486,9 +483,9 @@
       "tokens": []
     },
     "youtube_tv": {
-      "hash": "62c2e0e55d29d9e9",
+      "hash": "ea3ffbff5bee096d",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-02-23T12:50:54Z",
+      "extracted_at_utc": "2026-02-24T12:51:02Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
@@ -641,9 +638,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "bf6f426a2126312f",
+      "hash": "353aa0508fd129df",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-23T07:04:33Z",
+      "extracted_at_utc": "2026-02-24T12:51:09Z",
       "tokens": []
     },
     "britbox": {
@@ -725,9 +722,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "534f43374df46cdf",
+      "hash": "a983d4146c6e7178",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-24T06:58:36Z",
+      "extracted_at_utc": "2026-02-24T12:50:33Z",
       "tokens": []
     },
     "canva": {
@@ -739,20 +736,16 @@
       ]
     },
     "headspace": {
-      "hash": "8f69b60d284caff0",
+      "hash": "d72f75609e5be554",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-23T07:04:27Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-24T12:50:40Z",
+      "tokens": []
     },
     "substack": {
-      "hash": "f5fa5608fc35aee4",
+      "hash": "20fab989e6c94724",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-24T01:20:02Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-24T12:51:06Z",
+      "tokens": []
     }
   }
 }
