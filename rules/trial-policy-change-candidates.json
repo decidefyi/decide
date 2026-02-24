@@ -1,17 +1,33 @@
 {
   "canva": {
-    "hash": "fce4dfc0acb29cb2",
+    "hash": "36ed77e719dc8204",
     "count": 1,
-    "flip_count": 2,
+    "flip_count": 5,
     "source_url": "https://www.canva.com/pro/",
     "pending_since_utc": "2026-02-24T12:52:07Z",
-    "first_seen_utc": "2026-02-24T12:55:10Z",
-    "last_seen_utc": "2026-02-24T12:55:10Z",
+    "first_seen_utc": "2026-02-24T19:02:15Z",
+    "last_seen_utc": "2026-02-24T19:02:15Z",
+    "baseline_observations": 1,
+    "profile": {
+      "hash": "36ed77e719dc8204",
+      "source_url": "https://www.canva.com/pro/",
+      "extracted_at_utc": "2026-02-24T19:02:15Z",
+      "tokens": []
+    }
+  },
+  "hinge": {
+    "hash": "a1eb9af0e6420b90",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+    "pending_since_utc": "2026-02-24T18:59:29Z",
+    "first_seen_utc": "2026-02-24T19:02:18Z",
+    "last_seen_utc": "2026-02-24T19:02:18Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "fce4dfc0acb29cb2",
-      "source_url": "https://www.canva.com/pro/",
-      "extracted_at_utc": "2026-02-24T12:55:10Z",
+      "hash": "a1eb9af0e6420b90",
+      "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+      "extracted_at_utc": "2026-02-24T19:02:18Z",
       "tokens": []
     }
   }

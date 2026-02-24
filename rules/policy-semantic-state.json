@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-24T12:42:08Z",
+  "updated_utc": "2026-02-24T18:49:19Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -111,9 +111,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "d64d47b9563269f3",
+      "hash": "c3457208053c20fb",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-24T12:41:09Z",
+      "extracted_at_utc": "2026-02-24T18:48:42Z",
       "tokens": [
         "refund_window_days:14"
       ]
@@ -630,10 +630,12 @@
       "tokens": []
     },
     "substack": {
-      "hash": "1fc132f3609dd8b1",
+      "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-24T01:11:03Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-24T18:49:11Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "snapchat_plus": {
       "hash": "99ce8296a9878690",
@@ -735,10 +737,14 @@
       "tokens": []
     },
     "evernote": {
-      "hash": "fb8cc299016a951c",
+      "hash": "5fb98c6ad4e6367d",
       "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
-      "extracted_at_utc": "2026-02-24T12:41:42Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-24T18:48:51Z",
+      "tokens": [
+        "billing:prorated",
+        "refund:allowed_language",
+        "refund:partial_allowed"
+      ]
     },
     "hellofresh": {
       "hash": "d0fe4030fbecd2c7",
@@ -753,9 +759,9 @@
       "tokens": []
     },
     "espn_plus": {
-      "hash": "a983d4146c6e7178",
+      "hash": "95452efde27f5345",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-24T12:41:17Z",
+      "extracted_at_utc": "2026-02-24T18:48:42Z",
       "tokens": []
     },
     "headspace": {
@@ -779,9 +785,9 @@
       "tokens": []
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "6a5833c2c5273b43",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-24T06:50:02Z",
+      "extracted_at_utc": "2026-02-24T18:48:58Z",
       "tokens": []
     },
     "canva": {

@@ -1,20 +1,52 @@
 {
-  "myfitnesspal_premium": {
-    "hash": "3390de0e9e68904e",
+  "canva": {
+    "hash": "77a1fc1d5b6fc168",
     "count": 1,
-    "flip_count": 100,
-    "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "pending_since_utc": "2026-02-18T09:00:33Z",
-    "first_seen_utc": "2026-02-24T12:51:17Z",
-    "last_seen_utc": "2026-02-24T12:51:17Z",
+    "flip_count": 2,
+    "source_url": "https://www.canva.com/policies/terms-of-use/",
+    "pending_since_utc": "2026-02-24T18:55:51Z",
+    "first_seen_utc": "2026-02-24T18:58:16Z",
+    "last_seen_utc": "2026-02-24T18:58:16Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "3390de0e9e68904e",
+      "hash": "77a1fc1d5b6fc168",
+      "source_url": "https://www.canva.com/policies/terms-of-use/",
+      "extracted_at_utc": "2026-02-24T18:58:16Z",
+      "tokens": []
+    }
+  },
+  "myfitnesspal_premium": {
+    "hash": "0927f8aa933c2db2",
+    "count": 1,
+    "flip_count": 103,
+    "source_url": "https://www.myfitnesspal.com/terms-of-use",
+    "pending_since_utc": "2026-02-18T09:00:33Z",
+    "first_seen_utc": "2026-02-24T18:58:16Z",
+    "last_seen_utc": "2026-02-24T18:58:16Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "0927f8aa933c2db2",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-24T12:51:17Z",
+      "extracted_at_utc": "2026-02-24T18:58:16Z",
       "tokens": [
         "flow:support_request"
       ]
+    }
+  },
+  "zoom": {
+    "hash": "8c24535bd2ae7644",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066687",
+    "pending_since_utc": "2026-02-24T18:57:35Z",
+    "first_seen_utc": "2026-02-24T18:58:17Z",
+    "last_seen_utc": "2026-02-24T18:58:17Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "8c24535bd2ae7644",
+      "source_url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066687",
+      "extracted_at_utc": "2026-02-24T18:58:17Z",
+      "tokens": []
     }
   }
 }

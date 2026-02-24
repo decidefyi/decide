@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-24T12:51:17Z",
+  "updated_utc": "2026-02-24T18:58:17Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -92,9 +92,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "d64d47b9563269f3",
+      "hash": "c3457208053c20fb",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-24T12:50:33Z",
+      "extracted_at_utc": "2026-02-24T18:57:37Z",
       "tokens": []
     },
     "deezer": {
@@ -168,10 +168,13 @@
       ]
     },
     "evernote": {
-      "hash": "fb8cc299016a951c",
+      "hash": "5fb98c6ad4e6367d",
       "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
-      "extracted_at_utc": "2026-02-24T12:50:38Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-24T18:57:46Z",
+      "tokens": [
+        "billing:prorated",
+        "return:condition_unopened_or_unused"
+      ]
     },
     "github_pro": {
       "hash": "5dc0d485fc4afc81",
@@ -276,9 +279,9 @@
       ]
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "6a5833c2c5273b43",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-24T01:20:26Z",
+      "extracted_at_utc": "2026-02-24T18:57:57Z",
       "tokens": []
     },
     "nintendo_switch_online": {
@@ -554,9 +557,9 @@
       ]
     },
     "ubisoft_plus": {
-      "hash": "6460af34e864332d",
+      "hash": "1abadab066890c52",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-23T19:01:02Z",
+      "extracted_at_utc": "2026-02-24T18:57:57Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "return:condition_unopened_or_unused",
@@ -687,10 +690,12 @@
       ]
     },
     "calm": {
-      "hash": "d72f75609e5be554",
+      "hash": "32092096ec499d3b",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-24T06:58:35Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-24T18:57:39Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "google_one": {
       "hash": "47fe303a75ca7032",
@@ -713,18 +718,15 @@
       "tokens": []
     },
     "roblox_premium": {
-      "hash": "d15eabe459d7d36d",
+      "hash": "d72f75609e5be554",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-23T12:51:04Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ]
+      "extracted_at_utc": "2026-02-24T18:58:04Z",
+      "tokens": []
     },
     "espn_plus": {
-      "hash": "a983d4146c6e7178",
+      "hash": "d988b9e1a1dc07bc",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-24T12:50:33Z",
+      "extracted_at_utc": "2026-02-24T18:58:11Z",
       "tokens": []
     },
     "canva": {
