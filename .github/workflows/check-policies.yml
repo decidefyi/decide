@@ -81,6 +81,37 @@ jobs:
           if [ -z "$volatile_pending_count" ]; then volatile_pending_count=0; fi
           if [ -z "$escalation_count" ]; then escalation_count=0; fi
           if [ -z "$coverage_gap_count" ]; then coverage_gap_count=0; fi
+
+          sum_policy_counts() {
+            local value="$1"
+            if [ -z "$value" ]; then
+              echo 0
+              return
+            fi
+            echo "$value" | tr ',' '\n' | awk -F':' '
+              NF == 2 {
+                gsub(/[[:space:]]/, "", $2);
+                if ($2 ~ /^[0-9]+$/) total += $2;
+              }
+              END { print total + 0 }
+            '
+          }
+
+          material_by_policy_total=$(sum_policy_counts "$material_changed_by_policy")
+          changed_by_policy_total=$(sum_policy_counts "$changed_by_policy")
+          contract_valid=1
+          if [ "$material_by_policy_total" -ne "$material_changed_count" ]; then
+            echo "::warning::Contract mismatch: MATERIAL_CHANGED_COUNT=$material_changed_count but MATERIAL_CHANGED_BY_POLICY sums to $material_by_policy_total."
+            contract_valid=0
+          fi
+          if [ "$changed_by_policy_total" -ne "$changed_count" ]; then
+            echo "::warning::Contract mismatch: CHANGED_COUNT=$changed_count but CHANGED_BY_POLICY sums to $changed_by_policy_total."
+            contract_valid=0
+          fi
+          if [ "$contract_valid" -ne 1 ]; then
+            echo "::warning::Policy alert contract invalid; suppressing issue publication for this run."
+          fi
+
           echo "observed_changed_count=$observed_changed_count" >> "$GITHUB_OUTPUT"
           echo "observed_changed_by_policy=$observed_changed_by_policy" >> "$GITHUB_OUTPUT"
           echo "observed_changed_sample=$observed_changed_sample" >> "$GITHUB_OUTPUT"
@@ -108,6 +139,7 @@ jobs:
           echo "coverage_gap_count=$coverage_gap_count" >> "$GITHUB_OUTPUT"
           echo "coverage_gap_by_policy=$coverage_gap_by_policy" >> "$GITHUB_OUTPUT"
           echo "coverage_gap_sample=$coverage_gap_sample" >> "$GITHUB_OUTPUT"
+          echo "contract_valid=$contract_valid" >> "$GITHUB_OUTPUT"
 
       - name: Commit updated hashes
         run: |
@@ -186,7 +218,7 @@ jobs:
           exit 0
 
       - name: Open issue if policies changed or candidates pending
-        if: (steps.check.outputs.material_changed_count && steps.check.outputs.material_changed_count != '0') || (steps.check.outputs.pending_count && steps.check.outputs.pending_count != '0')
+        if: steps.check.outputs.contract_valid == '1' && ((steps.check.outputs.material_changed_count && steps.check.outputs.material_changed_count != '0') || (steps.check.outputs.pending_count && steps.check.outputs.pending_count != '0'))
         continue-on-error: true
         uses: actions/github-script@v7
         env:
@@ -342,7 +374,7 @@ jobs:
             const body = [
               "## Policy checker summary",
               "",
-              `Material policy changes: **${materialCount}**`,
+              `Actual policy changes (material): **${materialCount}**`,
               `Observed page-content changes: **${observedCount}**`,
               `Pending candidates (needs confirmation): **${pendingCount}**`,
               "",
@@ -367,6 +399,12 @@ jobs:
               "- `rules/cancel-policy-semantic-state.json`",
               "- `rules/return-policy-semantic-state.json`",
               "- `rules/trial-policy-semantic-state.json`",
+              "",
+              "### Feed contract fields",
+              `CHANGED_COUNT=${changedCount}`,
+              `CHANGED_BY_POLICY=${changedByPolicy}`,
+              `MATERIAL_CHANGED_COUNT=${materialCount}`,
+              `MATERIAL_CHANGED_BY_POLICY=${materialByPolicy}`,
               "",
               `Run: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
               "",
@@ -409,9 +447,10 @@ jobs:
                   body: [
                     `New run update: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
                     "",
-                    `Material policy changes: **${materialCount}**`,
+                    `Actual policy changes (material): **${materialCount}**`,
                     `Observed page-content changes: **${observedCount}**`,
                     `Pending candidates (needs confirmation): **${pendingCount}**`,
+                    changedByPolicy ? `Confirmed by policy: ${changedByPolicy}` : "",
                     materialByPolicy ? `Material by policy: ${materialByPolicy}` : "",
                     observedByPolicy ? `Observed by policy: ${observedByPolicy}` : "",
                     pendingByPolicy ? `Pending by policy: ${pendingByPolicy}` : "",
@@ -447,7 +486,7 @@ jobs:
             }
 
       - name: Open escalation issue if SLA thresholds are hit
-        if: (steps.check.outputs.escalation_count && steps.check.outputs.escalation_count != '0') || (steps.check.outputs.coverage_gap_count && steps.check.outputs.coverage_gap_count != '0')
+        if: steps.check.outputs.contract_valid == '1' && ((steps.check.outputs.escalation_count && steps.check.outputs.escalation_count != '0') || (steps.check.outputs.coverage_gap_count && steps.check.outputs.coverage_gap_count != '0'))
         continue-on-error: true
         uses: actions/github-script@v7
         env:

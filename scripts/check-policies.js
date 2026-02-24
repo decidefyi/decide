@@ -22,7 +22,6 @@ const CHECKER_CONFIG = {
   fallbackAttempts: Number.parseInt(process.env.POLICY_CHECK_FALLBACK_ATTEMPTS || "2", 10),
   timeoutMs: Number.parseInt(process.env.POLICY_CHECK_TIMEOUT_MS || "18000", 10),
   errorDetailLimit: Number.parseInt(process.env.POLICY_CHECK_ERROR_DETAIL_LIMIT || "12", 10),
-  changeConfirmRuns: Number.parseInt(process.env.POLICY_CHECK_CHANGE_CONFIRM_RUNS || "2", 10),
   candidateTtlDays: Number.parseInt(process.env.POLICY_CHECK_CANDIDATE_TTL_DAYS || "7", 10),
   pendingDetailLimit: Number.parseInt(process.env.POLICY_CHECK_PENDING_DETAIL_LIMIT || "20", 10),
   sameRunRecheckPasses: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_RECHECK_PASSES || "2", 10),
@@ -37,6 +36,8 @@ const CHECKER_CONFIG = {
   escalationFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_FLIP_THRESHOLD || "4", 10),
   noConfirmEscalationDays: Number.parseInt(process.env.POLICY_CHECK_NO_CONFIRM_ESCALATION_DAYS || "7", 10),
   materialCooldownDays: Number.parseInt(process.env.POLICY_CHECK_MATERIAL_COOLDOWN_DAYS || "14", 10),
+  actualConfirmRuns: Number.parseInt(process.env.POLICY_CHECK_ACTUAL_CONFIRM_RUNS || "2", 10),
+  actualMinGapHours: Number.parseInt(process.env.POLICY_CHECK_ACTUAL_MIN_GAP_HOURS || "4", 10),
 };
 const USER_AGENTS = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
@@ -172,6 +173,13 @@ const ESCALATION_FLIP_THRESHOLD_OVERRIDES = {
   return: {
     myfitnesspal_premium: 30,
   },
+};
+const ACTUAL_CONFIRM_RUN_OVERRIDES = {
+  myfitnesspal_premium: 3,
+  canva: 3,
+  fitbit_premium: 3,
+  paramount_plus: 3,
+  twitch: 3,
 };
 const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v1";
 
@@ -522,17 +530,37 @@ function buildSemanticDiffSignature(semanticDiff) {
   return `added:${added.join("|")}::removed:${removed.join("|")}`;
 }
 
-function getConfirmRuns() {
-  if (!Number.isFinite(CHECKER_CONFIG.changeConfirmRuns)) return 2;
-  return Math.max(1, CHECKER_CONFIG.changeConfirmRuns);
+function getActualConfirmRuns() {
+  if (!Number.isFinite(CHECKER_CONFIG.actualConfirmRuns)) return 2;
+  return Math.max(2, CHECKER_CONFIG.actualConfirmRuns);
 }
 
-function getConfirmRunsForVendor(vendorConfig) {
-  const defaultRuns = getConfirmRuns();
-  if (!vendorConfig || typeof vendorConfig !== "object") return defaultRuns;
-  const configured = Number.parseInt(vendorConfig.confirm_runs, 10);
-  if (!Number.isFinite(configured)) return defaultRuns;
-  return Math.max(1, configured);
+function getActualConfirmRunsForVendor(vendorConfig, vendor) {
+  let required = getActualConfirmRuns();
+  if (vendorConfig && typeof vendorConfig === "object") {
+    const configured = Number.parseInt(vendorConfig.confirm_runs, 10);
+    if (Number.isFinite(configured)) {
+      required = Math.max(required, configured);
+    }
+  }
+  if (typeof vendor === "string" && vendor) {
+    const override = Number(ACTUAL_CONFIRM_RUN_OVERRIDES[vendor]);
+    if (Number.isFinite(override)) {
+      required = Math.max(required, Math.floor(override));
+    }
+  }
+  return Math.max(2, required);
+}
+
+function getActualMinGapMs() {
+  if (!Number.isFinite(CHECKER_CONFIG.actualMinGapHours)) return 4 * 60 * 60 * 1000;
+  const hours = Math.max(0, CHECKER_CONFIG.actualMinGapHours);
+  return Math.floor(hours * 60 * 60 * 1000);
+}
+
+function getActualMinGapHours() {
+  const gapMs = getActualMinGapMs();
+  return Math.floor(gapMs / (60 * 60 * 1000));
 }
 
 function getCandidateTtlDays() {
@@ -1017,10 +1045,15 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           errors.push(vendor);
           errorReasons[vendor] = fetchResult.error || "request failed";
           const coverage = ensureCoverageEntry(vendor);
-          coverage.last_fetch_failure_utc = utcIsoTimestamp();
+          const failureAtUtc = utcIsoTimestamp();
+          coverage.last_fetch_failure_utc = failureAtUtc;
           coverage.last_fetch_failure_reason = fetchResult.error || "request failed";
           if (activeStoredCandidates[vendor]) {
-            newCandidates[vendor] = activeStoredCandidates[vendor];
+            newCandidates[vendor] = {
+              ...activeStoredCandidates[vendor],
+              run_confirmations: 0,
+              last_fetch_failure_utc: failureAtUtc,
+            };
           }
           return;
         }
@@ -1032,7 +1065,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         const coverage = ensureCoverageEntry(vendor);
         delete coverage.last_fetch_failure_utc;
         delete coverage.last_fetch_failure_reason;
-        const confirmRuns = getConfirmRunsForVendor(vendorConfig);
+        const actualConfirmRuns = getActualConfirmRunsForVendor(vendorConfig, vendor);
 
         const sourceUrl =
           typeof vendorConfig?.url === "string" && vendorConfig.url
@@ -1047,8 +1080,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         const priorCandidate = activeStoredCandidates[vendor];
         const previousHash = storedHashes[vendor];
         const signal = previousHash && previousHash === h ? BASELINE_SIGNAL : h;
-        const signalWindow = appendSignalWindow(coverage, signal);
-        const windowDecision = evaluateSignalWindow(signalWindow);
+        appendSignalWindow(coverage, signal);
 
         if (isUpdate || rebaselineForProfile || !previousHash) {
           newHashes[vendor] = h;
@@ -1060,62 +1092,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         if (previousHash === h) {
           newHashes[vendor] = h;
           newSemanticProfiles[vendor] = storedSemanticProfiles[vendor] || semanticProfile;
-          if (!priorCandidate) {
-            delete newCandidates[vendor];
-            return;
-          }
-          if (windowDecision.baselineVotes >= windowDecision.required) {
-            delete newCandidates[vendor];
-            return;
-          }
-
-          const carriedCandidate = {
-            ...priorCandidate,
-            last_seen_utc: fetchedAtUtc,
-            source_url: priorCandidate.source_url || sourceUrl || "",
-            flip_count: Number(priorCandidate.flip_count || 0) + 1,
-            baseline_observations: Number(priorCandidate.baseline_observations || 0) + 1,
-            pending_since_utc: getCandidatePendingSinceUtc(priorCandidate) || fetchedAtUtc,
-            profile: priorCandidate.profile || semanticProfile,
-          };
-          newCandidates[vendor] = carriedCandidate;
-          pendingSet.add(vendor);
-          pendingMetadata[vendor] = {
-            vendorConfig,
-            confirmRuns,
-            previousHash,
-            sourceUrl: carriedCandidate.source_url,
-          };
-          runObservations[vendor] = {
-            baselineVotes: 1,
-            hashVotes: carriedCandidate.hash
-              ? { [carriedCandidate.hash]: Number(carriedCandidate.count || 1) }
-              : {},
-            hashProfiles: carriedCandidate.hash && carriedCandidate.profile
-              ? { [carriedCandidate.hash]: carriedCandidate.profile }
-              : {},
-          };
-          crossRunWindowHeldSet.add(vendor);
-          return;
-        }
-
-        if (windowDecision.hashDecision && windowDecision.hashDecision !== previousHash) {
-          const confirmedProfile =
-            windowDecision.hashDecision === h
-              ? semanticProfile
-              : (priorCandidate?.hash === windowDecision.hashDecision && priorCandidate?.profile
-                  ? priorCandidate.profile
-                  : semanticProfile);
-          registerConfirmedChange({
-            vendor,
-            sourceUrl: sourceUrl || "",
-            confirmedHash: windowDecision.hashDecision,
-            confirmedProfile,
-            confirmedAtUtc: fetchedAtUtc,
-          });
-          newHashes[vendor] = windowDecision.hashDecision;
           delete newCandidates[vendor];
-          crossRunWindowConfirmedSet.add(vendor);
           return;
         }
 
@@ -1124,7 +1101,21 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         const priorHash = typeof priorCandidate?.hash === "string" ? priorCandidate.hash : "";
         const nextCount = priorHash === h ? Math.max(1, priorCount) + 1 : 1;
         const nextFlipCount = priorHash && priorHash !== h ? priorFlipCount + 1 : priorFlipCount;
-        if (nextCount >= confirmRuns) {
+        const priorRunConfirmations = Number(priorCandidate?.run_confirmations || 0);
+        const priorObservedMs = toMsOrNaN(priorCandidate?.last_run_observed_utc || "");
+        const currentObservedMs = toMsOrNaN(fetchedAtUtc);
+        const minGapMs = getActualMinGapMs();
+        const gapSatisfied =
+          minGapMs <= 0 ||
+          (Number.isFinite(priorObservedMs) &&
+            Number.isFinite(currentObservedMs) &&
+            currentObservedMs - priorObservedMs >= minGapMs);
+        let nextRunConfirmations = 1;
+        if (priorHash === h && priorRunConfirmations > 0) {
+          nextRunConfirmations = gapSatisfied ? priorRunConfirmations + 1 : priorRunConfirmations;
+        }
+
+        if (nextRunConfirmations >= actualConfirmRuns) {
           registerConfirmedChange({
             vendor,
             sourceUrl: sourceUrl || "",
@@ -1133,7 +1124,12 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             confirmedAtUtc: fetchedAtUtc,
           });
           newHashes[vendor] = h;
+          crossRunWindowConfirmedSet.add(vendor);
           return;
+        }
+
+        if (!gapSatisfied && priorHash === h && priorRunConfirmations > 0) {
+          crossRunWindowHeldSet.add(vendor);
         }
 
         newHashes[vendor] = previousHash;
@@ -1142,6 +1138,9 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           hash: h,
           count: nextCount,
           flip_count: nextFlipCount,
+          run_confirmations: nextRunConfirmations,
+          actual_confirm_runs_required: actualConfirmRuns,
+          last_run_observed_utc: fetchedAtUtc,
           source_url: sourceUrl || "",
           pending_since_utc: getCandidatePendingSinceUtc(priorCandidate) || fetchedAtUtc,
           first_seen_utc: priorHash === h && priorCandidate.first_seen_utc
@@ -1153,7 +1152,6 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         };
         pendingMetadata[vendor] = {
           vendorConfig,
-          confirmRuns,
           previousHash,
           sourceUrl: sourceUrl || priorCandidate?.source_url || "",
         };
@@ -1237,19 +1235,17 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             return;
           }
           if (majorityDecision?.type === "hash" && majorityDecision.hash) {
-            const majorityProfile =
+            const previousCandidateHash = candidate.hash;
+            candidate.hash = majorityDecision.hash;
+            candidate.profile =
               observations.hashProfiles?.[majorityDecision.hash] || candidate.profile || semanticProfile;
-            registerConfirmedChange({
-              vendor,
-              sourceUrl: sourceUrl || "",
-              confirmedHash: majorityDecision.hash,
-              confirmedProfile: majorityProfile,
-              confirmedAtUtc: fetchedAtUtc,
-            });
-            newHashes[vendor] = majorityDecision.hash;
-            delete newCandidates[vendor];
-            pendingSet.delete(vendor);
-            recheckConfirmedSet.add(vendor);
+            candidate.count = Math.max(Number(candidate.count || 1), Number(majorityDecision.winnerVotes || 1));
+            candidate.last_seen_utc = fetchedAtUtc;
+            if (sourceUrl) candidate.source_url = sourceUrl;
+            candidate.run_confirmations = previousCandidateHash === majorityDecision.hash
+              ? Number(candidate.run_confirmations || 1)
+              : 1;
+            newCandidates[vendor] = candidate;
             return;
           }
 
@@ -1274,21 +1270,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           candidate.profile = candidate.hash === h ? semanticProfile : candidate.profile;
           if (sourceUrl) candidate.source_url = sourceUrl;
           candidate.last_seen_utc = fetchedAtUtc;
-
-          if (Number(candidate.count || 0) >= metadata.confirmRuns) {
-            registerConfirmedChange({
-              vendor,
-              sourceUrl: sourceUrl || "",
-              confirmedHash: h,
-              confirmedProfile: semanticProfile,
-              confirmedAtUtc: fetchedAtUtc,
-            });
-            newHashes[vendor] = h;
-            delete newCandidates[vendor];
-            pendingSet.delete(vendor);
-            recheckConfirmedSet.add(vendor);
-            return;
-          }
+          candidate.run_confirmations = Number(candidate.run_confirmations || 1);
 
           newCandidates[vendor] = candidate;
         })
@@ -1509,13 +1491,13 @@ async function main() {
     if (result.crossRunWindowConfirmed.length > 0) {
       const names = sortedLimitedVendors(result.crossRunWindowConfirmed, getPendingDetailLimit());
       console.log(
-        `::notice::${result.name}: cross_run_window_confirmed=${result.crossRunWindowConfirmed.length} (required=${getCrossRunWindowRequired()}, window=${getCrossRunWindowSize()}); first ${names.length}: ${names.join(", ")}`
+        `::notice::${result.name}: actual_consecutive_run_confirmed=${result.crossRunWindowConfirmed.length} (required_runs>=${getActualConfirmRuns()}, min_gap_hours>=${getActualMinGapHours()}); first ${names.length}: ${names.join(", ")}`
       );
     }
     if (result.crossRunWindowHeld.length > 0) {
       const names = sortedLimitedVendors(result.crossRunWindowHeld, getPendingDetailLimit());
       console.log(
-        `::notice::${result.name}: cross_run_window_held_pending=${result.crossRunWindowHeld.length} (baseline not dominant in window); first ${names.length}: ${names.join(", ")}`
+        `::notice::${result.name}: consecutive_run_gap_held_pending=${result.crossRunWindowHeld.length} (min_gap_hours not yet met); first ${names.length}: ${names.join(", ")}`
       );
     }
     if (result.staleDropped.length > 0) {
@@ -1684,6 +1666,9 @@ async function main() {
   console.log(`MATERIAL_CHANGED_BY_POLICY=${materialByPolicy}`);
   console.log(`MATERIAL_CHANGED_SAMPLE=${materialSample}`);
   console.log(`MATERIAL_DIFF_SAMPLE=${materialDiffSample}`);
+  console.log(`ACTUAL_CHANGED_COUNT=${allMaterialChanged.length}`);
+  console.log(`ACTUAL_CHANGED_BY_POLICY=${materialByPolicy}`);
+  console.log(`ACTUAL_CHANGED_SAMPLE=${materialSample}`);
   console.log(`MATERIAL_REPEAT_SUPPRESSED_COUNT=${allMaterialRepeatSuppressed.length}`);
   console.log(`MATERIAL_REPEAT_SUPPRESSED_BY_POLICY=${materialRepeatSuppressedByPolicy}`);
   console.log(`MATERIAL_REPEAT_SUPPRESSED_SAMPLE=${materialRepeatSuppressedSample}`);
