@@ -1,52 +1,36 @@
 {
   "canva": {
-    "hash": "561044bf0fe61325",
+    "hash": "38127eaf522670ec",
     "count": 1,
-    "flip_count": 2,
+    "flip_count": 5,
     "source_url": "https://www.canva.com/policies/terms-of-use/",
     "pending_since_utc": "2026-02-23T20:04:59Z",
-    "first_seen_utc": "2026-02-23T20:07:10Z",
-    "last_seen_utc": "2026-02-23T20:07:10Z",
+    "first_seen_utc": "2026-02-24T01:11:48Z",
+    "last_seen_utc": "2026-02-24T01:11:48Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "561044bf0fe61325",
+      "hash": "38127eaf522670ec",
       "source_url": "https://www.canva.com/policies/terms-of-use/",
-      "extracted_at_utc": "2026-02-23T20:07:10Z",
+      "extracted_at_utc": "2026-02-24T01:11:48Z",
       "tokens": []
     }
   },
   "myfitnesspal_premium": {
-    "hash": "59306942dcf937ef",
+    "hash": "c27eba036df3abaa",
     "count": 1,
-    "flip_count": 97,
+    "flip_count": 100,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T08:51:39Z",
-    "first_seen_utc": "2026-02-23T20:06:57Z",
-    "last_seen_utc": "2026-02-23T20:06:57Z",
+    "first_seen_utc": "2026-02-24T01:11:47Z",
+    "last_seen_utc": "2026-02-24T01:11:47Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "59306942dcf937ef",
+      "hash": "c27eba036df3abaa",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-23T20:06:57Z",
+      "extracted_at_utc": "2026-02-24T01:11:47Z",
       "tokens": [
         "flow:support_request"
       ]
-    }
-  },
-  "substack": {
-    "hash": "20fab989e6c94724",
-    "count": 1,
-    "flip_count": 2,
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "pending_since_utc": "2026-02-23T20:06:26Z",
-    "first_seen_utc": "2026-02-23T20:07:18Z",
-    "last_seen_utc": "2026-02-23T20:07:18Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "20fab989e6c94724",
-      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-23T20:07:18Z",
-      "tokens": []
     }
   }
 }

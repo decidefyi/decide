@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-23T20:16:57Z",
+  "updated_utc": "2026-02-24T01:20:30Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -92,9 +92,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "3cc3413769c232cf",
+      "hash": "2b51765350dd088d",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-23T20:16:49Z",
+      "extracted_at_utc": "2026-02-24T01:20:12Z",
       "tokens": []
     },
     "deezer": {
@@ -113,9 +113,9 @@
       "tokens": []
     },
     "crunchyroll": {
-      "hash": "9315e456fbf9c2b5",
+      "hash": "ff7ed05235b2a237",
       "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-      "extracted_at_utc": "2026-02-23T20:16:30Z",
+      "extracted_at_utc": "2026-02-24T01:20:14Z",
       "tokens": []
     },
     "discord_nitro": {
@@ -279,9 +279,9 @@
       ]
     },
     "midjourney": {
-      "hash": "6a5833c2c5273b43",
+      "hash": "1b2f6e20c6cb63ba",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-23T20:16:35Z",
+      "extracted_at_utc": "2026-02-24T01:20:26Z",
       "tokens": []
     },
     "nintendo_switch_online": {
@@ -727,9 +727,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "e8753802f98b8b7d",
+      "hash": "2a55be35f9a04cbb",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-23T20:16:31Z",
+      "extracted_at_utc": "2026-02-24T01:20:17Z",
       "tokens": []
     },
     "canva": {
@@ -749,10 +749,12 @@
       ]
     },
     "substack": {
-      "hash": "1fc132f3609dd8b1",
+      "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-23T20:16:46Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-24T01:20:02Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     }
   }
 }

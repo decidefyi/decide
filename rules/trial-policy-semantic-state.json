@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-23T20:20:39Z",
+  "updated_utc": "2026-02-24T01:23:44Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -85,9 +85,9 @@
       "tokens": []
     },
     "chatgpt_plus": {
-      "hash": "943f18d6cd7e1667",
+      "hash": "c59fa3f9b63e83d2",
       "source_url": "https://openai.com/chatgpt/pricing/",
-      "extracted_at_utc": "2026-02-23T20:20:15Z",
+      "extracted_at_utc": "2026-02-24T01:21:21Z",
       "tokens": []
     },
     "crunchyroll": {
@@ -634,28 +634,30 @@
       ]
     },
     "espn_plus": {
-      "hash": "e8753802f98b8b7d",
+      "hash": "6129dcb530971445",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-23T19:04:28Z",
+      "extracted_at_utc": "2026-02-24T01:23:28Z",
       "tokens": []
     },
     "peacock": {
-      "hash": "302a703c0563cfc7",
+      "hash": "9d5ebe1adff952a6",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-02-23T19:03:12Z",
+      "extracted_at_utc": "2026-02-24T01:23:35Z",
       "tokens": []
     },
     "twitch": {
-      "hash": "5040f99eeb0ae945",
+      "hash": "bf4271ff63758882",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-23T20:20:19Z",
+      "extracted_at_utc": "2026-02-24T01:23:39Z",
       "tokens": []
     },
     "nordvpn": {
-      "hash": "26addcd33afd7750",
+      "hash": "49e7600bf8eb1596",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-02-23T20:20:24Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-24T01:23:44Z",
+      "tokens": [
+        "billing:auto_renew"
+      ]
     },
     "canva": {
       "hash": "8c8b2a79919eaa19",
