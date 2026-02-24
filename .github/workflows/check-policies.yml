@@ -388,6 +388,7 @@ jobs:
               "- `rules/cancel-policy-semantic-state.json`",
               "- `rules/return-policy-semantic-state.json`",
               "- `rules/trial-policy-semantic-state.json`",
+              "- `rules/policy-alert-feed.json`",
               "",
               "### Feed contract fields",
               `ACTUAL_CHANGED_COUNT=${changedCount}`,
