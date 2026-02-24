@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-24T01:23:44Z",
+  "updated_utc": "2026-02-24T07:02:21Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -34,9 +34,9 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "5d18b63bf1d694d2",
+      "hash": "4cf5a425dd295c82",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-02-23T20:20:16Z",
+      "extracted_at_utc": "2026-02-24T07:02:08Z",
       "tokens": []
     },
     "apple_music": {
@@ -87,7 +87,7 @@
     "chatgpt_plus": {
       "hash": "c59fa3f9b63e83d2",
       "source_url": "https://openai.com/chatgpt/pricing/",
-      "extracted_at_utc": "2026-02-24T01:21:21Z",
+      "extracted_at_utc": "2026-02-24T06:59:39Z",
       "tokens": []
     },
     "crunchyroll": {
@@ -320,9 +320,9 @@
       "tokens": []
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-23T20:19:01Z",
+      "extracted_at_utc": "2026-02-24T07:00:56Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -392,9 +392,9 @@
       "tokens": []
     },
     "tidal": {
-      "hash": "0e8b379821983a86",
+      "hash": "f71912ba41233094",
       "source_url": "https://tidal.com/pricing",
-      "extracted_at_utc": "2026-02-19T23:36:45Z",
+      "extracted_at_utc": "2026-02-24T07:02:21Z",
       "tokens": []
     },
     "walmart_plus": {
@@ -634,30 +634,28 @@
       ]
     },
     "espn_plus": {
-      "hash": "6129dcb530971445",
+      "hash": "534f43374df46cdf",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-24T01:23:28Z",
+      "extracted_at_utc": "2026-02-24T07:02:04Z",
       "tokens": []
     },
     "peacock": {
-      "hash": "9d5ebe1adff952a6",
+      "hash": "302a703c0563cfc7",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-02-24T01:23:35Z",
+      "extracted_at_utc": "2026-02-24T07:00:55Z",
       "tokens": []
     },
     "twitch": {
-      "hash": "bf4271ff63758882",
+      "hash": "3b8ff5f32ffd204c",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-24T01:23:39Z",
+      "extracted_at_utc": "2026-02-24T07:02:17Z",
       "tokens": []
     },
     "nordvpn": {
-      "hash": "49e7600bf8eb1596",
+      "hash": "26addcd33afd7750",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-02-24T01:23:44Z",
-      "tokens": [
-        "billing:auto_renew"
-      ]
+      "extracted_at_utc": "2026-02-24T07:02:14Z",
+      "tokens": []
     },
     "canva": {
       "hash": "8c8b2a79919eaa19",

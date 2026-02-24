@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-24T01:20:30Z",
+  "updated_utc": "2026-02-24T06:58:52Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -92,9 +92,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "2b51765350dd088d",
+      "hash": "96b93751ff0c218a",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-24T01:20:12Z",
+      "extracted_at_utc": "2026-02-24T06:58:33Z",
       "tokens": []
     },
     "deezer": {
@@ -113,9 +113,9 @@
       "tokens": []
     },
     "crunchyroll": {
-      "hash": "ff7ed05235b2a237",
+      "hash": "d72f75609e5be554",
       "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-      "extracted_at_utc": "2026-02-24T01:20:14Z",
+      "extracted_at_utc": "2026-02-24T06:58:35Z",
       "tokens": []
     },
     "discord_nitro": {
@@ -183,9 +183,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-23T18:59:50Z",
+      "extracted_at_utc": "2026-02-24T06:58:38Z",
       "tokens": []
     },
     "google_play": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
+      "hash": "c4982f46749a6ceb",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-23T07:04:40Z",
+      "extracted_at_utc": "2026-02-24T06:57:34Z",
       "tokens": []
     },
     "hulu": {
@@ -690,12 +690,10 @@
       ]
     },
     "calm": {
-      "hash": "32092096ec499d3b",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-22T18:31:27Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-24T06:58:35Z",
+      "tokens": []
     },
     "google_one": {
       "hash": "47fe303a75ca7032",
@@ -704,9 +702,9 @@
       "tokens": []
     },
     "proton": {
-      "hash": "9797e79eb7ad6a9c",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-23T20:16:37Z",
+      "extracted_at_utc": "2026-02-24T06:58:36Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -727,9 +725,9 @@
       ]
     },
     "espn_plus": {
-      "hash": "2a55be35f9a04cbb",
+      "hash": "534f43374df46cdf",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-24T01:20:17Z",
+      "extracted_at_utc": "2026-02-24T06:58:36Z",
       "tokens": []
     },
     "canva": {
