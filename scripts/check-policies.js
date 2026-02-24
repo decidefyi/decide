@@ -1627,12 +1627,12 @@ async function main() {
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
-  const materialByPolicy = toPolicyCountString(allMaterialChanged);
-  const materialSample = allMaterialChanged
+  const actualByPolicy = toPolicyCountString(allMaterialChanged);
+  const actualSample = allMaterialChanged
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
-  const materialDiffSample = allMaterialChanged
+  const actualDiffSample = allMaterialChanged
     .slice(0, 10)
     .map((item) => `${item.policyType}:${item.vendor}:${item.semantic_diff_summary}`)
     .join(",");
@@ -1662,20 +1662,22 @@ async function main() {
   console.log(`OBSERVED_CHANGED_COUNT=${allObservedChanged.length}`);
   console.log(`OBSERVED_CHANGED_BY_POLICY=${observedByPolicy}`);
   console.log(`OBSERVED_CHANGED_SAMPLE=${observedSample}`);
-  console.log(`MATERIAL_CHANGED_COUNT=${allMaterialChanged.length}`);
-  console.log(`MATERIAL_CHANGED_BY_POLICY=${materialByPolicy}`);
-  console.log(`MATERIAL_CHANGED_SAMPLE=${materialSample}`);
-  console.log(`MATERIAL_DIFF_SAMPLE=${materialDiffSample}`);
   console.log(`ACTUAL_CHANGED_COUNT=${allMaterialChanged.length}`);
-  console.log(`ACTUAL_CHANGED_BY_POLICY=${materialByPolicy}`);
-  console.log(`ACTUAL_CHANGED_SAMPLE=${materialSample}`);
+  console.log(`ACTUAL_CHANGED_BY_POLICY=${actualByPolicy}`);
+  console.log(`ACTUAL_CHANGED_SAMPLE=${actualSample}`);
+  console.log(`ACTUAL_DIFF_SAMPLE=${actualDiffSample}`);
+  // Backward-compatible aliases consumed by existing tooling.
+  console.log(`MATERIAL_CHANGED_COUNT=${allMaterialChanged.length}`);
+  console.log(`MATERIAL_CHANGED_BY_POLICY=${actualByPolicy}`);
+  console.log(`MATERIAL_CHANGED_SAMPLE=${actualSample}`);
+  console.log(`MATERIAL_DIFF_SAMPLE=${actualDiffSample}`);
   console.log(`MATERIAL_REPEAT_SUPPRESSED_COUNT=${allMaterialRepeatSuppressed.length}`);
   console.log(`MATERIAL_REPEAT_SUPPRESSED_BY_POLICY=${materialRepeatSuppressedByPolicy}`);
   console.log(`MATERIAL_REPEAT_SUPPRESSED_SAMPLE=${materialRepeatSuppressedSample}`);
-  // Backward-compatible aliases consumed by workflow and frontend feed.
+  // Canonical public aliases: "changed" means actual policy changes.
   console.log(`CHANGED_COUNT=${allMaterialChanged.length}`);
-  console.log(`CHANGED_BY_POLICY=${materialByPolicy}`);
-  console.log(`CHANGED_SAMPLE=${materialSample}`);
+  console.log(`CHANGED_BY_POLICY=${actualByPolicy}`);
+  console.log(`CHANGED_SAMPLE=${actualSample}`);
 
   if (isUpdate) {
     console.log(`Hashes updated for all policy sets.`);
@@ -1695,14 +1697,14 @@ async function main() {
   }
 
   if (allMaterialChanged.length === 0) {
-    console.log("No material policy changes confirmed.");
+    console.log("No policy changes confirmed.");
   } else {
-    const materialPreview = allMaterialChanged
+    const policyPreview = allMaterialChanged
       .slice(0, 20)
       .map((c) => `- [${c.policyType}] ${c.vendor} -> ${c.semantic_diff_summary}`)
       .join("\n");
     console.log(
-      `::notice::Material policy change preview (first ${Math.min(allMaterialChanged.length, 20)}):\n${materialPreview}`
+      `::notice::Policy change preview (first ${Math.min(allMaterialChanged.length, 20)}):\n${policyPreview}`
     );
   }
   if (allMaterialRepeatSuppressed.length > 0) {

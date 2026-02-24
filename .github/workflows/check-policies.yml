@@ -43,13 +43,10 @@ jobs:
             local key="$1"
             echo "$output" | sed -n "s/^${key}=//p" | tail -n1 | tr -d '\r'
           }
-          observed_changed_count=$(extract_output_value "OBSERVED_CHANGED_COUNT" | tr -d '[:space:]')
-          observed_changed_by_policy=$(extract_output_value "OBSERVED_CHANGED_BY_POLICY")
-          observed_changed_sample=$(extract_output_value "OBSERVED_CHANGED_SAMPLE")
-          material_changed_count=$(extract_output_value "MATERIAL_CHANGED_COUNT" | tr -d '[:space:]')
-          material_changed_by_policy=$(extract_output_value "MATERIAL_CHANGED_BY_POLICY")
-          material_changed_sample=$(extract_output_value "MATERIAL_CHANGED_SAMPLE")
-          material_diff_sample=$(extract_output_value "MATERIAL_DIFF_SAMPLE")
+          actual_changed_count=$(extract_output_value "ACTUAL_CHANGED_COUNT" | tr -d '[:space:]')
+          actual_changed_by_policy=$(extract_output_value "ACTUAL_CHANGED_BY_POLICY")
+          actual_changed_sample=$(extract_output_value "ACTUAL_CHANGED_SAMPLE")
+          actual_diff_sample=$(extract_output_value "ACTUAL_DIFF_SAMPLE")
           changed_count=$(extract_output_value "CHANGED_COUNT" | tr -d '[:space:]')
           changed_by_policy=$(extract_output_value "CHANGED_BY_POLICY")
           changed_sample=$(extract_output_value "CHANGED_SAMPLE")
@@ -71,11 +68,15 @@ jobs:
           coverage_gap_by_policy=$(extract_output_value "COVERAGE_GAP_BY_POLICY")
           coverage_gap_sample=$(extract_output_value "COVERAGE_GAP_SAMPLE")
 
-          if [ -z "$material_changed_count" ]; then material_changed_count=0; fi
-          if [ -z "$observed_changed_count" ]; then observed_changed_count=0; fi
-          if [ -z "$changed_count" ]; then changed_count=$material_changed_count; fi
-          if [ -z "$changed_by_policy" ]; then changed_by_policy="$material_changed_by_policy"; fi
-          if [ -z "$changed_sample" ]; then changed_sample="$material_changed_sample"; fi
+          if [ -z "$actual_diff_sample" ]; then actual_diff_sample=$(extract_output_value "MATERIAL_DIFF_SAMPLE"); fi
+          if [ -z "$actual_changed_count" ]; then actual_changed_count=$changed_count; fi
+          if [ -z "$actual_changed_by_policy" ]; then actual_changed_by_policy="$changed_by_policy"; fi
+          if [ -z "$actual_changed_sample" ]; then actual_changed_sample="$changed_sample"; fi
+          if [ -z "$changed_count" ]; then changed_count=$actual_changed_count; fi
+          if [ -z "$changed_by_policy" ]; then changed_by_policy="$actual_changed_by_policy"; fi
+          if [ -z "$changed_sample" ]; then changed_sample="$actual_changed_sample"; fi
+          if [ -z "$actual_changed_count" ]; then actual_changed_count=0; fi
+          if [ -z "$changed_count" ]; then changed_count=0; fi
           if [ -z "$pending_count" ]; then pending_count=0; fi
           if [ -z "$stale_pending_count" ]; then stale_pending_count=0; fi
           if [ -z "$volatile_pending_count" ]; then volatile_pending_count=0; fi
@@ -97,28 +98,29 @@ jobs:
             '
           }
 
-          material_by_policy_total=$(sum_policy_counts "$material_changed_by_policy")
+          actual_by_policy_total=$(sum_policy_counts "$actual_changed_by_policy")
           changed_by_policy_total=$(sum_policy_counts "$changed_by_policy")
           contract_valid=1
-          if [ "$material_by_policy_total" -ne "$material_changed_count" ]; then
-            echo "::warning::Contract mismatch: MATERIAL_CHANGED_COUNT=$material_changed_count but MATERIAL_CHANGED_BY_POLICY sums to $material_by_policy_total."
+          if [ "$actual_by_policy_total" -ne "$actual_changed_count" ]; then
+            echo "::warning::Contract mismatch: ACTUAL_CHANGED_COUNT=$actual_changed_count but ACTUAL_CHANGED_BY_POLICY sums to $actual_by_policy_total."
             contract_valid=0
           fi
           if [ "$changed_by_policy_total" -ne "$changed_count" ]; then
             echo "::warning::Contract mismatch: CHANGED_COUNT=$changed_count but CHANGED_BY_POLICY sums to $changed_by_policy_total."
             contract_valid=0
           fi
+          if [ "$actual_changed_count" -ne "$changed_count" ]; then
+            echo "::warning::Contract mismatch: ACTUAL_CHANGED_COUNT=$actual_changed_count but CHANGED_COUNT=$changed_count."
+            contract_valid=0
+          fi
           if [ "$contract_valid" -ne 1 ]; then
             echo "::warning::Policy alert contract invalid; suppressing issue publication for this run."
           fi
 
-          echo "observed_changed_count=$observed_changed_count" >> "$GITHUB_OUTPUT"
-          echo "observed_changed_by_policy=$observed_changed_by_policy" >> "$GITHUB_OUTPUT"
-          echo "observed_changed_sample=$observed_changed_sample" >> "$GITHUB_OUTPUT"
-          echo "material_changed_count=$material_changed_count" >> "$GITHUB_OUTPUT"
-          echo "material_changed_by_policy=$material_changed_by_policy" >> "$GITHUB_OUTPUT"
-          echo "material_changed_sample=$material_changed_sample" >> "$GITHUB_OUTPUT"
-          echo "material_diff_sample=$material_diff_sample" >> "$GITHUB_OUTPUT"
+          echo "actual_changed_count=$actual_changed_count" >> "$GITHUB_OUTPUT"
+          echo "actual_changed_by_policy=$actual_changed_by_policy" >> "$GITHUB_OUTPUT"
+          echo "actual_changed_sample=$actual_changed_sample" >> "$GITHUB_OUTPUT"
+          echo "actual_diff_sample=$actual_diff_sample" >> "$GITHUB_OUTPUT"
           echo "changed_count=$changed_count" >> "$GITHUB_OUTPUT"
           echo "changed_by_policy=$changed_by_policy" >> "$GITHUB_OUTPUT"
           echo "changed_sample=$changed_sample" >> "$GITHUB_OUTPUT"
@@ -218,17 +220,14 @@ jobs:
           exit 0
 
       - name: Open issue if policies changed or candidates pending
-        if: steps.check.outputs.contract_valid == '1' && ((steps.check.outputs.material_changed_count && steps.check.outputs.material_changed_count != '0') || (steps.check.outputs.pending_count && steps.check.outputs.pending_count != '0'))
+        if: steps.check.outputs.contract_valid == '1' && ((steps.check.outputs.changed_count && steps.check.outputs.changed_count != '0') || (steps.check.outputs.pending_count && steps.check.outputs.pending_count != '0'))
         continue-on-error: true
         uses: actions/github-script@v7
         env:
-          OBSERVED_CHANGED_COUNT: ${{ steps.check.outputs.observed_changed_count }}
-          OBSERVED_CHANGED_BY_POLICY: ${{ steps.check.outputs.observed_changed_by_policy }}
-          OBSERVED_CHANGED_SAMPLE: ${{ steps.check.outputs.observed_changed_sample }}
-          MATERIAL_CHANGED_COUNT: ${{ steps.check.outputs.material_changed_count }}
-          MATERIAL_CHANGED_BY_POLICY: ${{ steps.check.outputs.material_changed_by_policy }}
-          MATERIAL_CHANGED_SAMPLE: ${{ steps.check.outputs.material_changed_sample }}
-          MATERIAL_DIFF_SAMPLE: ${{ steps.check.outputs.material_diff_sample }}
+          ACTUAL_CHANGED_COUNT: ${{ steps.check.outputs.actual_changed_count }}
+          ACTUAL_CHANGED_BY_POLICY: ${{ steps.check.outputs.actual_changed_by_policy }}
+          ACTUAL_CHANGED_SAMPLE: ${{ steps.check.outputs.actual_changed_sample }}
+          ACTUAL_DIFF_SAMPLE: ${{ steps.check.outputs.actual_diff_sample }}
           CHANGED_COUNT: ${{ steps.check.outputs.changed_count }}
           CHANGED_BY_POLICY: ${{ steps.check.outputs.changed_by_policy }}
           CHANGED_SAMPLE: ${{ steps.check.outputs.changed_sample }}
@@ -252,16 +251,13 @@ jobs:
         with:
           retries: 3
           script: |
-            const observedCount = Number.parseInt(process.env.OBSERVED_CHANGED_COUNT || '0', 10) || 0;
-            const observedByPolicy = process.env.OBSERVED_CHANGED_BY_POLICY || '';
-            const observedSample = process.env.OBSERVED_CHANGED_SAMPLE || '';
-            const materialCount = Number.parseInt(process.env.MATERIAL_CHANGED_COUNT || '0', 10) || 0;
-            const materialByPolicy = process.env.MATERIAL_CHANGED_BY_POLICY || '';
-            const materialSample = process.env.MATERIAL_CHANGED_SAMPLE || '';
-            const materialDiffSample = process.env.MATERIAL_DIFF_SAMPLE || '';
-            const changedCount = Number.parseInt(process.env.CHANGED_COUNT || String(materialCount), 10) || materialCount;
-            const changedByPolicy = process.env.CHANGED_BY_POLICY || materialByPolicy;
-            const changedSample = process.env.CHANGED_SAMPLE || materialSample;
+            const actualCount = Number.parseInt(process.env.ACTUAL_CHANGED_COUNT || process.env.CHANGED_COUNT || '0', 10) || 0;
+            const actualByPolicy = process.env.ACTUAL_CHANGED_BY_POLICY || process.env.CHANGED_BY_POLICY || '';
+            const actualSample = process.env.ACTUAL_CHANGED_SAMPLE || process.env.CHANGED_SAMPLE || '';
+            const actualDiffSample = process.env.ACTUAL_DIFF_SAMPLE || '';
+            const changedCount = Number.parseInt(process.env.CHANGED_COUNT || String(actualCount), 10) || actualCount;
+            const changedByPolicy = process.env.CHANGED_BY_POLICY || actualByPolicy;
+            const changedSample = process.env.CHANGED_SAMPLE || actualSample;
             const pendingCount = Number.parseInt(process.env.PENDING_COUNT || '0', 10) || 0;
             const pendingByPolicy = process.env.PENDING_BY_POLICY || '';
             const pendingSample = process.env.PENDING_SAMPLE || '';
@@ -280,24 +276,19 @@ jobs:
             const coverageGapByPolicy = process.env.COVERAGE_GAP_BY_POLICY || '';
             const coverageGapSample = process.env.COVERAGE_GAP_SAMPLE || '';
             const today = new Date().toISOString().split('T')[0];
-            const changedTitlePrefix = `Policy material changes (${today}):`;
-            const pendingTitlePrefix = `Policy page checker pending candidates (${today}):`;
-            const legacyChangedTitlePrefix = `Policy pages changed (${today}):`;
-            const legacyPendingTitlePrefix = `Policy checker pending candidates (${today}):`;
-            const sampleList = materialSample
+            const changedTitlePrefix = `Policy changes (${today}):`;
+            const pendingTitlePrefix = `Policy checker pending candidates (${today}):`;
+            const legacyMaterialChangedTitlePrefix = `Policy material changes (${today}):`;
+            const legacyPageCheckerPendingTitlePrefix = `Policy page checker pending candidates (${today}):`;
+            const legacyPagesChangedTitlePrefix = `Policy pages changed (${today}):`;
+            const sampleList = changedSample
               .split(',')
               .map((s) => s.trim())
               .filter(Boolean)
               .slice(0, 10)
               .map((item) => `- \`${item}\``)
               .join('\n');
-            const materialByPolicyList = materialByPolicy
-              .split(',')
-              .map((s) => s.trim())
-              .filter(Boolean)
-              .map((item) => `- ${item.replace(':', ': ')}`)
-              .join('\n');
-            const observedByPolicyList = observedByPolicy
+            const changedByPolicyList = changedByPolicy
               .split(',')
               .map((s) => s.trim())
               .filter(Boolean)
@@ -368,21 +359,18 @@ jobs:
               .filter(Boolean)
               .join('\n');
 
-            const title = materialCount > 0
-              ? `Policy material changes (${today}): ${materialCount} vendor(s)`
-              : `Policy page checker pending candidates (${today}): ${pendingCount} candidate(s)`;
+            const title = changedCount > 0
+              ? `Policy changes (${today}): ${changedCount} vendor(s)`
+              : `Policy checker pending candidates (${today}): ${pendingCount} candidate(s)`;
             const body = [
               "## Policy checker summary",
               "",
-              `Actual policy changes (material): **${materialCount}**`,
-              `Observed page-content changes: **${observedCount}**`,
+              `Policy changes: **${changedCount}**`,
               `Pending candidates (needs confirmation): **${pendingCount}**`,
               "",
-              materialByPolicy ? "### By policy\n" + materialByPolicyList + "\n" : "",
+              changedByPolicy ? "### By policy\n" + changedByPolicyList + "\n" : "",
               sampleList ? "### Confirmed sample (first 10)\n" + sampleList + "\n" : "",
-              materialDiffSample ? `Material diff sample: \`${materialDiffSample}\`\n` : "",
-              observedByPolicy ? "### Observed by policy\n" + observedByPolicyList + "\n" : "",
-              observedSample ? `Observed sample: \`${observedSample}\`\n` : "",
+              actualDiffSample ? `Policy diff sample: \`${actualDiffSample}\`\n` : "",
               pendingByPolicy ? "### Pending by policy\n" + pendingByPolicyList + "\n" : "",
               pendingDetailList ? "### Pending vendors (first slice per policy)\n" + pendingDetailList + "\n" : "",
               pendingSample ? `Pending sample: \`${pendingSample}\`\n` : "",
@@ -401,14 +389,14 @@ jobs:
               "- `rules/trial-policy-semantic-state.json`",
               "",
               "### Feed contract fields",
+              `ACTUAL_CHANGED_COUNT=${changedCount}`,
+              `ACTUAL_CHANGED_BY_POLICY=${changedByPolicy}`,
               `CHANGED_COUNT=${changedCount}`,
               `CHANGED_BY_POLICY=${changedByPolicy}`,
-              `MATERIAL_CHANGED_COUNT=${materialCount}`,
-              `MATERIAL_CHANGED_BY_POLICY=${materialByPolicy}`,
               "",
               `Run: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
               "",
-              "This issue was created automatically by the daily policy-page checker."
+              "This issue was created automatically by the daily policy checker."
             ].filter(Boolean).join("\n");
 
             try {
@@ -423,8 +411,9 @@ jobs:
               const dailyPrefixes = [
                 changedTitlePrefix,
                 pendingTitlePrefix,
-                legacyChangedTitlePrefix,
-                legacyPendingTitlePrefix
+                legacyMaterialChangedTitlePrefix,
+                legacyPageCheckerPendingTitlePrefix,
+                legacyPagesChangedTitlePrefix
               ];
               const existingToday = openPolicyIssues.find((issue) =>
                 !issue.pull_request &&
@@ -447,12 +436,9 @@ jobs:
                   body: [
                     `New run update: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
                     "",
-                    `Actual policy changes (material): **${materialCount}**`,
-                    `Observed page-content changes: **${observedCount}**`,
+                    `Policy changes: **${changedCount}**`,
                     `Pending candidates (needs confirmation): **${pendingCount}**`,
-                    changedByPolicy ? `Confirmed by policy: ${changedByPolicy}` : "",
-                    materialByPolicy ? `Material by policy: ${materialByPolicy}` : "",
-                    observedByPolicy ? `Observed by policy: ${observedByPolicy}` : "",
+                    changedByPolicy ? `By policy: ${changedByPolicy}` : "",
                     pendingByPolicy ? `Pending by policy: ${pendingByPolicy}` : "",
                     pendingDetail ? `Pending detail: ${pendingDetail}` : "",
                     stalePendingCount > 0 ? `Stale pending: ${stalePendingCount} (${stalePendingByPolicy || 'by-policy-unavailable'})` : "",
@@ -460,9 +446,8 @@ jobs:
                     escalationCount > 0 ? `Escalation candidates: ${escalationCount} (${escalationByPolicy || 'by-policy-unavailable'})` : "",
                     escalationDetail ? `Escalation detail: ${escalationDetail}` : "",
                     coverageGapCount > 0 ? `Coverage gaps: ${coverageGapCount} (${coverageGapByPolicy || 'by-policy-unavailable'})` : "",
-                    materialSample ? `Material sample: ${materialSample}` : "",
-                    materialDiffSample ? `Material diff sample: ${materialDiffSample}` : "",
-                    observedSample ? `Observed sample: ${observedSample}` : "",
+                    changedSample ? `Policy-change sample: ${changedSample}` : "",
+                    actualDiffSample ? `Policy diff sample: ${actualDiffSample}` : "",
                     escalationSample ? `Escalation sample: ${escalationSample}` : "",
                     coverageGapSample ? `Coverage gap sample: ${coverageGapSample}` : "",
                     pendingSample ? `Pending sample: ${pendingSample}` : ""
