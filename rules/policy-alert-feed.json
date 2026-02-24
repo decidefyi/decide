@@ -1,6 +1,555 @@
 {
   "schema_version": 1,
-  "updated_utc": "",
-  "source": "check-policies.js",
-  "alerts": []
+  "updated_utc": "2026-02-24T22:28:48.437Z",
+  "source": "issues-backfill",
+  "alerts": [
+    {
+      "date_utc": "2026-02-24",
+      "generated_at_utc": "2026-02-24T19:02:23Z",
+      "changed_count": 7,
+      "by_policy": {
+        "refund": 2,
+        "cancel": 2,
+        "return": 3,
+        "trial": 0
+      },
+      "changed_sample": [
+        "refund:evernote",
+        "refund:substack",
+        "cancel:evernote",
+        "cancel:fubo_tv",
+        "return:calm",
+        "return:evernote",
+        "return:roblox_premium"
+      ],
+      "pending_count": 14,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22365148094",
+      "issue_number": 85,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-23",
+      "generated_at_utc": "2026-02-23T20:20:42Z",
+      "changed_count": 7,
+      "by_policy": {
+        "refund": 1,
+        "cancel": 3,
+        "return": 2,
+        "trial": 1
+      },
+      "changed_sample": [
+        "refund:calm",
+        "cancel:calm",
+        "cancel:fubo_tv",
+        "cancel:substack",
+        "return:amazon_prime",
+        "return:substack",
+        "trial:nordvpn"
+      ],
+      "pending_count": 8,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22322715669",
+      "issue_number": 83,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-22",
+      "generated_at_utc": "2026-02-22T18:35:45Z",
+      "changed_count": 7,
+      "by_policy": {
+        "refund": 3,
+        "cancel": 2,
+        "return": 2,
+        "trial": 0
+      },
+      "changed_sample": [
+        "refund:scribd",
+        "refund:tidal",
+        "refund:substack",
+        "cancel:calm",
+        "cancel:substack",
+        "return:calm",
+        "return:headspace"
+      ],
+      "pending_count": 7,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22282682598",
+      "issue_number": 81,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-21",
+      "generated_at_utc": "2026-02-21T18:33:24Z",
+      "changed_count": 6,
+      "by_policy": {
+        "refund": 3,
+        "cancel": 2,
+        "return": 1,
+        "trial": 0
+      },
+      "changed_sample": [
+        "refund:substack",
+        "refund:tidal",
+        "refund:roblox_premium",
+        "cancel:calm",
+        "cancel:fubo_tv",
+        "return:substack"
+      ],
+      "pending_count": 7,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22261871666",
+      "issue_number": 79,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-20",
+      "generated_at_utc": "2026-02-20T18:50:02Z",
+      "changed_count": 8,
+      "by_policy": {
+        "refund": 3,
+        "cancel": 2,
+        "return": 2,
+        "trial": 1
+      },
+      "changed_sample": [
+        "refund:headspace",
+        "refund:xbox_game_pass",
+        "refund:tidal",
+        "cancel:calm",
+        "cancel:xbox_game_pass",
+        "return:xbox_game_pass",
+        "return:substack",
+        "trial:substack"
+      ],
+      "pending_count": 6,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22236252010",
+      "issue_number": 77,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-19",
+      "generated_at_utc": "2026-02-19T23:38:01Z",
+      "changed_count": 23,
+      "by_policy": {
+        "refund": 6,
+        "cancel": 5,
+        "return": 4,
+        "trial": 8
+      },
+      "changed_sample": [
+        "refund:grammarly",
+        "refund:midjourney",
+        "refund:hinge",
+        "refund:substack",
+        "refund:espn_plus",
+        "refund:washington_post",
+        "cancel:patreon",
+        "cancel:espn_plus",
+        "cancel:hinge",
+        "cancel:strava"
+      ],
+      "pending_count": 8,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22164438977",
+      "issue_number": 75,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-18",
+      "generated_at_utc": "2026-02-18T18:52:58Z",
+      "changed_count": 26,
+      "by_policy": {
+        "refund": 8,
+        "cancel": 7,
+        "return": 7,
+        "trial": 4
+      },
+      "changed_sample": [
+        "refund:calm",
+        "refund:hellofresh",
+        "refund:espn_plus",
+        "refund:disney_plus",
+        "refund:headspace",
+        "refund:evernote",
+        "refund:masterclass",
+        "refund:soundcloud_go",
+        "cancel:fubo_tv",
+        "cancel:crunchyroll"
+      ],
+      "pending_count": 18,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22122429509",
+      "issue_number": 73,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-17",
+      "generated_at_utc": "2026-02-17T21:24:20Z",
+      "changed_count": 16,
+      "by_policy": {
+        "refund": 3,
+        "cancel": 5,
+        "return": 5,
+        "trial": 3
+      },
+      "changed_sample": [],
+      "pending_count": 0,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22084137665",
+      "issue_number": 71,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-16",
+      "generated_at_utc": "2026-02-16T14:58:08Z",
+      "changed_count": 13,
+      "by_policy": {
+        "refund": 4,
+        "cancel": 3,
+        "return": 5,
+        "trial": 1
+      },
+      "changed_sample": [],
+      "pending_count": 0,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22056157647",
+      "issue_number": 70,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-15",
+      "generated_at_utc": "2026-02-15T18:34:15Z",
+      "changed_count": 11,
+      "by_policy": {
+        "refund": 3,
+        "cancel": 2,
+        "return": 3,
+        "trial": 3
+      },
+      "changed_sample": [],
+      "pending_count": 0,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22032644488",
+      "issue_number": 69,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-14",
+      "generated_at_utc": "2026-02-14T08:46:58Z",
+      "changed_count": 24,
+      "by_policy": {
+        "refund": 7,
+        "cancel": 6,
+        "return": 6,
+        "trial": 5
+      },
+      "changed_sample": [],
+      "pending_count": 0,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22014369415",
+      "issue_number": 68,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-13",
+      "generated_at_utc": "2026-02-13T09:01:27Z",
+      "changed_count": 16,
+      "by_policy": {
+        "refund": 4,
+        "cancel": 5,
+        "return": 2,
+        "trial": 5
+      },
+      "changed_sample": [],
+      "pending_count": 0,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/21980600718",
+      "issue_number": 67,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-12",
+      "generated_at_utc": "2026-02-12T09:03:34Z",
+      "changed_count": 9,
+      "by_policy": {
+        "refund": 2,
+        "cancel": 4,
+        "return": 2,
+        "trial": 1
+      },
+      "changed_sample": [],
+      "pending_count": 0,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/21939824762",
+      "issue_number": 66,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-11",
+      "generated_at_utc": "2026-02-11T09:54:35Z",
+      "changed_count": 9,
+      "by_policy": {
+        "refund": 2,
+        "cancel": 3,
+        "return": 2,
+        "trial": 2
+      },
+      "changed_sample": [],
+      "pending_count": 0,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/21900130255",
+      "issue_number": 65,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-10",
+      "generated_at_utc": "2026-02-10T09:02:57Z",
+      "changed_count": 0,
+      "by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "changed_sample": [],
+      "pending_count": 0,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "",
+      "issue_number": 62,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-09",
+      "generated_at_utc": "2026-02-09T09:00:49Z",
+      "changed_count": 0,
+      "by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "changed_sample": [],
+      "pending_count": 0,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "",
+      "issue_number": 61,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-08",
+      "generated_at_utc": "2026-02-08T08:39:36Z",
+      "changed_count": 0,
+      "by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "changed_sample": [],
+      "pending_count": 0,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "",
+      "issue_number": 60,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    },
+    {
+      "date_utc": "2026-02-07",
+      "generated_at_utc": "2026-02-07T08:39:12Z",
+      "changed_count": 0,
+      "by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "changed_sample": [],
+      "pending_count": 0,
+      "pending_by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "run_url": "",
+      "issue_number": 59,
+      "issue_state": "open",
+      "source": "issues-backfill"
+    }
+  ]
 }
