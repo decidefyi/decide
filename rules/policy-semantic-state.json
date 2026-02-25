@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-25T12:42:12Z",
+  "updated_utc": "2026-02-25T18:55:37Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -585,19 +585,22 @@
       ]
     },
     "ubisoft_plus": {
-      "hash": "2a5520f952efeb51",
+      "hash": "12dc3738d7667345",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-25T06:54:03Z",
+      "extracted_at_utc": "2026-02-25T18:54:15Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
       ]
     },
     "roblox_premium": {
-      "hash": "d72f75609e5be554",
+      "hash": "d15eabe459d7d36d",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-24T12:41:23Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-25T18:54:18Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale",
+        "risk:chargeback_or_dispute"
+      ]
     },
     "mlb_tv": {
       "hash": "2df9478a4bf6f184",
