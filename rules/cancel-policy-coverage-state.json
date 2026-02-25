@@ -1,9 +1,9 @@
 {
-  "updated_utc": "2026-02-25T00:31:08Z",
+  "updated_utc": "2026-02-25T01:22:48Z",
   "policy": "cancel",
   "vendors": {
     "amazon_music_unlimited": {
-      "last_successful_fetch_utc": "2026-02-25T00:25:41Z",
+      "last_successful_fetch_utc": "2026-02-25T01:16:59Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -17,21 +17,21 @@
       "last_confirmed_change_utc": "2026-02-23T18:57:09Z"
     },
     "1password": {
-      "last_successful_fetch_utc": "2026-02-25T00:25:45Z",
+      "last_successful_fetch_utc": "2026-02-25T01:17:03Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "229f4e9a9a5cc299",
         "__baseline__",
         "b8200f36a53a25ef",
         "229f4e9a9a5cc299",
         "b861e7b433e09551",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-24T18:53:12Z"
     },
     "adobe": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:17Z",
+      "last_successful_fetch_utc": "2026-02-25T01:17:36Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -44,7 +44,7 @@
       ]
     },
     "apple_app_store": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:18Z",
+      "last_successful_fetch_utc": "2026-02-25T01:17:36Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -57,7 +57,7 @@
       ]
     },
     "apple_arcade": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:18Z",
+      "last_successful_fetch_utc": "2026-02-25T01:17:37Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -70,11 +70,11 @@
       ]
     },
     "amazon_prime": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:20Z",
+      "last_successful_fetch_utc": "2026-02-25T01:17:38Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "6bb8825a65099707",
+        "__baseline__",
         "__baseline__",
         "__baseline__",
         "__baseline__",
@@ -84,7 +84,7 @@
       "last_confirmed_change_utc": "2026-02-23T20:11:19Z"
     },
     "apple_music": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:20Z",
+      "last_successful_fetch_utc": "2026-02-25T01:17:39Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -97,7 +97,7 @@
       ]
     },
     "apple_tv_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:20Z",
+      "last_successful_fetch_utc": "2026-02-25T01:17:39Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -110,24 +110,24 @@
       ]
     },
     "audible": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:27Z",
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:18Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_age_days": 0,
-      "last_pending_flip_count": 8,
+      "last_pending_flip_count": 11,
       "last_escalated_utc": "2026-02-19T06:56:03Z",
       "signal_window": [
-        "9435c3ef65518771",
         "8c5eb8a2f45782d3",
         "__baseline__",
         "6e652a1427d8a9f8",
         "6b4f9c55fe15aa85",
-        "4aeed43b6027d3c5"
+        "4aeed43b6027d3c5",
+        "20e85e369a284276"
       ],
       "last_confirmed_change_utc": "2026-02-18T09:46:09Z",
       "last_pending_source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership"
     },
     "bitwarden": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:34Z",
+      "last_successful_fetch_utc": "2026-02-25T01:17:48Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -140,7 +140,7 @@
       ]
     },
     "bumble": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:34Z",
+      "last_successful_fetch_utc": "2026-02-25T01:17:49Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -153,55 +153,54 @@
       ]
     },
     "calm": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:20Z",
+      "last_successful_fetch_utc": "2026-02-25T01:17:51Z",
       "last_confirmed_change_utc": "2026-02-24T12:46:09Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "d72f75609e5be554",
         "__baseline__",
         "32092096ec499d3b",
         "d72f75609e5be554",
         "32092096ec499d3b",
-        "32092096ec499d3b"
+        "32092096ec499d3b",
+        "__baseline__"
       ],
       "last_pending_seen_utc": "2026-02-25T00:31:08Z",
       "last_material_signature": "added:::removed:flow:support_request",
-      "last_material_emitted_utc": "2026-02-24T12:46:09Z",
-      "last_pending_source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund"
+      "last_material_emitted_utc": "2026-02-24T12:46:09Z"
     },
     "chatgpt_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:37Z",
+      "last_successful_fetch_utc": "2026-02-25T01:17:52Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "125617b75119230c",
         "1c6bbcc2d70dcbdd",
         "96b93751ff0c218a",
         "d64d47b9563269f3",
         "c3457208053c20fb",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-24T18:53:16Z"
     },
     "canva": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:24Z",
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:14Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_age_days": 6,
-      "last_pending_flip_count": 114,
-      "last_escalated_utc": "2026-02-25T00:31:08Z",
+      "last_pending_flip_count": 117,
+      "last_escalated_utc": "2026-02-25T01:22:48Z",
       "signal_window": [
-        "2f1cad3679aaf249",
         "3e7d46b27a5ba75e",
         "b78640418c305417",
         "ded64eff152ea66b",
         "e23ccfa7420544a2",
-        "00f5d20c13dc80bf"
+        "00f5d20c13dc80bf",
+        "ee25a47f67bc1c8d"
       ],
       "last_pending_source_url": "https://www.canva.com/help/cancellation/"
     },
     "claude_pro": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:41Z",
+      "last_successful_fetch_utc": "2026-02-25T01:17:57Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -214,7 +213,7 @@
       ]
     },
     "deezer": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:42Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:01Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -227,7 +226,7 @@
       ]
     },
     "coursera_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:43Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:02Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -240,23 +239,22 @@
       ]
     },
     "crunchyroll": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:33Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:07Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_pending_seen_utc": "2026-02-25T00:31:08Z",
       "signal_window": [
-        "__baseline__",
         "6c82ce55b288204d",
         "4083c5370897e8be",
         "__baseline__",
         "__baseline__",
-        "6c82ce55b288204d"
+        "6c82ce55b288204d",
+        "__baseline__"
       ],
-      "last_confirmed_change_utc": "2026-02-23T01:16:55Z",
-      "last_pending_source_url": "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription"
+      "last_confirmed_change_utc": "2026-02-23T01:16:55Z"
     },
     "discord_nitro": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:48Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:08Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -269,7 +267,7 @@
       ]
     },
     "disney_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:48Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:08Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -283,7 +281,7 @@
       "last_confirmed_change_utc": "2026-02-21T06:37:12Z"
     },
     "doordash_dashpass": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:48Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:08Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -296,23 +294,23 @@
       ]
     },
     "espn_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:27Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:09Z",
       "last_confirmed_change_utc": "2026-02-24T18:53:16Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "2c6c6e58b833186c",
         "2a55be35f9a04cbb",
         "534f43374df46cdf",
         "a983d4146c6e7178",
         "95452efde27f5345",
+        "978817383a9c67ef",
         "978817383a9c67ef"
       ],
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_source_url": "https://www.espn.com/espnplus/"
     },
     "duolingo": {
-      "last_successful_fetch_utc": "2026-02-25T00:26:49Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:09Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -325,14 +323,14 @@
       ]
     },
     "dropbox_us": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:02Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:21Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "0adfdc179206e059",
         "c609144e56e2f6f1",
         "__baseline__",
         "0adfdc179206e059",
+        "__baseline__",
         "__baseline__",
         "__baseline__"
       ],
@@ -340,7 +338,7 @@
       "last_confirmed_change_utc": "2026-02-24T12:43:50Z"
     },
     "figma": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:03Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:22Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -353,15 +351,15 @@
       ]
     },
     "evernote": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:05Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:24Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
+        "36a4c809605b53e6",
+        "5fb98c6ad4e6367d",
+        "36a4c809605b53e6",
+        "5fb98c6ad4e6367d",
         "__baseline__",
-        "36a4c809605b53e6",
-        "5fb98c6ad4e6367d",
-        "36a4c809605b53e6",
-        "5fb98c6ad4e6367d",
         "__baseline__"
       ],
       "last_pending_seen_utc": "2026-02-18T06:58:48Z",
@@ -370,7 +368,7 @@
       "last_material_emitted_utc": "2026-02-24T18:53:22Z"
     },
     "expressvpn": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:10Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:29Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -383,7 +381,7 @@
       ]
     },
     "github_pro": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:10Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:29Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -396,7 +394,7 @@
       ]
     },
     "google_one": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:11Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:29Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -410,15 +408,15 @@
       "last_confirmed_change_utc": "2026-02-19T23:29:35Z"
     },
     "fubo_tv": {
-      "last_successful_fetch_utc": "2026-02-25T00:29:30Z",
+      "last_successful_fetch_utc": "2026-02-25T01:21:12Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "d72f75609e5be554",
         "__baseline__",
         "d94532d3b027dae7",
         "__baseline__",
         "d72f75609e5be554",
+        "d94532d3b027dae7",
         "d94532d3b027dae7"
       ],
       "last_confirmed_change_utc": "2026-02-24T18:53:22Z",
@@ -426,7 +424,7 @@
       "last_material_emitted_utc": "2026-02-24T18:53:22Z"
     },
     "google_play": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:13Z",
+      "last_successful_fetch_utc": "2026-02-25T01:18:40Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -439,40 +437,40 @@
       ]
     },
     "headspace": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:39Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:22Z",
       "last_pending_age_days": 0,
-      "last_pending_flip_count": 0,
+      "last_pending_flip_count": 1,
       "last_confirmed_change_utc": "2026-02-24T12:48:04Z",
       "signal_window": [
-        "__baseline__",
         "2cab70d0dd11eed9",
         "89241ceb28e6ead7",
         "1bfc578c204edc37",
         "__baseline__",
+        "2cab70d0dd11eed9",
         "2cab70d0dd11eed9"
       ],
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_source_url": "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription"
     },
     "grammarly": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:32Z",
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:20Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_age_days": 0,
-      "last_pending_flip_count": 1,
+      "last_pending_flip_count": 2,
       "last_escalated_utc": "2026-02-18T08:58:19Z",
       "signal_window": [
-        "26791c8310c0a959",
         "e5adcea469f4a180",
         "__baseline__",
         "e5adcea469f4a180",
         "180925e88982390f",
+        "e5adcea469f4a180",
         "e5adcea469f4a180"
       ],
       "last_confirmed_change_utc": "2026-02-24T18:53:25Z",
       "last_pending_source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription"
     },
     "hellofresh": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:20Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:04Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -485,7 +483,7 @@
       ]
     },
     "hulu": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:20Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:04Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -499,7 +497,7 @@
       "last_confirmed_change_utc": "2026-02-21T06:38:04Z"
     },
     "hinge": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:21Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:05Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -513,7 +511,7 @@
       "last_confirmed_change_utc": "2026-02-20T06:49:06Z"
     },
     "icloud_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:22Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:06Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -526,7 +524,7 @@
       ]
     },
     "instacart_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:22Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:06Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -539,7 +537,7 @@
       ]
     },
     "kindle_unlimited": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:22Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:07Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -552,7 +550,7 @@
       ]
     },
     "linkedin_premium": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:23Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:08Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -565,7 +563,7 @@
       ]
     },
     "max": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:23Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:08Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -578,13 +576,13 @@
       ]
     },
     "masterclass": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:27Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:32Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "__baseline__",
-        "__baseline__",
         "eceb46e15ae286b3",
+        "__baseline__",
         "__baseline__",
         "__baseline__",
         "__baseline__"
@@ -592,7 +590,7 @@
       "last_confirmed_change_utc": "2026-02-23T12:47:25Z"
     },
     "netflix": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:28Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:33Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -605,7 +603,7 @@
       ]
     },
     "microsoft_365": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:30Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:35Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -619,24 +617,23 @@
       "last_confirmed_change_utc": "2026-02-18T08:57:40Z"
     },
     "midjourney": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:39Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:22Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-02-24T06:55:47Z",
       "last_pending_seen_utc": "2026-02-25T00:31:08Z",
       "signal_window": [
-        "__baseline__",
         "9afa3be5696ac85a",
         "05a4746cf3c4be3c",
         "6a5833c2c5273b43",
         "05a4746cf3c4be3c",
+        "9afa3be5696ac85a",
         "9afa3be5696ac85a"
       ],
-      "last_escalated_utc": "2026-02-17T21:18:33Z",
-      "last_pending_source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan"
+      "last_escalated_utc": "2026-02-17T21:18:33Z"
     },
     "nordvpn": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:34Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:39Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -649,7 +646,7 @@
       ]
     },
     "noom": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:34Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:38Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -662,7 +659,7 @@
       ]
     },
     "nintendo_switch_online": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:35Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:40Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -675,7 +672,7 @@
       ]
     },
     "notion": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:37Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:40Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -688,37 +685,37 @@
       ]
     },
     "peacock": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:37Z",
+      "last_successful_fetch_utc": "2026-02-25T01:21:16Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-02-23T12:48:02Z",
       "signal_window": [
         "__baseline__",
-        "__baseline__",
         "1ee376168c2f131d",
         "__baseline__",
         "__baseline__",
-        "__baseline__"
+        "__baseline__",
+        "1ee376168c2f131d"
       ]
     },
     "paramount_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:45Z",
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:31Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_age_days": 6,
-      "last_pending_flip_count": 115,
+      "last_pending_flip_count": 118,
       "last_pending_source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-      "last_escalated_utc": "2026-02-25T00:31:08Z",
+      "last_escalated_utc": "2026-02-25T01:22:48Z",
       "signal_window": [
-        "7b0f2118370b88d9",
         "7df47b052e4c0352",
         "556614434f7098a0",
         "a338d4a7e9fa2768",
         "993650d874a51c93",
-        "9bc45a959e83899d"
+        "9bc45a959e83899d",
+        "2819fb328c6fcdcd"
       ]
     },
     "playstation_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:46Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:51Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -731,21 +728,21 @@
       ]
     },
     "proton": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:47Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:51Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
+        "274a5ed74b27e80f",
+        "274a5ed74b27e80f",
+        "7eee55087667d851",
+        "7eee55087667d851",
         "__baseline__",
-        "274a5ed74b27e80f",
-        "274a5ed74b27e80f",
-        "7eee55087667d851",
-        "7eee55087667d851",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-24T18:51:41Z"
     },
     "peloton": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:46Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:51Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-02-17T18:29:47Z",
@@ -759,7 +756,7 @@
       ]
     },
     "ring_protect": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:47Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:52Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -773,7 +770,7 @@
       "last_confirmed_change_utc": "2026-02-20T06:49:21Z"
     },
     "shutterstock": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:51Z",
+      "last_successful_fetch_utc": "2026-02-25T01:19:56Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -786,22 +783,23 @@
       ]
     },
     "scribd": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:54Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:27Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
         "bb0fdc3ccf056336",
         "64aecd4a6b3a2db0",
         "bb0fdc3ccf056336",
         "574e838cf89b67e7",
-        "__baseline__"
+        "__baseline__",
+        "64aecd4a6b3a2db0"
       ],
-      "last_pending_seen_utc": "2026-02-24T18:55:01Z",
-      "last_confirmed_change_utc": "2026-02-24T12:46:41Z"
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
+      "last_confirmed_change_utc": "2026-02-24T12:46:41Z",
+      "last_pending_source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription"
     },
     "sling_tv": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:54Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:00Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -815,7 +813,7 @@
       "last_confirmed_change_utc": "2026-02-21T01:14:08Z"
     },
     "spotify": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:55Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:00Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -828,7 +826,7 @@
       ]
     },
     "slack": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:54Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:00Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -841,7 +839,7 @@
       ]
     },
     "surfshark": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:55Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:01Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -854,7 +852,7 @@
       ]
     },
     "squarespace": {
-      "last_successful_fetch_utc": "2026-02-25T00:27:55Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:02Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -867,23 +865,23 @@
       ]
     },
     "strava": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:51Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:24Z",
       "last_pending_age_days": 0,
-      "last_pending_flip_count": 0,
+      "last_pending_flip_count": 1,
       "last_confirmed_change_utc": "2026-02-24T12:46:43Z",
       "signal_window": [
-        "11658cf992b0eabe",
         "__baseline__",
         "8212454c1334eca9",
         "11658cf992b0eabe",
         "8765312b0342e7f6",
-        "8765312b0342e7f6"
+        "8765312b0342e7f6",
+        "8212454c1334eca9"
       ],
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_source_url": "https://support.strava.com/hc/en-us/articles/216917967-Cancel-Subscription"
     },
     "todoist": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:00Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:08Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -897,23 +895,23 @@
       "last_confirmed_change_utc": "2026-02-18T09:48:35Z"
     },
     "tinder": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:47Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:34Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 2,
       "signal_window": [
-        "d72f75609e5be554",
         "__baseline__",
         "__baseline__",
         "__baseline__",
         "c2924a1871e8577e",
-        "2df212831cea5c98"
+        "2df212831cea5c98",
+        "f89fa71250a43437"
       ],
       "last_confirmed_change_utc": "2026-02-24T18:53:46Z",
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_source_url": "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription"
     },
     "tidal": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:02Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:10Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -927,7 +925,7 @@
       "last_confirmed_change_utc": "2026-02-23T12:48:14Z"
     },
     "uber_one": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:06Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:11Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -940,7 +938,7 @@
       ]
     },
     "walmart_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:06Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:11Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -953,23 +951,23 @@
       ]
     },
     "twitch": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:53Z",
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:38Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_age_days": 6,
-      "last_pending_flip_count": 117,
+      "last_pending_flip_count": 120,
       "last_pending_source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-      "last_escalated_utc": "2026-02-25T00:31:08Z",
+      "last_escalated_utc": "2026-02-25T01:22:48Z",
       "signal_window": [
-        "aeba7e5438ee29cf",
         "9daecc73c2905df3",
         "f4d4e2475449c522",
         "105dacd9f2271433",
         "c8d396dcec0db4ff",
-        "dd59721a0c049b52"
+        "dd59721a0c049b52",
+        "1bc76a8a3feab4e6"
       ]
     },
     "xbox_game_pass": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:12Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:17Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -983,7 +981,7 @@
       "last_confirmed_change_utc": "2026-02-21T01:14:15Z"
     },
     "youtube_premium": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:13Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:18Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -996,7 +994,7 @@
       ]
     },
     "wix": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:17Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:20Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1010,7 +1008,7 @@
       "last_confirmed_change_utc": "2026-02-21T12:32:43Z"
     },
     "youtube_tv": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:18Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:21Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1024,7 +1022,7 @@
       "last_confirmed_change_utc": "2026-02-23T12:48:22Z"
     },
     "lastpass": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:18Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:21Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1037,12 +1035,12 @@
       ]
     },
     "dashlane": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:20Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:23Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "49c1675725ee1c85",
         "5b339b17835cdb72",
+        "__baseline__",
         "__baseline__",
         "__baseline__",
         "__baseline__",
@@ -1051,51 +1049,51 @@
       "last_confirmed_change_utc": "2026-02-24T01:16:42Z"
     },
     "fitbit_premium": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:54Z",
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:32Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_age_days": 6,
-      "last_pending_flip_count": 120,
+      "last_pending_flip_count": 123,
       "last_pending_source_url": "https://support.google.com/fitbit/",
-      "last_escalated_utc": "2026-02-25T00:31:08Z",
+      "last_escalated_utc": "2026-02-25T01:22:48Z",
       "signal_window": [
-        "9628eb7a5a0afdd0",
         "0aba2507477b9576",
         "58730970c5cff28b",
         "a587eee3fb15386a",
         "3a61e32f2966a111",
-        "e42902bd8e62019c"
+        "e42902bd8e62019c",
+        "c186e82ecd4961cd"
       ]
     },
     "myfitnesspal_premium": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:24Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:25Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "302ffaaa5882feed",
         "__baseline__",
         "728ba934933006cc",
         "302ffaaa5882feed",
         "728ba934933006cc",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-24T18:53:54Z",
       "last_pending_seen_utc": "2026-02-23T07:01:42Z"
     },
     "keeper": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:32Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:26Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "__baseline__",
         "__baseline__",
-        "__baseline__",
         "efeea66e3b1203b9",
+        "__baseline__",
         "__baseline__",
         "__baseline__"
       ]
     },
     "siriusxm": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:33Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:27Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1108,7 +1106,7 @@
       ]
     },
     "weightwatchers": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:33Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:27Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1121,22 +1119,23 @@
       ]
     },
     "patreon": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:41Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:40Z",
       "last_confirmed_change_utc": "2026-02-24T06:54:05Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "82837f17e72715f7",
         "d8bea36c057205d0",
         "82837f17e72715f7",
         "__baseline__",
         "8dc06ef9ff68142a",
-        "__baseline__"
+        "__baseline__",
+        "658852cb63b73f34"
       ],
-      "last_pending_seen_utc": "2026-02-24T18:55:01Z"
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
+      "last_pending_source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership"
     },
     "ubisoft_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:42Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:30Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1149,37 +1148,37 @@
       ]
     },
     "ea_play": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:42Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:30Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-02-24T12:46:45Z",
       "signal_window": [
         "__baseline__",
         "__baseline__",
-        "__baseline__",
         "66a93e8fd5339982",
+        "__baseline__",
         "__baseline__",
         "__baseline__"
       ]
     },
     "roblox_premium": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:59Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:41Z",
       "last_pending_age_days": 0,
-      "last_pending_flip_count": 0,
+      "last_pending_flip_count": 1,
       "last_confirmed_change_utc": "2026-02-24T12:48:12Z",
       "signal_window": [
-        "2db08dbc86d85732",
         "dd8274318409a7cf",
         "__baseline__",
         "2db08dbc86d85732",
         "__baseline__",
-        "dd8274318409a7cf"
+        "dd8274318409a7cf",
+        "cf66697863766f38"
       ],
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_source_url": "https://en.help.roblox.com/hc/en-us/articles/203312800-How-to-Cancel-Membership"
     },
     "mlb_tv": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:49Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:35Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1192,7 +1191,7 @@
       ]
     },
     "new_york_times": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:49Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:34Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1205,23 +1204,23 @@
       ]
     },
     "nfl_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:58Z",
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:45Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-02-23T12:48:29Z",
       "signal_window": [
-        "8ed9e2f088ca8172",
         "__baseline__",
         "__baseline__",
         "24f019911735559c",
+        "8ed9e2f088ca8172",
         "8ed9e2f088ca8172",
         "8ed9e2f088ca8172"
       ],
       "last_pending_source_url": "https://support.nfl.com/hc/en-us/articles/5402041435292-NFL-Subscription-Renewals-Cancellations"
     },
     "wall_street_journal": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:57Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:41Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1234,31 +1233,33 @@
       ]
     },
     "substack": {
-      "last_successful_fetch_utc": "2026-02-25T00:31:06Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:01Z",
       "last_pending_age_days": 0,
-      "last_pending_flip_count": 0,
+      "last_pending_flip_count": 1,
       "signal_window": [
-        "1fc132f3609dd8b1",
         "__baseline__",
         "f5fa5608fc35aee4",
         "20fab989e6c94724",
         "1fc132f3609dd8b1",
-        "1fc132f3609dd8b1"
+        "1fc132f3609dd8b1",
+        "f5fa5608fc35aee4"
       ],
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_escalated_utc": "2026-02-18T08:58:19Z",
       "last_confirmed_change_utc": "2026-02-24T12:46:52Z",
       "last_material_signature": "added:::removed:flow:support_request",
       "last_material_emitted_utc": "2026-02-24T12:46:52Z",
-      "last_pending_source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription"
+      "last_pending_source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "last_fetch_failure_utc": "2026-02-25T01:22:48Z",
+      "last_fetch_failure_reason": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription (HTTP 403); https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription [mirror] (HTTP 429)"
     },
     "washington_post": {
-      "last_successful_fetch_utc": "2026-02-25T00:28:57Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:41Z",
       "last_confirmed_change_utc": "2026-02-23T01:17:41Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "e4d6bdfc45bd6a39",
+        "__baseline__",
         "__baseline__",
         "__baseline__",
         "__baseline__",
@@ -1267,7 +1268,7 @@
       ]
     },
     "snapchat_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:29:01Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:46Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1280,40 +1281,36 @@
       ]
     },
     "x_premium": {
-      "last_successful_fetch_utc": "2026-02-25T00:31:01Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:47Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
         "__baseline__",
         "3367de05757d8e68",
         "__baseline__",
         "__baseline__",
-        "3367de05757d8e68"
+        "3367de05757d8e68",
+        "__baseline__"
       ],
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
-      "last_pending_source_url": "https://help.x.com/en/using-x/x-premium"
+      "last_pending_seen_utc": "2026-02-25T00:31:08Z"
     },
     "reddit_premium": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:16Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:50Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "34029a81d8a79a68",
         "__baseline__",
         "bf0cb87af4daaa53",
         "b6565f21368ba926",
         "__baseline__",
-        "7338c1177bff7058"
+        "7338c1177bff7058",
+        "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-24T12:47:31Z",
-      "last_fetch_failure_utc": "2026-02-25T00:31:02Z",
-      "last_fetch_failure_reason": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium (HTTP 403); https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium [mirror] (HTTP 429)",
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
-      "last_pending_source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium"
+      "last_pending_seen_utc": "2026-02-25T00:31:08Z"
     },
     "discovery_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:29:06Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:51Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-02-17T18:04:25Z",
@@ -1327,7 +1324,7 @@
       ]
     },
     "telegram_premium": {
-      "last_successful_fetch_utc": "2026-02-25T00:29:06Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:51Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1340,23 +1337,23 @@
       ]
     },
     "soundcloud_go": {
-      "last_successful_fetch_utc": "2026-02-25T00:31:08Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:47Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "__baseline__",
         "__baseline__",
-        "__baseline__",
         "b017b99c33184386",
         "__baseline__",
+        "29ef335eedc7bef5",
         "29ef335eedc7bef5"
       ],
       "last_confirmed_change_utc": "2026-02-24T12:47:23Z",
-      "last_pending_seen_utc": "2026-02-25T00:31:08Z",
+      "last_pending_seen_utc": "2026-02-25T01:22:48Z",
       "last_pending_source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription"
     },
     "starz": {
-      "last_successful_fetch_utc": "2026-02-25T00:29:09Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:54Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1369,7 +1366,7 @@
       ]
     },
     "amc_plus": {
-      "last_successful_fetch_utc": "2026-02-25T00:29:09Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:54Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1382,14 +1379,14 @@
       ]
     },
     "britbox": {
-      "last_successful_fetch_utc": "2026-02-25T00:30:16Z",
+      "last_successful_fetch_utc": "2026-02-25T01:22:06Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
         "6d8506d3859a38d8",
         "__baseline__",
         "1f42feb00930c33d",
+        "6d8506d3859a38d8",
         "6d8506d3859a38d8",
         "6d8506d3859a38d8"
       ],
@@ -1397,7 +1394,7 @@
       "last_pending_seen_utc": "2026-02-23T07:01:42Z"
     },
     "zoom": {
-      "last_successful_fetch_utc": "2026-02-25T00:29:14Z",
+      "last_successful_fetch_utc": "2026-02-25T01:20:59Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
