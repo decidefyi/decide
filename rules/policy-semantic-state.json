@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-25T06:55:01Z",
+  "updated_utc": "2026-02-25T12:03:18Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -111,11 +111,12 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "c3457208053c20fb",
+      "hash": "c5af843c68fc884d",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-24T18:48:42Z",
+      "extracted_at_utc": "2026-02-25T12:00:08Z",
       "tokens": [
-        "refund_window_days:14"
+        "refund_window_days:14",
+        "refund_window_days:2"
       ]
     },
     "deezer": {
@@ -737,14 +738,10 @@
       "tokens": []
     },
     "evernote": {
-      "hash": "5fb98c6ad4e6367d",
+      "hash": "36a4c809605b53e6",
       "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
-      "extracted_at_utc": "2026-02-24T18:48:51Z",
-      "tokens": [
-        "billing:prorated",
-        "refund:allowed_language",
-        "refund:partial_allowed"
-      ]
+      "extracted_at_utc": "2026-02-25T12:00:31Z",
+      "tokens": []
     },
     "hellofresh": {
       "hash": "d0fe4030fbecd2c7",

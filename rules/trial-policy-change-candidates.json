@@ -1,77 +1,77 @@
 {
-  "amazon_prime": {
-    "hash": "4cf5a425dd295c82",
+  "apple_music": {
+    "hash": "053fb59b3a00f18c",
     "count": 3,
     "flip_count": 0,
     "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-25T07:03:30Z",
-    "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-    "pending_since_utc": "2026-02-25T07:03:30Z",
-    "first_seen_utc": "2026-02-25T07:03:30Z",
-    "last_seen_utc": "2026-02-25T07:06:10Z",
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-25T12:13:08Z",
+    "source_url": "https://www.apple.com/apple-music/",
+    "pending_since_utc": "2026-02-25T12:13:08Z",
+    "first_seen_utc": "2026-02-25T12:13:08Z",
+    "last_seen_utc": "2026-02-25T12:15:53Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "4cf5a425dd295c82",
-      "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-02-25T07:06:10Z",
+      "hash": "053fb59b3a00f18c",
+      "source_url": "https://www.apple.com/apple-music/",
+      "extracted_at_utc": "2026-02-25T12:15:53Z",
       "tokens": []
     }
   },
   "espn_plus": {
-    "hash": "9246e4f9b32d9773",
+    "hash": "5a2c1641a74e7e66",
     "count": 3,
-    "flip_count": 3,
+    "flip_count": 4,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-25T07:03:39Z",
+    "last_run_observed_utc": "2026-02-25T12:13:16Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:34:41Z",
-    "first_seen_utc": "2026-02-25T07:03:39Z",
-    "last_seen_utc": "2026-02-25T07:06:07Z",
+    "first_seen_utc": "2026-02-25T12:13:16Z",
+    "last_seen_utc": "2026-02-25T12:15:54Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "9246e4f9b32d9773",
+      "hash": "5a2c1641a74e7e66",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-25T07:06:07Z",
+      "extracted_at_utc": "2026-02-25T12:15:54Z",
+      "tokens": []
+    }
+  },
+  "hinge": {
+    "hash": "3943940d88f5ce36",
+    "count": 1,
+    "flip_count": 2,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-25T12:13:25Z",
+    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+    "pending_since_utc": "2026-02-25T12:13:25Z",
+    "first_seen_utc": "2026-02-25T12:15:56Z",
+    "last_seen_utc": "2026-02-25T12:15:56Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "3943940d88f5ce36",
+      "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+      "extracted_at_utc": "2026-02-25T12:15:56Z",
       "tokens": []
     }
   },
   "twitch": {
-    "hash": "03374c016955599b",
+    "hash": "61b99f419234d121",
     "count": 3,
-    "flip_count": 3,
+    "flip_count": 4,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-25T07:04:56Z",
+    "last_run_observed_utc": "2026-02-25T12:14:36Z",
     "source_url": "https://www.twitch.tv/turbo",
     "pending_since_utc": "2026-02-25T00:35:36Z",
-    "first_seen_utc": "2026-02-25T07:04:56Z",
-    "last_seen_utc": "2026-02-25T07:06:10Z",
+    "first_seen_utc": "2026-02-25T12:14:36Z",
+    "last_seen_utc": "2026-02-25T12:15:56Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "03374c016955599b",
+      "hash": "61b99f419234d121",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-25T07:06:10Z",
-      "tokens": []
-    }
-  },
-  "soundcloud_go": {
-    "hash": "bf6f426a2126312f",
-    "count": 5,
-    "flip_count": 0,
-    "run_confirmations": 2,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-25T07:05:52Z",
-    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-    "pending_since_utc": "2026-02-25T00:36:32Z",
-    "first_seen_utc": "2026-02-25T00:36:32Z",
-    "last_seen_utc": "2026-02-25T07:06:12Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "bf6f426a2126312f",
-      "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-25T07:06:12Z",
+      "extracted_at_utc": "2026-02-25T12:15:56Z",
       "tokens": []
     }
   }
