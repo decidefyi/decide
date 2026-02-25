@@ -1,33 +1,96 @@
 {
-  "canva": {
-    "hash": "36ed77e719dc8204",
-    "count": 1,
-    "flip_count": 5,
-    "source_url": "https://www.canva.com/pro/",
-    "pending_since_utc": "2026-02-24T12:52:07Z",
-    "first_seen_utc": "2026-02-24T19:02:15Z",
-    "last_seen_utc": "2026-02-24T19:02:15Z",
-    "baseline_observations": 1,
+  "claude_pro": {
+    "hash": "bca4fa208538f5e3",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-25T00:34:37Z",
+    "source_url": "https://claude.ai/upgrade",
+    "pending_since_utc": "2026-02-25T00:34:37Z",
+    "first_seen_utc": "2026-02-25T00:34:37Z",
+    "last_seen_utc": "2026-02-25T00:36:48Z",
+    "baseline_observations": 0,
     "profile": {
-      "hash": "36ed77e719dc8204",
-      "source_url": "https://www.canva.com/pro/",
-      "extracted_at_utc": "2026-02-24T19:02:15Z",
+      "hash": "bca4fa208538f5e3",
+      "source_url": "https://claude.ai/upgrade",
+      "extracted_at_utc": "2026-02-25T00:36:48Z",
       "tokens": []
     }
   },
-  "hinge": {
-    "hash": "a1eb9af0e6420b90",
-    "count": 1,
-    "flip_count": 2,
-    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "pending_since_utc": "2026-02-24T18:59:29Z",
-    "first_seen_utc": "2026-02-24T19:02:18Z",
-    "last_seen_utc": "2026-02-24T19:02:18Z",
+  "espn_plus": {
+    "hash": "1267d11d65b9cb36",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-25T00:34:41Z",
+    "source_url": "https://www.espn.com/espnplus/",
+    "pending_since_utc": "2026-02-25T00:34:41Z",
+    "first_seen_utc": "2026-02-25T00:34:41Z",
+    "last_seen_utc": "2026-02-25T00:36:48Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "a1eb9af0e6420b90",
-      "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-02-24T19:02:18Z",
+      "hash": "1267d11d65b9cb36",
+      "source_url": "https://www.espn.com/espnplus/",
+      "extracted_at_utc": "2026-02-25T00:36:48Z",
+      "tokens": []
+    }
+  },
+  "twitch": {
+    "hash": "a61eb48550504b50",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-25T00:35:36Z",
+    "source_url": "https://www.twitch.tv/turbo",
+    "pending_since_utc": "2026-02-25T00:35:36Z",
+    "first_seen_utc": "2026-02-25T00:35:36Z",
+    "last_seen_utc": "2026-02-25T00:36:51Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "a61eb48550504b50",
+      "source_url": "https://www.twitch.tv/turbo",
+      "extracted_at_utc": "2026-02-25T00:36:51Z",
+      "tokens": []
+    }
+  },
+  "substack": {
+    "hash": "1fc132f3609dd8b1",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-25T00:35:52Z",
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "pending_since_utc": "2026-02-25T00:35:52Z",
+    "first_seen_utc": "2026-02-25T00:35:52Z",
+    "last_seen_utc": "2026-02-25T00:36:55Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "1fc132f3609dd8b1",
+      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "extracted_at_utc": "2026-02-25T00:36:55Z",
+      "tokens": []
+    }
+  },
+  "soundcloud_go": {
+    "hash": "bf6f426a2126312f",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-25T00:36:32Z",
+    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+    "pending_since_utc": "2026-02-25T00:36:32Z",
+    "first_seen_utc": "2026-02-25T00:36:32Z",
+    "last_seen_utc": "2026-02-25T00:36:53Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "bf6f426a2126312f",
+      "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+      "extracted_at_utc": "2026-02-25T00:36:53Z",
       "tokens": []
     }
   }
