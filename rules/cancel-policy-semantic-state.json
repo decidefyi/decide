@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-25T19:00:47Z",
+  "updated_utc": "2026-02-26T01:17:23Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -192,9 +192,9 @@
       "tokens": []
     },
     "hulu": {
-      "hash": "d9ed3d0bff701829",
+      "hash": "10a3e1e8fe26fad1",
       "source_url": "https://help.hulu.com/article/cancel-subscription",
-      "extracted_at_utc": "2026-02-21T06:38:04Z",
+      "extracted_at_utc": "2026-02-26T01:12:44Z",
       "tokens": []
     },
     "hellofresh": {
@@ -455,9 +455,9 @@
       "tokens": []
     },
     "dashlane": {
-      "hash": "5b339b17835cdb72",
+      "hash": "ecb0305cbbbc2b71",
       "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "extracted_at_utc": "2026-02-24T01:16:42Z",
+      "extracted_at_utc": "2026-02-26T01:14:16Z",
       "tokens": []
     },
     "myfitnesspal_premium": {
@@ -494,9 +494,9 @@
       "tokens": []
     },
     "ubisoft_plus": {
-      "hash": "9178ba839a18de64",
+      "hash": "c7ae24c2241df0f8",
       "source_url": "https://www.ubisoft.com/help/article/canceling-a-ubisoft-subscription/000064975",
-      "extracted_at_utc": "2026-02-19T23:28:48Z",
+      "extracted_at_utc": "2026-02-26T01:14:37Z",
       "tokens": [
         "flow:support_request"
       ]
@@ -568,9 +568,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "b017b99c33184386",
+      "hash": "29ef335eedc7bef5",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-24T12:47:23Z",
+      "extracted_at_utc": "2026-02-26T01:15:08Z",
       "tokens": []
     },
     "starz": {

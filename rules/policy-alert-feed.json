@@ -1,8 +1,39 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-02-25T19:07:24Z",
+  "updated_utc": "2026-02-26T01:24:44Z",
   "source": "check-policies.js",
   "alerts": [
+    {
+      "date_utc": "2026-02-26",
+      "generated_at_utc": "2026-02-26T01:24:44Z",
+      "changed_count": 2,
+      "by_policy": {
+        "refund": 2,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "changed_sample": [
+        "refund:headspace",
+        "refund:scribd"
+      ],
+      "pending_count": 42,
+      "pending_by_policy": {
+        "refund": 13,
+        "cancel": 11,
+        "return": 10,
+        "trial": 8
+      },
+      "stale_pending_count": 6,
+      "volatile_pending_count": 20,
+      "escalation_count": 14,
+      "coverage_gap_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22423294470",
+      "run_id": "22423294470",
+      "run_attempt": "1",
+      "commit_sha": "d2dfa3cecc475e2232264695b8993d4e048ddf93",
+      "source": "check-policies.js"
+    },
     {
       "date_utc": "2026-02-25",
       "generated_at_utc": "2026-02-25T19:07:24Z",

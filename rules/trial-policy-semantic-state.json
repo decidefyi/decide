@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-25T19:07:24Z",
+  "updated_utc": "2026-02-26T01:24:44Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -97,9 +97,9 @@
       "tokens": []
     },
     "coursera_plus": {
-      "hash": "d2d2c98862ceb021",
+      "hash": "546c34d7a89ffb46",
       "source_url": "https://www.coursera.org/courseraplus",
-      "extracted_at_utc": "2026-02-19T23:35:28Z",
+      "extracted_at_utc": "2026-02-26T01:21:54Z",
       "tokens": []
     },
     "deezer": {

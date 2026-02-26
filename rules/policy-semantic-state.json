@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-25T18:55:37Z",
+  "updated_utc": "2026-02-26T01:11:01Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -735,9 +735,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-25T06:51:50Z",
+      "extracted_at_utc": "2026-02-26T01:08:28Z",
       "tokens": []
     },
     "evernote": {
@@ -765,12 +765,10 @@
       "tokens": []
     },
     "headspace": {
-      "hash": "8f69b60d284caff0",
+      "hash": "d72f75609e5be554",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-24T12:39:38Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-26T01:08:31Z",
+      "tokens": []
     },
     "grammarly": {
       "hash": "e5adcea469f4a180",
@@ -779,14 +777,10 @@
       "tokens": []
     },
     "scribd": {
-      "hash": "0cac65b719c1c5b6",
+      "hash": "bb0fdc3ccf056336",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-      "extracted_at_utc": "2026-02-25T06:53:36Z",
-      "tokens": [
-        "refund_window_days:30",
-        "refund:allowed_language",
-        "refund:partial_allowed"
-      ]
+      "extracted_at_utc": "2026-02-26T01:09:08Z",
+      "tokens": []
     },
     "midjourney": {
       "hash": "6a5833c2c5273b43",
