@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-26T01:11:01Z",
+  "updated_utc": "2026-02-26T06:49:32Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -147,9 +147,9 @@
       "tokens": []
     },
     "disney_plus": {
-      "hash": "3924b5248f0fcf34",
+      "hash": "2edf086ffc9c3254",
       "source_url": "https://help.disneyplus.com/article/disneyplus-refund",
-      "extracted_at_utc": "2026-02-21T06:32:13Z",
+      "extracted_at_utc": "2026-02-26T06:46:49Z",
       "tokens": []
     },
     "doordash_dashpass": {
@@ -594,18 +594,15 @@
       ]
     },
     "roblox_premium": {
-      "hash": "d15eabe459d7d36d",
+      "hash": "d72f75609e5be554",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-25T18:54:18Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ]
+      "extracted_at_utc": "2026-02-26T06:48:03Z",
+      "tokens": []
     },
     "mlb_tv": {
-      "hash": "2df9478a4bf6f184",
+      "hash": "9b1cb4be0565d880",
       "source_url": "https://www.mlb.com/official-information/terms-of-use",
-      "extracted_at_utc": "2026-02-19T23:23:38Z",
+      "extracted_at_utc": "2026-02-26T06:48:04Z",
       "tokens": [
         "billing:auto_renew",
         "billing:prorated",
@@ -747,15 +744,15 @@
       "tokens": []
     },
     "hellofresh": {
-      "hash": "d0fe4030fbecd2c7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-24T06:49:44Z",
+      "extracted_at_utc": "2026-02-26T06:47:08Z",
       "tokens": []
     },
     "washington_post": {
-      "hash": "facbda2fc8418cb4",
+      "hash": "e4d6bdfc45bd6a39",
       "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-      "extracted_at_utc": "2026-02-24T01:11:35Z",
+      "extracted_at_utc": "2026-02-26T06:48:13Z",
       "tokens": []
     },
     "espn_plus": {

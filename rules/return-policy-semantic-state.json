@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-26T01:21:00Z",
+  "updated_utc": "2026-02-26T06:59:32Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -125,9 +125,9 @@
       "tokens": []
     },
     "disney_plus": {
-      "hash": "3924b5248f0fcf34",
+      "hash": "2edf086ffc9c3254",
       "source_url": "https://help.disneyplus.com/article/disneyplus-refund",
-      "extracted_at_utc": "2026-02-21T06:41:48Z",
+      "extracted_at_utc": "2026-02-26T06:57:28Z",
       "tokens": []
     },
     "doordash_dashpass": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
+      "hash": "e5adcea469f4a180",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-25T07:01:26Z",
+      "extracted_at_utc": "2026-02-26T06:57:42Z",
       "tokens": []
     },
     "hulu": {
@@ -504,9 +504,9 @@
       ]
     },
     "dashlane": {
-      "hash": "3a929d805af3e9ff",
+      "hash": "6fd29463e8b76ccb",
       "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "extracted_at_utc": "2026-02-21T06:42:01Z",
+      "extracted_at_utc": "2026-02-26T06:58:10Z",
       "tokens": []
     },
     "fitbit_premium": {
@@ -557,9 +557,9 @@
       ]
     },
     "ubisoft_plus": {
-      "hash": "1abadab066890c52",
+      "hash": "937c23b4633a5748",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-24T18:57:57Z",
+      "extracted_at_utc": "2026-02-26T06:58:22Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "return:condition_unopened_or_unused",
@@ -575,9 +575,9 @@
       ]
     },
     "mlb_tv": {
-      "hash": "be171d4251c1266f",
+      "hash": "b7efb379f5a9d4f6",
       "source_url": "https://www.mlb.com/official-information/terms-of-use",
-      "extracted_at_utc": "2026-02-19T23:33:40Z",
+      "extracted_at_utc": "2026-02-26T06:58:24Z",
       "tokens": [
         "billing:auto_renew",
         "billing:prorated",

@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-26T01:24:44Z",
+  "updated_utc": "2026-02-26T07:03:10Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -61,9 +61,9 @@
       "tokens": []
     },
     "bitwarden": {
-      "hash": "891c360cc26c127e",
+      "hash": "3d96b9358dc5c176",
       "source_url": "https://bitwarden.com/pricing/",
-      "extracted_at_utc": "2026-02-20T18:49:09Z",
+      "extracted_at_utc": "2026-02-26T07:00:16Z",
       "tokens": []
     },
     "bumble": {
@@ -79,9 +79,9 @@
       "tokens": []
     },
     "claude_pro": {
-      "hash": "fff53cc5006a0a31",
+      "hash": "bca4fa208538f5e3",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-02-21T01:20:56Z",
+      "extracted_at_utc": "2026-02-26T07:00:19Z",
       "tokens": []
     },
     "chatgpt_plus": {
@@ -214,9 +214,9 @@
       "tokens": []
     },
     "hinge": {
-      "hash": "e57ca60f9cfa9d94",
+      "hash": "12dd44bb8ff498c8",
       "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-02-24T12:55:13Z",
+      "extracted_at_utc": "2026-02-26T07:00:33Z",
       "tokens": []
     },
     "icloud_plus": {
@@ -292,9 +292,9 @@
       ]
     },
     "paramount_plus": {
-      "hash": "c69c4521c6b27476",
+      "hash": "abda6402a3c5e3ca",
       "source_url": "https://www.paramountplus.com/",
-      "extracted_at_utc": "2026-02-19T23:36:00Z",
+      "extracted_at_utc": "2026-02-26T07:01:29Z",
       "tokens": []
     },
     "notion": {
