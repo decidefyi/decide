@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-26T06:59:32Z",
+  "updated_utc": "2026-02-26T12:52:08Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -92,9 +92,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "c5af843c68fc884d",
+      "hash": "9e0fa1a6e56feba8",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-25T12:09:58Z",
+      "extracted_at_utc": "2026-02-26T12:49:25Z",
       "tokens": []
     },
     "deezer": {
@@ -212,9 +212,9 @@
       ]
     },
     "hellofresh": {
-      "hash": "d0fe4030fbecd2c7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-23T07:04:31Z",
+      "extracted_at_utc": "2026-02-26T12:50:24Z",
       "tokens": []
     },
     "hinge": {
