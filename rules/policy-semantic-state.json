@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-26T12:43:01Z",
+  "updated_utc": "2026-02-26T18:42:38Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -732,15 +732,19 @@
       "tokens": []
     },
     "evernote": {
-      "hash": "36a4c809605b53e6",
+      "hash": "5fb98c6ad4e6367d",
       "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
-      "extracted_at_utc": "2026-02-25T12:00:31Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-26T18:39:24Z",
+      "tokens": [
+        "billing:prorated",
+        "refund:allowed_language",
+        "refund:partial_allowed"
+      ]
     },
     "hellofresh": {
-      "hash": "d72f75609e5be554",
+      "hash": "d0fe4030fbecd2c7",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-26T06:47:08Z",
+      "extracted_at_utc": "2026-02-26T18:40:15Z",
       "tokens": []
     },
     "washington_post": {
@@ -768,10 +772,14 @@
       "tokens": []
     },
     "scribd": {
-      "hash": "bb0fdc3ccf056336",
+      "hash": "0cac65b719c1c5b6",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-      "extracted_at_utc": "2026-02-26T01:09:08Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-26T18:40:53Z",
+      "tokens": [
+        "refund_window_days:30",
+        "refund:allowed_language",
+        "refund:partial_allowed"
+      ]
     },
     "midjourney": {
       "hash": "f992155a8ebbbb53",

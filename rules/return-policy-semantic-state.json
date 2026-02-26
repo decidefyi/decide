@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-26T12:52:08Z",
+  "updated_utc": "2026-02-26T18:54:29Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "e5adcea469f4a180",
+      "hash": "287ff660877b52d8",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-26T06:57:42Z",
+      "extracted_at_utc": "2026-02-26T18:52:41Z",
       "tokens": []
     },
     "hulu": {
@@ -557,9 +557,9 @@
       ]
     },
     "ubisoft_plus": {
-      "hash": "937c23b4633a5748",
+      "hash": "85d1e1222dba885e",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-26T06:58:22Z",
+      "extracted_at_utc": "2026-02-26T18:53:53Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "return:condition_unopened_or_unused",

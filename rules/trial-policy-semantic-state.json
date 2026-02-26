@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-26T12:55:31Z",
+  "updated_utc": "2026-02-26T18:58:04Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -79,9 +79,9 @@
       "tokens": []
     },
     "claude_pro": {
-      "hash": "bca4fa208538f5e3",
+      "hash": "fff53cc5006a0a31",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-02-26T07:00:19Z",
+      "extracted_at_utc": "2026-02-26T18:55:13Z",
       "tokens": []
     },
     "chatgpt_plus": {
