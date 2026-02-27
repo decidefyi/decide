@@ -1,269 +1,219 @@
 {
-  "audible": {
-    "hash": "648cf95371ce52d9",
-    "count": 1,
-    "flip_count": 2,
+  "calm": {
+    "hash": "32092096ec499d3b",
+    "count": 3,
+    "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-26T18:43:27Z",
-    "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-    "pending_since_utc": "2026-02-26T18:43:27Z",
-    "first_seen_utc": "2026-02-26T18:50:42Z",
-    "last_seen_utc": "2026-02-26T18:50:42Z",
+    "last_run_observed_utc": "2026-02-27T01:11:22Z",
+    "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
+    "pending_since_utc": "2026-02-27T01:11:22Z",
+    "first_seen_utc": "2026-02-27T01:11:22Z",
+    "last_seen_utc": "2026-02-27T01:15:45Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "648cf95371ce52d9",
-      "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-02-26T18:50:42Z",
-      "tokens": []
+      "hash": "32092096ec499d3b",
+      "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
+      "extracted_at_utc": "2026-02-27T01:15:45Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     }
   },
   "canva": {
-    "hash": "7aeb5675f36cd0e6",
+    "hash": "d3bda9f9d9a5767a",
     "count": 1,
-    "flip_count": 141,
+    "flip_count": 144,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-26T18:43:34Z",
+    "last_run_observed_utc": "2026-02-27T01:11:30Z",
     "source_url": "https://www.canva.com/help/cancellation/",
     "pending_since_utc": "2026-02-18T08:56:18Z",
-    "first_seen_utc": "2026-02-26T18:50:36Z",
-    "last_seen_utc": "2026-02-26T18:50:36Z",
+    "first_seen_utc": "2026-02-27T01:15:46Z",
+    "last_seen_utc": "2026-02-27T01:15:46Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "7aeb5675f36cd0e6",
+      "hash": "d3bda9f9d9a5767a",
       "source_url": "https://www.canva.com/help/cancellation/",
-      "extracted_at_utc": "2026-02-26T18:50:36Z",
+      "extracted_at_utc": "2026-02-27T01:15:46Z",
       "tokens": []
     }
   },
   "espn_plus": {
-    "hash": "9544c42ecf23a822",
+    "hash": "6d1c33386994d982",
     "count": 2,
-    "flip_count": 9,
+    "flip_count": 10,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-26T18:43:43Z",
+    "last_run_observed_utc": "2026-02-27T01:11:37Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:26:50Z",
-    "first_seen_utc": "2026-02-26T18:49:09Z",
-    "last_seen_utc": "2026-02-26T18:50:32Z",
+    "first_seen_utc": "2026-02-27T01:11:37Z",
+    "last_seen_utc": "2026-02-27T01:15:53Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "9544c42ecf23a822",
+      "hash": "6d1c33386994d982",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-26T18:50:32Z",
+      "extracted_at_utc": "2026-02-27T01:15:12Z",
       "tokens": []
     }
   },
-  "dropbox_us": {
-    "hash": "c609144e56e2f6f1",
-    "count": 2,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-26T18:44:22Z",
-    "source_url": "https://help.dropbox.com/plans/cancel-plan",
-    "pending_since_utc": "2026-02-26T18:44:22Z",
-    "first_seen_utc": "2026-02-26T18:44:22Z",
-    "last_seen_utc": "2026-02-26T18:51:21Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "c609144e56e2f6f1",
-      "source_url": "https://www.dropbox.com/plans",
-      "extracted_at_utc": "2026-02-26T18:49:58Z",
-      "tokens": []
-    }
-  },
-  "midjourney": {
-    "hash": "9afa3be5696ac85a",
-    "count": 2,
-    "flip_count": 1,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-26T18:45:34Z",
-    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-    "pending_since_utc": "2026-02-26T18:45:34Z",
-    "first_seen_utc": "2026-02-26T18:50:05Z",
-    "last_seen_utc": "2026-02-26T18:50:48Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "9afa3be5696ac85a",
-      "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-02-26T18:50:48Z",
-      "tokens": []
-    }
-  },
-  "paramount_plus": {
-    "hash": "b5fbd0f18508c8f4",
-    "count": 1,
-    "flip_count": 140,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-26T18:45:48Z",
-    "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-    "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-26T18:50:52Z",
-    "last_seen_utc": "2026-02-26T18:50:52Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "b5fbd0f18508c8f4",
-      "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-      "extracted_at_utc": "2026-02-26T18:50:52Z",
-      "tokens": []
-    }
-  },
-  "proton": {
-    "hash": "7eee55087667d851",
-    "count": 2,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-26T18:46:57Z",
-    "source_url": "https://proton.me/pricing",
-    "pending_since_utc": "2026-02-26T18:46:57Z",
-    "first_seen_utc": "2026-02-26T18:46:57Z",
-    "last_seen_utc": "2026-02-26T18:51:22Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "7eee55087667d851",
-      "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-26T18:50:09Z",
-      "tokens": [
-        "billing:auto_renew"
-      ]
-    }
-  },
-  "scribd": {
-    "hash": "bb0fdc3ccf056336",
+  "fubo_tv": {
+    "hash": "d94532d3b027dae7",
     "count": 3,
     "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-26T18:47:02Z",
-    "source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
-    "pending_since_utc": "2026-02-26T18:47:02Z",
-    "first_seen_utc": "2026-02-26T18:47:02Z",
-    "last_seen_utc": "2026-02-26T18:51:30Z",
+    "last_run_observed_utc": "2026-02-27T01:12:01Z",
+    "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
+    "pending_since_utc": "2026-02-27T01:12:01Z",
+    "first_seen_utc": "2026-02-27T01:12:01Z",
+    "last_seen_utc": "2026-02-27T01:15:54Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "bb0fdc3ccf056336",
-      "source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
-      "extracted_at_utc": "2026-02-26T18:51:30Z",
-      "tokens": []
+      "hash": "d94532d3b027dae7",
+      "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
+      "extracted_at_utc": "2026-02-27T01:15:54Z",
+      "tokens": [
+        "cancel:anytime",
+        "cancel:fee_or_penalty"
+      ]
     }
   },
-  "twitch": {
-    "hash": "698cf95f5e94adb7",
+  "paramount_plus": {
+    "hash": "7fd162b1e3680929",
     "count": 1,
     "flip_count": 143,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-26T18:47:26Z",
-    "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-    "pending_since_utc": "2026-02-18T08:57:57Z",
-    "first_seen_utc": "2026-02-26T18:51:29Z",
-    "last_seen_utc": "2026-02-26T18:51:29Z",
+    "last_run_observed_utc": "2026-02-27T01:13:25Z",
+    "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
+    "pending_since_utc": "2026-02-18T08:57:50Z",
+    "first_seen_utc": "2026-02-27T01:16:01Z",
+    "last_seen_utc": "2026-02-27T01:16:01Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "698cf95f5e94adb7",
-      "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-      "extracted_at_utc": "2026-02-26T18:51:29Z",
+      "hash": "7fd162b1e3680929",
+      "source_url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
+      "extracted_at_utc": "2026-02-27T01:16:01Z",
       "tokens": []
     }
   },
-  "fitbit_premium": {
-    "hash": "33caa4321b84dbbe",
+  "twitch": {
+    "hash": "4ae14db62ad1007a",
     "count": 1,
-    "flip_count": 147,
+    "flip_count": 146,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-26T18:47:36Z",
-    "source_url": "https://support.google.com/fitbit/",
-    "pending_since_utc": "2026-02-18T08:57:50Z",
-    "first_seen_utc": "2026-02-26T18:51:30Z",
-    "last_seen_utc": "2026-02-26T18:51:30Z",
+    "last_run_observed_utc": "2026-02-27T01:13:49Z",
+    "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
+    "pending_since_utc": "2026-02-18T08:57:57Z",
+    "first_seen_utc": "2026-02-27T01:16:09Z",
+    "last_seen_utc": "2026-02-27T01:16:09Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "33caa4321b84dbbe",
-      "source_url": "https://support.google.com/fitbit/",
-      "extracted_at_utc": "2026-02-26T18:51:30Z",
+      "hash": "4ae14db62ad1007a",
+      "source_url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
+      "extracted_at_utc": "2026-02-27T01:16:09Z",
       "tokens": []
     }
   },
-  "ea_play": {
-    "hash": "fac33ba1bd874cb4",
+  "youtube_premium": {
+    "hash": "a7e4f98c6a25d82b",
     "count": 3,
     "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-26T18:48:13Z",
-    "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-    "pending_since_utc": "2026-02-26T18:48:13Z",
-    "first_seen_utc": "2026-02-26T18:48:13Z",
-    "last_seen_utc": "2026-02-26T18:51:30Z",
+    "last_run_observed_utc": "2026-02-27T01:13:49Z",
+    "source_url": "https://support.google.com/youtube/answer/6308278",
+    "pending_since_utc": "2026-02-27T01:13:49Z",
+    "first_seen_utc": "2026-02-27T01:13:49Z",
+    "last_seen_utc": "2026-02-27T01:16:02Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "fac33ba1bd874cb4",
-      "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-      "extracted_at_utc": "2026-02-26T18:51:30Z",
-      "tokens": []
+      "hash": "a7e4f98c6a25d82b",
+      "source_url": "https://support.google.com/youtube/answer/6308278",
+      "extracted_at_utc": "2026-02-27T01:16:02Z",
+      "tokens": [
+        "cancel:effective_end_of_term"
+      ]
     }
   },
-  "roblox_premium": {
-    "hash": "dd8274318409a7cf",
-    "count": 2,
-    "flip_count": 0,
+  "fitbit_premium": {
+    "hash": "5f9ba375ad83e274",
+    "count": 1,
+    "flip_count": 150,
     "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-26T18:48:19Z",
-    "source_url": "https://en.help.roblox.com/hc/en-us/articles/203312800-How-to-Cancel-Membership",
-    "pending_since_utc": "2026-02-26T18:48:19Z",
-    "first_seen_utc": "2026-02-26T18:48:19Z",
-    "last_seen_utc": "2026-02-26T18:51:37Z",
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-27T01:13:57Z",
+    "source_url": "https://support.google.com/fitbit/",
+    "pending_since_utc": "2026-02-18T08:57:50Z",
+    "first_seen_utc": "2026-02-27T01:16:02Z",
+    "last_seen_utc": "2026-02-27T01:16:02Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "dd8274318409a7cf",
-      "source_url": "https://en.help.roblox.com/hc/en-us/articles/203312800-How-to-Cancel-Membership",
-      "extracted_at_utc": "2026-02-26T18:50:23Z",
+      "hash": "5f9ba375ad83e274",
+      "source_url": "https://support.google.com/fitbit/",
+      "extracted_at_utc": "2026-02-27T01:16:02Z",
       "tokens": []
     }
   },
   "substack": {
-    "hash": "1fc132f3609dd8b1",
+    "hash": "f5fa5608fc35aee4",
+    "count": 3,
+    "flip_count": 1,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-27T01:14:46Z",
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "pending_since_utc": "2026-02-26T18:48:49Z",
+    "first_seen_utc": "2026-02-27T01:14:46Z",
+    "last_seen_utc": "2026-02-27T01:16:13Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "f5fa5608fc35aee4",
+      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "extracted_at_utc": "2026-02-27T01:16:13Z",
+      "tokens": [
+        "flow:support_request"
+      ]
+    }
+  },
+  "reddit_premium": {
+    "hash": "7338c1177bff7058",
     "count": 3,
     "flip_count": 0,
     "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-26T18:48:49Z",
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "pending_since_utc": "2026-02-26T18:48:49Z",
-    "first_seen_utc": "2026-02-26T18:48:49Z",
-    "last_seen_utc": "2026-02-26T18:51:41Z",
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-27T01:14:52Z",
+    "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
+    "pending_since_utc": "2026-02-27T01:14:52Z",
+    "first_seen_utc": "2026-02-27T01:14:52Z",
+    "last_seen_utc": "2026-02-27T01:16:16Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "1fc132f3609dd8b1",
-      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-26T18:51:41Z",
+      "hash": "7338c1177bff7058",
+      "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
+      "extracted_at_utc": "2026-02-27T01:16:16Z",
       "tokens": []
     }
   },
   "britbox": {
-    "hash": "4957bf44a62ade3c",
-    "count": 2,
-    "flip_count": 0,
+    "hash": "6d8506d3859a38d8",
+    "count": 3,
+    "flip_count": 1,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-26T18:49:06Z",
+    "last_run_observed_utc": "2026-02-27T01:14:59Z",
     "source_url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",
     "pending_since_utc": "2026-02-26T18:49:06Z",
-    "first_seen_utc": "2026-02-26T18:49:06Z",
-    "last_seen_utc": "2026-02-26T18:51:42Z",
+    "first_seen_utc": "2026-02-27T01:14:59Z",
+    "last_seen_utc": "2026-02-27T01:16:13Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "4957bf44a62ade3c",
+      "hash": "6d8506d3859a38d8",
       "source_url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",
-      "extracted_at_utc": "2026-02-26T18:50:29Z",
+      "extracted_at_utc": "2026-02-27T01:16:13Z",
       "tokens": []
     }
   }

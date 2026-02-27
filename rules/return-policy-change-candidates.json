@@ -1,99 +1,163 @@
 {
   "espn_plus": {
-    "hash": "9544c42ecf23a822",
+    "hash": "f68c0224ddae44ad",
     "count": 3,
-    "flip_count": 10,
+    "flip_count": 11,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-26T18:52:33Z",
+    "last_run_observed_utc": "2026-02-27T01:17:06Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:31:58Z",
-    "first_seen_utc": "2026-02-26T18:52:33Z",
-    "last_seen_utc": "2026-02-26T18:54:22Z",
+    "first_seen_utc": "2026-02-27T01:17:06Z",
+    "last_seen_utc": "2026-02-27T01:18:36Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "9544c42ecf23a822",
+      "hash": "f68c0224ddae44ad",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-26T18:54:22Z",
+      "extracted_at_utc": "2026-02-27T01:18:36Z",
       "tokens": []
     }
   },
-  "fubo_tv": {
-    "hash": "d72f75609e5be554",
-    "count": 2,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-26T18:52:39Z",
-    "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-    "pending_since_utc": "2026-02-26T18:52:39Z",
-    "first_seen_utc": "2026-02-26T18:52:39Z",
-    "last_seen_utc": "2026-02-26T18:54:23Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "d72f75609e5be554",
-      "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-26T18:54:14Z",
-      "tokens": []
-    }
-  },
-  "masterclass": {
-    "hash": "25073741b6741db6",
+  "headspace": {
+    "hash": "d3367b15f8565870",
     "count": 3,
     "flip_count": 0,
     "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-26T18:52:48Z",
-    "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-    "pending_since_utc": "2026-02-26T18:52:48Z",
-    "first_seen_utc": "2026-02-26T18:52:48Z",
-    "last_seen_utc": "2026-02-26T18:54:23Z",
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-27T01:17:16Z",
+    "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
+    "pending_since_utc": "2026-02-27T01:17:16Z",
+    "first_seen_utc": "2026-02-27T01:17:16Z",
+    "last_seen_utc": "2026-02-27T01:18:38Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "25073741b6741db6",
-      "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-26T18:54:23Z",
-      "tokens": []
-    }
-  },
-  "myfitnesspal_premium": {
-    "hash": "f89813c5e24d36db",
-    "count": 1,
-    "flip_count": 128,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-26T18:53:15Z",
-    "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "pending_since_utc": "2026-02-18T09:00:33Z",
-    "first_seen_utc": "2026-02-26T18:54:28Z",
-    "last_seen_utc": "2026-02-26T18:54:28Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "f89813c5e24d36db",
-      "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-26T18:54:28Z",
+      "hash": "d3367b15f8565870",
+      "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
+      "extracted_at_utc": "2026-02-27T01:18:38Z",
       "tokens": [
         "flow:support_request"
       ]
     }
   },
-  "substack": {
-    "hash": "1fc132f3609dd8b1",
-    "count": 2,
-    "flip_count": 6,
+  "hellofresh": {
+    "hash": "d0fe4030fbecd2c7",
+    "count": 3,
+    "flip_count": 0,
     "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-26T18:54:01Z",
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "pending_since_utc": "2026-02-26T01:19:54Z",
-    "first_seen_utc": "2026-02-26T18:54:19Z",
-    "last_seen_utc": "2026-02-26T18:54:29Z",
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-27T01:17:19Z",
+    "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
+    "pending_since_utc": "2026-02-27T01:17:19Z",
+    "first_seen_utc": "2026-02-27T01:17:19Z",
+    "last_seen_utc": "2026-02-27T01:18:38Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "1fc132f3609dd8b1",
-      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-26T18:54:29Z",
+      "hash": "d0fe4030fbecd2c7",
+      "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
+      "extracted_at_utc": "2026-02-27T01:18:38Z",
       "tokens": []
+    }
+  },
+  "masterclass": {
+    "hash": "25073741b6741db6",
+    "count": 4,
+    "flip_count": 0,
+    "run_confirmations": 2,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-27T01:17:22Z",
+    "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
+    "pending_since_utc": "2026-02-26T18:52:48Z",
+    "first_seen_utc": "2026-02-26T18:52:48Z",
+    "last_seen_utc": "2026-02-27T01:18:41Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "25073741b6741db6",
+      "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
+      "extracted_at_utc": "2026-02-27T01:18:41Z",
+      "tokens": []
+    }
+  },
+  "youtube_premium": {
+    "hash": "bd6ad01758460f9f",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-27T01:17:39Z",
+    "source_url": "https://support.google.com/youtube/answer/12014038",
+    "pending_since_utc": "2026-02-27T01:17:39Z",
+    "first_seen_utc": "2026-02-27T01:17:39Z",
+    "last_seen_utc": "2026-02-27T01:18:39Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "bd6ad01758460f9f",
+      "source_url": "https://support.google.com/youtube/answer/12014038",
+      "extracted_at_utc": "2026-02-27T01:18:39Z",
+      "tokens": []
+    }
+  },
+  "myfitnesspal_premium": {
+    "hash": "23c6c9ce5cc97a7c",
+    "count": 1,
+    "flip_count": 131,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-27T01:17:51Z",
+    "source_url": "https://www.myfitnesspal.com/terms-of-use",
+    "pending_since_utc": "2026-02-18T09:00:33Z",
+    "first_seen_utc": "2026-02-27T01:18:44Z",
+    "last_seen_utc": "2026-02-27T01:18:44Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "23c6c9ce5cc97a7c",
+      "source_url": "https://www.myfitnesspal.com/terms-of-use",
+      "extracted_at_utc": "2026-02-27T01:18:44Z",
+      "tokens": [
+        "flow:support_request"
+      ]
+    }
+  },
+  "roblox_premium": {
+    "hash": "d15eabe459d7d36d",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-27T01:18:00Z",
+    "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
+    "pending_since_utc": "2026-02-27T01:18:00Z",
+    "first_seen_utc": "2026-02-27T01:18:00Z",
+    "last_seen_utc": "2026-02-27T01:18:47Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "d15eabe459d7d36d",
+      "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
+      "extracted_at_utc": "2026-02-27T01:18:47Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale",
+        "risk:chargeback_or_dispute"
+      ]
+    }
+  },
+  "substack": {
+    "hash": "f5fa5608fc35aee4",
+    "count": 2,
+    "flip_count": 8,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-27T01:18:05Z",
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "pending_since_utc": "2026-02-26T01:19:54Z",
+    "first_seen_utc": "2026-02-27T01:18:25Z",
+    "last_seen_utc": "2026-02-27T01:18:48Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "f5fa5608fc35aee4",
+      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "extracted_at_utc": "2026-02-27T01:18:48Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     }
   }
 }

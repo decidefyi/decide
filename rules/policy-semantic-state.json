@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-26T18:42:38Z",
+  "updated_utc": "2026-02-27T01:10:28Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -99,10 +99,16 @@
       ]
     },
     "calm": {
-      "hash": "d72f75609e5be554",
+      "hash": "32092096ec499d3b",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-26T12:39:12Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-27T01:07:19Z",
+      "tokens": [
+        "flow:support_request",
+        "refund_window_days:10",
+        "refund_window_days:30",
+        "refund:allowed_language",
+        "refund:partial_allowed"
+      ]
     },
     "chatgpt_plus": {
       "hash": "9e0fa1a6e56feba8",
@@ -671,9 +677,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "353aa0508fd129df",
+      "hash": "bf6f426a2126312f",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-24T12:42:02Z",
+      "extracted_at_utc": "2026-02-27T01:10:01Z",
       "tokens": []
     },
     "starz": {
@@ -726,9 +732,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-26T01:08:28Z",
+      "extracted_at_utc": "2026-02-27T01:08:22Z",
       "tokens": []
     },
     "evernote": {
@@ -748,9 +754,9 @@
       "tokens": []
     },
     "washington_post": {
-      "hash": "e4d6bdfc45bd6a39",
+      "hash": "facbda2fc8418cb4",
       "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-      "extracted_at_utc": "2026-02-26T06:48:13Z",
+      "extracted_at_utc": "2026-02-27T01:09:49Z",
       "tokens": []
     },
     "espn_plus": {
@@ -760,10 +766,12 @@
       "tokens": []
     },
     "headspace": {
-      "hash": "d72f75609e5be554",
+      "hash": "8f69b60d284caff0",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-26T01:08:31Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-27T01:08:25Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "grammarly": {
       "hash": "e5adcea469f4a180",
