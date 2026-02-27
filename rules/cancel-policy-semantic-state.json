@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-27T01:16:16Z",
+  "updated_utc": "2026-02-27T06:51:36Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -84,10 +84,12 @@
       ]
     },
     "calm": {
-      "hash": "d72f75609e5be554",
+      "hash": "32092096ec499d3b",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-24T12:46:09Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-27T06:45:27Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "chatgpt_plus": {
       "hash": "9e0fa1a6e56feba8",
@@ -172,10 +174,13 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-24T18:53:22Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-27T06:46:30Z",
+      "tokens": [
+        "cancel:anytime",
+        "cancel:fee_or_penalty"
+      ]
     },
     "google_play": {
       "hash": "b5cf2e31119e8d8d",
@@ -425,9 +430,9 @@
       "tokens": []
     },
     "youtube_premium": {
-      "hash": "e0ac585b7096e62f",
+      "hash": "a7e4f98c6a25d82b",
       "source_url": "https://support.google.com/youtube/answer/6308278",
-      "extracted_at_utc": "2026-02-19T23:28:28Z",
+      "extracted_at_utc": "2026-02-27T06:48:01Z",
       "tokens": [
         "cancel:effective_end_of_term"
       ]
@@ -651,9 +656,9 @@
       "tokens": []
     },
     "britbox": {
-      "hash": "1f42feb00930c33d",
+      "hash": "6d8506d3859a38d8",
       "source_url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",
-      "extracted_at_utc": "2026-02-26T12:47:29Z",
+      "extracted_at_utc": "2026-02-27T06:49:37Z",
       "tokens": []
     },
     "patreon": {

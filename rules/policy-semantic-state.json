@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-27T01:10:28Z",
+  "updated_utc": "2026-02-27T06:44:20Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -507,9 +507,9 @@
       ]
     },
     "youtube_premium": {
-      "hash": "3bf605eff4d31376",
+      "hash": "bd6ad01758460f9f",
       "source_url": "https://support.google.com/youtube/answer/12014038",
-      "extracted_at_utc": "2026-02-19T23:22:50Z",
+      "extracted_at_utc": "2026-02-27T06:42:43Z",
       "tokens": []
     },
     "youtube_tv": {
@@ -585,19 +585,22 @@
       ]
     },
     "ubisoft_plus": {
-      "hash": "12dc3738d7667345",
+      "hash": "5d2d195c20dff859",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-25T18:54:15Z",
+      "extracted_at_utc": "2026-02-27T06:43:03Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
       ]
     },
     "roblox_premium": {
-      "hash": "d72f75609e5be554",
+      "hash": "d15eabe459d7d36d",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-26T06:48:03Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-27T06:43:05Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale",
+        "risk:chargeback_or_dispute"
+      ]
     },
     "mlb_tv": {
       "hash": "9b1cb4be0565d880",

@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-27T01:18:48Z",
+  "updated_utc": "2026-02-27T06:54:03Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -212,9 +212,9 @@
       ]
     },
     "hellofresh": {
-      "hash": "d72f75609e5be554",
+      "hash": "d0fe4030fbecd2c7",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-26T12:50:24Z",
+      "extracted_at_utc": "2026-02-27T06:52:35Z",
       "tokens": []
     },
     "hinge": {
@@ -480,9 +480,9 @@
       ]
     },
     "youtube_premium": {
-      "hash": "3bf605eff4d31376",
+      "hash": "bd6ad01758460f9f",
       "source_url": "https://support.google.com/youtube/answer/12014038",
-      "extracted_at_utc": "2026-02-19T23:33:22Z",
+      "extracted_at_utc": "2026-02-27T06:52:59Z",
       "tokens": []
     },
     "youtube_tv": {
@@ -712,16 +712,19 @@
       ]
     },
     "masterclass": {
-      "hash": "b852ddd7e8c288fa",
+      "hash": "25073741b6741db6",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-23T12:50:59Z",
+      "extracted_at_utc": "2026-02-27T06:52:40Z",
       "tokens": []
     },
     "roblox_premium": {
-      "hash": "d72f75609e5be554",
+      "hash": "d15eabe459d7d36d",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-24T18:58:04Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-27T06:53:18Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale",
+        "risk:chargeback_or_dispute"
+      ]
     },
     "espn_plus": {
       "hash": "d988b9e1a1dc07bc",
@@ -738,10 +741,12 @@
       ]
     },
     "headspace": {
-      "hash": "d72f75609e5be554",
+      "hash": "d3367b15f8565870",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-24T12:50:40Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-27T06:52:33Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "substack": {
       "hash": "20fab989e6c94724",
