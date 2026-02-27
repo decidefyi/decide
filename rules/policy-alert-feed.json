@@ -1,36 +1,38 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-02-27T12:51:55Z",
+  "updated_utc": "2026-02-27T18:43:05Z",
   "source": "check-policies.js",
   "alerts": [
     {
       "date_utc": "2026-02-27",
-      "generated_at_utc": "2026-02-27T12:51:55Z",
-      "changed_count": 1,
+      "generated_at_utc": "2026-02-27T18:43:05Z",
+      "changed_count": 3,
       "by_policy": {
-        "refund": 1,
-        "cancel": 0,
+        "refund": 2,
+        "cancel": 1,
         "return": 0,
         "trial": 0
       },
       "changed_sample": [
-        "refund:chatgpt_plus"
+        "refund:hinge",
+        "refund:roblox_premium",
+        "cancel:fubo_tv"
       ],
-      "pending_count": 53,
+      "pending_count": 50,
       "pending_by_policy": {
-        "refund": 15,
-        "cancel": 19,
+        "refund": 10,
+        "cancel": 16,
         "return": 13,
-        "trial": 6
+        "trial": 11
       },
       "stale_pending_count": 6,
       "volatile_pending_count": 19,
-      "escalation_count": 11,
+      "escalation_count": 14,
       "coverage_gap_count": 0,
-      "run_url": "https://github.com/decidefyi/decide/actions/runs/22486391119",
-      "run_id": "22486391119",
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22498655719",
+      "run_id": "22498655719",
       "run_attempt": "1",
-      "commit_sha": "17e32e66ce0a64d30ec232e563a04d68cf85fd4b",
+      "commit_sha": "c8ea1f8153c4eefe9a070bdcccfa43e9951793f9",
       "source": "check-policies.js"
     },
     {

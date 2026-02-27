@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-27T12:38:20Z",
+  "updated_utc": "2026-02-27T18:30:16Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -219,14 +219,10 @@
       ]
     },
     "hinge": {
-      "hash": "0ea183e83914b9fd",
+      "hash": "a1eb9af0e6420b90",
       "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
-      "extracted_at_utc": "2026-02-20T12:36:40Z",
-      "tokens": [
-        "flow:support_request",
-        "refund_window_days:14",
-        "restriction:no_refund_or_final_sale"
-      ]
+      "extracted_at_utc": "2026-02-27T18:28:15Z",
+      "tokens": []
     },
     "icloud_plus": {
       "hash": "91882bfe2276dfad",
@@ -513,9 +509,9 @@
       "tokens": []
     },
     "youtube_tv": {
-      "hash": "ea3ffbff5bee096d",
+      "hash": "86444114a1f1b6f6",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-02-23T12:42:34Z",
+      "extracted_at_utc": "2026-02-27T18:28:49Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
@@ -585,22 +581,19 @@
       ]
     },
     "ubisoft_plus": {
-      "hash": "5d2d195c20dff859",
+      "hash": "12dc3738d7667345",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-27T06:43:03Z",
+      "extracted_at_utc": "2026-02-27T18:29:10Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
       ]
     },
     "roblox_premium": {
-      "hash": "d15eabe459d7d36d",
+      "hash": "d72f75609e5be554",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-27T06:43:05Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ]
+      "extracted_at_utc": "2026-02-27T18:29:12Z",
+      "tokens": []
     },
     "mlb_tv": {
       "hash": "9b1cb4be0565d880",
@@ -720,9 +713,9 @@
       "tokens": []
     },
     "claude_pro": {
-      "hash": "22ee940e048fe461",
+      "hash": "052fb786234686bd",
       "source_url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
-      "extracted_at_utc": "2026-02-23T01:12:28Z",
+      "extracted_at_utc": "2026-02-27T18:27:50Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
@@ -751,9 +744,9 @@
       ]
     },
     "hellofresh": {
-      "hash": "d0fe4030fbecd2c7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-26T18:40:15Z",
+      "extracted_at_utc": "2026-02-27T18:28:12Z",
       "tokens": []
     },
     "washington_post": {

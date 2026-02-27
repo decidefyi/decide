@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-27T12:48:13Z",
+  "updated_utc": "2026-02-27T18:39:12Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -183,9 +183,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-24T06:58:38Z",
+      "extracted_at_utc": "2026-02-27T18:37:20Z",
       "tokens": []
     },
     "google_play": {
@@ -681,9 +681,9 @@
       "tokens": []
     },
     "claude_pro": {
-      "hash": "1f9fa988c5d26d50",
+      "hash": "2231d37578fb0733",
       "source_url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
-      "extracted_at_utc": "2026-02-23T01:21:12Z",
+      "extracted_at_utc": "2026-02-27T18:37:09Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"

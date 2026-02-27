@@ -1,118 +1,213 @@
 {
-  "claude_pro": {
-    "hash": "2331203df83c8da8",
-    "count": 1,
-    "flip_count": 2,
+  "amazon_prime": {
+    "hash": "7a2bfd93bfca2814",
+    "count": 3,
+    "flip_count": 0,
     "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-27T12:49:07Z",
-    "source_url": "https://claude.ai/upgrade",
-    "pending_since_utc": "2026-02-27T12:49:07Z",
-    "first_seen_utc": "2026-02-27T12:51:44Z",
-    "last_seen_utc": "2026-02-27T12:51:44Z",
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-27T18:39:54Z",
+    "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
+    "pending_since_utc": "2026-02-27T18:39:54Z",
+    "first_seen_utc": "2026-02-27T18:39:54Z",
+    "last_seen_utc": "2026-02-27T18:42:59Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "2331203df83c8da8",
+      "hash": "7a2bfd93bfca2814",
+      "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
+      "extracted_at_utc": "2026-02-27T18:42:59Z",
+      "tokens": []
+    }
+  },
+  "claude_pro": {
+    "hash": "be542c04706a08ae",
+    "count": 2,
+    "flip_count": 4,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-27T18:39:59Z",
+    "source_url": "https://claude.ai/upgrade",
+    "pending_since_utc": "2026-02-27T12:49:07Z",
+    "first_seen_utc": "2026-02-27T18:42:30Z",
+    "last_seen_utc": "2026-02-27T18:42:56Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "be542c04706a08ae",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-02-27T12:51:44Z",
+      "extracted_at_utc": "2026-02-27T18:42:56Z",
       "tokens": []
     }
   },
   "canva": {
-    "hash": "a86f6a194e6514b5",
+    "hash": "816b3715b6183981",
     "count": 1,
-    "flip_count": 2,
+    "flip_count": 5,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-27T12:49:07Z",
+    "last_run_observed_utc": "2026-02-27T18:40:00Z",
     "source_url": "https://www.canva.com/pro/",
     "pending_since_utc": "2026-02-27T12:49:07Z",
-    "first_seen_utc": "2026-02-27T12:51:43Z",
-    "last_seen_utc": "2026-02-27T12:51:43Z",
+    "first_seen_utc": "2026-02-27T18:42:57Z",
+    "last_seen_utc": "2026-02-27T18:42:57Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "a86f6a194e6514b5",
+      "hash": "816b3715b6183981",
       "source_url": "https://www.canva.com/pro/",
-      "extracted_at_utc": "2026-02-27T12:51:43Z",
+      "extracted_at_utc": "2026-02-27T18:42:57Z",
       "tokens": []
     }
   },
   "espn_plus": {
-    "hash": "8d393f517a9adb60",
+    "hash": "1a570f400c5af39d",
     "count": 3,
-    "flip_count": 14,
+    "flip_count": 15,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-27T12:49:10Z",
+    "last_run_observed_utc": "2026-02-27T18:40:08Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:34:41Z",
-    "first_seen_utc": "2026-02-27T12:49:10Z",
-    "last_seen_utc": "2026-02-27T12:51:42Z",
+    "first_seen_utc": "2026-02-27T18:40:08Z",
+    "last_seen_utc": "2026-02-27T18:43:01Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "8d393f517a9adb60",
+      "hash": "1a570f400c5af39d",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-27T12:51:42Z",
+      "extracted_at_utc": "2026-02-27T18:43:01Z",
       "tokens": []
     }
   },
-  "hinge": {
-    "hash": "0f4d43528e0bcee3",
-    "count": 1,
-    "flip_count": 2,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-27T12:49:18Z",
-    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "pending_since_utc": "2026-02-27T12:49:18Z",
-    "first_seen_utc": "2026-02-27T12:51:49Z",
-    "last_seen_utc": "2026-02-27T12:51:49Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "0f4d43528e0bcee3",
-      "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-02-27T12:51:49Z",
-      "tokens": []
-    }
-  },
-  "twitch": {
-    "hash": "2e2e4ec511c231ba",
-    "count": 2,
-    "flip_count": 17,
+  "masterclass": {
+    "hash": "6eb46a3c16e208a7",
+    "count": 3,
+    "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-27T12:50:03Z",
-    "source_url": "https://www.twitch.tv/turbo",
-    "pending_since_utc": "2026-02-25T00:35:36Z",
-    "first_seen_utc": "2026-02-27T12:51:29Z",
-    "last_seen_utc": "2026-02-27T12:51:44Z",
+    "last_run_observed_utc": "2026-02-27T18:40:24Z",
+    "source_url": "https://www.masterclass.com/legal/terms",
+    "pending_since_utc": "2026-02-27T18:40:24Z",
+    "first_seen_utc": "2026-02-27T18:40:24Z",
+    "last_seen_utc": "2026-02-27T18:43:01Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "2e2e4ec511c231ba",
-      "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-27T12:51:44Z",
+      "hash": "6eb46a3c16e208a7",
+      "source_url": "https://www.masterclass.com/legal/terms",
+      "extracted_at_utc": "2026-02-27T18:43:01Z",
       "tokens": []
     }
   },
-  "youtube_tv": {
-    "hash": "86444114a1f1b6f6",
+  "nintendo_switch_online": {
+    "hash": "07c758a3be86f63b",
     "count": 3,
     "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-27T12:50:05Z",
-    "source_url": "https://tv.youtube.com/",
-    "pending_since_utc": "2026-02-27T12:50:05Z",
-    "first_seen_utc": "2026-02-27T12:50:05Z",
-    "last_seen_utc": "2026-02-27T12:51:44Z",
+    "last_run_observed_utc": "2026-02-27T18:40:27Z",
+    "source_url": "https://www.nintendo.com/us/switch/online/",
+    "pending_since_utc": "2026-02-27T18:40:27Z",
+    "first_seen_utc": "2026-02-27T18:40:27Z",
+    "last_seen_utc": "2026-02-27T18:42:59Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "86444114a1f1b6f6",
-      "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-02-27T12:51:44Z",
+      "hash": "07c758a3be86f63b",
+      "source_url": "https://www.nintendo.com/us/switch/online/",
+      "extracted_at_utc": "2026-02-27T18:42:59Z",
       "tokens": [
-        "restriction:no_refund_or_final_sale"
+        "billing:auto_renew"
       ]
+    }
+  },
+  "paramount_plus": {
+    "hash": "f5ae7288ed0f719e",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-27T18:40:34Z",
+    "source_url": "https://www.paramountplus.com/",
+    "pending_since_utc": "2026-02-27T18:40:34Z",
+    "first_seen_utc": "2026-02-27T18:40:34Z",
+    "last_seen_utc": "2026-02-27T18:43:01Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "f5ae7288ed0f719e",
+      "source_url": "https://www.paramountplus.com/",
+      "extracted_at_utc": "2026-02-27T18:43:01Z",
+      "tokens": []
+    }
+  },
+  "twitch": {
+    "hash": "c17059779e82f3c7",
+    "count": 2,
+    "flip_count": 18,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-27T18:41:26Z",
+    "source_url": "https://www.twitch.tv/turbo",
+    "pending_since_utc": "2026-02-25T00:35:36Z",
+    "first_seen_utc": "2026-02-27T18:41:26Z",
+    "last_seen_utc": "2026-02-27T18:43:01Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "c17059779e82f3c7",
+      "source_url": "https://www.twitch.tv/turbo",
+      "extracted_at_utc": "2026-02-27T18:42:46Z",
+      "tokens": []
+    }
+  },
+  "substack": {
+    "hash": "b09aa6131f263ef6",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-27T18:41:44Z",
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "pending_since_utc": "2026-02-27T18:41:44Z",
+    "first_seen_utc": "2026-02-27T18:41:44Z",
+    "last_seen_utc": "2026-02-27T18:43:03Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "b09aa6131f263ef6",
+      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "extracted_at_utc": "2026-02-27T18:43:03Z",
+      "tokens": []
+    }
+  },
+  "telegram_premium": {
+    "hash": "4783b7c55dd72758",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-27T18:42:25Z",
+    "source_url": "https://telegram.org/premium",
+    "pending_since_utc": "2026-02-27T18:42:25Z",
+    "first_seen_utc": "2026-02-27T18:42:25Z",
+    "last_seen_utc": "2026-02-27T18:43:04Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "4783b7c55dd72758",
+      "source_url": "https://telegram.org/premium",
+      "extracted_at_utc": "2026-02-27T18:43:04Z",
+      "tokens": []
+    }
+  },
+  "soundcloud_go": {
+    "hash": "bacc1b91ac614bce",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-27T18:42:26Z",
+    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+    "pending_since_utc": "2026-02-27T18:42:26Z",
+    "first_seen_utc": "2026-02-27T18:42:26Z",
+    "last_seen_utc": "2026-02-27T18:43:05Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "bacc1b91ac614bce",
+      "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+      "extracted_at_utc": "2026-02-27T18:43:05Z",
+      "tokens": []
     }
   }
 }

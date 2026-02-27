@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-27T12:45:01Z",
+  "updated_utc": "2026-02-27T18:36:24Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -174,13 +174,10 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-27T06:46:30Z",
-      "tokens": [
-        "cancel:anytime",
-        "cancel:fee_or_penalty"
-      ]
+      "extracted_at_utc": "2026-02-27T18:32:11Z",
+      "tokens": []
     },
     "google_play": {
       "hash": "b5cf2e31119e8d8d",
@@ -257,9 +254,9 @@
       "tokens": []
     },
     "midjourney": {
-      "hash": "cda38716917340a8",
+      "hash": "6a5833c2c5273b43",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-02-24T06:55:47Z",
+      "extracted_at_utc": "2026-02-27T18:32:30Z",
       "tokens": []
     },
     "noom": {
@@ -444,9 +441,9 @@
       "tokens": []
     },
     "youtube_tv": {
-      "hash": "7fe491c8ae88cd12",
+      "hash": "916a4d9a32fe1501",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-02-23T12:48:22Z",
+      "extracted_at_utc": "2026-02-27T18:33:28Z",
       "tokens": [
         "cancel_window_days:60",
         "cancel:anytime",
