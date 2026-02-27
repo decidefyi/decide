@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-27T06:51:36Z",
+  "updated_utc": "2026-02-27T12:45:01Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -92,9 +92,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "9e0fa1a6e56feba8",
+      "hash": "60c26ec7c9a22dc8",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-26T12:44:02Z",
+      "extracted_at_utc": "2026-02-27T12:39:15Z",
       "tokens": [
         "cancel_window_days:14"
       ]
@@ -197,9 +197,9 @@
       "tokens": []
     },
     "hulu": {
-      "hash": "10a3e1e8fe26fad1",
+      "hash": "fef20f3735512b2b",
       "source_url": "https://help.hulu.com/article/cancel-subscription",
-      "extracted_at_utc": "2026-02-26T01:12:44Z",
+      "extracted_at_utc": "2026-02-27T12:40:48Z",
       "tokens": []
     },
     "hellofresh": {
@@ -621,9 +621,9 @@
       "tokens": []
     },
     "peacock": {
-      "hash": "f10a6f0ae8d2f044",
+      "hash": "1ee376168c2f131d",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-02-23T12:48:02Z",
+      "extracted_at_utc": "2026-02-27T12:41:13Z",
       "tokens": []
     },
     "evernote": {
@@ -674,9 +674,9 @@
       "tokens": []
     },
     "dropbox_us": {
-      "hash": "0adfdc179206e059",
+      "hash": "c609144e56e2f6f1",
       "source_url": "https://help.dropbox.com/plans/cancel-plan",
-      "extracted_at_utc": "2026-02-24T12:43:50Z",
+      "extracted_at_utc": "2026-02-27T12:40:07Z",
       "tokens": []
     },
     "audible": {

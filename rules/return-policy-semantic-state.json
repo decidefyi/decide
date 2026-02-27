@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-27T06:54:03Z",
+  "updated_utc": "2026-02-27T12:48:13Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -92,9 +92,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "9e0fa1a6e56feba8",
+      "hash": "60c26ec7c9a22dc8",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-26T12:49:25Z",
+      "extracted_at_utc": "2026-02-27T12:45:47Z",
       "tokens": []
     },
     "deezer": {
