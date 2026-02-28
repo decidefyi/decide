@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-28T12:39:30Z",
+  "updated_utc": "2026-02-28T18:31:09Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -113,9 +113,9 @@
       "tokens": []
     },
     "crunchyroll": {
-      "hash": "d72f75609e5be554",
+      "hash": "5951d6a11fb8f5d2",
       "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-      "extracted_at_utc": "2026-02-24T06:58:35Z",
+      "extracted_at_utc": "2026-02-28T18:29:28Z",
       "tokens": []
     },
     "discord_nitro": {
@@ -543,9 +543,9 @@
       "tokens": []
     },
     "patreon": {
-      "hash": "b5b7ba69f29f6044",
+      "hash": "5deb8e1ef09d50b3",
       "source_url": "https://www.patreon.com/policy/legal",
-      "extracted_at_utc": "2026-02-28T01:13:07Z",
+      "extracted_at_utc": "2026-02-28T18:30:13Z",
       "tokens": []
     },
     "ea_play": {
@@ -605,10 +605,13 @@
       "tokens": []
     },
     "x_premium": {
-      "hash": "d72f75609e5be554",
+      "hash": "3367de05757d8e68",
       "source_url": "https://help.x.com/en/using-x/x-premium",
-      "extracted_at_utc": "2026-02-19T23:33:48Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-28T18:30:34Z",
+      "tokens": [
+        "billing:prorated",
+        "restriction:no_refund_or_final_sale"
+      ]
     },
     "snapchat_plus": {
       "hash": "99ce8296a9878690",
@@ -706,9 +709,9 @@
       "tokens": []
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "9797e79eb7ad6a9c",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-24T06:58:36Z",
+      "extracted_at_utc": "2026-02-28T18:29:50Z",
       "tokens": [
         "billing:auto_renew"
       ]

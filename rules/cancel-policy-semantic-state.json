@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-28T12:36:19Z",
+  "updated_utc": "2026-02-28T18:28:35Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -122,9 +122,9 @@
       "tokens": []
     },
     "crunchyroll": {
-      "hash": "9315e456fbf9c2b5",
+      "hash": "046a70948df9996c",
       "source_url": "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
-      "extracted_at_utc": "2026-02-23T01:16:55Z",
+      "extracted_at_utc": "2026-02-28T18:23:28Z",
       "tokens": []
     },
     "discord_nitro": {
@@ -403,9 +403,9 @@
       "tokens": []
     },
     "tinder": {
-      "hash": "d72f75609e5be554",
+      "hash": "6262b9b931b4e93b",
       "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
-      "extracted_at_utc": "2026-02-25T12:05:34Z",
+      "extracted_at_utc": "2026-02-28T18:25:04Z",
       "tokens": []
     },
     "walmart_plus": {
@@ -549,15 +549,18 @@
       "tokens": []
     },
     "x_premium": {
-      "hash": "d72f75609e5be554",
+      "hash": "3367de05757d8e68",
       "source_url": "https://help.x.com/en/using-x/x-premium",
-      "extracted_at_utc": "2026-02-19T23:29:08Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-28T18:26:17Z",
+      "tokens": [
+        "billing:prorated",
+        "restriction:no_refund_or_final_sale"
+      ]
     },
     "reddit_premium": {
-      "hash": "b6565f21368ba926",
+      "hash": "bf0cb87af4daaa53",
       "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
-      "extracted_at_utc": "2026-02-24T12:47:31Z",
+      "extracted_at_utc": "2026-02-28T18:26:21Z",
       "tokens": []
     },
     "discovery_plus": {
@@ -621,9 +624,9 @@
       "tokens": []
     },
     "peacock": {
-      "hash": "1ee376168c2f131d",
+      "hash": "f10a6f0ae8d2f044",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-02-27T12:41:13Z",
+      "extracted_at_utc": "2026-02-28T18:24:41Z",
       "tokens": []
     },
     "evernote": {
@@ -668,10 +671,12 @@
       "tokens": []
     },
     "substack": {
-      "hash": "20fab989e6c94724",
+      "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-24T12:46:52Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-28T18:26:15Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     },
     "dropbox_us": {
       "hash": "c609144e56e2f6f1",

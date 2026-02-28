@@ -1,98 +1,136 @@
 {
   "amazon_prime": {
     "hash": "7c8f77fcdb4c1914",
-    "count": 1,
+    "count": 3,
     "flip_count": 2,
-    "run_confirmations": 1,
+    "run_confirmations": 2,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T12:40:08Z",
+    "last_run_observed_utc": "2026-02-28T18:31:53Z",
     "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
     "pending_since_utc": "2026-02-28T12:40:08Z",
     "first_seen_utc": "2026-02-28T12:42:27Z",
-    "last_seen_utc": "2026-02-28T12:42:27Z",
+    "last_seen_utc": "2026-02-28T18:34:45Z",
     "baseline_observations": 0,
     "profile": {
       "hash": "7c8f77fcdb4c1914",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-02-28T12:42:27Z",
+      "extracted_at_utc": "2026-02-28T18:34:45Z",
+      "tokens": []
+    }
+  },
+  "claude_pro": {
+    "hash": "be542c04706a08ae",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-28T18:31:58Z",
+    "source_url": "https://claude.ai/upgrade",
+    "pending_since_utc": "2026-02-28T18:31:58Z",
+    "first_seen_utc": "2026-02-28T18:31:58Z",
+    "last_seen_utc": "2026-02-28T18:34:44Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "be542c04706a08ae",
+      "source_url": "https://claude.ai/upgrade",
+      "extracted_at_utc": "2026-02-28T18:34:44Z",
       "tokens": []
     }
   },
   "espn_plus": {
-    "hash": "252cf0a4610d20a3",
-    "count": 3,
-    "flip_count": 18,
+    "hash": "f915829b12b51e0a",
+    "count": 2,
+    "flip_count": 19,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T12:40:19Z",
+    "last_run_observed_utc": "2026-02-28T18:32:03Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:34:41Z",
-    "first_seen_utc": "2026-02-28T12:40:19Z",
-    "last_seen_utc": "2026-02-28T12:42:21Z",
+    "first_seen_utc": "2026-02-28T18:32:03Z",
+    "last_seen_utc": "2026-02-28T18:34:44Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "252cf0a4610d20a3",
+      "hash": "f915829b12b51e0a",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-28T12:42:21Z",
+      "extracted_at_utc": "2026-02-28T18:34:32Z",
+      "tokens": []
+    }
+  },
+  "google_one": {
+    "hash": "72d9d08f5726037e",
+    "count": 2,
+    "flip_count": 1,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-28T18:32:06Z",
+    "source_url": "https://one.google.com/about/plans",
+    "pending_since_utc": "2026-02-28T18:32:06Z",
+    "first_seen_utc": "2026-02-28T18:34:35Z",
+    "last_seen_utc": "2026-02-28T18:34:46Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "72d9d08f5726037e",
+      "source_url": "https://one.google.com/about/plans",
+      "extracted_at_utc": "2026-02-28T18:34:46Z",
       "tokens": []
     }
   },
   "masterclass": {
     "hash": "e6d641115730b63f",
-    "count": 3,
+    "count": 4,
     "flip_count": 0,
-    "run_confirmations": 1,
+    "run_confirmations": 2,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T12:40:39Z",
+    "last_run_observed_utc": "2026-02-28T18:32:22Z",
     "source_url": "https://www.masterclass.com/legal/terms",
     "pending_since_utc": "2026-02-28T12:40:39Z",
     "first_seen_utc": "2026-02-28T12:40:39Z",
-    "last_seen_utc": "2026-02-28T12:42:24Z",
+    "last_seen_utc": "2026-02-28T18:34:49Z",
     "baseline_observations": 0,
     "profile": {
       "hash": "e6d641115730b63f",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-02-28T12:42:24Z",
+      "extracted_at_utc": "2026-02-28T18:34:49Z",
       "tokens": []
     }
   },
   "nordvpn": {
-    "hash": "492bde719007418a",
+    "hash": "40530ef7b5265121",
     "count": 3,
-    "flip_count": 0,
+    "flip_count": 1,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T12:40:53Z",
+    "last_run_observed_utc": "2026-02-28T18:32:30Z",
     "source_url": "https://nordvpn.com/pricing/",
     "pending_since_utc": "2026-02-28T12:40:53Z",
-    "first_seen_utc": "2026-02-28T12:40:53Z",
-    "last_seen_utc": "2026-02-28T12:42:30Z",
+    "first_seen_utc": "2026-02-28T18:32:30Z",
+    "last_seen_utc": "2026-02-28T18:34:48Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "492bde719007418a",
+      "hash": "40530ef7b5265121",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-02-28T12:42:30Z",
+      "extracted_at_utc": "2026-02-28T18:34:48Z",
       "tokens": [
         "billing:auto_renew"
       ]
     }
   },
   "twitch": {
-    "hash": "88eb4068c6d84b38",
+    "hash": "ccd4a83ef698e45b",
     "count": 3,
-    "flip_count": 21,
+    "flip_count": 22,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T12:41:09Z",
+    "last_run_observed_utc": "2026-02-28T18:33:32Z",
     "source_url": "https://www.twitch.tv/turbo",
     "pending_since_utc": "2026-02-25T00:35:36Z",
-    "first_seen_utc": "2026-02-28T12:41:09Z",
-    "last_seen_utc": "2026-02-28T12:42:28Z",
+    "first_seen_utc": "2026-02-28T18:33:32Z",
+    "last_seen_utc": "2026-02-28T18:34:50Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "88eb4068c6d84b38",
+      "hash": "ccd4a83ef698e45b",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-28T12:42:28Z",
+      "extracted_at_utc": "2026-02-28T18:34:50Z",
       "tokens": []
     }
   }

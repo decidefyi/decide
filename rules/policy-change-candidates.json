@@ -1,184 +1,79 @@
 {
   "amazon_prime": {
     "hash": "7a2bfd93bfca2814",
-    "count": 3,
-    "flip_count": 0,
+    "count": 2,
+    "flip_count": 1,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T12:24:20Z",
+    "last_run_observed_utc": "2026-02-28T18:18:47Z",
     "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
     "pending_since_utc": "2026-02-28T12:24:20Z",
-    "first_seen_utc": "2026-02-28T12:24:20Z",
-    "last_seen_utc": "2026-02-28T12:28:31Z",
+    "first_seen_utc": "2026-02-28T18:22:05Z",
+    "last_seen_utc": "2026-02-28T18:22:17Z",
     "baseline_observations": 0,
     "profile": {
       "hash": "7a2bfd93bfca2814",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-02-28T12:28:31Z",
-      "tokens": []
-    }
-  },
-  "crunchyroll": {
-    "hash": "5951d6a11fb8f5d2",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T12:25:11Z",
-    "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-    "pending_since_utc": "2026-02-28T12:25:11Z",
-    "first_seen_utc": "2026-02-28T12:25:11Z",
-    "last_seen_utc": "2026-02-28T12:28:28Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "5951d6a11fb8f5d2",
-      "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-      "extracted_at_utc": "2026-02-28T12:28:28Z",
+      "extracted_at_utc": "2026-02-28T18:22:17Z",
       "tokens": []
     }
   },
   "espn_plus": {
-    "hash": "64a700099f429d7d",
-    "count": 2,
-    "flip_count": 19,
+    "hash": "d42d0739d5d21714",
+    "count": 3,
+    "flip_count": 20,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T12:25:13Z",
+    "last_run_observed_utc": "2026-02-28T18:19:39Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:23:01Z",
-    "first_seen_utc": "2026-02-28T12:28:13Z",
-    "last_seen_utc": "2026-02-28T12:28:26Z",
+    "first_seen_utc": "2026-02-28T18:19:39Z",
+    "last_seen_utc": "2026-02-28T18:22:13Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "64a700099f429d7d",
+      "hash": "d42d0739d5d21714",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-28T12:28:26Z",
-      "tokens": []
-    }
-  },
-  "fubo_tv": {
-    "hash": "d94532d3b027dae7",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T12:25:22Z",
-    "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-    "pending_since_utc": "2026-02-28T12:25:22Z",
-    "first_seen_utc": "2026-02-28T12:25:22Z",
-    "last_seen_utc": "2026-02-28T12:28:33Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "d94532d3b027dae7",
-      "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-28T12:28:33Z",
+      "extracted_at_utc": "2026-02-28T18:22:13Z",
       "tokens": []
     }
   },
   "masterclass": {
     "hash": "31e9c6990d098854",
     "count": 2,
-    "flip_count": 1,
+    "flip_count": 3,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T12:26:38Z",
+    "last_run_observed_utc": "2026-02-28T18:20:51Z",
     "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
     "pending_since_utc": "2026-02-28T12:26:38Z",
-    "first_seen_utc": "2026-02-28T12:28:17Z",
-    "last_seen_utc": "2026-02-28T12:28:32Z",
+    "first_seen_utc": "2026-02-28T18:22:08Z",
+    "last_seen_utc": "2026-02-28T18:22:15Z",
     "baseline_observations": 0,
     "profile": {
       "hash": "31e9c6990d098854",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-28T12:28:32Z",
+      "extracted_at_utc": "2026-02-28T18:22:15Z",
       "tokens": []
     }
   },
-  "tinder": {
-    "hash": "94874f35eb7a8496",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T12:27:02Z",
-    "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
-    "pending_since_utc": "2026-02-28T12:27:02Z",
-    "first_seen_utc": "2026-02-28T12:27:02Z",
-    "last_seen_utc": "2026-02-28T12:28:35Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "94874f35eb7a8496",
-      "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
-      "extracted_at_utc": "2026-02-28T12:28:35Z",
-      "tokens": [
-        "refund_window_days:14",
-        "restriction:no_refund_or_final_sale"
-      ]
-    }
-  },
   "myfitnesspal_premium": {
-    "hash": "c351f49ee8f91056",
+    "hash": "f8cab6ea7cb02be8",
     "count": 1,
-    "flip_count": 150,
+    "flip_count": 153,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T12:27:29Z",
+    "last_run_observed_utc": "2026-02-28T18:21:31Z",
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T08:51:39Z",
-    "first_seen_utc": "2026-02-28T12:28:20Z",
-    "last_seen_utc": "2026-02-28T12:28:20Z",
+    "first_seen_utc": "2026-02-28T18:22:23Z",
+    "last_seen_utc": "2026-02-28T18:22:23Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "c351f49ee8f91056",
+      "hash": "f8cab6ea7cb02be8",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-28T12:28:20Z",
+      "extracted_at_utc": "2026-02-28T18:22:23Z",
       "tokens": [
         "flow:support_request"
-      ]
-    }
-  },
-  "roblox_premium": {
-    "hash": "d15eabe459d7d36d",
-    "count": 2,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T12:27:38Z",
-    "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-    "pending_since_utc": "2026-02-28T12:27:38Z",
-    "first_seen_utc": "2026-02-28T12:27:38Z",
-    "last_seen_utc": "2026-02-28T12:28:24Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "d15eabe459d7d36d",
-      "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-28T12:28:24Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ]
-    }
-  },
-  "x_premium": {
-    "hash": "3367de05757d8e68",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T12:27:51Z",
-    "source_url": "https://help.x.com/en/using-x/x-premium",
-    "pending_since_utc": "2026-02-28T12:27:51Z",
-    "first_seen_utc": "2026-02-28T12:27:51Z",
-    "last_seen_utc": "2026-02-28T12:28:39Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "3367de05757d8e68",
-      "source_url": "https://help.x.com/en/using-x/x-premium",
-      "extracted_at_utc": "2026-02-28T12:28:39Z",
-      "tokens": [
-        "billing:prorated",
-        "refund:partial_allowed",
-        "restriction:no_refund_or_final_sale"
       ]
     }
   }
