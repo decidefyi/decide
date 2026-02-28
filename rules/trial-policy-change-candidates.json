@@ -1,80 +1,99 @@
 {
-  "espn_plus": {
-    "hash": "6698bbe578ef1f2f",
-    "count": 3,
-    "flip_count": 17,
+  "amazon_prime": {
+    "hash": "7c8f77fcdb4c1914",
+    "count": 1,
+    "flip_count": 2,
     "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T06:38:27Z",
-    "source_url": "https://www.espn.com/espnplus/",
-    "pending_since_utc": "2026-02-25T00:34:41Z",
-    "first_seen_utc": "2026-02-28T06:38:27Z",
-    "last_seen_utc": "2026-02-28T06:41:45Z",
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-28T12:40:08Z",
+    "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
+    "pending_since_utc": "2026-02-28T12:40:08Z",
+    "first_seen_utc": "2026-02-28T12:42:27Z",
+    "last_seen_utc": "2026-02-28T12:42:27Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "6698bbe578ef1f2f",
-      "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-28T06:41:45Z",
+      "hash": "7c8f77fcdb4c1914",
+      "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
+      "extracted_at_utc": "2026-02-28T12:42:27Z",
       "tokens": []
     }
   },
-  "hinge": {
-    "hash": "0f4d43528e0bcee3",
-    "count": 2,
+  "espn_plus": {
+    "hash": "252cf0a4610d20a3",
+    "count": 3,
+    "flip_count": 18,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-28T12:40:19Z",
+    "source_url": "https://www.espn.com/espnplus/",
+    "pending_since_utc": "2026-02-25T00:34:41Z",
+    "first_seen_utc": "2026-02-28T12:40:19Z",
+    "last_seen_utc": "2026-02-28T12:42:21Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "252cf0a4610d20a3",
+      "source_url": "https://www.espn.com/espnplus/",
+      "extracted_at_utc": "2026-02-28T12:42:21Z",
+      "tokens": []
+    }
+  },
+  "masterclass": {
+    "hash": "e6d641115730b63f",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-28T12:40:39Z",
+    "source_url": "https://www.masterclass.com/legal/terms",
+    "pending_since_utc": "2026-02-28T12:40:39Z",
+    "first_seen_utc": "2026-02-28T12:40:39Z",
+    "last_seen_utc": "2026-02-28T12:42:24Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "e6d641115730b63f",
+      "source_url": "https://www.masterclass.com/legal/terms",
+      "extracted_at_utc": "2026-02-28T12:42:24Z",
+      "tokens": []
+    }
+  },
+  "nordvpn": {
+    "hash": "492bde719007418a",
+    "count": 3,
     "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T06:38:38Z",
-    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "pending_since_utc": "2026-02-28T06:38:38Z",
-    "first_seen_utc": "2026-02-28T06:38:38Z",
-    "last_seen_utc": "2026-02-28T06:42:15Z",
+    "last_run_observed_utc": "2026-02-28T12:40:53Z",
+    "source_url": "https://nordvpn.com/pricing/",
+    "pending_since_utc": "2026-02-28T12:40:53Z",
+    "first_seen_utc": "2026-02-28T12:40:53Z",
+    "last_seen_utc": "2026-02-28T12:42:30Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "0f4d43528e0bcee3",
-      "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-02-28T06:41:32Z",
-      "tokens": []
+      "hash": "492bde719007418a",
+      "source_url": "https://nordvpn.com/pricing/",
+      "extracted_at_utc": "2026-02-28T12:42:30Z",
+      "tokens": [
+        "billing:auto_renew"
+      ]
     }
   },
   "twitch": {
-    "hash": "91460a3306d195af",
-    "count": 2,
-    "flip_count": 20,
+    "hash": "88eb4068c6d84b38",
+    "count": 3,
+    "flip_count": 21,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T06:40:08Z",
+    "last_run_observed_utc": "2026-02-28T12:41:09Z",
     "source_url": "https://www.twitch.tv/turbo",
     "pending_since_utc": "2026-02-25T00:35:36Z",
-    "first_seen_utc": "2026-02-28T06:40:08Z",
-    "last_seen_utc": "2026-02-28T06:42:10Z",
+    "first_seen_utc": "2026-02-28T12:41:09Z",
+    "last_seen_utc": "2026-02-28T12:42:28Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "91460a3306d195af",
+      "hash": "88eb4068c6d84b38",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-28T06:41:32Z",
+      "extracted_at_utc": "2026-02-28T12:42:28Z",
       "tokens": []
-    }
-  },
-  "xbox_game_pass": {
-    "hash": "4c03cbf87c7f28b2",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T06:40:09Z",
-    "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
-    "pending_since_utc": "2026-02-28T06:40:09Z",
-    "first_seen_utc": "2026-02-28T06:40:09Z",
-    "last_seen_utc": "2026-02-28T06:42:10Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "4c03cbf87c7f28b2",
-      "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
-      "extracted_at_utc": "2026-02-28T06:42:10Z",
-      "tokens": [
-        "trial:payment_method_required"
-      ]
     }
   }
 }

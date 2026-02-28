@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-28T06:34:03Z",
+  "updated_utc": "2026-02-28T12:36:19Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -92,9 +92,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "60c26ec7c9a22dc8",
+      "hash": "acd0eb9c0ef3a2a8",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-27T12:39:15Z",
+      "extracted_at_utc": "2026-02-28T12:29:36Z",
       "tokens": [
         "cancel_window_days:14"
       ]
@@ -174,10 +174,13 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-27T18:32:11Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-28T12:30:29Z",
+      "tokens": [
+        "cancel:anytime",
+        "cancel:fee_or_penalty"
+      ]
     },
     "google_play": {
       "hash": "b5cf2e31119e8d8d",

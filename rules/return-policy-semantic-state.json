@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-28T06:37:37Z",
+  "updated_utc": "2026-02-28T12:39:30Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -92,9 +92,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "60c26ec7c9a22dc8",
+      "hash": "acd0eb9c0ef3a2a8",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-27T12:45:47Z",
+      "extracted_at_utc": "2026-02-28T12:37:02Z",
       "tokens": []
     },
     "deezer": {
@@ -183,9 +183,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d72f75609e5be554",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-27T18:37:20Z",
+      "extracted_at_utc": "2026-02-28T12:37:14Z",
       "tokens": []
     },
     "google_play": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "509c71871c3fef56",
+      "hash": "287ff660877b52d8",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-28T01:12:28Z",
+      "extracted_at_utc": "2026-02-28T12:37:17Z",
       "tokens": []
     },
     "hulu": {
@@ -429,10 +429,12 @@
       "tokens": []
     },
     "tinder": {
-      "hash": "d72f75609e5be554",
+      "hash": "94874f35eb7a8496",
       "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
-      "extracted_at_utc": "2026-02-19T23:33:20Z",
-      "tokens": []
+      "extracted_at_utc": "2026-02-28T12:37:38Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale"
+      ]
     },
     "tidal": {
       "hash": "0b9d257da80273e5",
@@ -557,9 +559,9 @@
       ]
     },
     "ubisoft_plus": {
-      "hash": "85d1e1222dba885e",
+      "hash": "937c23b4633a5748",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-26T18:53:53Z",
+      "extracted_at_utc": "2026-02-28T12:37:54Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "return:condition_unopened_or_unused",
