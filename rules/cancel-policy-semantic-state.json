@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-27T18:36:24Z",
+  "updated_utc": "2026-02-28T01:11:29Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -496,9 +496,9 @@
       "tokens": []
     },
     "ubisoft_plus": {
-      "hash": "c7ae24c2241df0f8",
+      "hash": "a6321869ff7c0812",
       "source_url": "https://www.ubisoft.com/help/article/canceling-a-ubisoft-subscription/000064975",
-      "extracted_at_utc": "2026-02-26T01:14:37Z",
+      "extracted_at_utc": "2026-02-28T01:08:47Z",
       "tokens": [
         "flow:support_request"
       ]

@@ -1,9 +1,9 @@
 {
-  "updated_utc": "2026-02-27T18:43:05Z",
+  "updated_utc": "2026-02-28T01:17:26Z",
   "policy": "trial",
   "vendors": {
     "1password": {
-      "last_successful_fetch_utc": "2026-02-27T18:39:12Z",
+      "last_successful_fetch_utc": "2026-02-28T01:14:19Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -16,21 +16,21 @@
       ]
     },
     "amazon_music_unlimited": {
-      "last_successful_fetch_utc": "2026-02-27T18:39:13Z",
+      "last_successful_fetch_utc": "2026-02-28T01:14:19Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "__baseline__",
         "__baseline__",
-        "__baseline__",
         "9a0539615d2acf9a",
+        "__baseline__",
         "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-23T19:04:25Z"
     },
     "adobe": {
-      "last_successful_fetch_utc": "2026-02-27T18:39:49Z",
+      "last_successful_fetch_utc": "2026-02-28T01:14:56Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -43,7 +43,7 @@
       ]
     },
     "apple_app_store": {
-      "last_successful_fetch_utc": "2026-02-27T18:39:49Z",
+      "last_successful_fetch_utc": "2026-02-28T01:14:57Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -56,7 +56,7 @@
       ]
     },
     "apple_arcade": {
-      "last_successful_fetch_utc": "2026-02-27T18:39:49Z",
+      "last_successful_fetch_utc": "2026-02-28T01:14:57Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -69,24 +69,23 @@
       ]
     },
     "amazon_prime": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:59Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:03Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "61ad2dd9c3b6fb3e",
         "dd1cf3b0abf20dfb",
         "7a2bfd93bfca2814",
         "dd1cf3b0abf20dfb",
         "__baseline__",
-        "7a2bfd93bfca2814"
+        "7a2bfd93bfca2814",
+        "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-24T12:52:01Z",
       "last_pending_seen_utc": "2026-02-27T18:43:05Z",
-      "last_escalated_utc": "2026-02-27T06:57:44Z",
-      "last_pending_source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC"
+      "last_escalated_utc": "2026-02-27T06:57:44Z"
     },
     "apple_tv_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:39:54Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:03Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -99,7 +98,7 @@
       ]
     },
     "apple_music": {
-      "last_successful_fetch_utc": "2026-02-27T18:39:54Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:04Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -114,14 +113,14 @@
       "last_confirmed_change_utc": "2026-02-25T19:04:20Z"
     },
     "audible": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:30Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:06Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "__baseline__",
+        "5c903bdde6be6a0f",
         "5c903bdde6be6a0f",
         "5c903bdde6be6a0f"
       ],
@@ -129,7 +128,7 @@
       "last_pending_seen_utc": "2026-02-26T07:03:10Z"
     },
     "bitwarden": {
-      "last_successful_fetch_utc": "2026-02-27T18:39:55Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:04Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -144,7 +143,7 @@
       "last_pending_seen_utc": "2026-02-26T01:24:44Z"
     },
     "bumble": {
-      "last_successful_fetch_utc": "2026-02-27T18:39:56Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:05Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -157,7 +156,7 @@
       ]
     },
     "calm": {
-      "last_successful_fetch_utc": "2026-02-27T18:39:58Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:07Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -170,7 +169,7 @@
       ]
     },
     "chatgpt_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:00Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:09Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -185,41 +184,40 @@
       "last_confirmed_change_utc": "2026-02-24T06:59:39Z"
     },
     "claude_pro": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:56Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:10Z",
       "last_pending_age_days": 0,
-      "last_pending_flip_count": 4,
+      "last_pending_flip_count": 0,
       "signal_window": [
-        "fff53cc5006a0a31",
         "fff53cc5006a0a31",
         "be542c04706a08ae",
         "bca4fa208538f5e3",
         "bca4fa208538f5e3",
-        "be542c04706a08ae"
+        "be542c04706a08ae",
+        "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-26T18:55:13Z",
       "last_pending_seen_utc": "2026-02-27T18:43:05Z",
-      "last_pending_source_url": "https://claude.ai/upgrade",
       "last_escalated_utc": "2026-02-27T18:43:05Z"
     },
     "canva": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:57Z",
-      "last_pending_seen_utc": "2026-02-27T18:43:05Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:23Z",
+      "last_pending_seen_utc": "2026-02-28T01:17:26Z",
       "last_pending_age_days": 0,
-      "last_pending_flip_count": 5,
-      "last_escalated_utc": "2026-02-27T18:43:05Z",
+      "last_pending_flip_count": 8,
+      "last_escalated_utc": "2026-02-28T01:17:26Z",
       "signal_window": [
-        "90567d23b128e8bc",
         "7c1dbdc81a9a7118",
         "9c3dad6dc105b69f",
         "__baseline__",
         "a2fac658f40c939e",
-        "652d40786c06a311"
+        "652d40786c06a311",
+        "d166596e218ab03d"
       ],
       "last_confirmed_change_utc": "2026-02-17T18:53:53Z",
       "last_pending_source_url": "https://www.canva.com/pro/"
     },
     "crunchyroll": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:01Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:11Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -232,7 +230,7 @@
       ]
     },
     "deezer": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:01Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:11Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -245,7 +243,7 @@
       ]
     },
     "coursera_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:05Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:11Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -260,7 +258,7 @@
       "last_confirmed_change_utc": "2026-02-26T01:21:54Z"
     },
     "discord_nitro": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:06Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:12Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -273,7 +271,7 @@
       ]
     },
     "disney_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:06Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:12Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -287,7 +285,7 @@
       "last_confirmed_change_utc": "2026-02-17T21:24:09Z"
     },
     "doordash_dashpass": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:06Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:12Z",
       "last_pending_seen_utc": "2026-02-17T16:40:07Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
@@ -302,7 +300,7 @@
       ]
     },
     "duolingo": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:07Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:13Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -315,24 +313,24 @@
       ]
     },
     "espn_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:43:01Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:22Z",
       "last_confirmed_change_utc": "2026-02-24T19:02:13Z",
-      "last_pending_age_days": 2,
-      "last_pending_flip_count": 15,
+      "last_pending_age_days": 3,
+      "last_pending_flip_count": 16,
       "signal_window": [
-        "f65bac0b66733be6",
         "60ce766bba9d0cdf",
         "f68c0224ddae44ad",
         "534f43374df46cdf",
         "8d393f517a9adb60",
-        "1a570f400c5af39d"
+        "1a570f400c5af39d",
+        "6751d0f943b872aa"
       ],
-      "last_pending_seen_utc": "2026-02-27T18:43:05Z",
+      "last_pending_seen_utc": "2026-02-28T01:17:26Z",
       "last_pending_source_url": "https://www.espn.com/espnplus/",
-      "last_escalated_utc": "2026-02-27T18:43:05Z"
+      "last_escalated_utc": "2026-02-28T01:17:26Z"
     },
     "dropbox_us": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:36Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:14Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -340,12 +338,12 @@
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "__baseline__",
-        "d00661dab1384200"
+        "d00661dab1384200",
+        "__baseline__"
       ]
     },
     "evernote": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:08Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:14Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -359,7 +357,7 @@
       "last_confirmed_change_utc": "2026-02-18T09:54:04Z"
     },
     "figma": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:08Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:14Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -372,22 +370,23 @@
       ]
     },
     "expressvpn": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:37Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:21Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "__baseline__",
-        "__baseline__",
         "2888e2754cfa3355",
         "bbb35552e1d6680a",
+        "2888e2754cfa3355",
         "2888e2754cfa3355",
         "2888e2754cfa3355"
       ],
       "last_confirmed_change_utc": "2026-02-24T19:01:53Z",
-      "last_pending_seen_utc": "2026-02-27T06:57:44Z"
+      "last_pending_seen_utc": "2026-02-28T01:17:26Z",
+      "last_pending_source_url": "https://www.expressvpn.com/order"
     },
     "github_pro": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:09Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:16Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -400,27 +399,27 @@
       ]
     },
     "google_one": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:37Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:16Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
         "e9a1e24fd931c011",
         "4e4e6cd4b671fe2a",
         "d23940a24c68c03f",
         "4e4e6cd4b671fe2a",
-        "72d9d08f5726037e"
+        "72d9d08f5726037e",
+        "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-19T23:37:47Z",
       "last_pending_seen_utc": "2026-02-26T07:03:10Z"
     },
     "fubo_tv": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:10Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:17Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
         "54e00c0597dbe2aa",
+        "__baseline__",
         "__baseline__",
         "__baseline__",
         "__baseline__",
@@ -430,7 +429,7 @@
       "last_pending_seen_utc": "2026-02-26T18:58:04Z"
     },
     "google_play": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:10Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:18Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -443,7 +442,7 @@
       ]
     },
     "grammarly": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:10Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:18Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -457,7 +456,7 @@
       "last_confirmed_change_utc": "2026-02-18T09:54:03Z"
     },
     "headspace": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:10Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:18Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -471,7 +470,7 @@
       "last_confirmed_change_utc": "2026-02-18T09:54:04Z"
     },
     "hulu": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:11Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:19Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -484,7 +483,7 @@
       ]
     },
     "hellofresh": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:11Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:19Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -497,23 +496,23 @@
       ]
     },
     "hinge": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:15Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:14Z",
       "last_pending_seen_utc": "2026-02-27T12:51:55Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_escalated_utc": "2026-02-26T01:24:44Z",
       "last_confirmed_change_utc": "2026-02-26T07:00:33Z",
       "signal_window": [
-        "a1eb9af0e6420b90",
         "__baseline__",
         "__baseline__",
         "708eef0a4d8b60ad",
         "e57ca60f9cfa9d94",
-        "__baseline__"
+        "__baseline__",
+        "e57ca60f9cfa9d94"
       ]
     },
     "icloud_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:16Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:25Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -526,7 +525,7 @@
       ]
     },
     "kindle_unlimited": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:16Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:26Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -539,7 +538,7 @@
       ]
     },
     "instacart_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:20Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:30Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -552,7 +551,7 @@
       ]
     },
     "linkedin_premium": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:21Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:30Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -565,7 +564,7 @@
       ]
     },
     "max": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:21Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:23Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -574,27 +573,28 @@
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "__baseline__"
-      ]
+        "98797ac813a3f0d3"
+      ],
+      "last_pending_seen_utc": "2026-02-28T01:17:26Z",
+      "last_pending_source_url": "https://www.max.com/"
     },
     "masterclass": {
-      "last_successful_fetch_utc": "2026-02-27T18:43:01Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:35Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
         "5ad1a0b5ada78a5f",
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "6eb46a3c16e208a7"
+        "6eb46a3c16e208a7",
+        "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-23T20:18:13Z",
-      "last_pending_seen_utc": "2026-02-27T18:43:05Z",
-      "last_pending_source_url": "https://www.masterclass.com/legal/terms"
+      "last_pending_seen_utc": "2026-02-27T18:43:05Z"
     },
     "microsoft_365": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:25Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:36Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -607,7 +607,7 @@
       ]
     },
     "netflix": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:25Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:36Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -620,7 +620,7 @@
       ]
     },
     "midjourney": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:27Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:38Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -634,7 +634,7 @@
       "last_confirmed_change_utc": "2026-02-17T18:53:55Z"
     },
     "noom": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:27Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:38Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -647,8 +647,8 @@
       ]
     },
     "nintendo_switch_online": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:59Z",
-      "last_confirmed_change_utc": "2026-02-17T16:39:58Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:38Z",
+      "last_confirmed_change_utc": "2026-02-28T01:15:38Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -656,14 +656,13 @@
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "__baseline__",
+        "07c758a3be86f63b",
         "07c758a3be86f63b"
       ],
-      "last_pending_seen_utc": "2026-02-27T18:43:05Z",
-      "last_pending_source_url": "https://www.nintendo.com/us/switch/online/"
+      "last_pending_seen_utc": "2026-02-27T18:43:05Z"
     },
     "nordvpn": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:34Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:43Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -680,7 +679,7 @@
       "last_material_emitted_utc": "2026-02-24T07:02:14Z"
     },
     "paramount_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:43:01Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:23Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -688,15 +687,15 @@
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "__baseline__",
+        "f5ae7288ed0f719e",
         "f5ae7288ed0f719e"
       ],
-      "last_pending_seen_utc": "2026-02-27T18:43:05Z",
+      "last_pending_seen_utc": "2026-02-28T01:17:26Z",
       "last_confirmed_change_utc": "2026-02-26T07:01:29Z",
       "last_pending_source_url": "https://www.paramountplus.com/"
     },
     "notion": {
-      "last_successful_fetch_utc": "2026-02-27T18:40:34Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:44Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -709,22 +708,22 @@
       ]
     },
     "peacock": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:45Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:16Z",
       "last_pending_seen_utc": "2026-02-26T01:24:44Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "302a703c0563cfc7",
         "__baseline__",
         "302a703c0563cfc7",
         "302a703c0563cfc7",
         "__baseline__",
-        "302a703c0563cfc7"
+        "302a703c0563cfc7",
+        "e90fd5b0e82ad2c9"
       ],
       "last_confirmed_change_utc": "2026-02-24T19:02:21Z"
     },
     "peloton": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:15Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:53Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -737,21 +736,21 @@
       ]
     },
     "proton": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:16Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:53Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-02-24T19:02:01Z",
       "signal_window": [
+        "7eee55087667d851",
+        "7eee55087667d851",
         "__baseline__",
-        "7eee55087667d851",
-        "7eee55087667d851",
         "__baseline__",
         "__baseline__",
         "__baseline__"
       ]
     },
     "playstation_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:16Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:53Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -764,7 +763,7 @@
       ]
     },
     "scribd": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:16Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:54Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -777,7 +776,7 @@
       ]
     },
     "ring_protect": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:16Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:54Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -791,7 +790,7 @@
       "last_confirmed_change_utc": "2026-02-20T06:57:10Z"
     },
     "shutterstock": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:20Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:58Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -804,7 +803,7 @@
       ]
     },
     "sling_tv": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:20Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:58Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -818,7 +817,7 @@
       "last_confirmed_change_utc": "2026-02-21T01:21:01Z"
     },
     "spotify": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:20Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:58Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -832,7 +831,7 @@
       "last_confirmed_change_utc": "2026-02-24T12:55:00Z"
     },
     "slack": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:20Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:59Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -845,7 +844,7 @@
       ]
     },
     "squarespace": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:21Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:59Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -858,7 +857,7 @@
       ]
     },
     "strava": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:21Z",
+      "last_successful_fetch_utc": "2026-02-28T01:15:59Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -872,7 +871,7 @@
       "last_confirmed_change_utc": "2026-02-19T23:37:49Z"
     },
     "surfshark": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:22Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:00Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -885,7 +884,7 @@
       ]
     },
     "tinder": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:22Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:00Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -898,7 +897,7 @@
       ]
     },
     "todoist": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:22Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:01Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -911,7 +910,7 @@
       ]
     },
     "tidal": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:26Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:04Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -925,24 +924,24 @@
       "last_confirmed_change_utc": "2026-02-24T12:55:03Z"
     },
     "twitch": {
-      "last_successful_fetch_utc": "2026-02-27T18:43:01Z",
-      "last_pending_seen_utc": "2026-02-27T18:43:05Z",
-      "last_pending_age_days": 2,
-      "last_pending_flip_count": 18,
-      "last_escalated_utc": "2026-02-27T18:43:05Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:23Z",
+      "last_pending_seen_utc": "2026-02-28T01:17:26Z",
+      "last_pending_age_days": 3,
+      "last_pending_flip_count": 19,
+      "last_escalated_utc": "2026-02-28T01:17:26Z",
       "signal_window": [
-        "859e3e9e0917abe7",
         "fb7132c369b943bb",
         "cfb4840acccc68ad",
         "22b0e67cf9b85da2",
         "bd6ea094ec1a2a85",
-        "c17059779e82f3c7"
+        "c17059779e82f3c7",
+        "e5254a751d186cb3"
       ],
       "last_confirmed_change_utc": "2026-02-24T19:02:06Z",
       "last_pending_source_url": "https://www.twitch.tv/turbo"
     },
     "walmart_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:26Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:05Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -955,7 +954,7 @@
       ]
     },
     "uber_one": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:26Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:05Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -969,7 +968,7 @@
       "last_confirmed_change_utc": "2026-02-21T01:21:08Z"
     },
     "xbox_game_pass": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:27Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:06Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -983,7 +982,7 @@
       "last_confirmed_change_utc": "2026-02-19T01:26:11Z"
     },
     "wix": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:27Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:06Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -996,7 +995,7 @@
       ]
     },
     "youtube_premium": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:28Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:07Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1009,22 +1008,22 @@
       ]
     },
     "youtube_tv": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:28Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:08Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "__baseline__",
         "__baseline__",
-        "__baseline__",
         "c0ccfb866d06719c",
         "86444114a1f1b6f6",
-        "86444114a1f1b6f6"
+        "86444114a1f1b6f6",
+        "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-27T18:41:28Z",
       "last_pending_seen_utc": "2026-02-27T12:51:55Z"
     },
     "dashlane": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:28Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:08Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1038,7 +1037,7 @@
       "last_confirmed_change_utc": "2026-02-18T18:52:45Z"
     },
     "lastpass": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:30Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:09Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1052,7 +1051,7 @@
       "last_confirmed_change_utc": "2026-02-23T12:54:37Z"
     },
     "keeper": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:31Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:09Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1065,7 +1064,7 @@
       ]
     },
     "myfitnesspal_premium": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:31Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:09Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1079,7 +1078,7 @@
       "last_confirmed_change_utc": "2026-02-17T18:53:57Z"
     },
     "fitbit_premium": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:31Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:10Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1093,7 +1092,7 @@
       "last_confirmed_change_utc": "2026-02-18T18:52:48Z"
     },
     "siriusxm": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:32Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:10Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1107,7 +1106,7 @@
       "last_confirmed_change_utc": "2026-02-19T01:26:12Z"
     },
     "weightwatchers": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:32Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:11Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1121,7 +1120,7 @@
       "last_confirmed_change_utc": "2026-02-18T18:52:48Z"
     },
     "patreon": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:51Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:16Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1129,13 +1128,13 @@
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "__baseline__",
-        "8f90a10c883a3a69"
+        "8f90a10c883a3a69",
+        "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-18T12:53:01Z"
     },
     "roblox_premium": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:40Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:16Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1148,7 +1147,7 @@
       ]
     },
     "ubisoft_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:41Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:16Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1161,7 +1160,7 @@
       ]
     },
     "ea_play": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:40Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:16Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1174,7 +1173,7 @@
       ]
     },
     "nfl_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:41Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:17Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1187,7 +1186,7 @@
       ]
     },
     "new_york_times": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:41Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:17Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1200,7 +1199,7 @@
       ]
     },
     "mlb_tv": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:41Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:17Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1214,7 +1213,7 @@
       "last_confirmed_change_utc": "2026-02-23T19:04:30Z"
     },
     "wall_street_journal": {
-      "last_successful_fetch_utc": "2026-02-27T18:41:42Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:19Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1228,7 +1227,7 @@
       "last_confirmed_change_utc": "2026-02-20T18:49:50Z"
     },
     "substack": {
-      "last_successful_fetch_utc": "2026-02-27T18:43:03Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:23Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-02-23T07:08:08Z",
@@ -1236,16 +1235,15 @@
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "__baseline__",
         "20fab989e6c94724",
-        "b09aa6131f263ef6"
+        "b09aa6131f263ef6",
+        "__baseline__"
       ],
       "last_pending_seen_utc": "2026-02-27T18:43:05Z",
-      "last_escalated_utc": "2026-02-18T01:28:58Z",
-      "last_pending_source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription"
+      "last_escalated_utc": "2026-02-18T01:28:58Z"
     },
     "washington_post": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:20Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:56Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1258,7 +1256,7 @@
       ]
     },
     "snapchat_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:21Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:57Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1271,7 +1269,7 @@
       ]
     },
     "x_premium": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:21Z",
+      "last_successful_fetch_utc": "2026-02-28T01:16:56Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1284,7 +1282,7 @@
       ]
     },
     "reddit_premium": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:24Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:00Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1297,7 +1295,7 @@
       ]
     },
     "discovery_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:25Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:00Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-02-23T19:04:34Z",
@@ -1311,38 +1309,38 @@
       ]
     },
     "telegram_premium": {
-      "last_successful_fetch_utc": "2026-02-27T18:43:04Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:24Z",
       "last_pending_age_days": 0,
-      "last_pending_flip_count": 0,
+      "last_pending_flip_count": 1,
       "signal_window": [
         "__baseline__",
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "__baseline__",
-        "4783b7c55dd72758"
+        "4783b7c55dd72758",
+        "273bbbd272a50dc6"
       ],
-      "last_pending_seen_utc": "2026-02-27T18:43:05Z",
+      "last_pending_seen_utc": "2026-02-28T01:17:26Z",
       "last_pending_source_url": "https://telegram.org/premium"
     },
     "soundcloud_go": {
-      "last_successful_fetch_utc": "2026-02-27T18:43:05Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:26Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
         "__baseline__",
         "__baseline__",
         "353aa0508fd129df",
         "__baseline__",
+        "bacc1b91ac614bce",
         "bacc1b91ac614bce"
       ],
-      "last_pending_seen_utc": "2026-02-27T18:43:05Z",
+      "last_pending_seen_utc": "2026-02-28T01:17:26Z",
       "last_confirmed_change_utc": "2026-02-25T12:15:31Z",
       "last_pending_source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription"
     },
     "amc_plus": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:27Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:03Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1355,7 +1353,7 @@
       ]
     },
     "starz": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:27Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:03Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1368,7 +1366,7 @@
       ]
     },
     "britbox": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:27Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:03Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1381,7 +1379,7 @@
       ]
     },
     "zoom": {
-      "last_successful_fetch_utc": "2026-02-27T18:42:28Z",
+      "last_successful_fetch_utc": "2026-02-28T01:17:04Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [

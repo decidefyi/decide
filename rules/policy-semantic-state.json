@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-27T18:30:16Z",
+  "updated_utc": "2026-02-28T01:05:15Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -770,9 +770,9 @@
       ]
     },
     "grammarly": {
-      "hash": "e5adcea469f4a180",
+      "hash": "509c71871c3fef56",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-23T20:06:52Z",
+      "extracted_at_utc": "2026-02-28T01:02:17Z",
       "tokens": []
     },
     "scribd": {

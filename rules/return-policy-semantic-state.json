@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-27T18:39:12Z",
+  "updated_utc": "2026-02-28T01:14:19Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -197,9 +197,9 @@
       ]
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
+      "hash": "509c71871c3fef56",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-02-26T18:52:41Z",
+      "extracted_at_utc": "2026-02-28T01:12:28Z",
       "tokens": []
     },
     "hulu": {
@@ -486,9 +486,9 @@
       "tokens": []
     },
     "youtube_tv": {
-      "hash": "ea3ffbff5bee096d",
+      "hash": "86444114a1f1b6f6",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-02-24T12:51:02Z",
+      "extracted_at_utc": "2026-02-28T01:12:57Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
@@ -541,9 +541,9 @@
       "tokens": []
     },
     "patreon": {
-      "hash": "5deb8e1ef09d50b3",
+      "hash": "b5b7ba69f29f6044",
       "source_url": "https://www.patreon.com/policy/legal",
-      "extracted_at_utc": "2026-02-19T23:33:37Z",
+      "extracted_at_utc": "2026-02-28T01:13:07Z",
       "tokens": []
     },
     "ea_play": {
@@ -712,9 +712,9 @@
       ]
     },
     "masterclass": {
-      "hash": "25073741b6741db6",
+      "hash": "6eb46a3c16e208a7",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-27T06:52:40Z",
+      "extracted_at_utc": "2026-02-28T01:12:35Z",
       "tokens": []
     },
     "roblox_premium": {

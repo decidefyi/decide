@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-27T18:43:05Z",
+  "updated_utc": "2026-02-28T01:17:26Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -284,9 +284,9 @@
       "tokens": []
     },
     "nintendo_switch_online": {
-      "hash": "7cee623b2b7da97d",
+      "hash": "07c758a3be86f63b",
       "source_url": "https://www.nintendo.com/us/switch/online/",
-      "extracted_at_utc": "2026-02-19T23:35:53Z",
+      "extracted_at_utc": "2026-02-28T01:15:38Z",
       "tokens": [
         "billing:auto_renew"
       ]
