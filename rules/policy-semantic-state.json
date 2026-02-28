@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-28T01:05:15Z",
+  "updated_utc": "2026-02-28T06:27:26Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -713,9 +713,9 @@
       "tokens": []
     },
     "claude_pro": {
-      "hash": "052fb786234686bd",
+      "hash": "1ac666a3506f4f86",
       "source_url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
-      "extracted_at_utc": "2026-02-27T18:27:50Z",
+      "extracted_at_utc": "2026-02-28T06:24:47Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
@@ -728,9 +728,9 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-27T01:08:22Z",
+      "extracted_at_utc": "2026-02-28T06:25:01Z",
       "tokens": []
     },
     "evernote": {
@@ -744,9 +744,9 @@
       ]
     },
     "hellofresh": {
-      "hash": "d72f75609e5be554",
+      "hash": "d0fe4030fbecd2c7",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-27T18:28:12Z",
+      "extracted_at_utc": "2026-02-28T06:25:48Z",
       "tokens": []
     },
     "washington_post": {

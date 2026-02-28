@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-28T01:14:19Z",
+  "updated_utc": "2026-02-28T06:37:37Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -681,9 +681,9 @@
       "tokens": []
     },
     "claude_pro": {
-      "hash": "2231d37578fb0733",
+      "hash": "31fee4582b8164e8",
       "source_url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
-      "extracted_at_utc": "2026-02-27T18:37:09Z",
+      "extracted_at_utc": "2026-02-28T06:34:48Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"

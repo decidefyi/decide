@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-28T01:17:26Z",
+  "updated_utc": "2026-02-28T06:42:15Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -246,9 +246,9 @@
       ]
     },
     "max": {
-      "hash": "a0969f437aa2729a",
+      "hash": "98797ac813a3f0d3",
       "source_url": "https://www.max.com/",
-      "extracted_at_utc": "2026-02-19T23:35:46Z",
+      "extracted_at_utc": "2026-02-28T06:38:44Z",
       "tokens": []
     },
     "masterclass": {
@@ -292,9 +292,9 @@
       ]
     },
     "paramount_plus": {
-      "hash": "abda6402a3c5e3ca",
+      "hash": "f5ae7288ed0f719e",
       "source_url": "https://www.paramountplus.com/",
-      "extracted_at_utc": "2026-02-26T07:01:29Z",
+      "extracted_at_utc": "2026-02-28T06:39:15Z",
       "tokens": []
     },
     "notion": {
@@ -579,9 +579,9 @@
       "tokens": []
     },
     "telegram_premium": {
-      "hash": "fcc01b1e1cec8cda",
+      "hash": "273bbbd272a50dc6",
       "source_url": "https://telegram.org/premium",
-      "extracted_at_utc": "2026-02-19T23:37:42Z",
+      "extracted_at_utc": "2026-02-28T06:41:03Z",
       "tokens": []
     },
     "soundcloud_go": {

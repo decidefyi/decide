@@ -1,238 +1,221 @@
 {
-  "calm": {
-    "hash": "d72f75609e5be554",
-    "count": 2,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T01:12:13Z",
-    "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-    "pending_since_utc": "2026-02-28T01:12:13Z",
-    "first_seen_utc": "2026-02-28T01:12:13Z",
-    "last_seen_utc": "2026-02-28T01:14:02Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "d72f75609e5be554",
-      "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-28T01:13:35Z",
-      "tokens": []
-    }
-  },
-  "claude_pro": {
-    "hash": "31fee4582b8164e8",
+  "chatgpt_plus": {
+    "hash": "acd0eb9c0ef3a2a8",
     "count": 3,
     "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T01:12:14Z",
-    "source_url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
-    "pending_since_utc": "2026-02-28T01:12:14Z",
-    "first_seen_utc": "2026-02-28T01:12:14Z",
-    "last_seen_utc": "2026-02-28T01:14:00Z",
+    "last_run_observed_utc": "2026-02-28T06:34:47Z",
+    "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
+    "pending_since_utc": "2026-02-28T06:34:47Z",
+    "first_seen_utc": "2026-02-28T06:34:47Z",
+    "last_seen_utc": "2026-02-28T06:36:36Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "31fee4582b8164e8",
-      "source_url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
-      "extracted_at_utc": "2026-02-28T01:14:00Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ]
+      "hash": "acd0eb9c0ef3a2a8",
+      "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
+      "extracted_at_utc": "2026-02-28T06:36:36Z",
+      "tokens": []
     }
   },
   "canva": {
-    "hash": "64ce799b90fd6426",
-    "count": 4,
-    "flip_count": 0,
-    "run_confirmations": 2,
+    "hash": "022d4db99f8ebb14",
+    "count": 1,
+    "flip_count": 3,
+    "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T01:12:16Z",
-    "source_url": "https://www.canva.com/policies/terms-of-use/",
+    "last_run_observed_utc": "2026-02-28T06:34:52Z",
+    "source_url": "https://www.canva.com/help/",
     "pending_since_utc": "2026-02-27T18:37:10Z",
-    "first_seen_utc": "2026-02-27T18:37:10Z",
-    "last_seen_utc": "2026-02-28T01:14:02Z",
+    "first_seen_utc": "2026-02-28T06:37:21Z",
+    "last_seen_utc": "2026-02-28T06:37:21Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "64ce799b90fd6426",
-      "source_url": "https://www.canva.com/policies/terms-of-use/",
-      "extracted_at_utc": "2026-02-28T01:14:02Z",
+      "hash": "022d4db99f8ebb14",
+      "source_url": "https://www.canva.com/help/",
+      "extracted_at_utc": "2026-02-28T06:37:21Z",
       "tokens": []
     }
   },
   "espn_plus": {
-    "hash": "81d825132084aaa3",
-    "count": 2,
-    "flip_count": 17,
+    "hash": "6698bbe578ef1f2f",
+    "count": 3,
+    "flip_count": 18,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T01:12:20Z",
+    "last_run_observed_utc": "2026-02-28T06:35:00Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:31:58Z",
-    "first_seen_utc": "2026-02-28T01:13:35Z",
-    "last_seen_utc": "2026-02-28T01:14:04Z",
+    "first_seen_utc": "2026-02-28T06:35:00Z",
+    "last_seen_utc": "2026-02-28T06:36:37Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "81d825132084aaa3",
+      "hash": "6698bbe578ef1f2f",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-28T01:14:04Z",
+      "extracted_at_utc": "2026-02-28T06:36:37Z",
       "tokens": []
     }
   },
-  "google_one": {
-    "hash": "4e4e6cd4b671fe2a",
+  "fubo_tv": {
+    "hash": "d94532d3b027dae7",
     "count": 2,
     "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T01:12:24Z",
-    "source_url": "https://one.google.com/about/plans",
-    "pending_since_utc": "2026-02-28T01:12:24Z",
-    "first_seen_utc": "2026-02-28T01:12:24Z",
-    "last_seen_utc": "2026-02-28T01:14:03Z",
+    "last_run_observed_utc": "2026-02-28T06:35:05Z",
+    "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
+    "pending_since_utc": "2026-02-28T06:35:05Z",
+    "first_seen_utc": "2026-02-28T06:35:05Z",
+    "last_seen_utc": "2026-02-28T06:37:23Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "4e4e6cd4b671fe2a",
-      "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-02-28T01:13:35Z",
+      "hash": "d94532d3b027dae7",
+      "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
+      "extracted_at_utc": "2026-02-28T06:36:18Z",
       "tokens": []
     }
   },
-  "headspace": {
-    "hash": "5149bb58e3a995ff",
+  "grammarly": {
+    "hash": "287ff660877b52d8",
     "count": 3,
     "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T01:12:29Z",
-    "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-    "pending_since_utc": "2026-02-28T01:12:29Z",
-    "first_seen_utc": "2026-02-28T01:12:29Z",
-    "last_seen_utc": "2026-02-28T01:14:05Z",
+    "last_run_observed_utc": "2026-02-28T06:35:07Z",
+    "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
+    "pending_since_utc": "2026-02-28T06:35:07Z",
+    "first_seen_utc": "2026-02-28T06:35:07Z",
+    "last_seen_utc": "2026-02-28T06:37:24Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "5149bb58e3a995ff",
-      "source_url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "extracted_at_utc": "2026-02-28T01:14:05Z",
+      "hash": "287ff660877b52d8",
+      "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
+      "extracted_at_utc": "2026-02-28T06:37:24Z",
       "tokens": []
     }
   },
-  "hinge": {
-    "hash": "49f1ee7afc18417f",
+  "masterclass": {
+    "hash": "b852ddd7e8c288fa",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-02-28T06:35:17Z",
+    "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
+    "pending_since_utc": "2026-02-28T06:35:17Z",
+    "first_seen_utc": "2026-02-28T06:35:17Z",
+    "last_seen_utc": "2026-02-28T06:37:30Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "b852ddd7e8c288fa",
+      "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
+      "extracted_at_utc": "2026-02-28T06:37:30Z",
+      "tokens": []
+    }
+  },
+  "tinder": {
+    "hash": "94874f35eb7a8496",
     "count": 2,
     "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T01:12:31Z",
-    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-    "pending_since_utc": "2026-02-28T01:12:31Z",
-    "first_seen_utc": "2026-02-28T01:12:31Z",
-    "last_seen_utc": "2026-02-28T01:14:13Z",
+    "last_run_observed_utc": "2026-02-28T06:35:32Z",
+    "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
+    "pending_since_utc": "2026-02-28T06:35:32Z",
+    "first_seen_utc": "2026-02-28T06:35:32Z",
+    "last_seen_utc": "2026-02-28T06:37:28Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "49f1ee7afc18417f",
-      "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
-      "extracted_at_utc": "2026-02-28T01:13:39Z",
-      "tokens": []
-    }
-  },
-  "scribd": {
-    "hash": "4d36180bf702e4c9",
-    "count": 1,
-    "flip_count": 1,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T01:12:48Z",
-    "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-    "pending_since_utc": "2026-02-28T01:12:48Z",
-    "first_seen_utc": "2026-02-28T01:13:45Z",
-    "last_seen_utc": "2026-02-28T01:13:45Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "4d36180bf702e4c9",
-      "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-      "extracted_at_utc": "2026-02-28T01:13:45Z",
-      "tokens": []
+      "hash": "94874f35eb7a8496",
+      "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
+      "extracted_at_utc": "2026-02-28T06:36:22Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale"
+      ]
     }
   },
   "myfitnesspal_premium": {
-    "hash": "ef4c40930113a94a",
+    "hash": "ac9cb4e8ade81a97",
     "count": 1,
-    "flip_count": 140,
+    "flip_count": 143,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T01:13:05Z",
+    "last_run_observed_utc": "2026-02-28T06:35:43Z",
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T09:00:33Z",
-    "first_seen_utc": "2026-02-28T01:14:11Z",
-    "last_seen_utc": "2026-02-28T01:14:11Z",
+    "first_seen_utc": "2026-02-28T06:37:29Z",
+    "last_seen_utc": "2026-02-28T06:37:29Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "ef4c40930113a94a",
+      "hash": "ac9cb4e8ade81a97",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-28T01:14:11Z",
+      "extracted_at_utc": "2026-02-28T06:37:29Z",
       "tokens": [
         "flow:support_request"
       ]
     }
   },
-  "roblox_premium": {
-    "hash": "6b537c57790d9f9c",
-    "count": 2,
-    "flip_count": 1,
+  "patreon": {
+    "hash": "5deb8e1ef09d50b3",
+    "count": 3,
+    "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T01:13:12Z",
-    "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-    "pending_since_utc": "2026-02-27T18:38:06Z",
-    "first_seen_utc": "2026-02-28T01:13:12Z",
-    "last_seen_utc": "2026-02-28T01:13:48Z",
+    "last_run_observed_utc": "2026-02-28T06:35:48Z",
+    "source_url": "https://www.patreon.com/policy/legal",
+    "pending_since_utc": "2026-02-28T06:35:48Z",
+    "first_seen_utc": "2026-02-28T06:35:48Z",
+    "last_seen_utc": "2026-02-28T06:37:36Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "6b537c57790d9f9c",
-      "source_url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
-      "extracted_at_utc": "2026-02-28T01:13:48Z",
+      "hash": "5deb8e1ef09d50b3",
+      "source_url": "https://www.patreon.com/policy/legal",
+      "extracted_at_utc": "2026-02-28T06:37:36Z",
+      "tokens": []
+    }
+  },
+  "ubisoft_plus": {
+    "hash": "937c23b4633a5748",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-02-28T06:35:49Z",
+    "source_url": "https://legal.ubi.com/termsofuse/en-US",
+    "pending_since_utc": "2026-02-28T06:35:49Z",
+    "first_seen_utc": "2026-02-28T06:35:49Z",
+    "last_seen_utc": "2026-02-28T06:37:31Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "937c23b4633a5748",
+      "source_url": "https://legal.ubi.com/termsofuse/en-US",
+      "extracted_at_utc": "2026-02-28T06:37:31Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
+        "return:condition_unopened_or_unused",
         "risk:chargeback_or_dispute"
       ]
     }
   },
   "substack": {
-    "hash": "1fc132f3609dd8b1",
-    "count": 2,
-    "flip_count": 3,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T01:13:21Z",
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "pending_since_utc": "2026-02-27T18:38:09Z",
-    "first_seen_utc": "2026-02-28T01:13:58Z",
-    "last_seen_utc": "2026-02-28T01:14:19Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "1fc132f3609dd8b1",
-      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-28T01:14:19Z",
-      "tokens": []
-    }
-  },
-  "soundcloud_go": {
-    "hash": "bacc1b91ac614bce",
-    "count": 4,
-    "flip_count": 0,
+    "hash": "f5fa5608fc35aee4",
+    "count": 1,
+    "flip_count": 5,
     "run_confirmations": 2,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T01:13:28Z",
-    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-    "pending_since_utc": "2026-02-27T18:38:21Z",
-    "first_seen_utc": "2026-02-27T18:38:21Z",
-    "last_seen_utc": "2026-02-28T01:14:16Z",
+    "last_run_observed_utc": "2026-02-28T06:35:56Z",
+    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+    "pending_since_utc": "2026-02-27T18:38:09Z",
+    "first_seen_utc": "2026-02-28T06:37:37Z",
+    "last_seen_utc": "2026-02-28T06:37:37Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "bacc1b91ac614bce",
-      "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-28T01:14:16Z",
-      "tokens": []
+      "hash": "f5fa5608fc35aee4",
+      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "extracted_at_utc": "2026-02-28T06:37:37Z",
+      "tokens": [
+        "flow:support_request"
+      ]
     }
   }
 }

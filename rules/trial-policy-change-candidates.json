@@ -1,154 +1,80 @@
 {
-  "canva": {
-    "hash": "122b965aff967b0f",
-    "count": 1,
-    "flip_count": 8,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T01:15:10Z",
-    "source_url": "https://www.canva.com/pro/",
-    "pending_since_utc": "2026-02-27T12:49:07Z",
-    "first_seen_utc": "2026-02-28T01:17:23Z",
-    "last_seen_utc": "2026-02-28T01:17:23Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "122b965aff967b0f",
-      "source_url": "https://www.canva.com/pro/",
-      "extracted_at_utc": "2026-02-28T01:17:23Z",
-      "tokens": []
-    }
-  },
   "espn_plus": {
-    "hash": "6751d0f943b872aa",
-    "count": 2,
-    "flip_count": 16,
+    "hash": "6698bbe578ef1f2f",
+    "count": 3,
+    "flip_count": 17,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T01:15:13Z",
+    "last_run_observed_utc": "2026-02-28T06:38:27Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:34:41Z",
-    "first_seen_utc": "2026-02-28T01:15:13Z",
-    "last_seen_utc": "2026-02-28T01:17:22Z",
+    "first_seen_utc": "2026-02-28T06:38:27Z",
+    "last_seen_utc": "2026-02-28T06:41:45Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "6751d0f943b872aa",
+      "hash": "6698bbe578ef1f2f",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-28T01:17:06Z",
+      "extracted_at_utc": "2026-02-28T06:41:45Z",
       "tokens": []
     }
   },
-  "expressvpn": {
-    "hash": "2888e2754cfa3355",
+  "hinge": {
+    "hash": "0f4d43528e0bcee3",
     "count": 2,
     "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T01:15:15Z",
-    "source_url": "https://www.expressvpn.com/order",
-    "pending_since_utc": "2026-02-28T01:15:15Z",
-    "first_seen_utc": "2026-02-28T01:15:15Z",
-    "last_seen_utc": "2026-02-28T01:17:21Z",
+    "last_run_observed_utc": "2026-02-28T06:38:38Z",
+    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+    "pending_since_utc": "2026-02-28T06:38:38Z",
+    "first_seen_utc": "2026-02-28T06:38:38Z",
+    "last_seen_utc": "2026-02-28T06:42:15Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "2888e2754cfa3355",
-      "source_url": "https://www.expressvpn.com/order",
-      "extracted_at_utc": "2026-02-28T01:17:09Z",
-      "tokens": []
-    }
-  },
-  "max": {
-    "hash": "98797ac813a3f0d3",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T01:15:30Z",
-    "source_url": "https://www.max.com/",
-    "pending_since_utc": "2026-02-28T01:15:30Z",
-    "first_seen_utc": "2026-02-28T01:15:30Z",
-    "last_seen_utc": "2026-02-28T01:17:23Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "98797ac813a3f0d3",
-      "source_url": "https://www.max.com/",
-      "extracted_at_utc": "2026-02-28T01:17:23Z",
-      "tokens": []
-    }
-  },
-  "paramount_plus": {
-    "hash": "f5ae7288ed0f719e",
-    "count": 4,
-    "flip_count": 0,
-    "run_confirmations": 2,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T01:15:44Z",
-    "source_url": "https://www.paramountplus.com/",
-    "pending_since_utc": "2026-02-27T18:40:34Z",
-    "first_seen_utc": "2026-02-27T18:40:34Z",
-    "last_seen_utc": "2026-02-28T01:17:23Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "f5ae7288ed0f719e",
-      "source_url": "https://www.paramountplus.com/",
-      "extracted_at_utc": "2026-02-28T01:17:23Z",
+      "hash": "0f4d43528e0bcee3",
+      "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+      "extracted_at_utc": "2026-02-28T06:41:32Z",
       "tokens": []
     }
   },
   "twitch": {
-    "hash": "e5254a751d186cb3",
-    "count": 3,
-    "flip_count": 19,
+    "hash": "91460a3306d195af",
+    "count": 2,
+    "flip_count": 20,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T01:16:04Z",
+    "last_run_observed_utc": "2026-02-28T06:40:08Z",
     "source_url": "https://www.twitch.tv/turbo",
     "pending_since_utc": "2026-02-25T00:35:36Z",
-    "first_seen_utc": "2026-02-28T01:16:04Z",
-    "last_seen_utc": "2026-02-28T01:17:23Z",
+    "first_seen_utc": "2026-02-28T06:40:08Z",
+    "last_seen_utc": "2026-02-28T06:42:10Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "e5254a751d186cb3",
+      "hash": "91460a3306d195af",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-02-28T01:17:23Z",
+      "extracted_at_utc": "2026-02-28T06:41:32Z",
       "tokens": []
     }
   },
-  "telegram_premium": {
-    "hash": "273bbbd272a50dc6",
+  "xbox_game_pass": {
+    "hash": "4c03cbf87c7f28b2",
     "count": 3,
-    "flip_count": 1,
+    "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T01:17:00Z",
-    "source_url": "https://telegram.org/premium",
-    "pending_since_utc": "2026-02-27T18:42:25Z",
-    "first_seen_utc": "2026-02-28T01:17:00Z",
-    "last_seen_utc": "2026-02-28T01:17:24Z",
+    "last_run_observed_utc": "2026-02-28T06:40:09Z",
+    "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
+    "pending_since_utc": "2026-02-28T06:40:09Z",
+    "first_seen_utc": "2026-02-28T06:40:09Z",
+    "last_seen_utc": "2026-02-28T06:42:10Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "273bbbd272a50dc6",
-      "source_url": "https://telegram.org/premium",
-      "extracted_at_utc": "2026-02-28T01:17:24Z",
-      "tokens": []
-    }
-  },
-  "soundcloud_go": {
-    "hash": "bacc1b91ac614bce",
-    "count": 4,
-    "flip_count": 0,
-    "run_confirmations": 2,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T01:17:02Z",
-    "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-    "pending_since_utc": "2026-02-27T18:42:26Z",
-    "first_seen_utc": "2026-02-27T18:42:26Z",
-    "last_seen_utc": "2026-02-28T01:17:26Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "bacc1b91ac614bce",
-      "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-28T01:17:26Z",
-      "tokens": []
+      "hash": "4c03cbf87c7f28b2",
+      "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
+      "extracted_at_utc": "2026-02-28T06:42:10Z",
+      "tokens": [
+        "trial:payment_method_required"
+      ]
     }
   }
 }
