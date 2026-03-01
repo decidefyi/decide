@@ -1,98 +1,79 @@
 {
-  "amazon_prime": {
-    "hash": "7a2bfd93bfca2814",
-    "count": 3,
-    "flip_count": 3,
-    "run_confirmations": 2,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-03-01T06:46:18Z",
-    "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-    "pending_since_utc": "2026-02-28T12:40:08Z",
-    "first_seen_utc": "2026-03-01T01:30:02Z",
-    "last_seen_utc": "2026-03-01T06:49:07Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "7a2bfd93bfca2814",
-      "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-03-01T06:48:58Z",
-      "tokens": []
-    }
-  },
-  "audible": {
-    "hash": "2a8773d83f158cc3",
-    "count": 2,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T06:46:19Z",
-    "source_url": "https://www.audible.com/ep/freetrial",
-    "pending_since_utc": "2026-03-01T06:46:19Z",
-    "first_seen_utc": "2026-03-01T06:46:19Z",
-    "last_seen_utc": "2026-03-01T06:49:04Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "2a8773d83f158cc3",
-      "source_url": "https://www.audible.com/ep/freetrial",
-      "extracted_at_utc": "2026-03-01T06:48:55Z",
-      "tokens": []
-    }
-  },
   "espn_plus": {
-    "hash": "534f43374df46cdf",
+    "hash": "6698bbe578ef1f2f",
     "count": 3,
-    "flip_count": 21,
+    "flip_count": 22,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T06:46:28Z",
+    "last_run_observed_utc": "2026-03-01T12:40:21Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:34:41Z",
-    "first_seen_utc": "2026-03-01T06:46:28Z",
-    "last_seen_utc": "2026-03-01T06:49:05Z",
+    "first_seen_utc": "2026-03-01T12:40:21Z",
+    "last_seen_utc": "2026-03-01T12:43:03Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "534f43374df46cdf",
+      "hash": "6698bbe578ef1f2f",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-01T06:49:05Z",
+      "extracted_at_utc": "2026-03-01T12:43:03Z",
       "tokens": []
     }
   },
   "nordvpn": {
-    "hash": "7fb7bb8bb716a733",
-    "count": 2,
-    "flip_count": 4,
+    "hash": "f7d8a1580619e568",
+    "count": 3,
+    "flip_count": 5,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T06:46:55Z",
+    "last_run_observed_utc": "2026-03-01T12:40:43Z",
     "source_url": "https://nordvpn.com/pricing/",
     "pending_since_utc": "2026-02-28T12:40:53Z",
-    "first_seen_utc": "2026-03-01T06:49:01Z",
-    "last_seen_utc": "2026-03-01T06:49:10Z",
+    "first_seen_utc": "2026-03-01T12:40:43Z",
+    "last_seen_utc": "2026-03-01T12:43:05Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "7fb7bb8bb716a733",
+      "hash": "f7d8a1580619e568",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-03-01T06:49:10Z",
+      "extracted_at_utc": "2026-03-01T12:43:05Z",
       "tokens": [
         "billing:auto_renew"
       ]
     }
   },
   "twitch": {
-    "hash": "afc16e43513d2ad2",
+    "hash": "eeea6fcfaadee6c6",
     "count": 3,
-    "flip_count": 25,
+    "flip_count": 26,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-03-01T06:47:56Z",
+    "last_run_observed_utc": "2026-03-01T12:41:53Z",
     "source_url": "https://www.twitch.tv/turbo",
     "pending_since_utc": "2026-02-25T00:35:36Z",
-    "first_seen_utc": "2026-03-01T06:47:56Z",
-    "last_seen_utc": "2026-03-01T06:49:08Z",
+    "first_seen_utc": "2026-03-01T12:41:53Z",
+    "last_seen_utc": "2026-03-01T12:43:02Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "afc16e43513d2ad2",
+      "hash": "eeea6fcfaadee6c6",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-03-01T06:49:08Z",
+      "extracted_at_utc": "2026-03-01T12:43:02Z",
+      "tokens": []
+    }
+  },
+  "telegram_premium": {
+    "hash": "857f9ce3b690e047",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-03-01T12:42:49Z",
+    "source_url": "https://telegram.org/premium",
+    "pending_since_utc": "2026-03-01T12:42:49Z",
+    "first_seen_utc": "2026-03-01T12:42:49Z",
+    "last_seen_utc": "2026-03-01T12:43:05Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "857f9ce3b690e047",
+      "source_url": "https://telegram.org/premium",
+      "extracted_at_utc": "2026-03-01T12:43:05Z",
       "tokens": []
     }
   }

@@ -1,80 +1,79 @@
 {
-  "chatgpt_plus": {
-    "hash": "8d821b42bd619a10",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T06:34:07Z",
-    "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-    "pending_since_utc": "2026-03-01T06:34:07Z",
-    "first_seen_utc": "2026-03-01T06:34:07Z",
-    "last_seen_utc": "2026-03-01T06:37:16Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "8d821b42bd619a10",
-      "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-03-01T06:37:16Z",
-      "tokens": [
-        "refund_window_days:14",
-        "refund_window_days:6"
-      ]
-    }
-  },
   "espn_plus": {
-    "hash": "534f43374df46cdf",
-    "count": 3,
-    "flip_count": 23,
+    "hash": "5d029342615a6560",
+    "count": 2,
+    "flip_count": 25,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T06:34:17Z",
+    "last_run_observed_utc": "2026-03-01T12:26:40Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:23:01Z",
-    "first_seen_utc": "2026-03-01T06:34:17Z",
-    "last_seen_utc": "2026-03-01T06:37:16Z",
+    "first_seen_utc": "2026-03-01T12:29:49Z",
+    "last_seen_utc": "2026-03-01T12:30:01Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "534f43374df46cdf",
+      "hash": "5d029342615a6560",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-01T06:37:16Z",
+      "extracted_at_utc": "2026-03-01T12:30:01Z",
       "tokens": []
     }
   },
-  "midjourney": {
-    "hash": "1b2f6e20c6cb63ba",
+  "proton": {
+    "hash": "274a5ed74b27e80f",
+    "count": 2,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-03-01T12:28:44Z",
+    "source_url": "https://proton.me/pricing",
+    "pending_since_utc": "2026-03-01T12:28:44Z",
+    "first_seen_utc": "2026-03-01T12:28:44Z",
+    "last_seen_utc": "2026-03-01T12:30:02Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "274a5ed74b27e80f",
+      "source_url": "https://proton.me/pricing",
+      "extracted_at_utc": "2026-03-01T12:29:52Z",
+      "tokens": [
+        "billing:auto_renew"
+      ]
+    }
+  },
+  "tinder": {
+    "hash": "d72f75609e5be554",
     "count": 3,
     "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T06:36:04Z",
-    "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-    "pending_since_utc": "2026-03-01T06:36:04Z",
-    "first_seen_utc": "2026-03-01T06:36:04Z",
-    "last_seen_utc": "2026-03-01T06:37:17Z",
+    "last_run_observed_utc": "2026-03-01T12:28:57Z",
+    "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
+    "pending_since_utc": "2026-03-01T12:28:57Z",
+    "first_seen_utc": "2026-03-01T12:28:57Z",
+    "last_seen_utc": "2026-03-01T12:30:03Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "1b2f6e20c6cb63ba",
-      "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-03-01T06:37:17Z",
+      "hash": "d72f75609e5be554",
+      "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
+      "extracted_at_utc": "2026-03-01T12:30:03Z",
       "tokens": []
     }
   },
   "myfitnesspal_premium": {
-    "hash": "ce8a60792483a514",
+    "hash": "e413f7eb24b56c9f",
     "count": 1,
-    "flip_count": 159,
+    "flip_count": 162,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-03-01T06:36:34Z",
+    "last_run_observed_utc": "2026-03-01T12:29:16Z",
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T08:51:39Z",
-    "first_seen_utc": "2026-03-01T06:37:26Z",
-    "last_seen_utc": "2026-03-01T06:37:26Z",
+    "first_seen_utc": "2026-03-01T12:30:09Z",
+    "last_seen_utc": "2026-03-01T12:30:09Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "ce8a60792483a514",
+      "hash": "e413f7eb24b56c9f",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-03-01T06:37:26Z",
+      "extracted_at_utc": "2026-03-01T12:30:09Z",
       "tokens": [
         "flow:support_request"
       ]

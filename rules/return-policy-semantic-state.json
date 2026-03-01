@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-01T06:45:35Z",
+  "updated_utc": "2026-03-01T12:39:29Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -92,9 +92,9 @@
       ]
     },
     "chatgpt_plus": {
-      "hash": "acd0eb9c0ef3a2a8",
+      "hash": "8d821b42bd619a10",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-02-28T12:37:02Z",
+      "extracted_at_utc": "2026-03-01T12:37:09Z",
       "tokens": []
     },
     "deezer": {
@@ -559,9 +559,9 @@
       ]
     },
     "ubisoft_plus": {
-      "hash": "937c23b4633a5748",
+      "hash": "85d1e1222dba885e",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-28T12:37:54Z",
+      "extracted_at_utc": "2026-03-01T12:37:59Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "return:condition_unopened_or_unused",
