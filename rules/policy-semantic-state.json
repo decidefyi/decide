@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-01T01:21:34Z",
+  "updated_utc": "2026-03-01T06:37:26Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -40,16 +40,10 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "6bb8825a65099707",
+      "hash": "7a2bfd93bfca2814",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-02-23T20:06:42Z",
-      "tokens": [
-        "billing:auto_renew",
-        "billing:prorated",
-        "refund:partial_allowed",
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ]
+      "extracted_at_utc": "2026-03-01T06:34:01Z",
+      "tokens": []
     },
     "apple_music": {
       "hash": "91882bfe2276dfad",

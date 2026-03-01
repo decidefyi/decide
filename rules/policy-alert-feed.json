@@ -1,34 +1,36 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-03-01T01:33:07Z",
+  "updated_utc": "2026-03-01T06:49:10Z",
   "source": "check-policies.js",
   "alerts": [
     {
       "date_utc": "2026-03-01",
-      "generated_at_utc": "2026-03-01T01:33:07Z",
-      "changed_count": 0,
+      "generated_at_utc": "2026-03-01T06:49:10Z",
+      "changed_count": 1,
       "by_policy": {
-        "refund": 0,
+        "refund": 1,
         "cancel": 0,
         "return": 0,
         "trial": 0
       },
-      "changed_sample": [],
-      "pending_count": 22,
+      "changed_sample": [
+        "refund:amazon_prime"
+      ],
+      "pending_count": 28,
       "pending_by_policy": {
         "refund": 4,
-        "cancel": 7,
-        "return": 5,
-        "trial": 6
+        "cancel": 11,
+        "return": 8,
+        "trial": 5
       },
       "stale_pending_count": 11,
       "volatile_pending_count": 18,
-      "escalation_count": 14,
+      "escalation_count": 15,
       "coverage_gap_count": 0,
-      "run_url": "https://github.com/decidefyi/decide/actions/runs/22533040489",
-      "run_id": "22533040489",
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22537741826",
+      "run_id": "22537741826",
       "run_attempt": "1",
-      "commit_sha": "d455f550c9b7bd8a7d5af926b3eb2c3b527e2a98",
+      "commit_sha": "87e340557452fa36eb12ca70eb5e76b411e19d54",
       "source": "check-policies.js"
     },
     {
