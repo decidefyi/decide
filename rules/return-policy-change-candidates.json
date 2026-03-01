@@ -1,60 +1,104 @@
 {
   "espn_plus": {
-    "hash": "98d4a69cf2cb53ee",
-    "count": 3,
-    "flip_count": 26,
+    "hash": "5262acd8188949f8",
+    "count": 2,
+    "flip_count": 28,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T18:29:38Z",
+    "last_run_observed_utc": "2026-03-01T23:48:23Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:31:58Z",
-    "first_seen_utc": "2026-03-01T18:29:38Z",
-    "last_seen_utc": "2026-03-01T18:30:55Z",
+    "first_seen_utc": "2026-03-01T23:49:35Z",
+    "last_seen_utc": "2026-03-01T23:49:49Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "98d4a69cf2cb53ee",
+      "hash": "5262acd8188949f8",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-01T18:30:55Z",
+      "extracted_at_utc": "2026-03-01T23:49:49Z",
       "tokens": []
     }
   },
-  "myfitnesspal_premium": {
-    "hash": "df9cbc065ba67693",
-    "count": 1,
-    "flip_count": 160,
+  "proton": {
+    "hash": "274a5ed74b27e80f",
+    "count": 3,
+    "flip_count": 0,
     "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-03-01T18:30:20Z",
-    "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "pending_since_utc": "2026-02-18T09:00:33Z",
-    "first_seen_utc": "2026-03-01T18:31:00Z",
-    "last_seen_utc": "2026-03-01T18:31:00Z",
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-03-01T23:48:43Z",
+    "source_url": "https://proton.me/pricing",
+    "pending_since_utc": "2026-03-01T23:48:43Z",
+    "first_seen_utc": "2026-03-01T23:48:43Z",
+    "last_seen_utc": "2026-03-01T23:49:49Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "df9cbc065ba67693",
+      "hash": "274a5ed74b27e80f",
+      "source_url": "https://proton.me/pricing",
+      "extracted_at_utc": "2026-03-01T23:49:49Z",
+      "tokens": [
+        "billing:auto_renew"
+      ]
+    }
+  },
+  "myfitnesspal_premium": {
+    "hash": "09f2dbfd637cb02d",
+    "count": 1,
+    "flip_count": 163,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-03-01T23:49:08Z",
+    "source_url": "https://www.myfitnesspal.com/terms-of-use",
+    "pending_since_utc": "2026-02-18T09:00:33Z",
+    "first_seen_utc": "2026-03-01T23:49:53Z",
+    "last_seen_utc": "2026-03-01T23:49:53Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "09f2dbfd637cb02d",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-03-01T18:31:00Z",
+      "extracted_at_utc": "2026-03-01T23:49:53Z",
       "tokens": [
         "flow:support_request"
       ]
     }
   },
+  "ubisoft_plus": {
+    "hash": "937c23b4633a5748",
+    "count": 3,
+    "flip_count": 0,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-03-01T23:49:12Z",
+    "source_url": "https://legal.ubi.com/termsofuse/en-US",
+    "pending_since_utc": "2026-03-01T23:49:12Z",
+    "first_seen_utc": "2026-03-01T23:49:12Z",
+    "last_seen_utc": "2026-03-01T23:49:54Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "937c23b4633a5748",
+      "source_url": "https://legal.ubi.com/termsofuse/en-US",
+      "extracted_at_utc": "2026-03-01T23:49:54Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale",
+        "return:condition_unopened_or_unused",
+        "risk:chargeback_or_dispute"
+      ]
+    }
+  },
   "substack": {
     "hash": "f5fa5608fc35aee4",
-    "count": 2,
+    "count": 3,
     "flip_count": 13,
-    "run_confirmations": 1,
+    "run_confirmations": 2,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-03-01T18:30:35Z",
+    "last_run_observed_utc": "2026-03-01T23:49:22Z",
     "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
     "pending_since_utc": "2026-02-27T18:38:09Z",
     "first_seen_utc": "2026-03-01T18:30:51Z",
-    "last_seen_utc": "2026-03-01T18:31:01Z",
+    "last_seen_utc": "2026-03-01T23:49:58Z",
     "baseline_observations": 0,
     "profile": {
       "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-03-01T18:31:01Z",
+      "extracted_at_utc": "2026-03-01T23:49:58Z",
       "tokens": [
         "flow:support_request"
       ]
