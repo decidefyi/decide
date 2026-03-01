@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-01T12:39:29Z",
+  "updated_utc": "2026-03-01T18:31:01Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -113,9 +113,9 @@
       "tokens": []
     },
     "crunchyroll": {
-      "hash": "5951d6a11fb8f5d2",
+      "hash": "d72f75609e5be554",
       "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-      "extracted_at_utc": "2026-02-28T18:29:28Z",
+      "extracted_at_utc": "2026-03-01T18:29:37Z",
       "tokens": []
     },
     "discord_nitro": {
@@ -488,9 +488,9 @@
       "tokens": []
     },
     "youtube_tv": {
-      "hash": "86444114a1f1b6f6",
+      "hash": "e0e0cec49a668280",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-02-28T01:12:57Z",
+      "extracted_at_utc": "2026-03-01T18:30:12Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
@@ -717,9 +717,9 @@
       ]
     },
     "masterclass": {
-      "hash": "6eb46a3c16e208a7",
+      "hash": "25073741b6741db6",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-28T01:12:35Z",
+      "extracted_at_utc": "2026-03-01T18:29:52Z",
       "tokens": []
     },
     "roblox_premium": {

@@ -1,36 +1,34 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-03-01T12:43:05Z",
+  "updated_utc": "2026-03-01T18:34:32Z",
   "source": "check-policies.js",
   "alerts": [
     {
       "date_utc": "2026-03-01",
-      "generated_at_utc": "2026-03-01T12:43:05Z",
-      "changed_count": 1,
+      "generated_at_utc": "2026-03-01T18:34:32Z",
+      "changed_count": 0,
       "by_policy": {
-        "refund": 1,
+        "refund": 0,
         "cancel": 0,
         "return": 0,
         "trial": 0
       },
-      "changed_sample": [
-        "refund:chatgpt_plus"
-      ],
-      "pending_count": 27,
+      "changed_sample": [],
+      "pending_count": 19,
       "pending_by_policy": {
-        "refund": 4,
-        "cancel": 12,
-        "return": 7,
-        "trial": 4
+        "refund": 3,
+        "cancel": 7,
+        "return": 3,
+        "trial": 6
       },
       "stale_pending_count": 11,
       "volatile_pending_count": 16,
       "escalation_count": 15,
       "coverage_gap_count": 0,
-      "run_url": "https://github.com/decidefyi/decide/actions/runs/22543377011",
-      "run_id": "22543377011",
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22549562380",
+      "run_id": "22549562380",
       "run_attempt": "1",
-      "commit_sha": "e9304960ab57563e1a65eaec39ca0ffcbc41bdff",
+      "commit_sha": "1db9bf872d6a6f3a053ba31c1f81311d375a5b71",
       "source": "check-policies.js"
     },
     {

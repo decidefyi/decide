@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-01T12:36:24Z",
+  "updated_utc": "2026-03-01T18:28:47Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -493,9 +493,9 @@
       "tokens": []
     },
     "ea_play": {
-      "hash": "cab3629e43501e30",
+      "hash": "dbe017fe42845d5d",
       "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-      "extracted_at_utc": "2026-03-01T01:24:54Z",
+      "extracted_at_utc": "2026-03-01T18:27:21Z",
       "tokens": []
     },
     "ubisoft_plus": {
@@ -618,9 +618,9 @@
       ]
     },
     "masterclass": {
-      "hash": "b852ddd7e8c288fa",
+      "hash": "31e9c6990d098854",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-23T12:47:25Z",
+      "extracted_at_utc": "2026-03-01T18:26:17Z",
       "tokens": []
     },
     "peacock": {

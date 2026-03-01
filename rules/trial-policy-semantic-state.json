@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-01T12:43:05Z",
+  "updated_utc": "2026-03-01T18:34:32Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -579,9 +579,9 @@
       "tokens": []
     },
     "telegram_premium": {
-      "hash": "273bbbd272a50dc6",
+      "hash": "857f9ce3b690e047",
       "source_url": "https://telegram.org/premium",
-      "extracted_at_utc": "2026-02-28T06:41:03Z",
+      "extracted_at_utc": "2026-03-01T18:34:10Z",
       "tokens": []
     },
     "soundcloud_go": {

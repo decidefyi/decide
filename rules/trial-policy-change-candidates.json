@@ -1,79 +1,117 @@
 {
-  "espn_plus": {
-    "hash": "6698bbe578ef1f2f",
+  "claude_pro": {
+    "hash": "fff53cc5006a0a31",
     "count": 3,
-    "flip_count": 22,
+    "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T12:40:21Z",
-    "source_url": "https://www.espn.com/espnplus/",
-    "pending_since_utc": "2026-02-25T00:34:41Z",
-    "first_seen_utc": "2026-03-01T12:40:21Z",
-    "last_seen_utc": "2026-03-01T12:43:03Z",
+    "last_run_observed_utc": "2026-03-01T18:31:45Z",
+    "source_url": "https://claude.ai/upgrade",
+    "pending_since_utc": "2026-03-01T18:31:45Z",
+    "first_seen_utc": "2026-03-01T18:31:45Z",
+    "last_seen_utc": "2026-03-01T18:34:29Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "6698bbe578ef1f2f",
+      "hash": "fff53cc5006a0a31",
+      "source_url": "https://claude.ai/upgrade",
+      "extracted_at_utc": "2026-03-01T18:34:29Z",
+      "tokens": []
+    }
+  },
+  "espn_plus": {
+    "hash": "98d4a69cf2cb53ee",
+    "count": 3,
+    "flip_count": 23,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-03-01T18:31:50Z",
+    "source_url": "https://www.espn.com/espnplus/",
+    "pending_since_utc": "2026-02-25T00:34:41Z",
+    "first_seen_utc": "2026-03-01T18:31:50Z",
+    "last_seen_utc": "2026-03-01T18:34:29Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "98d4a69cf2cb53ee",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-01T12:43:03Z",
+      "extracted_at_utc": "2026-03-01T18:34:29Z",
+      "tokens": []
+    }
+  },
+  "google_one": {
+    "hash": "e9a1e24fd931c011",
+    "count": 1,
+    "flip_count": 2,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-03-01T18:31:52Z",
+    "source_url": "https://one.google.com/about/plans",
+    "pending_since_utc": "2026-03-01T18:31:52Z",
+    "first_seen_utc": "2026-03-01T18:34:29Z",
+    "last_seen_utc": "2026-03-01T18:34:29Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "e9a1e24fd931c011",
+      "source_url": "https://one.google.com/about/plans",
+      "extracted_at_utc": "2026-03-01T18:34:29Z",
       "tokens": []
     }
   },
   "nordvpn": {
-    "hash": "f7d8a1580619e568",
+    "hash": "d6146bf28d598ae3",
     "count": 3,
-    "flip_count": 5,
+    "flip_count": 6,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T12:40:43Z",
+    "last_run_observed_utc": "2026-03-01T18:32:19Z",
     "source_url": "https://nordvpn.com/pricing/",
     "pending_since_utc": "2026-02-28T12:40:53Z",
-    "first_seen_utc": "2026-03-01T12:40:43Z",
-    "last_seen_utc": "2026-03-01T12:43:05Z",
+    "first_seen_utc": "2026-03-01T18:32:19Z",
+    "last_seen_utc": "2026-03-01T18:34:32Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "f7d8a1580619e568",
+      "hash": "d6146bf28d598ae3",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-03-01T12:43:05Z",
+      "extracted_at_utc": "2026-03-01T18:34:32Z",
       "tokens": [
         "billing:auto_renew"
       ]
     }
   },
   "twitch": {
-    "hash": "eeea6fcfaadee6c6",
+    "hash": "1f10064dfc40a6af",
     "count": 3,
-    "flip_count": 26,
+    "flip_count": 27,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-03-01T12:41:53Z",
+    "last_run_observed_utc": "2026-03-01T18:33:11Z",
     "source_url": "https://www.twitch.tv/turbo",
     "pending_since_utc": "2026-02-25T00:35:36Z",
-    "first_seen_utc": "2026-03-01T12:41:53Z",
-    "last_seen_utc": "2026-03-01T12:43:02Z",
+    "first_seen_utc": "2026-03-01T18:33:11Z",
+    "last_seen_utc": "2026-03-01T18:34:30Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "eeea6fcfaadee6c6",
+      "hash": "1f10064dfc40a6af",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-03-01T12:43:02Z",
+      "extracted_at_utc": "2026-03-01T18:34:30Z",
       "tokens": []
     }
   },
-  "telegram_premium": {
-    "hash": "857f9ce3b690e047",
+  "wix": {
+    "hash": "3e2461f6710b6b6c",
     "count": 3,
     "flip_count": 0,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T12:42:49Z",
-    "source_url": "https://telegram.org/premium",
-    "pending_since_utc": "2026-03-01T12:42:49Z",
-    "first_seen_utc": "2026-03-01T12:42:49Z",
-    "last_seen_utc": "2026-03-01T12:43:05Z",
+    "last_run_observed_utc": "2026-03-01T18:33:12Z",
+    "source_url": "https://www.wix.com/upgrade/website",
+    "pending_since_utc": "2026-03-01T18:33:12Z",
+    "first_seen_utc": "2026-03-01T18:33:12Z",
+    "last_seen_utc": "2026-03-01T18:34:30Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "857f9ce3b690e047",
-      "source_url": "https://telegram.org/premium",
-      "extracted_at_utc": "2026-03-01T12:43:05Z",
+      "hash": "3e2461f6710b6b6c",
+      "source_url": "https://www.wix.com/upgrade/website",
+      "extracted_at_utc": "2026-03-01T18:34:30Z",
       "tokens": []
     }
   }
