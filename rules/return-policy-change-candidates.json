@@ -1,58 +1,79 @@
 {
   "espn_plus": {
-    "hash": "f915829b12b51e0a",
+    "hash": "40fdc8d6d975380a",
     "count": 2,
-    "flip_count": 21,
+    "flip_count": 23,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T18:29:29Z",
+    "last_run_observed_utc": "2026-03-01T01:27:27Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:31:58Z",
-    "first_seen_utc": "2026-02-28T18:30:42Z",
-    "last_seen_utc": "2026-02-28T18:30:57Z",
+    "first_seen_utc": "2026-03-01T01:28:56Z",
+    "last_seen_utc": "2026-03-01T01:29:09Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "f915829b12b51e0a",
+      "hash": "40fdc8d6d975380a",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-28T18:30:57Z",
+      "extracted_at_utc": "2026-03-01T01:29:09Z",
       "tokens": []
     }
   },
   "masterclass": {
-    "hash": "25073741b6741db6",
-    "count": 4,
-    "flip_count": 1,
-    "run_confirmations": 2,
+    "hash": "ef85759e1b0f7b16",
+    "count": 1,
+    "flip_count": 4,
+    "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T18:29:45Z",
-    "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
+    "last_run_observed_utc": "2026-03-01T01:28:03Z",
+    "source_url": "https://www.masterclass.com/legal/terms",
     "pending_since_utc": "2026-02-28T06:35:17Z",
-    "first_seen_utc": "2026-02-28T12:37:23Z",
-    "last_seen_utc": "2026-02-28T18:30:59Z",
+    "first_seen_utc": "2026-03-01T01:29:14Z",
+    "last_seen_utc": "2026-03-01T01:29:14Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "25073741b6741db6",
-      "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-28T18:30:59Z",
+      "hash": "ef85759e1b0f7b16",
+      "source_url": "https://www.masterclass.com/legal/terms",
+      "extracted_at_utc": "2026-03-01T01:29:14Z",
       "tokens": []
     }
   },
-  "myfitnesspal_premium": {
-    "hash": "bfede913da533c35",
+  "wix": {
+    "hash": "a5d0a06e05aa7dbd",
     "count": 1,
-    "flip_count": 149,
+    "flip_count": 0,
     "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T18:30:09Z",
-    "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "pending_since_utc": "2026-02-18T09:00:33Z",
-    "first_seen_utc": "2026-02-28T18:31:04Z",
-    "last_seen_utc": "2026-02-28T18:31:04Z",
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-03-01T01:28:22Z",
+    "source_url": "https://support.wix.com/en/article/requesting-a-refund-for-a-premium-plan",
+    "pending_since_utc": "2026-03-01T01:28:22Z",
+    "first_seen_utc": "2026-03-01T01:28:22Z",
+    "last_seen_utc": "2026-03-01T01:28:22Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "bfede913da533c35",
+      "hash": "a5d0a06e05aa7dbd",
+      "source_url": "https://support.wix.com/en/article/requesting-a-refund-for-a-premium-plan",
+      "extracted_at_utc": "2026-03-01T01:28:22Z",
+      "tokens": [
+        "billing:auto_renew"
+      ]
+    }
+  },
+  "myfitnesspal_premium": {
+    "hash": "6f099a436ab9cf15",
+    "count": 1,
+    "flip_count": 151,
+    "run_confirmations": 1,
+    "actual_confirm_runs_required": 3,
+    "last_run_observed_utc": "2026-03-01T01:28:29Z",
+    "source_url": "https://www.myfitnesspal.com/terms-of-use",
+    "pending_since_utc": "2026-02-18T09:00:33Z",
+    "first_seen_utc": "2026-03-01T01:29:03Z",
+    "last_seen_utc": "2026-03-01T01:29:03Z",
+    "baseline_observations": 0,
+    "profile": {
+      "hash": "6f099a436ab9cf15",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-28T18:31:04Z",
+      "extracted_at_utc": "2026-03-01T01:29:03Z",
       "tokens": [
         "flow:support_request"
       ]
@@ -60,20 +81,20 @@
   },
   "substack": {
     "hash": "f5fa5608fc35aee4",
-    "count": 2,
+    "count": 3,
     "flip_count": 9,
-    "run_confirmations": 1,
+    "run_confirmations": 2,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T18:30:31Z",
+    "last_run_observed_utc": "2026-03-01T01:28:45Z",
     "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
     "pending_since_utc": "2026-02-27T18:38:09Z",
     "first_seen_utc": "2026-02-28T18:30:55Z",
-    "last_seen_utc": "2026-02-28T18:31:09Z",
+    "last_seen_utc": "2026-03-01T01:29:19Z",
     "baseline_observations": 0,
     "profile": {
       "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-28T18:31:09Z",
+      "extracted_at_utc": "2026-03-01T01:29:19Z",
       "tokens": [
         "flow:support_request"
       ]

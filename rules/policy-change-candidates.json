@@ -1,77 +1,81 @@
 {
   "amazon_prime": {
     "hash": "7a2bfd93bfca2814",
-    "count": 2,
+    "count": 3,
     "flip_count": 1,
-    "run_confirmations": 1,
+    "run_confirmations": 2,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T18:18:47Z",
+    "last_run_observed_utc": "2026-03-01T01:17:06Z",
     "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
     "pending_since_utc": "2026-02-28T12:24:20Z",
     "first_seen_utc": "2026-02-28T18:22:05Z",
-    "last_seen_utc": "2026-02-28T18:22:17Z",
+    "last_seen_utc": "2026-03-01T01:21:25Z",
     "baseline_observations": 0,
     "profile": {
       "hash": "7a2bfd93bfca2814",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-02-28T18:22:17Z",
+      "extracted_at_utc": "2026-03-01T01:21:25Z",
       "tokens": []
     }
   },
   "espn_plus": {
-    "hash": "d42d0739d5d21714",
-    "count": 3,
-    "flip_count": 20,
+    "hash": "5937b74ce5bfdce9",
+    "count": 2,
+    "flip_count": 22,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-02-28T18:19:39Z",
+    "last_run_observed_utc": "2026-03-01T01:18:04Z",
     "source_url": "https://www.espn.com/espnplus/",
     "pending_since_utc": "2026-02-25T00:23:01Z",
-    "first_seen_utc": "2026-02-28T18:19:39Z",
-    "last_seen_utc": "2026-02-28T18:22:13Z",
+    "first_seen_utc": "2026-03-01T01:21:04Z",
+    "last_seen_utc": "2026-03-01T01:21:17Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "d42d0739d5d21714",
+      "hash": "5937b74ce5bfdce9",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-28T18:22:13Z",
+      "extracted_at_utc": "2026-03-01T01:21:17Z",
       "tokens": []
     }
   },
-  "masterclass": {
-    "hash": "31e9c6990d098854",
-    "count": 2,
-    "flip_count": 3,
+  "wix": {
+    "hash": "0571531ce80799db",
+    "count": 3,
+    "flip_count": 0,
     "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T18:20:51Z",
-    "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-    "pending_since_utc": "2026-02-28T12:26:38Z",
-    "first_seen_utc": "2026-02-28T18:22:08Z",
-    "last_seen_utc": "2026-02-28T18:22:15Z",
+    "actual_confirm_runs_required": 2,
+    "last_run_observed_utc": "2026-03-01T01:20:18Z",
+    "source_url": "https://support.wix.com/en/article/requesting-a-refund-for-a-premium-plan",
+    "pending_since_utc": "2026-03-01T01:20:18Z",
+    "first_seen_utc": "2026-03-01T01:20:18Z",
+    "last_seen_utc": "2026-03-01T01:21:28Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "31e9c6990d098854",
-      "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-02-28T18:22:15Z",
-      "tokens": []
+      "hash": "0571531ce80799db",
+      "source_url": "https://support.wix.com/en/article/requesting-a-refund-for-a-premium-plan",
+      "extracted_at_utc": "2026-03-01T01:21:28Z",
+      "tokens": [
+        "billing:auto_renew",
+        "refund_window_days:14",
+        "refund:allowed_language"
+      ]
     }
   },
   "myfitnesspal_premium": {
-    "hash": "f8cab6ea7cb02be8",
+    "hash": "b124d65282183aa6",
     "count": 1,
-    "flip_count": 153,
+    "flip_count": 156,
     "run_confirmations": 1,
     "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-02-28T18:21:31Z",
+    "last_run_observed_utc": "2026-03-01T01:20:30Z",
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T08:51:39Z",
-    "first_seen_utc": "2026-02-28T18:22:23Z",
-    "last_seen_utc": "2026-02-28T18:22:23Z",
+    "first_seen_utc": "2026-03-01T01:21:34Z",
+    "last_seen_utc": "2026-03-01T01:21:34Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "f8cab6ea7cb02be8",
+      "hash": "b124d65282183aa6",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-02-28T18:22:23Z",
+      "extracted_at_utc": "2026-03-01T01:21:34Z",
       "tokens": [
         "flow:support_request"
       ]

@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-28T18:28:35Z",
+  "updated_utc": "2026-03-01T01:26:37Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -317,9 +317,9 @@
       ]
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-27T01:13:26Z",
+      "extracted_at_utc": "2026-03-01T01:24:10Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -493,9 +493,9 @@
       "tokens": []
     },
     "ea_play": {
-      "hash": "fac33ba1bd874cb4",
+      "hash": "cab3629e43501e30",
       "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-      "extracted_at_utc": "2026-02-27T01:14:16Z",
+      "extracted_at_utc": "2026-03-01T01:24:54Z",
       "tokens": []
     },
     "ubisoft_plus": {
@@ -638,9 +638,9 @@
       ]
     },
     "grammarly": {
-      "hash": "e5adcea469f4a180",
+      "hash": "c4982f46749a6ceb",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
-      "extracted_at_utc": "2026-02-28T06:29:41Z",
+      "extracted_at_utc": "2026-03-01T01:23:37Z",
       "tokens": []
     },
     "hinge": {

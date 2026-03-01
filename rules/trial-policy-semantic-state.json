@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-02-28T18:34:50Z",
+  "updated_utc": "2026-03-01T01:33:07Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -79,9 +79,9 @@
       "tokens": []
     },
     "claude_pro": {
-      "hash": "fff53cc5006a0a31",
+      "hash": "be542c04706a08ae",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-02-26T18:55:13Z",
+      "extracted_at_utc": "2026-03-01T01:30:07Z",
       "tokens": []
     },
     "chatgpt_plus": {
@@ -252,9 +252,9 @@
       "tokens": []
     },
     "masterclass": {
-      "hash": "b852ddd7e8c288fa",
+      "hash": "e6d641115730b63f",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-02-23T20:18:13Z",
+      "extracted_at_utc": "2026-03-01T01:30:34Z",
       "tokens": []
     },
     "microsoft_365": {
