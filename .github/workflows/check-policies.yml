@@ -172,6 +172,7 @@ jobs:
             rules/return-policy-semantic-state.json
             rules/trial-policy-semantic-state.json
             rules/policy-alert-feed.json
+            rules/policy-events.ndjson
           )
 
           existing=()
@@ -451,6 +452,7 @@ jobs:
               "- `rules/return-policy-semantic-state.json`",
               "- `rules/trial-policy-semantic-state.json`",
               "- `rules/policy-alert-feed.json`",
+              "- `rules/policy-events.ndjson`",
               "",
               "### Feed contract fields",
               `ACTUAL_CHANGED_COUNT=${changedCount}`,
