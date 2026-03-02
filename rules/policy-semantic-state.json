@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-02T01:13:38Z",
+  "updated_utc": "2026-03-02T06:47:25Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -449,13 +449,10 @@
       ]
     },
     "tinder": {
-      "hash": "94874f35eb7a8496",
+      "hash": "d72f75609e5be554",
       "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
-      "extracted_at_utc": "2026-02-28T18:21:10Z",
-      "tokens": [
-        "refund_window_days:14",
-        "restriction:no_refund_or_final_sale"
-      ]
+      "extracted_at_utc": "2026-03-02T06:46:08Z",
+      "tokens": []
     },
     "tidal": {
       "hash": "0b9d257da80273e5",
