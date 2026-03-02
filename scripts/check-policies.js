@@ -386,6 +386,100 @@ function appendPolicyEventLog(changedItems, generatedAtUtc = utcIsoTimestamp()) 
   };
 }
 
+function readNdjson(filePath) {
+  if (!existsSync(filePath)) return [];
+  const raw = String(readFileSync(filePath, "utf8") || "");
+  if (!raw.trim()) return [];
+  const parsed = [];
+  for (const line of raw.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    try {
+      const value = JSON.parse(trimmed);
+      if (value && typeof value === "object") {
+        parsed.push(value);
+      }
+    } catch {
+      // Ignore malformed historic lines and continue.
+    }
+  }
+  return parsed;
+}
+
+function buildPolicyEventId(item) {
+  const policyType = String(item?.policyType || item?.policy || "").trim();
+  const vendor = String(item?.vendor || "").trim();
+  const confirmedHash = String(item?.confirmed_hash || item?.hash || "").trim();
+  if (!policyType || !vendor || !confirmedHash) return "";
+  return `${policyType}:${vendor}:${confirmedHash}`;
+}
+
+function appendPolicyEventLog(changedItems, generatedAtUtc = utcIsoTimestamp()) {
+  const existingEvents = readNdjson(POLICY_EVENT_LOG_PATH);
+  const existingIds = new Set();
+  for (const event of existingEvents) {
+    const eventId = String(event?.event_id || "").trim() || buildPolicyEventId(event);
+    if (eventId) existingIds.add(eventId);
+  }
+
+  const runId = String(process.env.GITHUB_RUN_ID || "").trim();
+  const runAttempt = String(process.env.GITHUB_RUN_ATTEMPT || "").trim();
+  const commitSha = String(process.env.GITHUB_SHA || "").trim();
+  const runUrl = buildRunUrl();
+  const newEvents = [];
+  let skippedExisting = 0;
+  let skippedInvalid = 0;
+
+  for (const item of changedItems || []) {
+    const eventId = buildPolicyEventId(item);
+    if (!eventId) {
+      skippedInvalid += 1;
+      continue;
+    }
+    if (existingIds.has(eventId)) {
+      skippedExisting += 1;
+      continue;
+    }
+
+    const event = {
+      event_id: eventId,
+      emitted_at_utc: generatedAtUtc,
+      policy: String(item.policyType || "").trim(),
+      vendor: String(item.vendor || "").trim(),
+      confirmed_hash: String(item.confirmed_hash || "").trim(),
+      previous_hash: String(item.previous_hash || "").trim(),
+      semantic_diff_summary: String(item.semantic_diff_summary || "").trim(),
+      source_url: String(item.url || "").trim(),
+      rules_file: String(item.rulesFile || "").trim(),
+      run_id: runId,
+      run_attempt: runAttempt,
+      commit_sha: commitSha,
+      run_url: runUrl,
+    };
+    if (item.semantic_diff && typeof item.semantic_diff === "object") {
+      event.semantic_diff = item.semantic_diff;
+    }
+    newEvents.push(event);
+    existingIds.add(eventId);
+  }
+
+  if (newEvents.length > 0) {
+    const existingRaw = existsSync(POLICY_EVENT_LOG_PATH)
+      ? String(readFileSync(POLICY_EVENT_LOG_PATH, "utf8") || "").trimEnd()
+      : "";
+    const appendedRaw = newEvents.map((event) => JSON.stringify(event)).join("\n");
+    const nextRaw = existingRaw ? `${existingRaw}\n${appendedRaw}\n` : `${appendedRaw}\n`;
+    writeFileSync(POLICY_EVENT_LOG_PATH, nextRaw, "utf8");
+  }
+
+  return {
+    appended_count: newEvents.length,
+    skipped_existing_count: skippedExisting,
+    skipped_invalid_count: skippedInvalid,
+    total_count: existingIds.size,
+  };
+}
+
 function updateJsonStringField(filePath, fieldName, nextValue) {
   const raw = readFileSync(filePath, "utf8");
   const pattern = new RegExp(`"${fieldName}"\\s*:\\s*"[^"]*"`);
