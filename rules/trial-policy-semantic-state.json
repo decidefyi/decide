@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-01T23:54:02Z",
+  "updated_utc": "2026-03-02T06:59:03Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -161,9 +161,9 @@
       "tokens": []
     },
     "expressvpn": {
-      "hash": "8556f02acf1d5bf4",
+      "hash": "2888e2754cfa3355",
       "source_url": "https://www.expressvpn.com/order",
-      "extracted_at_utc": "2026-02-24T19:01:53Z",
+      "extracted_at_utc": "2026-03-02T06:56:34Z",
       "tokens": []
     },
     "github_pro": {

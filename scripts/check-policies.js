@@ -14,6 +14,7 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { mergePolicyAlertFeed } from "./lib/policy-feed-reliability.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CHECKER_CONFIG = {
@@ -38,6 +39,8 @@ const CHECKER_CONFIG = {
   materialCooldownDays: Number.parseInt(process.env.POLICY_CHECK_MATERIAL_COOLDOWN_DAYS || "14", 10),
   actualConfirmRuns: Number.parseInt(process.env.POLICY_CHECK_ACTUAL_CONFIRM_RUNS || "2", 10),
   actualMinGapHours: Number.parseInt(process.env.POLICY_CHECK_ACTUAL_MIN_GAP_HOURS || "4", 10),
+  alertLowSignalThreshold: Number.parseInt(process.env.POLICY_ALERT_LOW_SIGNAL_THRESHOLD || "1", 10),
+  alertLowSignalLookback: Number.parseInt(process.env.POLICY_ALERT_LOW_SIGNAL_LOOKBACK || "6", 10),
 };
 const USER_AGENTS = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
@@ -238,6 +241,16 @@ function getPolicyAlertFeedMaxEntries() {
   return Math.min(366, parsed);
 }
 
+function getPolicyAlertLowSignalThreshold() {
+  if (!Number.isFinite(CHECKER_CONFIG.alertLowSignalThreshold)) return 1;
+  return Math.max(0, CHECKER_CONFIG.alertLowSignalThreshold);
+}
+
+function getPolicyAlertLowSignalLookback() {
+  if (!Number.isFinite(CHECKER_CONFIG.alertLowSignalLookback)) return 6;
+  return Math.max(1, CHECKER_CONFIG.alertLowSignalLookback);
+}
+
 function buildRunUrl() {
   const repository = String(process.env.GITHUB_REPOSITORY || "").trim();
   const runId = String(process.env.GITHUB_RUN_ID || "").trim();
@@ -248,27 +261,129 @@ function buildRunUrl() {
 function updatePolicyAlertFeed(entry) {
   const existing = readJson(POLICY_ALERT_FEED_PATH, { alerts: [] });
   const existingAlerts = Array.isArray(existing.alerts) ? existing.alerts : [];
-  const normalizedDate = String(entry?.date_utc || "").trim();
-  const merged = [
+  const merged = mergePolicyAlertFeed({
+    existingAlerts,
     entry,
-    ...existingAlerts.filter((item) => String(item?.date_utc || "").trim() !== normalizedDate),
-  ].sort((a, b) => {
-    const dateA = String(a?.date_utc || "");
-    const dateB = String(b?.date_utc || "");
-    if (dateA !== dateB) return dateA > dateB ? -1 : 1;
-    const generatedA = String(a?.generated_at_utc || "");
-    const generatedB = String(b?.generated_at_utc || "");
-    return generatedA > generatedB ? -1 : generatedA < generatedB ? 1 : 0;
+    maxEntries: getPolicyAlertFeedMaxEntries(),
+    lowSignalThreshold: getPolicyAlertLowSignalThreshold(),
+    lowSignalLookback: getPolicyAlertLowSignalLookback(),
   });
+  const nextAlerts = merged.alerts;
+  const previousSerialized = JSON.stringify(existingAlerts);
+  const nextSerialized = JSON.stringify(nextAlerts);
+  const feedChanged = previousSerialized !== nextSerialized;
 
   const nextPayload = {
     schema_version: 1,
     updated_utc: utcIsoTimestamp(),
     source: "check-policies.js",
-    alerts: merged.slice(0, getPolicyAlertFeedMaxEntries()),
+    alerts: nextAlerts,
   };
 
-  writeFileSync(POLICY_ALERT_FEED_PATH, JSON.stringify(nextPayload, null, 2) + "\n");
+  if (feedChanged) {
+    writeFileSync(POLICY_ALERT_FEED_PATH, JSON.stringify(nextPayload, null, 2) + "\n");
+  }
+
+  return {
+    published: Boolean(merged.published),
+    reason: String(merged.reason || ""),
+    signature: String(merged.signature || ""),
+    feedChanged,
+  };
+}
+
+function readNdjson(filePath) {
+  if (!existsSync(filePath)) return [];
+  const raw = String(readFileSync(filePath, "utf8") || "");
+  if (!raw.trim()) return [];
+  const parsed = [];
+  for (const line of raw.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    try {
+      const value = JSON.parse(trimmed);
+      if (value && typeof value === "object") {
+        parsed.push(value);
+      }
+    } catch {
+      // Ignore malformed historic lines and continue.
+    }
+  }
+  return parsed;
+}
+
+function buildPolicyEventId(item) {
+  const policyType = String(item?.policyType || item?.policy || "").trim();
+  const vendor = String(item?.vendor || "").trim();
+  const confirmedHash = String(item?.confirmed_hash || item?.hash || "").trim();
+  if (!policyType || !vendor || !confirmedHash) return "";
+  return `${policyType}:${vendor}:${confirmedHash}`;
+}
+
+function appendPolicyEventLog(changedItems, generatedAtUtc = utcIsoTimestamp()) {
+  const existingEvents = readNdjson(POLICY_EVENT_LOG_PATH);
+  const existingIds = new Set();
+  for (const event of existingEvents) {
+    const eventId = String(event?.event_id || "").trim() || buildPolicyEventId(event);
+    if (eventId) existingIds.add(eventId);
+  }
+
+  const runId = String(process.env.GITHUB_RUN_ID || "").trim();
+  const runAttempt = String(process.env.GITHUB_RUN_ATTEMPT || "").trim();
+  const commitSha = String(process.env.GITHUB_SHA || "").trim();
+  const runUrl = buildRunUrl();
+  const newEvents = [];
+  let skippedExisting = 0;
+  let skippedInvalid = 0;
+
+  for (const item of changedItems || []) {
+    const eventId = buildPolicyEventId(item);
+    if (!eventId) {
+      skippedInvalid += 1;
+      continue;
+    }
+    if (existingIds.has(eventId)) {
+      skippedExisting += 1;
+      continue;
+    }
+
+    const event = {
+      event_id: eventId,
+      emitted_at_utc: generatedAtUtc,
+      policy: String(item.policyType || "").trim(),
+      vendor: String(item.vendor || "").trim(),
+      confirmed_hash: String(item.confirmed_hash || "").trim(),
+      previous_hash: String(item.previous_hash || "").trim(),
+      semantic_diff_summary: String(item.semantic_diff_summary || "").trim(),
+      source_url: String(item.url || "").trim(),
+      rules_file: String(item.rulesFile || "").trim(),
+      run_id: runId,
+      run_attempt: runAttempt,
+      commit_sha: commitSha,
+      run_url: runUrl,
+    };
+    if (item.semantic_diff && typeof item.semantic_diff === "object") {
+      event.semantic_diff = item.semantic_diff;
+    }
+    newEvents.push(event);
+    existingIds.add(eventId);
+  }
+
+  if (newEvents.length > 0) {
+    const existingRaw = existsSync(POLICY_EVENT_LOG_PATH)
+      ? String(readFileSync(POLICY_EVENT_LOG_PATH, "utf8") || "").trimEnd()
+      : "";
+    const appendedRaw = newEvents.map((event) => JSON.stringify(event)).join("\n");
+    const nextRaw = existingRaw ? `${existingRaw}\n${appendedRaw}\n` : `${appendedRaw}\n`;
+    writeFileSync(POLICY_EVENT_LOG_PATH, nextRaw, "utf8");
+  }
+
+  return {
+    appended_count: newEvents.length,
+    skipped_existing_count: skippedExisting,
+    skipped_invalid_count: skippedInvalid,
+    total_count: existingIds.size,
+  };
 }
 
 function readNdjson(filePath) {
@@ -1907,9 +2022,15 @@ async function main() {
   const pendingByPolicyObject = toPolicyCountObject(allPending);
   const generatedAtUtc = utcIsoTimestamp();
   const changedDateUtc = generatedAtUtc.slice(0, 10);
+  let alertFeedPublishState = {
+    published: false,
+    reason: "skipped_update_mode",
+    signature: "",
+    feedChanged: false,
+  };
 
   if (!isUpdate) {
-    updatePolicyAlertFeed({
+    alertFeedPublishState = updatePolicyAlertFeed({
       date_utc: changedDateUtc,
       generated_at_utc: generatedAtUtc,
       changed_count: allMaterialChanged.length,
@@ -1936,6 +2057,10 @@ async function main() {
       skipped_invalid_count: 0,
       total_count: readNdjson(POLICY_EVENT_LOG_PATH).length,
     };
+  console.log(`ALERT_FEED_PUBLISHED=${alertFeedPublishState.published ? "1" : "0"}`);
+  console.log(`ALERT_FEED_REASON=${alertFeedPublishState.reason}`);
+  console.log(`ALERT_FEED_SIGNATURE=${alertFeedPublishState.signature}`);
+  console.log(`ALERT_FEED_CHANGED=${alertFeedPublishState.feedChanged ? "1" : "0"}`);
 
   console.log(`PENDING_COUNT=${allPending.length}`);
   console.log(`PENDING_BY_POLICY=${pendingByPolicy}`);

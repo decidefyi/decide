@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-01T23:47:32Z",
+  "updated_utc": "2026-03-02T06:53:13Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -317,9 +317,9 @@
       ]
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-01T01:24:10Z",
+      "extracted_at_utc": "2026-03-02T06:49:42Z",
       "tokens": [
         "billing:auto_renew"
       ]

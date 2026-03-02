@@ -1,0 +1,53 @@
+{
+  "name": "policy-feed-actual-change-published",
+  "existing": [
+    {
+      "date_utc": "2026-03-01",
+      "generated_at_utc": "2026-03-01T00:00:00Z",
+      "changed_count": 0,
+      "by_policy": {
+        "refund": 0,
+        "cancel": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "pending_count": 0,
+      "stale_pending_count": 0,
+      "volatile_pending_count": 0,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "source": "check-policies.js"
+    }
+  ],
+  "entry": {
+    "date_utc": "2026-03-02",
+    "generated_at_utc": "2026-03-02T01:00:00Z",
+    "changed_count": 3,
+    "by_policy": {
+      "refund": 2,
+      "cancel": 1,
+      "return": 0,
+      "trial": 0
+    },
+    "changed_sample": [
+      "refund:adobe",
+      "refund:spotify",
+      "cancel:netflix"
+    ],
+    "pending_count": 2,
+    "pending_by_policy": {
+      "refund": 1,
+      "cancel": 1,
+      "return": 0,
+      "trial": 0
+    },
+    "stale_pending_count": 0,
+    "volatile_pending_count": 0,
+    "escalation_count": 0,
+    "coverage_gap_count": 0,
+    "source": "check-policies.js"
+  },
+  "expect": {
+    "published": true
+  }
+}
