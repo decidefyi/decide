@@ -1,0 +1,32 @@
+{
+  "name": "workflow-zendesk-refund",
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/workflows/zendesk/refund",
+    "query": {
+      "workflow": "refund"
+    },
+    "headers": {
+      "content-type": "application/json",
+      "user-agent": "contract-test"
+    },
+    "body": {
+      "ticket_id": "zd-1001",
+      "workflow_type": "refund",
+      "vendor": "adobe",
+      "days_since_purchase": 5,
+      "region": "US",
+      "plan": "individual",
+      "decision_override": "yes",
+      "idempotency_key": "fixture-refund-zd-1001"
+    }
+  },
+  "expect": {
+    "statusCode": 200,
+    "ok": true,
+    "flow": "zendesk_refund_v1",
+    "decision": "yes",
+    "action": "approve_refund",
+    "policy_verdict": "ALLOWED"
+  }
+}

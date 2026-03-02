@@ -1,0 +1,26 @@
+{
+  "name": "policy-v1-refund-eligibility",
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/refund/eligibility",
+    "query": {
+      "policy": "refund",
+      "action": "eligibility"
+    },
+    "headers": {
+      "content-type": "application/json",
+      "user-agent": "contract-test"
+    },
+    "body": {
+      "vendor": "adobe",
+      "days_since_purchase": 5,
+      "region": "US",
+      "plan": "individual"
+    }
+  },
+  "expect": {
+    "statusCode": 200,
+    "verdict": "ALLOWED",
+    "code": "WITHIN_WINDOW"
+  }
+}
