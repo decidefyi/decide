@@ -183,6 +183,7 @@ const ACTUAL_CONFIRM_RUN_OVERRIDES = {
 };
 const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v1";
 const POLICY_ALERT_FEED_PATH = join(__dirname, "..", "rules", "policy-alert-feed.json");
+const POLICY_EVENT_LOG_PATH = join(__dirname, "..", "rules", "policy-events.ndjson");
 const POLICY_COUNT_KEYS = ["refund", "cancel", "return", "trial"];
 
 const isUpdate = process.argv.includes("--update");
@@ -270,6 +271,100 @@ function updatePolicyAlertFeed(entry) {
   writeFileSync(POLICY_ALERT_FEED_PATH, JSON.stringify(nextPayload, null, 2) + "\n");
 }
 
+function readNdjson(filePath) {
+  if (!existsSync(filePath)) return [];
+  const raw = String(readFileSync(filePath, "utf8") || "");
+  if (!raw.trim()) return [];
+  const parsed = [];
+  for (const line of raw.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    try {
+      const value = JSON.parse(trimmed);
+      if (value && typeof value === "object") {
+        parsed.push(value);
+      }
+    } catch {
+      // Ignore malformed historic lines and continue.
+    }
+  }
+  return parsed;
+}
+
+function buildPolicyEventId(item) {
+  const policyType = String(item?.policyType || item?.policy || "").trim();
+  const vendor = String(item?.vendor || "").trim();
+  const confirmedHash = String(item?.confirmed_hash || item?.hash || "").trim();
+  if (!policyType || !vendor || !confirmedHash) return "";
+  return `${policyType}:${vendor}:${confirmedHash}`;
+}
+
+function appendPolicyEventLog(changedItems, generatedAtUtc = utcIsoTimestamp()) {
+  const existingEvents = readNdjson(POLICY_EVENT_LOG_PATH);
+  const existingIds = new Set();
+  for (const event of existingEvents) {
+    const eventId = String(event?.event_id || "").trim() || buildPolicyEventId(event);
+    if (eventId) existingIds.add(eventId);
+  }
+
+  const runId = String(process.env.GITHUB_RUN_ID || "").trim();
+  const runAttempt = String(process.env.GITHUB_RUN_ATTEMPT || "").trim();
+  const commitSha = String(process.env.GITHUB_SHA || "").trim();
+  const runUrl = buildRunUrl();
+  const newEvents = [];
+  let skippedExisting = 0;
+  let skippedInvalid = 0;
+
+  for (const item of changedItems || []) {
+    const eventId = buildPolicyEventId(item);
+    if (!eventId) {
+      skippedInvalid += 1;
+      continue;
+    }
+    if (existingIds.has(eventId)) {
+      skippedExisting += 1;
+      continue;
+    }
+
+    const event = {
+      event_id: eventId,
+      emitted_at_utc: generatedAtUtc,
+      policy: String(item.policyType || "").trim(),
+      vendor: String(item.vendor || "").trim(),
+      confirmed_hash: String(item.confirmed_hash || "").trim(),
+      previous_hash: String(item.previous_hash || "").trim(),
+      semantic_diff_summary: String(item.semantic_diff_summary || "").trim(),
+      source_url: String(item.url || "").trim(),
+      rules_file: String(item.rulesFile || "").trim(),
+      run_id: runId,
+      run_attempt: runAttempt,
+      commit_sha: commitSha,
+      run_url: runUrl,
+    };
+    if (item.semantic_diff && typeof item.semantic_diff === "object") {
+      event.semantic_diff = item.semantic_diff;
+    }
+    newEvents.push(event);
+    existingIds.add(eventId);
+  }
+
+  if (newEvents.length > 0) {
+    const existingRaw = existsSync(POLICY_EVENT_LOG_PATH)
+      ? String(readFileSync(POLICY_EVENT_LOG_PATH, "utf8") || "").trimEnd()
+      : "";
+    const appendedRaw = newEvents.map((event) => JSON.stringify(event)).join("\n");
+    const nextRaw = existingRaw ? `${existingRaw}\n${appendedRaw}\n` : `${appendedRaw}\n`;
+    writeFileSync(POLICY_EVENT_LOG_PATH, nextRaw, "utf8");
+  }
+
+  return {
+    appended_count: newEvents.length,
+    skipped_existing_count: skippedExisting,
+    skipped_invalid_count: skippedInvalid,
+    total_count: existingIds.size,
+  };
+}
+
 function updateJsonStringField(filePath, fieldName, nextValue) {
   const raw = readFileSync(filePath, "utf8");
   const pattern = new RegExp(`"${fieldName}"\\s*:\\s*"[^"]*"`);
@@ -283,6 +378,26 @@ function updateJsonStringField(filePath, fieldName, nextValue) {
   }
 
   return false;
+}
+
+function detectFetchInterstitial(text) {
+  const raw = String(text || "");
+  if (!raw.trim()) return "empty";
+
+  const normalized = raw.toLowerCase();
+  const checks = [
+    ["cloudflare_challenge", normalized.includes("cf_chl_opt") || normalized.includes("/cdn-cgi/challenge-platform/")],
+    ["js_cookie_challenge", normalized.includes("enable javascript and cookies to continue")],
+    ["just_a_moment", normalized.includes("<title>just a moment") || normalized.includes("title: just a moment")],
+    ["captcha_interstitial", normalized.includes("captcha") && normalized.includes("attention required")],
+    ["akamai_access_denied", normalized.includes("access denied") && normalized.includes("reference #")],
+  ];
+
+  for (const [reason, matched] of checks) {
+    if (matched) return reason;
+  }
+
+  return "";
 }
 
 function decodeHtmlEntities(input) {
@@ -411,6 +526,11 @@ function normalizeSemanticTokens(tokens) {
     .map((token) => String(token || "").trim().toLowerCase())
     .filter(Boolean);
   return [...new Set(normalized)].sort((a, b) => a.localeCompare(b));
+}
+
+function semanticTokenSignature(profile) {
+  const tokens = normalizeSemanticTokens(profile?.tokens);
+  return tokens.join("|");
 }
 
 function extractDurationTokens(text, anchors = [], tokenPrefix = "window_days") {
@@ -904,19 +1024,28 @@ async function fetchWithFallback(vendorConfig) {
   for (const candidateUrl of candidates) {
     const directResult = await fetchText(candidateUrl, CHECKER_CONFIG.directAttempts);
     if (typeof directResult === "string") {
-      return { text: directResult, sourceUrl: candidateUrl };
+      const interstitialReason = detectFetchInterstitial(directResult);
+      if (!interstitialReason) {
+        return { text: directResult, sourceUrl: candidateUrl };
+      }
+      failures.push(`${candidateUrl} (interstitial:${interstitialReason})`);
+    } else {
+      failures.push(`${candidateUrl} (${directResult.error})`);
     }
-
-    failures.push(`${candidateUrl} (${directResult.error})`);
 
     const mirrorUrl = toJinaMirrorUrl(candidateUrl);
     if (!mirrorUrl) continue;
 
     const mirrorResult = await fetchText(mirrorUrl, CHECKER_CONFIG.fallbackAttempts);
     if (typeof mirrorResult === "string") {
-      return { text: mirrorResult, sourceUrl: candidateUrl };
+      const interstitialReason = detectFetchInterstitial(mirrorResult);
+      if (!interstitialReason) {
+        return { text: mirrorResult, sourceUrl: candidateUrl };
+      }
+      failures.push(`${candidateUrl} [mirror] (interstitial:${interstitialReason})`);
+    } else {
+      failures.push(`${candidateUrl} [mirror] (${mirrorResult.error})`);
     }
-    failures.push(`${candidateUrl} [mirror] (${mirrorResult.error})`);
   }
 
   return { text: null, error: failures.join("; ") };
@@ -930,6 +1059,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       observedChanged: [],
       materialChanged: [],
       materialRepeatSuppressed: [],
+      materialVersionRepeatSuppressed: [],
       pending: [],
       errors: [],
       errorReasons: {},
@@ -996,6 +1126,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const observedChanged = [];
   const materialChanged = [];
   const materialRepeatSuppressed = [];
+  const materialVersionRepeatSuppressed = [];
   const pendingSet = new Set();
   const pendingMetadata = {};
   const errors = [];
@@ -1034,16 +1165,42 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       sourceUrl,
       extractedAtUtc: confirmedAtUtc,
     });
-    const semanticDiff = diffSemanticProfiles(storedSemanticProfiles[vendor], normalizedProfile);
+    const previousProfile = storedSemanticProfiles[vendor];
+    const previousHash = typeof previousProfile?.hash === "string" ? previousProfile.hash : "";
+    const semanticDiff = diffSemanticProfiles(previousProfile, normalizedProfile);
     const entry = {
       vendor,
       url: sourceUrl,
+      confirmed_hash: confirmedHash || "",
+      previous_hash: previousHash,
+      confirmed_at_utc: confirmedAtUtc,
       semantic_diff: semanticDiff,
       semantic_diff_summary: formatSemanticDiffSummary(semanticDiff),
     };
+    const coverage = ensureCoverageEntry(vendor);
+
+    if (semanticDiff.material) {
+      const previousEmittedHash =
+        typeof coverage.last_material_emitted_hash === "string" ? coverage.last_material_emitted_hash : "";
+      const suppressRepeatedHashVersion = Boolean(confirmedHash && previousEmittedHash && confirmedHash === previousEmittedHash);
+      if (suppressRepeatedHashVersion) {
+        materialVersionRepeatSuppressed.push({
+          ...entry,
+          suppressed_hash: confirmedHash,
+          last_material_emitted_hash: previousEmittedHash,
+          last_material_emitted_utc:
+            typeof coverage.last_material_emitted_utc === "string" ? coverage.last_material_emitted_utc : "",
+        });
+        coverage.last_material_hash_repeat_suppressed_utc = confirmedAtUtc;
+        coverage.last_material_hash_repeat_suppressed_hash = confirmedHash;
+        newSemanticProfiles[vendor] = normalizedProfile;
+        markConfirmedChange(vendor, confirmedAtUtc);
+        return;
+      }
+    }
+
     observedChanged.push(entry);
     if (semanticDiff.material) {
-      const coverage = ensureCoverageEntry(vendor);
       const diffSignature = buildSemanticDiffSignature(semanticDiff);
       const previousSignature =
         typeof coverage.last_material_signature === "string" ? coverage.last_material_signature : "";
@@ -1074,9 +1231,12 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         if (diffSignature) {
           coverage.last_material_signature = diffSignature;
           coverage.last_material_emitted_utc = confirmedAtUtc;
+          coverage.last_material_emitted_hash = confirmedHash || coverage.last_material_emitted_hash || "";
         }
         delete coverage.last_material_repeat_suppressed_utc;
         delete coverage.last_material_repeat_suppressed_signature;
+        delete coverage.last_material_hash_repeat_suppressed_utc;
+        delete coverage.last_material_hash_repeat_suppressed_hash;
       }
     }
     newSemanticProfiles[vendor] = normalizedProfile;
@@ -1127,11 +1287,13 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           sourceUrl: sourceUrl || "",
           extractedAtUtc: fetchedAtUtc,
         });
+        const semanticSignature = semanticTokenSignature(semanticProfile);
 
         const priorCandidate = activeStoredCandidates[vendor];
         const previousHash = storedHashes[vendor];
         const signal = previousHash && previousHash === h ? BASELINE_SIGNAL : h;
-        appendSignalWindow(coverage, signal);
+        const signalWindow = appendSignalWindow(coverage, signal);
+        const signalWindowDecision = evaluateSignalWindow(signalWindow);
 
         if (isUpdate || rebaselineForProfile || !previousHash) {
           newHashes[vendor] = h;
@@ -1153,6 +1315,9 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         const nextCount = priorHash === h ? Math.max(1, priorCount) + 1 : 1;
         const nextFlipCount = priorHash && priorHash !== h ? priorFlipCount + 1 : priorFlipCount;
         const priorRunConfirmations = Number(priorCandidate?.run_confirmations || 0);
+        const priorSemanticRunConfirmations = Number(priorCandidate?.semantic_run_confirmations || 0);
+        const priorSemanticSignature =
+          typeof priorCandidate?.semantic_signature === "string" ? priorCandidate.semantic_signature : "";
         const priorObservedMs = toMsOrNaN(priorCandidate?.last_run_observed_utc || "");
         const currentObservedMs = toMsOrNaN(fetchedAtUtc);
         const minGapMs = getActualMinGapMs();
@@ -1165,8 +1330,20 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         if (priorHash === h && priorRunConfirmations > 0) {
           nextRunConfirmations = gapSatisfied ? priorRunConfirmations + 1 : priorRunConfirmations;
         }
+        let nextSemanticRunConfirmations = 1;
+        if (priorHash === h && priorSemanticSignature && priorSemanticSignature === semanticSignature && priorSemanticRunConfirmations > 0) {
+          nextSemanticRunConfirmations = gapSatisfied ? priorSemanticRunConfirmations + 1 : priorSemanticRunConfirmations;
+        }
+        const hashWindowConfirmed =
+          typeof signalWindowDecision.hashDecision === "string" &&
+          signalWindowDecision.hashDecision &&
+          signalWindowDecision.hashDecision === h;
 
-        if (nextRunConfirmations >= actualConfirmRuns) {
+        if (
+          nextRunConfirmations >= actualConfirmRuns &&
+          nextSemanticRunConfirmations >= actualConfirmRuns &&
+          hashWindowConfirmed
+        ) {
           registerConfirmedChange({
             vendor,
             sourceUrl: sourceUrl || "",
@@ -1179,7 +1356,11 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           return;
         }
 
-        if (!gapSatisfied && priorHash === h && priorRunConfirmations > 0) {
+        if (
+          (!gapSatisfied && priorHash === h && priorRunConfirmations > 0) ||
+          (nextRunConfirmations >= actualConfirmRuns && !hashWindowConfirmed) ||
+          (nextRunConfirmations >= actualConfirmRuns && nextSemanticRunConfirmations < actualConfirmRuns)
+        ) {
           crossRunWindowHeldSet.add(vendor);
         }
 
@@ -1190,6 +1371,12 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           count: nextCount,
           flip_count: nextFlipCount,
           run_confirmations: nextRunConfirmations,
+          semantic_run_confirmations: nextSemanticRunConfirmations,
+          semantic_signature: semanticSignature,
+          signal_window_hash_decision: signalWindowDecision.hashDecision || "",
+          signal_window_required_votes: Number(signalWindowDecision.required || 0),
+          signal_window_top_hash_votes: Number(signalWindowDecision.topVotes || 0),
+          signal_window_baseline_votes: Number(signalWindowDecision.baselineVotes || 0),
           actual_confirm_runs_required: actualConfirmRuns,
           last_run_observed_utc: fetchedAtUtc,
           source_url: sourceUrl || "",
@@ -1267,6 +1454,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             sourceUrl,
             extractedAtUtc: fetchedAtUtc,
           });
+          const semanticSignature = semanticTokenSignature(semanticProfile);
           const observations = runObservations[vendor];
           if (h === metadata.previousHash) {
             observations.baselineVotes = Number(observations.baselineVotes || 0) + 1;
@@ -1290,11 +1478,16 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             candidate.hash = majorityDecision.hash;
             candidate.profile =
               observations.hashProfiles?.[majorityDecision.hash] || candidate.profile || semanticProfile;
+            const majoritySemanticSignature = semanticTokenSignature(candidate.profile);
             candidate.count = Math.max(Number(candidate.count || 1), Number(majorityDecision.winnerVotes || 1));
             candidate.last_seen_utc = fetchedAtUtc;
             if (sourceUrl) candidate.source_url = sourceUrl;
             candidate.run_confirmations = previousCandidateHash === majorityDecision.hash
               ? Number(candidate.run_confirmations || 1)
+              : 1;
+            candidate.semantic_signature = majoritySemanticSignature;
+            candidate.semantic_run_confirmations = previousCandidateHash === majorityDecision.hash
+              ? Number(candidate.semantic_run_confirmations || 1)
               : 1;
             newCandidates[vendor] = candidate;
             return;
@@ -1309,6 +1502,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
 
           if (candidate.hash === h) {
             candidate.count = Number(candidate.count || 1) + 1;
+            candidate.semantic_signature = semanticSignature;
           } else {
             candidate.hash = h;
             candidate.count = 1;
@@ -1316,12 +1510,16 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             candidate.pending_since_utc = getCandidatePendingSinceUtc(candidate) || fetchedAtUtc;
             candidate.first_seen_utc = utcIsoTimestamp();
             candidate.profile = semanticProfile;
+            candidate.semantic_signature = semanticSignature;
+            candidate.semantic_run_confirmations = 1;
           }
           candidate.pending_since_utc = getCandidatePendingSinceUtc(candidate) || fetchedAtUtc;
           candidate.profile = candidate.hash === h ? semanticProfile : candidate.profile;
+          candidate.semantic_signature = candidate.hash === h ? semanticSignature : candidate.semantic_signature;
           if (sourceUrl) candidate.source_url = sourceUrl;
           candidate.last_seen_utc = fetchedAtUtc;
           candidate.run_confirmations = Number(candidate.run_confirmations || 1);
+          candidate.semantic_run_confirmations = Number(candidate.semantic_run_confirmations || 1);
 
           newCandidates[vendor] = candidate;
         })
@@ -1452,6 +1650,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     observedChanged,
     materialChanged,
     materialRepeatSuppressed,
+    materialVersionRepeatSuppressed,
     pending,
     errors,
     errorReasons,
@@ -1478,6 +1677,7 @@ async function main() {
   const allObservedChanged = [];
   const allMaterialChanged = [];
   const allMaterialRepeatSuppressed = [];
+  const allMaterialVersionRepeatSuppressed = [];
   const allErrors = [];
   const allPending = [];
   const allStalePending = [];
@@ -1542,13 +1742,13 @@ async function main() {
     if (result.crossRunWindowConfirmed.length > 0) {
       const names = sortedLimitedVendors(result.crossRunWindowConfirmed, getPendingDetailLimit());
       console.log(
-        `::notice::${result.name}: actual_consecutive_run_confirmed=${result.crossRunWindowConfirmed.length} (required_runs>=${getActualConfirmRuns()}, min_gap_hours>=${getActualMinGapHours()}); first ${names.length}: ${names.join(", ")}`
+        `::notice::${result.name}: stable_change_confirmed=${result.crossRunWindowConfirmed.length} (required_runs>=${getActualConfirmRuns()}, min_gap_hours>=${getActualMinGapHours()}, window_required>=${getCrossRunWindowRequired()}); first ${names.length}: ${names.join(", ")}`
       );
     }
     if (result.crossRunWindowHeld.length > 0) {
       const names = sortedLimitedVendors(result.crossRunWindowHeld, getPendingDetailLimit());
       console.log(
-        `::notice::${result.name}: consecutive_run_gap_held_pending=${result.crossRunWindowHeld.length} (min_gap_hours not yet met); first ${names.length}: ${names.join(", ")}`
+        `::notice::${result.name}: stability_held_pending=${result.crossRunWindowHeld.length} (gap/window/semantic stability checks not yet met); first ${names.length}: ${names.join(", ")}`
       );
     }
     if (result.staleDropped.length > 0) {
@@ -1608,6 +1808,9 @@ async function main() {
     }
     for (const c of result.materialRepeatSuppressed) {
       allMaterialRepeatSuppressed.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
+    }
+    for (const c of result.materialVersionRepeatSuppressed) {
+      allMaterialVersionRepeatSuppressed.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
     }
     for (const vendor of result.pending) {
       allPending.push({ policyType: result.name, vendor });
@@ -1696,6 +1899,11 @@ async function main() {
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
+  const materialVersionRepeatSuppressedByPolicy = toPolicyCountString(allMaterialVersionRepeatSuppressed);
+  const materialVersionRepeatSuppressedSample = allMaterialVersionRepeatSuppressed
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
   const pendingByPolicyObject = toPolicyCountObject(allPending);
   const generatedAtUtc = utcIsoTimestamp();
   const changedDateUtc = generatedAtUtc.slice(0, 10);
@@ -1720,6 +1928,14 @@ async function main() {
       source: "check-policies.js",
     });
   }
+  const policyEventLogResult = !isUpdate
+    ? appendPolicyEventLog(allMaterialChanged, generatedAtUtc)
+    : {
+      appended_count: 0,
+      skipped_existing_count: 0,
+      skipped_invalid_count: 0,
+      total_count: readNdjson(POLICY_EVENT_LOG_PATH).length,
+    };
 
   console.log(`PENDING_COUNT=${allPending.length}`);
   console.log(`PENDING_BY_POLICY=${pendingByPolicy}`);
@@ -1753,6 +1969,13 @@ async function main() {
   console.log(`MATERIAL_REPEAT_SUPPRESSED_COUNT=${allMaterialRepeatSuppressed.length}`);
   console.log(`MATERIAL_REPEAT_SUPPRESSED_BY_POLICY=${materialRepeatSuppressedByPolicy}`);
   console.log(`MATERIAL_REPEAT_SUPPRESSED_SAMPLE=${materialRepeatSuppressedSample}`);
+  console.log(`MATERIAL_VERSION_REPEAT_SUPPRESSED_COUNT=${allMaterialVersionRepeatSuppressed.length}`);
+  console.log(`MATERIAL_VERSION_REPEAT_SUPPRESSED_BY_POLICY=${materialVersionRepeatSuppressedByPolicy}`);
+  console.log(`MATERIAL_VERSION_REPEAT_SUPPRESSED_SAMPLE=${materialVersionRepeatSuppressedSample}`);
+  console.log(`POLICY_EVENT_APPENDED_COUNT=${policyEventLogResult.appended_count}`);
+  console.log(`POLICY_EVENT_SKIPPED_EXISTING_COUNT=${policyEventLogResult.skipped_existing_count}`);
+  console.log(`POLICY_EVENT_SKIPPED_INVALID_COUNT=${policyEventLogResult.skipped_invalid_count}`);
+  console.log(`POLICY_EVENT_TOTAL_COUNT=${policyEventLogResult.total_count}`);
   // Canonical public aliases: "changed" means actual policy changes.
   console.log(`CHANGED_COUNT=${allMaterialChanged.length}`);
   console.log(`CHANGED_BY_POLICY=${actualByPolicy}`);
@@ -1793,6 +2016,20 @@ async function main() {
       .join("\n");
     console.log(
       `::notice::Suppressed repeated semantic diffs (first ${Math.min(allMaterialRepeatSuppressed.length, 20)}):\n${suppressedPreview}`
+    );
+  }
+  if (allMaterialVersionRepeatSuppressed.length > 0) {
+    const suppressedPreview = allMaterialVersionRepeatSuppressed
+      .slice(0, 20)
+      .map((c) => `- [${c.policyType}] ${c.vendor} -> repeated hash version (suppressed)`)
+      .join("\n");
+    console.log(
+      `::notice::Suppressed repeated material hash versions (first ${Math.min(allMaterialVersionRepeatSuppressed.length, 20)}):\n${suppressedPreview}`
+    );
+  }
+  if (policyEventLogResult.appended_count > 0) {
+    console.log(
+      `::notice::Policy event log appended ${policyEventLogResult.appended_count} event(s) (total=${policyEventLogResult.total_count}).`
     );
   }
   process.exitCode = 0;
