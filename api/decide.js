@@ -1,8 +1,10 @@
 import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../lib/rate-limit.js";
 import { persistLog } from "../lib/log.js";
+import { buildSourceHash, withLineage } from "../lib/lineage.js";
 
 // Rate limiter: 20 requests per minute per IP
 const rateLimiter = createRateLimiter(20, 60000);
+const DECIDE_POLICY_VERSION = "decide_classifier_v1";
 
 function rid() {
   return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
@@ -79,6 +81,22 @@ function sanitizeScore(n) {
   return Number(clamped.toFixed(1));
 }
 
+function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
+  res.statusCode = statusCode;
+  res.setHeader("Content-Type", "application/json");
+  const sourceHash = buildSourceHash({
+    policy: DECIDE_POLICY_VERSION,
+    mode: lineageInput.mode || "single",
+    question: lineageInput.question || "",
+    stem: lineageInput.stem || "",
+    options: Array.isArray(lineageInput.options) ? lineageInput.options : [],
+  });
+  res.end(JSON.stringify(withLineage(payload, {
+    policyVersion: DECIDE_POLICY_VERSION,
+    sourceHash,
+  })));
+}
+
 export default async function handler(req, res) {
   const request_id = rid();
   const ua = req.headers["user-agent"] || "unknown";
@@ -96,9 +114,7 @@ export default async function handler(req, res) {
 
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST", "OPTIONS"]);
-    res.statusCode = 405;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
+    sendDecisionJson(res, 405, { c: "unclear", v: "try again", request_id }, { mode: "single" });
     return;
   }
 
@@ -117,9 +133,7 @@ export default async function handler(req, res) {
       try {
         body = JSON.parse(req.body);
       } catch {
-        res.statusCode = 400;
-        res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify({ c: "unclear", v: "Invalid JSON body", request_id }));
+        sendDecisionJson(res, 400, { c: "unclear", v: "Invalid JSON body", request_id }, { mode: "single" });
         return;
       }
     }
@@ -141,9 +155,7 @@ export default async function handler(req, res) {
           ua,
         })
       );
-      res.statusCode = 500;
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
+      sendDecisionJson(res, 500, { c: "unclear", v: "try again", request_id }, { mode });
       return;
     }
 
@@ -160,18 +172,14 @@ export default async function handler(req, res) {
       if (!stem) stem = "best option";
 
       if (options.length < 2 || options.length > 8) {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify({ c: "unclear", v: "Need 2-8 options", request_id }));
+        sendDecisionJson(res, 200, { c: "unclear", v: "Need 2-8 options", request_id }, { mode: "multi", question, stem, options });
         return;
       }
 
       const normalizedForPolicy = normalize(`${stem} ${options.join(" ")}`);
       if (isFinanceAdvice(normalizedForPolicy) || isMedicalAdvice(normalizedForPolicy) || isLegalAdvice(normalizedForPolicy)) {
         const category = isFinanceAdvice(normalizedForPolicy) ? "finance" : isMedicalAdvice(normalizedForPolicy) ? "medical" : "legal";
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify({ c: "filtered", v: `Cannot provide ${category} advice`, request_id }));
+        sendDecisionJson(res, 200, { c: "filtered", v: `Cannot provide ${category} advice`, request_id }, { mode: "multi", question, stem, options });
         await persistLog("decide_multi_request", { request_id, event: "filtered_question", category, ip: clientIp, ua });
         return;
       }
@@ -211,9 +219,7 @@ Rules:
 
       const data = await apiRes.json();
       if (!apiRes.ok) {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
+        sendDecisionJson(res, 200, { c: "unclear", v: "try again", request_id }, { mode: "multi", question, stem, options });
         return;
       }
 
@@ -222,17 +228,13 @@ Rules:
       const rawScores = Array.isArray(parsed?.scores) ? parsed.scores : [];
 
       if (rawScores.length !== options.length) {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
+        sendDecisionJson(res, 200, { c: "unclear", v: "try again", request_id }, { mode: "multi", question, stem, options });
         return;
       }
 
       const scores = rawScores.map(sanitizeScore);
       if (scores.some((score) => score === null)) {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
+        sendDecisionJson(res, 200, { c: "unclear", v: "try again", request_id }, { mode: "multi", question, stem, options });
         return;
       }
 
@@ -258,27 +260,21 @@ Rules:
         options: options.map((option, idx) => ({ index: idx, option, score: scores[idx] })),
       };
 
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify(payload));
+      sendDecisionJson(res, 200, payload, { mode: "multi", question, stem, options });
       await persistLog("decide_multi_request", { request_id, stem, winner_index, tie, tie_indices, scores, ip: clientIp, ua });
       return;
     }
 
     const q = question;
     if (q.length < 3) {
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ c: "unclear", v: "Ask a question", request_id }));
+      sendDecisionJson(res, 200, { c: "unclear", v: "Ask a question", request_id }, { mode: "single", question: q });
       return;
     }
 
     const nq = normalize(q);
     if (isFinanceAdvice(nq) || isMedicalAdvice(nq) || isLegalAdvice(nq)) {
       const category = isFinanceAdvice(nq) ? "finance" : isMedicalAdvice(nq) ? "medical" : "legal";
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ c: "filtered", v: `Cannot provide ${category} advice`, request_id }));
+      sendDecisionJson(res, 200, { c: "filtered", v: `Cannot provide ${category} advice`, request_id }, { mode: "single", question: q });
       await persistLog("decide_request", { request_id, event: "filtered_question", category, ip: clientIp, ua });
       return;
     }
@@ -301,23 +297,19 @@ Output exactly one of: yes, no`;
 
     const data = await apiRes.json();
     if (!apiRes.ok) {
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
+      sendDecisionJson(res, 200, { c: "unclear", v: "try again", request_id }, { mode: "single", question: q });
       return;
     }
 
     let out = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
     out = out.toLowerCase().trim().replace(/^"+|"+$/g, "").replace(/[^\w\s]/g, "").trim();
 
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
     if (out === "yes") {
-      res.end(JSON.stringify({ c: "yes", v: "yes", request_id }));
+      sendDecisionJson(res, 200, { c: "yes", v: "yes", request_id }, { mode: "single", question: q });
     } else if (out === "no") {
-      res.end(JSON.stringify({ c: "no", v: "no", request_id }));
+      sendDecisionJson(res, 200, { c: "no", v: "no", request_id }, { mode: "single", question: q });
     } else {
-      res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
+      sendDecisionJson(res, 200, { c: "unclear", v: "try again", request_id }, { mode: "single", question: q });
     }
 
     await persistLog("decide_request", { request_id, method: req.method, verdict: out, ip: clientIp, ua });
@@ -332,8 +324,6 @@ Output exactly one of: yes, no`;
         ua,
       })
     );
-    res.statusCode = 500;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ c: "unclear", v: "try again", request_id }));
+    sendDecisionJson(res, 500, { c: "unclear", v: "try again", request_id }, { mode: "single" });
   }
 }

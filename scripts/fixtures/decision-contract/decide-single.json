@@ -1,0 +1,20 @@
+{
+  "name": "decide-single-yes",
+  "request": {
+    "method": "POST",
+    "url": "/api/decide",
+    "headers": {
+      "content-type": "application/json",
+      "user-agent": "contract-test"
+    },
+    "body": {
+      "question": "Should this support case escalate?",
+      "mode": "single"
+    }
+  },
+  "expect": {
+    "statusCode": 200,
+    "c": "yes",
+    "v": "yes"
+  }
+}
