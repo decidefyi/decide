@@ -1,77 +1,33 @@
 {
   "canva": {
-    "hash": "93d687369efb6d3d",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-03-01T23:51:05Z",
+    "hash": "36ed77e719dc8204",
+    "count": 1,
+    "flip_count": 5,
     "source_url": "https://www.canva.com/pro/",
-    "pending_since_utc": "2026-03-01T23:51:05Z",
-    "first_seen_utc": "2026-03-01T23:51:05Z",
-    "last_seen_utc": "2026-03-01T23:53:58Z",
-    "baseline_observations": 0,
+    "pending_since_utc": "2026-02-24T12:52:07Z",
+    "first_seen_utc": "2026-02-24T19:02:15Z",
+    "last_seen_utc": "2026-02-24T19:02:15Z",
+    "baseline_observations": 1,
     "profile": {
-      "hash": "93d687369efb6d3d",
+      "hash": "36ed77e719dc8204",
       "source_url": "https://www.canva.com/pro/",
-      "extracted_at_utc": "2026-03-01T23:53:58Z",
+      "extracted_at_utc": "2026-02-24T19:02:15Z",
       "tokens": []
     }
   },
-  "espn_plus": {
-    "hash": "5262acd8188949f8",
-    "count": 2,
-    "flip_count": 25,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T23:51:09Z",
-    "source_url": "https://www.espn.com/espnplus/",
-    "pending_since_utc": "2026-02-25T00:34:41Z",
-    "first_seen_utc": "2026-03-01T23:53:46Z",
-    "last_seen_utc": "2026-03-01T23:53:57Z",
+  "hinge": {
+    "hash": "a1eb9af0e6420b90",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+    "pending_since_utc": "2026-02-24T18:59:29Z",
+    "first_seen_utc": "2026-02-24T19:02:18Z",
+    "last_seen_utc": "2026-02-24T19:02:18Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "5262acd8188949f8",
-      "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-01T23:53:57Z",
-      "tokens": []
-    }
-  },
-  "nordvpn": {
-    "hash": "2b10ce8783059da7",
-    "count": 2,
-    "flip_count": 7,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T23:51:48Z",
-    "source_url": "https://nordvpn.com/pricing/",
-    "pending_since_utc": "2026-02-28T12:40:53Z",
-    "first_seen_utc": "2026-03-01T23:51:48Z",
-    "last_seen_utc": "2026-03-01T23:54:02Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "2b10ce8783059da7",
-      "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-03-01T23:53:54Z",
-      "tokens": []
-    }
-  },
-  "twitch": {
-    "hash": "fa72a3606c07cca0",
-    "count": 2,
-    "flip_count": 29,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-03-01T23:52:45Z",
-    "source_url": "https://www.twitch.tv/turbo",
-    "pending_since_utc": "2026-02-25T00:35:36Z",
-    "first_seen_utc": "2026-03-01T23:53:54Z",
-    "last_seen_utc": "2026-03-01T23:54:02Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "fa72a3606c07cca0",
-      "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-03-01T23:54:02Z",
+      "hash": "a1eb9af0e6420b90",
+      "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+      "extracted_at_utc": "2026-02-24T19:02:18Z",
       "tokens": []
     }
   }

@@ -1,107 +1,52 @@
 {
-  "espn_plus": {
-    "hash": "5262acd8188949f8",
-    "count": 2,
-    "flip_count": 28,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T23:48:23Z",
-    "source_url": "https://www.espn.com/espnplus/",
-    "pending_since_utc": "2026-02-25T00:31:58Z",
-    "first_seen_utc": "2026-03-01T23:49:35Z",
-    "last_seen_utc": "2026-03-01T23:49:49Z",
+  "canva": {
+    "hash": "77a1fc1d5b6fc168",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://www.canva.com/policies/terms-of-use/",
+    "pending_since_utc": "2026-02-24T18:55:51Z",
+    "first_seen_utc": "2026-02-24T18:58:16Z",
+    "last_seen_utc": "2026-02-24T18:58:16Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "5262acd8188949f8",
-      "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-01T23:49:49Z",
+      "hash": "77a1fc1d5b6fc168",
+      "source_url": "https://www.canva.com/policies/terms-of-use/",
+      "extracted_at_utc": "2026-02-24T18:58:16Z",
       "tokens": []
     }
   },
-  "proton": {
-    "hash": "274a5ed74b27e80f",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T23:48:43Z",
-    "source_url": "https://proton.me/pricing",
-    "pending_since_utc": "2026-03-01T23:48:43Z",
-    "first_seen_utc": "2026-03-01T23:48:43Z",
-    "last_seen_utc": "2026-03-01T23:49:49Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "274a5ed74b27e80f",
-      "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-01T23:49:49Z",
-      "tokens": [
-        "billing:auto_renew"
-      ]
-    }
-  },
   "myfitnesspal_premium": {
-    "hash": "09f2dbfd637cb02d",
+    "hash": "0927f8aa933c2db2",
     "count": 1,
-    "flip_count": 163,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-03-01T23:49:08Z",
+    "flip_count": 103,
     "source_url": "https://www.myfitnesspal.com/terms-of-use",
     "pending_since_utc": "2026-02-18T09:00:33Z",
-    "first_seen_utc": "2026-03-01T23:49:53Z",
-    "last_seen_utc": "2026-03-01T23:49:53Z",
+    "first_seen_utc": "2026-02-24T18:58:16Z",
+    "last_seen_utc": "2026-02-24T18:58:16Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "09f2dbfd637cb02d",
+      "hash": "0927f8aa933c2db2",
       "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-03-01T23:49:53Z",
+      "extracted_at_utc": "2026-02-24T18:58:16Z",
       "tokens": [
         "flow:support_request"
       ]
     }
   },
-  "ubisoft_plus": {
-    "hash": "937c23b4633a5748",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-01T23:49:12Z",
-    "source_url": "https://legal.ubi.com/termsofuse/en-US",
-    "pending_since_utc": "2026-03-01T23:49:12Z",
-    "first_seen_utc": "2026-03-01T23:49:12Z",
-    "last_seen_utc": "2026-03-01T23:49:54Z",
+  "zoom": {
+    "hash": "8c24535bd2ae7644",
+    "count": 1,
+    "flip_count": 2,
+    "source_url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066687",
+    "pending_since_utc": "2026-02-24T18:57:35Z",
+    "first_seen_utc": "2026-02-24T18:58:17Z",
+    "last_seen_utc": "2026-02-24T18:58:17Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "937c23b4633a5748",
-      "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-03-01T23:49:54Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale",
-        "return:condition_unopened_or_unused",
-        "risk:chargeback_or_dispute"
-      ]
-    }
-  },
-  "substack": {
-    "hash": "f5fa5608fc35aee4",
-    "count": 3,
-    "flip_count": 13,
-    "run_confirmations": 2,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-03-01T23:49:22Z",
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "pending_since_utc": "2026-02-27T18:38:09Z",
-    "first_seen_utc": "2026-03-01T18:30:51Z",
-    "last_seen_utc": "2026-03-01T23:49:58Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "f5fa5608fc35aee4",
-      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-03-01T23:49:58Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "hash": "8c24535bd2ae7644",
+      "source_url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066687",
+      "extracted_at_utc": "2026-02-24T18:58:17Z",
+      "tokens": []
     }
   }
 }

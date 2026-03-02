@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-01T23:54:02Z",
+  "updated_utc": "2026-02-24T19:02:21Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -34,15 +34,15 @@
       "tokens": []
     },
     "amazon_prime": {
-      "hash": "7a2bfd93bfca2814",
+      "hash": "5d18b63bf1d694d2",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-03-01T12:40:11Z",
+      "extracted_at_utc": "2026-02-24T12:52:01Z",
       "tokens": []
     },
     "apple_music": {
-      "hash": "053fb59b3a00f18c",
+      "hash": "0f140479c54c5ae2",
       "source_url": "https://www.apple.com/apple-music/",
-      "extracted_at_utc": "2026-02-25T19:04:20Z",
+      "extracted_at_utc": "2026-02-19T23:35:21Z",
       "tokens": []
     },
     "apple_tv_plus": {
@@ -61,9 +61,9 @@
       "tokens": []
     },
     "bitwarden": {
-      "hash": "3d96b9358dc5c176",
+      "hash": "891c360cc26c127e",
       "source_url": "https://bitwarden.com/pricing/",
-      "extracted_at_utc": "2026-02-26T07:00:16Z",
+      "extracted_at_utc": "2026-02-20T18:49:09Z",
       "tokens": []
     },
     "bumble": {
@@ -81,7 +81,7 @@
     "claude_pro": {
       "hash": "fff53cc5006a0a31",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-03-01T23:50:47Z",
+      "extracted_at_utc": "2026-02-21T01:20:56Z",
       "tokens": []
     },
     "chatgpt_plus": {
@@ -97,9 +97,9 @@
       "tokens": []
     },
     "coursera_plus": {
-      "hash": "546c34d7a89ffb46",
+      "hash": "d2d2c98862ceb021",
       "source_url": "https://www.coursera.org/courseraplus",
-      "extracted_at_utc": "2026-02-26T01:21:54Z",
+      "extracted_at_utc": "2026-02-19T23:35:28Z",
       "tokens": []
     },
     "deezer": {
@@ -214,9 +214,9 @@
       "tokens": []
     },
     "hinge": {
-      "hash": "12dd44bb8ff498c8",
+      "hash": "e57ca60f9cfa9d94",
       "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-02-26T07:00:33Z",
+      "extracted_at_utc": "2026-02-24T12:55:13Z",
       "tokens": []
     },
     "icloud_plus": {
@@ -246,15 +246,15 @@
       ]
     },
     "max": {
-      "hash": "98797ac813a3f0d3",
+      "hash": "a0969f437aa2729a",
       "source_url": "https://www.max.com/",
-      "extracted_at_utc": "2026-02-28T06:38:44Z",
+      "extracted_at_utc": "2026-02-19T23:35:46Z",
       "tokens": []
     },
     "masterclass": {
-      "hash": "e6d641115730b63f",
+      "hash": "b852ddd7e8c288fa",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-03-01T01:30:34Z",
+      "extracted_at_utc": "2026-02-23T20:18:13Z",
       "tokens": []
     },
     "microsoft_365": {
@@ -284,17 +284,17 @@
       "tokens": []
     },
     "nintendo_switch_online": {
-      "hash": "07c758a3be86f63b",
+      "hash": "7cee623b2b7da97d",
       "source_url": "https://www.nintendo.com/us/switch/online/",
-      "extracted_at_utc": "2026-02-28T01:15:38Z",
+      "extracted_at_utc": "2026-02-19T23:35:53Z",
       "tokens": [
         "billing:auto_renew"
       ]
     },
     "paramount_plus": {
-      "hash": "f5ae7288ed0f719e",
+      "hash": "c69c4521c6b27476",
       "source_url": "https://www.paramountplus.com/",
-      "extracted_at_utc": "2026-02-28T06:39:15Z",
+      "extracted_at_utc": "2026-02-19T23:36:00Z",
       "tokens": []
     },
     "notion": {
@@ -320,9 +320,9 @@
       "tokens": []
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-01T06:47:35Z",
+      "extracted_at_utc": "2026-02-24T19:02:01Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -412,9 +412,9 @@
       ]
     },
     "xbox_game_pass": {
-      "hash": "4c03cbf87c7f28b2",
+      "hash": "ce330fda34db25f0",
       "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
-      "extracted_at_utc": "2026-02-28T12:41:09Z",
+      "extracted_at_utc": "2026-02-19T23:36:46Z",
       "tokens": [
         "trial:payment_method_required"
       ]
@@ -432,9 +432,9 @@
       "tokens": []
     },
     "youtube_tv": {
-      "hash": "86444114a1f1b6f6",
+      "hash": "ea3ffbff5bee096d",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-02-27T18:41:28Z",
+      "extracted_at_utc": "2026-02-23T12:54:36Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ]
@@ -579,15 +579,15 @@
       "tokens": []
     },
     "telegram_premium": {
-      "hash": "857f9ce3b690e047",
+      "hash": "fcc01b1e1cec8cda",
       "source_url": "https://telegram.org/premium",
-      "extracted_at_utc": "2026-03-01T18:34:10Z",
+      "extracted_at_utc": "2026-02-19T23:37:42Z",
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "bf6f426a2126312f",
+      "hash": "353aa0508fd129df",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-25T12:15:31Z",
+      "extracted_at_utc": "2026-02-24T12:55:07Z",
       "tokens": []
     },
     "starz": {

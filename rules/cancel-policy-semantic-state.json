@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-01T23:47:32Z",
+  "updated_utc": "2026-02-24T18:55:01Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -84,17 +84,15 @@
       ]
     },
     "calm": {
-      "hash": "32092096ec499d3b",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-27T06:45:27Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-24T12:46:09Z",
+      "tokens": []
     },
     "chatgpt_plus": {
-      "hash": "8d821b42bd619a10",
+      "hash": "c3457208053c20fb",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-03-01T12:31:01Z",
+      "extracted_at_utc": "2026-02-24T18:53:16Z",
       "tokens": [
         "cancel_window_days:14"
       ]
@@ -122,9 +120,9 @@
       "tokens": []
     },
     "crunchyroll": {
-      "hash": "046a70948df9996c",
+      "hash": "9315e456fbf9c2b5",
       "source_url": "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
-      "extracted_at_utc": "2026-02-28T18:23:28Z",
+      "extracted_at_utc": "2026-02-23T01:16:55Z",
       "tokens": []
     },
     "discord_nitro": {
@@ -134,9 +132,9 @@
       "tokens": []
     },
     "disney_plus": {
-      "hash": "49c3526d4567a846",
+      "hash": "2427ba377c382c19",
       "source_url": "https://help.disneyplus.com/article/disneyplus-cancel-subscription",
-      "extracted_at_utc": "2026-02-26T06:50:39Z",
+      "extracted_at_utc": "2026-02-21T06:37:12Z",
       "tokens": []
     },
     "doordash_dashpass": {
@@ -174,13 +172,10 @@
       "tokens": []
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "d72f75609e5be554",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-28T12:30:29Z",
-      "tokens": [
-        "cancel:anytime",
-        "cancel:fee_or_penalty"
-      ]
+      "extracted_at_utc": "2026-02-24T18:53:22Z",
+      "tokens": []
     },
     "google_play": {
       "hash": "b5cf2e31119e8d8d",
@@ -191,15 +186,15 @@
       ]
     },
     "headspace": {
-      "hash": "89241ceb28e6ead7",
+      "hash": "421527e83c3004f5",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription",
-      "extracted_at_utc": "2026-02-25T06:56:27Z",
+      "extracted_at_utc": "2026-02-24T12:48:04Z",
       "tokens": []
     },
     "hulu": {
-      "hash": "fef20f3735512b2b",
+      "hash": "d9ed3d0bff701829",
       "source_url": "https://help.hulu.com/article/cancel-subscription",
-      "extracted_at_utc": "2026-02-27T12:40:48Z",
+      "extracted_at_utc": "2026-02-21T06:38:04Z",
       "tokens": []
     },
     "hellofresh": {
@@ -257,9 +252,9 @@
       "tokens": []
     },
     "midjourney": {
-      "hash": "6a5833c2c5273b43",
+      "hash": "cda38716917340a8",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-02-27T18:32:30Z",
+      "extracted_at_utc": "2026-02-24T06:55:47Z",
       "tokens": []
     },
     "noom": {
@@ -317,9 +312,9 @@
       ]
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-01T01:24:10Z",
+      "extracted_at_utc": "2026-02-24T18:51:41Z",
       "tokens": [
         "billing:auto_renew"
       ]
@@ -385,9 +380,9 @@
       ]
     },
     "strava": {
-      "hash": "8212454c1334eca9",
+      "hash": "11658cf992b0eabe",
       "source_url": "https://support.strava.com/hc/en-us/articles/216917967-Cancel-Subscription",
-      "extracted_at_utc": "2026-02-25T06:57:52Z",
+      "extracted_at_utc": "2026-02-24T12:46:43Z",
       "tokens": []
     },
     "todoist": {
@@ -403,9 +398,9 @@
       "tokens": []
     },
     "tinder": {
-      "hash": "6262b9b931b4e93b",
+      "hash": "c2924a1871e8577e",
       "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
-      "extracted_at_utc": "2026-02-28T18:25:04Z",
+      "extracted_at_utc": "2026-02-24T18:53:46Z",
       "tokens": []
     },
     "walmart_plus": {
@@ -430,9 +425,9 @@
       "tokens": []
     },
     "youtube_premium": {
-      "hash": "a7e4f98c6a25d82b",
+      "hash": "e0ac585b7096e62f",
       "source_url": "https://support.google.com/youtube/answer/6308278",
-      "extracted_at_utc": "2026-02-27T06:48:01Z",
+      "extracted_at_utc": "2026-02-19T23:28:28Z",
       "tokens": [
         "cancel:effective_end_of_term"
       ]
@@ -444,9 +439,9 @@
       "tokens": []
     },
     "youtube_tv": {
-      "hash": "916a4d9a32fe1501",
+      "hash": "7fe491c8ae88cd12",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-02-27T18:33:28Z",
+      "extracted_at_utc": "2026-02-23T12:48:22Z",
       "tokens": [
         "cancel_window_days:60",
         "cancel:anytime",
@@ -462,7 +457,7 @@
     "dashlane": {
       "hash": "5b339b17835cdb72",
       "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "extracted_at_utc": "2026-02-26T12:46:28Z",
+      "extracted_at_utc": "2026-02-24T01:16:42Z",
       "tokens": []
     },
     "myfitnesspal_premium": {
@@ -493,23 +488,23 @@
       "tokens": []
     },
     "ea_play": {
-      "hash": "dbe017fe42845d5d",
+      "hash": "66a93e8fd5339982",
       "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-      "extracted_at_utc": "2026-03-01T18:27:21Z",
+      "extracted_at_utc": "2026-02-24T12:46:45Z",
       "tokens": []
     },
     "ubisoft_plus": {
-      "hash": "a6321869ff7c0812",
+      "hash": "9178ba839a18de64",
       "source_url": "https://www.ubisoft.com/help/article/canceling-a-ubisoft-subscription/000064975",
-      "extracted_at_utc": "2026-02-28T01:08:47Z",
+      "extracted_at_utc": "2026-02-19T23:28:48Z",
       "tokens": [
         "flow:support_request"
       ]
     },
     "roblox_premium": {
-      "hash": "cf66697863766f38",
+      "hash": "2db08dbc86d85732",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/203312800-How-to-Cancel-Membership",
-      "extracted_at_utc": "2026-02-25T06:58:35Z",
+      "extracted_at_utc": "2026-02-24T12:48:12Z",
       "tokens": []
     },
     "new_york_times": {
@@ -549,18 +544,15 @@
       "tokens": []
     },
     "x_premium": {
-      "hash": "3367de05757d8e68",
+      "hash": "d72f75609e5be554",
       "source_url": "https://help.x.com/en/using-x/x-premium",
-      "extracted_at_utc": "2026-02-28T18:26:17Z",
-      "tokens": [
-        "billing:prorated",
-        "restriction:no_refund_or_final_sale"
-      ]
+      "extracted_at_utc": "2026-02-19T23:29:08Z",
+      "tokens": []
     },
     "reddit_premium": {
-      "hash": "bf0cb87af4daaa53",
+      "hash": "b6565f21368ba926",
       "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
-      "extracted_at_utc": "2026-02-28T18:26:21Z",
+      "extracted_at_utc": "2026-02-24T12:47:31Z",
       "tokens": []
     },
     "discovery_plus": {
@@ -576,9 +568,9 @@
       "tokens": []
     },
     "soundcloud_go": {
-      "hash": "29ef335eedc7bef5",
+      "hash": "b017b99c33184386",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-02-26T01:15:08Z",
+      "extracted_at_utc": "2026-02-24T12:47:23Z",
       "tokens": []
     },
     "starz": {
@@ -618,15 +610,15 @@
       ]
     },
     "masterclass": {
-      "hash": "31e9c6990d098854",
+      "hash": "b852ddd7e8c288fa",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-03-01T18:26:17Z",
+      "extracted_at_utc": "2026-02-23T12:47:25Z",
       "tokens": []
     },
     "peacock": {
       "hash": "f10a6f0ae8d2f044",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-02-28T18:24:41Z",
+      "extracted_at_utc": "2026-02-23T12:48:02Z",
       "tokens": []
     },
     "evernote": {
@@ -638,9 +630,9 @@
       ]
     },
     "grammarly": {
-      "hash": "c4982f46749a6ceb",
+      "hash": "180925e88982390f",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
-      "extracted_at_utc": "2026-03-01T01:23:37Z",
+      "extracted_at_utc": "2026-02-24T18:53:25Z",
       "tokens": []
     },
     "hinge": {
@@ -653,15 +645,15 @@
       ]
     },
     "scribd": {
-      "hash": "64aecd4a6b3a2db0",
+      "hash": "bb0fdc3ccf056336",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
-      "extracted_at_utc": "2026-02-25T06:57:46Z",
+      "extracted_at_utc": "2026-02-24T12:46:41Z",
       "tokens": []
     },
     "britbox": {
-      "hash": "6d8506d3859a38d8",
+      "hash": "4957bf44a62ade3c",
       "source_url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",
-      "extracted_at_utc": "2026-02-27T06:49:37Z",
+      "extracted_at_utc": "2026-02-24T12:48:19Z",
       "tokens": []
     },
     "patreon": {
@@ -671,17 +663,15 @@
       "tokens": []
     },
     "substack": {
-      "hash": "f5fa5608fc35aee4",
+      "hash": "20fab989e6c94724",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-02-28T18:26:15Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-02-24T12:46:52Z",
+      "tokens": []
     },
     "dropbox_us": {
-      "hash": "c609144e56e2f6f1",
+      "hash": "0adfdc179206e059",
       "source_url": "https://help.dropbox.com/plans/cancel-plan",
-      "extracted_at_utc": "2026-02-27T12:40:07Z",
+      "extracted_at_utc": "2026-02-24T12:43:50Z",
       "tokens": []
     },
     "audible": {
