@@ -2195,7 +2195,7 @@ async function main() {
           `::notice::${result.name}: ${result.errors.length - detailLimit} additional vendor fetch failures omitted from detailed output.`
         );
       }
-      allErrors.push(...result.errors.map((v) => `${result.name}:${v}`));
+      allErrors.push(...result.errors.map((vendor) => ({ policyType: result.name, vendor })));
     }
     if (result.pending.length > 0) {
       console.log(
@@ -2431,6 +2431,12 @@ async function main() {
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
   const pendingByPolicyObject = toPolicyCountObject(allPending);
+  const fetchFailureByPolicy = toPolicyCountString(allErrors);
+  const fetchFailureSample = allErrors
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const fetchHealthStatus = allErrors.length > 0 ? "degraded" : "healthy";
   const generatedAtUtc = utcIsoTimestamp();
   const changedDateUtc = generatedAtUtc.slice(0, 10);
   let alertFeedPublishState = {
@@ -2475,6 +2481,10 @@ async function main() {
   console.log(`ALERT_FEED_REASON=${alertFeedPublishState.reason}`);
   console.log(`ALERT_FEED_SIGNATURE=${alertFeedPublishState.signature}`);
   console.log(`ALERT_FEED_CHANGED=${alertFeedPublishState.feedChanged ? "1" : "0"}`);
+  console.log(`FETCH_FAILURE_COUNT=${allErrors.length}`);
+  console.log(`FETCH_FAILURE_BY_POLICY=${fetchFailureByPolicy}`);
+  console.log(`FETCH_FAILURE_SAMPLE=${fetchFailureSample}`);
+  console.log(`FETCH_HEALTH_STATUS=${fetchHealthStatus}`);
 
   console.log(`PENDING_COUNT=${allPending.length}`);
   console.log(`PENDING_BY_POLICY=${pendingByPolicy}`);
