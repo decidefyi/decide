@@ -37,8 +37,12 @@ const CHECKER_CONFIG = {
   escalationFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_FLIP_THRESHOLD || "4", 10),
   noConfirmEscalationDays: Number.parseInt(process.env.POLICY_CHECK_NO_CONFIRM_ESCALATION_DAYS || "7", 10),
   materialCooldownDays: Number.parseInt(process.env.POLICY_CHECK_MATERIAL_COOLDOWN_DAYS || "14", 10),
+  materialOscillationWindowDays: Number.parseInt(process.env.POLICY_CHECK_MATERIAL_OSCILLATION_WINDOW_DAYS || "21", 10),
   actualConfirmRuns: Number.parseInt(process.env.POLICY_CHECK_ACTUAL_CONFIRM_RUNS || "2", 10),
   actualMinGapHours: Number.parseInt(process.env.POLICY_CHECK_ACTUAL_MIN_GAP_HOURS || "4", 10),
+  fetchQualityMinChars: Number.parseInt(process.env.POLICY_CHECK_FETCH_QUALITY_MIN_CHARS || "140", 10),
+  fetchQualityMinLines: Number.parseInt(process.env.POLICY_CHECK_FETCH_QUALITY_MIN_LINES || "5", 10),
+  fetchQualityMinPolicyHits: Number.parseInt(process.env.POLICY_CHECK_FETCH_QUALITY_MIN_POLICY_HITS || "2", 10),
   alertLowSignalThreshold: Number.parseInt(process.env.POLICY_ALERT_LOW_SIGNAL_THRESHOLD || "1", 10),
   alertLowSignalLookback: Number.parseInt(process.env.POLICY_ALERT_LOW_SIGNAL_LOOKBACK || "6", 10),
 };
@@ -386,100 +390,6 @@ function appendPolicyEventLog(changedItems, generatedAtUtc = utcIsoTimestamp()) 
   };
 }
 
-function readNdjson(filePath) {
-  if (!existsSync(filePath)) return [];
-  const raw = String(readFileSync(filePath, "utf8") || "");
-  if (!raw.trim()) return [];
-  const parsed = [];
-  for (const line of raw.split("\n")) {
-    const trimmed = line.trim();
-    if (!trimmed) continue;
-    try {
-      const value = JSON.parse(trimmed);
-      if (value && typeof value === "object") {
-        parsed.push(value);
-      }
-    } catch {
-      // Ignore malformed historic lines and continue.
-    }
-  }
-  return parsed;
-}
-
-function buildPolicyEventId(item) {
-  const policyType = String(item?.policyType || item?.policy || "").trim();
-  const vendor = String(item?.vendor || "").trim();
-  const confirmedHash = String(item?.confirmed_hash || item?.hash || "").trim();
-  if (!policyType || !vendor || !confirmedHash) return "";
-  return `${policyType}:${vendor}:${confirmedHash}`;
-}
-
-function appendPolicyEventLog(changedItems, generatedAtUtc = utcIsoTimestamp()) {
-  const existingEvents = readNdjson(POLICY_EVENT_LOG_PATH);
-  const existingIds = new Set();
-  for (const event of existingEvents) {
-    const eventId = String(event?.event_id || "").trim() || buildPolicyEventId(event);
-    if (eventId) existingIds.add(eventId);
-  }
-
-  const runId = String(process.env.GITHUB_RUN_ID || "").trim();
-  const runAttempt = String(process.env.GITHUB_RUN_ATTEMPT || "").trim();
-  const commitSha = String(process.env.GITHUB_SHA || "").trim();
-  const runUrl = buildRunUrl();
-  const newEvents = [];
-  let skippedExisting = 0;
-  let skippedInvalid = 0;
-
-  for (const item of changedItems || []) {
-    const eventId = buildPolicyEventId(item);
-    if (!eventId) {
-      skippedInvalid += 1;
-      continue;
-    }
-    if (existingIds.has(eventId)) {
-      skippedExisting += 1;
-      continue;
-    }
-
-    const event = {
-      event_id: eventId,
-      emitted_at_utc: generatedAtUtc,
-      policy: String(item.policyType || "").trim(),
-      vendor: String(item.vendor || "").trim(),
-      confirmed_hash: String(item.confirmed_hash || "").trim(),
-      previous_hash: String(item.previous_hash || "").trim(),
-      semantic_diff_summary: String(item.semantic_diff_summary || "").trim(),
-      source_url: String(item.url || "").trim(),
-      rules_file: String(item.rulesFile || "").trim(),
-      run_id: runId,
-      run_attempt: runAttempt,
-      commit_sha: commitSha,
-      run_url: runUrl,
-    };
-    if (item.semantic_diff && typeof item.semantic_diff === "object") {
-      event.semantic_diff = item.semantic_diff;
-    }
-    newEvents.push(event);
-    existingIds.add(eventId);
-  }
-
-  if (newEvents.length > 0) {
-    const existingRaw = existsSync(POLICY_EVENT_LOG_PATH)
-      ? String(readFileSync(POLICY_EVENT_LOG_PATH, "utf8") || "").trimEnd()
-      : "";
-    const appendedRaw = newEvents.map((event) => JSON.stringify(event)).join("\n");
-    const nextRaw = existingRaw ? `${existingRaw}\n${appendedRaw}\n` : `${appendedRaw}\n`;
-    writeFileSync(POLICY_EVENT_LOG_PATH, nextRaw, "utf8");
-  }
-
-  return {
-    appended_count: newEvents.length,
-    skipped_existing_count: skippedExisting,
-    skipped_invalid_count: skippedInvalid,
-    total_count: existingIds.size,
-  };
-}
-
 function updateJsonStringField(filePath, fieldName, nextValue) {
   const raw = readFileSync(filePath, "utf8");
   const pattern = new RegExp(`"${fieldName}"\\s*:\\s*"[^"]*"`);
@@ -541,6 +451,13 @@ function getPolicyKeywordRegex(policyType) {
     .join("|");
   if (!pattern) return null;
   return new RegExp(`\\b(?:${pattern})\\b`, "i");
+}
+
+function getPolicyKeywords(policyType) {
+  const typedKeywords = POLICY_FOCUS_KEYWORDS[policyType] || [];
+  return [...new Set([...POLICY_FOCUS_KEYWORDS.default, ...typedKeywords])]
+    .map((keyword) => String(keyword || "").trim().toLowerCase())
+    .filter(Boolean);
 }
 
 function getVendorKeywordRegex(vendorKey) {
@@ -633,6 +550,69 @@ function normalizeFetchedText(rawText, policyType = "default", vendorKey = "") {
   const focused = extractPolicyFocusedText(deduped, policyType);
   if (focused) return focused;
   return deduped.join("\n");
+}
+
+function getFetchQualityMinChars() {
+  if (!Number.isFinite(CHECKER_CONFIG.fetchQualityMinChars)) return 140;
+  return Math.max(40, CHECKER_CONFIG.fetchQualityMinChars);
+}
+
+function getFetchQualityMinLines() {
+  if (!Number.isFinite(CHECKER_CONFIG.fetchQualityMinLines)) return 5;
+  return Math.max(2, CHECKER_CONFIG.fetchQualityMinLines);
+}
+
+function getFetchQualityMinPolicyHits() {
+  if (!Number.isFinite(CHECKER_CONFIG.fetchQualityMinPolicyHits)) return 2;
+  return Math.max(1, CHECKER_CONFIG.fetchQualityMinPolicyHits);
+}
+
+function countPolicyKeywordHits(text, policyType) {
+  const normalizedText = String(text || "").toLowerCase();
+  if (!normalizedText.trim()) return 0;
+  const keywords = getPolicyKeywords(policyType);
+  let hits = 0;
+  for (const keyword of keywords) {
+    if (keyword && normalizedText.includes(keyword)) {
+      hits += 1;
+    }
+  }
+  return hits;
+}
+
+function assessFetchQuality({ rawText, normalizedText, policyType }) {
+  const reasons = [];
+  const interstitialReason = detectFetchInterstitial(rawText) || detectFetchInterstitial(normalizedText);
+  if (interstitialReason) {
+    reasons.push(`interstitial:${interstitialReason}`);
+  }
+
+  const normalized = String(normalizedText || "").trim();
+  const normalizedLength = normalized.length;
+  const lineCount = normalized ? normalized.split("\n").filter(Boolean).length : 0;
+  const policyKeywordHits = countPolicyKeywordHits(normalized, policyType);
+
+  const minChars = getFetchQualityMinChars();
+  const minLines = getFetchQualityMinLines();
+  const minPolicyHits = getFetchQualityMinPolicyHits();
+
+  if (normalizedLength < minChars) {
+    reasons.push(`short_text:${normalizedLength}<${minChars}`);
+  }
+  if (lineCount < minLines) {
+    reasons.push(`short_lines:${lineCount}<${minLines}`);
+  }
+  if (policyKeywordHits < minPolicyHits) {
+    reasons.push(`weak_policy_terms:${policyKeywordHits}<${minPolicyHits}`);
+  }
+
+  return {
+    passed: reasons.length === 0,
+    reason: reasons.join("&"),
+    normalizedLength,
+    lineCount,
+    policyKeywordHits,
+  };
 }
 
 function normalizeSemanticTokens(tokens) {
@@ -941,6 +921,11 @@ function getMaterialCooldownDays() {
   return Math.max(0, CHECKER_CONFIG.materialCooldownDays);
 }
 
+function getMaterialOscillationWindowDays() {
+  if (!Number.isFinite(CHECKER_CONFIG.materialOscillationWindowDays)) return 21;
+  return Math.max(0, CHECKER_CONFIG.materialOscillationWindowDays);
+}
+
 function getCandidatePendingSinceUtc(candidate) {
   if (!candidate || typeof candidate !== "object") return "";
   if (typeof candidate.pending_since_utc === "string" && candidate.pending_since_utc) {
@@ -1175,6 +1160,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       materialChanged: [],
       materialRepeatSuppressed: [],
       materialVersionRepeatSuppressed: [],
+      materialOscillationSuppressed: [],
       pending: [],
       errors: [],
       errorReasons: {},
@@ -1194,6 +1180,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       escalatedReasons: {},
       escalationFlipOverrides: {},
       coverageGaps: [],
+      qualityGateHeld: [],
     };
   }
 
@@ -1242,6 +1229,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const materialChanged = [];
   const materialRepeatSuppressed = [];
   const materialVersionRepeatSuppressed = [];
+  const materialOscillationSuppressed = [];
   const pendingSet = new Set();
   const pendingMetadata = {};
   const errors = [];
@@ -1255,6 +1243,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const recheckFetchFailureSet = new Set();
   const crossRunWindowConfirmedSet = new Set();
   const crossRunWindowHeldSet = new Set();
+  const qualityGateHeldSet = new Set();
   let successfulChecks = 0;
 
   const ensureCoverageEntry = (vendor) => {
@@ -1321,9 +1310,19 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         typeof coverage.last_material_signature === "string" ? coverage.last_material_signature : "";
       const previousEmittedUtc =
         typeof coverage.last_material_emitted_utc === "string" ? coverage.last_material_emitted_utc : "";
+      const previousEmittedHash =
+        typeof coverage.last_material_emitted_hash === "string" ? coverage.last_material_emitted_hash : "";
+      const previousSignaturePrev =
+        typeof coverage.last_material_signature_prev === "string" ? coverage.last_material_signature_prev : "";
+      const previousEmittedPrevUtc =
+        typeof coverage.last_material_emitted_prev_utc === "string" ? coverage.last_material_emitted_prev_utc : "";
+      const previousEmittedHashPrev =
+        typeof coverage.last_material_emitted_hash_prev === "string" ? coverage.last_material_emitted_hash_prev : "";
       const cooldownDays = getMaterialCooldownDays();
+      const oscillationWindowDays = getMaterialOscillationWindowDays();
       const nowMs = toMsOrNaN(confirmedAtUtc);
       const previousMs = toMsOrNaN(previousEmittedUtc);
+      const previousPrevMs = toMsOrNaN(previousEmittedPrevUtc);
       const suppressRepeatedSignature =
         cooldownDays > 0 &&
         diffSignature &&
@@ -1332,6 +1331,28 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         Number.isFinite(nowMs) &&
         Number.isFinite(previousMs) &&
         (nowMs - previousMs) < cooldownDays * 24 * 60 * 60 * 1000;
+      const oscillationWindowMs = oscillationWindowDays * 24 * 60 * 60 * 1000;
+      const hasOscillationWindowContext =
+        oscillationWindowDays > 0 &&
+        Number.isFinite(nowMs) &&
+        Number.isFinite(previousMs) &&
+        Number.isFinite(previousPrevMs) &&
+        (nowMs - previousMs) < oscillationWindowMs &&
+        (nowMs - previousPrevMs) < oscillationWindowMs;
+      const suppressOscillationBySignature =
+        hasOscillationWindowContext &&
+        diffSignature &&
+        previousSignature &&
+        previousSignaturePrev &&
+        diffSignature === previousSignaturePrev &&
+        diffSignature !== previousSignature;
+      const suppressOscillationByHash =
+        hasOscillationWindowContext &&
+        confirmedHash &&
+        previousEmittedHash &&
+        previousEmittedHashPrev &&
+        confirmedHash === previousEmittedHashPrev &&
+        confirmedHash !== previousEmittedHash;
 
       if (suppressRepeatedSignature) {
         materialRepeatSuppressed.push({
@@ -1341,15 +1362,38 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         });
         coverage.last_material_repeat_suppressed_utc = confirmedAtUtc;
         coverage.last_material_repeat_suppressed_signature = diffSignature;
+      } else if (suppressOscillationBySignature || suppressOscillationByHash) {
+        materialOscillationSuppressed.push({
+          ...entry,
+          semantic_diff_signature: diffSignature,
+          oscillation_window_days: oscillationWindowDays,
+          last_material_signature: previousSignature,
+          previous_material_signature: previousSignaturePrev,
+          last_material_emitted_utc: previousEmittedUtc,
+          previous_material_emitted_utc: previousEmittedPrevUtc,
+        });
+        coverage.last_material_oscillation_suppressed_utc = confirmedAtUtc;
+        coverage.last_material_oscillation_suppressed_signature = diffSignature;
       } else {
         materialChanged.push(entry);
         if (diffSignature) {
+          if (previousSignature) {
+            coverage.last_material_signature_prev = previousSignature;
+            coverage.last_material_emitted_prev_utc = previousEmittedUtc || "";
+            coverage.last_material_emitted_hash_prev = previousEmittedHash || "";
+          } else {
+            delete coverage.last_material_signature_prev;
+            delete coverage.last_material_emitted_prev_utc;
+            delete coverage.last_material_emitted_hash_prev;
+          }
           coverage.last_material_signature = diffSignature;
           coverage.last_material_emitted_utc = confirmedAtUtc;
-          coverage.last_material_emitted_hash = confirmedHash || coverage.last_material_emitted_hash || "";
+          coverage.last_material_emitted_hash = confirmedHash || previousEmittedHash || "";
         }
         delete coverage.last_material_repeat_suppressed_utc;
         delete coverage.last_material_repeat_suppressed_signature;
+        delete coverage.last_material_oscillation_suppressed_utc;
+        delete coverage.last_material_oscillation_suppressed_signature;
         delete coverage.last_material_hash_repeat_suppressed_utc;
         delete coverage.last_material_hash_repeat_suppressed_hash;
       }
@@ -1403,6 +1447,19 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           extractedAtUtc: fetchedAtUtc,
         });
         const semanticSignature = semanticTokenSignature(semanticProfile);
+        const quality = assessFetchQuality({
+          rawText: fetchResult.text,
+          normalizedText: normalized,
+          policyType: name,
+        });
+        if (!quality.passed) {
+          qualityGateHeldSet.add(vendor);
+          coverage.last_quality_gate_failure_utc = fetchedAtUtc;
+          coverage.last_quality_gate_failure_reason = quality.reason;
+        } else {
+          delete coverage.last_quality_gate_failure_utc;
+          delete coverage.last_quality_gate_failure_reason;
+        }
 
         const priorCandidate = activeStoredCandidates[vendor];
         const previousHash = storedHashes[vendor];
@@ -1433,6 +1490,10 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         const priorSemanticRunConfirmations = Number(priorCandidate?.semantic_run_confirmations || 0);
         const priorSemanticSignature =
           typeof priorCandidate?.semantic_signature === "string" ? priorCandidate.semantic_signature : "";
+        const priorQualityPasses = Number(priorCandidate?.quality_gate_passes || 0);
+        const priorQualityFailures = Number(priorCandidate?.quality_gate_failures || 0);
+        const nextQualityPasses = (priorHash === h ? priorQualityPasses : 0) + (quality.passed ? 1 : 0);
+        const nextQualityFailures = (priorHash === h ? priorQualityFailures : 0) + (quality.passed ? 0 : 1);
         const priorObservedMs = toMsOrNaN(priorCandidate?.last_run_observed_utc || "");
         const currentObservedMs = toMsOrNaN(fetchedAtUtc);
         const minGapMs = getActualMinGapMs();
@@ -1449,12 +1510,17 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         if (priorHash === h && priorSemanticSignature && priorSemanticSignature === semanticSignature && priorSemanticRunConfirmations > 0) {
           nextSemanticRunConfirmations = gapSatisfied ? priorSemanticRunConfirmations + 1 : priorSemanticRunConfirmations;
         }
+        if (!quality.passed) {
+          nextRunConfirmations = priorHash === h ? priorRunConfirmations : 0;
+          nextSemanticRunConfirmations = priorHash === h ? priorSemanticRunConfirmations : 0;
+        }
         const hashWindowConfirmed =
           typeof signalWindowDecision.hashDecision === "string" &&
           signalWindowDecision.hashDecision &&
           signalWindowDecision.hashDecision === h;
 
         if (
+          quality.passed &&
           nextRunConfirmations >= actualConfirmRuns &&
           nextSemanticRunConfirmations >= actualConfirmRuns &&
           hashWindowConfirmed
@@ -1472,6 +1538,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         }
 
         if (
+          !quality.passed ||
           (!gapSatisfied && priorHash === h && priorRunConfirmations > 0) ||
           (nextRunConfirmations >= actualConfirmRuns && !hashWindowConfirmed) ||
           (nextRunConfirmations >= actualConfirmRuns && nextSemanticRunConfirmations < actualConfirmRuns)
@@ -1502,6 +1569,13 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           last_seen_utc: fetchedAtUtc,
           baseline_observations: 0,
           profile: semanticProfile,
+          quality_gate_passes: nextQualityPasses,
+          quality_gate_failures: nextQualityFailures,
+          quality_gate_last_reason: quality.passed ? "" : quality.reason,
+          quality_gate_last_observed_utc: fetchedAtUtc,
+          quality_gate_policy_hits: quality.policyKeywordHits,
+          quality_gate_lines: quality.lineCount,
+          quality_gate_chars: quality.normalizedLength,
         };
         pendingMetadata[vendor] = {
           vendorConfig,
@@ -1570,6 +1644,32 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             extractedAtUtc: fetchedAtUtc,
           });
           const semanticSignature = semanticTokenSignature(semanticProfile);
+          const quality = assessFetchQuality({
+            rawText: recheckResult.text,
+            normalizedText: normalized,
+            policyType: name,
+          });
+          if (!quality.passed) {
+            qualityGateHeldSet.add(vendor);
+            coverage.last_quality_gate_failure_utc = fetchedAtUtc;
+            coverage.last_quality_gate_failure_reason = quality.reason;
+            candidate.quality_gate_failures = Number(candidate.quality_gate_failures || 0) + 1;
+            candidate.quality_gate_last_reason = quality.reason;
+            candidate.quality_gate_last_observed_utc = fetchedAtUtc;
+            candidate.quality_gate_policy_hits = quality.policyKeywordHits;
+            candidate.quality_gate_lines = quality.lineCount;
+            candidate.quality_gate_chars = quality.normalizedLength;
+            newCandidates[vendor] = candidate;
+            return;
+          }
+          delete coverage.last_quality_gate_failure_utc;
+          delete coverage.last_quality_gate_failure_reason;
+          candidate.quality_gate_passes = Number(candidate.quality_gate_passes || 0) + 1;
+          candidate.quality_gate_last_reason = "";
+          candidate.quality_gate_last_observed_utc = fetchedAtUtc;
+          candidate.quality_gate_policy_hits = quality.policyKeywordHits;
+          candidate.quality_gate_lines = quality.lineCount;
+          candidate.quality_gate_chars = quality.normalizedLength;
           const observations = runObservations[vendor];
           if (h === metadata.previousHash) {
             observations.baselineVotes = Number(observations.baselineVotes || 0) + 1;
@@ -1766,6 +1866,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     materialChanged,
     materialRepeatSuppressed,
     materialVersionRepeatSuppressed,
+    materialOscillationSuppressed,
     pending,
     errors,
     errorReasons,
@@ -1785,6 +1886,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     escalatedReasons,
     escalationFlipOverrides,
     coverageGaps,
+    qualityGateHeld: [...qualityGateHeldSet].sort((a, b) => a.localeCompare(b)),
   };
 }
 
@@ -1793,6 +1895,7 @@ async function main() {
   const allMaterialChanged = [];
   const allMaterialRepeatSuppressed = [];
   const allMaterialVersionRepeatSuppressed = [];
+  const allMaterialOscillationSuppressed = [];
   const allErrors = [];
   const allPending = [];
   const allStalePending = [];
@@ -1927,11 +2030,20 @@ async function main() {
     for (const c of result.materialVersionRepeatSuppressed) {
       allMaterialVersionRepeatSuppressed.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
     }
+    for (const c of result.materialOscillationSuppressed) {
+      allMaterialOscillationSuppressed.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
+    }
     for (const vendor of result.pending) {
       allPending.push({ policyType: result.name, vendor });
     }
     if (result.pending.length > 0) {
       pendingDetailByPolicy[result.name] = [...result.pending];
+    }
+    if (result.qualityGateHeld.length > 0) {
+      const qualityHeldNames = sortedLimitedVendors(result.qualityGateHeld, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: quality_gate_held=${result.qualityGateHeld.length}; first ${qualityHeldNames.length}: ${qualityHeldNames.join(", ")}`
+      );
     }
     for (const vendor of result.stalePending) {
       allStalePending.push({ policyType: result.name, vendor });
@@ -2019,6 +2131,11 @@ async function main() {
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
+  const materialOscillationSuppressedByPolicy = toPolicyCountString(allMaterialOscillationSuppressed);
+  const materialOscillationSuppressedSample = allMaterialOscillationSuppressed
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
   const pendingByPolicyObject = toPolicyCountObject(allPending);
   const generatedAtUtc = utcIsoTimestamp();
   const changedDateUtc = generatedAtUtc.slice(0, 10);
@@ -2097,6 +2214,9 @@ async function main() {
   console.log(`MATERIAL_VERSION_REPEAT_SUPPRESSED_COUNT=${allMaterialVersionRepeatSuppressed.length}`);
   console.log(`MATERIAL_VERSION_REPEAT_SUPPRESSED_BY_POLICY=${materialVersionRepeatSuppressedByPolicy}`);
   console.log(`MATERIAL_VERSION_REPEAT_SUPPRESSED_SAMPLE=${materialVersionRepeatSuppressedSample}`);
+  console.log(`MATERIAL_OSCILLATION_SUPPRESSED_COUNT=${allMaterialOscillationSuppressed.length}`);
+  console.log(`MATERIAL_OSCILLATION_SUPPRESSED_BY_POLICY=${materialOscillationSuppressedByPolicy}`);
+  console.log(`MATERIAL_OSCILLATION_SUPPRESSED_SAMPLE=${materialOscillationSuppressedSample}`);
   console.log(`POLICY_EVENT_APPENDED_COUNT=${policyEventLogResult.appended_count}`);
   console.log(`POLICY_EVENT_SKIPPED_EXISTING_COUNT=${policyEventLogResult.skipped_existing_count}`);
   console.log(`POLICY_EVENT_SKIPPED_INVALID_COUNT=${policyEventLogResult.skipped_invalid_count}`);
@@ -2150,6 +2270,15 @@ async function main() {
       .join("\n");
     console.log(
       `::notice::Suppressed repeated material hash versions (first ${Math.min(allMaterialVersionRepeatSuppressed.length, 20)}):\n${suppressedPreview}`
+    );
+  }
+  if (allMaterialOscillationSuppressed.length > 0) {
+    const suppressedPreview = allMaterialOscillationSuppressed
+      .slice(0, 20)
+      .map((c) => `- [${c.policyType}] ${c.vendor} -> oscillation pattern A/B/A (suppressed)`)
+      .join("\n");
+    console.log(
+      `::notice::Suppressed oscillating semantic diffs (first ${Math.min(allMaterialOscillationSuppressed.length, 20)}):\n${suppressedPreview}`
     );
   }
   if (policyEventLogResult.appended_count > 0) {
