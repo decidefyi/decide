@@ -248,6 +248,7 @@ jobs:
           FETCH_FAILURE_BY_POLICY: ${{ steps.check.outputs.fetch_failure_by_policy }}
           FETCH_HEALTH_STATUS: ${{ steps.check.outputs.fetch_health_status }}
         with:
+          github-token: ${{ secrets.POLICY_BOT_TOKEN || github.token }}
           retries: 2
           script: |
             try {
