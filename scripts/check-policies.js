@@ -615,6 +615,116 @@ function assessFetchQuality({ rawText, normalizedText, policyType }) {
   };
 }
 
+function normalizePageMetadata(input = {}) {
+  const source = input && typeof input === "object" ? input : {};
+  return {
+    source_kind: typeof source.source_kind === "string" ? source.source_kind.trim().toLowerCase() : "",
+    source_title: typeof source.source_title === "string" ? source.source_title.trim() : "",
+    display_last_updated_label:
+      typeof source.display_last_updated_label === "string" ? source.display_last_updated_label.trim() : "",
+    display_last_updated_date_utc:
+      typeof source.display_last_updated_date_utc === "string" ? source.display_last_updated_date_utc.trim() : "",
+    display_effective_date_label:
+      typeof source.display_effective_date_label === "string" ? source.display_effective_date_label.trim() : "",
+    display_effective_date_utc:
+      typeof source.display_effective_date_utc === "string" ? source.display_effective_date_utc.trim() : "",
+    source_updated_at_utc:
+      typeof source.source_updated_at_utc === "string" ? source.source_updated_at_utc.trim() : "",
+    source_edited_at_utc:
+      typeof source.source_edited_at_utc === "string" ? source.source_edited_at_utc.trim() : "",
+  };
+}
+
+function toIsoDateOnly(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  const parsed = Date.parse(raw);
+  if (!Number.isFinite(parsed)) return "";
+  return new Date(parsed).toISOString().slice(0, 10);
+}
+
+function buildPageMetadataSignature(input) {
+  const metadata = normalizePageMetadata(input);
+  const canonical = {
+    source_kind: metadata.source_kind,
+    source_title: metadata.source_title,
+    display_last_updated_label: metadata.display_last_updated_label,
+    display_last_updated_date_utc: metadata.display_last_updated_date_utc,
+    display_effective_date_label: metadata.display_effective_date_label,
+    display_effective_date_utc: metadata.display_effective_date_utc,
+    source_updated_at_utc: metadata.source_updated_at_utc,
+    source_edited_at_utc: metadata.source_edited_at_utc,
+  };
+  if (!Object.values(canonical).some((value) => String(value || "").trim().length > 0)) {
+    return "";
+  }
+  return createHash("sha256")
+    .update(JSON.stringify(canonical))
+    .digest("hex")
+    .slice(0, 16);
+}
+
+function extractMetadataText(rawText) {
+  return decodeHtmlEntities(
+    String(rawText || "")
+      .replace(/\r/g, "\n")
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<\/(p|div|li|section|article|h[1-6]|tr)>/gi, "\n")
+      .replace(/<[^>]+>/g, " ")
+  )
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n{2,}/g, "\n");
+}
+
+function extractDateLabelFromText(text, labelPattern) {
+  const raw = String(text || "");
+  if (!raw.trim()) return "";
+  const pattern = new RegExp(`${labelPattern}\\s*:?\\s*([a-z]{3,9}\\s+\\d{1,2},\\s+\\d{4})`, "i");
+  const match = pattern.exec(raw);
+  return match ? String(match[1] || "").trim() : "";
+}
+
+function extractTitleFromText(rawText) {
+  const raw = String(rawText || "");
+  const titleMatch = /<title[^>]*>([^<]{2,220})<\/title>/i.exec(raw);
+  if (titleMatch) {
+    return decodeHtmlEntities(String(titleMatch[1] || "")).replace(/\s+/g, " ").trim();
+  }
+  const headingMatch = /<h1[^>]*>([\s\S]{2,220}?)<\/h1>/i.exec(raw);
+  if (headingMatch) {
+    return decodeHtmlEntities(String(headingMatch[1] || ""))
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+  return "";
+}
+
+function extractPageMetadata({ rawText, sourceMetadata } = {}) {
+  const normalizedSourceMetadata = normalizePageMetadata(sourceMetadata);
+  const text = extractMetadataText(rawText);
+  const lastUpdatedLabel =
+    normalizedSourceMetadata.display_last_updated_label || extractDateLabelFromText(text, "last\\s+updated");
+  const effectiveDateLabel =
+    normalizedSourceMetadata.display_effective_date_label || extractDateLabelFromText(text, "effective\\s+date");
+
+  const metadata = normalizePageMetadata({
+    ...normalizedSourceMetadata,
+    source_kind: normalizedSourceMetadata.source_kind || "html",
+    source_title: normalizedSourceMetadata.source_title || extractTitleFromText(rawText),
+    display_last_updated_label: lastUpdatedLabel,
+    display_last_updated_date_utc:
+      normalizedSourceMetadata.display_last_updated_date_utc || toIsoDateOnly(lastUpdatedLabel),
+    display_effective_date_label: effectiveDateLabel,
+    display_effective_date_utc:
+      normalizedSourceMetadata.display_effective_date_utc || toIsoDateOnly(effectiveDateLabel),
+  });
+  return {
+    ...metadata,
+    metadata_signature: buildPageMetadataSignature(metadata),
+  };
+}
+
 function normalizeSemanticTokens(tokens) {
   if (!Array.isArray(tokens)) return [];
   const normalized = tokens
@@ -729,11 +839,15 @@ function buildSemanticProfile(text, policyType, metadata = {}) {
     typeof metadata.extractedAtUtc === "string" && metadata.extractedAtUtc
       ? metadata.extractedAtUtc
       : utcIsoTimestamp();
+  const pageMetadata = normalizePageMetadata(metadata.pageMetadata || metadata.page_metadata);
+  const metadataSignature = buildPageMetadataSignature(pageMetadata);
   return {
     hash: sourceHash,
     source_url: sourceUrl,
     extracted_at_utc: extractedAtUtc,
     tokens: normalizeSemanticTokens(extractSemanticTokens(text, policyType)),
+    page_metadata: pageMetadata,
+    metadata_signature: metadataSignature,
   };
 }
 
@@ -752,6 +866,11 @@ function normalizeSemanticProfile(input, metadata = {}) {
         ? input.extracted_at_utc
         : (typeof metadata.extractedAtUtc === "string" ? metadata.extractedAtUtc : utcIsoTimestamp()),
     tokens: normalizeSemanticTokens(input.tokens),
+    page_metadata: normalizePageMetadata(input.page_metadata || metadata.pageMetadata || metadata.page_metadata),
+    metadata_signature:
+      typeof input.metadata_signature === "string" && input.metadata_signature
+        ? input.metadata_signature
+        : buildPageMetadataSignature(input.page_metadata || metadata.pageMetadata || metadata.page_metadata),
   };
 }
 
@@ -1096,6 +1215,75 @@ function toJinaMirrorUrl(url) {
   }
 }
 
+function toZendeskArticleApiUrl(url) {
+  try {
+    const parsed = new URL(url);
+    const match = /^\/hc\/([^/]+)\/articles\/(\d+)(?:-[^/?#]+)?\/?$/i.exec(parsed.pathname);
+    if (!match) return "";
+    const locale = String(match[1] || "").trim().toLowerCase();
+    const articleId = String(match[2] || "").trim();
+    if (!locale || !articleId) return "";
+    return `${parsed.origin}/api/v2/help_center/${locale}/articles/${articleId}.json`;
+  } catch {
+    return "";
+  }
+}
+
+async function fetchZendeskArticleJson(apiUrl, attempts = 2) {
+  let lastErrorMessage = "unknown";
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), CHECKER_CONFIG.timeoutMs);
+    try {
+      const response = await fetch(apiUrl, {
+        signal: controller.signal,
+        headers: {
+          Accept: "application/json",
+          "User-Agent": USER_AGENTS[(attempt - 1) % USER_AGENTS.length],
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+        },
+      });
+      if (!response.ok) {
+        lastErrorMessage = `HTTP ${response.status}`;
+        throw new Error(lastErrorMessage);
+      }
+      const payload = await response.json().catch(() => null);
+      const article = payload && typeof payload === "object" ? payload.article : null;
+      const body = typeof article?.body === "string" ? article.body : "";
+      if (!body.trim()) {
+        lastErrorMessage = "missing article body";
+        throw new Error(lastErrorMessage);
+      }
+      const title = typeof article?.title === "string" ? article.title.trim() : "";
+      const htmlUrl =
+        typeof article?.html_url === "string" && article.html_url.trim()
+          ? article.html_url.trim()
+          : "";
+      const composedText = title ? `<h1>${title}</h1>\n${body}` : body;
+      return {
+        text: composedText,
+        sourceUrl: htmlUrl,
+        sourceMetadata: {
+          source_kind: "zendesk_article_json",
+          source_title: title,
+          source_updated_at_utc: typeof article?.updated_at === "string" ? article.updated_at.trim() : "",
+          source_edited_at_utc: typeof article?.edited_at === "string" ? article.edited_at.trim() : "",
+        },
+      };
+    } catch (error) {
+      const message = error?.name === "AbortError" ? "timeout" : error?.message || "request failed";
+      lastErrorMessage = message;
+      if (attempt < attempts) {
+        await sleep(450 * attempt + jitter(250));
+      }
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+  return { text: null, error: lastErrorMessage };
+}
+
 function buildCandidateUrls(vendorConfig) {
   const candidateSet = new Set();
   const config = typeof vendorConfig === "string" ? { url: vendorConfig } : vendorConfig || {};
@@ -1131,6 +1319,19 @@ async function fetchWithFallback(vendorConfig) {
       failures.push(`${candidateUrl} (interstitial:${interstitialReason})`);
     } else {
       failures.push(`${candidateUrl} (${directResult.error})`);
+    }
+
+    const zendeskApiUrl = toZendeskArticleApiUrl(candidateUrl);
+    if (zendeskApiUrl) {
+      const zendeskResult = await fetchZendeskArticleJson(zendeskApiUrl, CHECKER_CONFIG.fallbackAttempts);
+      if (zendeskResult?.text) {
+        return {
+          text: zendeskResult.text,
+          sourceUrl: zendeskResult.sourceUrl || candidateUrl,
+          sourceMetadata: zendeskResult.sourceMetadata || {},
+        };
+      }
+      failures.push(`${candidateUrl} [zendesk_api] (${zendeskResult.error || "request failed"})`);
     }
 
     const mirrorUrl = toJinaMirrorUrl(candidateUrl);
@@ -1176,6 +1377,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       recheckFetchFailures: [],
       crossRunWindowConfirmed: [],
       crossRunWindowHeld: [],
+      metadataStabilityHeld: [],
       escalatedPending: [],
       escalatedReasons: {},
       escalationFlipOverrides: {},
@@ -1243,6 +1445,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const recheckFetchFailureSet = new Set();
   const crossRunWindowConfirmedSet = new Set();
   const crossRunWindowHeldSet = new Set();
+  const metadataStabilityHeldSet = new Set();
   const qualityGateHeldSet = new Set();
   let successfulChecks = 0;
 
@@ -1441,12 +1644,35 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           typeof vendorConfig?.url === "string" && vendorConfig.url
             ? vendorConfig.url
             : fetchResult.sourceUrl;
+        const pageMetadata = extractPageMetadata({
+          rawText: fetchResult.text,
+          sourceMetadata: fetchResult.sourceMetadata,
+        });
+        if (pageMetadata.display_last_updated_label) {
+          coverage.last_observed_last_updated_label = pageMetadata.display_last_updated_label;
+        }
+        if (pageMetadata.display_last_updated_date_utc) {
+          coverage.last_observed_last_updated_date_utc = pageMetadata.display_last_updated_date_utc;
+        }
+        if (pageMetadata.source_updated_at_utc) {
+          coverage.last_observed_source_updated_at_utc = pageMetadata.source_updated_at_utc;
+        }
         const semanticProfile = buildSemanticProfile(normalized || fetchResult.text, name, {
           hash: h,
           sourceUrl: sourceUrl || "",
           extractedAtUtc: fetchedAtUtc,
+          pageMetadata,
         });
         const semanticSignature = semanticTokenSignature(semanticProfile);
+        const previousSemanticProfile = storedSemanticProfiles[vendor] || null;
+        const semanticDiffAgainstPrevious = diffSemanticProfiles(previousSemanticProfile, semanticProfile);
+        const metadataSignature = String(semanticProfile.metadata_signature || "");
+        const previousMetadataSignature = String(previousSemanticProfile?.metadata_signature || "");
+        const metadataSignalStable =
+          semanticDiffAgainstPrevious.material &&
+          metadataSignature &&
+          previousMetadataSignature &&
+          metadataSignature === previousMetadataSignature;
         const quality = assessFetchQuality({
           rawText: fetchResult.text,
           normalizedText: normalized,
@@ -1514,6 +1740,23 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           nextRunConfirmations = priorHash === h ? priorRunConfirmations : 0;
           nextSemanticRunConfirmations = priorHash === h ? priorSemanticRunConfirmations : 0;
         }
+        const metadataConfirmRunsRequired = metadataSignalStable
+          ? actualConfirmRuns + 1
+          : actualConfirmRuns;
+        if (
+          metadataSignalStable &&
+          quality.passed &&
+          nextRunConfirmations >= actualConfirmRuns &&
+          nextRunConfirmations < metadataConfirmRunsRequired
+        ) {
+          metadataStabilityHeldSet.add(vendor);
+          coverage.last_metadata_stability_hold_utc = fetchedAtUtc;
+          coverage.last_metadata_stability_hold_reason =
+            "semantic_changed_without_metadata_signature_change";
+        } else {
+          delete coverage.last_metadata_stability_hold_utc;
+          delete coverage.last_metadata_stability_hold_reason;
+        }
         const hashWindowConfirmed =
           typeof signalWindowDecision.hashDecision === "string" &&
           signalWindowDecision.hashDecision &&
@@ -1521,7 +1764,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
 
         if (
           quality.passed &&
-          nextRunConfirmations >= actualConfirmRuns &&
+          nextRunConfirmations >= metadataConfirmRunsRequired &&
           nextSemanticRunConfirmations >= actualConfirmRuns &&
           hashWindowConfirmed
         ) {
@@ -1540,6 +1783,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         if (
           !quality.passed ||
           (!gapSatisfied && priorHash === h && priorRunConfirmations > 0) ||
+          (metadataSignalStable && nextRunConfirmations < metadataConfirmRunsRequired) ||
           (nextRunConfirmations >= actualConfirmRuns && !hashWindowConfirmed) ||
           (nextRunConfirmations >= actualConfirmRuns && nextSemanticRunConfirmations < actualConfirmRuns)
         ) {
@@ -1560,6 +1804,10 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           signal_window_top_hash_votes: Number(signalWindowDecision.topVotes || 0),
           signal_window_baseline_votes: Number(signalWindowDecision.baselineVotes || 0),
           actual_confirm_runs_required: actualConfirmRuns,
+          metadata_confirm_runs_required: metadataConfirmRunsRequired,
+          metadata_signature: metadataSignature,
+          previous_metadata_signature: previousMetadataSignature,
+          metadata_signal_stable: Boolean(metadataSignalStable),
           last_run_observed_utc: fetchedAtUtc,
           source_url: sourceUrl || "",
           pending_since_utc: getCandidatePendingSinceUtc(priorCandidate) || fetchedAtUtc,
@@ -1638,12 +1886,27 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           const normalized = normalizeFetchedText(recheckResult.text, name, vendor);
           const h = hash(normalized || recheckResult.text);
           const sourceUrl = recheckResult.sourceUrl || metadata.sourceUrl || "";
+          const pageMetadata = extractPageMetadata({
+            rawText: recheckResult.text,
+            sourceMetadata: recheckResult.sourceMetadata,
+          });
+          if (pageMetadata.display_last_updated_label) {
+            coverage.last_observed_last_updated_label = pageMetadata.display_last_updated_label;
+          }
+          if (pageMetadata.display_last_updated_date_utc) {
+            coverage.last_observed_last_updated_date_utc = pageMetadata.display_last_updated_date_utc;
+          }
+          if (pageMetadata.source_updated_at_utc) {
+            coverage.last_observed_source_updated_at_utc = pageMetadata.source_updated_at_utc;
+          }
           const semanticProfile = buildSemanticProfile(normalized || recheckResult.text, name, {
             hash: h,
             sourceUrl,
             extractedAtUtc: fetchedAtUtc,
+            pageMetadata,
           });
           const semanticSignature = semanticTokenSignature(semanticProfile);
+          const metadataSignature = String(semanticProfile.metadata_signature || "");
           const quality = assessFetchQuality({
             rawText: recheckResult.text,
             normalizedText: normalized,
@@ -1659,6 +1922,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             candidate.quality_gate_policy_hits = quality.policyKeywordHits;
             candidate.quality_gate_lines = quality.lineCount;
             candidate.quality_gate_chars = quality.normalizedLength;
+            candidate.metadata_signature = metadataSignature;
             newCandidates[vendor] = candidate;
             return;
           }
@@ -1670,6 +1934,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           candidate.quality_gate_policy_hits = quality.policyKeywordHits;
           candidate.quality_gate_lines = quality.lineCount;
           candidate.quality_gate_chars = quality.normalizedLength;
+          candidate.metadata_signature = metadataSignature;
           const observations = runObservations[vendor];
           if (h === metadata.previousHash) {
             observations.baselineVotes = Number(observations.baselineVotes || 0) + 1;
@@ -1704,6 +1969,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             candidate.semantic_run_confirmations = previousCandidateHash === majorityDecision.hash
               ? Number(candidate.semantic_run_confirmations || 1)
               : 1;
+            candidate.metadata_signature = String(candidate.profile?.metadata_signature || candidate.metadata_signature || "");
             newCandidates[vendor] = candidate;
             return;
           }
@@ -1718,6 +1984,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           if (candidate.hash === h) {
             candidate.count = Number(candidate.count || 1) + 1;
             candidate.semantic_signature = semanticSignature;
+            candidate.metadata_signature = metadataSignature;
           } else {
             candidate.hash = h;
             candidate.count = 1;
@@ -1727,10 +1994,12 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             candidate.profile = semanticProfile;
             candidate.semantic_signature = semanticSignature;
             candidate.semantic_run_confirmations = 1;
+            candidate.metadata_signature = metadataSignature;
           }
           candidate.pending_since_utc = getCandidatePendingSinceUtc(candidate) || fetchedAtUtc;
           candidate.profile = candidate.hash === h ? semanticProfile : candidate.profile;
           candidate.semantic_signature = candidate.hash === h ? semanticSignature : candidate.semantic_signature;
+          candidate.metadata_signature = candidate.hash === h ? metadataSignature : candidate.metadata_signature;
           if (sourceUrl) candidate.source_url = sourceUrl;
           candidate.last_seen_utc = fetchedAtUtc;
           candidate.run_confirmations = Number(candidate.run_confirmations || 1);
@@ -1882,6 +2151,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     recheckFetchFailures: [...recheckFetchFailureSet].sort((a, b) => a.localeCompare(b)),
     crossRunWindowConfirmed: [...crossRunWindowConfirmedSet].sort((a, b) => a.localeCompare(b)),
     crossRunWindowHeld: [...crossRunWindowHeldSet].sort((a, b) => a.localeCompare(b)),
+    metadataStabilityHeld: [...metadataStabilityHeldSet].sort((a, b) => a.localeCompare(b)),
     escalatedPending,
     escalatedReasons,
     escalationFlipOverrides,
@@ -1896,6 +2166,8 @@ async function main() {
   const allMaterialRepeatSuppressed = [];
   const allMaterialVersionRepeatSuppressed = [];
   const allMaterialOscillationSuppressed = [];
+  const allQualityGateHeld = [];
+  const allMetadataStabilityHeld = [];
   const allErrors = [];
   const allPending = [];
   const allStalePending = [];
@@ -1969,6 +2241,12 @@ async function main() {
         `::notice::${result.name}: stability_held_pending=${result.crossRunWindowHeld.length} (gap/window/semantic stability checks not yet met); first ${names.length}: ${names.join(", ")}`
       );
     }
+    if (result.metadataStabilityHeld.length > 0) {
+      const names = sortedLimitedVendors(result.metadataStabilityHeld, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: metadata_stability_held=${result.metadataStabilityHeld.length} (semantic changed while metadata signature stayed stable; extra confirm run required); first ${names.length}: ${names.join(", ")}`
+      );
+    }
     if (result.staleDropped.length > 0) {
       console.log(
         `::notice::${result.name}: stale_pending_dropped=${result.staleDropped.length} (older than ${getCandidateTtlDays()} day(s)).`
@@ -2032,6 +2310,12 @@ async function main() {
     }
     for (const c of result.materialOscillationSuppressed) {
       allMaterialOscillationSuppressed.push({ ...c, policyType: result.name, rulesFile: result.rulesFile });
+    }
+    for (const vendor of result.qualityGateHeld) {
+      allQualityGateHeld.push({ policyType: result.name, vendor });
+    }
+    for (const vendor of result.metadataStabilityHeld) {
+      allMetadataStabilityHeld.push({ policyType: result.name, vendor });
     }
     for (const vendor of result.pending) {
       allPending.push({ policyType: result.name, vendor });
@@ -2136,6 +2420,16 @@ async function main() {
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
+  const qualityGateHeldByPolicy = toPolicyCountString(allQualityGateHeld);
+  const qualityGateHeldSample = allQualityGateHeld
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const metadataStabilityHeldByPolicy = toPolicyCountString(allMetadataStabilityHeld);
+  const metadataStabilityHeldSample = allMetadataStabilityHeld
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
   const pendingByPolicyObject = toPolicyCountObject(allPending);
   const generatedAtUtc = utcIsoTimestamp();
   const changedDateUtc = generatedAtUtc.slice(0, 10);
@@ -2159,6 +2453,9 @@ async function main() {
       volatile_pending_count: allVolatilePending.length,
       escalation_count: allEscalatedPending.length,
       coverage_gap_count: allCoverageGaps.length,
+      quality_gate_held_count: allQualityGateHeld.length,
+      metadata_stability_held_count: allMetadataStabilityHeld.length,
+      material_oscillation_suppressed_count: allMaterialOscillationSuppressed.length,
       run_url: buildRunUrl(),
       run_id: String(process.env.GITHUB_RUN_ID || "").trim(),
       run_attempt: String(process.env.GITHUB_RUN_ATTEMPT || "").trim(),
@@ -2217,6 +2514,12 @@ async function main() {
   console.log(`MATERIAL_OSCILLATION_SUPPRESSED_COUNT=${allMaterialOscillationSuppressed.length}`);
   console.log(`MATERIAL_OSCILLATION_SUPPRESSED_BY_POLICY=${materialOscillationSuppressedByPolicy}`);
   console.log(`MATERIAL_OSCILLATION_SUPPRESSED_SAMPLE=${materialOscillationSuppressedSample}`);
+  console.log(`QUALITY_GATE_HELD_COUNT=${allQualityGateHeld.length}`);
+  console.log(`QUALITY_GATE_HELD_BY_POLICY=${qualityGateHeldByPolicy}`);
+  console.log(`QUALITY_GATE_HELD_SAMPLE=${qualityGateHeldSample}`);
+  console.log(`METADATA_STABILITY_HELD_COUNT=${allMetadataStabilityHeld.length}`);
+  console.log(`METADATA_STABILITY_HELD_BY_POLICY=${metadataStabilityHeldByPolicy}`);
+  console.log(`METADATA_STABILITY_HELD_SAMPLE=${metadataStabilityHeldSample}`);
   console.log(`POLICY_EVENT_APPENDED_COUNT=${policyEventLogResult.appended_count}`);
   console.log(`POLICY_EVENT_SKIPPED_EXISTING_COUNT=${policyEventLogResult.skipped_existing_count}`);
   console.log(`POLICY_EVENT_SKIPPED_INVALID_COUNT=${policyEventLogResult.skipped_invalid_count}`);
