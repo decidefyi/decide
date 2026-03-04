@@ -15,6 +15,9 @@ permissions:
   issues: write
   pull-requests: write
 
+env:
+  POLICY_CHECK_PUBLIC_ISSUES_ENABLED: ${{ vars.POLICY_CHECK_PUBLIC_ISSUES_ENABLED || '0' }}
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -325,7 +328,7 @@ jobs:
             }
 
       - name: Open issue if policies changed or candidates pending
-        if: steps.check.outputs.contract_valid == '1' && ((steps.check.outputs.changed_count && steps.check.outputs.changed_count != '0') || (steps.check.outputs.pending_count && steps.check.outputs.pending_count != '0'))
+        if: env.POLICY_CHECK_PUBLIC_ISSUES_ENABLED == '1' && steps.check.outputs.contract_valid == '1' && ((steps.check.outputs.changed_count && steps.check.outputs.changed_count != '0') || (steps.check.outputs.pending_count && steps.check.outputs.pending_count != '0'))
         continue-on-error: true
         uses: actions/github-script@v7
         env:
@@ -597,7 +600,7 @@ jobs:
             }
 
       - name: Open escalation issue if SLA thresholds are hit
-        if: steps.check.outputs.contract_valid == '1' && ((steps.check.outputs.escalation_count && steps.check.outputs.escalation_count != '0') || (steps.check.outputs.coverage_gap_count && steps.check.outputs.coverage_gap_count != '0'))
+        if: env.POLICY_CHECK_PUBLIC_ISSUES_ENABLED == '1' && steps.check.outputs.contract_valid == '1' && ((steps.check.outputs.escalation_count && steps.check.outputs.escalation_count != '0') || (steps.check.outputs.coverage_gap_count && steps.check.outputs.coverage_gap_count != '0'))
         continue-on-error: true
         uses: actions/github-script@v7
         env:
