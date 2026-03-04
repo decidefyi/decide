@@ -35,6 +35,7 @@ const CHECKER_CONFIG = {
   volatileFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_VOLATILE_FLIP_THRESHOLD || "2", 10),
   escalationPendingDays: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_PENDING_DAYS || "5", 10),
   escalationFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_FLIP_THRESHOLD || "4", 10),
+  fetchFailureQuarantineStreak: Number.parseInt(process.env.POLICY_CHECK_FETCH_FAILURE_QUARANTINE_STREAK || "2", 10),
   noConfirmEscalationDays: Number.parseInt(process.env.POLICY_CHECK_NO_CONFIRM_ESCALATION_DAYS || "7", 10),
   materialCooldownDays: Number.parseInt(process.env.POLICY_CHECK_MATERIAL_COOLDOWN_DAYS || "14", 10),
   materialOscillationWindowDays: Number.parseInt(process.env.POLICY_CHECK_MATERIAL_OSCILLATION_WINDOW_DAYS || "21", 10),
@@ -1011,6 +1012,11 @@ function getEscalationFlipThreshold() {
   return Math.max(1, CHECKER_CONFIG.escalationFlipThreshold);
 }
 
+function getFetchFailureQuarantineStreak() {
+  if (!Number.isFinite(CHECKER_CONFIG.fetchFailureQuarantineStreak)) return 2;
+  return Math.max(1, CHECKER_CONFIG.fetchFailureQuarantineStreak);
+}
+
 function getEscalationFlipThresholdForVendor(policyName, vendor) {
   const defaultThreshold = getEscalationFlipThreshold();
   if (typeof policyName !== "string" || typeof vendor !== "string") {
@@ -1383,6 +1389,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       escalationFlipOverrides: {},
       coverageGaps: [],
       qualityGateHeld: [],
+      fetchBlockedPending: [],
     };
   }
 
@@ -1619,13 +1626,27 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           errorReasons[vendor] = fetchResult.error || "request failed";
           const coverage = ensureCoverageEntry(vendor);
           const failureAtUtc = utcIsoTimestamp();
+          const priorFailureStreak = Number(
+            activeStoredCandidates[vendor]?.fetch_failure_streak || coverage.consecutive_fetch_failures || 0
+          );
+          const nextFailureStreak = priorFailureStreak + 1;
+          const isFetchBlocked = nextFailureStreak >= getFetchFailureQuarantineStreak();
           coverage.last_fetch_failure_utc = failureAtUtc;
           coverage.last_fetch_failure_reason = fetchResult.error || "request failed";
+          coverage.consecutive_fetch_failures = nextFailureStreak;
+          coverage.pending_fetch_blocked = isFetchBlocked;
+          if (isFetchBlocked) {
+            coverage.pending_fetch_blocked_reason = `consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}`;
+          } else {
+            delete coverage.pending_fetch_blocked_reason;
+          }
           if (activeStoredCandidates[vendor]) {
             newCandidates[vendor] = {
               ...activeStoredCandidates[vendor],
               run_confirmations: 0,
               last_fetch_failure_utc: failureAtUtc,
+              fetch_failure_streak: nextFailureStreak,
+              fetch_blocked: isFetchBlocked,
             };
           }
           return;
@@ -1638,6 +1659,9 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         const coverage = ensureCoverageEntry(vendor);
         delete coverage.last_fetch_failure_utc;
         delete coverage.last_fetch_failure_reason;
+        coverage.consecutive_fetch_failures = 0;
+        coverage.pending_fetch_blocked = false;
+        delete coverage.pending_fetch_blocked_reason;
         const actualConfirmRuns = getActualConfirmRunsForVendor(vendorConfig, vendor);
 
         const sourceUrl =
@@ -1796,6 +1820,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           hash: h,
           count: nextCount,
           flip_count: nextFlipCount,
+          fetch_failure_streak: 0,
+          fetch_blocked: false,
           run_confirmations: nextRunConfirmations,
           semantic_run_confirmations: nextSemanticRunConfirmations,
           semantic_signature: semanticSignature,
@@ -2004,6 +2030,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           candidate.last_seen_utc = fetchedAtUtc;
           candidate.run_confirmations = Number(candidate.run_confirmations || 1);
           candidate.semantic_run_confirmations = Number(candidate.semantic_run_confirmations || 1);
+          candidate.fetch_failure_streak = 0;
+          candidate.fetch_blocked = false;
 
           newCandidates[vendor] = candidate;
         })
@@ -2021,10 +2049,17 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const escalatedReasons = {};
   const escalationFlipOverrides = {};
   const coverageGaps = [];
+  const fetchBlockedPending = [];
+  const fetchBlockedSet = new Set();
   const summaryNowMs = Date.now();
   for (const [vendor, candidate] of Object.entries(newCandidates)) {
+    const coverage = ensureCoverageEntry(vendor);
     const ageDays = getCandidateAgeDays(candidate, summaryNowMs);
     const flipCount = Number(candidate?.flip_count || 0);
+    const fetchFailureStreak = Number(
+      candidate?.fetch_failure_streak || coverage.consecutive_fetch_failures || 0
+    );
+    const isFetchBlocked = fetchFailureStreak >= getFetchFailureQuarantineStreak();
     const escalationFlipConfig = getEscalationFlipThresholdForVendor(name, vendor);
     if (escalationFlipConfig.overridden) {
       escalationFlipOverrides[vendor] = {
@@ -2032,17 +2067,27 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         flipCount,
       };
     }
+    coverage.last_pending_seen_utc = utcIsoTimestamp();
+    coverage.last_pending_age_days = ageDays;
+    coverage.last_pending_flip_count = flipCount;
+    coverage.last_pending_source_url = candidate?.source_url || coverage.last_pending_source_url || "";
+    coverage.pending_fetch_failure_streak = fetchFailureStreak;
+    if (isFetchBlocked) {
+      fetchBlockedPending.push(vendor);
+      fetchBlockedSet.add(vendor);
+      coverage.pending_fetch_blocked = true;
+      coverage.pending_fetch_blocked_reason = `consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}`;
+      continue;
+    }
+    coverage.pending_fetch_blocked = false;
+    delete coverage.pending_fetch_blocked_reason;
+
     if (ageDays >= getStalePendingDays()) {
       stalePending.push(vendor);
     }
     if (flipCount >= getVolatileFlipThreshold()) {
       volatilePending.push(vendor);
     }
-    const coverage = ensureCoverageEntry(vendor);
-    coverage.last_pending_seen_utc = utcIsoTimestamp();
-    coverage.last_pending_age_days = ageDays;
-    coverage.last_pending_flip_count = flipCount;
-    coverage.last_pending_source_url = candidate?.source_url || coverage.last_pending_source_url || "";
 
     const escalationReasons = [];
     if (ageDays >= getEscalationPendingDays()) {
@@ -2074,6 +2119,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       coverageGaps.push(vendor);
     }
   }
+  fetchBlockedPending.sort((a, b) => a.localeCompare(b));
+  const actionablePending = pending.filter((vendor) => !fetchBlockedSet.has(vendor));
   stalePending.sort((a, b) => a.localeCompare(b));
   volatilePending.sort((a, b) => a.localeCompare(b));
   escalatedPending.sort((a, b) => a.localeCompare(b));
@@ -2097,6 +2144,9 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     const coverage = ensureCoverageEntry(vendor);
     coverage.last_pending_age_days = 0;
     coverage.last_pending_flip_count = 0;
+    coverage.pending_fetch_blocked = false;
+    coverage.pending_fetch_failure_streak = 0;
+    delete coverage.pending_fetch_blocked_reason;
     delete coverage.last_pending_source_url;
   }
 
@@ -2136,7 +2186,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     materialRepeatSuppressed,
     materialVersionRepeatSuppressed,
     materialOscillationSuppressed,
-    pending,
+    pending: actionablePending,
+    fetchBlockedPending,
     errors,
     errorReasons,
     rulesFile,
@@ -2170,6 +2221,7 @@ async function main() {
   const allMetadataStabilityHeld = [];
   const allErrors = [];
   const allPending = [];
+  const allFetchBlockedPending = [];
   const allStalePending = [];
   const allVolatilePending = [];
   const allEscalatedPending = [];
@@ -2204,6 +2256,12 @@ async function main() {
       const pendingNames = sortedLimitedVendors(result.pending, getPendingDetailLimit());
       console.log(
         `::notice::${result.name}: pending vendors (first ${pendingNames.length}): ${pendingNames.join(", ")}`
+      );
+    }
+    if (result.fetchBlockedPending.length > 0) {
+      const blockedNames = sortedLimitedVendors(result.fetchBlockedPending, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: fetch_blocked_pending=${result.fetchBlockedPending.length} (consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}); first ${blockedNames.length}: ${blockedNames.join(", ")}`
       );
     }
     if (result.recheckConfirmed.length > 0 || result.recheckResolved.length > 0 || result.recheckFetchFailures.length > 0) {
@@ -2320,6 +2378,9 @@ async function main() {
     for (const vendor of result.pending) {
       allPending.push({ policyType: result.name, vendor });
     }
+    for (const vendor of result.fetchBlockedPending) {
+      allFetchBlockedPending.push({ policyType: result.name, vendor });
+    }
     if (result.pending.length > 0) {
       pendingDetailByPolicy[result.name] = [...result.pending];
     }
@@ -2354,6 +2415,11 @@ async function main() {
 
   const pendingByPolicy = toPolicyCountString(allPending);
   const pendingSample = allPending
+    .slice(0, 25)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const fetchBlockedPendingByPolicy = toPolicyCountString(allFetchBlockedPending);
+  const fetchBlockedPendingSample = allFetchBlockedPending
     .slice(0, 25)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
@@ -2455,6 +2521,7 @@ async function main() {
       changed_sample: actualSampleList,
       pending_count: allPending.length,
       pending_by_policy: pendingByPolicyObject,
+      fetch_blocked_pending_count: allFetchBlockedPending.length,
       stale_pending_count: allStalePending.length,
       volatile_pending_count: allVolatilePending.length,
       escalation_count: allEscalatedPending.length,
@@ -2490,6 +2557,9 @@ async function main() {
   console.log(`PENDING_BY_POLICY=${pendingByPolicy}`);
   console.log(`PENDING_SAMPLE=${pendingSample}`);
   console.log(`PENDING_DETAIL=${pendingDetail}`);
+  console.log(`FETCH_BLOCKED_PENDING_COUNT=${allFetchBlockedPending.length}`);
+  console.log(`FETCH_BLOCKED_PENDING_BY_POLICY=${fetchBlockedPendingByPolicy}`);
+  console.log(`FETCH_BLOCKED_PENDING_SAMPLE=${fetchBlockedPendingSample}`);
   console.log(`STALE_PENDING_COUNT=${allStalePending.length}`);
   console.log(`STALE_PENDING_BY_POLICY=${stalePendingByPolicy}`);
   console.log(`STALE_PENDING_SAMPLE=${stalePendingSample}`);
