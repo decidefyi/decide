@@ -7,6 +7,7 @@ This project uses server-side environment variables for secrets.
 Set these in Vercel Project Settings -> Environment Variables:
 
 - `GEMINI_API_KEY`
+- `DECIDE_API_KEY` (optional; if set, `/api/decide` requires `Authorization: Bearer` or `x-api-key`)
 - `AXIOM_TOKEN`
 - `AXIOM_DATASET`
 - `METRICS_ADMIN_TOKEN` (recommended if using `/api/metrics` in production)
@@ -33,4 +34,3 @@ Publishable keys are not secrets. Secret Clerk keys should never be put in clien
 2. Update the rotated value in Vercel env vars.
 3. Redeploy.
 4. Invalidate any leaked tokens if possible.
-

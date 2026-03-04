@@ -1,6 +1,7 @@
 import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../lib/rate-limit.js";
 import { persistLog } from "../lib/log.js";
 import { buildSourceHash, withLineage } from "../lib/lineage.js";
+import { timingSafeEqual } from "node:crypto";
 
 // Rate limiter: 20 requests per minute per IP
 const rateLimiter = createRateLimiter(20, 60000);
@@ -81,6 +82,44 @@ function sanitizeScore(n) {
   return Number(clamped.toFixed(1));
 }
 
+function normalizeHeaderValue(value) {
+  if (Array.isArray(value)) return String(value[0] || "").trim();
+  return String(value || "").trim();
+}
+
+function readHeader(req, name = "") {
+  if (!req?.headers || !name) return "";
+  const target = String(name).toLowerCase();
+  for (const [key, value] of Object.entries(req.headers)) {
+    if (String(key).toLowerCase() === target) {
+      return normalizeHeaderValue(value);
+    }
+  }
+  return "";
+}
+
+function readApiToken(req) {
+  const headerToken = readHeader(req, "x-api-key");
+  if (headerToken) return headerToken;
+
+  const auth = readHeader(req, "authorization");
+  if (!auth) return "";
+  const parts = auth.split(/\s+/);
+  if (parts.length !== 2) return "";
+  if (parts[0].toLowerCase() !== "bearer") return "";
+  return parts[1].trim();
+}
+
+function safeEqualToken(left, right) {
+  const a = String(left || "").trim();
+  const b = String(right || "").trim();
+  if (!a || !b) return false;
+  const aBuf = Buffer.from(a);
+  const bBuf = Buffer.from(b);
+  if (aBuf.length !== bBuf.length) return false;
+  return timingSafeEqual(aBuf, bBuf);
+}
+
 function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
   res.statusCode = statusCode;
   res.setHeader("Content-Type", "application/json");
@@ -104,7 +143,7 @@ export default async function handler(req, res) {
   // CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization,X-API-Key");
 
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
@@ -119,6 +158,28 @@ export default async function handler(req, res) {
   }
 
   const clientIp = getClientIp(req);
+  const decideApiKey = String(process.env.DECIDE_API_KEY || "").trim();
+  if (decideApiKey) {
+    const providedApiToken = readApiToken(req);
+    if (!safeEqualToken(providedApiToken, decideApiKey)) {
+      res.setHeader("WWW-Authenticate", 'Bearer realm="decide-api"');
+      sendDecisionJson(
+        res,
+        401,
+        {
+          c: "unclear",
+          v: "unauthorized",
+          request_id,
+          error: "DECIDE_API_UNAUTHORIZED",
+          message: "Valid API key required for /api/decide.",
+        },
+        { mode: "single" }
+      );
+      await persistLog("decide_request", { request_id, event: "api_auth_failed", ip: clientIp, ua });
+      return;
+    }
+  }
+
   const rateLimitResult = rateLimiter(clientIp);
   if (!rateLimitResult.allowed) {
     sendRateLimitError(res, rateLimitResult, request_id);

@@ -34,7 +34,9 @@ async function testDecideSingleFixture() {
   const fixture = loadFixture("decide-single.json");
   const originalFetch = global.fetch;
   const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
   process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "";
   global.fetch = async () => ({
     ok: true,
     async json() {
@@ -60,6 +62,51 @@ async function testDecideSingleFixture() {
   } finally {
     global.fetch = originalFetch;
     process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+async function testDecideApiKeyFixture() {
+  const fixture = loadFixture("decide-single.json");
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "decide-auth-token";
+  global.fetch = async () => ({
+    ok: true,
+    async json() {
+      return {
+        candidates: [
+          {
+            content: {
+              parts: [{ text: "yes" }],
+            },
+          },
+        ],
+      };
+    },
+  });
+
+  try {
+    const unauthorized = await invokeJson(decideHandler, fixture.request);
+    assert.equal(unauthorized.statusCode, 401, "decide unauthorized status mismatch");
+    assert.equal(unauthorized.json?.error, "DECIDE_API_UNAUTHORIZED", "decide unauthorized error mismatch");
+
+    const authorized = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: {
+        ...(fixture.request.headers || {}),
+        "x-api-key": "decide-auth-token",
+      },
+    });
+    assert.equal(authorized.statusCode, fixture.expect.statusCode, "decide authorized status mismatch");
+    assert.equal(authorized.json?.c, fixture.expect.c, "decide authorized c mismatch");
+    assert.equal(authorized.json?.v, fixture.expect.v, "decide authorized v mismatch");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
   }
 }
 
@@ -92,6 +139,7 @@ async function testWorkflowFixture() {
 async function main() {
   const tests = [
     ["decide-single", testDecideSingleFixture],
+    ["decide-api-key", testDecideApiKeyFixture],
     ["policy-v1-dispatch", testPolicyV1Fixture],
     ["workflow-zendesk-dispatch", testWorkflowFixture],
   ];

@@ -349,9 +349,11 @@ Policies are sourced from official vendor documentation and terms of service.
 - Initial release with REST API and MCP server
 - Support for 9 vendors
 
-## Free API (No Auth)
+## Free API (Default: No Auth)
 
-All 4 servers are free to use. No authentication. No API keys.
+All 4 policy servers are free to use. No authentication. No API keys.
+
+`/api/decide` is public by default, and can be protected by setting `DECIDE_API_KEY` in server env vars.
 
 Rate limit: 100 requests/minute per IP.
 
