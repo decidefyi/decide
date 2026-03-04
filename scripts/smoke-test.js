@@ -73,10 +73,12 @@ async function main() {
   await runCase(
     "health GET",
     health,
-    { method: "GET" },
+    { method: "GET", headers: { host: "cancel.decide.fyi" } },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
       expect(json.ok === true, "expected ok=true");
+      expect(json.service === "cancel.decide.fyi", "expected host-derived service");
+      expect(json.notary === "cancel", "expected host-derived notary");
     }
   );
 
