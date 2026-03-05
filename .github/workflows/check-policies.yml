@@ -309,7 +309,7 @@ jobs:
             const current = normalize(JSON.parse(currentRaw));
             const base = normalize(JSON.parse(baseRaw));
             process.exit(JSON.stringify(current) === JSON.stringify(base) ? 0 : 1);
-NODE
+            NODE
             then
               git checkout "origin/${base_branch}" -- "$f"
               echo "Reverted timestamp-only source drift: $f"
