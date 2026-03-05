@@ -67,6 +67,10 @@ jobs:
       - name: Check vendor policy pages
         id: check
         continue-on-error: true
+        env:
+          POLICY_CHECK_BROWSER_HOOK_URL: ${{ secrets.POLICY_CHECK_BROWSER_HOOK_URL || vars.POLICY_CHECK_BROWSER_HOOK_URL || '' }}
+          POLICY_CHECK_BROWSER_HOOK_TOKEN: ${{ secrets.POLICY_CHECK_BROWSER_HOOK_TOKEN || vars.POLICY_CHECK_BROWSER_HOOK_TOKEN || '' }}
+          POLICY_CHECK_FETCH_LANES_DEFAULT: ${{ vars.POLICY_CHECK_FETCH_LANES_DEFAULT || '' }}
         run: |
           set +e
           output=$(node scripts/check-policies.js 2>&1)
@@ -110,6 +114,14 @@ jobs:
           fetch_failure_by_policy=$(extract_output_value "FETCH_FAILURE_BY_POLICY")
           fetch_failure_sample=$(extract_output_value "FETCH_FAILURE_SAMPLE")
           fetch_health_status=$(extract_output_value "FETCH_HEALTH_STATUS")
+          tier1_total=$(extract_output_value "TIER1_TOTAL" | tr -d '[:space:]')
+          tier1_fetched=$(extract_output_value "TIER1_FETCHED" | tr -d '[:space:]')
+          tier1_failed=$(extract_output_value "TIER1_FAILED" | tr -d '[:space:]')
+          tier1_coverage_pct=$(extract_output_value "TIER1_COVERAGE_PCT")
+          tier1_by_policy=$(extract_output_value "TIER1_BY_POLICY")
+          tier1_failed_sample=$(extract_output_value "TIER1_FAILED_SAMPLE")
+          tier1_missing_configured_count=$(extract_output_value "TIER1_MISSING_CONFIGURED_COUNT" | tr -d '[:space:]')
+          tier1_missing_configured_sample=$(extract_output_value "TIER1_MISSING_CONFIGURED_SAMPLE")
 
           if [ -z "$actual_diff_sample" ]; then actual_diff_sample=$(extract_output_value "MATERIAL_DIFF_SAMPLE"); fi
           if [ -z "$actual_changed_count" ]; then actual_changed_count=$changed_count; fi
@@ -127,6 +139,11 @@ jobs:
           if [ -z "$coverage_gap_count" ]; then coverage_gap_count=0; fi
           if [ -z "$fetch_failure_count" ]; then fetch_failure_count=0; fi
           if [ -z "$fetch_health_status" ]; then fetch_health_status=healthy; fi
+          if [ -z "$tier1_total" ]; then tier1_total=0; fi
+          if [ -z "$tier1_fetched" ]; then tier1_fetched=0; fi
+          if [ -z "$tier1_failed" ]; then tier1_failed=0; fi
+          if [ -z "$tier1_coverage_pct" ]; then tier1_coverage_pct=0.00; fi
+          if [ -z "$tier1_missing_configured_count" ]; then tier1_missing_configured_count=0; fi
 
           sum_policy_counts() {
             local value="$1"
@@ -190,6 +207,14 @@ jobs:
           echo "fetch_failure_by_policy=$fetch_failure_by_policy" >> "$GITHUB_OUTPUT"
           echo "fetch_failure_sample=$fetch_failure_sample" >> "$GITHUB_OUTPUT"
           echo "fetch_health_status=$fetch_health_status" >> "$GITHUB_OUTPUT"
+          echo "tier1_total=$tier1_total" >> "$GITHUB_OUTPUT"
+          echo "tier1_fetched=$tier1_fetched" >> "$GITHUB_OUTPUT"
+          echo "tier1_failed=$tier1_failed" >> "$GITHUB_OUTPUT"
+          echo "tier1_coverage_pct=$tier1_coverage_pct" >> "$GITHUB_OUTPUT"
+          echo "tier1_by_policy=$tier1_by_policy" >> "$GITHUB_OUTPUT"
+          echo "tier1_failed_sample=$tier1_failed_sample" >> "$GITHUB_OUTPUT"
+          echo "tier1_missing_configured_count=$tier1_missing_configured_count" >> "$GITHUB_OUTPUT"
+          echo "tier1_missing_configured_sample=$tier1_missing_configured_sample" >> "$GITHUB_OUTPUT"
           echo "contract_valid=$contract_valid" >> "$GITHUB_OUTPUT"
 
       - name: Commit policy artifacts to aggregation branch
@@ -451,6 +476,14 @@ jobs:
           FETCH_FAILURE_BY_POLICY: ${{ steps.check.outputs.fetch_failure_by_policy }}
           FETCH_FAILURE_SAMPLE: ${{ steps.check.outputs.fetch_failure_sample }}
           FETCH_HEALTH_STATUS: ${{ steps.check.outputs.fetch_health_status }}
+          TIER1_TOTAL: ${{ steps.check.outputs.tier1_total }}
+          TIER1_FETCHED: ${{ steps.check.outputs.tier1_fetched }}
+          TIER1_FAILED: ${{ steps.check.outputs.tier1_failed }}
+          TIER1_COVERAGE_PCT: ${{ steps.check.outputs.tier1_coverage_pct }}
+          TIER1_BY_POLICY: ${{ steps.check.outputs.tier1_by_policy }}
+          TIER1_FAILED_SAMPLE: ${{ steps.check.outputs.tier1_failed_sample }}
+          TIER1_MISSING_CONFIGURED_COUNT: ${{ steps.check.outputs.tier1_missing_configured_count }}
+          TIER1_MISSING_CONFIGURED_SAMPLE: ${{ steps.check.outputs.tier1_missing_configured_sample }}
         with:
           retries: 3
           script: |
@@ -482,6 +515,14 @@ jobs:
             const fetchFailureByPolicy = process.env.FETCH_FAILURE_BY_POLICY || '';
             const fetchFailureSample = process.env.FETCH_FAILURE_SAMPLE || '';
             const fetchHealthStatus = process.env.FETCH_HEALTH_STATUS || (fetchFailureCount > 0 ? 'degraded' : 'healthy');
+            const tier1Total = Number.parseInt(process.env.TIER1_TOTAL || '0', 10) || 0;
+            const tier1Fetched = Number.parseInt(process.env.TIER1_FETCHED || '0', 10) || 0;
+            const tier1Failed = Number.parseInt(process.env.TIER1_FAILED || '0', 10) || 0;
+            const tier1CoveragePct = process.env.TIER1_COVERAGE_PCT || '0.00';
+            const tier1ByPolicy = process.env.TIER1_BY_POLICY || '';
+            const tier1FailedSample = process.env.TIER1_FAILED_SAMPLE || '';
+            const tier1MissingConfiguredCount = Number.parseInt(process.env.TIER1_MISSING_CONFIGURED_COUNT || '0', 10) || 0;
+            const tier1MissingConfiguredSample = process.env.TIER1_MISSING_CONFIGURED_SAMPLE || '';
             const today = new Date().toISOString().split('T')[0];
             const changedTitlePrefix = `Policy changes (${today}):`;
             const pendingTitlePrefix = `Policy checker pending candidates (${today}):`;
@@ -581,6 +622,7 @@ jobs:
               `Policy changes: **${changedCount}**`,
               `Pending candidates (needs confirmation): **${pendingCount}**`,
               `Fetch health: **${fetchHealthStatus}**`,
+              `Tier-1 coverage: **${tier1Fetched}/${tier1Total} (${tier1CoveragePct}%)**`,
               "",
               changedByPolicy ? "### By policy\n" + changedByPolicyList + "\n" : "",
               sampleList ? "### Confirmed sample (first 10)\n" + sampleList + "\n" : "",
@@ -593,6 +635,9 @@ jobs:
               escalationCount > 0 ? `### Escalation candidates (SLA)\n- Total: **${escalationCount}**\n${escalationByPolicyList}\n${escalationDetailList ? `${escalationDetailList}\n` : ""}${escalationSample ? `Sample: \`${escalationSample}\`` : ""}\n` : "",
               coverageGapCount > 0 ? `### Pending without confirm/escalation (coverage gap)\n- Total: **${coverageGapCount}**\n${coverageGapByPolicyList}\n${coverageGapSample ? `Sample: \`${coverageGapSample}\`` : ""}\n` : "",
               fetchFailureCount > 0 ? `### Fetch failures (degraded observability)\n- Total: **${fetchFailureCount}**\n${fetchFailureByPolicyList}\n${fetchFailureSample ? `Sample: \`${fetchFailureSample}\`` : ""}\n` : "",
+              tier1ByPolicy ? `### Tier-1 coverage by policy\n- ${tier1ByPolicy.split(',').join('\n- ')}\n` : "",
+              tier1Failed > 0 ? `Tier-1 failed vendors: \`${tier1FailedSample || 'sample unavailable'}\`\n` : "",
+              tier1MissingConfiguredCount > 0 ? `Tier-1 config missing vendors: \`${tier1MissingConfiguredSample || 'sample unavailable'}\`\n` : "",
               "### Full review source",
               "- `rules/policy-change-candidates.json`",
               "- `rules/cancel-policy-change-candidates.json`",
@@ -656,6 +701,7 @@ jobs:
                     `Policy changes: **${changedCount}**`,
                     `Pending candidates (needs confirmation): **${pendingCount}**`,
                     `Fetch health: **${fetchHealthStatus}**`,
+                    `Tier-1 coverage: **${tier1Fetched}/${tier1Total} (${tier1CoveragePct}%)**`,
                     changedByPolicy ? `By policy: ${changedByPolicy}` : "",
                     pendingByPolicy ? `Pending by policy: ${pendingByPolicy}` : "",
                     pendingDetail ? `Pending detail: ${pendingDetail}` : "",
@@ -665,6 +711,9 @@ jobs:
                     escalationDetail ? `Escalation detail: ${escalationDetail}` : "",
                     coverageGapCount > 0 ? `Coverage gaps: ${coverageGapCount} (${coverageGapByPolicy || 'by-policy-unavailable'})` : "",
                     fetchFailureCount > 0 ? `Fetch failures: ${fetchFailureCount} (${fetchFailureByPolicy || 'by-policy-unavailable'})` : "",
+                    tier1ByPolicy ? `Tier-1 by policy: ${tier1ByPolicy}` : "",
+                    tier1Failed > 0 ? `Tier-1 failed sample: ${tier1FailedSample || 'sample-unavailable'}` : "",
+                    tier1MissingConfiguredCount > 0 ? `Tier-1 missing-configured sample: ${tier1MissingConfiguredSample || 'sample-unavailable'}` : "",
                     changedSample ? `Policy-change sample: ${changedSample}` : "",
                     actualDiffSample ? `Policy diff sample: ${actualDiffSample}` : "",
                     escalationSample ? `Escalation sample: ${escalationSample}` : "",
@@ -786,3 +835,60 @@ jobs:
               const message = error?.message || "unknown error";
               console.log(`::warning::Could not open policy escalation issue (status: ${status}): ${message}`);
             }
+
+      - name: Enforce Tier-1 coverage gate
+        env:
+          POLICY_CHECK_TIER1_GATE_ENABLED: ${{ vars.POLICY_CHECK_TIER1_GATE_ENABLED || '0' }}
+          POLICY_CHECK_TIER1_MIN_COVERAGE_PCT: ${{ vars.POLICY_CHECK_TIER1_MIN_COVERAGE_PCT || '95.00' }}
+          POLICY_CHECK_TIER1_MAX_FAILED: ${{ vars.POLICY_CHECK_TIER1_MAX_FAILED || '1' }}
+          TIER1_TOTAL: ${{ steps.check.outputs.tier1_total }}
+          TIER1_FETCHED: ${{ steps.check.outputs.tier1_fetched }}
+          TIER1_FAILED: ${{ steps.check.outputs.tier1_failed }}
+          TIER1_COVERAGE_PCT: ${{ steps.check.outputs.tier1_coverage_pct }}
+          TIER1_BY_POLICY: ${{ steps.check.outputs.tier1_by_policy }}
+          TIER1_FAILED_SAMPLE: ${{ steps.check.outputs.tier1_failed_sample }}
+          TIER1_MISSING_CONFIGURED_COUNT: ${{ steps.check.outputs.tier1_missing_configured_count }}
+          TIER1_MISSING_CONFIGURED_SAMPLE: ${{ steps.check.outputs.tier1_missing_configured_sample }}
+        run: |
+          enabled="$(echo "${POLICY_CHECK_TIER1_GATE_ENABLED:-0}" | tr '[:upper:]' '[:lower:]')"
+          if [ "$enabled" != "1" ] && [ "$enabled" != "true" ] && [ "$enabled" != "yes" ]; then
+            echo "Tier-1 gate disabled (POLICY_CHECK_TIER1_GATE_ENABLED=${POLICY_CHECK_TIER1_GATE_ENABLED:-0})."
+            exit 0
+          fi
+
+          total="${TIER1_TOTAL:-0}"
+          fetched="${TIER1_FETCHED:-0}"
+          failed="${TIER1_FAILED:-0}"
+          coverage="${TIER1_COVERAGE_PCT:-0.00}"
+          min_coverage="${POLICY_CHECK_TIER1_MIN_COVERAGE_PCT:-95.00}"
+          max_failed="${POLICY_CHECK_TIER1_MAX_FAILED:-1}"
+
+          echo "Tier-1 coverage summary: fetched=${fetched}/${total}, failed=${failed}, coverage=${coverage}%"
+          echo "Tier-1 by policy: ${TIER1_BY_POLICY:-n/a}"
+
+          if [ "${TIER1_MISSING_CONFIGURED_COUNT:-0}" -gt 0 ]; then
+            echo "::warning::Tier-1 config includes unknown vendors (${TIER1_MISSING_CONFIGURED_COUNT}): ${TIER1_MISSING_CONFIGURED_SAMPLE}"
+          fi
+
+          if [ "$total" -le 0 ]; then
+            echo "::error::Tier-1 gate enabled but no Tier-1 vendors were resolved. Check rules/policy-tier1-vendors.json."
+            exit 1
+          fi
+
+          should_fail=0
+
+          if awk "BEGIN {exit !(${coverage} < ${min_coverage})}"; then
+            echo "::error::Tier-1 coverage ${coverage}% is below required ${min_coverage}%."
+            should_fail=1
+          fi
+
+          if [ "$failed" -gt "$max_failed" ]; then
+            echo "::error::Tier-1 failed vendors ${failed} exceeds max allowed ${max_failed}. Sample: ${TIER1_FAILED_SAMPLE:-n/a}"
+            should_fail=1
+          fi
+
+          if [ "$should_fail" -ne 0 ]; then
+            exit 1
+          fi
+
+          echo "Tier-1 gate passed."

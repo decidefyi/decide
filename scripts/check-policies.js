@@ -21,6 +21,7 @@ const CHECKER_CONFIG = {
   batchSize: Number.parseInt(process.env.POLICY_CHECK_BATCH_SIZE || "3", 10),
   directAttempts: Number.parseInt(process.env.POLICY_CHECK_DIRECT_ATTEMPTS || "3", 10),
   fallbackAttempts: Number.parseInt(process.env.POLICY_CHECK_FALLBACK_ATTEMPTS || "2", 10),
+  browserHookAttempts: Number.parseInt(process.env.POLICY_CHECK_BROWSER_HOOK_ATTEMPTS || "1", 10),
   timeoutMs: Number.parseInt(process.env.POLICY_CHECK_TIMEOUT_MS || "18000", 10),
   errorDetailLimit: Number.parseInt(process.env.POLICY_CHECK_ERROR_DETAIL_LIMIT || "12", 10),
   candidateTtlDays: Number.parseInt(process.env.POLICY_CHECK_CANDIDATE_TTL_DAYS || "7", 10),
@@ -46,6 +47,9 @@ const CHECKER_CONFIG = {
   fetchQualityMinPolicyHits: Number.parseInt(process.env.POLICY_CHECK_FETCH_QUALITY_MIN_POLICY_HITS || "2", 10),
   alertLowSignalThreshold: Number.parseInt(process.env.POLICY_ALERT_LOW_SIGNAL_THRESHOLD || "1", 10),
   alertLowSignalLookback: Number.parseInt(process.env.POLICY_ALERT_LOW_SIGNAL_LOOKBACK || "6", 10),
+  browserHookUrl: String(process.env.POLICY_CHECK_BROWSER_HOOK_URL || "").trim(),
+  browserHookToken: String(process.env.POLICY_CHECK_BROWSER_HOOK_TOKEN || "").trim(),
+  fetchLaneDefault: String(process.env.POLICY_CHECK_FETCH_LANES_DEFAULT || "").trim(),
 };
 const USER_AGENTS = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
@@ -192,6 +196,7 @@ const ACTUAL_CONFIRM_RUN_OVERRIDES = {
 const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v1";
 const POLICY_ALERT_FEED_PATH = join(__dirname, "..", "rules", "policy-alert-feed.json");
 const POLICY_EVENT_LOG_PATH = join(__dirname, "..", "rules", "policy-events.ndjson");
+const POLICY_TIER1_VENDORS_PATH = join(__dirname, "..", "rules", "policy-tier1-vendors.json");
 const POLICY_COUNT_KEYS = ["refund", "cancel", "return", "trial"];
 
 const isUpdate = process.argv.includes("--update");
@@ -215,6 +220,77 @@ function sleep(ms) {
 
 function jitter(ms) {
   return Math.floor(Math.random() * ms);
+}
+
+const SUPPORTED_FETCH_LANES = new Set(["direct", "zendesk_api", "mirror", "browser_hook"]);
+
+function normalizeFetchLane(value) {
+  return String(value || "").trim().toLowerCase();
+}
+
+function normalizeFetchLaneList(values) {
+  if (!Array.isArray(values)) return [];
+  const unique = [];
+  const seen = new Set();
+  for (const value of values) {
+    const lane = normalizeFetchLane(value);
+    if (!lane || !SUPPORTED_FETCH_LANES.has(lane) || seen.has(lane)) continue;
+    seen.add(lane);
+    unique.push(lane);
+  }
+  return unique;
+}
+
+function parseFetchLaneCsv(value) {
+  return normalizeFetchLaneList(String(value || "").split(","));
+}
+
+function getDefaultFetchLanes() {
+  const configured = parseFetchLaneCsv(CHECKER_CONFIG.fetchLaneDefault);
+  if (configured.length > 0) return configured;
+  if (CHECKER_CONFIG.browserHookUrl) {
+    return ["browser_hook", "direct", "zendesk_api", "mirror"];
+  }
+  return ["direct", "zendesk_api", "mirror"];
+}
+
+function getVendorFetchLanes(vendorConfig) {
+  const configured = normalizeFetchLaneList(vendorConfig?.fetch_lanes);
+  if (configured.length > 0) return configured;
+  return getDefaultFetchLanes();
+}
+
+function normalizeTier1VendorList(value) {
+  if (!Array.isArray(value)) return [];
+  const unique = [];
+  const seen = new Set();
+  for (const vendorRaw of value) {
+    const vendor = String(vendorRaw || "").trim();
+    if (!vendor || seen.has(vendor)) continue;
+    seen.add(vendor);
+    unique.push(vendor);
+  }
+  return unique;
+}
+
+function loadTier1VendorsConfig() {
+  const raw = readJson(POLICY_TIER1_VENDORS_PATH, {});
+  const defaults = normalizeTier1VendorList(raw?.default);
+  const byPolicy = {};
+  for (const policyType of POLICY_COUNT_KEYS) {
+    byPolicy[policyType] = normalizeTier1VendorList(raw?.[policyType]);
+  }
+  return { default: defaults, byPolicy };
+}
+
+function getTier1TargetForPolicy(policyType, availableVendors, tier1Config) {
+  const defaultVendors = tier1Config?.default || [];
+  const policyVendors = tier1Config?.byPolicy?.[policyType] || [];
+  const configured = normalizeTier1VendorList([...defaultVendors, ...policyVendors]);
+  const available = new Set(Array.isArray(availableVendors) ? availableVendors : []);
+  const target = configured.filter((vendor) => available.has(vendor));
+  const missingConfigured = configured.filter((vendor) => !available.has(vendor));
+  return { configured, target, missingConfigured };
 }
 
 function utcIsoTimestamp(date = new Date()) {
@@ -1217,6 +1293,89 @@ async function fetchText(url, attempts = 3) {
   return { text: null, error: lastErrorMessage };
 }
 
+async function fetchBrowserHookText({ url, vendor, policyType }, attempts = 1) {
+  if (!CHECKER_CONFIG.browserHookUrl) {
+    return { text: null, error: "browser_hook_disabled", skipped: true };
+  }
+  const target = String(url || "").trim();
+  if (!target) {
+    return { text: null, error: "missing source URL" };
+  }
+
+  let lastErrorMessage = "unknown";
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), CHECKER_CONFIG.timeoutMs);
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json,text/plain;q=0.9,*/*;q=0.8",
+        "User-Agent": USER_AGENTS[(attempt - 1) % USER_AGENTS.length],
+      };
+      if (CHECKER_CONFIG.browserHookToken) {
+        headers.Authorization = `Bearer ${CHECKER_CONFIG.browserHookToken}`;
+        headers["x-hook-token"] = CHECKER_CONFIG.browserHookToken;
+      }
+
+      const response = await fetch(CHECKER_CONFIG.browserHookUrl, {
+        method: "POST",
+        signal: controller.signal,
+        headers,
+        body: JSON.stringify({
+          url: target,
+          vendor: String(vendor || "").trim(),
+          policy_type: String(policyType || "").trim(),
+          timeout_ms: CHECKER_CONFIG.timeoutMs,
+        }),
+      });
+      if (!response.ok) {
+        lastErrorMessage = `HTTP ${response.status}`;
+        throw new Error(lastErrorMessage);
+      }
+
+      const contentType = String(response.headers.get("content-type") || "").toLowerCase();
+      if (contentType.includes("application/json")) {
+        const payload = await response.json().catch(() => null);
+        const textCandidate = typeof payload?.text === "string" ? payload.text : "";
+        if (!textCandidate.trim()) {
+          lastErrorMessage = "missing text in browser hook response";
+          throw new Error(lastErrorMessage);
+        }
+        return {
+          text: textCandidate,
+          sourceUrl: String(payload?.source_url || payload?.final_url || target).trim() || target,
+          sourceMetadata: {
+            source_kind: "browser_hook",
+            source_provider: String(payload?.provider || "browser_hook").trim(),
+            source_status: String(payload?.status || "").trim(),
+          },
+        };
+      }
+
+      const text = await response.text();
+      if (!text || !text.trim()) {
+        lastErrorMessage = "empty body";
+        throw new Error(lastErrorMessage);
+      }
+      return {
+        text,
+        sourceUrl: target,
+        sourceMetadata: { source_kind: "browser_hook" },
+      };
+    } catch (error) {
+      const message = error?.name === "AbortError" ? "timeout" : error?.message || "request failed";
+      lastErrorMessage = message;
+      if (attempt < attempts) {
+        await sleep(450 * attempt + jitter(250));
+      }
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  return { text: null, error: lastErrorMessage };
+}
+
 function toJinaMirrorUrl(url) {
   try {
     const parsed = new URL(url);
@@ -1313,54 +1472,123 @@ function buildCandidateUrls(vendorConfig) {
   return [...candidateSet];
 }
 
-async function fetchWithFallback(vendorConfig) {
-  const candidates = buildCandidateUrls(vendorConfig);
-  if (candidates.length === 0) {
-    return { text: null, error: "missing source URL" };
-  }
-
-  const failures = [];
-  for (const candidateUrl of candidates) {
+async function attemptFetchLane({ lane, candidateUrl, context }) {
+  if (lane === "direct") {
     const directResult = await fetchText(candidateUrl, CHECKER_CONFIG.directAttempts);
     if (typeof directResult === "string") {
       const interstitialReason = detectFetchInterstitial(directResult);
       if (!interstitialReason) {
-        return { text: directResult, sourceUrl: candidateUrl };
+        return { ok: true, text: directResult, sourceUrl: candidateUrl };
       }
-      failures.push(`${candidateUrl} (interstitial:${interstitialReason})`);
-    } else {
-      failures.push(`${candidateUrl} (${directResult.error})`);
+      return { ok: false, error: `interstitial:${interstitialReason}` };
     }
+    return { ok: false, error: directResult.error || "request failed" };
+  }
 
+  if (lane === "zendesk_api") {
     const zendeskApiUrl = toZendeskArticleApiUrl(candidateUrl);
-    if (zendeskApiUrl) {
-      const zendeskResult = await fetchZendeskArticleJson(zendeskApiUrl, CHECKER_CONFIG.fallbackAttempts);
-      if (zendeskResult?.text) {
-        return {
-          text: zendeskResult.text,
-          sourceUrl: zendeskResult.sourceUrl || candidateUrl,
-          sourceMetadata: zendeskResult.sourceMetadata || {},
-        };
-      }
-      failures.push(`${candidateUrl} [zendesk_api] (${zendeskResult.error || "request failed"})`);
+    if (!zendeskApiUrl) {
+      return { ok: false, skip: true };
     }
+    const zendeskResult = await fetchZendeskArticleJson(zendeskApiUrl, CHECKER_CONFIG.fallbackAttempts);
+    if (zendeskResult?.text) {
+      return {
+        ok: true,
+        text: zendeskResult.text,
+        sourceUrl: zendeskResult.sourceUrl || candidateUrl,
+        sourceMetadata: zendeskResult.sourceMetadata || {},
+      };
+    }
+    return { ok: false, error: zendeskResult.error || "request failed" };
+  }
 
+  if (lane === "mirror") {
     const mirrorUrl = toJinaMirrorUrl(candidateUrl);
-    if (!mirrorUrl) continue;
-
+    if (!mirrorUrl) {
+      return { ok: false, skip: true };
+    }
     const mirrorResult = await fetchText(mirrorUrl, CHECKER_CONFIG.fallbackAttempts);
     if (typeof mirrorResult === "string") {
       const interstitialReason = detectFetchInterstitial(mirrorResult);
       if (!interstitialReason) {
-        return { text: mirrorResult, sourceUrl: candidateUrl };
+        return { ok: true, text: mirrorResult, sourceUrl: candidateUrl };
       }
-      failures.push(`${candidateUrl} [mirror] (interstitial:${interstitialReason})`);
-    } else {
-      failures.push(`${candidateUrl} [mirror] (${mirrorResult.error})`);
+      return { ok: false, error: `interstitial:${interstitialReason}` };
+    }
+    return { ok: false, error: mirrorResult.error || "request failed" };
+  }
+
+  if (lane === "browser_hook") {
+    const browserResult = await fetchBrowserHookText(
+      {
+        url: candidateUrl,
+        vendor: context?.vendor || "",
+        policyType: context?.policyType || "",
+      },
+      CHECKER_CONFIG.browserHookAttempts
+    );
+    if (browserResult?.skipped) {
+      return { ok: false, skip: true };
+    }
+    if (browserResult?.text) {
+      const interstitialReason = detectFetchInterstitial(browserResult.text);
+      if (!interstitialReason) {
+        return {
+          ok: true,
+          text: browserResult.text,
+          sourceUrl: browserResult.sourceUrl || candidateUrl,
+          sourceMetadata: browserResult.sourceMetadata || {},
+        };
+      }
+      return { ok: false, error: `interstitial:${interstitialReason}` };
+    }
+    return { ok: false, error: browserResult?.error || "request failed" };
+  }
+
+  return { ok: false, skip: true };
+}
+
+async function fetchWithFallback(vendorConfig, context = {}) {
+  const candidates = buildCandidateUrls(vendorConfig);
+  if (candidates.length === 0) {
+    return { text: null, error: "missing source URL" };
+  }
+  const lanes = getVendorFetchLanes(vendorConfig);
+  if (lanes.length === 0) {
+    return { text: null, error: "no fetch lanes configured", attemptedLanes: [] };
+  }
+
+  const failures = [];
+  const attemptedLanes = [];
+  const attemptedLaneSet = new Set();
+  for (const candidateUrl of candidates) {
+    for (const lane of lanes) {
+      if (!attemptedLaneSet.has(lane)) {
+        attemptedLaneSet.add(lane);
+        attemptedLanes.push(lane);
+      }
+      const laneResult = await attemptFetchLane({ lane, candidateUrl, context });
+      if (laneResult?.skip) {
+        continue;
+      }
+      if (laneResult?.ok && typeof laneResult.text === "string" && laneResult.text.trim()) {
+        return {
+          text: laneResult.text,
+          sourceUrl: laneResult.sourceUrl || candidateUrl,
+          sourceMetadata: laneResult.sourceMetadata || {},
+          fetchLane: lane,
+          attemptedLanes,
+        };
+      }
+      failures.push(`${candidateUrl} [${lane}] (${laneResult?.error || "request failed"})`);
     }
   }
 
-  return { text: null, error: failures.join("; ") };
+  return {
+    text: null,
+    error: failures.length > 0 ? failures.join("; ") : "no applicable fetch lanes",
+    attemptedLanes,
+  };
 }
 
 async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, coveragePath, semanticPath, rulesFile }) {
@@ -1468,9 +1696,12 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     return coverageVendors[vendor];
   };
 
-  const markSuccessfulFetch = (vendor, whenUtc) => {
+  const markSuccessfulFetch = (vendor, whenUtc, fetchLane = "") => {
     const coverage = ensureCoverageEntry(vendor);
     coverage.last_successful_fetch_utc = whenUtc;
+    if (fetchLane) {
+      coverage.last_successful_fetch_lane = fetchLane;
+    }
   };
 
   const markConfirmedChange = (vendor, whenUtc) => {
@@ -1625,7 +1856,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     const batch = vendors.slice(i, i + batchSize);
     await Promise.all(
       batch.map(async ([vendor, vendorConfig]) => {
-        const fetchResult = await fetchWithFallback(vendorConfig);
+        const fetchResult = await fetchWithFallback(vendorConfig, { vendor, policyType: name });
         if (!fetchResult.text) {
           errors.push(vendor);
           errorReasons[vendor] = fetchResult.error || "request failed";
@@ -1638,6 +1869,11 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           const isFetchBlocked = nextFailureStreak >= getFetchFailureQuarantineStreak();
           coverage.last_fetch_failure_utc = failureAtUtc;
           coverage.last_fetch_failure_reason = fetchResult.error || "request failed";
+          if (Array.isArray(fetchResult.attemptedLanes) && fetchResult.attemptedLanes.length > 0) {
+            coverage.last_fetch_failure_lanes = fetchResult.attemptedLanes.join(",");
+          } else {
+            delete coverage.last_fetch_failure_lanes;
+          }
           coverage.consecutive_fetch_failures = nextFailureStreak;
           coverage.pending_fetch_blocked = isFetchBlocked;
           if (isFetchBlocked) {
@@ -1660,10 +1896,11 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         const h = hash(normalized || fetchResult.text);
         successfulChecks += 1;
         const fetchedAtUtc = utcIsoTimestamp();
-        markSuccessfulFetch(vendor, fetchedAtUtc);
+        markSuccessfulFetch(vendor, fetchedAtUtc, fetchResult.fetchLane || "");
         const coverage = ensureCoverageEntry(vendor);
         delete coverage.last_fetch_failure_utc;
         delete coverage.last_fetch_failure_reason;
+        delete coverage.last_fetch_failure_lanes;
         coverage.consecutive_fetch_failures = 0;
         coverage.pending_fetch_blocked = false;
         delete coverage.pending_fetch_blocked_reason;
@@ -1899,20 +2136,26 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             };
           }
 
-          const recheckResult = await fetchWithFallback(metadata.vendorConfig);
+          const recheckResult = await fetchWithFallback(metadata.vendorConfig, { vendor, policyType: name });
           if (!recheckResult.text) {
             recheckFetchFailureSet.add(vendor);
             const coverage = ensureCoverageEntry(vendor);
             coverage.last_fetch_failure_utc = utcIsoTimestamp();
             coverage.last_fetch_failure_reason = recheckResult.error || "request failed";
+            if (Array.isArray(recheckResult.attemptedLanes) && recheckResult.attemptedLanes.length > 0) {
+              coverage.last_fetch_failure_lanes = recheckResult.attemptedLanes.join(",");
+            } else {
+              delete coverage.last_fetch_failure_lanes;
+            }
             return;
           }
 
           const fetchedAtUtc = utcIsoTimestamp();
-          markSuccessfulFetch(vendor, fetchedAtUtc);
+          markSuccessfulFetch(vendor, fetchedAtUtc, recheckResult.fetchLane || "");
           const coverage = ensureCoverageEntry(vendor);
           delete coverage.last_fetch_failure_utc;
           delete coverage.last_fetch_failure_reason;
+          delete coverage.last_fetch_failure_lanes;
 
           const normalized = normalizeFetchedText(recheckResult.text, name, vendor);
           const h = hash(normalized || recheckResult.text);
@@ -2186,6 +2429,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
 
   return {
     name,
+    vendorKeys: vendors.map(([vendor]) => vendor).sort((a, b) => a.localeCompare(b)),
     observedChanged,
     materialChanged,
     materialRepeatSuppressed,
@@ -2217,6 +2461,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
 }
 
 async function main() {
+  const tier1Config = loadTier1VendorsConfig();
   const allObservedChanged = [];
   const allMaterialChanged = [];
   const allMaterialRepeatSuppressed = [];
@@ -2231,11 +2476,34 @@ async function main() {
   const allVolatilePending = [];
   const allEscalatedPending = [];
   const allCoverageGaps = [];
+  const allTier1Failed = [];
+  const allTier1MissingConfigured = [];
   const pendingDetailByPolicy = {};
   const escalationDetailByPolicy = {};
+  const tier1ByPolicy = {};
 
   for (const policySet of POLICY_SETS) {
     const result = await checkPolicySet(policySet);
+    const tier1Target = getTier1TargetForPolicy(result.name, result.vendorKeys || [], tier1Config);
+    const errorSet = new Set(result.errors || []);
+    const tier1FailedVendors = tier1Target.target.filter((vendor) => errorSet.has(vendor));
+    const tier1FetchedVendors = tier1Target.target.filter((vendor) => !errorSet.has(vendor));
+    tier1ByPolicy[result.name] = {
+      total: tier1Target.target.length,
+      fetched: tier1FetchedVendors.length,
+      failed: tier1FailedVendors.length,
+    };
+    for (const vendor of tier1FailedVendors) {
+      allTier1Failed.push({ policyType: result.name, vendor });
+    }
+    for (const vendor of tier1Target.missingConfigured) {
+      allTier1MissingConfigured.push({ policyType: result.name, vendor });
+    }
+    if (tier1FailedVendors.length > 0) {
+      console.log(
+        `::notice::${result.name}: tier1_failed=${tier1FailedVendors.length}; vendors: ${tier1FailedVendors.join(", ")}`
+      );
+    }
 
     if (result.errors.length > 0) {
       console.log(`::warning::Could not fetch ${result.errors.length} ${result.name} vendor(s): ${result.errors.join(", ")}`);
@@ -2508,6 +2776,24 @@ async function main() {
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
   const fetchHealthStatus = allErrors.length > 0 ? "degraded" : "healthy";
+  const tier1Total = Object.values(tier1ByPolicy).reduce((sum, value) => sum + Number(value.total || 0), 0);
+  const tier1Fetched = Object.values(tier1ByPolicy).reduce((sum, value) => sum + Number(value.fetched || 0), 0);
+  const tier1Failed = Object.values(tier1ByPolicy).reduce((sum, value) => sum + Number(value.failed || 0), 0);
+  const tier1CoveragePct = tier1Total > 0 ? ((tier1Fetched / tier1Total) * 100).toFixed(2) : "0.00";
+  const tier1ByPolicyValue = POLICY_COUNT_KEYS
+    .map((policyType) => {
+      const stats = tier1ByPolicy[policyType] || { fetched: 0, total: 0, failed: 0 };
+      return `${policyType}:${stats.fetched}/${stats.total}`;
+    })
+    .join(",");
+  const tier1FailedSample = allTier1Failed
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const tier1MissingConfiguredSample = allTier1MissingConfigured
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
   const generatedAtUtc = utcIsoTimestamp();
   const changedDateUtc = generatedAtUtc.slice(0, 10);
   let alertFeedPublishState = {
@@ -2567,6 +2853,14 @@ async function main() {
   console.log(`FETCH_FAILURE_BY_POLICY=${fetchFailureByPolicy}`);
   console.log(`FETCH_FAILURE_SAMPLE=${fetchFailureSample}`);
   console.log(`FETCH_HEALTH_STATUS=${fetchHealthStatus}`);
+  console.log(`TIER1_TOTAL=${tier1Total}`);
+  console.log(`TIER1_FETCHED=${tier1Fetched}`);
+  console.log(`TIER1_FAILED=${tier1Failed}`);
+  console.log(`TIER1_COVERAGE_PCT=${tier1CoveragePct}`);
+  console.log(`TIER1_BY_POLICY=${tier1ByPolicyValue}`);
+  console.log(`TIER1_FAILED_SAMPLE=${tier1FailedSample}`);
+  console.log(`TIER1_MISSING_CONFIGURED_COUNT=${allTier1MissingConfigured.length}`);
+  console.log(`TIER1_MISSING_CONFIGURED_SAMPLE=${tier1MissingConfiguredSample}`);
 
   console.log(`PENDING_COUNT=${allPending.length}`);
   console.log(`PENDING_BY_POLICY=${pendingByPolicy}`);

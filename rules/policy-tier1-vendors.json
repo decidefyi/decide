@@ -1,0 +1,28 @@
+{
+  "default": [
+    "adobe",
+    "amazon_prime",
+    "apple_app_store",
+    "chatgpt_plus",
+    "claude_pro",
+    "disney_plus",
+    "dropbox_us",
+    "evernote",
+    "figma",
+    "github_pro",
+    "google_play",
+    "hulu",
+    "linkedin_premium",
+    "netflix",
+    "notion",
+    "spotify",
+    "telegram_premium",
+    "uber_one",
+    "youtube_premium",
+    "zoom"
+  ],
+  "refund": [],
+  "cancel": [],
+  "return": [],
+  "trial": []
+}
