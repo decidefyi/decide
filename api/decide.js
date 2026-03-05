@@ -120,6 +120,37 @@ function safeEqualToken(left, right) {
   return timingSafeEqual(aBuf, bBuf);
 }
 
+function parseFlag(value) {
+  const normalized = String(value || "").trim().toLowerCase();
+  return normalized === "1" || normalized === "true" || normalized === "yes" || normalized === "on";
+}
+
+function readTrustedProxyContext(req) {
+  const expectedProxyToken = String(process.env.DECIDE_PROXY_SHARED_TOKEN || "").trim();
+  const providedProxyToken = readHeader(req, "x-decide-proxy-token");
+  const trusted = expectedProxyToken && safeEqualToken(expectedProxyToken, providedProxyToken);
+
+  if (!trusted) {
+    return {
+      trusted: false,
+      bypassRateLimit: false,
+      clientIp: "",
+      keyHash: "",
+      plan: "",
+      customerId: "",
+    };
+  }
+
+  return {
+    trusted: true,
+    bypassRateLimit: parseFlag(readHeader(req, "x-decide-rate-limit-bypass")),
+    clientIp: readHeader(req, "x-decide-client-ip"),
+    keyHash: readHeader(req, "x-decide-client-key-hash"),
+    plan: readHeader(req, "x-decide-plan"),
+    customerId: readHeader(req, "x-decide-customer-id"),
+  };
+}
+
 function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
   res.statusCode = statusCode;
   res.setHeader("Content-Type", "application/json");
@@ -139,6 +170,7 @@ function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
 export default async function handler(req, res) {
   const request_id = rid();
   const ua = req.headers["user-agent"] || "unknown";
+  const proxyContext = readTrustedProxyContext(req);
 
   // CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -157,9 +189,9 @@ export default async function handler(req, res) {
     return;
   }
 
-  const clientIp = getClientIp(req);
+  const clientIp = proxyContext.clientIp || getClientIp(req);
   const decideApiKey = String(process.env.DECIDE_API_KEY || "").trim();
-  if (decideApiKey) {
+  if (decideApiKey && !proxyContext.trusted) {
     const providedApiToken = readApiToken(req);
     if (!safeEqualToken(providedApiToken, decideApiKey)) {
       res.setHeader("WWW-Authenticate", 'Bearer realm="decide-api"');
@@ -180,13 +212,24 @@ export default async function handler(req, res) {
     }
   }
 
-  const rateLimitResult = rateLimiter(clientIp);
-  if (!rateLimitResult.allowed) {
-    sendRateLimitError(res, rateLimitResult, request_id);
-    await persistLog("decide_request", { request_id, event: "rate_limit_exceeded", ip: clientIp, ua });
-    return;
+  const rateLimitKey = proxyContext.keyHash || clientIp;
+  if (!proxyContext.bypassRateLimit) {
+    const rateLimitResult = rateLimiter(rateLimitKey);
+    if (!rateLimitResult.allowed) {
+      sendRateLimitError(res, rateLimitResult, request_id);
+      await persistLog("decide_request", {
+        request_id,
+        event: "rate_limit_exceeded",
+        ip: clientIp,
+        ua,
+        trusted_proxy: proxyContext.trusted,
+        decide_plan: proxyContext.plan || undefined,
+        customer_id: proxyContext.customerId || undefined,
+      });
+      return;
+    }
+    addRateLimitHeaders(res, rateLimitResult);
   }
-  addRateLimitHeaders(res, rateLimitResult);
 
   try {
     let body = req.body || {};
@@ -322,7 +365,19 @@ Rules:
       };
 
       sendDecisionJson(res, 200, payload, { mode: "multi", question, stem, options });
-      await persistLog("decide_multi_request", { request_id, stem, winner_index, tie, tie_indices, scores, ip: clientIp, ua });
+      await persistLog("decide_multi_request", {
+        request_id,
+        stem,
+        winner_index,
+        tie,
+        tie_indices,
+        scores,
+        ip: clientIp,
+        ua,
+        trusted_proxy: proxyContext.trusted,
+        decide_plan: proxyContext.plan || undefined,
+        customer_id: proxyContext.customerId || undefined,
+      });
       return;
     }
 
@@ -336,7 +391,16 @@ Rules:
     if (isFinanceAdvice(nq) || isMedicalAdvice(nq) || isLegalAdvice(nq)) {
       const category = isFinanceAdvice(nq) ? "finance" : isMedicalAdvice(nq) ? "medical" : "legal";
       sendDecisionJson(res, 200, { c: "filtered", v: `Cannot provide ${category} advice`, request_id }, { mode: "single", question: q });
-      await persistLog("decide_request", { request_id, event: "filtered_question", category, ip: clientIp, ua });
+      await persistLog("decide_request", {
+        request_id,
+        event: "filtered_question",
+        category,
+        ip: clientIp,
+        ua,
+        trusted_proxy: proxyContext.trusted,
+        decide_plan: proxyContext.plan || undefined,
+        customer_id: proxyContext.customerId || undefined,
+      });
       return;
     }
 
@@ -373,7 +437,16 @@ Output exactly one of: yes, no`;
       sendDecisionJson(res, 200, { c: "unclear", v: "try again", request_id }, { mode: "single", question: q });
     }
 
-    await persistLog("decide_request", { request_id, method: req.method, verdict: out, ip: clientIp, ua });
+    await persistLog("decide_request", {
+      request_id,
+      method: req.method,
+      verdict: out,
+      ip: clientIp,
+      ua,
+      trusted_proxy: proxyContext.trusted,
+      decide_plan: proxyContext.plan || undefined,
+      customer_id: proxyContext.customerId || undefined,
+    });
   } catch (err) {
     console.error(
       JSON.stringify({

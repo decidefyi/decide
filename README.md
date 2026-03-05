@@ -355,6 +355,11 @@ All 4 policy servers are free to use. No authentication. No API keys.
 
 `/api/decide` is public by default, and can be protected by setting `DECIDE_API_KEY` in server env vars.
 
+If you run `decide` behind the `decidesite` proxy with dynamic customer keys, also set:
+
+- `DECIDE_PROXY_SHARED_TOKEN`: shared secret required in `x-decide-proxy-token` header for trusted proxy calls.
+- `DECIDE_API_KEY`: backend internal key that the trusted proxy forwards upstream (recommended to keep backend private).
+
 Rate limit: 100 requests/minute per IP.
 
 Questions? [decidefyi@gmail.com](mailto:decidefyi@gmail.com) or [@decidefyi on X](https://x.com/decidefyi)
