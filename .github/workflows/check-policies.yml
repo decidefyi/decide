@@ -29,6 +29,41 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Restore latest policy baseline from aggregation branch
+        run: |
+          set +e
+          artifact_branch="policy-updates/aggregate"
+          files=(
+            rules/policy-hashes.json
+            rules/cancel-policy-hashes.json
+            rules/return-policy-hashes.json
+            rules/trial-policy-hashes.json
+            rules/policy-sources.json
+            rules/cancel-policy-sources.json
+            rules/return-policy-sources.json
+            rules/trial-policy-sources.json
+            rules/policy-alert-feed.json
+          )
+
+          git fetch origin "${artifact_branch}" || {
+            echo "No aggregation branch baseline available yet."
+            exit 0
+          }
+
+          restored=0
+          for f in "${files[@]}"; do
+            if git cat-file -e "origin/${artifact_branch}:${f}" 2>/dev/null; then
+              git checkout "origin/${artifact_branch}" -- "$f"
+              restored=1
+            fi
+          done
+
+          if [ "$restored" -eq 1 ]; then
+            echo "Restored policy baseline from ${artifact_branch}."
+          else
+            echo "Aggregation branch exists but baseline files were not found."
+          fi
+
       - name: Check vendor policy pages
         id: check
         continue-on-error: true
@@ -163,19 +198,22 @@ jobs:
           set +e
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          files=(
+          publish_files=(
             rules/policy-hashes.json
             rules/cancel-policy-hashes.json
             rules/return-policy-hashes.json
             rules/trial-policy-hashes.json
-            rules/policy-change-candidates.json
-            rules/cancel-policy-change-candidates.json
-            rules/return-policy-change-candidates.json
-            rules/trial-policy-change-candidates.json
             rules/policy-sources.json
             rules/cancel-policy-sources.json
             rules/return-policy-sources.json
             rules/trial-policy-sources.json
+            rules/policy-alert-feed.json
+          )
+          internal_state_files=(
+            rules/policy-change-candidates.json
+            rules/cancel-policy-change-candidates.json
+            rules/return-policy-change-candidates.json
+            rules/trial-policy-change-candidates.json
             rules/policy-coverage-state.json
             rules/cancel-policy-coverage-state.json
             rules/return-policy-coverage-state.json
@@ -184,12 +222,11 @@ jobs:
             rules/cancel-policy-semantic-state.json
             rules/return-policy-semantic-state.json
             rules/trial-policy-semantic-state.json
-            rules/policy-alert-feed.json
             rules/policy-events.ndjson
           )
 
           existing=()
-          for f in "${files[@]}"; do
+          for f in "${publish_files[@]}"; do
             if [ -f "$f" ]; then
               existing+=("$f")
             fi
@@ -203,9 +240,41 @@ jobs:
 
           artifact_branch="policy-updates/aggregate"
           base_branch="${GITHUB_BASE_REF:-main}"
+          tmp_dir=$(mktemp -d)
+          cleanup() {
+            rm -rf "$tmp_dir"
+          }
+          trap cleanup EXIT
+
+          for f in "${existing[@]}"; do
+            mkdir -p "${tmp_dir}/$(dirname "$f")"
+            cp "$f" "${tmp_dir}/$f"
+          done
+
           git fetch origin "${base_branch}"
-          git checkout -B "${artifact_branch}" "origin/${base_branch}"
-          git add "${existing[@]}"
+          git fetch origin "${artifact_branch}" || true
+
+          if git show-ref --verify --quiet "refs/remotes/origin/${artifact_branch}"; then
+            git checkout -f -B "${artifact_branch}" "origin/${artifact_branch}"
+          else
+            git checkout -f -B "${artifact_branch}" "origin/${base_branch}"
+          fi
+
+          # Keep the aggregation PR scoped to publishable artifacts only.
+          for f in "${internal_state_files[@]}"; do
+            if git cat-file -e "origin/${base_branch}:${f}" 2>/dev/null; then
+              git checkout "origin/${base_branch}" -- "$f"
+            elif [ -f "$f" ]; then
+              git rm -f -- "$f" >/dev/null 2>&1 || true
+            fi
+          done
+
+          for f in "${existing[@]}"; do
+            mkdir -p "$(dirname "$f")"
+            cp "${tmp_dir}/$f" "$f"
+          done
+
+          git add -A rules
 
           if git diff --cached --quiet; then
             echo "No policy artifact changes to commit."
@@ -216,13 +285,14 @@ jobs:
           git commit -m "chore(policy): refresh policy artifacts [skip ci]"
           push_status=1
           for attempt in 1 2 3; do
-            git fetch origin "${artifact_branch}" || true
-            if git push --force-with-lease origin "${artifact_branch}"; then
+            if git push origin "${artifact_branch}"; then
               push_status=0
               break
             fi
             if [ "$attempt" -lt 3 ]; then
               echo "::warning::Push attempt ${attempt} to ${artifact_branch} failed; retrying."
+              git fetch origin "${artifact_branch}" || true
+              git rebase "origin/${artifact_branch}" || git rebase --abort || true
               sleep "${attempt}"
             fi
           done

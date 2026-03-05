@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-05T19:27:08Z",
+  "updated_utc": "2026-03-02T06:59:03Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -7,18 +7,7 @@
       "hash": "7710a49d47f57e29",
       "source_url": "https://1password.com/sign-up",
       "extracted_at_utc": "2026-02-19T23:34:35Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "amazon_music_unlimited": {
       "hash": "68b9c2575d630fc0",
@@ -30,86 +19,31 @@
       "hash": "0cefd9fe1290780e",
       "source_url": "https://www.adobe.com/creativecloud/plans.html",
       "extracted_at_utc": "2026-02-19T23:35:12Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "apple_app_store": {
       "hash": "91882bfe2276dfad",
       "source_url": "https://support.apple.com/en-us/118223",
       "extracted_at_utc": "2026-02-19T23:35:12Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "apple_arcade": {
       "hash": "87314795832633cc",
       "source_url": "https://www.apple.com/apple-arcade/",
       "extracted_at_utc": "2026-02-19T23:35:13Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "amazon_prime": {
       "hash": "7a2bfd93bfca2814",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
       "extracted_at_utc": "2026-03-01T12:40:11Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "apple_music": {
       "hash": "053fb59b3a00f18c",
       "source_url": "https://www.apple.com/apple-music/",
       "extracted_at_utc": "2026-02-25T19:04:20Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "apple_tv_plus": {
       "hash": "0162fb9fe559644a",
@@ -118,18 +52,7 @@
       "tokens": [
         "trial_window_days:7",
         "trial_window_days:90"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "audible": {
       "hash": "9db961e6d4f188fc",
@@ -141,52 +64,19 @@
       "hash": "3d96b9358dc5c176",
       "source_url": "https://bitwarden.com/pricing/",
       "extracted_at_utc": "2026-02-26T07:00:16Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "bumble": {
       "hash": "70cea0b9151fda52",
       "source_url": "https://bumble.com/en-us/the-buzz/bumble-premium",
       "extracted_at_utc": "2026-02-19T23:35:22Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "calm": {
       "hash": "e766e2ac066061aa",
       "source_url": "https://www.calm.com/subscribe",
       "extracted_at_utc": "2026-02-19T23:35:24Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "claude_pro": {
       "hash": "fff53cc5006a0a31",
@@ -210,18 +100,7 @@
       "hash": "546c34d7a89ffb46",
       "source_url": "https://www.coursera.org/courseraplus",
       "extracted_at_utc": "2026-02-26T01:21:54Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "deezer": {
       "hash": "188275d3f6edae21",
@@ -230,35 +109,13 @@
       "tokens": [
         "trial_window_days:30",
         "trial_window_days:7"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "discord_nitro": {
       "hash": "b2cc96111a90e2dd",
       "source_url": "https://discord.com/nitro",
       "extracted_at_utc": "2026-02-19T23:35:29Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "disney_plus": {
       "hash": "5b1fc566ddcc5ae1",
@@ -276,18 +133,7 @@
       "hash": "be6a999624b589e8",
       "source_url": "https://www.duolingo.com/super",
       "extracted_at_utc": "2026-02-19T23:35:30Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "dropbox_us": {
       "hash": "c609144e56e2f6f1",
@@ -295,18 +141,7 @@
       "extracted_at_utc": "2026-02-19T23:35:31Z",
       "tokens": [
         "trial_window_days:30"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "evernote": {
       "hash": "4384632937987f9b",
@@ -317,52 +152,19 @@
         "trial_window_days:7",
         "trial:auto_converts_to_paid",
         "trial:cancel_before_end"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "figma": {
       "hash": "8e8468579a34db86",
       "source_url": "https://www.figma.com/pricing/",
       "extracted_at_utc": "2026-02-19T23:35:32Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "expressvpn": {
       "hash": "2888e2754cfa3355",
       "source_url": "https://www.expressvpn.com/order",
       "extracted_at_utc": "2026-03-02T06:56:34Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "github_pro": {
       "hash": "f73aa1330677bbcb",
@@ -371,35 +173,13 @@
       "tokens": [
         "trial_window_days:30",
         "trial_window_days:360"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "fubo_tv": {
       "hash": "730cfac095b9423b",
       "source_url": "https://www.fubo.tv/welcome",
       "extracted_at_utc": "2026-02-19T23:35:34Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "grammarly": {
       "hash": "26791c8310c0a959",
@@ -407,35 +187,13 @@
       "extracted_at_utc": "2026-02-19T23:35:35Z",
       "tokens": [
         "billing:prorated"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "google_play": {
       "hash": "b5cf2e31119e8d8d",
       "source_url": "https://support.google.com/googleplay/answer/7018481",
       "extracted_at_utc": "2026-02-19T23:35:35Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "headspace": {
       "hash": "17a9980875628a18",
@@ -459,69 +217,25 @@
       "hash": "12dd44bb8ff498c8",
       "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
       "extracted_at_utc": "2026-02-26T07:00:33Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "icloud_plus": {
       "hash": "6be02ea27b3b27c1",
       "source_url": "https://support.apple.com/en-us/108052",
       "extracted_at_utc": "2026-02-19T23:35:41Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "kindle_unlimited": {
       "hash": "354bf928cf1aaf25",
       "source_url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku",
       "extracted_at_utc": "2026-02-19T23:35:41Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "instacart_plus": {
       "hash": "f93d706434bd5225",
       "source_url": "https://www.instacart.com/store/instacart-plus",
       "extracted_at_utc": "2026-02-19T23:35:44Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "linkedin_premium": {
       "hash": "a614ae0b90b19141",
@@ -529,52 +243,19 @@
       "extracted_at_utc": "2026-02-19T23:35:44Z",
       "tokens": [
         "trial_window_days:360"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "max": {
       "hash": "98797ac813a3f0d3",
       "source_url": "https://www.max.com/",
       "extracted_at_utc": "2026-02-28T06:38:44Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "masterclass": {
       "hash": "e6d641115730b63f",
       "source_url": "https://www.masterclass.com/legal/terms",
       "extracted_at_utc": "2026-03-01T01:30:34Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "microsoft_365": {
       "hash": "9871730e5db07f70",
@@ -582,69 +263,25 @@
       "extracted_at_utc": "2026-02-19T23:35:50Z",
       "tokens": [
         "trial_window_days:30"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "netflix": {
       "hash": "9266dbce2122cbb1",
       "source_url": "https://www.netflix.com/signup",
       "extracted_at_utc": "2026-02-19T23:35:50Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "midjourney": {
       "hash": "b0e044ead39b017e",
       "source_url": "https://www.midjourney.com/home",
       "extracted_at_utc": "2026-02-19T23:35:52Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "noom": {
       "hash": "54e7088ed1b4551b",
       "source_url": "https://www.noom.com/",
       "extracted_at_utc": "2026-02-19T23:35:53Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "nintendo_switch_online": {
       "hash": "07c758a3be86f63b",
@@ -652,35 +289,13 @@
       "extracted_at_utc": "2026-02-28T01:15:38Z",
       "tokens": [
         "billing:auto_renew"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "paramount_plus": {
       "hash": "f5ae7288ed0f719e",
       "source_url": "https://www.paramountplus.com/",
       "extracted_at_utc": "2026-02-28T06:39:15Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "notion": {
       "hash": "09255b785f7fc90b",
@@ -688,18 +303,7 @@
       "extracted_at_utc": "2026-02-19T23:36:00Z",
       "tokens": [
         "billing:prorated"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "peloton": {
       "hash": "c5965fffd8b50842",
@@ -707,35 +311,13 @@
       "extracted_at_utc": "2026-02-19T23:36:32Z",
       "tokens": [
         "trial:payment_method_required"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "playstation_plus": {
       "hash": "4a6bcec92b6d2c66",
       "source_url": "https://store.playstation.com/en-us/category/ps-plus",
       "extracted_at_utc": "2026-02-19T23:36:32Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "proton": {
       "hash": "7eee55087667d851",
@@ -743,35 +325,13 @@
       "extracted_at_utc": "2026-03-01T06:47:35Z",
       "tokens": [
         "billing:auto_renew"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "scribd": {
       "hash": "ed8aa00d5a256dfd",
       "source_url": "https://www.scribd.com/subscribe",
       "extracted_at_utc": "2026-02-19T23:36:33Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "ring_protect": {
       "hash": "f844d5782fdca127",
@@ -785,52 +345,19 @@
       "hash": "93fce0170819948f",
       "source_url": "https://www.shutterstock.com/pricing",
       "extracted_at_utc": "2026-02-19T23:36:38Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "spotify": {
       "hash": "cb1d541475b18476",
       "source_url": "https://www.spotify.com/us/premium/",
       "extracted_at_utc": "2026-02-24T12:55:00Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "sling_tv": {
       "hash": "886ae9f832fefa12",
       "source_url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
       "extracted_at_utc": "2026-02-21T01:21:01Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "slack": {
       "hash": "da520986611c033e",
@@ -838,120 +365,43 @@
       "extracted_at_utc": "2026-02-19T23:36:39Z",
       "tokens": [
         "billing:prorated"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "squarespace": {
       "hash": "978e382932020217",
       "source_url": "https://www.squarespace.com/pricing",
       "extracted_at_utc": "2026-02-19T23:36:40Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "surfshark": {
       "hash": "482e6351013f4c7c",
       "source_url": "https://surfshark.com/pricing",
       "extracted_at_utc": "2026-02-19T23:36:40Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "tinder": {
       "hash": "1c3615d9e17f826e",
       "source_url": "https://tinder.com/feature/subscription-tiers",
       "extracted_at_utc": "2026-02-19T23:36:41Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "todoist": {
       "hash": "55c68b1a80268cfe",
       "source_url": "https://todoist.com/pricing",
       "extracted_at_utc": "2026-02-19T23:36:41Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "tidal": {
       "hash": "0e8b379821983a86",
       "source_url": "https://tidal.com/pricing",
       "extracted_at_utc": "2026-02-24T12:55:03Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "walmart_plus": {
       "hash": "a1db564ba162d3c1",
       "source_url": "https://www.walmart.com/plus",
       "extracted_at_utc": "2026-02-19T23:36:45Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "uber_one": {
       "hash": "c3255cd8b0a50462",
@@ -959,18 +409,7 @@
       "extracted_at_utc": "2026-02-21T01:21:08Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "xbox_game_pass": {
       "hash": "4c03cbf87c7f28b2",
@@ -984,35 +423,13 @@
       "hash": "1abafad9d4f4c488",
       "source_url": "https://www.wix.com/upgrade/website",
       "extracted_at_utc": "2026-02-19T23:36:47Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "youtube_premium": {
       "hash": "424b647972ef8510",
       "source_url": "https://www.youtube.com/premium",
       "extracted_at_utc": "2026-02-19T23:36:47Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "youtube_tv": {
       "hash": "86444114a1f1b6f6",
@@ -1020,69 +437,25 @@
       "extracted_at_utc": "2026-02-27T18:41:28Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "dashlane": {
       "hash": "fa83d0676efeb3f4",
       "source_url": "https://www.dashlane.com/pricing",
       "extracted_at_utc": "2026-02-19T23:36:48Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "lastpass": {
       "hash": "78d94a532a3359bc",
       "source_url": "https://www.lastpass.com/pricing",
       "extracted_at_utc": "2026-02-23T12:54:37Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "keeper": {
       "hash": "f8c89940eb18bd34",
       "source_url": "https://www.keepersecurity.com/pricing/personal-and-family.html",
       "extracted_at_utc": "2026-02-19T23:36:49Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "myfitnesspal_premium": {
       "hash": "70610a6305eb2b33",
@@ -1097,18 +470,7 @@
       "hash": "9e8e86f26ca1dd52",
       "source_url": "https://www.fitbit.com/global/us/products/services/premium",
       "extracted_at_utc": "2026-02-19T23:36:50Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "siriusxm": {
       "hash": "c500048500083645",
@@ -1117,18 +479,7 @@
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "trial:payment_method_required"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "weightwatchers": {
       "hash": "c895da3ebcc382ae",
@@ -1136,18 +487,7 @@
       "extracted_at_utc": "2026-02-19T23:36:51Z",
       "tokens": [
         "trial_window_days:180"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "patreon": {
       "hash": "5deb8e1ef09d50b3",
@@ -1159,103 +499,37 @@
       "hash": "c271f2df9b943cfd",
       "source_url": "https://www.roblox.com/premium/membership",
       "extracted_at_utc": "2026-02-19T23:36:57Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "ea_play": {
       "hash": "62a25f60f18a5db3",
       "source_url": "https://www.ea.com/ea-play",
       "extracted_at_utc": "2026-02-19T23:36:57Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "ubisoft_plus": {
       "hash": "aef6e514797ffb3b",
       "source_url": "https://store.ubisoft.com/us/ubisoftplus",
       "extracted_at_utc": "2026-02-19T23:36:57Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "nfl_plus": {
       "hash": "0287af11bc9a6715",
       "source_url": "https://www.nfl.com/plus/",
       "extracted_at_utc": "2026-02-19T23:36:58Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "new_york_times": {
       "hash": "85a7cdfc9e15947a",
       "source_url": "https://www.nytimes.com/subscription",
       "extracted_at_utc": "2026-02-19T23:36:58Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "mlb_tv": {
       "hash": "0f1308faef8761f0",
       "source_url": "https://www.mlb.com/live-stream-games/subscribe",
       "extracted_at_utc": "2026-02-23T19:04:30Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "wall_street_journal": {
       "hash": "ed5d276c68c229d2",
@@ -1272,18 +546,7 @@
       "extracted_at_utc": "2026-02-23T07:08:08Z",
       "tokens": [
         "flow:support_request"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "washington_post": {
       "hash": "c30363ea9c588163",
@@ -1295,86 +558,31 @@
       "hash": "03001a3f04989a6b",
       "source_url": "https://x.com/i/premium_sign_up",
       "extracted_at_utc": "2026-02-19T23:37:37Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "snapchat_plus": {
       "hash": "8422edc2c23478c2",
       "source_url": "https://www.snapchat.com/plus",
       "extracted_at_utc": "2026-02-19T23:37:38Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "reddit_premium": {
       "hash": "f7d1a14f0e2d7430",
       "source_url": "https://www.reddit.com/premium",
       "extracted_at_utc": "2026-02-19T23:37:41Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "discovery_plus": {
       "hash": "1d8c0959540e93c4",
       "source_url": "https://www.discoveryplus.com/",
       "extracted_at_utc": "2026-02-23T19:04:34Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "telegram_premium": {
       "hash": "857f9ce3b690e047",
       "source_url": "https://telegram.org/premium",
       "extracted_at_utc": "2026-03-01T18:34:10Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "soundcloud_go": {
       "hash": "bf6f426a2126312f",
@@ -1390,18 +598,7 @@
         "billing:prorated",
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "britbox": {
       "hash": "abde46f4fa373e5a",
@@ -1419,18 +616,7 @@
       "hash": "21c03864945efe64",
       "source_url": "https://zoom.us/pricing",
       "extracted_at_utc": "2026-02-19T23:37:45Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     },
     "google_one": {
       "hash": "47fe303a75ca7032",
@@ -1445,18 +631,7 @@
       "tokens": [
         "trial_window_days:2",
         "trial_window_days:30"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      ]
     },
     "espn_plus": {
       "hash": "164925f5775f0f99",
@@ -1486,18 +661,7 @@
       "hash": "8c8b2a79919eaa19",
       "source_url": "https://www.canva.com/pro/",
       "extracted_at_utc": "2026-02-21T01:19:11Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": ""
+      "tokens": []
     }
   }
 }
