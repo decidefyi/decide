@@ -1,15 +1,49 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-03-02T06:59:03Z",
+  "updated_utc": "2026-03-05T19:27:08Z",
   "source": "check-policies.js",
   "alerts": [
+    {
+      "date_utc": "2026-03-05",
+      "generated_at_utc": "2026-03-05T19:27:08Z",
+      "changed_count": 0,
+      "by_policy": {
+        "cancel": 0,
+        "refund": 0,
+        "return": 0,
+        "trial": 0
+      },
+      "changed_sample": [],
+      "pending_count": 103,
+      "pending_by_policy": {
+        "cancel": 34,
+        "refund": 24,
+        "return": 24,
+        "trial": 21
+      },
+      "fetch_blocked_pending_count": 0,
+      "stale_pending_count": 20,
+      "volatile_pending_count": 15,
+      "escalation_count": 14,
+      "coverage_gap_count": 0,
+      "quality_gate_held_count": 81,
+      "metadata_stability_held_count": 0,
+      "material_oscillation_suppressed_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22732298820",
+      "run_id": "22732298820",
+      "run_attempt": "1",
+      "commit_sha": "8fedf9d9991a9b217c2c3d81a7b094b328701ca4",
+      "source": "check-policies.js",
+      "by_policy_signature": "cancel:0,refund:0,return:0,trial:0",
+      "alert_signature": "b8e5b635d4f09979"
+    },
     {
       "date_utc": "2026-03-02",
       "generated_at_utc": "2026-03-02T06:59:03Z",
       "changed_count": 1,
       "by_policy": {
-        "refund": 1,
         "cancel": 0,
+        "refund": 1,
         "return": 0,
         "trial": 0
       },
@@ -18,8 +52,8 @@
       ],
       "pending_count": 26,
       "pending_by_policy": {
-        "refund": 5,
         "cancel": 11,
+        "refund": 5,
         "return": 6,
         "trial": 4
       },
@@ -31,23 +65,25 @@
       "run_id": "22564584370",
       "run_attempt": "1",
       "commit_sha": "a98484747aed6931dcb78fadbe1a2b697d348661",
-      "source": "check-policies.js"
+      "source": "check-policies.js",
+      "by_policy_signature": "cancel:0,refund:1,return:0,trial:0",
+      "alert_signature": "61c2c9d21ae5b27e"
     },
     {
       "date_utc": "2026-03-01",
       "generated_at_utc": "2026-03-01T23:54:02Z",
       "changed_count": 0,
       "by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
       "changed_sample": [],
       "pending_count": 22,
       "pending_by_policy": {
-        "refund": 3,
         "cancel": 10,
+        "refund": 3,
         "return": 5,
         "trial": 4
       },
@@ -59,15 +95,17 @@
       "run_id": "22555564028",
       "run_attempt": "1",
       "commit_sha": "d1d4abe57b109cc887988c37e2bb1633702bb994",
-      "source": "check-policies.js"
+      "source": "check-policies.js",
+      "by_policy_signature": "cancel:0,refund:0,return:0,trial:0",
+      "alert_signature": "0284e63c0d7c05bf"
     },
     {
       "date_utc": "2026-02-28",
       "generated_at_utc": "2026-02-28T18:34:50Z",
       "changed_count": 6,
       "by_policy": {
-        "refund": 3,
         "cancel": 2,
+        "refund": 3,
         "return": 1,
         "trial": 0
       },
@@ -81,8 +119,8 @@
       ],
       "pending_count": 29,
       "pending_by_policy": {
-        "refund": 4,
         "cancel": 14,
+        "refund": 4,
         "return": 4,
         "trial": 7
       },
@@ -94,15 +132,17 @@
       "run_id": "22526282265",
       "run_attempt": "1",
       "commit_sha": "d286f99992a039ac461c06758ca3e28a3948af16",
-      "source": "check-policies.js"
+      "source": "check-policies.js",
+      "by_policy_signature": "cancel:2,refund:3,return:1,trial:0",
+      "alert_signature": "59e8078fb8f93cb5"
     },
     {
       "date_utc": "2026-02-27",
       "generated_at_utc": "2026-02-27T18:43:05Z",
       "changed_count": 3,
       "by_policy": {
-        "refund": 2,
         "cancel": 1,
+        "refund": 2,
         "return": 0,
         "trial": 0
       },
@@ -113,8 +153,8 @@
       ],
       "pending_count": 50,
       "pending_by_policy": {
-        "refund": 10,
         "cancel": 16,
+        "refund": 10,
         "return": 13,
         "trial": 11
       },
@@ -126,15 +166,17 @@
       "run_id": "22498655719",
       "run_attempt": "1",
       "commit_sha": "c8ea1f8153c4eefe9a070bdcccfa43e9951793f9",
-      "source": "check-policies.js"
+      "source": "check-policies.js",
+      "by_policy_signature": "cancel:1,refund:2,return:0,trial:0",
+      "alert_signature": "19faf599f5ddf795"
     },
     {
       "date_utc": "2026-02-26",
       "generated_at_utc": "2026-02-26T18:58:04Z",
       "changed_count": 2,
       "by_policy": {
-        "refund": 2,
         "cancel": 0,
+        "refund": 2,
         "return": 0,
         "trial": 0
       },
@@ -144,8 +186,8 @@
       ],
       "pending_count": 31,
       "pending_by_policy": {
-        "refund": 8,
         "cancel": 14,
+        "refund": 8,
         "return": 5,
         "trial": 4
       },
@@ -157,15 +199,17 @@
       "run_id": "22455974607",
       "run_attempt": "1",
       "commit_sha": "3a7ef69dfd7f18dab30d97880fd6bad26b777efa",
-      "source": "check-policies.js"
+      "source": "check-policies.js",
+      "by_policy_signature": "cancel:0,refund:2,return:0,trial:0",
+      "alert_signature": "15c9b2b49fb27185"
     },
     {
       "date_utc": "2026-02-25",
       "generated_at_utc": "2026-02-25T19:07:24Z",
       "changed_count": 1,
       "by_policy": {
-        "refund": 1,
         "cancel": 0,
+        "refund": 1,
         "return": 0,
         "trial": 0
       },
@@ -174,8 +218,8 @@
       ],
       "pending_count": 47,
       "pending_by_policy": {
-        "refund": 11,
         "cancel": 18,
+        "refund": 11,
         "return": 11,
         "trial": 7
       },
@@ -187,15 +231,17 @@
       "run_id": "22411141069",
       "run_attempt": "1",
       "commit_sha": "a4a70edbe10063389f773f8355813e699112e262",
-      "source": "check-policies.js"
+      "source": "check-policies.js",
+      "by_policy_signature": "cancel:0,refund:1,return:0,trial:0",
+      "alert_signature": "5b28a6f324b0c99d"
     },
     {
       "date_utc": "2026-02-24",
       "generated_at_utc": "2026-02-24T19:02:23Z",
       "changed_count": 7,
       "by_policy": {
-        "refund": 2,
         "cancel": 2,
+        "refund": 2,
         "return": 3,
         "trial": 0
       },
@@ -210,8 +256,8 @@
       ],
       "pending_count": 14,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -222,15 +268,17 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/22365148094",
       "issue_number": 85,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:2,refund:2,return:3,trial:0",
+      "alert_signature": "210f57a6082546c9"
     },
     {
       "date_utc": "2026-02-23",
       "generated_at_utc": "2026-02-23T20:20:42Z",
       "changed_count": 7,
       "by_policy": {
-        "refund": 1,
         "cancel": 3,
+        "refund": 1,
         "return": 2,
         "trial": 1
       },
@@ -245,8 +293,8 @@
       ],
       "pending_count": 8,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -257,15 +305,17 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/22322715669",
       "issue_number": 83,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:3,refund:1,return:2,trial:1",
+      "alert_signature": "fc76fcca219127c3"
     },
     {
       "date_utc": "2026-02-22",
       "generated_at_utc": "2026-02-22T18:35:45Z",
       "changed_count": 7,
       "by_policy": {
-        "refund": 3,
         "cancel": 2,
+        "refund": 3,
         "return": 2,
         "trial": 0
       },
@@ -280,8 +330,8 @@
       ],
       "pending_count": 7,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -292,15 +342,17 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/22282682598",
       "issue_number": 81,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:2,refund:3,return:2,trial:0",
+      "alert_signature": "debc2a79d351b12b"
     },
     {
       "date_utc": "2026-02-21",
       "generated_at_utc": "2026-02-21T18:33:24Z",
       "changed_count": 6,
       "by_policy": {
-        "refund": 3,
         "cancel": 2,
+        "refund": 3,
         "return": 1,
         "trial": 0
       },
@@ -314,8 +366,8 @@
       ],
       "pending_count": 7,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -326,15 +378,17 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/22261871666",
       "issue_number": 79,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:2,refund:3,return:1,trial:0",
+      "alert_signature": "8f2ba62fee62e7a9"
     },
     {
       "date_utc": "2026-02-20",
       "generated_at_utc": "2026-02-20T18:50:02Z",
       "changed_count": 8,
       "by_policy": {
-        "refund": 3,
         "cancel": 2,
+        "refund": 3,
         "return": 2,
         "trial": 1
       },
@@ -350,8 +404,8 @@
       ],
       "pending_count": 6,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -362,15 +416,17 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/22236252010",
       "issue_number": 77,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:2,refund:3,return:2,trial:1",
+      "alert_signature": "3f9f266177cac953"
     },
     {
       "date_utc": "2026-02-19",
       "generated_at_utc": "2026-02-19T23:38:01Z",
       "changed_count": 23,
       "by_policy": {
-        "refund": 6,
         "cancel": 5,
+        "refund": 6,
         "return": 4,
         "trial": 8
       },
@@ -388,8 +444,8 @@
       ],
       "pending_count": 8,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -400,15 +456,17 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/22164438977",
       "issue_number": 75,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:5,refund:6,return:4,trial:8",
+      "alert_signature": "ee1767b8722a3668"
     },
     {
       "date_utc": "2026-02-18",
       "generated_at_utc": "2026-02-18T18:52:58Z",
       "changed_count": 26,
       "by_policy": {
-        "refund": 8,
         "cancel": 7,
+        "refund": 8,
         "return": 7,
         "trial": 4
       },
@@ -426,8 +484,8 @@
       ],
       "pending_count": 18,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -438,23 +496,25 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/22122429509",
       "issue_number": 73,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:7,refund:8,return:7,trial:4",
+      "alert_signature": "64f69e8527a7fe8e"
     },
     {
       "date_utc": "2026-02-17",
       "generated_at_utc": "2026-02-17T21:24:20Z",
       "changed_count": 16,
       "by_policy": {
-        "refund": 3,
         "cancel": 5,
+        "refund": 3,
         "return": 5,
         "trial": 3
       },
       "changed_sample": [],
       "pending_count": 0,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -465,23 +525,25 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/22084137665",
       "issue_number": 71,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:5,refund:3,return:5,trial:3",
+      "alert_signature": "72036a2671253176"
     },
     {
       "date_utc": "2026-02-16",
       "generated_at_utc": "2026-02-16T14:58:08Z",
       "changed_count": 13,
       "by_policy": {
-        "refund": 4,
         "cancel": 3,
+        "refund": 4,
         "return": 5,
         "trial": 1
       },
       "changed_sample": [],
       "pending_count": 0,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -492,23 +554,25 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/22056157647",
       "issue_number": 70,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:3,refund:4,return:5,trial:1",
+      "alert_signature": "28d3b21e7cd02866"
     },
     {
       "date_utc": "2026-02-15",
       "generated_at_utc": "2026-02-15T18:34:15Z",
       "changed_count": 11,
       "by_policy": {
-        "refund": 3,
         "cancel": 2,
+        "refund": 3,
         "return": 3,
         "trial": 3
       },
       "changed_sample": [],
       "pending_count": 0,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -519,23 +583,25 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/22032644488",
       "issue_number": 69,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:2,refund:3,return:3,trial:3",
+      "alert_signature": "6ec45a7d201fe424"
     },
     {
       "date_utc": "2026-02-14",
       "generated_at_utc": "2026-02-14T08:46:58Z",
       "changed_count": 24,
       "by_policy": {
-        "refund": 7,
         "cancel": 6,
+        "refund": 7,
         "return": 6,
         "trial": 5
       },
       "changed_sample": [],
       "pending_count": 0,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -546,23 +612,25 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/22014369415",
       "issue_number": 68,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:6,refund:7,return:6,trial:5",
+      "alert_signature": "2c5a74f9306794a7"
     },
     {
       "date_utc": "2026-02-13",
       "generated_at_utc": "2026-02-13T09:01:27Z",
       "changed_count": 16,
       "by_policy": {
-        "refund": 4,
         "cancel": 5,
+        "refund": 4,
         "return": 2,
         "trial": 5
       },
       "changed_sample": [],
       "pending_count": 0,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -573,23 +641,25 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/21980600718",
       "issue_number": 67,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:5,refund:4,return:2,trial:5",
+      "alert_signature": "b2e2ca45c17b7c66"
     },
     {
       "date_utc": "2026-02-12",
       "generated_at_utc": "2026-02-12T09:03:34Z",
       "changed_count": 9,
       "by_policy": {
-        "refund": 2,
         "cancel": 4,
+        "refund": 2,
         "return": 2,
         "trial": 1
       },
       "changed_sample": [],
       "pending_count": 0,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -600,23 +670,25 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/21939824762",
       "issue_number": 66,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:4,refund:2,return:2,trial:1",
+      "alert_signature": "545277a18159d909"
     },
     {
       "date_utc": "2026-02-11",
       "generated_at_utc": "2026-02-11T09:54:35Z",
       "changed_count": 9,
       "by_policy": {
-        "refund": 2,
         "cancel": 3,
+        "refund": 2,
         "return": 2,
         "trial": 2
       },
       "changed_sample": [],
       "pending_count": 0,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -627,23 +699,25 @@
       "run_url": "https://github.com/decidefyi/decide/actions/runs/21900130255",
       "issue_number": 65,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:3,refund:2,return:2,trial:2",
+      "alert_signature": "e3803b88d86dae7d"
     },
     {
       "date_utc": "2026-02-10",
       "generated_at_utc": "2026-02-10T09:02:57Z",
       "changed_count": 0,
       "by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
       "changed_sample": [],
       "pending_count": 0,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -654,23 +728,25 @@
       "run_url": "",
       "issue_number": 62,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:0,refund:0,return:0,trial:0",
+      "alert_signature": "a6404c47e2e2fdb5"
     },
     {
       "date_utc": "2026-02-09",
       "generated_at_utc": "2026-02-09T09:00:49Z",
       "changed_count": 0,
       "by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
       "changed_sample": [],
       "pending_count": 0,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -681,23 +757,25 @@
       "run_url": "",
       "issue_number": 61,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:0,refund:0,return:0,trial:0",
+      "alert_signature": "a6404c47e2e2fdb5"
     },
     {
       "date_utc": "2026-02-08",
       "generated_at_utc": "2026-02-08T08:39:36Z",
       "changed_count": 0,
       "by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
       "changed_sample": [],
       "pending_count": 0,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -708,23 +786,25 @@
       "run_url": "",
       "issue_number": 60,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:0,refund:0,return:0,trial:0",
+      "alert_signature": "a6404c47e2e2fdb5"
     },
     {
       "date_utc": "2026-02-07",
       "generated_at_utc": "2026-02-07T08:39:12Z",
       "changed_count": 0,
       "by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
       "changed_sample": [],
       "pending_count": 0,
       "pending_by_policy": {
-        "refund": 0,
         "cancel": 0,
+        "refund": 0,
         "return": 0,
         "trial": 0
       },
@@ -735,7 +815,9 @@
       "run_url": "",
       "issue_number": 59,
       "issue_state": "open",
-      "source": "issues-backfill"
+      "source": "issues-backfill",
+      "by_policy_signature": "cancel:0,refund:0,return:0,trial:0",
+      "alert_signature": "a6404c47e2e2fdb5"
     }
   ]
 }
