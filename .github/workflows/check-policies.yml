@@ -255,9 +255,9 @@ jobs:
           git fetch origin "${artifact_branch}" || true
 
           if git show-ref --verify --quiet "refs/remotes/origin/${artifact_branch}"; then
-            git checkout -B "${artifact_branch}" "origin/${artifact_branch}"
+            git checkout -f -B "${artifact_branch}" "origin/${artifact_branch}"
           else
-            git checkout -B "${artifact_branch}" "origin/${base_branch}"
+            git checkout -f -B "${artifact_branch}" "origin/${base_branch}"
           fi
 
           # Keep the aggregation PR scoped to publishable artifacts only.
