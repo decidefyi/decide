@@ -209,6 +209,12 @@ jobs:
             rules/trial-policy-sources.json
             rules/policy-alert-feed.json
           )
+          source_files=(
+            rules/policy-sources.json
+            rules/cancel-policy-sources.json
+            rules/return-policy-sources.json
+            rules/trial-policy-sources.json
+          )
           internal_state_files=(
             rules/policy-change-candidates.json
             rules/cancel-policy-change-candidates.json
@@ -272,6 +278,42 @@ jobs:
           for f in "${existing[@]}"; do
             mkdir -p "$(dirname "$f")"
             cp "${tmp_dir}/$f" "$f"
+          done
+
+          # Drop timestamp-only source-file churn from the aggregate PR.
+          for f in "${source_files[@]}"; do
+            if [ ! -f "$f" ]; then
+              continue
+            fi
+            if ! git cat-file -e "origin/${base_branch}:${f}" 2>/dev/null; then
+              continue
+            fi
+            if node - "$f" "origin/${base_branch}" <<'NODE'
+            const { execSync } = require("node:child_process");
+            const { readFileSync } = require("node:fs");
+
+            const [filePath, baseRef] = process.argv.slice(2);
+            function normalize(value) {
+              if (Array.isArray(value)) return value.map(normalize);
+              if (!value || typeof value !== "object") return value;
+              const out = {};
+              for (const key of Object.keys(value).sort((a, b) => a.localeCompare(b))) {
+                if (key === "last_verified_utc") continue;
+                out[key] = normalize(value[key]);
+              }
+              return out;
+            }
+
+            const currentRaw = readFileSync(filePath, "utf8");
+            const baseRaw = execSync(`git show ${baseRef}:${filePath}`, { encoding: "utf8" });
+            const current = normalize(JSON.parse(currentRaw));
+            const base = normalize(JSON.parse(baseRaw));
+            process.exit(JSON.stringify(current) === JSON.stringify(base) ? 0 : 1);
+NODE
+            then
+              git checkout "origin/${base_branch}" -- "$f"
+              echo "Reverted timestamp-only source drift: $f"
+            fi
           done
 
           git add -A rules

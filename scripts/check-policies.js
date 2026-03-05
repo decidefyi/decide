@@ -256,6 +256,11 @@ function getPolicyAlertLowSignalLookback() {
   return Math.max(1, CHECKER_CONFIG.alertLowSignalLookback);
 }
 
+function getPolicyAlertIncludeZeroChange() {
+  const value = String(process.env.POLICY_ALERT_INCLUDE_ZERO_CHANGE || "0").trim().toLowerCase();
+  return value === "1" || value === "true" || value === "yes";
+}
+
 function buildRunUrl() {
   const repository = String(process.env.GITHUB_REPOSITORY || "").trim();
   const runId = String(process.env.GITHUB_RUN_ID || "").trim();
@@ -2512,7 +2517,10 @@ async function main() {
     feedChanged: false,
   };
 
-  if (!isUpdate) {
+  const includeZeroChangeAlerts = getPolicyAlertIncludeZeroChange();
+  const shouldPublishAlertFeed = allMaterialChanged.length > 0 || includeZeroChangeAlerts;
+
+  if (!isUpdate && shouldPublishAlertFeed) {
     alertFeedPublishState = updatePolicyAlertFeed({
       date_utc: changedDateUtc,
       generated_at_utc: generatedAtUtc,
@@ -2535,6 +2543,13 @@ async function main() {
       commit_sha: String(process.env.GITHUB_SHA || "").trim(),
       source: "check-policies.js",
     });
+  } else if (!isUpdate && !shouldPublishAlertFeed) {
+    alertFeedPublishState = {
+      published: false,
+      reason: "no_confirmed_changes",
+      signature: "",
+      feedChanged: false,
+    };
   }
   const policyEventLogResult = !isUpdate
     ? appendPolicyEventLog(allMaterialChanged, generatedAtUtc)
