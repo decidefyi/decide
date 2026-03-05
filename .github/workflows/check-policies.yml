@@ -288,28 +288,7 @@ jobs:
             if ! git cat-file -e "origin/${base_branch}:${f}" 2>/dev/null; then
               continue
             fi
-            if node - "$f" "origin/${base_branch}" <<'NODE'
-            const { execSync } = require("node:child_process");
-            const { readFileSync } = require("node:fs");
-
-            const [filePath, baseRef] = process.argv.slice(2);
-            function normalize(value) {
-              if (Array.isArray(value)) return value.map(normalize);
-              if (!value || typeof value !== "object") return value;
-              const out = {};
-              for (const key of Object.keys(value).sort((a, b) => a.localeCompare(b))) {
-                if (key === "last_verified_utc") continue;
-                out[key] = normalize(value[key]);
-              }
-              return out;
-            }
-
-            const currentRaw = readFileSync(filePath, "utf8");
-            const baseRaw = execSync(`git show ${baseRef}:${filePath}`, { encoding: "utf8" });
-            const current = normalize(JSON.parse(currentRaw));
-            const base = normalize(JSON.parse(baseRaw));
-            process.exit(JSON.stringify(current) === JSON.stringify(base) ? 0 : 1);
-            NODE
+            if node -e 'const { execSync } = require("node:child_process"); const { readFileSync } = require("node:fs"); const [filePath, baseRef] = process.argv.slice(1); function normalize(value) { if (Array.isArray(value)) return value.map(normalize); if (!value || typeof value !== "object") return value; const out = {}; for (const key of Object.keys(value).sort((a, b) => a.localeCompare(b))) { if (key === "last_verified_utc") continue; out[key] = normalize(value[key]); } return out; } const currentRaw = readFileSync(filePath, "utf8"); const baseRaw = execSync(`git show ${baseRef}:${filePath}`, { encoding: "utf8" }); const current = normalize(JSON.parse(currentRaw)); const base = normalize(JSON.parse(baseRaw)); process.exit(JSON.stringify(current) === JSON.stringify(base) ? 0 : 1);' "$f" "origin/${base_branch}"
             then
               git checkout "origin/${base_branch}" -- "$f"
               echo "Reverted timestamp-only source drift: $f"
