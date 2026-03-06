@@ -933,6 +933,45 @@ export function semanticSignaturesStable(previousSignature, nextSignature) {
   return Boolean(previous && next && previous === next);
 }
 
+export function buildChangeKey(hashValue, semanticSignature) {
+  const semantic = typeof semanticSignature === "string" ? semanticSignature.trim() : "";
+  if (semantic) return semantic;
+  const hashText = typeof hashValue === "string" ? hashValue.trim() : "";
+  return hashText;
+}
+
+function getCandidateChangeKey(candidate, fallback = {}) {
+  const explicit =
+    typeof candidate?.change_key === "string" && candidate.change_key.trim()
+      ? candidate.change_key.trim()
+      : "";
+  if (explicit) return explicit;
+  const fallbackHash =
+    typeof fallback.hash === "string" && fallback.hash.trim()
+      ? fallback.hash.trim()
+      : "";
+  const fallbackSemanticSignature =
+    typeof fallback.semanticSignature === "string" && fallback.semanticSignature.trim()
+      ? fallback.semanticSignature.trim()
+      : "";
+  return buildChangeKey(
+    typeof candidate?.hash === "string" ? candidate.hash : fallbackHash,
+    typeof candidate?.semantic_signature === "string"
+      ? candidate.semantic_signature
+      : fallbackSemanticSignature
+  );
+}
+
+function getCandidateSignalWindowDecision(candidate) {
+  if (typeof candidate?.signal_window_change_decision === "string" && candidate.signal_window_change_decision.trim()) {
+    return candidate.signal_window_change_decision.trim();
+  }
+  if (typeof candidate?.signal_window_hash_decision === "string" && candidate.signal_window_hash_decision.trim()) {
+    return candidate.signal_window_hash_decision.trim();
+  }
+  return "";
+}
+
 function extractDurationTokens(text, anchors = [], tokenPrefix = "window_days") {
   const output = new Set();
   if (!text) return output;
@@ -1788,6 +1827,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       crossRunWindowConfirmed: [],
       crossRunWindowHeld: [],
       metadataStabilityHeld: [],
+      noiseSuppressed: [],
       escalatedPending: [],
       escalatedReasons: {},
       escalationFlipOverrides: {},
@@ -1839,6 +1879,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       ...candidate,
       pending_model_id: getCandidatePendingModelId(candidate),
       pending_model_first_observed_utc: getPendingModelFirstObservedUtc(candidate, candidate?.pending_since_utc || ""),
+      change_key: getCandidateChangeKey(candidate),
+      signal_window_change_decision: getCandidateSignalWindowDecision(candidate),
     };
   }
 
@@ -1863,6 +1905,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const crossRunWindowHeldSet = new Set();
   const metadataStabilityHeldSet = new Set();
   const qualityGateHeldSet = new Set();
+  const noiseSuppressedSet = new Set();
   let successfulChecks = 0;
 
   const ensureCoverageEntry = (vendor) => {
@@ -2137,9 +2180,16 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
 
         const priorCandidate = activeStoredCandidates[vendor];
         const previousHash = storedHashes[vendor];
-        const signal = previousHash && previousHash === h ? BASELINE_SIGNAL : h;
+        const priorSemanticSignature =
+          typeof priorCandidate?.semantic_signature === "string" ? priorCandidate.semantic_signature : "";
+        const currentChangeKey = buildChangeKey(h, semanticSignature);
+        const signal = previousHash && previousHash === h ? BASELINE_SIGNAL : currentChangeKey;
         const signalWindow = appendSignalWindow(coverage, signal);
         const signalWindowDecision = evaluateSignalWindow(signalWindow);
+        const signalWindowChangeDecision =
+          typeof signalWindowDecision.hashDecision === "string"
+            ? signalWindowDecision.hashDecision
+            : "";
 
         if (isUpdate || rebaselineForProfile || !previousHash) {
           newHashes[vendor] = h;
@@ -2155,15 +2205,37 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           return;
         }
 
+        if (
+          quality.passed &&
+          !semanticDiffAgainstPrevious.baselineMissing &&
+          !semanticDiffAgainstPrevious.material
+        ) {
+          newHashes[vendor] = h;
+          newSemanticProfiles[vendor] = semanticProfile;
+          delete newCandidates[vendor];
+          noiseSuppressedSet.add(vendor);
+          coverage.last_noise_suppressed_utc = fetchedAtUtc;
+          coverage.last_noise_suppressed_reason = "non_material_repeat";
+          coverage.last_noise_suppressed_hash = h;
+          coverage.last_noise_suppressed_change_key = currentChangeKey;
+          coverage.last_noise_suppressed_source_url = sourceUrl || "";
+          return;
+        }
+
         const priorCount = Number(priorCandidate?.count || 0);
         const priorFlipCount = Number(priorCandidate?.flip_count || 0);
         const priorHash = typeof priorCandidate?.hash === "string" ? priorCandidate.hash : "";
+        const priorChangeKey = getCandidateChangeKey(priorCandidate, {
+          hash: priorHash,
+          semanticSignature: priorSemanticSignature,
+        });
         const nextCount = priorHash === h ? Math.max(1, priorCount) + 1 : 1;
-        const nextFlipCount = priorHash && priorHash !== h ? priorFlipCount + 1 : priorFlipCount;
+        const nextFlipCount =
+          priorChangeKey && priorChangeKey !== currentChangeKey
+            ? priorFlipCount + 1
+            : priorFlipCount;
         const priorRunConfirmations = Number(priorCandidate?.run_confirmations || 0);
         const priorSemanticRunConfirmations = Number(priorCandidate?.semantic_run_confirmations || 0);
-        const priorSemanticSignature =
-          typeof priorCandidate?.semantic_signature === "string" ? priorCandidate.semantic_signature : "";
         const priorQualityPasses = Number(priorCandidate?.quality_gate_passes || 0);
         const priorQualityFailures = Number(priorCandidate?.quality_gate_failures || 0);
         const nextQualityPasses = (priorHash === h ? priorQualityPasses : 0) + (quality.passed ? 1 : 0);
@@ -2212,16 +2284,15 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           delete coverage.last_metadata_stability_hold_utc;
           delete coverage.last_metadata_stability_hold_reason;
         }
-        const hashWindowConfirmed =
-          typeof signalWindowDecision.hashDecision === "string" &&
-          signalWindowDecision.hashDecision &&
-          signalWindowDecision.hashDecision === h;
+        const signalWindowConfirmed =
+          Boolean(signalWindowChangeDecision) &&
+          signalWindowChangeDecision === currentChangeKey;
 
         if (
           quality.passed &&
           nextRunConfirmations >= metadataConfirmRunsRequired &&
           semanticConfirmReady &&
-          hashWindowConfirmed
+          signalWindowConfirmed
         ) {
           registerConfirmedChange({
             vendor,
@@ -2239,7 +2310,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           !quality.passed ||
           (!gapSatisfied && priorHash === h && priorRunConfirmations > 0) ||
           (metadataSignalStable && nextRunConfirmations < metadataConfirmRunsRequired) ||
-          (nextRunConfirmations >= actualConfirmRuns && !hashWindowConfirmed) ||
+          (nextRunConfirmations >= actualConfirmRuns && !signalWindowConfirmed) ||
           (nextRunConfirmations >= actualConfirmRuns && !semanticConfirmReady)
         ) {
           crossRunWindowHeldSet.add(vendor);
@@ -2256,7 +2327,9 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           run_confirmations: nextRunConfirmations,
           semantic_run_confirmations: nextSemanticRunConfirmations,
           semantic_signature: semanticSignature,
-          signal_window_hash_decision: signalWindowDecision.hashDecision || "",
+          change_key: currentChangeKey,
+          signal_window_hash_decision: signalWindowChangeDecision || "",
+          signal_window_change_decision: signalWindowChangeDecision || "",
           signal_window_required_votes: Number(signalWindowDecision.required || 0),
           signal_window_top_hash_votes: Number(signalWindowDecision.topVotes || 0),
           signal_window_baseline_votes: Number(signalWindowDecision.baselineVotes || 0),
@@ -2393,6 +2466,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             pageMetadata,
           });
           const semanticSignature = semanticTokenSignature(semanticProfile);
+          const currentChangeKey = buildChangeKey(h, semanticSignature);
           const metadataSignature = String(semanticProfile.metadata_signature || "");
           const quality = assessFetchQuality({
             rawText: recheckResult.text,
@@ -2442,10 +2516,15 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           }
           if (majorityDecision?.type === "hash" && majorityDecision.hash) {
             const previousCandidateHash = candidate.hash;
+            const previousCandidateChangeKey = getCandidateChangeKey(candidate, {
+              hash: previousCandidateHash,
+              semanticSignature: typeof candidate.semantic_signature === "string" ? candidate.semantic_signature : "",
+            });
             candidate.hash = majorityDecision.hash;
             candidate.profile =
               observations.hashProfiles?.[majorityDecision.hash] || candidate.profile || semanticProfile;
             const majoritySemanticSignature = semanticTokenSignature(candidate.profile);
+            const majorityChangeKey = buildChangeKey(candidate.hash, majoritySemanticSignature);
             candidate.count = Math.max(Number(candidate.count || 1), Number(majorityDecision.winnerVotes || 1));
             candidate.last_seen_utc = fetchedAtUtc;
             if (sourceUrl) candidate.source_url = sourceUrl;
@@ -2456,6 +2535,14 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             candidate.semantic_run_confirmations = previousCandidateHash === majorityDecision.hash
               ? Number(candidate.semantic_run_confirmations || 1)
               : 1;
+            if (
+              previousCandidateHash !== majorityDecision.hash &&
+              previousCandidateChangeKey &&
+              previousCandidateChangeKey !== majorityChangeKey
+            ) {
+              candidate.flip_count = Number(candidate.flip_count || 0) + 1;
+            }
+            candidate.change_key = majorityChangeKey;
             candidate.metadata_signature = String(candidate.profile?.metadata_signature || candidate.metadata_signature || "");
             newCandidates[vendor] = candidate;
             return;
@@ -2468,24 +2555,33 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             return;
           }
 
+          const previousCandidateChangeKey = getCandidateChangeKey(candidate, {
+            hash: typeof candidate.hash === "string" ? candidate.hash : "",
+            semanticSignature: typeof candidate.semantic_signature === "string" ? candidate.semantic_signature : "",
+          });
           if (candidate.hash === h) {
             candidate.count = Number(candidate.count || 1) + 1;
             candidate.semantic_signature = semanticSignature;
+            candidate.change_key = currentChangeKey;
             candidate.metadata_signature = metadataSignature;
           } else {
             candidate.hash = h;
             candidate.count = 1;
-            candidate.flip_count = Number(candidate.flip_count || 0) + 1;
+            if (previousCandidateChangeKey && previousCandidateChangeKey !== currentChangeKey) {
+              candidate.flip_count = Number(candidate.flip_count || 0) + 1;
+            }
             candidate.pending_since_utc = getCandidatePendingSinceUtc(candidate) || fetchedAtUtc;
             candidate.first_seen_utc = utcIsoTimestamp();
             candidate.profile = semanticProfile;
             candidate.semantic_signature = semanticSignature;
+            candidate.change_key = currentChangeKey;
             candidate.semantic_run_confirmations = 1;
             candidate.metadata_signature = metadataSignature;
           }
           candidate.pending_since_utc = getCandidatePendingSinceUtc(candidate) || fetchedAtUtc;
           candidate.profile = candidate.hash === h ? semanticProfile : candidate.profile;
           candidate.semantic_signature = candidate.hash === h ? semanticSignature : candidate.semantic_signature;
+          candidate.change_key = buildChangeKey(candidate.hash, candidate.semantic_signature);
           candidate.metadata_signature = candidate.hash === h ? metadataSignature : candidate.metadata_signature;
           if (sourceUrl) candidate.source_url = sourceUrl;
           candidate.last_seen_utc = fetchedAtUtc;
@@ -2520,6 +2616,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     const legacyPendingCandidate = isLegacyPendingCandidate(candidate);
     const ageDays = getCandidateAgeDays(candidate, summaryNowMs);
     const flipCount = Number(candidate?.flip_count || 0);
+    const candidateChangeKey = getCandidateChangeKey(candidate);
     const fetchFailureStreak = Number(
       candidate?.fetch_failure_streak || coverage.consecutive_fetch_failures || 0
     );
@@ -2540,6 +2637,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     coverage.last_pending_age_days = ageDays;
     coverage.last_pending_flip_count = flipCount;
     coverage.last_pending_source_url = candidate?.source_url || coverage.last_pending_source_url || "";
+    coverage.last_pending_change_key = candidateChangeKey || coverage.last_pending_change_key || "";
     coverage.pending_fetch_failure_streak = fetchFailureStreak;
     if (legacyPendingCandidate) {
       coverage.pending_legacy = true;
@@ -2575,10 +2673,11 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     const ageEscalationThreshold = getEscalationPendingDays();
     const hasEscalationAge = ageDays >= ageEscalationThreshold;
     const hasEscalationFlip = flipCount >= escalationFlipConfig.threshold;
+    const signalWindowDecision = getCandidateSignalWindowDecision(candidate);
     const hasEscalationSignalSupport =
-      typeof candidate?.signal_window_hash_decision === "string" &&
-      candidate.signal_window_hash_decision &&
-      candidate.signal_window_hash_decision === candidate?.hash;
+      Boolean(signalWindowDecision) &&
+      Boolean(candidateChangeKey) &&
+      signalWindowDecision === candidateChangeKey;
     const escalationReasons = [];
     if (hasEscalationAge) {
       escalationReasons.push(`pending_age_days>=${ageEscalationThreshold}`);
@@ -2644,6 +2743,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     delete coverage.pending_legacy;
     delete coverage.pending_fetch_blocked_reason;
     delete coverage.last_pending_source_url;
+    delete coverage.last_pending_change_key;
     delete coverage.last_pending_bucket;
     delete coverage.pending_model_id;
     delete coverage.pending_model_first_observed_utc;
@@ -2703,6 +2803,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     crossRunWindowConfirmed: [...crossRunWindowConfirmedSet].sort((a, b) => a.localeCompare(b)),
     crossRunWindowHeld: [...crossRunWindowHeldSet].sort((a, b) => a.localeCompare(b)),
     metadataStabilityHeld: [...metadataStabilityHeldSet].sort((a, b) => a.localeCompare(b)),
+    noiseSuppressed: [...noiseSuppressedSet].sort((a, b) => a.localeCompare(b)),
     escalatedPending,
     escalatedReasons,
     escalationFlipOverrides,
@@ -2721,6 +2822,7 @@ async function main() {
   const allMaterialOscillationSuppressed = [];
   const allQualityGateHeld = [];
   const allMetadataStabilityHeld = [];
+  const allNoiseSuppressed = [];
   const allErrors = [];
   const allPending = [];
   const allFetchBlockedPending = [];
@@ -2837,6 +2939,12 @@ async function main() {
         `::notice::${result.name}: metadata_stability_held=${result.metadataStabilityHeld.length} (semantic changed while metadata signature stayed stable; extra confirm run required); first ${names.length}: ${names.join(", ")}`
       );
     }
+    if (result.noiseSuppressed.length > 0) {
+      const names = sortedLimitedVendors(result.noiseSuppressed, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: noise_suppressed=${result.noiseSuppressed.length} (hash changed but semantic meaning stayed stable); first ${names.length}: ${names.join(", ")}`
+      );
+    }
     if (result.staleDropped.length > 0) {
       console.log(
         `::notice::${result.name}: stale_pending_dropped=${result.staleDropped.length} (older than ${getCandidateTtlDays()} day(s)).`
@@ -2851,7 +2959,7 @@ async function main() {
     if (result.volatilePending.length > 0) {
       const volatileNames = sortedLimitedVendors(result.volatilePending, getPendingDetailLimit());
       console.log(
-        `::notice::${result.name}: volatile_pending=${result.volatilePending.length} (flip_count>=${getVolatileFlipThreshold()}); first ${volatileNames.length}: ${volatileNames.join(", ")}`
+        `::notice::${result.name}: volatile_pending=${result.volatilePending.length} (change_key_flip_count>=${getVolatileFlipThreshold()}); first ${volatileNames.length}: ${volatileNames.join(", ")}`
       );
     }
     const escalationOverrideEntries = Object.entries(result.escalationFlipOverrides || {});
@@ -2906,6 +3014,9 @@ async function main() {
     }
     for (const vendor of result.metadataStabilityHeld) {
       allMetadataStabilityHeld.push({ policyType: result.name, vendor });
+    }
+    for (const vendor of result.noiseSuppressed) {
+      allNoiseSuppressed.push({ policyType: result.name, vendor });
     }
     for (const vendor of result.pending) {
       allPending.push({ policyType: result.name, vendor });
@@ -3033,6 +3144,11 @@ async function main() {
     .join(",");
   const metadataStabilityHeldByPolicy = toPolicyCountString(allMetadataStabilityHeld);
   const metadataStabilityHeldSample = allMetadataStabilityHeld
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const noiseSuppressedByPolicy = toPolicyCountString(allNoiseSuppressed);
+  const noiseSuppressedSample = allNoiseSuppressed
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
@@ -3179,6 +3295,9 @@ async function main() {
   console.log(`METADATA_STABILITY_HELD_COUNT=${allMetadataStabilityHeld.length}`);
   console.log(`METADATA_STABILITY_HELD_BY_POLICY=${metadataStabilityHeldByPolicy}`);
   console.log(`METADATA_STABILITY_HELD_SAMPLE=${metadataStabilityHeldSample}`);
+  console.log(`NOISE_SUPPRESSED_COUNT=${allNoiseSuppressed.length}`);
+  console.log(`NOISE_SUPPRESSED_BY_POLICY=${noiseSuppressedByPolicy}`);
+  console.log(`NOISE_SUPPRESSED_SAMPLE=${noiseSuppressedSample}`);
   console.log(`POLICY_EVENT_APPENDED_COUNT=${policyEventLogResult.appended_count}`);
   console.log(`POLICY_EVENT_SKIPPED_EXISTING_COUNT=${policyEventLogResult.skipped_existing_count}`);
   console.log(`POLICY_EVENT_SKIPPED_INVALID_COUNT=${policyEventLogResult.skipped_invalid_count}`);

@@ -3,6 +3,7 @@
 import assert from "node:assert/strict";
 
 import {
+  buildChangeKey,
   classifyFetchFailureBlock,
   getCandidatePendingModelId,
   isLegacyPendingCandidate,
@@ -132,6 +133,21 @@ function testSemanticSignaturesStableRejectsMixedOrDifferentTokens() {
   );
 }
 
+function testBuildChangeKeyPrefersSemanticSignature() {
+  const value = buildChangeKey("abc123hash", "cancel:anytime|billing:auto_renew");
+  assert.equal(value, "cancel:anytime|billing:auto_renew", "semantic signature should drive change key when present");
+}
+
+function testBuildChangeKeyFallsBackToHash() {
+  const value = buildChangeKey("abc123hash", "");
+  assert.equal(value, "abc123hash", "hash should be used when semantic signature is absent");
+}
+
+function testBuildChangeKeyHandlesMissingValues() {
+  const value = buildChangeKey("", "");
+  assert.equal(value, "", "empty inputs should produce an empty change key");
+}
+
 function main() {
   testImmediateBlockOnCloudflareAnd403();
   console.log("PASS check-policies immediate block on anti-bot");
@@ -169,7 +185,16 @@ function main() {
   testSemanticSignaturesStableRejectsMixedOrDifferentTokens();
   console.log("PASS check-policies semantic stability rejects mismatches");
 
-  console.log("Check-policies tests passed: 12/12");
+  testBuildChangeKeyPrefersSemanticSignature();
+  console.log("PASS check-policies change key prefers semantic signature");
+
+  testBuildChangeKeyFallsBackToHash();
+  console.log("PASS check-policies change key fallback hash");
+
+  testBuildChangeKeyHandlesMissingValues();
+  console.log("PASS check-policies change key missing inputs");
+
+  console.log("Check-policies tests passed: 15/15");
 }
 
 try {
