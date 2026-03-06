@@ -12,7 +12,7 @@
 
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
 import { mergePolicyAlertFeed } from "./lib/policy-feed-reliability.js";
 
@@ -194,6 +194,8 @@ const ACTUAL_CONFIRM_RUN_OVERRIDES = {
   twitch: 3,
 };
 const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v1";
+export const LEGACY_PENDING_MODEL_ID = "legacy-v1";
+export const PENDING_MODEL_ID = process.env.POLICY_CHECK_PENDING_MODEL || "signal-v2";
 const POLICY_ALERT_FEED_PATH = join(__dirname, "..", "rules", "policy-alert-feed.json");
 const POLICY_EVENT_LOG_PATH = join(__dirname, "..", "rules", "policy-events.ndjson");
 const POLICY_TIER1_VENDORS_PATH = join(__dirname, "..", "rules", "policy-tier1-vendors.json");
@@ -505,6 +507,110 @@ function detectFetchInterstitial(text) {
   }
 
   return "";
+}
+
+function normalizeFetchFailureReasonToken(errorMessage) {
+  const normalized = String(errorMessage || "").trim().toLowerCase();
+  if (!normalized) return "";
+  if (/^http\s+\d{3}$/.test(normalized)) {
+    return normalized.replace(/\s+/g, "_");
+  }
+  return normalized.replace(/\s+/g, "_");
+}
+
+function parseFetchFailureSegments(failureReason) {
+  return String(failureReason || "")
+    .split(";")
+    .map((segment) => String(segment || "").trim())
+    .filter(Boolean)
+    .map((segment) => {
+      const match = /^(.*?)\s+\[([^\]]+)\]\s+\((.*)\)$/.exec(segment);
+      if (!match) {
+        return {
+          lane: "",
+          error: segment,
+        };
+      }
+      return {
+        lane: String(match[2] || "").trim().toLowerCase(),
+        error: String(match[3] || "").trim(),
+      };
+    });
+}
+
+function isImmediateFetchBlockErrorMessage(errorMessage) {
+  const normalized = String(errorMessage || "").trim().toLowerCase();
+  if (!normalized) return false;
+  if (normalized.startsWith("interstitial:")) return true;
+  return ["http 401", "http 403", "http 429", "http 451", "http 1020"].includes(normalized);
+}
+
+function isAuxiliaryFetchFailureSegment(segment) {
+  if (!segment || typeof segment !== "object") return false;
+  const lane = String(segment.lane || "").trim().toLowerCase();
+  const error = String(segment.error || "").trim().toLowerCase();
+  return lane === "zendesk_api" && error === "http 404";
+}
+
+export function classifyFetchFailureBlock(failureReason) {
+  const segments = parseFetchFailureSegments(failureReason);
+  if (segments.length === 0) {
+    return { immediateBlock: false, reason: "" };
+  }
+
+  let strongBlockSeen = false;
+  const reasonTokens = [];
+  for (const segment of segments) {
+    if (isImmediateFetchBlockErrorMessage(segment.error)) {
+      strongBlockSeen = true;
+      const token = normalizeFetchFailureReasonToken(segment.error);
+      if (token) {
+        reasonTokens.push(token);
+      }
+      continue;
+    }
+    if (isAuxiliaryFetchFailureSegment(segment)) {
+      continue;
+    }
+    return { immediateBlock: false, reason: "" };
+  }
+
+  if (!strongBlockSeen) {
+    return { immediateBlock: false, reason: "" };
+  }
+
+  const uniqueTokens = [...new Set(reasonTokens)];
+  return {
+    immediateBlock: true,
+    reason: uniqueTokens.length > 0 ? `known_fetch_blocker:${uniqueTokens.join("|")}` : "known_fetch_blocker",
+  };
+}
+
+export function getCandidatePendingModelId(candidate) {
+  const configured =
+    typeof candidate?.pending_model_id === "string" && candidate.pending_model_id.trim()
+      ? candidate.pending_model_id.trim()
+      : "";
+  return configured || LEGACY_PENDING_MODEL_ID;
+}
+
+export function isLegacyPendingCandidate(candidate) {
+  return getCandidatePendingModelId(candidate) !== PENDING_MODEL_ID;
+}
+
+function getPendingModelFirstObservedUtc(candidate, fallback = "") {
+  if (typeof candidate?.pending_model_first_observed_utc === "string" && candidate.pending_model_first_observed_utc.trim()) {
+    return candidate.pending_model_first_observed_utc.trim();
+  }
+  return String(fallback || "").trim();
+}
+
+function markCandidatePendingModel(candidate, firstObservedUtc) {
+  return {
+    ...(candidate && typeof candidate === "object" ? candidate : {}),
+    pending_model_id: PENDING_MODEL_ID,
+    pending_model_first_observed_utc: getPendingModelFirstObservedUtc(candidate, firstObservedUtc),
+  };
 }
 
 function decodeHtmlEntities(input) {
@@ -1623,6 +1729,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       coverageGaps: [],
       qualityGateHeld: [],
       fetchBlockedPending: [],
+      legacyPending: [],
     };
   }
 
@@ -1663,7 +1770,11 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       staleDropped.push(vendor);
       continue;
     }
-    activeStoredCandidates[vendor] = candidate;
+    activeStoredCandidates[vendor] = {
+      ...candidate,
+      pending_model_id: getCandidatePendingModelId(candidate),
+      pending_model_first_observed_utc: getPendingModelFirstObservedUtc(candidate, candidate?.pending_since_utc || ""),
+    };
   }
 
   const vendors = Object.entries(sources.vendors);
@@ -1859,16 +1970,18 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         const fetchResult = await fetchWithFallback(vendorConfig, { vendor, policyType: name });
         if (!fetchResult.text) {
           errors.push(vendor);
-          errorReasons[vendor] = fetchResult.error || "request failed";
+          const failureReason = fetchResult.error || "request failed";
+          errorReasons[vendor] = failureReason;
           const coverage = ensureCoverageEntry(vendor);
           const failureAtUtc = utcIsoTimestamp();
           const priorFailureStreak = Number(
             activeStoredCandidates[vendor]?.fetch_failure_streak || coverage.consecutive_fetch_failures || 0
           );
           const nextFailureStreak = priorFailureStreak + 1;
-          const isFetchBlocked = nextFailureStreak >= getFetchFailureQuarantineStreak();
+          const fetchBlockClassification = classifyFetchFailureBlock(failureReason);
+          const isFetchBlocked = fetchBlockClassification.immediateBlock || nextFailureStreak >= getFetchFailureQuarantineStreak();
           coverage.last_fetch_failure_utc = failureAtUtc;
-          coverage.last_fetch_failure_reason = fetchResult.error || "request failed";
+          coverage.last_fetch_failure_reason = failureReason;
           if (Array.isArray(fetchResult.attemptedLanes) && fetchResult.attemptedLanes.length > 0) {
             coverage.last_fetch_failure_lanes = fetchResult.attemptedLanes.join(",");
           } else {
@@ -1877,7 +1990,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           coverage.consecutive_fetch_failures = nextFailureStreak;
           coverage.pending_fetch_blocked = isFetchBlocked;
           if (isFetchBlocked) {
-            coverage.pending_fetch_blocked_reason = `consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}`;
+            coverage.pending_fetch_blocked_reason =
+              fetchBlockClassification.reason || `consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}`;
           } else {
             delete coverage.pending_fetch_blocked_reason;
           }
@@ -1888,6 +2002,9 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
               last_fetch_failure_utc: failureAtUtc,
               fetch_failure_streak: nextFailureStreak,
               fetch_blocked: isFetchBlocked,
+              fetch_blocked_reason: isFetchBlocked
+                ? (fetchBlockClassification.reason || `consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}`)
+                : "",
             };
           }
           return;
@@ -2058,7 +2175,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
 
         newHashes[vendor] = previousHash;
         pendingSet.add(vendor);
-        newCandidates[vendor] = {
+        newCandidates[vendor] = markCandidatePendingModel({
           hash: h,
           count: nextCount,
           flip_count: nextFlipCount,
@@ -2092,7 +2209,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           quality_gate_policy_hits: quality.policyKeywordHits,
           quality_gate_lines: quality.lineCount,
           quality_gate_chars: quality.normalizedLength,
-        };
+        }, fetchedAtUtc);
         pendingMetadata[vendor] = {
           vendorConfig,
           previousHash,
@@ -2140,13 +2257,31 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           if (!recheckResult.text) {
             recheckFetchFailureSet.add(vendor);
             const coverage = ensureCoverageEntry(vendor);
+            const failureReason = recheckResult.error || "request failed";
+            const priorFailureStreak = Number(candidate.fetch_failure_streak || coverage.consecutive_fetch_failures || 0);
+            const nextFailureStreak = priorFailureStreak + 1;
+            const fetchBlockClassification = classifyFetchFailureBlock(failureReason);
+            const isFetchBlocked = fetchBlockClassification.immediateBlock || nextFailureStreak >= getFetchFailureQuarantineStreak();
             coverage.last_fetch_failure_utc = utcIsoTimestamp();
-            coverage.last_fetch_failure_reason = recheckResult.error || "request failed";
+            coverage.last_fetch_failure_reason = failureReason;
             if (Array.isArray(recheckResult.attemptedLanes) && recheckResult.attemptedLanes.length > 0) {
               coverage.last_fetch_failure_lanes = recheckResult.attemptedLanes.join(",");
             } else {
               delete coverage.last_fetch_failure_lanes;
             }
+            coverage.consecutive_fetch_failures = nextFailureStreak;
+            coverage.pending_fetch_blocked = isFetchBlocked;
+            if (isFetchBlocked) {
+              coverage.pending_fetch_blocked_reason =
+                fetchBlockClassification.reason || `consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}`;
+            } else {
+              delete coverage.pending_fetch_blocked_reason;
+            }
+            candidate.fetch_failure_streak = nextFailureStreak;
+            candidate.fetch_blocked = isFetchBlocked;
+            candidate.fetch_blocked_reason = isFetchBlocked
+              ? (fetchBlockClassification.reason || `consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}`)
+              : "";
             return;
           }
 
@@ -2156,6 +2291,12 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           delete coverage.last_fetch_failure_utc;
           delete coverage.last_fetch_failure_reason;
           delete coverage.last_fetch_failure_lanes;
+          coverage.consecutive_fetch_failures = 0;
+          coverage.pending_fetch_blocked = false;
+          delete coverage.pending_fetch_blocked_reason;
+          candidate.fetch_failure_streak = 0;
+          candidate.fetch_blocked = false;
+          delete candidate.fetch_blocked_reason;
 
           const normalized = normalizeFetchedText(recheckResult.text, name, vendor);
           const h = hash(normalized || recheckResult.text);
@@ -2298,16 +2439,24 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const escalationFlipOverrides = {};
   const coverageGaps = [];
   const fetchBlockedPending = [];
+  const legacyPending = [];
   const fetchBlockedSet = new Set();
   const summaryNowMs = Date.now();
   for (const [vendor, candidate] of Object.entries(newCandidates)) {
     const coverage = ensureCoverageEntry(vendor);
+    const pendingModelId = getCandidatePendingModelId(candidate);
+    const legacyPendingCandidate = isLegacyPendingCandidate(candidate);
     const ageDays = getCandidateAgeDays(candidate, summaryNowMs);
     const flipCount = Number(candidate?.flip_count || 0);
     const fetchFailureStreak = Number(
       candidate?.fetch_failure_streak || coverage.consecutive_fetch_failures || 0
     );
-    const isFetchBlocked = fetchFailureStreak >= getFetchFailureQuarantineStreak();
+    const fetchBlockClassification = classifyFetchFailureBlock(coverage.last_fetch_failure_reason);
+    const isFetchBlocked = Boolean(candidate?.fetch_blocked) ||
+      fetchBlockClassification.immediateBlock ||
+      fetchFailureStreak >= getFetchFailureQuarantineStreak();
+    coverage.pending_model_id = pendingModelId;
+    coverage.pending_model_first_observed_utc = getPendingModelFirstObservedUtc(candidate, coverage.pending_model_first_observed_utc || "");
     const escalationFlipConfig = getEscalationFlipThresholdForVendor(name, vendor);
     if (escalationFlipConfig.overridden) {
       escalationFlipOverrides[vendor] = {
@@ -2320,15 +2469,29 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     coverage.last_pending_flip_count = flipCount;
     coverage.last_pending_source_url = candidate?.source_url || coverage.last_pending_source_url || "";
     coverage.pending_fetch_failure_streak = fetchFailureStreak;
+    if (legacyPendingCandidate) {
+      coverage.pending_legacy = true;
+      coverage.pending_fetch_blocked = false;
+      delete coverage.pending_fetch_blocked_reason;
+      coverage.last_pending_bucket = "legacy_pending";
+      legacyPending.push(vendor);
+      continue;
+    }
+    coverage.pending_legacy = false;
     if (isFetchBlocked) {
       fetchBlockedPending.push(vendor);
       fetchBlockedSet.add(vendor);
       coverage.pending_fetch_blocked = true;
-      coverage.pending_fetch_blocked_reason = `consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}`;
+      coverage.last_pending_bucket = "fetch_blocked_pending";
+      coverage.pending_fetch_blocked_reason =
+        candidate?.fetch_blocked_reason ||
+        fetchBlockClassification.reason ||
+        `consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}`;
       continue;
     }
     coverage.pending_fetch_blocked = false;
     delete coverage.pending_fetch_blocked_reason;
+    coverage.last_pending_bucket = "active_pending";
 
     if (ageDays >= getStalePendingDays()) {
       stalePending.push(vendor);
@@ -2368,6 +2531,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     }
   }
   fetchBlockedPending.sort((a, b) => a.localeCompare(b));
+  legacyPending.sort((a, b) => a.localeCompare(b));
   const actionablePending = pending.filter((vendor) => !fetchBlockedSet.has(vendor));
   stalePending.sort((a, b) => a.localeCompare(b));
   volatilePending.sort((a, b) => a.localeCompare(b));
@@ -2387,15 +2551,20 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     }
   }
 
+  const retainedPendingVendors = new Set(Object.keys(newCandidates));
   for (const [vendor] of vendors) {
-    if (pendingSet.has(vendor)) continue;
+    if (retainedPendingVendors.has(vendor)) continue;
     const coverage = ensureCoverageEntry(vendor);
     coverage.last_pending_age_days = 0;
     coverage.last_pending_flip_count = 0;
     coverage.pending_fetch_blocked = false;
     coverage.pending_fetch_failure_streak = 0;
+    delete coverage.pending_legacy;
     delete coverage.pending_fetch_blocked_reason;
     delete coverage.last_pending_source_url;
+    delete coverage.last_pending_bucket;
+    delete coverage.pending_model_id;
+    delete coverage.pending_model_first_observed_utc;
   }
 
   // Write updated hashes and state artifacts.
@@ -2457,6 +2626,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     escalationFlipOverrides,
     coverageGaps,
     qualityGateHeld: [...qualityGateHeldSet].sort((a, b) => a.localeCompare(b)),
+    legacyPending,
   };
 }
 
@@ -2472,6 +2642,7 @@ async function main() {
   const allErrors = [];
   const allPending = [];
   const allFetchBlockedPending = [];
+  const allLegacyPending = [];
   const allStalePending = [];
   const allVolatilePending = [];
   const allEscalatedPending = [];
@@ -2529,6 +2700,12 @@ async function main() {
       const pendingNames = sortedLimitedVendors(result.pending, getPendingDetailLimit());
       console.log(
         `::notice::${result.name}: pending vendors (first ${pendingNames.length}): ${pendingNames.join(", ")}`
+      );
+    }
+    if (result.legacyPending.length > 0) {
+      const legacyNames = sortedLimitedVendors(result.legacyPending, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: legacy_pending=${result.legacyPending.length} (predates ${PENDING_MODEL_ID}; excluded from primary pending metrics until reobserved); first ${legacyNames.length}: ${legacyNames.join(", ")}`
       );
     }
     if (result.fetchBlockedPending.length > 0) {
@@ -2654,6 +2831,9 @@ async function main() {
     for (const vendor of result.fetchBlockedPending) {
       allFetchBlockedPending.push({ policyType: result.name, vendor });
     }
+    for (const vendor of result.legacyPending) {
+      allLegacyPending.push({ policyType: result.name, vendor });
+    }
     if (result.pending.length > 0) {
       pendingDetailByPolicy[result.name] = [...result.pending];
     }
@@ -2688,6 +2868,11 @@ async function main() {
 
   const pendingByPolicy = toPolicyCountString(allPending);
   const pendingSample = allPending
+    .slice(0, 25)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const legacyPendingByPolicy = toPolicyCountString(allLegacyPending);
+  const legacyPendingSample = allLegacyPending
     .slice(0, 25)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
@@ -2866,6 +3051,9 @@ async function main() {
   console.log(`PENDING_BY_POLICY=${pendingByPolicy}`);
   console.log(`PENDING_SAMPLE=${pendingSample}`);
   console.log(`PENDING_DETAIL=${pendingDetail}`);
+  console.log(`LEGACY_PENDING_COUNT=${allLegacyPending.length}`);
+  console.log(`LEGACY_PENDING_BY_POLICY=${legacyPendingByPolicy}`);
+  console.log(`LEGACY_PENDING_SAMPLE=${legacyPendingSample}`);
   console.log(`FETCH_BLOCKED_PENDING_COUNT=${allFetchBlockedPending.length}`);
   console.log(`FETCH_BLOCKED_PENDING_BY_POLICY=${fetchBlockedPendingByPolicy}`);
   console.log(`FETCH_BLOCKED_PENDING_SAMPLE=${fetchBlockedPendingSample}`);
@@ -2981,4 +3169,13 @@ async function main() {
   process.exitCode = 0;
 }
 
-main();
+const isMainModule = process.argv[1]
+  ? import.meta.url === pathToFileURL(process.argv[1]).href
+  : false;
+
+if (isMainModule) {
+  main().catch((error) => {
+    console.error(error?.stack || error?.message || String(error));
+    process.exitCode = 1;
+  });
+}

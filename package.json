@@ -7,6 +7,7 @@
     "smoke": "node scripts/smoke-test.js",
     "mcp:check": "bash scripts/mcp-check.sh",
     "workflow:test": "node scripts/workflow-zendesk-refund-test.js",
+    "test:policy-check": "node scripts/test-check-policies.js",
     "test:contract": "node scripts/test-decision-contract.js",
     "test:policy-feed": "node scripts/test-policy-feed.js"
   }

@@ -97,6 +97,12 @@ jobs:
           pending_by_policy=$(extract_output_value "PENDING_BY_POLICY")
           pending_sample=$(extract_output_value "PENDING_SAMPLE")
           pending_detail=$(extract_output_value "PENDING_DETAIL")
+          legacy_pending_count=$(extract_output_value "LEGACY_PENDING_COUNT" | tr -d '[:space:]')
+          legacy_pending_by_policy=$(extract_output_value "LEGACY_PENDING_BY_POLICY")
+          legacy_pending_sample=$(extract_output_value "LEGACY_PENDING_SAMPLE")
+          fetch_blocked_pending_count=$(extract_output_value "FETCH_BLOCKED_PENDING_COUNT" | tr -d '[:space:]')
+          fetch_blocked_pending_by_policy=$(extract_output_value "FETCH_BLOCKED_PENDING_BY_POLICY")
+          fetch_blocked_pending_sample=$(extract_output_value "FETCH_BLOCKED_PENDING_SAMPLE")
           stale_pending_count=$(extract_output_value "STALE_PENDING_COUNT" | tr -d '[:space:]')
           stale_pending_by_policy=$(extract_output_value "STALE_PENDING_BY_POLICY")
           stale_pending_sample=$(extract_output_value "STALE_PENDING_SAMPLE")
@@ -122,6 +128,9 @@ jobs:
           tier1_failed_sample=$(extract_output_value "TIER1_FAILED_SAMPLE")
           tier1_missing_configured_count=$(extract_output_value "TIER1_MISSING_CONFIGURED_COUNT" | tr -d '[:space:]')
           tier1_missing_configured_sample=$(extract_output_value "TIER1_MISSING_CONFIGURED_SAMPLE")
+          quality_gate_held_count=$(extract_output_value "QUALITY_GATE_HELD_COUNT" | tr -d '[:space:]')
+          quality_gate_held_by_policy=$(extract_output_value "QUALITY_GATE_HELD_BY_POLICY")
+          quality_gate_held_sample=$(extract_output_value "QUALITY_GATE_HELD_SAMPLE")
 
           if [ -z "$actual_diff_sample" ]; then actual_diff_sample=$(extract_output_value "MATERIAL_DIFF_SAMPLE"); fi
           if [ -z "$actual_changed_count" ]; then actual_changed_count=$changed_count; fi
@@ -133,6 +142,8 @@ jobs:
           if [ -z "$actual_changed_count" ]; then actual_changed_count=0; fi
           if [ -z "$changed_count" ]; then changed_count=0; fi
           if [ -z "$pending_count" ]; then pending_count=0; fi
+          if [ -z "$legacy_pending_count" ]; then legacy_pending_count=0; fi
+          if [ -z "$fetch_blocked_pending_count" ]; then fetch_blocked_pending_count=0; fi
           if [ -z "$stale_pending_count" ]; then stale_pending_count=0; fi
           if [ -z "$volatile_pending_count" ]; then volatile_pending_count=0; fi
           if [ -z "$escalation_count" ]; then escalation_count=0; fi
@@ -144,6 +155,7 @@ jobs:
           if [ -z "$tier1_failed" ]; then tier1_failed=0; fi
           if [ -z "$tier1_coverage_pct" ]; then tier1_coverage_pct=0.00; fi
           if [ -z "$tier1_missing_configured_count" ]; then tier1_missing_configured_count=0; fi
+          if [ -z "$quality_gate_held_count" ]; then quality_gate_held_count=0; fi
 
           sum_policy_counts() {
             local value="$1"
@@ -190,6 +202,12 @@ jobs:
           echo "pending_by_policy=$pending_by_policy" >> "$GITHUB_OUTPUT"
           echo "pending_sample=$pending_sample" >> "$GITHUB_OUTPUT"
           echo "pending_detail=$pending_detail" >> "$GITHUB_OUTPUT"
+          echo "legacy_pending_count=$legacy_pending_count" >> "$GITHUB_OUTPUT"
+          echo "legacy_pending_by_policy=$legacy_pending_by_policy" >> "$GITHUB_OUTPUT"
+          echo "legacy_pending_sample=$legacy_pending_sample" >> "$GITHUB_OUTPUT"
+          echo "fetch_blocked_pending_count=$fetch_blocked_pending_count" >> "$GITHUB_OUTPUT"
+          echo "fetch_blocked_pending_by_policy=$fetch_blocked_pending_by_policy" >> "$GITHUB_OUTPUT"
+          echo "fetch_blocked_pending_sample=$fetch_blocked_pending_sample" >> "$GITHUB_OUTPUT"
           echo "stale_pending_count=$stale_pending_count" >> "$GITHUB_OUTPUT"
           echo "stale_pending_by_policy=$stale_pending_by_policy" >> "$GITHUB_OUTPUT"
           echo "stale_pending_sample=$stale_pending_sample" >> "$GITHUB_OUTPUT"
@@ -215,7 +233,79 @@ jobs:
           echo "tier1_failed_sample=$tier1_failed_sample" >> "$GITHUB_OUTPUT"
           echo "tier1_missing_configured_count=$tier1_missing_configured_count" >> "$GITHUB_OUTPUT"
           echo "tier1_missing_configured_sample=$tier1_missing_configured_sample" >> "$GITHUB_OUTPUT"
+          echo "quality_gate_held_count=$quality_gate_held_count" >> "$GITHUB_OUTPUT"
+          echo "quality_gate_held_by_policy=$quality_gate_held_by_policy" >> "$GITHUB_OUTPUT"
+          echo "quality_gate_held_sample=$quality_gate_held_sample" >> "$GITHUB_OUTPUT"
           echo "contract_valid=$contract_valid" >> "$GITHUB_OUTPUT"
+
+      - name: Summarize policy health
+        env:
+          POLICY_CHECK_PUBLIC_ISSUES_ENABLED: ${{ env.POLICY_CHECK_PUBLIC_ISSUES_ENABLED }}
+          ACTUAL_CHANGED_COUNT: ${{ steps.check.outputs.actual_changed_count }}
+          PENDING_COUNT: ${{ steps.check.outputs.pending_count }}
+          LEGACY_PENDING_COUNT: ${{ steps.check.outputs.legacy_pending_count }}
+          LEGACY_PENDING_BY_POLICY: ${{ steps.check.outputs.legacy_pending_by_policy }}
+          FETCH_BLOCKED_PENDING_COUNT: ${{ steps.check.outputs.fetch_blocked_pending_count }}
+          FETCH_BLOCKED_PENDING_BY_POLICY: ${{ steps.check.outputs.fetch_blocked_pending_by_policy }}
+          STALE_PENDING_COUNT: ${{ steps.check.outputs.stale_pending_count }}
+          VOLATILE_PENDING_COUNT: ${{ steps.check.outputs.volatile_pending_count }}
+          ESCALATION_COUNT: ${{ steps.check.outputs.escalation_count }}
+          FETCH_FAILURE_COUNT: ${{ steps.check.outputs.fetch_failure_count }}
+          FETCH_FAILURE_BY_POLICY: ${{ steps.check.outputs.fetch_failure_by_policy }}
+          FETCH_HEALTH_STATUS: ${{ steps.check.outputs.fetch_health_status }}
+          TIER1_TOTAL: ${{ steps.check.outputs.tier1_total }}
+          TIER1_FETCHED: ${{ steps.check.outputs.tier1_fetched }}
+          TIER1_COVERAGE_PCT: ${{ steps.check.outputs.tier1_coverage_pct }}
+          QUALITY_GATE_HELD_COUNT: ${{ steps.check.outputs.quality_gate_held_count }}
+          QUALITY_GATE_HELD_BY_POLICY: ${{ steps.check.outputs.quality_gate_held_by_policy }}
+        run: |
+          changed="${ACTUAL_CHANGED_COUNT:-0}"
+          pending="${PENDING_COUNT:-0}"
+          legacy_pending="${LEGACY_PENDING_COUNT:-0}"
+          fetch_blocked="${FETCH_BLOCKED_PENDING_COUNT:-0}"
+          stale="${STALE_PENDING_COUNT:-0}"
+          volatile="${VOLATILE_PENDING_COUNT:-0}"
+          escalations="${ESCALATION_COUNT:-0}"
+          fetch_failures="${FETCH_FAILURE_COUNT:-0}"
+          fetch_health="${FETCH_HEALTH_STATUS:-healthy}"
+          tier1_total="${TIER1_TOTAL:-0}"
+          tier1_fetched="${TIER1_FETCHED:-0}"
+          tier1_pct="${TIER1_COVERAGE_PCT:-0.00}"
+          quality_gate_held="${QUALITY_GATE_HELD_COUNT:-0}"
+          issue_mode="${POLICY_CHECK_PUBLIC_ISSUES_ENABLED:-0}"
+
+          if [ "$fetch_health" != "healthy" ] || [ "$fetch_blocked" -gt 0 ]; then
+            echo "::warning::Policy fetch health=${fetch_health}; failures=${fetch_failures}; fetch_blocked_pending=${fetch_blocked}."
+          fi
+          if [ "$escalations" -gt 0 ]; then
+            echo "::warning::Policy escalation backlog=${escalations}; stale=${stale}; volatile=${volatile}; quality_gate_held=${quality_gate_held}."
+          fi
+
+          {
+            echo "## Policy health"
+            echo
+            echo "- Confirmed changes: ${changed}"
+            echo "- Active pending candidates: ${pending}"
+            echo "- Legacy pending carried: ${legacy_pending}"
+            echo "- Fetch-blocked pending: ${fetch_blocked}"
+            echo "- Fetch failures: ${fetch_failures} (${fetch_health})"
+            echo "- Quality-gate held: ${quality_gate_held}"
+            echo "- Escalations: ${escalations}"
+            echo "- Tier-1 coverage: ${tier1_fetched}/${tier1_total} (${tier1_pct}%)"
+            echo "- Public issue automation: ${issue_mode}"
+            if [ -n "${FETCH_FAILURE_BY_POLICY:-}" ]; then
+              echo "- Fetch failures by policy: ${FETCH_FAILURE_BY_POLICY}"
+            fi
+            if [ -n "${LEGACY_PENDING_BY_POLICY:-}" ]; then
+              echo "- Legacy pending by policy: ${LEGACY_PENDING_BY_POLICY}"
+            fi
+            if [ -n "${FETCH_BLOCKED_PENDING_BY_POLICY:-}" ]; then
+              echo "- Fetch-blocked pending by policy: ${FETCH_BLOCKED_PENDING_BY_POLICY}"
+            fi
+            if [ -n "${QUALITY_GATE_HELD_BY_POLICY:-}" ]; then
+              echo "- Quality-gate held by policy: ${QUALITY_GATE_HELD_BY_POLICY}"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Commit policy artifacts to aggregation branch
         id: commit_artifacts
@@ -459,6 +549,12 @@ jobs:
           PENDING_BY_POLICY: ${{ steps.check.outputs.pending_by_policy }}
           PENDING_SAMPLE: ${{ steps.check.outputs.pending_sample }}
           PENDING_DETAIL: ${{ steps.check.outputs.pending_detail }}
+          LEGACY_PENDING_COUNT: ${{ steps.check.outputs.legacy_pending_count }}
+          LEGACY_PENDING_BY_POLICY: ${{ steps.check.outputs.legacy_pending_by_policy }}
+          LEGACY_PENDING_SAMPLE: ${{ steps.check.outputs.legacy_pending_sample }}
+          FETCH_BLOCKED_PENDING_COUNT: ${{ steps.check.outputs.fetch_blocked_pending_count }}
+          FETCH_BLOCKED_PENDING_BY_POLICY: ${{ steps.check.outputs.fetch_blocked_pending_by_policy }}
+          FETCH_BLOCKED_PENDING_SAMPLE: ${{ steps.check.outputs.fetch_blocked_pending_sample }}
           STALE_PENDING_COUNT: ${{ steps.check.outputs.stale_pending_count }}
           STALE_PENDING_BY_POLICY: ${{ steps.check.outputs.stale_pending_by_policy }}
           STALE_PENDING_SAMPLE: ${{ steps.check.outputs.stale_pending_sample }}
@@ -484,6 +580,9 @@ jobs:
           TIER1_FAILED_SAMPLE: ${{ steps.check.outputs.tier1_failed_sample }}
           TIER1_MISSING_CONFIGURED_COUNT: ${{ steps.check.outputs.tier1_missing_configured_count }}
           TIER1_MISSING_CONFIGURED_SAMPLE: ${{ steps.check.outputs.tier1_missing_configured_sample }}
+          QUALITY_GATE_HELD_COUNT: ${{ steps.check.outputs.quality_gate_held_count }}
+          QUALITY_GATE_HELD_BY_POLICY: ${{ steps.check.outputs.quality_gate_held_by_policy }}
+          QUALITY_GATE_HELD_SAMPLE: ${{ steps.check.outputs.quality_gate_held_sample }}
         with:
           retries: 3
           script: |
@@ -498,6 +597,12 @@ jobs:
             const pendingByPolicy = process.env.PENDING_BY_POLICY || '';
             const pendingSample = process.env.PENDING_SAMPLE || '';
             const pendingDetail = process.env.PENDING_DETAIL || '';
+            const legacyPendingCount = Number.parseInt(process.env.LEGACY_PENDING_COUNT || '0', 10) || 0;
+            const legacyPendingByPolicy = process.env.LEGACY_PENDING_BY_POLICY || '';
+            const legacyPendingSample = process.env.LEGACY_PENDING_SAMPLE || '';
+            const fetchBlockedPendingCount = Number.parseInt(process.env.FETCH_BLOCKED_PENDING_COUNT || '0', 10) || 0;
+            const fetchBlockedPendingByPolicy = process.env.FETCH_BLOCKED_PENDING_BY_POLICY || '';
+            const fetchBlockedPendingSample = process.env.FETCH_BLOCKED_PENDING_SAMPLE || '';
             const stalePendingCount = Number.parseInt(process.env.STALE_PENDING_COUNT || '0', 10) || 0;
             const stalePendingByPolicy = process.env.STALE_PENDING_BY_POLICY || '';
             const stalePendingSample = process.env.STALE_PENDING_SAMPLE || '';
@@ -523,6 +628,9 @@ jobs:
             const tier1FailedSample = process.env.TIER1_FAILED_SAMPLE || '';
             const tier1MissingConfiguredCount = Number.parseInt(process.env.TIER1_MISSING_CONFIGURED_COUNT || '0', 10) || 0;
             const tier1MissingConfiguredSample = process.env.TIER1_MISSING_CONFIGURED_SAMPLE || '';
+            const qualityGateHeldCount = Number.parseInt(process.env.QUALITY_GATE_HELD_COUNT || '0', 10) || 0;
+            const qualityGateHeldByPolicy = process.env.QUALITY_GATE_HELD_BY_POLICY || '';
+            const qualityGateHeldSample = process.env.QUALITY_GATE_HELD_SAMPLE || '';
             const today = new Date().toISOString().split('T')[0];
             const changedTitlePrefix = `Policy changes (${today}):`;
             const pendingTitlePrefix = `Policy checker pending candidates (${today}):`;
@@ -543,6 +651,18 @@ jobs:
               .map((item) => `- ${item.replace(':', ': ')}`)
               .join('\n');
             const pendingByPolicyList = pendingByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
+            const legacyPendingByPolicyList = legacyPendingByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
+            const fetchBlockedByPolicyList = fetchBlockedPendingByPolicy
               .split(',')
               .map((s) => s.trim())
               .filter(Boolean)
@@ -573,6 +693,12 @@ jobs:
               .map((item) => `- ${item.replace(':', ': ')}`)
               .join('\n');
             const fetchFailureByPolicyList = fetchFailureByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
+            const qualityGateHeldByPolicyList = qualityGateHeldByPolicy
               .split(',')
               .map((s) => s.trim())
               .filter(Boolean)
@@ -620,7 +746,8 @@ jobs:
               "## Policy checker summary",
               "",
               `Policy changes: **${changedCount}**`,
-              `Pending candidates (needs confirmation): **${pendingCount}**`,
+              `Active pending candidates (needs confirmation): **${pendingCount}**`,
+              `Legacy pending carried forward: **${legacyPendingCount}**`,
               `Fetch health: **${fetchHealthStatus}**`,
               `Tier-1 coverage: **${tier1Fetched}/${tier1Total} (${tier1CoveragePct}%)**`,
               "",
@@ -630,8 +757,11 @@ jobs:
               pendingByPolicy ? "### Pending by policy\n" + pendingByPolicyList + "\n" : "",
               pendingDetailList ? "### Pending vendors (first slice per policy)\n" + pendingDetailList + "\n" : "",
               pendingSample ? `Pending sample: \`${pendingSample}\`\n` : "",
+              legacyPendingCount > 0 ? `### Legacy pending carried\n- Total: **${legacyPendingCount}**\n${legacyPendingByPolicyList}\n${legacyPendingSample ? `Sample: \`${legacyPendingSample}\`` : ""}\n` : "",
+              fetchBlockedPendingCount > 0 ? `### Fetch-blocked pending\n- Total: **${fetchBlockedPendingCount}**\n${fetchBlockedByPolicyList}\n${fetchBlockedPendingSample ? `Sample: \`${fetchBlockedPendingSample}\`` : ""}\n` : "",
               stalePendingCount > 0 ? `### Stale pending (>=3 day(s))\n- Total: **${stalePendingCount}**\n${staleByPolicyList}\n${stalePendingSample ? `Sample: \`${stalePendingSample}\`` : ""}\n` : "",
               volatilePendingCount > 0 ? `### Volatile pending (flip_count threshold)\n- Total: **${volatilePendingCount}**\n${volatileByPolicyList}\n${volatilePendingSample ? `Sample: \`${volatilePendingSample}\`` : ""}\n` : "",
+              qualityGateHeldCount > 0 ? `### Quality-gate held\n- Total: **${qualityGateHeldCount}**\n${qualityGateHeldByPolicyList}\n${qualityGateHeldSample ? `Sample: \`${qualityGateHeldSample}\`` : ""}\n` : "",
               escalationCount > 0 ? `### Escalation candidates (SLA)\n- Total: **${escalationCount}**\n${escalationByPolicyList}\n${escalationDetailList ? `${escalationDetailList}\n` : ""}${escalationSample ? `Sample: \`${escalationSample}\`` : ""}\n` : "",
               coverageGapCount > 0 ? `### Pending without confirm/escalation (coverage gap)\n- Total: **${coverageGapCount}**\n${coverageGapByPolicyList}\n${coverageGapSample ? `Sample: \`${coverageGapSample}\`` : ""}\n` : "",
               fetchFailureCount > 0 ? `### Fetch failures (degraded observability)\n- Total: **${fetchFailureCount}**\n${fetchFailureByPolicyList}\n${fetchFailureSample ? `Sample: \`${fetchFailureSample}\`` : ""}\n` : "",
