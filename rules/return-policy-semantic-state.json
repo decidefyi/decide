@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T21:00:02Z",
+  "updated_utc": "2026-03-06T22:12:31Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -21,10 +21,21 @@
       "metadata_signature": ""
     },
     "amazon_music_unlimited": {
-      "hash": "68b9c2575d630fc0",
+      "hash": "af269df401abdbdc",
       "source_url": "https://www.amazon.com/music/unlimited",
-      "extracted_at_utc": "2026-02-23T19:00:59Z",
-      "tokens": []
+      "extracted_at_utc": "2026-03-06T22:09:11Z",
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "Amazon Music Unlimited | 100 million songs ad-free‎",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "59780a5d3fff9de5"
     },
     "adobe": {
       "hash": "fc474abb552cf409",
@@ -149,12 +160,23 @@
       "metadata_signature": ""
     },
     "bitwarden": {
-      "hash": "d96b9f6ece8985e8",
+      "hash": "27376d0026f7e97d",
       "source_url": "https://bitwarden.com/help/cancel-a-subscription/",
-      "extracted_at_utc": "2026-02-19T23:32:30Z",
+      "extracted_at_utc": "2026-03-06T22:10:08Z",
       "tokens": [
         "flow:support_request"
-      ]
+      ],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "Cancel a Subscription | Bitwarden",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "4a3090907b8815b4"
     },
     "bumble": {
       "hash": "4c1f0000f201459c",
@@ -241,10 +263,21 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "381722386c9d7ac8",
+      "hash": "cdfa6058ffd4b5e9",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-02-19T23:32:42Z",
-      "tokens": []
+      "extracted_at_utc": "2026-03-06T22:10:18Z",
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "html",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "ea7c709252c84b20"
     },
     "duolingo": {
       "hash": "be6a999624b589e8",
@@ -342,10 +375,21 @@
       "metadata_signature": ""
     },
     "github_pro": {
-      "hash": "5dc0d485fc4afc81",
+      "hash": "ceafce7fe4f94d56",
       "source_url": "https://docs.github.com/en/billing/managing-the-plan-for-your-github-account/downgrading-your-accounts-plan",
-      "extracted_at_utc": "2026-02-19T23:32:47Z",
-      "tokens": []
+      "extracted_at_utc": "2026-03-06T22:10:22Z",
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "Downgrading your account&#x27;s plan - GitHub Docs",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "9926c8a3cfa29588"
     },
     "fubo_tv": {
       "hash": "d94532d3b027dae7",
@@ -494,13 +538,13 @@
       "metadata_signature": ""
     },
     "kindle_unlimited": {
-      "hash": "354bf928cf1aaf25",
+      "hash": "8406b35ffe997971",
       "source_url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku",
-      "extracted_at_utc": "2026-02-19T23:32:58Z",
+      "extracted_at_utc": "2026-03-06T22:10:25Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Sign up to Kindle Unlimited for a Free Trial",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -508,15 +552,26 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "5962737ae1b74840"
     },
     "max": {
-      "hash": "9a0c33ee8a69779a",
+      "hash": "dbfb7ffa6202b89d",
       "source_url": "https://help.hbomax.com/US/Answer/Detail/000002522",
-      "extracted_at_utc": "2026-02-21T01:17:55Z",
+      "extracted_at_utc": "2026-03-06T22:10:26Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
-      ]
+      ],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "HBO Max | Find HBO Max refund policies for your billing provider.",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "2676dd4a9183b4e1"
     },
     "linkedin_premium": {
       "hash": "b1cd57726c049352",
@@ -742,12 +797,23 @@
       "metadata_signature": ""
     },
     "ring_protect": {
-      "hash": "3f8557f772818b8f",
+      "hash": "84030370e659bd4a",
       "source_url": "https://ring.com/protect-plans",
-      "extracted_at_utc": "2026-02-22T06:45:12Z",
+      "extracted_at_utc": "2026-03-06T22:11:10Z",
       "tokens": [
         "billing:auto_renew"
-      ]
+      ],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "Ring Protect - Subscription Plans for Home Security | Ring",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "d0834e9d9714a2ec"
     },
     "scribd": {
       "hash": "0cac65b719c1c5b6",
@@ -929,7 +995,18 @@
       "extracted_at_utc": "2026-02-28T12:37:38Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
-      ]
+      ],
+      "page_metadata": {
+        "source_kind": "",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": ""
     },
     "tidal": {
       "hash": "0b9d257da80273e5",
@@ -1154,14 +1231,25 @@
       "metadata_signature": ""
     },
     "siriusxm": {
-      "hash": "db315f471a6142a3",
+      "hash": "df43bbaae5ea60b7",
       "source_url": "https://www.siriusxm.com/customeragreement/",
-      "extracted_at_utc": "2026-02-19T23:33:31Z",
+      "extracted_at_utc": "2026-03-06T22:11:20Z",
       "tokens": [
         "billing:auto_renew",
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
-      ]
+      ],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "Customer Agreement | SiriusXM",
+        "display_last_updated_label": "June 5, 2025",
+        "display_last_updated_date_utc": "2025-06-05",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "2d738d81adc8e4a0"
     },
     "weightwatchers": {
       "hash": "8dc66263025a40e5",
@@ -1176,14 +1264,25 @@
       "tokens": []
     },
     "ea_play": {
-      "hash": "cc8523fdb05beefa",
+      "hash": "969d64b3b74b24e6",
       "source_url": "https://www.ea.com/legal/user-agreement",
-      "extracted_at_utc": "2026-02-19T23:33:38Z",
+      "extracted_at_utc": "2026-03-06T22:11:22Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "return:condition_unopened_or_unused",
         "risk:chargeback_or_dispute"
-      ]
+      ],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "User Agreement - Official EA Site",
+        "display_last_updated_label": "December 11, 2025",
+        "display_last_updated_date_utc": "2025-12-11",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "08091bf7dc0366df"
     },
     "ubisoft_plus": {
       "hash": "85d1e1222dba885e",
@@ -1264,10 +1363,21 @@
       "metadata_signature": ""
     },
     "wall_street_journal": {
-      "hash": "56f9c2fd6d0cd9f0",
+      "hash": "8bcaca7bd2756902",
       "source_url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
-      "extracted_at_utc": "2026-02-19T23:33:43Z",
-      "tokens": []
+      "extracted_at_utc": "2026-03-06T22:11:24Z",
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "e18c5ea37454df39"
     },
     "washington_post": {
       "hash": "093f3da85ae8ce44",
@@ -1467,13 +1577,24 @@
       "metadata_signature": ""
     },
     "claude_pro": {
-      "hash": "31fee4582b8164e8",
+      "hash": "2bb6b917539d2950",
       "source_url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
-      "extracted_at_utc": "2026-02-28T06:34:48Z",
+      "extracted_at_utc": "2026-03-06T22:10:09Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
-      ]
+      ],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "Requesting a refund for a paid Claude plan | Claude Help Center",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "698d782ea2fd7d01"
     },
     "calm": {
       "hash": "32092096ec499d3b",
@@ -1495,13 +1616,13 @@
       "metadata_signature": ""
     },
     "google_one": {
-      "hash": "47fe303a75ca7032",
+      "hash": "72d9d08f5726037e",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-02-19T23:34:02Z",
+      "extracted_at_utc": "2026-03-06T22:10:22Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Plans & Pricing to Upgrade Your Cloud Storage - Google One",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1509,7 +1630,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "e47e0c36e2bbf62b"
     },
     "proton": {
       "hash": "9797e79eb7ad6a9c",
@@ -1531,12 +1652,12 @@
       "metadata_signature": ""
     },
     "masterclass": {
-      "hash": "25073741b6741db6",
+      "hash": "e6d641115730b63f",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-03-01T18:29:52Z",
+      "extracted_at_utc": "2026-03-06T22:11:04Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1545,7 +1666,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "e18c5ea37454df39"
     },
     "roblox_premium": {
       "hash": "d15eabe459d7d36d",
@@ -1568,10 +1689,21 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "d988b9e1a1dc07bc",
+      "hash": "ceb88fd2b0d62c97",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-02-24T18:58:11Z",
-      "tokens": []
+      "extracted_at_utc": "2026-03-06T22:10:19Z",
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "Watch ESPN - Stream Live Sports & ESPN Originals",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "c17cbbfb2657430a"
     },
     "canva": {
       "hash": "69d172f6c0185ed3",
