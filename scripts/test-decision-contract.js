@@ -17,6 +17,10 @@ function loadFixture(fileName) {
   return JSON.parse(readFileSync(join(FIXTURE_DIR, fileName), "utf8"));
 }
 
+function loadJsonFromRepo(...segments) {
+  return JSON.parse(readFileSync(join(__dirname, "..", ...segments), "utf8"));
+}
+
 function assertIsoTimestamp(value, label) {
   assert.equal(typeof value, "string", `${label}: expected string`);
   assert.ok(Number.isFinite(Date.parse(value)), `${label}: expected ISO timestamp`);
@@ -136,12 +140,34 @@ async function testWorkflowFixture() {
   assert.equal(second.json?.idempotent_replay, true, "workflow idempotent replay expected");
 }
 
+async function testUcpVendorEnumConsistency() {
+  const rules = loadJsonFromRepo("rules", "v1_us_individual.json");
+  const ucp = loadJsonFromRepo("public", ".well-known", "ucp.json");
+
+  const expectedVendors = Object.keys(rules?.vendors || {}).sort((a, b) => a.localeCompare(b));
+  assert.ok(expectedVendors.length > 0, "rules vendor list should not be empty");
+
+  for (const service of ucp?.services || []) {
+    const actual = Array.isArray(service?.inputs?.vendor?.enum)
+      ? [...service.inputs.vendor.enum].sort((a, b) => a.localeCompare(b))
+      : null;
+
+    assert.ok(actual, `${service?.name || "unknown service"} is missing inputs.vendor.enum`);
+    assert.deepEqual(
+      actual,
+      expectedVendors,
+      `${service?.name || "unknown service"} vendor enum drifted from rules/v1_us_individual.json`
+    );
+  }
+}
+
 async function main() {
   const tests = [
     ["decide-single", testDecideSingleFixture],
     ["decide-api-key", testDecideApiKeyFixture],
     ["policy-v1-dispatch", testPolicyV1Fixture],
     ["workflow-zendesk-dispatch", testWorkflowFixture],
+    ["ucp-vendor-enum-consistency", testUcpVendorEnumConsistency],
   ];
 
   let passed = 0;
