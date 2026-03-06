@@ -465,8 +465,18 @@
       "notes": "Refund handling depends on purchase channel and platform policies."
     },
     "myfitnesspal_premium": {
-      "url": "https://www.myfitnesspal.com/terms-of-use",
-      "notes": "Subscription charges are generally non-refundable."
+      "url": "https://support.myfitnesspal.com/hc/en-us/articles/360032625371-How-do-I-cancel-my-Premium-subscription-renewal",
+      "notes": "Subscription charges are generally non-refundable.",
+      "fetch_lanes": [
+        "zendesk_api",
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://support.myfitnesspal.com/hc/en-us/sections/360006006792-MYFITNESSPAL-PREMIUM",
+        "https://www.myfitnesspal.com/terms-of-use"
+      ]
     },
     "weightwatchers": {
       "url": "https://www.weightwatchers.com/us/terms-and-conditions",
@@ -542,8 +552,16 @@
       "notes": "Snap subscription terms and billing conditions."
     },
     "x_premium": {
-      "url": "https://help.x.com/en/using-x/x-premium",
-      "notes": "X Premium subscription details and billing behavior."
+      "url": "https://legal.x.com/purchaser-terms.html",
+      "notes": "X Premium subscription details and billing behavior.",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://help.x.com/en/using-x/x-premium"
+      ]
     },
     "reddit_premium": {
       "url": "https://www.reddit.com/premium",
