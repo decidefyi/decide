@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T23:16:48Z",
+  "updated_utc": "2026-03-06T23:42:09Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -290,9 +290,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "82c1b4982f72f3bc",
+      "hash": "63fa30da8f1502bc",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-06T23:13:52Z",
+      "extracted_at_utc": "2026-03-06T23:41:01Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -812,12 +812,12 @@
       "metadata_signature": "d0834e9d9714a2ec"
     },
     "shutterstock": {
-      "hash": "93fce0170819948f",
+      "hash": "d298fba0d61fda59",
       "source_url": "https://www.shutterstock.com/help/en/articles/10594851-can-i-get-a-refund-if-i-cancel-my-plan",
-      "extracted_at_utc": "2026-02-19T23:22:26Z",
+      "extracted_at_utc": "2026-03-06T23:41:19Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -826,7 +826,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "e18c5ea37454df39"
     },
     "sling_tv": {
       "hash": "886ae9f832fefa12",
@@ -1261,16 +1261,16 @@
       "metadata_signature": "08091bf7dc0366df"
     },
     "ubisoft_plus": {
-      "hash": "12dc3738d7667345",
+      "hash": "5d2d195c20dff859",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-02-27T18:29:10Z",
+      "extracted_at_utc": "2026-03-06T23:41:33Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Terms of Use of the Ubisoft Services",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1278,7 +1278,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "1565668bae889d59"
     },
     "roblox_premium": {
       "hash": "d15eabe459d7d36d",
@@ -1596,9 +1596,9 @@
       "metadata_signature": "698d782ea2fd7d01"
     },
     "google_one": {
-      "hash": "d23940a24c68c03f",
+      "hash": "47fe303a75ca7032",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-06T23:13:58Z",
+      "extracted_at_utc": "2026-03-06T23:41:04Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1613,21 +1613,21 @@
       "metadata_signature": "e47e0c36e2bbf62b"
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "1439f952cdd2ba61",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-28T18:19:48Z",
+      "extracted_at_utc": "2026-03-06T23:41:06Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "zendesk_article_json",
+        "source_title": "What Is Fubo's Cancellation Policy?",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
+        "source_updated_at_utc": "2025-10-07T18:03:26Z",
+        "source_edited_at_utc": "2025-10-07T18:03:21Z"
       },
-      "metadata_signature": ""
+      "metadata_signature": "1936ad56567d4452"
     },
     "evernote": {
       "hash": "5fb98c6ad4e6367d",
@@ -1685,9 +1685,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "1537659e64483c3a",
+      "hash": "a4bade94529d2964",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-06T23:13:54Z",
+      "extracted_at_utc": "2026-03-06T23:41:02Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1721,47 +1721,47 @@
       "metadata_signature": ""
     },
     "grammarly": {
-      "hash": "00bb244b6d292ffe",
+      "hash": "287ff660877b52d8",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-03-06T23:14:18Z",
+      "extracted_at_utc": "2026-03-06T23:41:07Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "zendesk_article_json",
-        "source_title": "Can I get a refund?",
+        "source_kind": "browser_hook",
+        "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "2025-10-27T20:22:40Z",
-        "source_edited_at_utc": "2025-10-27T20:22:40Z"
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
       },
-      "metadata_signature": "f7c4dff89de1e273"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "scribd": {
-      "hash": "56ab581e7a65f02d",
+      "hash": "0cac65b719c1c5b6",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-      "extracted_at_utc": "2026-03-06T23:15:02Z",
+      "extracted_at_utc": "2026-03-06T23:41:19Z",
       "tokens": [
         "refund_window_days:30",
         "refund:allowed_language",
         "refund:partial_allowed"
       ],
       "page_metadata": {
-        "source_kind": "zendesk_article_json",
-        "source_title": "Refunds",
+        "source_kind": "browser_hook",
+        "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "2026-02-27T17:19:25Z",
-        "source_edited_at_utc": "2026-02-13T15:18:30Z"
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
       },
-      "metadata_signature": "4a5e8492b4add1d1"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "midjourney": {
-      "hash": "f992155a8ebbbb53",
+      "hash": "1b2f6e20c6cb63ba",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-03-06T23:14:51Z",
+      "extracted_at_utc": "2026-03-06T23:41:12Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

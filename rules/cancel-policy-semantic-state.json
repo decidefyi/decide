@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T23:21:25Z",
+  "updated_utc": "2026-03-06T23:46:03Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -21,14 +21,14 @@
       "metadata_signature": "59780a5d3fff9de5"
     },
     "1password": {
-      "hash": "b861e7b433e09551",
+      "hash": "229f4e9a9a5cc299",
       "source_url": "https://support.1password.com/cancel-subscription/",
-      "extracted_at_utc": "2026-02-24T18:53:12Z",
+      "extracted_at_utc": "2026-03-06T23:42:16Z",
       "tokens": [
         "flow:support_request"
       ],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -37,7 +37,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "e18c5ea37454df39"
     },
     "adobe": {
       "hash": "fc474abb552cf409",
@@ -194,23 +194,23 @@
       "metadata_signature": ""
     },
     "calm": {
-      "hash": "32092096ec499d3b",
+      "hash": "9864b60e3ab10cb2",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-02-27T06:45:27Z",
+      "extracted_at_utc": "2026-03-06T23:43:20Z",
       "tokens": [
         "flow:support_request"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "zendesk_article_json",
+        "source_title": "Calm App Refund Policy: How to Get Your Money Back",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
+        "source_updated_at_utc": "2026-02-25T07:36:09Z",
+        "source_edited_at_utc": "2026-02-06T19:49:15Z"
       },
-      "metadata_signature": ""
+      "metadata_signature": "ec3ab5fabf81e23e"
     },
     "chatgpt_plus": {
       "hash": "8d821b42bd619a10",
@@ -294,9 +294,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "ce6b4dc4b9994ea8",
+      "hash": "0549c901af2e1f99",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-06T23:18:14Z",
+      "extracted_at_utc": "2026-03-06T23:43:47Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -383,24 +383,24 @@
       "metadata_signature": "9926c8a3cfa29588"
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "1439f952cdd2ba61",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-28T12:30:29Z",
+      "extracted_at_utc": "2026-03-06T23:44:12Z",
       "tokens": [
         "cancel:anytime",
         "cancel:fee_or_penalty"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "zendesk_article_json",
+        "source_title": "What Is Fubo's Cancellation Policy?",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
+        "source_updated_at_utc": "2025-10-07T18:03:26Z",
+        "source_edited_at_utc": "2025-10-07T18:03:21Z"
       },
-      "metadata_signature": ""
+      "metadata_signature": "1936ad56567d4452"
     },
     "google_play": {
       "hash": "b5cf2e31119e8d8d",
@@ -1246,9 +1246,9 @@
       "metadata_signature": ""
     },
     "wall_street_journal": {
-      "hash": "8bcaca7bd2756902",
+      "hash": "636fd9a26e87ec2a",
       "source_url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
-      "extracted_at_utc": "2026-03-06T22:07:21Z",
+      "extracted_at_utc": "2026-03-06T23:44:59Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1429,9 +1429,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "e9d003202773a6d6",
+      "hash": "0e60735bd578d83e",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-06T23:18:15Z",
+      "extracted_at_utc": "2026-03-06T23:43:48Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1589,9 +1589,9 @@
       "metadata_signature": ""
     },
     "patreon": {
-      "hash": "82837f17e72715f7",
+      "hash": "658852cb63b73f34",
       "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-      "extracted_at_utc": "2026-03-06T23:20:11Z",
+      "extracted_at_utc": "2026-03-06T23:44:56Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1642,9 +1642,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "audible": {
-      "hash": "fb62bb57e478d92d",
+      "hash": "1a1be8bdd209b2b2",
       "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-03-06T23:17:52Z",
+      "extracted_at_utc": "2026-03-06T23:43:17Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

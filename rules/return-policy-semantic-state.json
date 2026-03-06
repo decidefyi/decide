@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T23:24:10Z",
+  "updated_utc": "2026-03-06T23:49:02Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -263,9 +263,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "f863a3bd6f295036",
+      "hash": "8e2fe6ab7677fbf1",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-06T23:22:37Z",
+      "extracted_at_utc": "2026-03-06T23:47:10Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -816,23 +816,23 @@
       "metadata_signature": "d0834e9d9714a2ec"
     },
     "scribd": {
-      "hash": "56ab581e7a65f02d",
+      "hash": "0cac65b719c1c5b6",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-      "extracted_at_utc": "2026-03-06T23:22:56Z",
+      "extracted_at_utc": "2026-03-06T23:47:22Z",
       "tokens": [
         "return:condition_unopened_or_unused"
       ],
       "page_metadata": {
-        "source_kind": "zendesk_article_json",
-        "source_title": "Refunds",
+        "source_kind": "browser_hook",
+        "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "2026-02-27T17:19:25Z",
-        "source_edited_at_utc": "2026-02-13T15:18:30Z"
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
       },
-      "metadata_signature": "4a5e8492b4add1d1"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "shutterstock": {
       "hash": "93fce0170819948f",
@@ -1137,9 +1137,9 @@
       "metadata_signature": ""
     },
     "youtube_tv": {
-      "hash": "1b828e5e1471623e",
+      "hash": "e0e0cec49a668280",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-03-06T23:23:04Z",
+      "extracted_at_utc": "2026-03-06T23:47:37Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
@@ -1616,9 +1616,9 @@
       "metadata_signature": ""
     },
     "google_one": {
-      "hash": "e9a1e24fd931c011",
+      "hash": "47fe303a75ca7032",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-06T23:22:40Z",
+      "extracted_at_utc": "2026-03-06T23:47:13Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1689,9 +1689,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "ee8394b623bcc770",
+      "hash": "23e67f1dbbe147f8",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-06T23:22:38Z",
+      "extracted_at_utc": "2026-03-06T23:47:11Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

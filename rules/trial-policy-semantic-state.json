@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T23:28:26Z",
+  "updated_utc": "2026-03-06T23:52:26Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -211,9 +211,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "claude_pro": {
-      "hash": "3088ee651923ab6e",
+      "hash": "e902c12a4dda712a",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-03-06T23:25:14Z",
+      "extracted_at_utc": "2026-03-06T23:50:09Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -294,9 +294,9 @@
       "tokens": []
     },
     "disney_plus": {
-      "hash": "a27a41655966a0cb",
+      "hash": "a938ab1b7e750940",
       "source_url": "https://www.disneyplus.com/",
-      "extracted_at_utc": "2026-03-06T22:56:21Z",
+      "extracted_at_utc": "2026-03-06T23:50:13Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -311,9 +311,9 @@
       "metadata_signature": "28e2bf140f62715d"
     },
     "doordash_dashpass": {
-      "hash": "5204757efb34641e",
+      "hash": "f06655696c759e53",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-06T23:25:35Z",
+      "extracted_at_utc": "2026-03-06T23:50:23Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -527,9 +527,9 @@
       "metadata_signature": "d325f190679ffa56"
     },
     "hellofresh": {
-      "hash": "b88c5deb805c6cfc",
+      "hash": "a3a12335cd2da496",
       "source_url": "https://www.hellofresh.com/plans",
-      "extracted_at_utc": "2026-03-06T23:25:56Z",
+      "extracted_at_utc": "2026-03-06T23:50:31Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -637,9 +637,9 @@
       "tokens": []
     },
     "masterclass": {
-      "hash": "31e9c6990d098854",
+      "hash": "e6d641115730b63f",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-03-06T23:26:07Z",
+      "extracted_at_utc": "2026-03-06T23:50:52Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -815,9 +815,9 @@
       "metadata_signature": ""
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-06T23:26:53Z",
+      "extracted_at_utc": "2026-03-06T23:51:00Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1103,9 +1103,9 @@
       "metadata_signature": ""
     },
     "youtube_tv": {
-      "hash": "86444114a1f1b6f6",
+      "hash": "c0ccfb866d06719c",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-03-06T23:27:04Z",
+      "extracted_at_utc": "2026-03-06T23:51:10Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
@@ -1587,9 +1587,9 @@
       "metadata_signature": "aeda4ea20b37f073"
     },
     "google_one": {
-      "hash": "47fe303a75ca7032",
+      "hash": "d23940a24c68c03f",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-06T23:25:39Z",
+      "extracted_at_utc": "2026-03-06T23:50:27Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1624,9 +1624,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "2376c15a679de0a4",
+      "hash": "19c5b94d406cfac0",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-06T23:25:37Z",
+      "extracted_at_utc": "2026-03-06T23:50:24Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1641,12 +1641,12 @@
       "metadata_signature": "c17cbbfb2657430a"
     },
     "peacock": {
-      "hash": "6cea96372b4ac3cd",
+      "hash": "9d5ebe1adff952a6",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-03-06T23:26:52Z",
+      "extracted_at_utc": "2026-03-06T23:50:59Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "html",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1655,7 +1655,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "ea7c709252c84b20"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "twitch": {
       "hash": "493d8cc0e6f38d08",
