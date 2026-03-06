@@ -362,6 +362,35 @@ If you run `decide` behind the `decidesite` proxy with dynamic customer keys, al
 
 Rate limit: 100 requests/minute per IP.
 
+### Policy Fetch Hook (for policy checker browser-hook lane)
+
+Use `POST /api/policy-fetch-hook` as a fetch adapter for the daily checker when direct fetches are blocked.
+
+Request body:
+
+```json
+{
+  "url": "https://example.com/policy",
+  "vendor": "example_vendor",
+  "policy_type": "refund",
+  "timeout_ms": 18000
+}
+```
+
+Auth:
+- `Authorization: Bearer <POLICY_CHECK_BROWSER_HOOK_TOKEN>` or `x-hook-token: <token>`
+
+Server env:
+- `POLICY_CHECK_BROWSER_HOOK_TOKEN` (required for endpoint auth)
+- `POLICY_FETCH_BROWSERLESS_TOKEN` (optional; enables browserless render first)
+- `POLICY_FETCH_BROWSERLESS_CONTENT_URL` (optional override; default `https://chrome.browserless.io/content`)
+- `POLICY_FETCH_ALLOWED_HOSTS` (optional comma-separated host allowlist)
+
+Checker (GitHub Actions, repo `decide`):
+- Secret `POLICY_CHECK_BROWSER_HOOK_URL` = deployed endpoint URL (example: `https://decide-1.vercel.app/api/policy-fetch-hook`)
+- Secret `POLICY_CHECK_BROWSER_HOOK_TOKEN` = same token as runtime env
+- Variable `POLICY_CHECK_FETCH_LANES_DEFAULT` = `browser_hook,direct,zendesk_api,mirror`
+
 Questions? [decidefyi@gmail.com](mailto:decidefyi@gmail.com) or [@decidefyi on X](https://x.com/decidefyi)
 
 ## Links
