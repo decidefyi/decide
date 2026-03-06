@@ -8,6 +8,7 @@ import {
   isLegacyPendingCandidate,
   LEGACY_PENDING_MODEL_ID,
   PENDING_MODEL_ID,
+  toZendeskHelpCenterApiTarget,
 } from "./check-policies.js";
 
 function testImmediateBlockOnCloudflareAnd403() {
@@ -74,6 +75,33 @@ function testCurrentPendingModelStaysActive() {
   assert.equal(isLegacyPendingCandidate(candidate), false, "current-model candidates should remain active");
 }
 
+function testZendeskApiTargetForArticle() {
+  const result = toZendeskHelpCenterApiTarget(
+    "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription"
+  );
+
+  assert.deepEqual(result, {
+    kind: "article",
+    apiUrl: "https://help.crunchyroll.com/api/v2/help_center/en-us/articles/4963792118804.json",
+  });
+}
+
+function testZendeskApiTargetForSection() {
+  const result = toZendeskHelpCenterApiTarget(
+    "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies"
+  );
+
+  assert.deepEqual(result, {
+    kind: "section",
+    apiUrl: "https://help.crunchyroll.com/api/v2/help_center/en-us/sections/21770446775956/articles.json?per_page=100",
+  });
+}
+
+function testZendeskApiTargetRejectsUnsupportedPaths() {
+  const result = toZendeskHelpCenterApiTarget("https://help.x.com/en/using-x/x-premium");
+  assert.equal(result, null, "non-help-center URLs should not produce a zendesk API target");
+}
+
 function main() {
   testImmediateBlockOnCloudflareAnd403();
   console.log("PASS check-policies immediate block on anti-bot");
@@ -93,7 +121,16 @@ function main() {
   testCurrentPendingModelStaysActive();
   console.log("PASS check-policies current pending model");
 
-  console.log("Check-policies tests passed: 6/6");
+  testZendeskApiTargetForArticle();
+  console.log("PASS check-policies zendesk article target");
+
+  testZendeskApiTargetForSection();
+  console.log("PASS check-policies zendesk section target");
+
+  testZendeskApiTargetRejectsUnsupportedPaths();
+  console.log("PASS check-policies zendesk unsupported path");
+
+  console.log("Check-policies tests passed: 9/9");
 }
 
 try {

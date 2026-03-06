@@ -106,6 +106,12 @@
     "crunchyroll": {
       "url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
       "notes": "Non-refundable; digital memberships excluded from returns",
+      "fetch_lanes": [
+        "zendesk_api",
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
       "backup_urls": [
         "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
         "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies"

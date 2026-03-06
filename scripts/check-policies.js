@@ -1491,27 +1491,48 @@ function toJinaMirrorUrl(url) {
   }
 }
 
-function toZendeskArticleApiUrl(url) {
+export function toZendeskHelpCenterApiTarget(url) {
   try {
     const parsed = new URL(url);
-    const match = /^\/hc\/([^/]+)\/articles\/(\d+)(?:-[^/?#]+)?\/?$/i.exec(parsed.pathname);
-    if (!match) return "";
-    const locale = String(match[1] || "").trim().toLowerCase();
-    const articleId = String(match[2] || "").trim();
-    if (!locale || !articleId) return "";
-    return `${parsed.origin}/api/v2/help_center/${locale}/articles/${articleId}.json`;
+    const articleMatch = /^\/hc\/([^/]+)\/articles\/(\d+)(?:-[^/?#]+)?\/?$/i.exec(parsed.pathname);
+    if (articleMatch) {
+      const locale = String(articleMatch[1] || "").trim().toLowerCase();
+      const articleId = String(articleMatch[2] || "").trim();
+      if (!locale || !articleId) return null;
+      return {
+        kind: "article",
+        apiUrl: `${parsed.origin}/api/v2/help_center/${locale}/articles/${articleId}.json`,
+      };
+    }
+
+    const sectionMatch = /^\/hc\/([^/]+)\/sections\/(\d+)(?:-[^/?#]+)?\/?$/i.exec(parsed.pathname);
+    if (sectionMatch) {
+      const locale = String(sectionMatch[1] || "").trim().toLowerCase();
+      const sectionId = String(sectionMatch[2] || "").trim();
+      if (!locale || !sectionId) return null;
+      return {
+        kind: "section",
+        apiUrl: `${parsed.origin}/api/v2/help_center/${locale}/sections/${sectionId}/articles.json?per_page=100`,
+      };
+    }
+
+    return null;
   } catch {
-    return "";
+    return null;
   }
 }
 
-async function fetchZendeskArticleJson(apiUrl, attempts = 2) {
+async function fetchZendeskHelpCenterJson(apiTarget, attempts = 2) {
+  if (!apiTarget?.apiUrl || !apiTarget?.kind) {
+    return { text: null, error: "invalid zendesk target" };
+  }
+
   let lastErrorMessage = "unknown";
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), CHECKER_CONFIG.timeoutMs);
     try {
-      const response = await fetch(apiUrl, {
+      const response = await fetch(apiTarget.apiUrl, {
         signal: controller.signal,
         headers: {
           Accept: "application/json",
@@ -1525,28 +1546,65 @@ async function fetchZendeskArticleJson(apiUrl, attempts = 2) {
         throw new Error(lastErrorMessage);
       }
       const payload = await response.json().catch(() => null);
-      const article = payload && typeof payload === "object" ? payload.article : null;
-      const body = typeof article?.body === "string" ? article.body : "";
-      if (!body.trim()) {
-        lastErrorMessage = "missing article body";
-        throw new Error(lastErrorMessage);
+      if (apiTarget.kind === "article") {
+        const article = payload && typeof payload === "object" ? payload.article : null;
+        const body = typeof article?.body === "string" ? article.body : "";
+        if (!body.trim()) {
+          lastErrorMessage = "missing article body";
+          throw new Error(lastErrorMessage);
+        }
+        const title = typeof article?.title === "string" ? article.title.trim() : "";
+        const htmlUrl =
+          typeof article?.html_url === "string" && article.html_url.trim()
+            ? article.html_url.trim()
+            : "";
+        const composedText = title ? `<h1>${title}</h1>\n${body}` : body;
+        return {
+          text: composedText,
+          sourceUrl: htmlUrl,
+          sourceMetadata: {
+            source_kind: "zendesk_article_json",
+            source_title: title,
+            source_updated_at_utc: typeof article?.updated_at === "string" ? article.updated_at.trim() : "",
+            source_edited_at_utc: typeof article?.edited_at === "string" ? article.edited_at.trim() : "",
+          },
+        };
       }
-      const title = typeof article?.title === "string" ? article.title.trim() : "";
-      const htmlUrl =
-        typeof article?.html_url === "string" && article.html_url.trim()
-          ? article.html_url.trim()
-          : "";
-      const composedText = title ? `<h1>${title}</h1>\n${body}` : body;
-      return {
-        text: composedText,
-        sourceUrl: htmlUrl,
-        sourceMetadata: {
-          source_kind: "zendesk_article_json",
-          source_title: title,
-          source_updated_at_utc: typeof article?.updated_at === "string" ? article.updated_at.trim() : "",
-          source_edited_at_utc: typeof article?.edited_at === "string" ? article.edited_at.trim() : "",
-        },
-      };
+
+      if (apiTarget.kind === "section") {
+        const section = payload && typeof payload === "object" ? payload.section : null;
+        const articles = Array.isArray(payload?.articles) ? payload.articles : [];
+        const articleSegments = [];
+        for (const article of articles) {
+          const body = typeof article?.body === "string" ? article.body.trim() : "";
+          if (!body) continue;
+          const title = typeof article?.title === "string" ? article.title.trim() : "";
+          articleSegments.push(title ? `<h2>${title}</h2>\n${body}` : body);
+        }
+        if (articleSegments.length === 0) {
+          lastErrorMessage = "missing section article bodies";
+          throw new Error(lastErrorMessage);
+        }
+
+        const sectionName = typeof section?.name === "string" ? section.name.trim() : "";
+        const sectionHeader = sectionName ? `<h1>${sectionName}</h1>\n\n` : "";
+        const sectionUrl =
+          typeof section?.html_url === "string" && section.html_url.trim() ? section.html_url.trim() : "";
+        return {
+          text: `${sectionHeader}${articleSegments.join("\n\n")}`,
+          sourceUrl: sectionUrl,
+          sourceMetadata: {
+            source_kind: "zendesk_section_json",
+            source_title: sectionName,
+            source_article_count: String(articles.length),
+            source_article_with_body_count: String(articleSegments.length),
+            source_updated_at_utc: typeof section?.updated_at === "string" ? section.updated_at.trim() : "",
+          },
+        };
+      }
+
+      lastErrorMessage = "unsupported zendesk target";
+      throw new Error(lastErrorMessage);
     } catch (error) {
       const message = error?.name === "AbortError" ? "timeout" : error?.message || "request failed";
       lastErrorMessage = message;
@@ -1592,11 +1650,11 @@ async function attemptFetchLane({ lane, candidateUrl, context }) {
   }
 
   if (lane === "zendesk_api") {
-    const zendeskApiUrl = toZendeskArticleApiUrl(candidateUrl);
-    if (!zendeskApiUrl) {
+    const zendeskApiTarget = toZendeskHelpCenterApiTarget(candidateUrl);
+    if (!zendeskApiTarget) {
       return { ok: false, skip: true };
     }
-    const zendeskResult = await fetchZendeskArticleJson(zendeskApiUrl, CHECKER_CONFIG.fallbackAttempts);
+    const zendeskResult = await fetchZendeskHelpCenterJson(zendeskApiTarget, CHECKER_CONFIG.fallbackAttempts);
     if (zendeskResult?.text) {
       return {
         ok: true,
