@@ -40,6 +40,19 @@ jobs:
             rules/return-policy-hashes.json
             rules/trial-policy-hashes.json
             rules/policy-alert-feed.json
+            rules/policy-change-candidates.json
+            rules/cancel-policy-change-candidates.json
+            rules/return-policy-change-candidates.json
+            rules/trial-policy-change-candidates.json
+            rules/policy-coverage-state.json
+            rules/cancel-policy-coverage-state.json
+            rules/return-policy-coverage-state.json
+            rules/trial-policy-coverage-state.json
+            rules/policy-semantic-state.json
+            rules/cancel-policy-semantic-state.json
+            rules/return-policy-semantic-state.json
+            rules/trial-policy-semantic-state.json
+            rules/policy-events.ndjson
           )
 
           git fetch origin "${artifact_branch}" || {
@@ -327,7 +340,7 @@ jobs:
             rules/return-policy-sources.json
             rules/trial-policy-sources.json
           )
-          internal_state_files=(
+          persistent_state_files=(
             rules/policy-change-candidates.json
             rules/cancel-policy-change-candidates.json
             rules/return-policy-change-candidates.json
@@ -344,7 +357,7 @@ jobs:
           )
 
           existing=()
-          for f in "${publish_files[@]}"; do
+          for f in "${publish_files[@]}" "${persistent_state_files[@]}"; do
             if [ -f "$f" ]; then
               existing+=("$f")
             fi
@@ -377,15 +390,6 @@ jobs:
           else
             git checkout -f -B "${artifact_branch}" "origin/${base_branch}"
           fi
-
-          # Keep the aggregation PR scoped to publishable artifacts only.
-          for f in "${internal_state_files[@]}"; do
-            if git cat-file -e "origin/${base_branch}:${f}" 2>/dev/null; then
-              git checkout "origin/${base_branch}" -- "$f"
-            elif [ -f "$f" ]; then
-              git rm -f -- "$f" >/dev/null 2>&1 || true
-            fi
-          done
 
           for f in "${existing[@]}"; do
             mkdir -p "$(dirname "$f")"

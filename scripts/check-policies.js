@@ -2558,18 +2558,21 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       volatilePending.push(vendor);
     }
 
+    const ageEscalationThreshold = getEscalationPendingDays();
+    const hasEscalationAge = ageDays >= ageEscalationThreshold;
+    const hasEscalationFlip = flipCount >= escalationFlipConfig.threshold;
     const escalationReasons = [];
-    if (ageDays >= getEscalationPendingDays()) {
-      escalationReasons.push(`pending_age_days>=${getEscalationPendingDays()}`);
+    if (hasEscalationAge) {
+      escalationReasons.push(`pending_age_days>=${ageEscalationThreshold}`);
     }
-    if (flipCount >= escalationFlipConfig.threshold) {
+    if (hasEscalationFlip) {
       escalationReasons.push(
         escalationFlipConfig.overridden
           ? `flip_count>=${escalationFlipConfig.threshold}(override)`
           : `flip_count>=${escalationFlipConfig.threshold}`
       );
     }
-    if (escalationReasons.length > 0) {
+    if (hasEscalationAge && hasEscalationFlip) {
       escalatedPending.push(vendor);
       escalatedReasons[vendor] = escalationReasons.join("&");
       coverage.last_escalated_utc = utcIsoTimestamp();
