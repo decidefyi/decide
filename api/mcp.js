@@ -1,31 +1,6 @@
 import { compute, getSupportedVendors } from "../lib/refund-compute.js";
-import { createRateLimiter, getClientIp, addRateLimitHeaders } from "../lib/rate-limit.js";
-import { persistLog } from "../lib/log.js";
+import { createMcpHandler } from "../lib/mcp-handler.js";
 
-// Rate limiter: 100 requests per minute per IP
-const rateLimiter = createRateLimiter(100, 60000);
-
-function send(res, status, payload) {
-  res.statusCode = status;
-  res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.end(JSON.stringify(payload));
-}
-
-async function readJson(req) {
-  if (req.body && typeof req.body === "object") return req.body;
-  if (req.body && typeof req.body === "string") return JSON.parse(req.body);
-
-  const chunks = [];
-  for await (const chunk of req) chunks.push(chunk);
-  const raw = Buffer.concat(chunks).toString("utf8");
-  if (!raw) return {};
-  return JSON.parse(raw);
-}
-
-// --- Minimal MCP (JSON-RPC 2.0 over HTTP POST) ---
-const SERVER_PROTOCOLS = ["2025-11-25", "2024-11-05"];
-
-// Dynamic vendor list
 const supportedVendors = getSupportedVendors();
 
 const TOOL = {
@@ -39,183 +14,55 @@ const TOOL = {
       vendor: {
         type: "string",
         enum: supportedVendors,
-        description: "Vendor identifier (lowercase, underscore-separated)."
+        description: "Vendor identifier (lowercase, underscore-separated).",
       },
       days_since_purchase: {
         type: "number",
         description: "Number of days since the subscription was purchased.",
-        minimum: 0
+        minimum: 0,
       },
       region: {
         type: "string",
         enum: ["US"],
-        description: "Region code. Currently only 'US' is supported."
+        description: "Region code. Currently only 'US' is supported.",
       },
       plan: {
         type: "string",
         enum: ["individual"],
-        description: "Plan type. Currently only 'individual' plans are supported."
+        description: "Plan type. Currently only 'individual' plans are supported.",
       },
     },
     required: ["vendor", "days_since_purchase", "region", "plan"],
   },
 };
 
-function ok(id, result) {
-  return { jsonrpc: "2.0", id, result };
-}
-function err(id, code, message, data) {
-  return { jsonrpc: "2.0", id, error: { code, message, data } };
+function formatTextMessage(payload) {
+  return `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}\nSource: ${payload.policy_source_url || "N/A"}\nSource Notes: ${payload.policy_source_notes || "N/A"}\nPolicy Updated: ${payload.policy_last_checked || "N/A"}\nLast Verified (UTC): ${payload.policy_last_verified_utc || "Pending first verification"}`;
 }
 
-export default async function handler(req, res) {
-  // CORS headers for browser clients
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-  // Handle preflight
-  if (req.method === "OPTIONS") {
-    res.statusCode = 204;
-    res.end();
-    return;
-  }
-
-  // Handle GET with helpful message
-  if (req.method === "GET") {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({
-      ok: true,
-      message: "This is an MCP (Model Context Protocol) endpoint. Use POST for JSON-RPC 2.0 requests.",
-      documentation: "https://refund.decide.fyi",
-      mcp_version: "2025-11-25",
-      method_required: "POST"
-    }));
-    return;
-  }
-
-  // Rate limiting
-  const clientIp = getClientIp(req);
-  const rateLimitResult = rateLimiter(clientIp);
-
-  if (!rateLimitResult.allowed) {
-    res.setHeader("X-RateLimit-Limit", String(rateLimitResult.limit));
-    res.setHeader("X-RateLimit-Remaining", String(rateLimitResult.remaining));
-    res.setHeader("X-RateLimit-Reset", String(rateLimitResult.reset));
-    res.setHeader("Retry-After", String(rateLimitResult.retryAfter));
-    return send(res, 429, err(null, -32000, "Rate limit exceeded", {
-      retry_after: rateLimitResult.retryAfter,
-      message: `Too many requests. Try again in ${rateLimitResult.retryAfter} seconds.`
-    }));
-  }
-
-  // Add rate limit headers
-  addRateLimitHeaders(res, rateLimitResult);
-
-  try {
-    // MCP is POST for requests (SSE is optional; we're doing simplest viable)
-    if (req.method !== "POST") {
-      return send(res, 405, { ok: false, error: "METHOD_NOT_ALLOWED", allowed: ["POST"] });
-    }
-
-    let msg;
-    try {
-      msg = await readJson(req);
-    } catch (parseError) {
-      return send(res, 200, err(null, -32700, "Parse error", { message: "Invalid JSON" }));
-    }
-
-    const { id = null, method, params } = msg || {};
-
-    // Log non-tools/call requests here (tools/call logs separately with full data)
-    if (method !== 'tools/call') {
-      const reqLog = { method, ip: clientIp };
-      console.log('[MCP Request]', JSON.stringify(reqLog));
-      persistLog('mcp_request', reqLog);
-    }
-
-    if (!method) return send(res, 200, err(id, -32600, "Invalid Request", { message: "method field is required" }));
-
-    // initialize
-    if (method === "initialize") {
-      const requested = params?.protocolVersion;
-      const chosen = SERVER_PROTOCOLS.includes(requested) ? requested : SERVER_PROTOCOLS[0];
-
-      return send(
-        res,
-        200,
-        ok(id, {
-          protocolVersion: chosen,
-          capabilities: {
-            tools: { listChanged: false },
-          },
-          serverInfo: {
-            name: "refund.decide.fyi",
-            title: "RefundDecide Notary",
-            version: "1.2.1",
-            description: "Deterministic refund eligibility notary (stateless).",
-            websiteUrl: "https://refund.decide.fyi",
-          },
-          instructions: "Call tools/list, then tools/call with refund_eligibility.",
-        })
-      );
-    }
-
-    // notifications/initialized
-    if (method === "notifications/initialized") {
-      return send(res, 200, { jsonrpc: "2.0", result: {} });
-    }
-
-    // tools/list
-    if (method === "tools/list") {
-      return send(res, 200, ok(id, { tools: [TOOL] }));
-    }
-
-    // tools/call
-    if (method === "tools/call") {
-      const name = params?.name;
-      const args = params?.arguments || {};
-      if (name !== TOOL.name) {
-        return send(res, 200, err(id, -32602, "Invalid params", { message: `Unknown tool: ${name}` }));
-      }
-
-      const payload = compute(args);
-
-      // Format a human-readable message for text content
-      const textMessage = `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}\nSource: ${payload.policy_source_url || "N/A"}\nSource Notes: ${payload.policy_source_notes || "N/A"}\nPolicy Updated: ${payload.policy_last_checked || "N/A"}\nLast Verified (UTC): ${payload.policy_last_verified_utc || "Pending first verification"}`;
-
-      // Send response first (fast for user)
-      send(
-        res,
-        200,
-        ok(id, {
-          content: [
-            { type: "text", text: textMessage }
-          ],
-          isError: payload.verdict === "UNKNOWN" && payload.code !== "NON_US_REGION" && payload.code !== "NON_INDIVIDUAL_PLAN",
-        })
-      );
-
-      // Log after response (await ensures completion before function exits)
-      const fullLog = {
-        method,
-        ip: clientIp,
-        vendor: args.vendor,
-        days_since_purchase: args.days_since_purchase,
-        region: args.region,
-        plan: args.plan,
-        verdict: payload.verdict,
-        code: payload.code
-      };
-      console.log('[MCP Request]', JSON.stringify(fullLog));
-      await persistLog('mcp_request', fullLog);
-      return;
-    }
-
-    // default
-    return send(res, 200, err(id, -32601, "Method not found", { method }));
-  } catch (e) {
-    return send(res, 200, err(null, -32603, "Internal error", { message: String(e?.message || e) }));
-  }
-}
+export default createMcpHandler({
+  compute,
+  tool: TOOL,
+  documentationUrl: "https://refund.decide.fyi",
+  serverInfo: {
+    name: "refund.decide.fyi",
+    title: "RefundDecide Notary",
+    version: "1.2.1",
+    description: "Deterministic refund eligibility notary (stateless).",
+    websiteUrl: "https://refund.decide.fyi",
+  },
+  instructions: "Call tools/list, then tools/call with refund_eligibility.",
+  logPrefix: "MCP Request",
+  logEventName: "mcp_request",
+  formatTextMessage,
+  buildCallLog: ({ method, clientIp, args, payload }) => ({
+    method,
+    ip: clientIp,
+    vendor: args.vendor,
+    days_since_purchase: args.days_since_purchase,
+    region: args.region,
+    plan: args.plan,
+    verdict: payload.verdict,
+    code: payload.code,
+  }),
+});
