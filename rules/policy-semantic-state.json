@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T22:02:33Z",
+  "updated_utc": "2026-03-06T22:48:19Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -290,9 +290,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "2b18337774e7ebe3",
+      "hash": "6b8448b219a34b02",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-06T22:00:30Z",
+      "extracted_at_utc": "2026-03-06T22:47:15Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -559,9 +559,9 @@
       "metadata_signature": ""
     },
     "masterclass": {
-      "hash": "e6d641115730b63f",
+      "hash": "31e9c6990d098854",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-03-06T22:01:15Z",
+      "extracted_at_utc": "2026-03-06T22:47:24Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1576,9 +1576,9 @@
       "metadata_signature": ""
     },
     "claude_pro": {
-      "hash": "f42eda3b61969836",
+      "hash": "0763d24434723fcf",
       "source_url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
-      "extracted_at_utc": "2026-03-06T21:59:43Z",
+      "extracted_at_utc": "2026-03-06T22:47:08Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
@@ -1685,9 +1685,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "6613cf0b500de956",
+      "hash": "ab7cd13d5127cc4a",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-06T22:00:31Z",
+      "extracted_at_utc": "2026-03-06T22:47:16Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1721,21 +1721,21 @@
       "metadata_signature": ""
     },
     "grammarly": {
-      "hash": "00bb244b6d292ffe",
+      "hash": "287ff660877b52d8",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-03-06T22:00:56Z",
+      "extracted_at_utc": "2026-03-06T22:47:21Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "zendesk_article_json",
-        "source_title": "Can I get a refund?",
+        "source_kind": "browser_hook",
+        "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "2025-10-27T20:22:40Z",
-        "source_edited_at_utc": "2025-10-27T20:22:40Z"
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
       },
-      "metadata_signature": "f7c4dff89de1e273"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "scribd": {
       "hash": "0cac65b719c1c5b6",
@@ -1759,12 +1759,12 @@
       "metadata_signature": ""
     },
     "midjourney": {
-      "hash": "f992155a8ebbbb53",
+      "hash": "1b2f6e20c6cb63ba",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-02-26T12:41:13Z",
+      "extracted_at_utc": "2026-03-06T22:47:25Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1773,7 +1773,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "e18c5ea37454df39"
     },
     "canva": {
       "hash": "69d172f6c0185ed3",

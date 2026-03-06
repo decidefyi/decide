@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T22:16:51Z",
+  "updated_utc": "2026-03-06T22:58:15Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -194,9 +194,9 @@
       "metadata_signature": ""
     },
     "calm": {
-      "hash": "ce3c121983b80da8",
+      "hash": "93c363214132f735",
       "source_url": "https://www.calm.com/subscribe",
-      "extracted_at_utc": "2026-03-06T22:13:35Z",
+      "extracted_at_utc": "2026-03-06T22:56:13Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -211,9 +211,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "claude_pro": {
-      "hash": "3088ee651923ab6e",
+      "hash": "e902c12a4dda712a",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-03-06T22:13:44Z",
+      "extracted_at_utc": "2026-03-06T22:56:15Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -294,9 +294,9 @@
       "tokens": []
     },
     "disney_plus": {
-      "hash": "a938ab1b7e750940",
+      "hash": "a27a41655966a0cb",
       "source_url": "https://www.disneyplus.com/",
-      "extracted_at_utc": "2026-03-06T22:13:51Z",
+      "extracted_at_utc": "2026-03-06T22:56:21Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -311,9 +311,9 @@
       "metadata_signature": "28e2bf140f62715d"
     },
     "doordash_dashpass": {
-      "hash": "ee6cdb3b22a0c05b",
+      "hash": "6eae932563e60375",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-06T22:13:58Z",
+      "extracted_at_utc": "2026-03-06T22:56:26Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -527,9 +527,9 @@
       "metadata_signature": "d325f190679ffa56"
     },
     "hellofresh": {
-      "hash": "b88c5deb805c6cfc",
+      "hash": "cc9de4704a3aa414",
       "source_url": "https://www.hellofresh.com/plans",
-      "extracted_at_utc": "2026-03-06T22:14:21Z",
+      "extracted_at_utc": "2026-03-06T22:56:35Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -815,15 +815,15 @@
       "metadata_signature": ""
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-01T06:47:35Z",
+      "extracted_at_utc": "2026-03-06T22:56:49Z",
       "tokens": [
         "billing:auto_renew"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Proton Pricing Plans - Free & Paid Plans | Proton",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -831,7 +831,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "249b168ffc67c82c"
     },
     "scribd": {
       "hash": "ba392ea44badf011",
@@ -1103,15 +1103,15 @@
       "metadata_signature": ""
     },
     "youtube_tv": {
-      "hash": "86444114a1f1b6f6",
+      "hash": "c0ccfb866d06719c",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-02-27T18:41:28Z",
+      "extracted_at_utc": "2026-03-06T22:57:01Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "YouTube TV - Watch & DVR Live Sports, Shows & News",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1119,7 +1119,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "e89099edc5ee035a"
     },
     "dashlane": {
       "hash": "fa83d0676efeb3f4",
@@ -1587,13 +1587,13 @@
       "metadata_signature": ""
     },
     "google_one": {
-      "hash": "47fe303a75ca7032",
+      "hash": "e9a1e24fd931c011",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-02-19T23:37:47Z",
+      "extracted_at_utc": "2026-03-06T22:56:31Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Plans & Pricing to Upgrade Your Cloud Storage - Google One",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1601,7 +1601,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "e47e0c36e2bbf62b"
     },
     "strava": {
       "hash": "8d76ab811428e272",
@@ -1624,9 +1624,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "7fb1ba1568aa18df",
+      "hash": "083e30ac643ee05a",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-06T22:14:00Z",
+      "extracted_at_utc": "2026-03-06T22:56:27Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1664,15 +1664,26 @@
       "tokens": []
     },
     "nordvpn": {
-      "hash": "26addcd33afd7750",
+      "hash": "a177453cdc4643f7",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-02-24T07:02:14Z",
-      "tokens": []
+      "extracted_at_utc": "2026-03-06T22:56:44Z",
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "Live Chat, VPN Setup, Troubleshooting | NordVPN Customer Support",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "19c95b8b9d4a4690"
     },
     "canva": {
-      "hash": "079f91961ebcc17e",
+      "hash": "8c8b2a79919eaa19",
       "source_url": "https://www.canva.com/pro/",
-      "extracted_at_utc": "2026-03-06T22:13:37Z",
+      "extracted_at_utc": "2026-03-06T22:56:15Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

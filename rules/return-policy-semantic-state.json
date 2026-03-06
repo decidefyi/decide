@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T22:12:31Z",
+  "updated_utc": "2026-03-06T22:55:06Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -263,9 +263,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "cdfa6058ffd4b5e9",
+      "hash": "cbbaa1003a4b960e",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-06T22:10:18Z",
+      "extracted_at_utc": "2026-03-06T22:53:51Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -392,21 +392,21 @@
       "metadata_signature": "9926c8a3cfa29588"
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "1439f952cdd2ba61",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-02-28T12:37:14Z",
+      "extracted_at_utc": "2026-03-06T22:53:56Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "zendesk_article_json",
+        "source_title": "What Is Fubo's Cancellation Policy?",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
+        "source_updated_at_utc": "2025-10-07T18:03:26Z",
+        "source_edited_at_utc": "2025-10-07T18:03:21Z"
       },
-      "metadata_signature": ""
+      "metadata_signature": "1936ad56567d4452"
     },
     "google_play": {
       "hash": "21f4de9208326597",
@@ -990,23 +990,23 @@
       "metadata_signature": ""
     },
     "tinder": {
-      "hash": "94874f35eb7a8496",
+      "hash": "272c00ac2fea4ba5",
       "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
-      "extracted_at_utc": "2026-02-28T12:37:38Z",
+      "extracted_at_utc": "2026-03-06T22:54:12Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "zendesk_article_json",
+        "source_title": "Refund Requests",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
+        "source_updated_at_utc": "2025-12-16T15:47:26Z",
+        "source_edited_at_utc": "2025-04-14T09:17:12Z"
       },
-      "metadata_signature": ""
+      "metadata_signature": "0bc063ab89b545dc"
     },
     "tidal": {
       "hash": "0b9d257da80273e5",
@@ -1285,17 +1285,17 @@
       "metadata_signature": "08091bf7dc0366df"
     },
     "ubisoft_plus": {
-      "hash": "85d1e1222dba885e",
+      "hash": "937c23b4633a5748",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-03-01T12:37:59Z",
+      "extracted_at_utc": "2026-03-06T22:54:19Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "return:condition_unopened_or_unused",
         "risk:chargeback_or_dispute"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Terms of Use of the Ubisoft Services",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1303,7 +1303,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "1565668bae889d59"
     },
     "nfl_plus": {
       "hash": "d5cbd5db7a1b0c26",
@@ -1577,9 +1577,9 @@
       "metadata_signature": ""
     },
     "claude_pro": {
-      "hash": "2bb6b917539d2950",
+      "hash": "9e62f0ffaad86449",
       "source_url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
-      "extracted_at_utc": "2026-03-06T22:10:09Z",
+      "extracted_at_utc": "2026-03-06T22:53:43Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
@@ -1616,9 +1616,9 @@
       "metadata_signature": ""
     },
     "google_one": {
-      "hash": "72d9d08f5726037e",
+      "hash": "d23940a24c68c03f",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-06T22:10:22Z",
+      "extracted_at_utc": "2026-03-06T22:53:54Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1652,9 +1652,9 @@
       "metadata_signature": ""
     },
     "masterclass": {
-      "hash": "e6d641115730b63f",
+      "hash": "25073741b6741db6",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-03-06T22:11:04Z",
+      "extracted_at_utc": "2026-03-06T22:54:01Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1689,9 +1689,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "ceb88fd2b0d62c97",
+      "hash": "3e49c1de42d31c95",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-06T22:10:19Z",
+      "extracted_at_utc": "2026-03-06T22:53:52Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

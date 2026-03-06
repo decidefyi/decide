@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T22:09:10Z",
+  "updated_utc": "2026-03-06T22:52:44Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -294,9 +294,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "56cf64e0a48013f5",
+      "hash": "c89ae021825e3087",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-06T22:04:00Z",
+      "extracted_at_utc": "2026-03-06T22:49:51Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -587,9 +587,9 @@
       "metadata_signature": ""
     },
     "midjourney": {
-      "hash": "05a4746cf3c4be3c",
+      "hash": "cda38716917340a8",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-03-06T22:05:58Z",
+      "extracted_at_utc": "2026-03-06T22:50:59Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1306,21 +1306,21 @@
       ]
     },
     "reddit_premium": {
-      "hash": "e1cff4bb803073eb",
+      "hash": "bf0cb87af4daaa53",
       "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
-      "extracted_at_utc": "2026-03-06T22:07:30Z",
+      "extracted_at_utc": "2026-03-06T22:51:47Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "zendesk_article_json",
-        "source_title": "How do I cancel my Reddit subscription?",
+        "source_kind": "browser_hook",
+        "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "2026-02-04T12:41:50Z",
-        "source_edited_at_utc": "2025-07-15T23:31:20Z"
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
       },
-      "metadata_signature": "24f777024215263f"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "discovery_plus": {
       "hash": "98ce026a824195b3",
@@ -1429,9 +1429,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "0386d9a6986ba46f",
+      "hash": "97302cd4adb20e6c",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-06T22:04:02Z",
+      "extracted_at_utc": "2026-03-06T22:49:52Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1465,9 +1465,9 @@
       "metadata_signature": ""
     },
     "masterclass": {
-      "hash": "e6d641115730b63f",
+      "hash": "31e9c6990d098854",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-03-06T22:05:53Z",
+      "extracted_at_utc": "2026-03-06T22:50:58Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1482,9 +1482,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "peacock": {
-      "hash": "1ee376168c2f131d",
+      "hash": "e62155cc0df13024",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-03-06T20:52:08Z",
+      "extracted_at_utc": "2026-03-06T22:51:05Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1589,12 +1589,12 @@
       "metadata_signature": ""
     },
     "patreon": {
-      "hash": "82837f17e72715f7",
+      "hash": "658852cb63b73f34",
       "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-      "extracted_at_utc": "2026-02-24T06:54:05Z",
+      "extracted_at_utc": "2026-03-06T22:51:33Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1603,7 +1603,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "e18c5ea37454df39"
     },
     "substack": {
       "hash": "f5fa5608fc35aee4",
@@ -1625,13 +1625,13 @@
       "metadata_signature": ""
     },
     "dropbox_us": {
-      "hash": "0adfdc179206e059",
+      "hash": "c609144e56e2f6f1",
       "source_url": "https://help.dropbox.com/plans/cancel-plan",
-      "extracted_at_utc": "2026-03-06T22:04:44Z",
+      "extracted_at_utc": "2026-03-06T22:50:49Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "html",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Find Your Dropbox Plan | Get 30 Days Free Trial",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1639,12 +1639,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "ea7c709252c84b20"
+      "metadata_signature": "a6aa06925084c746"
     },
     "audible": {
-      "hash": "b9b1593f0be0c053",
+      "hash": "666c9f9645e09543",
       "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-03-06T22:03:37Z",
+      "extracted_at_utc": "2026-03-06T22:49:23Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
