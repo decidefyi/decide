@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T22:58:15Z",
+  "updated_utc": "2026-03-06T23:28:26Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -211,9 +211,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "claude_pro": {
-      "hash": "e902c12a4dda712a",
+      "hash": "3088ee651923ab6e",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-03-06T22:56:15Z",
+      "extracted_at_utc": "2026-03-06T23:25:14Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -228,9 +228,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "chatgpt_plus": {
-      "hash": "33c7ab3c7d8c5fc3",
+      "hash": "76864cd3b5d2dc98",
       "source_url": "https://openai.com/chatgpt/pricing/",
-      "extracted_at_utc": "2026-03-06T22:13:46Z",
+      "extracted_at_utc": "2026-03-06T23:25:17Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -311,9 +311,9 @@
       "metadata_signature": "28e2bf140f62715d"
     },
     "doordash_dashpass": {
-      "hash": "6eae932563e60375",
+      "hash": "5204757efb34641e",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-06T22:56:26Z",
+      "extracted_at_utc": "2026-03-06T23:25:35Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -527,9 +527,9 @@
       "metadata_signature": "d325f190679ffa56"
     },
     "hellofresh": {
-      "hash": "cc9de4704a3aa414",
+      "hash": "b88c5deb805c6cfc",
       "source_url": "https://www.hellofresh.com/plans",
-      "extracted_at_utc": "2026-03-06T22:56:35Z",
+      "extracted_at_utc": "2026-03-06T23:25:56Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -637,12 +637,12 @@
       "tokens": []
     },
     "masterclass": {
-      "hash": "e6d641115730b63f",
+      "hash": "31e9c6990d098854",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-03-01T01:30:34Z",
+      "extracted_at_utc": "2026-03-06T23:26:07Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -651,7 +651,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "e18c5ea37454df39"
     },
     "microsoft_365": {
       "hash": "9871730e5db07f70",
@@ -815,9 +815,9 @@
       "metadata_signature": ""
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-06T22:56:49Z",
+      "extracted_at_utc": "2026-03-06T23:26:53Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1103,9 +1103,9 @@
       "metadata_signature": ""
     },
     "youtube_tv": {
-      "hash": "c0ccfb866d06719c",
+      "hash": "86444114a1f1b6f6",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-03-06T22:57:01Z",
+      "extracted_at_utc": "2026-03-06T23:27:04Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
@@ -1570,13 +1570,13 @@
       "metadata_signature": "a7cf0d1613a67609"
     },
     "zoom": {
-      "hash": "21c03864945efe64",
+      "hash": "e3ea7639de7a9932",
       "source_url": "https://zoom.us/pricing",
-      "extracted_at_utc": "2026-02-19T23:37:45Z",
+      "extracted_at_utc": "2026-03-06T23:28:12Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Plans & Pricing for Zoom One | Zoom",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1584,12 +1584,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "aeda4ea20b37f073"
     },
     "google_one": {
-      "hash": "e9a1e24fd931c011",
+      "hash": "47fe303a75ca7032",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-06T22:56:31Z",
+      "extracted_at_utc": "2026-03-06T23:25:39Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1624,9 +1624,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "083e30ac643ee05a",
+      "hash": "2376c15a679de0a4",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-06T22:56:27Z",
+      "extracted_at_utc": "2026-03-06T23:25:37Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1641,12 +1641,12 @@
       "metadata_signature": "c17cbbfb2657430a"
     },
     "peacock": {
-      "hash": "9d5ebe1adff952a6",
+      "hash": "6cea96372b4ac3cd",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-02-24T19:02:21Z",
+      "extracted_at_utc": "2026-03-06T23:26:52Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "html",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1655,7 +1655,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "ea7c709252c84b20"
     },
     "twitch": {
       "hash": "493d8cc0e6f38d08",

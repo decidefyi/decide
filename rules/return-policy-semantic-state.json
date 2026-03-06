@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T22:55:06Z",
+  "updated_utc": "2026-03-06T23:24:10Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -263,9 +263,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "cbbaa1003a4b960e",
+      "hash": "f863a3bd6f295036",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-06T22:53:51Z",
+      "extracted_at_utc": "2026-03-06T23:22:37Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -392,21 +392,21 @@
       "metadata_signature": "9926c8a3cfa29588"
     },
     "fubo_tv": {
-      "hash": "1439f952cdd2ba61",
+      "hash": "d94532d3b027dae7",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-03-06T22:53:56Z",
+      "extracted_at_utc": "2026-03-06T23:22:41Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "zendesk_article_json",
-        "source_title": "What Is Fubo's Cancellation Policy?",
+        "source_kind": "browser_hook",
+        "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "2025-10-07T18:03:26Z",
-        "source_edited_at_utc": "2025-10-07T18:03:21Z"
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
       },
-      "metadata_signature": "1936ad56567d4452"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "google_play": {
       "hash": "21f4de9208326597",
@@ -816,23 +816,23 @@
       "metadata_signature": "d0834e9d9714a2ec"
     },
     "scribd": {
-      "hash": "0cac65b719c1c5b6",
+      "hash": "56ab581e7a65f02d",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-      "extracted_at_utc": "2026-02-19T23:33:13Z",
+      "extracted_at_utc": "2026-03-06T23:22:56Z",
       "tokens": [
         "return:condition_unopened_or_unused"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "zendesk_article_json",
+        "source_title": "Refunds",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
+        "source_updated_at_utc": "2026-02-27T17:19:25Z",
+        "source_edited_at_utc": "2026-02-13T15:18:30Z"
       },
-      "metadata_signature": ""
+      "metadata_signature": "4a5e8492b4add1d1"
     },
     "shutterstock": {
       "hash": "93fce0170819948f",
@@ -1137,15 +1137,15 @@
       "metadata_signature": ""
     },
     "youtube_tv": {
-      "hash": "e0e0cec49a668280",
+      "hash": "1b828e5e1471623e",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-03-01T18:30:12Z",
+      "extracted_at_utc": "2026-03-06T23:23:04Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "YouTube TV - Watch & DVR Live Sports, Shows & News",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1153,7 +1153,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "e89099edc5ee035a"
     },
     "lastpass": {
       "hash": "a7240cfdcb06fb68",
@@ -1285,9 +1285,9 @@
       "metadata_signature": "08091bf7dc0366df"
     },
     "ubisoft_plus": {
-      "hash": "937c23b4633a5748",
+      "hash": "85d1e1222dba885e",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-03-06T22:54:19Z",
+      "extracted_at_utc": "2026-03-06T23:23:08Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "return:condition_unopened_or_unused",
@@ -1363,9 +1363,9 @@
       "metadata_signature": ""
     },
     "wall_street_journal": {
-      "hash": "8bcaca7bd2756902",
+      "hash": "636fd9a26e87ec2a",
       "source_url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
-      "extracted_at_utc": "2026-03-06T22:11:24Z",
+      "extracted_at_utc": "2026-03-06T23:23:11Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1616,9 +1616,9 @@
       "metadata_signature": ""
     },
     "google_one": {
-      "hash": "d23940a24c68c03f",
+      "hash": "e9a1e24fd931c011",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-06T22:53:54Z",
+      "extracted_at_utc": "2026-03-06T23:22:40Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1689,9 +1689,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "3e49c1de42d31c95",
+      "hash": "ee8394b623bcc770",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-06T22:53:52Z",
+      "extracted_at_utc": "2026-03-06T23:22:38Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

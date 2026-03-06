@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T22:48:19Z",
+  "updated_utc": "2026-03-06T23:16:48Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -290,9 +290,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "6b8448b219a34b02",
+      "hash": "82c1b4982f72f3bc",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-06T22:47:15Z",
+      "extracted_at_utc": "2026-03-06T23:13:52Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -774,15 +774,15 @@
       "metadata_signature": ""
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-02-24T01:10:17Z",
+      "extracted_at_utc": "2026-03-06T23:14:55Z",
       "tokens": [
         "billing:auto_renew"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Proton Pricing Plans - Free & Paid Plans | Proton",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -790,7 +790,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "249b168ffc67c82c"
     },
     "ring_protect": {
       "hash": "d2ee31e9f2d00e38",
@@ -1359,9 +1359,9 @@
       "metadata_signature": ""
     },
     "wall_street_journal": {
-      "hash": "8bcaca7bd2756902",
+      "hash": "636fd9a26e87ec2a",
       "source_url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
-      "extracted_at_utc": "2026-03-06T22:01:56Z",
+      "extracted_at_utc": "2026-03-06T23:15:29Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1596,13 +1596,13 @@
       "metadata_signature": "698d782ea2fd7d01"
     },
     "google_one": {
-      "hash": "47fe303a75ca7032",
+      "hash": "d23940a24c68c03f",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-02-19T23:24:09Z",
+      "extracted_at_utc": "2026-03-06T23:13:58Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Plans & Pricing to Upgrade Your Cloud Storage - Google One",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1610,7 +1610,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "e47e0c36e2bbf62b"
     },
     "fubo_tv": {
       "hash": "d94532d3b027dae7",
@@ -1685,9 +1685,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "ab7cd13d5127cc4a",
+      "hash": "1537659e64483c3a",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-06T22:47:16Z",
+      "extracted_at_utc": "2026-03-06T23:13:54Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1721,47 +1721,47 @@
       "metadata_signature": ""
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
+      "hash": "00bb244b6d292ffe",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-03-06T22:47:21Z",
+      "extracted_at_utc": "2026-03-06T23:14:18Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "browser_hook",
-        "source_title": "",
+        "source_kind": "zendesk_article_json",
+        "source_title": "Can I get a refund?",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
+        "source_updated_at_utc": "2025-10-27T20:22:40Z",
+        "source_edited_at_utc": "2025-10-27T20:22:40Z"
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "f7c4dff89de1e273"
     },
     "scribd": {
-      "hash": "0cac65b719c1c5b6",
+      "hash": "56ab581e7a65f02d",
       "source_url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
-      "extracted_at_utc": "2026-02-26T18:40:53Z",
+      "extracted_at_utc": "2026-03-06T23:15:02Z",
       "tokens": [
         "refund_window_days:30",
         "refund:allowed_language",
         "refund:partial_allowed"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "zendesk_article_json",
+        "source_title": "Refunds",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
+        "source_updated_at_utc": "2026-02-27T17:19:25Z",
+        "source_edited_at_utc": "2026-02-13T15:18:30Z"
       },
-      "metadata_signature": ""
+      "metadata_signature": "4a5e8492b4add1d1"
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "f992155a8ebbbb53",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-03-06T22:47:25Z",
+      "extracted_at_utc": "2026-03-06T23:14:51Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
