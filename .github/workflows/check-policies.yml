@@ -33,15 +33,12 @@ jobs:
         run: |
           set +e
           artifact_branch="policy-updates/aggregate"
+          # Restore generated state only. Source configs must come from the checked-out ref.
           files=(
             rules/policy-hashes.json
             rules/cancel-policy-hashes.json
             rules/return-policy-hashes.json
             rules/trial-policy-hashes.json
-            rules/policy-sources.json
-            rules/cancel-policy-sources.json
-            rules/return-policy-sources.json
-            rules/trial-policy-sources.json
             rules/policy-alert-feed.json
           )
 
