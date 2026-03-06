@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T20:19:38Z",
+  "updated_utc": "2026-03-06T20:49:48Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -713,7 +713,18 @@
       "extracted_at_utc": "2026-02-24T01:10:17Z",
       "tokens": [
         "billing:auto_renew"
-      ]
+      ],
+      "page_metadata": {
+        "source_kind": "",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": ""
     },
     "ring_protect": {
       "hash": "f844d5782fdca127",
@@ -1252,7 +1263,18 @@
       "hash": "56f9c2fd6d0cd9f0",
       "source_url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
       "extracted_at_utc": "2026-02-19T23:23:42Z",
-      "tokens": []
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": ""
     },
     "substack": {
       "hash": "f5fa5608fc35aee4",
@@ -1467,7 +1489,18 @@
       "hash": "47fe303a75ca7032",
       "source_url": "https://one.google.com/about/plans",
       "extracted_at_utc": "2026-02-19T23:24:09Z",
-      "tokens": []
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": ""
     },
     "fubo_tv": {
       "hash": "d94532d3b027dae7",
@@ -1608,7 +1641,18 @@
       "hash": "f992155a8ebbbb53",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
       "extracted_at_utc": "2026-02-26T12:41:13Z",
-      "tokens": []
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": ""
     },
     "canva": {
       "hash": "69d172f6c0185ed3",

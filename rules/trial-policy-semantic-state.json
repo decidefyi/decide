@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T20:33:39Z",
+  "updated_utc": "2026-03-06T21:07:23Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -164,7 +164,18 @@
       "hash": "e766e2ac066061aa",
       "source_url": "https://www.calm.com/subscribe",
       "extracted_at_utc": "2026-02-19T23:35:24Z",
-      "tokens": []
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": ""
     },
     "claude_pro": {
       "hash": "fff53cc5006a0a31",
@@ -380,7 +391,18 @@
       "hash": "b5cf2e31119e8d8d",
       "source_url": "https://support.google.com/googleplay/answer/7018481",
       "extracted_at_utc": "2026-02-19T23:35:35Z",
-      "tokens": []
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": ""
     },
     "headspace": {
       "hash": "17a9980875628a18",
@@ -688,7 +710,18 @@
       "extracted_at_utc": "2026-03-01T06:47:35Z",
       "tokens": [
         "billing:auto_renew"
-      ]
+      ],
+      "page_metadata": {
+        "source_kind": "",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": ""
     },
     "scribd": {
       "hash": "ed8aa00d5a256dfd",
@@ -1309,7 +1342,18 @@
       "hash": "21c03864945efe64",
       "source_url": "https://zoom.us/pricing",
       "extracted_at_utc": "2026-02-19T23:37:45Z",
-      "tokens": []
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": ""
     },
     "google_one": {
       "hash": "47fe303a75ca7032",

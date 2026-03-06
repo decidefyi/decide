@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T20:27:25Z",
+  "updated_utc": "2026-03-06T21:00:02Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -1498,7 +1498,18 @@
       "hash": "47fe303a75ca7032",
       "source_url": "https://one.google.com/about/plans",
       "extracted_at_utc": "2026-02-19T23:34:02Z",
-      "tokens": []
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": ""
     },
     "proton": {
       "hash": "9797e79eb7ad6a9c",

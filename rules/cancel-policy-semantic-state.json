@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-06T20:24:52Z",
+  "updated_utc": "2026-03-06T20:57:11Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -1117,7 +1117,18 @@
       "hash": "56f9c2fd6d0cd9f0",
       "source_url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
       "extracted_at_utc": "2026-02-19T23:29:03Z",
-      "tokens": []
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": ""
     },
     "washington_post": {
       "hash": "facbda2fc8418cb4",
@@ -1297,7 +1308,18 @@
       "extracted_at_utc": "2026-02-19T23:29:35Z",
       "tokens": [
         "cancel:anytime"
-      ]
+      ],
+      "page_metadata": {
+        "source_kind": "",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": ""
     },
     "masterclass": {
       "hash": "31e9c6990d098854",
@@ -1317,10 +1339,21 @@
       "metadata_signature": ""
     },
     "peacock": {
-      "hash": "f10a6f0ae8d2f044",
+      "hash": "1ee376168c2f131d",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-02-28T18:24:41Z",
-      "tokens": []
+      "extracted_at_utc": "2026-03-06T20:52:08Z",
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "e18c5ea37454df39"
     },
     "evernote": {
       "hash": "5fb98c6ad4e6367d",
