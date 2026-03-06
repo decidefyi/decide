@@ -5,13 +5,44 @@ import assert from "node:assert/strict";
 import {
   buildChangeKey,
   classifyFetchFailureBlock,
+  evaluateSignalWindow,
   getCandidatePendingModelId,
+  getCrossRunWindowRequiredForCandidate,
+  isHighSignalWindowCandidate,
   isLegacyPendingCandidate,
   LEGACY_PENDING_MODEL_ID,
   PENDING_MODEL_ID,
   semanticSignaturesStable,
   toZendeskHelpCenterApiTarget,
 } from "./check-policies.js";
+
+function envInt(name, fallback) {
+  const parsed = Number.parseInt(process.env[name] || String(fallback), 10);
+  if (!Number.isFinite(parsed)) return fallback;
+  return parsed;
+}
+
+function configuredCrossRunWindowSize() {
+  return Math.max(2, envInt("POLICY_CHECK_CROSS_RUN_WINDOW_SIZE", 6));
+}
+
+function configuredDefaultWindowRequired() {
+  const size = configuredCrossRunWindowSize();
+  return Math.max(2, Math.min(size, envInt("POLICY_CHECK_CROSS_RUN_WINDOW_REQUIRED", 3)));
+}
+
+function configuredHighSignalWindowRequired() {
+  const size = configuredCrossRunWindowSize();
+  return Math.max(2, Math.min(size, envInt("POLICY_CHECK_HIGH_SIGNAL_WINDOW_REQUIRED", 2)));
+}
+
+function configuredHighSignalMinPolicyHits() {
+  return Math.max(1, envInt("POLICY_CHECK_HIGH_SIGNAL_MIN_POLICY_HITS", 2));
+}
+
+function configuredHighSignalMinLines() {
+  return Math.max(2, envInt("POLICY_CHECK_HIGH_SIGNAL_MIN_LINES", 6));
+}
 
 function testImmediateBlockOnCloudflareAnd403() {
   const result = classifyFetchFailureBlock(
@@ -148,6 +179,61 @@ function testBuildChangeKeyHandlesMissingValues() {
   assert.equal(value, "", "empty inputs should produce an empty change key");
 }
 
+function testHighSignalWindowCandidateDetection() {
+  const minHits = configuredHighSignalMinPolicyHits();
+  const minLines = configuredHighSignalMinLines();
+  assert.equal(
+    isHighSignalWindowCandidate({
+      semanticSignature: "cancel:anytime",
+      quality: { passed: true, policyKeywordHits: minHits, lineCount: minLines },
+    }),
+    true,
+    "high-signal candidates should require semantic signal + quality thresholds"
+  );
+  assert.equal(
+    isHighSignalWindowCandidate({
+      semanticSignature: "",
+      quality: { passed: true, policyKeywordHits: 3, lineCount: 9 },
+    }),
+    false,
+    "semantic signature is required for high-signal classification"
+  );
+}
+
+function testAdaptiveWindowRequiredForCandidate() {
+  const minHits = configuredHighSignalMinPolicyHits();
+  const minLines = configuredHighSignalMinLines();
+  const defaultRequired = configuredDefaultWindowRequired();
+  const expectedHighSignalRequired = Math.min(defaultRequired, configuredHighSignalWindowRequired());
+
+  const highSignalRequired = getCrossRunWindowRequiredForCandidate({
+    semanticSignature: "cancel:anytime",
+    quality: { passed: true, policyKeywordHits: minHits, lineCount: minLines },
+  });
+  assert.equal(
+    highSignalRequired,
+    expectedHighSignalRequired,
+    "high-signal candidates should use the configured relaxed window requirement"
+  );
+
+  const lowSignalRequired = getCrossRunWindowRequiredForCandidate({
+    semanticSignature: "cancel:anytime",
+    quality: { passed: true, policyKeywordHits: Math.max(0, minHits - 1), lineCount: minLines },
+  });
+  assert.equal(lowSignalRequired, defaultRequired, "low-signal candidates should keep the default required window");
+}
+
+function testEvaluateSignalWindowSupportsRequiredOverride() {
+  const signals = ["sig:a", "sig:a", "sig:b"];
+  const relaxedDecision = evaluateSignalWindow(signals, 2);
+  assert.equal(relaxedDecision.required, 2, "expected required vote count override to be applied");
+  assert.equal(relaxedDecision.hashDecision, "sig:a", "expected top signal to win with relaxed threshold");
+
+  const strictDecision = evaluateSignalWindow(signals, 3);
+  assert.equal(strictDecision.required, 3, "expected strict required vote count to be applied");
+  assert.equal(strictDecision.hashDecision, "", "expected no winner when strict threshold is unmet");
+}
+
 function main() {
   testImmediateBlockOnCloudflareAnd403();
   console.log("PASS check-policies immediate block on anti-bot");
@@ -194,7 +280,16 @@ function main() {
   testBuildChangeKeyHandlesMissingValues();
   console.log("PASS check-policies change key missing inputs");
 
-  console.log("Check-policies tests passed: 15/15");
+  testHighSignalWindowCandidateDetection();
+  console.log("PASS check-policies high-signal candidate detection");
+
+  testAdaptiveWindowRequiredForCandidate();
+  console.log("PASS check-policies adaptive window required votes");
+
+  testEvaluateSignalWindowSupportsRequiredOverride();
+  console.log("PASS check-policies signal window required override");
+
+  console.log("Check-policies tests passed: 18/18");
 }
 
 try {

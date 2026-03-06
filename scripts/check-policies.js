@@ -32,6 +32,10 @@ const CHECKER_CONFIG = {
   sameRunMajorityMinVotes: Number.parseInt(process.env.POLICY_CHECK_SAME_RUN_MAJORITY_MIN_VOTES || "2", 10),
   crossRunWindowSize: Number.parseInt(process.env.POLICY_CHECK_CROSS_RUN_WINDOW_SIZE || "6", 10),
   crossRunWindowRequired: Number.parseInt(process.env.POLICY_CHECK_CROSS_RUN_WINDOW_REQUIRED || "3", 10),
+  adaptiveWindowEnabled: String(process.env.POLICY_CHECK_ADAPTIVE_WINDOW_ENABLED || "1").trim().toLowerCase(),
+  highSignalWindowRequired: Number.parseInt(process.env.POLICY_CHECK_HIGH_SIGNAL_WINDOW_REQUIRED || "2", 10),
+  highSignalMinPolicyHits: Number.parseInt(process.env.POLICY_CHECK_HIGH_SIGNAL_MIN_POLICY_HITS || "2", 10),
+  highSignalMinLines: Number.parseInt(process.env.POLICY_CHECK_HIGH_SIGNAL_MIN_LINES || "6", 10),
   stalePendingDays: Number.parseInt(process.env.POLICY_CHECK_STALE_PENDING_DAYS || "3", 10),
   volatileFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_VOLATILE_FLIP_THRESHOLD || "2", 10),
   escalationPendingDays: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_PENDING_DAYS || "5", 10),
@@ -1225,6 +1229,55 @@ function getCrossRunWindowRequired() {
   return Math.max(2, Math.min(windowSize, CHECKER_CONFIG.crossRunWindowRequired));
 }
 
+function getAdaptiveWindowEnabled() {
+  const raw = String(CHECKER_CONFIG.adaptiveWindowEnabled || "").trim().toLowerCase();
+  if (!raw) return true;
+  return !["0", "false", "off", "no"].includes(raw);
+}
+
+function getHighSignalWindowRequired() {
+  const windowSize = getCrossRunWindowSize();
+  if (!Number.isFinite(CHECKER_CONFIG.highSignalWindowRequired)) {
+    return Math.min(2, windowSize);
+  }
+  return Math.max(2, Math.min(windowSize, CHECKER_CONFIG.highSignalWindowRequired));
+}
+
+function getHighSignalMinPolicyHits() {
+  if (!Number.isFinite(CHECKER_CONFIG.highSignalMinPolicyHits)) return 2;
+  return Math.max(1, CHECKER_CONFIG.highSignalMinPolicyHits);
+}
+
+function getHighSignalMinLines() {
+  if (!Number.isFinite(CHECKER_CONFIG.highSignalMinLines)) return 6;
+  return Math.max(2, CHECKER_CONFIG.highSignalMinLines);
+}
+
+export function isHighSignalWindowCandidate({ semanticSignature, quality }) {
+  const hasSemanticSignature =
+    typeof semanticSignature === "string" && semanticSignature.trim().length > 0;
+  if (!hasSemanticSignature) return false;
+  if (!quality || !quality.passed) return false;
+  if (Number(quality.policyKeywordHits || 0) < getHighSignalMinPolicyHits()) return false;
+  if (Number(quality.lineCount || 0) < getHighSignalMinLines()) return false;
+  return true;
+}
+
+export function getCrossRunWindowRequiredForCandidate({ semanticSignature, quality }) {
+  const defaultRequired = getCrossRunWindowRequired();
+  if (!getAdaptiveWindowEnabled()) return defaultRequired;
+  if (!isHighSignalWindowCandidate({ semanticSignature, quality })) return defaultRequired;
+  return Math.min(defaultRequired, getHighSignalWindowRequired());
+}
+
+function getCrossRunWindowRequirementLabel() {
+  const defaultRequired = getCrossRunWindowRequired();
+  if (!getAdaptiveWindowEnabled()) return `${defaultRequired}`;
+  const highSignalRequired = Math.min(defaultRequired, getHighSignalWindowRequired());
+  if (highSignalRequired >= defaultRequired) return `${defaultRequired}`;
+  return `${highSignalRequired} (high-signal) / ${defaultRequired} (default)`;
+}
+
 function getStalePendingDays() {
   if (!Number.isFinite(CHECKER_CONFIG.stalePendingDays)) return 3;
   return Math.max(1, CHECKER_CONFIG.stalePendingDays);
@@ -1321,9 +1374,13 @@ function appendSignalWindow(coverageEntry, signal) {
   return trimmed;
 }
 
-function evaluateSignalWindow(signalWindow) {
+export function evaluateSignalWindow(signalWindow, requiredVotes = getCrossRunWindowRequired()) {
   const list = Array.isArray(signalWindow) ? signalWindow : [];
-  const required = getCrossRunWindowRequired();
+  const windowSize = getCrossRunWindowSize();
+  const parsedRequiredVotes = Number.parseInt(requiredVotes, 10);
+  const required = Number.isFinite(parsedRequiredVotes)
+    ? Math.max(2, Math.min(windowSize, parsedRequiredVotes))
+    : getCrossRunWindowRequired();
   let baselineVotes = 0;
   const hashVotes = {};
   for (const signal of list) {
@@ -1826,6 +1883,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       recheckFetchFailures: [],
       crossRunWindowConfirmed: [],
       crossRunWindowHeld: [],
+      adaptiveWindowRelaxed: [],
       metadataStabilityHeld: [],
       noiseSuppressed: [],
       escalatedPending: [],
@@ -1903,6 +1961,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const recheckFetchFailureSet = new Set();
   const crossRunWindowConfirmedSet = new Set();
   const crossRunWindowHeldSet = new Set();
+  const adaptiveWindowRelaxedSet = new Set();
   const metadataStabilityHeldSet = new Set();
   const qualityGateHeldSet = new Set();
   const noiseSuppressedSet = new Set();
@@ -2185,7 +2244,14 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         const currentChangeKey = buildChangeKey(h, semanticSignature);
         const signal = previousHash && previousHash === h ? BASELINE_SIGNAL : currentChangeKey;
         const signalWindow = appendSignalWindow(coverage, signal);
-        const signalWindowDecision = evaluateSignalWindow(signalWindow);
+        const signalWindowRequiredVotes = getCrossRunWindowRequiredForCandidate({
+          semanticSignature,
+          quality,
+        });
+        const signalWindowDecision = evaluateSignalWindow(signalWindow, signalWindowRequiredVotes);
+        if (previousHash && previousHash !== h && signalWindowRequiredVotes < getCrossRunWindowRequired()) {
+          adaptiveWindowRelaxedSet.add(vendor);
+        }
         const signalWindowChangeDecision =
           typeof signalWindowDecision.hashDecision === "string"
             ? signalWindowDecision.hashDecision
@@ -2802,6 +2868,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     recheckFetchFailures: [...recheckFetchFailureSet].sort((a, b) => a.localeCompare(b)),
     crossRunWindowConfirmed: [...crossRunWindowConfirmedSet].sort((a, b) => a.localeCompare(b)),
     crossRunWindowHeld: [...crossRunWindowHeldSet].sort((a, b) => a.localeCompare(b)),
+    adaptiveWindowRelaxed: [...adaptiveWindowRelaxedSet].sort((a, b) => a.localeCompare(b)),
     metadataStabilityHeld: [...metadataStabilityHeldSet].sort((a, b) => a.localeCompare(b)),
     noiseSuppressed: [...noiseSuppressedSet].sort((a, b) => a.localeCompare(b)),
     escalatedPending,
@@ -2822,6 +2889,7 @@ async function main() {
   const allMaterialOscillationSuppressed = [];
   const allQualityGateHeld = [];
   const allMetadataStabilityHeld = [];
+  const allAdaptiveWindowRelaxed = [];
   const allNoiseSuppressed = [];
   const allErrors = [];
   const allPending = [];
@@ -2924,7 +2992,7 @@ async function main() {
     if (result.crossRunWindowConfirmed.length > 0) {
       const names = sortedLimitedVendors(result.crossRunWindowConfirmed, getPendingDetailLimit());
       console.log(
-        `::notice::${result.name}: stable_change_confirmed=${result.crossRunWindowConfirmed.length} (required_runs>=${getActualConfirmRuns()}, min_gap_hours>=${getActualMinGapHours()}, window_required>=${getCrossRunWindowRequired()}); first ${names.length}: ${names.join(", ")}`
+        `::notice::${result.name}: stable_change_confirmed=${result.crossRunWindowConfirmed.length} (required_runs>=${getActualConfirmRuns()}, min_gap_hours>=${getActualMinGapHours()}, window_required>=${getCrossRunWindowRequirementLabel()}); first ${names.length}: ${names.join(", ")}`
       );
     }
     if (result.crossRunWindowHeld.length > 0) {
@@ -2943,6 +3011,13 @@ async function main() {
       const names = sortedLimitedVendors(result.noiseSuppressed, getPendingDetailLimit());
       console.log(
         `::notice::${result.name}: noise_suppressed=${result.noiseSuppressed.length} (hash changed but semantic meaning stayed stable); first ${names.length}: ${names.join(", ")}`
+      );
+    }
+    if (result.adaptiveWindowRelaxed.length > 0) {
+      const relaxedWindowRequired = Math.min(getCrossRunWindowRequired(), getHighSignalWindowRequired());
+      const names = sortedLimitedVendors(result.adaptiveWindowRelaxed, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: adaptive_window_relaxed=${result.adaptiveWindowRelaxed.length} (high-signal candidate window uses ${relaxedWindowRequired} of default ${getCrossRunWindowRequired()}); first ${names.length}: ${names.join(", ")}`
       );
     }
     if (result.staleDropped.length > 0) {
@@ -3014,6 +3089,9 @@ async function main() {
     }
     for (const vendor of result.metadataStabilityHeld) {
       allMetadataStabilityHeld.push({ policyType: result.name, vendor });
+    }
+    for (const vendor of result.adaptiveWindowRelaxed) {
+      allAdaptiveWindowRelaxed.push({ policyType: result.name, vendor });
     }
     for (const vendor of result.noiseSuppressed) {
       allNoiseSuppressed.push({ policyType: result.name, vendor });
@@ -3144,6 +3222,11 @@ async function main() {
     .join(",");
   const metadataStabilityHeldByPolicy = toPolicyCountString(allMetadataStabilityHeld);
   const metadataStabilityHeldSample = allMetadataStabilityHeld
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const adaptiveWindowRelaxedByPolicy = toPolicyCountString(allAdaptiveWindowRelaxed);
+  const adaptiveWindowRelaxedSample = allAdaptiveWindowRelaxed
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
@@ -3295,6 +3378,9 @@ async function main() {
   console.log(`METADATA_STABILITY_HELD_COUNT=${allMetadataStabilityHeld.length}`);
   console.log(`METADATA_STABILITY_HELD_BY_POLICY=${metadataStabilityHeldByPolicy}`);
   console.log(`METADATA_STABILITY_HELD_SAMPLE=${metadataStabilityHeldSample}`);
+  console.log(`ADAPTIVE_WINDOW_RELAXED_COUNT=${allAdaptiveWindowRelaxed.length}`);
+  console.log(`ADAPTIVE_WINDOW_RELAXED_BY_POLICY=${adaptiveWindowRelaxedByPolicy}`);
+  console.log(`ADAPTIVE_WINDOW_RELAXED_SAMPLE=${adaptiveWindowRelaxedSample}`);
   console.log(`NOISE_SUPPRESSED_COUNT=${allNoiseSuppressed.length}`);
   console.log(`NOISE_SUPPRESSED_BY_POLICY=${noiseSuppressedByPolicy}`);
   console.log(`NOISE_SUPPRESSED_SAMPLE=${noiseSuppressedSample}`);
