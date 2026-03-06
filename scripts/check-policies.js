@@ -38,8 +38,10 @@ const CHECKER_CONFIG = {
   highSignalMinLines: Number.parseInt(process.env.POLICY_CHECK_HIGH_SIGNAL_MIN_LINES || "6", 10),
   stalePendingDays: Number.parseInt(process.env.POLICY_CHECK_STALE_PENDING_DAYS || "3", 10),
   volatileFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_VOLATILE_FLIP_THRESHOLD || "2", 10),
+  volatileRequireRecentFlip: String(process.env.POLICY_CHECK_VOLATILE_REQUIRE_RECENT_FLIP || "1").trim().toLowerCase(),
   escalationPendingDays: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_PENDING_DAYS || "5", 10),
   escalationFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_FLIP_THRESHOLD || "4", 10),
+  escalationRequireRecentFlip: String(process.env.POLICY_CHECK_ESCALATION_REQUIRE_RECENT_FLIP || "1").trim().toLowerCase(),
   fetchFailureQuarantineStreak: Number.parseInt(process.env.POLICY_CHECK_FETCH_FAILURE_QUARANTINE_STREAK || "2", 10),
   noConfirmEscalationDays: Number.parseInt(process.env.POLICY_CHECK_NO_CONFIRM_ESCALATION_DAYS || "7", 10),
   materialCooldownDays: Number.parseInt(process.env.POLICY_CHECK_MATERIAL_COOLDOWN_DAYS || "14", 10),
@@ -188,6 +190,24 @@ const ESCALATION_FLIP_THRESHOLD_OVERRIDES = {
   },
   return: {
     myfitnesspal_premium: 30,
+  },
+};
+const VOLATILE_FLIP_THRESHOLD_OVERRIDES = {
+  refund: {
+    myfitnesspal_premium: 8,
+  },
+  cancel: {
+    audible: 8,
+    canva: 8,
+    fitbit_premium: 8,
+    paramount_plus: 8,
+    twitch: 8,
+  },
+  return: {
+    myfitnesspal_premium: 8,
+  },
+  trial: {
+    twitch: 8,
   },
 };
 const ACTUAL_CONFIRM_RUN_OVERRIDES = {
@@ -1288,6 +1308,12 @@ function getVolatileFlipThreshold() {
   return Math.max(1, CHECKER_CONFIG.volatileFlipThreshold);
 }
 
+function getVolatileRequireRecentFlip() {
+  const raw = String(CHECKER_CONFIG.volatileRequireRecentFlip || "").trim().toLowerCase();
+  if (!raw) return true;
+  return !["0", "false", "off", "no"].includes(raw);
+}
+
 function getEscalationPendingDays() {
   if (!Number.isFinite(CHECKER_CONFIG.escalationPendingDays)) return 5;
   return Math.max(1, CHECKER_CONFIG.escalationPendingDays);
@@ -1296,6 +1322,12 @@ function getEscalationPendingDays() {
 function getEscalationFlipThreshold() {
   if (!Number.isFinite(CHECKER_CONFIG.escalationFlipThreshold)) return 4;
   return Math.max(1, CHECKER_CONFIG.escalationFlipThreshold);
+}
+
+function getEscalationRequireRecentFlip() {
+  const raw = String(CHECKER_CONFIG.escalationRequireRecentFlip || "").trim().toLowerCase();
+  if (!raw) return true;
+  return !["0", "false", "off", "no"].includes(raw);
 }
 
 function getFetchFailureQuarantineStreak() {
@@ -1309,6 +1341,25 @@ function getEscalationFlipThresholdForVendor(policyName, vendor) {
     return { threshold: defaultThreshold, overridden: false };
   }
   const policyOverrides = ESCALATION_FLIP_THRESHOLD_OVERRIDES[policyName];
+  if (!policyOverrides || typeof policyOverrides !== "object") {
+    return { threshold: defaultThreshold, overridden: false };
+  }
+  const overrideValue = Number(policyOverrides[vendor]);
+  if (!Number.isFinite(overrideValue)) {
+    return { threshold: defaultThreshold, overridden: false };
+  }
+  return {
+    threshold: Math.max(1, Math.floor(overrideValue)),
+    overridden: true,
+  };
+}
+
+export function getVolatileFlipThresholdForVendor(policyName, vendor) {
+  const defaultThreshold = getVolatileFlipThreshold();
+  if (typeof policyName !== "string" || typeof vendor !== "string") {
+    return { threshold: defaultThreshold, overridden: false };
+  }
+  const policyOverrides = VOLATILE_FLIP_THRESHOLD_OVERRIDES[policyName];
   if (!policyOverrides || typeof policyOverrides !== "object") {
     return { threshold: defaultThreshold, overridden: false };
   }
@@ -1372,6 +1423,22 @@ function appendSignalWindow(coverageEntry, signal) {
     coverageEntry.signal_window = trimmed;
   }
   return trimmed;
+}
+
+export function countSignalWindowChangeFlips(signalWindow) {
+  const list = Array.isArray(signalWindow) ? signalWindow : [];
+  const changesOnly = list.filter((signal) => signal && signal !== BASELINE_SIGNAL);
+  let previous = "";
+  let flips = 0;
+  for (const signal of changesOnly) {
+    const normalized = String(signal || "").trim();
+    if (!normalized) continue;
+    if (previous && previous !== normalized) {
+      flips += 1;
+    }
+    previous = normalized;
+  }
+  return flips;
 }
 
 export function evaluateSignalWindow(signalWindow, requiredVotes = getCrossRunWindowRequired()) {
@@ -1878,6 +1945,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       rebaselineForProfile: false,
       stalePending: [],
       volatilePending: [],
+      volatileFlipOverrides: {},
       recheckConfirmed: [],
       recheckResolved: [],
       recheckFetchFailures: [],
@@ -2668,6 +2736,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const pending = [...pendingSet].sort((a, b) => a.localeCompare(b));
   const stalePending = [];
   const volatilePending = [];
+  const volatileFlipOverrides = {};
   const escalatedPending = [];
   const escalatedReasons = {};
   const escalationFlipOverrides = {};
@@ -2682,6 +2751,8 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     const legacyPendingCandidate = isLegacyPendingCandidate(candidate);
     const ageDays = getCandidateAgeDays(candidate, summaryNowMs);
     const flipCount = Number(candidate?.flip_count || 0);
+    const recentFlipCount = countSignalWindowChangeFlips(coverage.signal_window);
+    const hasRecentSignalFlip = recentFlipCount > 0;
     const candidateChangeKey = getCandidateChangeKey(candidate);
     const fetchFailureStreak = Number(
       candidate?.fetch_failure_streak || coverage.consecutive_fetch_failures || 0
@@ -2693,15 +2764,23 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     coverage.pending_model_id = pendingModelId;
     coverage.pending_model_first_observed_utc = getPendingModelFirstObservedUtc(candidate, coverage.pending_model_first_observed_utc || "");
     const escalationFlipConfig = getEscalationFlipThresholdForVendor(name, vendor);
+    const volatileFlipConfig = getVolatileFlipThresholdForVendor(name, vendor);
     if (escalationFlipConfig.overridden) {
       escalationFlipOverrides[vendor] = {
         threshold: escalationFlipConfig.threshold,
         flipCount,
       };
     }
+    if (volatileFlipConfig.overridden) {
+      volatileFlipOverrides[vendor] = {
+        threshold: volatileFlipConfig.threshold,
+        flipCount,
+      };
+    }
     coverage.last_pending_seen_utc = utcIsoTimestamp();
     coverage.last_pending_age_days = ageDays;
     coverage.last_pending_flip_count = flipCount;
+    coverage.last_pending_recent_flip_count = recentFlipCount;
     coverage.last_pending_source_url = candidate?.source_url || coverage.last_pending_source_url || "";
     coverage.last_pending_change_key = candidateChangeKey || coverage.last_pending_change_key || "";
     coverage.pending_fetch_failure_streak = fetchFailureStreak;
@@ -2732,13 +2811,20 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     if (ageDays >= getStalePendingDays()) {
       stalePending.push(vendor);
     }
-    if (flipCount >= getVolatileFlipThreshold()) {
+    const volatileRequiresRecentFlip = getVolatileRequireRecentFlip();
+    const hasVolatileFlipSignal =
+      flipCount >= volatileFlipConfig.threshold &&
+      (!volatileRequiresRecentFlip || hasRecentSignalFlip);
+    if (hasVolatileFlipSignal) {
       volatilePending.push(vendor);
     }
 
     const ageEscalationThreshold = getEscalationPendingDays();
     const hasEscalationAge = ageDays >= ageEscalationThreshold;
-    const hasEscalationFlip = flipCount >= escalationFlipConfig.threshold;
+    const escalationRequiresRecentFlip = getEscalationRequireRecentFlip();
+    const hasEscalationFlip =
+      flipCount >= escalationFlipConfig.threshold &&
+      (!escalationRequiresRecentFlip || hasRecentSignalFlip);
     const signalWindowDecision = getCandidateSignalWindowDecision(candidate);
     const hasEscalationSignalSupport =
       Boolean(signalWindowDecision) &&
@@ -2754,6 +2840,9 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           ? `flip_count>=${escalationFlipConfig.threshold}(override)`
           : `flip_count>=${escalationFlipConfig.threshold}`
       );
+    }
+    if (flipCount >= escalationFlipConfig.threshold && escalationRequiresRecentFlip && !hasRecentSignalFlip) {
+      escalationReasons.push("recent_flip_required");
     }
     if (hasEscalationSignalSupport) {
       escalationReasons.push("cross_run_signal_confirmed");
@@ -2863,6 +2952,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     rebaselineForProfile,
     stalePending,
     volatilePending,
+    volatileFlipOverrides,
     recheckConfirmed: [...recheckConfirmedSet].sort((a, b) => a.localeCompare(b)),
     recheckResolved: [...recheckResolvedSet].sort((a, b) => a.localeCompare(b)),
     recheckFetchFailures: [...recheckFetchFailureSet].sort((a, b) => a.localeCompare(b)),
@@ -3033,8 +3123,21 @@ async function main() {
     }
     if (result.volatilePending.length > 0) {
       const volatileNames = sortedLimitedVendors(result.volatilePending, getPendingDetailLimit());
+      const volatileRule = getVolatileRequireRecentFlip()
+        ? `change_key_flip_count>=${getVolatileFlipThreshold()} with recent_signal_flip>0`
+        : `change_key_flip_count>=${getVolatileFlipThreshold()}`;
       console.log(
-        `::notice::${result.name}: volatile_pending=${result.volatilePending.length} (change_key_flip_count>=${getVolatileFlipThreshold()}); first ${volatileNames.length}: ${volatileNames.join(", ")}`
+        `::notice::${result.name}: volatile_pending=${result.volatilePending.length} (${volatileRule}); first ${volatileNames.length}: ${volatileNames.join(", ")}`
+      );
+    }
+    const volatileOverrideEntries = Object.entries(result.volatileFlipOverrides || {});
+    if (volatileOverrideEntries.length > 0) {
+      const sampledOverrideEntries = volatileOverrideEntries
+        .sort(([a], [b]) => a.localeCompare(b))
+        .slice(0, getPendingDetailLimit())
+        .map(([vendor, details]) => `${vendor}(flip=${details.flipCount},threshold=${details.threshold})`);
+      console.log(
+        `::notice::${result.name}: volatile_flip_threshold_override_applied=${volatileOverrideEntries.length}; first ${sampledOverrideEntries.length}: ${sampledOverrideEntries.join(", ")}`
       );
     }
     const escalationOverrideEntries = Object.entries(result.escalationFlipOverrides || {});
@@ -3344,10 +3447,12 @@ async function main() {
   console.log(`VOLATILE_PENDING_COUNT=${allVolatilePending.length}`);
   console.log(`VOLATILE_PENDING_BY_POLICY=${volatilePendingByPolicy}`);
   console.log(`VOLATILE_PENDING_SAMPLE=${volatilePendingSample}`);
+  console.log(`VOLATILE_RECENT_FLIP_REQUIRED=${getVolatileRequireRecentFlip() ? "1" : "0"}`);
   console.log(`ESCALATION_COUNT=${allEscalatedPending.length}`);
   console.log(`ESCALATION_BY_POLICY=${escalationByPolicy}`);
   console.log(`ESCALATION_SAMPLE=${escalationSample}`);
   console.log(`ESCALATION_DETAIL=${escalationDetail}`);
+  console.log(`ESCALATION_RECENT_FLIP_REQUIRED=${getEscalationRequireRecentFlip() ? "1" : "0"}`);
   console.log(`COVERAGE_GAP_COUNT=${allCoverageGaps.length}`);
   console.log(`COVERAGE_GAP_BY_POLICY=${coverageGapByPolicy}`);
   console.log(`COVERAGE_GAP_SAMPLE=${coverageGapSample}`);

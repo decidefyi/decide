@@ -5,9 +5,11 @@ import assert from "node:assert/strict";
 import {
   buildChangeKey,
   classifyFetchFailureBlock,
+  countSignalWindowChangeFlips,
   evaluateSignalWindow,
   getCandidatePendingModelId,
   getCrossRunWindowRequiredForCandidate,
+  getVolatileFlipThresholdForVendor,
   isHighSignalWindowCandidate,
   isLegacyPendingCandidate,
   LEGACY_PENDING_MODEL_ID,
@@ -234,6 +236,32 @@ function testEvaluateSignalWindowSupportsRequiredOverride() {
   assert.equal(strictDecision.hashDecision, "", "expected no winner when strict threshold is unmet");
 }
 
+function testCountSignalWindowChangeFlips() {
+  assert.equal(
+    countSignalWindowChangeFlips(["__baseline__", "sig:a", "__baseline__", "sig:a", "__baseline__"]),
+    0,
+    "baseline bounce should not count as a semantic flip"
+  );
+  assert.equal(
+    countSignalWindowChangeFlips(["sig:a", "sig:b", "__baseline__", "sig:a", "sig:c"]),
+    3,
+    "expected non-baseline signal transitions to be counted"
+  );
+}
+
+function testVolatileFlipThresholdOverrides() {
+  const override = getVolatileFlipThresholdForVendor("cancel", "canva");
+  assert.deepEqual(
+    override,
+    { threshold: 8, overridden: true },
+    "expected known volatile vendor override to be applied"
+  );
+
+  const fallback = getVolatileFlipThresholdForVendor("cancel", "unknown_vendor");
+  assert.equal(fallback.overridden, false, "unknown vendor should use default volatile threshold");
+  assert.equal(fallback.threshold >= 1, true, "default volatile threshold should remain positive");
+}
+
 function main() {
   testImmediateBlockOnCloudflareAnd403();
   console.log("PASS check-policies immediate block on anti-bot");
@@ -289,7 +317,13 @@ function main() {
   testEvaluateSignalWindowSupportsRequiredOverride();
   console.log("PASS check-policies signal window required override");
 
-  console.log("Check-policies tests passed: 18/18");
+  testCountSignalWindowChangeFlips();
+  console.log("PASS check-policies signal window change flips");
+
+  testVolatileFlipThresholdOverrides();
+  console.log("PASS check-policies volatile threshold overrides");
+
+  console.log("Check-policies tests passed: 20/20");
 }
 
 try {
