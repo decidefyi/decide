@@ -44,7 +44,7 @@ const CHECKER_CONFIG = {
   actualMinGapHours: Number.parseInt(process.env.POLICY_CHECK_ACTUAL_MIN_GAP_HOURS || "4", 10),
   fetchQualityMinChars: Number.parseInt(process.env.POLICY_CHECK_FETCH_QUALITY_MIN_CHARS || "140", 10),
   fetchQualityMinLines: Number.parseInt(process.env.POLICY_CHECK_FETCH_QUALITY_MIN_LINES || "5", 10),
-  fetchQualityMinPolicyHits: Number.parseInt(process.env.POLICY_CHECK_FETCH_QUALITY_MIN_POLICY_HITS || "2", 10),
+  fetchQualityMinPolicyHits: Number.parseInt(process.env.POLICY_CHECK_FETCH_QUALITY_MIN_POLICY_HITS || "1", 10),
   alertLowSignalThreshold: Number.parseInt(process.env.POLICY_ALERT_LOW_SIGNAL_THRESHOLD || "1", 10),
   alertLowSignalLookback: Number.parseInt(process.env.POLICY_ALERT_LOW_SIGNAL_LOOKBACK || "6", 10),
   browserHookUrl: String(process.env.POLICY_CHECK_BROWSER_HOOK_URL || "").trim(),
@@ -751,7 +751,7 @@ function getFetchQualityMinLines() {
 }
 
 function getFetchQualityMinPolicyHits() {
-  if (!Number.isFinite(CHECKER_CONFIG.fetchQualityMinPolicyHits)) return 2;
+  if (!Number.isFinite(CHECKER_CONFIG.fetchQualityMinPolicyHits)) return 1;
   return Math.max(1, CHECKER_CONFIG.fetchQualityMinPolicyHits);
 }
 
@@ -924,6 +924,13 @@ function normalizeSemanticTokens(tokens) {
 function semanticTokenSignature(profile) {
   const tokens = normalizeSemanticTokens(profile?.tokens);
   return tokens.join("|");
+}
+
+export function semanticSignaturesStable(previousSignature, nextSignature) {
+  const previous = typeof previousSignature === "string" ? previousSignature : "";
+  const next = typeof nextSignature === "string" ? nextSignature : "";
+  if (!previous && !next) return true;
+  return Boolean(previous && next && previous === next);
 }
 
 function extractDurationTokens(text, anchors = [], tokenPrefix = "window_days") {
@@ -2173,14 +2180,21 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         if (priorHash === h && priorRunConfirmations > 0) {
           nextRunConfirmations = gapSatisfied ? priorRunConfirmations + 1 : priorRunConfirmations;
         }
+        const semanticStableAcrossRuns =
+          priorHash === h &&
+          priorSemanticRunConfirmations > 0 &&
+          semanticSignaturesStable(priorSemanticSignature, semanticSignature);
         let nextSemanticRunConfirmations = 1;
-        if (priorHash === h && priorSemanticSignature && priorSemanticSignature === semanticSignature && priorSemanticRunConfirmations > 0) {
+        if (semanticStableAcrossRuns) {
           nextSemanticRunConfirmations = gapSatisfied ? priorSemanticRunConfirmations + 1 : priorSemanticRunConfirmations;
         }
         if (!quality.passed) {
           nextRunConfirmations = priorHash === h ? priorRunConfirmations : 0;
           nextSemanticRunConfirmations = priorHash === h ? priorSemanticRunConfirmations : 0;
         }
+        const hasSemanticEvidence = Boolean(priorSemanticSignature || semanticSignature);
+        const semanticConfirmReady =
+          !hasSemanticEvidence || nextSemanticRunConfirmations >= actualConfirmRuns;
         const metadataConfirmRunsRequired = metadataSignalStable
           ? actualConfirmRuns + 1
           : actualConfirmRuns;
@@ -2206,7 +2220,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         if (
           quality.passed &&
           nextRunConfirmations >= metadataConfirmRunsRequired &&
-          nextSemanticRunConfirmations >= actualConfirmRuns &&
+          semanticConfirmReady &&
           hashWindowConfirmed
         ) {
           registerConfirmedChange({
@@ -2226,7 +2240,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           (!gapSatisfied && priorHash === h && priorRunConfirmations > 0) ||
           (metadataSignalStable && nextRunConfirmations < metadataConfirmRunsRequired) ||
           (nextRunConfirmations >= actualConfirmRuns && !hashWindowConfirmed) ||
-          (nextRunConfirmations >= actualConfirmRuns && nextSemanticRunConfirmations < actualConfirmRuns)
+          (nextRunConfirmations >= actualConfirmRuns && !semanticConfirmReady)
         ) {
           crossRunWindowHeldSet.add(vendor);
         }
@@ -2561,6 +2575,10 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     const ageEscalationThreshold = getEscalationPendingDays();
     const hasEscalationAge = ageDays >= ageEscalationThreshold;
     const hasEscalationFlip = flipCount >= escalationFlipConfig.threshold;
+    const hasEscalationSignalSupport =
+      typeof candidate?.signal_window_hash_decision === "string" &&
+      candidate.signal_window_hash_decision &&
+      candidate.signal_window_hash_decision === candidate?.hash;
     const escalationReasons = [];
     if (hasEscalationAge) {
       escalationReasons.push(`pending_age_days>=${ageEscalationThreshold}`);
@@ -2572,7 +2590,10 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           : `flip_count>=${escalationFlipConfig.threshold}`
       );
     }
-    if (hasEscalationAge && hasEscalationFlip) {
+    if (hasEscalationSignalSupport) {
+      escalationReasons.push("cross_run_signal_confirmed");
+    }
+    if (hasEscalationAge && hasEscalationFlip && hasEscalationSignalSupport) {
       escalatedPending.push(vendor);
       escalatedReasons[vendor] = escalationReasons.join("&");
       coverage.last_escalated_utc = utcIsoTimestamp();

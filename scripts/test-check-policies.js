@@ -8,6 +8,7 @@ import {
   isLegacyPendingCandidate,
   LEGACY_PENDING_MODEL_ID,
   PENDING_MODEL_ID,
+  semanticSignaturesStable,
   toZendeskHelpCenterApiTarget,
 } from "./check-policies.js";
 
@@ -102,6 +103,35 @@ function testZendeskApiTargetRejectsUnsupportedPaths() {
   assert.equal(result, null, "non-help-center URLs should not produce a zendesk API target");
 }
 
+function testSemanticSignaturesStableForEmptyTokens() {
+  assert.equal(
+    semanticSignaturesStable("", ""),
+    true,
+    "empty semantic signatures should be treated as stable across runs"
+  );
+}
+
+function testSemanticSignaturesStableForMatchingNonEmptyTokens() {
+  assert.equal(
+    semanticSignaturesStable("cancel:anytime|billing:auto_renew", "cancel:anytime|billing:auto_renew"),
+    true,
+    "matching semantic signatures should be stable"
+  );
+}
+
+function testSemanticSignaturesStableRejectsMixedOrDifferentTokens() {
+  assert.equal(
+    semanticSignaturesStable("", "trial:auto_converts_to_paid"),
+    false,
+    "missing vs present semantic signature should not be stable"
+  );
+  assert.equal(
+    semanticSignaturesStable("cancel:anytime", "cancel:fee_or_penalty"),
+    false,
+    "different semantic signatures should not be stable"
+  );
+}
+
 function main() {
   testImmediateBlockOnCloudflareAnd403();
   console.log("PASS check-policies immediate block on anti-bot");
@@ -130,7 +160,16 @@ function main() {
   testZendeskApiTargetRejectsUnsupportedPaths();
   console.log("PASS check-policies zendesk unsupported path");
 
-  console.log("Check-policies tests passed: 9/9");
+  testSemanticSignaturesStableForEmptyTokens();
+  console.log("PASS check-policies semantic stability empty signatures");
+
+  testSemanticSignaturesStableForMatchingNonEmptyTokens();
+  console.log("PASS check-policies semantic stability matching signatures");
+
+  testSemanticSignaturesStableRejectsMixedOrDifferentTokens();
+  console.log("PASS check-policies semantic stability rejects mismatches");
+
+  console.log("Check-policies tests passed: 12/12");
 }
 
 try {
