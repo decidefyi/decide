@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T09:40:42Z",
+  "updated_utc": "2026-03-07T10:06:38Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -340,9 +340,9 @@
       "metadata_signature": "28e2bf140f62715d"
     },
     "doordash_dashpass": {
-      "hash": "78088043ed1e6ebe",
+      "hash": "8a2e2266ec700dd2",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T09:38:04Z",
+      "extracted_at_utc": "2026-03-07T10:04:27Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -732,9 +732,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "midjourney": {
-      "hash": "cda38716917340a8",
+      "hash": "05a4746cf3c4be3c",
       "source_url": "https://www.midjourney.com/home",
-      "extracted_at_utc": "2026-03-07T00:32:28Z",
+      "extracted_at_utc": "2026-03-07T10:04:46Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -857,9 +857,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "proton": {
-      "hash": "907f7b3c0a1a6184",
+      "hash": "4da803c89e030feb",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T09:38:59Z",
+      "extracted_at_utc": "2026-03-07T10:04:52Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1156,9 +1156,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "youtube_tv": {
-      "hash": "7e3cd45beae9f932",
+      "hash": "57c8aa3ecd808225",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-03-07T09:39:21Z",
+      "extracted_at_utc": "2026-03-07T10:05:17Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
@@ -1690,9 +1690,9 @@
       "metadata_signature": "a7b0da01442534e8"
     },
     "espn_plus": {
-      "hash": "bea213404e064019",
+      "hash": "46639110e2ed29bc",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T09:11:43Z",
+      "extracted_at_utc": "2026-03-07T10:04:28Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1741,9 +1741,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "nordvpn": {
-      "hash": "414af56426040b33",
+      "hash": "d90ec5423176cfc1",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-03-07T09:40:42Z",
+      "extracted_at_utc": "2026-03-07T10:06:38Z",
       "tokens": [
         "billing:auto_renew"
       ],

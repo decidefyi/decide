@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T09:36:44Z",
+  "updated_utc": "2026-03-07T10:03:03Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -252,9 +252,9 @@
       "metadata_signature": ""
     },
     "coursera_plus": {
-      "hash": "a01424c1d2e30473",
+      "hash": "2b1ec6d7a4812938",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T09:31:44Z",
+      "extracted_at_utc": "2026-03-07T09:56:09Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -313,9 +313,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "c472bd22d10b425c",
+      "hash": "46d2d8238a1a50f7",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T09:31:51Z",
+      "extracted_at_utc": "2026-03-07T09:56:19Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -773,9 +773,9 @@
       "metadata_signature": ""
     },
     "paramount_plus": {
-      "hash": "6cac07a1fe739c67",
+      "hash": "09b941e5427a8584",
       "source_url": "https://help.paramountplus.com/s/article/PD-What-s-the-refund-policy-for-Paramount",
-      "extracted_at_utc": "2026-03-07T09:33:23Z",
+      "extracted_at_utc": "2026-03-07T09:59:18Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1042,23 +1042,23 @@
       "metadata_signature": ""
     },
     "tinder": {
-      "hash": "94874f35eb7a8496",
+      "hash": "272c00ac2fea4ba5",
       "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
-      "extracted_at_utc": "2026-03-07T01:13:38Z",
+      "extracted_at_utc": "2026-03-07T09:59:30Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
       "page_metadata": {
-        "source_kind": "browser_hook",
-        "source_title": "",
+        "source_kind": "zendesk_article_json",
+        "source_title": "Refund Requests",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
+        "source_updated_at_utc": "2025-12-16T15:47:26Z",
+        "source_edited_at_utc": "2025-04-14T09:17:12Z"
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "0bc063ab89b545dc"
     },
     "tidal": {
       "hash": "0b9d257da80273e5",
@@ -1191,9 +1191,9 @@
       "metadata_signature": ""
     },
     "youtube_tv": {
-      "hash": "e0e0cec49a668280",
+      "hash": "1b828e5e1471623e",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-03-06T23:47:37Z",
+      "extracted_at_utc": "2026-03-07T09:59:40Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
@@ -1704,9 +1704,9 @@
       "metadata_signature": ""
     },
     "google_one": {
-      "hash": "4e4e6cd4b671fe2a",
+      "hash": "47fe303a75ca7032",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T09:33:09Z",
+      "extracted_at_utc": "2026-03-07T09:58:14Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1721,9 +1721,9 @@
       "metadata_signature": "e47e0c36e2bbf62b"
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "9797e79eb7ad6a9c",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T09:08:33Z",
+      "extracted_at_utc": "2026-03-07T09:59:19Z",
       "tokens": [
         "billing:auto_renew"
       ],

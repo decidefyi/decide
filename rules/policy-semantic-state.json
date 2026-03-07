@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T09:22:15Z",
+  "updated_utc": "2026-03-07T09:46:59Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -284,9 +284,9 @@
       "metadata_signature": ""
     },
     "coursera_plus": {
-      "hash": "c971ff688acb0a6c",
+      "hash": "2df2a3eb1e579523",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T09:17:23Z",
+      "extracted_at_utc": "2026-03-07T09:42:01Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -346,9 +346,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "56ca6cf891ba9bb8",
+      "hash": "c2f9c415bf704599",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T09:17:29Z",
+      "extracted_at_utc": "2026-03-07T09:42:06Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -771,9 +771,9 @@
       "metadata_signature": ""
     },
     "paramount_plus": {
-      "hash": "fa261fecce3dfbb8",
+      "hash": "c5fcecaa646afb37",
       "source_url": "https://help.paramountplus.com/s/article/PD-What-s-the-refund-policy-for-Paramount",
-      "extracted_at_utc": "2026-03-07T09:19:01Z",
+      "extracted_at_utc": "2026-03-07T09:43:40Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -832,9 +832,9 @@
       "metadata_signature": ""
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T09:19:03Z",
+      "extracted_at_utc": "2026-03-07T09:43:41Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1304,9 +1304,9 @@
       "metadata_signature": "2d738d81adc8e4a0"
     },
     "weightwatchers": {
-      "hash": "698553673f2fcca0",
+      "hash": "99dc7291a650dc4c",
       "source_url": "https://www.weightwatchers.com/us/terms-and-conditions",
-      "extracted_at_utc": "2026-03-07T08:55:38Z",
+      "extracted_at_utc": "2026-03-07T09:43:55Z",
       "tokens": [
         "billing:auto_renew",
         "refund_window_days:180",
@@ -1707,9 +1707,9 @@
       "metadata_signature": "698d782ea2fd7d01"
     },
     "google_one": {
-      "hash": "e9a1e24fd931c011",
+      "hash": "47fe303a75ca7032",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T09:18:48Z",
+      "extracted_at_utc": "2026-03-07T09:43:25Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
