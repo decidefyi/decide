@@ -131,7 +131,15 @@
     },
     "disney_plus": {
       "url": "https://help.disneyplus.com/article/disneyplus-cancel-subscription",
-      "notes": "Cancel anytime; no partial refunds"
+      "notes": "Cancel anytime; no partial refunds",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://www.disneyplus.com/legal/subscriber-agreement"
+      ]
     },
     "doordash_dashpass": {
       "url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
@@ -236,7 +244,15 @@
     },
     "hulu": {
       "url": "https://help.hulu.com/article/cancel-subscription",
-      "notes": "Cancel anytime; no partial month refunds"
+      "notes": "Cancel anytime; no partial month refunds",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://www.hulu.com/subscriber_agreement"
+      ]
     },
     "icloud_plus": {
       "url": "https://support.apple.com/en-us/108052",
@@ -458,7 +474,15 @@
     },
     "lastpass": {
       "url": "https://support.lastpass.com/help/cancel-a-lastpass-subscription",
-      "notes": "Cancel anytime; service remains active through current billing period."
+      "notes": "Cancel anytime; service remains active through current billing period.",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://www.lastpass.com/legal-center/terms-of-service"
+      ]
     },
     "keeper": {
       "url": "https://docs.keeper.io/user-guides/keeper-subscriptions-and-billing",
@@ -507,7 +531,15 @@
     },
     "ubisoft_plus": {
       "url": "https://www.ubisoft.com/help/article/canceling-a-ubisoft-subscription/000064975",
-      "notes": "Cancel auto-renewal anytime; access remains through paid term."
+      "notes": "Cancel auto-renewal anytime; access remains through paid term.",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://legal.ubi.com/termsofuse/en-US"
+      ]
     },
     "nfl_plus": {
       "url": "https://support.nfl.com/hc/en-us/articles/5402041435292-NFL-Subscription-Renewals-Cancellations",
@@ -523,7 +555,15 @@
     },
     "new_york_times": {
       "url": "https://help.nytimes.com/hc/en-us/articles/360003499613-Cancel-your-subscription",
-      "notes": "NYT cancellation flow and renewal behavior."
+      "notes": "NYT cancellation flow and renewal behavior.",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://www.nytimes.com/subscription/terms-of-sale"
+      ]
     },
     "wall_street_journal": {
       "url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",

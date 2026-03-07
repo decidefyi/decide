@@ -150,25 +150,39 @@ const POLICY_FOCUS_KEYWORDS = {
     "after trial",
     "billed after",
     "promo",
+    "premium",
+    "pricing",
+    "monthly",
+    "annual",
+    "yearly",
+    "free tier",
+    "upgrade",
   ],
 };
 const BASELINE_SIGNAL = "__baseline__";
 const VENDOR_STABILITY_KEYWORDS = {
+  disney_plus: ["disney+", "disney plus", "subscription", "billing", "cancel", "refund"],
+  duolingo: ["duolingo", "super duolingo", "subscription", "refund", "cancel"],
   canva: ["canva pro", "canva teams", "manage billing", "cancel canva", "subscription"],
   espn_plus: ["espn+", "subscription", "bundle", "billing", "cancel"],
   myfitnesspal_premium: ["myfitnesspal premium", "premium subscription", "renewal", "cancel premium"],
   substack: ["substack", "subscription", "paid subscription", "cancel", "refund"],
   twitch: ["twitch turbo", "subscription renews", "cancel recurring", "subscription payment"],
   fitbit_premium: ["fitbit premium", "subscription", "google payments", "renews"],
+  hulu: ["hulu", "subscription", "billing", "cancel", "refund"],
+  icloud_plus: ["icloud+", "icloud plus", "subscription", "cancel", "storage"],
+  linkedin_premium: ["linkedin premium", "subscription", "billing", "refund", "cancel"],
   paramount_plus: ["paramount+", "subscription", "cancel", "billing"],
   audible: ["audible membership", "audible premium plus", "cancel", "billing"],
   grammarly: ["grammarly premium", "subscription", "billing", "renewal", "cancel"],
   evernote: ["evernote personal", "evernote professional", "subscription", "billing", "cancel"],
   nfl_plus: ["nfl+", "subscription", "billing", "cancel", "trial"],
+  lastpass: ["lastpass", "subscription", "billing", "refund", "cancel"],
   dashlane: ["dashlane premium", "subscription", "billing", "auto-renew", "cancel"],
   headspace: ["headspace", "subscription", "billing", "cancel", "renewal"],
   soundcloud_go: ["soundcloud go", "soundcloud go+", "subscription", "billing", "cancel"],
   roblox_premium: ["roblox premium", "subscription", "billing", "cancel", "renewal"],
+  telegram_premium: ["telegram premium", "subscription", "cancel", "billing", "trial"],
   x_premium: ["x premium", "premium+", "subscription", "billing", "cancel"],
   calm: ["calm premium", "subscription", "billing", "cancel", "renewal"],
   hinge: ["hinge+", "hinge x", "subscription", "refund", "cancel"],
@@ -216,6 +230,19 @@ const ACTUAL_CONFIRM_RUN_OVERRIDES = {
   fitbit_premium: 3,
   paramount_plus: 3,
   twitch: 3,
+};
+const FETCH_QUALITY_OVERRIDES = {
+  cancel: {
+    icloud_plus: { minPolicyHits: 0 },
+    linkedin_premium: { minPolicyHits: 0 },
+  },
+  trial: {
+    icloud_plus: { minPolicyHits: 0 },
+    linkedin_premium: { minPolicyHits: 0 },
+    slack: { minPolicyHits: 0 },
+    telegram_premium: { minPolicyHits: 0 },
+    x_premium: { minPolicyHits: 0 },
+  },
 };
 const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v1";
 export const LEGACY_PENDING_MODEL_ID = "legacy-v1";
@@ -779,6 +806,29 @@ function getFetchQualityMinPolicyHits() {
   return Math.max(1, CHECKER_CONFIG.fetchQualityMinPolicyHits);
 }
 
+function getFetchQualityThresholds(policyType, vendorKey) {
+  const baseThresholds = {
+    minChars: getFetchQualityMinChars(),
+    minLines: getFetchQualityMinLines(),
+    minPolicyHits: getFetchQualityMinPolicyHits(),
+  };
+  const policy = String(policyType || "").trim();
+  const vendor = String(vendorKey || "").trim();
+  if (!policy || !vendor) return baseThresholds;
+  const override = FETCH_QUALITY_OVERRIDES[policy]?.[vendor];
+  if (!override || typeof override !== "object") return baseThresholds;
+  const minCharsOverride = Number(override.minChars);
+  const minLinesOverride = Number(override.minLines);
+  const minPolicyHitsOverride = Number(override.minPolicyHits);
+  return {
+    minChars: Number.isFinite(minCharsOverride) ? Math.max(0, Math.floor(minCharsOverride)) : baseThresholds.minChars,
+    minLines: Number.isFinite(minLinesOverride) ? Math.max(0, Math.floor(minLinesOverride)) : baseThresholds.minLines,
+    minPolicyHits: Number.isFinite(minPolicyHitsOverride)
+      ? Math.max(0, Math.floor(minPolicyHitsOverride))
+      : baseThresholds.minPolicyHits,
+  };
+}
+
 function countPolicyKeywordHits(text, policyType) {
   const normalizedText = String(text || "").toLowerCase();
   if (!normalizedText.trim()) return 0;
@@ -792,9 +842,9 @@ function countPolicyKeywordHits(text, policyType) {
   return hits;
 }
 
-function assessFetchQuality({ rawText, normalizedText, policyType }) {
+function assessFetchQuality({ rawText, normalizedText, policyType, vendorKey = "" }) {
   const reasons = [];
-  const interstitialReason = detectFetchInterstitial(rawText) || detectFetchInterstitial(normalizedText);
+  const interstitialReason = detectFetchInterstitial(rawText);
   if (interstitialReason) {
     reasons.push(`interstitial:${interstitialReason}`);
   }
@@ -804,9 +854,10 @@ function assessFetchQuality({ rawText, normalizedText, policyType }) {
   const lineCount = normalized ? normalized.split("\n").filter(Boolean).length : 0;
   const policyKeywordHits = countPolicyKeywordHits(normalized, policyType);
 
-  const minChars = getFetchQualityMinChars();
-  const minLines = getFetchQualityMinLines();
-  const minPolicyHits = getFetchQualityMinPolicyHits();
+  const thresholds = getFetchQualityThresholds(policyType, vendorKey);
+  const minChars = thresholds.minChars;
+  const minLines = thresholds.minLines;
+  const minPolicyHits = thresholds.minPolicyHits;
 
   if (normalizedLength < minChars) {
     reasons.push(`short_text:${normalizedLength}<${minChars}`);
@@ -1929,6 +1980,7 @@ async function fetchWithFallback(vendorConfig, context = {}) {
           rawText: laneResult.text,
           normalizedText: normalized,
           policyType: context?.policyType || "default",
+          vendorKey: context?.vendor || "",
         });
         if (quality.passed) {
           return {
@@ -2347,6 +2399,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           rawText: fetchResult.text,
           normalizedText: normalized,
           policyType: name,
+          vendorKey: vendor,
         });
         if (!quality.passed) {
           qualityGateHeldSet.add(vendor);
@@ -2658,6 +2711,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             rawText: recheckResult.text,
             normalizedText: normalized,
             policyType: name,
+            vendorKey: vendor,
           });
           if (!quality.passed) {
             qualityGateHeldSet.add(vendor);

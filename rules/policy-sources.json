@@ -130,8 +130,17 @@
       ]
     },
     "disney_plus": {
-      "url": "https://help.disneyplus.com/article/disneyplus-refund",
-      "notes": "No refunds; access continues until end of billing cycle"
+      "url": "https://www.disneyplus.com/legal/subscriber-agreement",
+      "notes": "No refunds; access continues until end of billing cycle",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://help.disneyplus.com/article/disneyplus-refund",
+        "https://help.disneyplus.com/article/disneyplus-cancel-subscription"
+      ]
     },
     "doordash_dashpass": {
       "url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",

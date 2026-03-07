@@ -533,8 +533,17 @@
       "notes": "Trial availability varies by account and purchase channel."
     },
     "x_premium": {
-      "url": "https://x.com/i/premium_sign_up",
-      "notes": "No standing free trial; promotional offers may vary."
+      "url": "https://legal.x.com/purchaser-terms.html",
+      "notes": "No standing free trial; promotional offers may vary.",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://x.com/i/premium_sign_up",
+        "https://help.x.com/en/using-x/x-premium"
+      ]
     },
     "reddit_premium": {
       "url": "https://www.reddit.com/premium",
@@ -542,7 +551,16 @@
     },
     "telegram_premium": {
       "url": "https://telegram.org/premium",
-      "notes": "No standing free trial for Telegram Premium."
+      "notes": "No standing free trial for Telegram Premium.",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://telegram.org/tos",
+        "https://telegram.org/faq"
+      ]
     },
     "soundcloud_go": {
       "url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
