@@ -71,6 +71,7 @@ const POLICY_SETS = [
     candidatesPath: join(__dirname, "..", "rules", "policy-change-candidates.json"),
     coveragePath: join(__dirname, "..", "rules", "policy-coverage-state.json"),
     semanticPath: join(__dirname, "..", "rules", "policy-semantic-state.json"),
+    baselinePath: join(__dirname, "..", "rules", "policy-confirmed-baseline.json"),
     rulesFile: "v1_us_individual.json",
   },
   {
@@ -80,6 +81,7 @@ const POLICY_SETS = [
     candidatesPath: join(__dirname, "..", "rules", "cancel-policy-change-candidates.json"),
     coveragePath: join(__dirname, "..", "rules", "cancel-policy-coverage-state.json"),
     semanticPath: join(__dirname, "..", "rules", "cancel-policy-semantic-state.json"),
+    baselinePath: join(__dirname, "..", "rules", "cancel-policy-confirmed-baseline.json"),
     rulesFile: "v1_us_individual_cancel.json",
   },
   {
@@ -89,6 +91,7 @@ const POLICY_SETS = [
     candidatesPath: join(__dirname, "..", "rules", "return-policy-change-candidates.json"),
     coveragePath: join(__dirname, "..", "rules", "return-policy-coverage-state.json"),
     semanticPath: join(__dirname, "..", "rules", "return-policy-semantic-state.json"),
+    baselinePath: join(__dirname, "..", "rules", "return-policy-confirmed-baseline.json"),
     rulesFile: "v1_us_individual_return.json",
   },
   {
@@ -98,6 +101,7 @@ const POLICY_SETS = [
     candidatesPath: join(__dirname, "..", "rules", "trial-policy-change-candidates.json"),
     coveragePath: join(__dirname, "..", "rules", "trial-policy-coverage-state.json"),
     semanticPath: join(__dirname, "..", "rules", "trial-policy-semantic-state.json"),
+    baselinePath: join(__dirname, "..", "rules", "trial-policy-confirmed-baseline.json"),
     rulesFile: "v1_us_individual_trial.json",
   },
 ];
@@ -1196,6 +1200,62 @@ function normalizeSemanticProfile(input, metadata = {}) {
   };
 }
 
+function normalizeConfirmedBaselineEntry(input) {
+  if (!input || typeof input !== "object") {
+    return {
+      hash: "",
+      semantic_signature: "",
+      metadata_signature: "",
+      source_url: "",
+      last_confirmed_change_utc: "",
+    };
+  }
+  return {
+    hash: typeof input.hash === "string" ? input.hash.trim() : "",
+    semantic_signature: typeof input.semantic_signature === "string" ? input.semantic_signature.trim() : "",
+    metadata_signature: typeof input.metadata_signature === "string" ? input.metadata_signature.trim() : "",
+    source_url: typeof input.source_url === "string" ? input.source_url.trim() : "",
+    last_confirmed_change_utc:
+      typeof input.last_confirmed_change_utc === "string" ? input.last_confirmed_change_utc.trim() : "",
+  };
+}
+
+function semanticTokensFromSignature(signature) {
+  return String(signature || "")
+    .split("|")
+    .map((token) => token.trim())
+    .filter(Boolean);
+}
+
+function buildComparisonSemanticProfile({ baselineEntry, fallbackProfile }) {
+  const baseline = normalizeConfirmedBaselineEntry(baselineEntry);
+  const fallback = normalizeSemanticProfile(fallbackProfile || {}, {
+    hash: baseline.hash,
+    sourceUrl: baseline.source_url,
+    extractedAtUtc: baseline.last_confirmed_change_utc,
+  });
+  const hasFallback = Boolean(fallbackProfile && typeof fallbackProfile === "object");
+  const hasBaselineSignal = Boolean(
+    baseline.hash ||
+    baseline.semantic_signature ||
+    baseline.metadata_signature ||
+    baseline.source_url ||
+    baseline.last_confirmed_change_utc
+  );
+  if (!hasFallback && !hasBaselineSignal) return null;
+  const nextTokens = baseline.semantic_signature
+    ? semanticTokensFromSignature(baseline.semantic_signature)
+    : fallback.tokens;
+  return normalizeSemanticProfile({
+    ...fallback,
+    hash: baseline.hash || fallback.hash || "",
+    source_url: baseline.source_url || fallback.source_url || "",
+    extracted_at_utc: baseline.last_confirmed_change_utc || fallback.extracted_at_utc || utcIsoTimestamp(),
+    tokens: nextTokens,
+    metadata_signature: baseline.metadata_signature || fallback.metadata_signature || "",
+  });
+}
+
 function diffSemanticProfiles(previousProfile, nextProfile) {
   const hasPrevious = Boolean(previousProfile && Array.isArray(previousProfile.tokens));
   const previousTokens = hasPrevious ? normalizeSemanticTokens(previousProfile.tokens) : [];
@@ -2029,7 +2089,16 @@ async function fetchWithFallback(vendorConfig, context = {}) {
   };
 }
 
-async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, coveragePath, semanticPath, rulesFile }) {
+async function checkPolicySet({
+  name,
+  sourcesPath,
+  hashesPath,
+  candidatesPath,
+  coveragePath,
+  semanticPath,
+  baselinePath,
+  rulesFile,
+}) {
   if (!existsSync(sourcesPath)) {
     console.log(`::warning::Sources file not found for ${name}: ${sourcesPath}`);
     return {
@@ -2078,6 +2147,15 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const storedCandidates = readJson(candidatesPath, {});
   const storedCoverage = readJson(coveragePath, { vendors: {} });
   const storedSemanticState = readJson(semanticPath, { vendors: {} });
+  const storedBaselineState = readJson(baselinePath, { vendors: {} });
+  const storedBaselineVendorsRaw =
+    storedBaselineState && typeof storedBaselineState.vendors === "object" && storedBaselineState.vendors
+      ? storedBaselineState.vendors
+      : {};
+  const storedBaselineVendors = {};
+  for (const [vendorKey, baselineValue] of Object.entries(storedBaselineVendorsRaw)) {
+    storedBaselineVendors[vendorKey] = normalizeConfirmedBaselineEntry(baselineValue);
+  }
   const storedSemanticProfilesRaw =
     storedSemanticState && typeof storedSemanticState.vendors === "object" && storedSemanticState.vendors
       ? storedSemanticState.vendors
@@ -2089,6 +2167,26 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const coverageVendors = storedCoverage && typeof storedCoverage.vendors === "object" && storedCoverage.vendors
     ? { ...storedCoverage.vendors }
     : {};
+  const comparisonHashes = { ...storedHashes };
+  const comparisonSemanticProfiles = {};
+  const comparisonVendorKeys = new Set([
+    ...Object.keys(storedHashes || {}),
+    ...Object.keys(storedSemanticProfiles || {}),
+    ...Object.keys(storedBaselineVendors || {}),
+  ]);
+  for (const vendor of comparisonVendorKeys) {
+    const baselineEntry = storedBaselineVendors[vendor];
+    if (baselineEntry?.hash) {
+      comparisonHashes[vendor] = baselineEntry.hash;
+    }
+    const comparisonProfile = buildComparisonSemanticProfile({
+      baselineEntry,
+      fallbackProfile: storedSemanticProfiles[vendor],
+    });
+    if (comparisonProfile) {
+      comparisonSemanticProfiles[vendor] = comparisonProfile;
+    }
+  }
   const activeStoredCandidates = {};
   const staleDropped = [];
 
@@ -2127,6 +2225,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
   const newHashes = { ...storedHashes };
   const newCandidates = {};
   const newSemanticProfiles = { ...storedSemanticProfilesRaw };
+  const newConfirmedBaseline = { ...storedBaselineVendors };
   const runObservations = {};
   const recheckConfirmedSet = new Set();
   const recheckResolvedSet = new Set();
@@ -2159,13 +2258,28 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
     coverage.last_confirmed_change_utc = whenUtc;
   };
 
+  const upsertConfirmedBaseline = ({ vendor, sourceUrl, confirmedHash, confirmedProfile, confirmedAtUtc }) => {
+    const normalizedProfile = normalizeSemanticProfile(confirmedProfile, {
+      hash: confirmedHash,
+      sourceUrl,
+      extractedAtUtc: confirmedAtUtc,
+    });
+    newConfirmedBaseline[vendor] = {
+      hash: String(confirmedHash || "").trim(),
+      semantic_signature: semanticTokenSignature(normalizedProfile),
+      metadata_signature: String(normalizedProfile.metadata_signature || "").trim(),
+      source_url: String(sourceUrl || "").trim(),
+      last_confirmed_change_utc: String(confirmedAtUtc || "").trim(),
+    };
+  };
+
   const registerConfirmedChange = ({ vendor, sourceUrl, confirmedHash, confirmedProfile, confirmedAtUtc }) => {
     const normalizedProfile = normalizeSemanticProfile(confirmedProfile, {
       hash: confirmedHash,
       sourceUrl,
       extractedAtUtc: confirmedAtUtc,
     });
-    const previousProfile = storedSemanticProfiles[vendor];
+    const previousProfile = comparisonSemanticProfiles[vendor];
     const previousHash = typeof previousProfile?.hash === "string" ? previousProfile.hash : "";
     const semanticDiff = diffSemanticProfiles(previousProfile, normalizedProfile);
     const entry = {
@@ -2295,6 +2409,15 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
       }
     }
     newSemanticProfiles[vendor] = normalizedProfile;
+    comparisonSemanticProfiles[vendor] = normalizedProfile;
+    comparisonHashes[vendor] = String(confirmedHash || "").trim();
+    upsertConfirmedBaseline({
+      vendor,
+      sourceUrl,
+      confirmedHash,
+      confirmedProfile: normalizedProfile,
+      confirmedAtUtc,
+    });
     markConfirmedChange(vendor, confirmedAtUtc);
   };
 
@@ -2386,7 +2509,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
           pageMetadata,
         });
         const semanticSignature = semanticTokenSignature(semanticProfile);
-        const previousSemanticProfile = storedSemanticProfiles[vendor] || null;
+        const previousSemanticProfile = comparisonSemanticProfiles[vendor] || null;
         const semanticDiffAgainstPrevious = diffSemanticProfiles(previousSemanticProfile, semanticProfile);
         const metadataSignature = String(semanticProfile.metadata_signature || "");
         const previousMetadataSignature = String(previousSemanticProfile?.metadata_signature || "");
@@ -2411,7 +2534,7 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         }
 
         const priorCandidate = activeStoredCandidates[vendor];
-        const previousHash = storedHashes[vendor];
+        const previousHash = comparisonHashes[vendor];
         const priorSemanticSignature =
           typeof priorCandidate?.semantic_signature === "string" ? priorCandidate.semantic_signature : "";
         const currentChangeKey = buildChangeKey(h, semanticSignature);
@@ -2433,13 +2556,34 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         if (isUpdate || rebaselineForProfile || !previousHash) {
           newHashes[vendor] = h;
           newSemanticProfiles[vendor] = semanticProfile;
+          comparisonHashes[vendor] = h;
+          comparisonSemanticProfiles[vendor] = semanticProfile;
+          if (quality.passed) {
+            upsertConfirmedBaseline({
+              vendor,
+              sourceUrl: sourceUrl || "",
+              confirmedHash: h,
+              confirmedProfile: semanticProfile,
+              confirmedAtUtc: fetchedAtUtc,
+            });
+          }
           delete newCandidates[vendor];
           return;
         }
 
         if (previousHash === h) {
           newHashes[vendor] = h;
-          newSemanticProfiles[vendor] = storedSemanticProfiles[vendor] || semanticProfile;
+          newSemanticProfiles[vendor] = comparisonSemanticProfiles[vendor] || semanticProfile;
+          comparisonHashes[vendor] = h;
+          if (quality.passed && !newConfirmedBaseline[vendor]?.hash) {
+            upsertConfirmedBaseline({
+              vendor,
+              sourceUrl: sourceUrl || "",
+              confirmedHash: h,
+              confirmedProfile: semanticProfile,
+              confirmedAtUtc: fetchedAtUtc,
+            });
+          }
           delete newCandidates[vendor];
           return;
         }
@@ -2451,6 +2595,15 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         ) {
           newHashes[vendor] = h;
           newSemanticProfiles[vendor] = semanticProfile;
+          comparisonHashes[vendor] = h;
+          comparisonSemanticProfiles[vendor] = semanticProfile;
+          upsertConfirmedBaseline({
+            vendor,
+            sourceUrl: sourceUrl || "",
+            confirmedHash: h,
+            confirmedProfile: semanticProfile,
+            confirmedAtUtc: fetchedAtUtc,
+          });
           delete newCandidates[vendor];
           noiseSuppressedSet.add(vendor);
           coverage.last_noise_suppressed_utc = fetchedAtUtc;
@@ -3080,6 +3233,24 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
         updated_utc: verifiedAtUtc,
         policy: name,
         vendors: coverageVendors,
+      },
+      null,
+      2
+    ) + "\n"
+  );
+  const sortedConfirmedBaselineVendors = Object.fromEntries(
+    Object.entries(newConfirmedBaseline)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([vendor, entry]) => [vendor, normalizeConfirmedBaselineEntry(entry)])
+  );
+  writeFileSync(
+    baselinePath,
+    JSON.stringify(
+      {
+        updated_utc: verifiedAtUtc,
+        policy: name,
+        hash_profile: HASH_PROFILE_ID,
+        vendors: sortedConfirmedBaselineVendors,
       },
       null,
       2

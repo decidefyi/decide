@@ -52,6 +52,10 @@ jobs:
             rules/cancel-policy-semantic-state.json
             rules/return-policy-semantic-state.json
             rules/trial-policy-semantic-state.json
+            rules/policy-confirmed-baseline.json
+            rules/cancel-policy-confirmed-baseline.json
+            rules/return-policy-confirmed-baseline.json
+            rules/trial-policy-confirmed-baseline.json
             rules/policy-events.ndjson
           )
 
