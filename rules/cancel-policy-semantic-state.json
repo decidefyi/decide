@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T01:11:24Z",
+  "updated_utc": "2026-03-07T06:39:55Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -95,9 +95,9 @@
       "metadata_signature": ""
     },
     "amazon_prime": {
-      "hash": "7c25d815528390c6",
+      "hash": "6bb8825a65099707",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-03-06T22:03:30Z",
+      "extracted_at_utc": "2026-03-07T06:32:16Z",
       "tokens": [
         "billing:auto_renew",
         "billing:prorated",
@@ -106,7 +106,7 @@
       ],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Amazon Prime Terms & Conditions - Amazon Customer Service",
+        "source_title": "",
         "display_last_updated_label": "May 11, 2021",
         "display_last_updated_date_utc": "2021-05-11",
         "display_effective_date_label": "",
@@ -114,7 +114,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "86ce736f781a912d"
+      "metadata_signature": "d0e94d39c49f068b"
     },
     "apple_tv_plus": {
       "hash": "91882bfe2276dfad",
@@ -271,9 +271,9 @@
       "metadata_signature": ""
     },
     "coursera_plus": {
-      "hash": "f08cccebb5404d5d",
+      "hash": "1c071fddc7fd566a",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T01:04:44Z",
+      "extracted_at_utc": "2026-03-07T06:32:37Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -330,9 +330,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "fd5e8c9c6e0c1582",
+      "hash": "85a1acb14b2e800a",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T01:04:50Z",
+      "extracted_at_utc": "2026-03-07T06:32:43Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -760,9 +760,9 @@
       "metadata_signature": ""
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T00:19:55Z",
+      "extracted_at_utc": "2026-03-07T06:36:05Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1493,9 +1493,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "espn_plus": {
-      "hash": "c10f243083f2a363",
+      "hash": "b0ae0c7913c4e356",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T01:05:22Z",
+      "extracted_at_utc": "2026-03-07T06:33:16Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1653,9 +1653,9 @@
       "metadata_signature": ""
     },
     "patreon": {
-      "hash": "658852cb63b73f34",
+      "hash": "82837f17e72715f7",
       "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-      "extracted_at_utc": "2026-03-07T01:09:02Z",
+      "extracted_at_utc": "2026-03-07T06:37:21Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1689,13 +1689,13 @@
       "metadata_signature": ""
     },
     "dropbox_us": {
-      "hash": "0adfdc179206e059",
+      "hash": "c609144e56e2f6f1",
       "source_url": "https://help.dropbox.com/plans/cancel-plan",
-      "extracted_at_utc": "2026-03-06T23:18:19Z",
+      "extracted_at_utc": "2026-03-07T06:34:13Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "",
+        "source_title": "Find Your Dropbox Plan | Get 30 Days Free Trial",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1703,12 +1703,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "a6aa06925084c746"
     },
     "audible": {
-      "hash": "003432524f4b2e14",
+      "hash": "54609b4d1c371512",
       "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-03-07T01:04:32Z",
+      "extracted_at_utc": "2026-03-07T06:32:24Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

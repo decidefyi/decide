@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T01:19:06Z",
+  "updated_utc": "2026-03-07T06:49:20Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -89,13 +89,13 @@
       "metadata_signature": ""
     },
     "amazon_prime": {
-      "hash": "9d7dee8472ee10d1",
+      "hash": "5d18b63bf1d694d2",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-03-06T22:13:28Z",
+      "extracted_at_utc": "2026-03-07T06:45:01Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Manage Your Wish List Shipping Address - Amazon Customer Service",
+        "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -103,7 +103,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "793d7e77b50a10e7"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "apple_music": {
       "hash": "053fb59b3a00f18c",
@@ -194,9 +194,9 @@
       "metadata_signature": ""
     },
     "calm": {
-      "hash": "ce3c121983b80da8",
+      "hash": "93c363214132f735",
       "source_url": "https://www.calm.com/subscribe",
-      "extracted_at_utc": "2026-03-07T01:16:30Z",
+      "extracted_at_utc": "2026-03-07T06:45:12Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -211,9 +211,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "claude_pro": {
-      "hash": "e902c12a4dda712a",
+      "hash": "3088ee651923ab6e",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-03-07T01:16:33Z",
+      "extracted_at_utc": "2026-03-07T06:45:19Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -245,9 +245,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "crunchyroll": {
-      "hash": "7c0aa5e95ec97ea3",
+      "hash": "8e9ce324d46569ce",
       "source_url": "https://www.crunchyroll.com/welcome",
-      "extracted_at_utc": "2026-03-07T00:35:49Z",
+      "extracted_at_utc": "2026-03-07T06:45:24Z",
       "tokens": [
         "trial_window_days:7"
       ],
@@ -320,9 +320,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "disney_plus": {
-      "hash": "a27a41655966a0cb",
+      "hash": "a938ab1b7e750940",
       "source_url": "https://www.disneyplus.com/",
-      "extracted_at_utc": "2026-03-07T01:16:36Z",
+      "extracted_at_utc": "2026-03-07T06:45:24Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -337,9 +337,9 @@
       "metadata_signature": "28e2bf140f62715d"
     },
     "doordash_dashpass": {
-      "hash": "2b66a8c7bb486c98",
+      "hash": "a3a44990b5af3590",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T01:16:41Z",
+      "extracted_at_utc": "2026-03-07T06:45:29Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -553,9 +553,9 @@
       "metadata_signature": "d325f190679ffa56"
     },
     "hellofresh": {
-      "hash": "a3a12335cd2da496",
+      "hash": "b88c5deb805c6cfc",
       "source_url": "https://www.hellofresh.com/plans",
-      "extracted_at_utc": "2026-03-07T01:16:50Z",
+      "extracted_at_utc": "2026-03-07T06:45:54Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -854,9 +854,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T00:33:23Z",
+      "extracted_at_utc": "2026-03-07T06:46:56Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1136,12 +1136,14 @@
       "metadata_signature": "31a01414039c2547"
     },
     "youtube_premium": {
-      "hash": "424b647972ef8510",
+      "hash": "4d0da39bd5f79688",
       "source_url": "https://www.youtube.com/premium",
-      "extracted_at_utc": "2026-02-19T23:36:47Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-03-07T06:47:39Z",
+      "tokens": [
+        "trial_window_days:360"
+      ],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "html",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1150,7 +1152,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "ea7c709252c84b20"
     },
     "youtube_tv": {
       "hash": "86444114a1f1b6f6",
@@ -1367,9 +1369,9 @@
       "metadata_signature": ""
     },
     "nfl_plus": {
-      "hash": "e63f27969e82d40e",
+      "hash": "4f949de9e96e774d",
       "source_url": "https://www.nfl.com/plus/",
-      "extracted_at_utc": "2026-03-07T01:17:57Z",
+      "extracted_at_utc": "2026-03-07T06:48:00Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1687,9 +1689,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "6655138a815e4c5d",
+      "hash": "b0ae0c7913c4e356",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T01:16:42Z",
+      "extracted_at_utc": "2026-03-07T06:45:30Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1704,12 +1706,12 @@
       "metadata_signature": "c17cbbfb2657430a"
     },
     "peacock": {
-      "hash": "9d5ebe1adff952a6",
+      "hash": "1b3b338e45363cc4",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-03-06T23:50:59Z",
+      "extracted_at_utc": "2026-03-07T06:46:48Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "browser_hook",
+        "source_kind": "html",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1718,7 +1720,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "ea7c709252c84b20"
     },
     "twitch": {
       "hash": "854ead54426e17ca",
@@ -1755,9 +1757,9 @@
       "metadata_signature": "19c95b8b9d4a4690"
     },
     "canva": {
-      "hash": "079f91961ebcc17e",
+      "hash": "8c8b2a79919eaa19",
       "source_url": "https://www.canva.com/pro/",
-      "extracted_at_utc": "2026-03-07T00:31:29Z",
+      "extracted_at_utc": "2026-03-07T06:45:14Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
