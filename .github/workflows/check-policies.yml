@@ -90,6 +90,11 @@ jobs:
           POLICY_CHECK_BROWSER_HOOK_URL: ${{ secrets.POLICY_CHECK_BROWSER_HOOK_URL || vars.POLICY_CHECK_BROWSER_HOOK_URL || '' }}
           POLICY_CHECK_BROWSER_HOOK_TOKEN: ${{ secrets.POLICY_CHECK_BROWSER_HOOK_TOKEN || vars.POLICY_CHECK_BROWSER_HOOK_TOKEN || '' }}
           POLICY_CHECK_FETCH_LANES_DEFAULT: ${{ vars.POLICY_CHECK_FETCH_LANES_DEFAULT || '' }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || vars.SUPABASE_URL || '' }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || vars.SUPABASE_SERVICE_ROLE_KEY || '' }}
+          POLICY_SUPABASE_SYNC_ENABLED: ${{ vars.POLICY_SUPABASE_SYNC_ENABLED || '0' }}
+          POLICY_SUPABASE_STATE_SYNC_ENABLED: ${{ vars.POLICY_SUPABASE_STATE_SYNC_ENABLED || '0' }}
+          POLICY_SUPABASE_SUPPRESS_GIT_STATE: ${{ vars.POLICY_SUPABASE_SUPPRESS_GIT_STATE || '1' }}
         run: |
           set +e
           output=$(node scripts/check-policies.js 2>&1)
@@ -159,6 +164,15 @@ jobs:
           quality_gate_held_count=$(extract_output_value "QUALITY_GATE_HELD_COUNT" | tr -d '[:space:]')
           quality_gate_held_by_policy=$(extract_output_value "QUALITY_GATE_HELD_BY_POLICY")
           quality_gate_held_sample=$(extract_output_value "QUALITY_GATE_HELD_SAMPLE")
+          supabase_configured=$(extract_output_value "SUPABASE_CONFIGURED" | tr -d '[:space:]')
+          supabase_sync_enabled=$(extract_output_value "SUPABASE_SYNC_ENABLED" | tr -d '[:space:]')
+          supabase_state_sync_enabled=$(extract_output_value "SUPABASE_STATE_SYNC_ENABLED" | tr -d '[:space:]')
+          policy_supabase_suppress_git_state=$(extract_output_value "POLICY_SUPABASE_SUPPRESS_GIT_STATE" | tr -d '[:space:]')
+          supabase_state_hydrated_count=$(extract_output_value "SUPABASE_STATE_HYDRATED_COUNT" | tr -d '[:space:]')
+          supabase_events_upserted_count=$(extract_output_value "SUPABASE_EVENTS_UPSERTED_COUNT" | tr -d '[:space:]')
+          supabase_daily_alert_upserted_count=$(extract_output_value "SUPABASE_DAILY_ALERT_UPSERTED_COUNT" | tr -d '[:space:]')
+          supabase_state_synced_count=$(extract_output_value "SUPABASE_STATE_SYNCED_COUNT" | tr -d '[:space:]')
+          supabase_sync_ok=$(extract_output_value "SUPABASE_SYNC_OK" | tr -d '[:space:]')
 
           if [ -z "$actual_diff_sample" ]; then actual_diff_sample=$(extract_output_value "MATERIAL_DIFF_SAMPLE"); fi
           if [ -z "$actual_changed_count" ]; then actual_changed_count=$changed_count; fi
@@ -187,6 +201,15 @@ jobs:
           if [ -z "$tier1_coverage_pct" ]; then tier1_coverage_pct=0.00; fi
           if [ -z "$tier1_missing_configured_count" ]; then tier1_missing_configured_count=0; fi
           if [ -z "$quality_gate_held_count" ]; then quality_gate_held_count=0; fi
+          if [ -z "$supabase_configured" ]; then supabase_configured=0; fi
+          if [ -z "$supabase_sync_enabled" ]; then supabase_sync_enabled=0; fi
+          if [ -z "$supabase_state_sync_enabled" ]; then supabase_state_sync_enabled=0; fi
+          if [ -z "$policy_supabase_suppress_git_state" ]; then policy_supabase_suppress_git_state=1; fi
+          if [ -z "$supabase_state_hydrated_count" ]; then supabase_state_hydrated_count=0; fi
+          if [ -z "$supabase_events_upserted_count" ]; then supabase_events_upserted_count=0; fi
+          if [ -z "$supabase_daily_alert_upserted_count" ]; then supabase_daily_alert_upserted_count=0; fi
+          if [ -z "$supabase_state_synced_count" ]; then supabase_state_synced_count=0; fi
+          if [ -z "$supabase_sync_ok" ]; then supabase_sync_ok=0; fi
 
           sum_policy_counts() {
             local value="$1"
@@ -276,6 +299,15 @@ jobs:
           echo "quality_gate_held_count=$quality_gate_held_count" >> "$GITHUB_OUTPUT"
           echo "quality_gate_held_by_policy=$quality_gate_held_by_policy" >> "$GITHUB_OUTPUT"
           echo "quality_gate_held_sample=$quality_gate_held_sample" >> "$GITHUB_OUTPUT"
+          echo "supabase_configured=$supabase_configured" >> "$GITHUB_OUTPUT"
+          echo "supabase_sync_enabled=$supabase_sync_enabled" >> "$GITHUB_OUTPUT"
+          echo "supabase_state_sync_enabled=$supabase_state_sync_enabled" >> "$GITHUB_OUTPUT"
+          echo "policy_supabase_suppress_git_state=$policy_supabase_suppress_git_state" >> "$GITHUB_OUTPUT"
+          echo "supabase_state_hydrated_count=$supabase_state_hydrated_count" >> "$GITHUB_OUTPUT"
+          echo "supabase_events_upserted_count=$supabase_events_upserted_count" >> "$GITHUB_OUTPUT"
+          echo "supabase_daily_alert_upserted_count=$supabase_daily_alert_upserted_count" >> "$GITHUB_OUTPUT"
+          echo "supabase_state_synced_count=$supabase_state_synced_count" >> "$GITHUB_OUTPUT"
+          echo "supabase_sync_ok=$supabase_sync_ok" >> "$GITHUB_OUTPUT"
           echo "contract_valid=$contract_valid" >> "$GITHUB_OUTPUT"
 
       - name: Summarize policy health
@@ -304,6 +336,13 @@ jobs:
           TIER1_COVERAGE_PCT: ${{ steps.check.outputs.tier1_coverage_pct }}
           QUALITY_GATE_HELD_COUNT: ${{ steps.check.outputs.quality_gate_held_count }}
           QUALITY_GATE_HELD_BY_POLICY: ${{ steps.check.outputs.quality_gate_held_by_policy }}
+          SUPABASE_CONFIGURED: ${{ steps.check.outputs.supabase_configured }}
+          SUPABASE_SYNC_ENABLED: ${{ steps.check.outputs.supabase_sync_enabled }}
+          SUPABASE_STATE_SYNC_ENABLED: ${{ steps.check.outputs.supabase_state_sync_enabled }}
+          SUPABASE_SYNC_OK: ${{ steps.check.outputs.supabase_sync_ok }}
+          SUPABASE_EVENTS_UPSERTED_COUNT: ${{ steps.check.outputs.supabase_events_upserted_count }}
+          SUPABASE_DAILY_ALERT_UPSERTED_COUNT: ${{ steps.check.outputs.supabase_daily_alert_upserted_count }}
+          SUPABASE_STATE_SYNCED_COUNT: ${{ steps.check.outputs.supabase_state_synced_count }}
         run: |
           changed="${ACTUAL_CHANGED_COUNT:-0}"
           pending="${PENDING_COUNT:-0}"
@@ -321,6 +360,13 @@ jobs:
           tier1_fetched="${TIER1_FETCHED:-0}"
           tier1_pct="${TIER1_COVERAGE_PCT:-0.00}"
           quality_gate_held="${QUALITY_GATE_HELD_COUNT:-0}"
+          supabase_configured="${SUPABASE_CONFIGURED:-0}"
+          supabase_sync_enabled="${SUPABASE_SYNC_ENABLED:-0}"
+          supabase_state_sync_enabled="${SUPABASE_STATE_SYNC_ENABLED:-0}"
+          supabase_sync_ok="${SUPABASE_SYNC_OK:-0}"
+          supabase_events_upserted="${SUPABASE_EVENTS_UPSERTED_COUNT:-0}"
+          supabase_daily_alert_upserted="${SUPABASE_DAILY_ALERT_UPSERTED_COUNT:-0}"
+          supabase_state_synced="${SUPABASE_STATE_SYNCED_COUNT:-0}"
           issue_mode="${POLICY_CHECK_PUBLIC_ISSUES_ENABLED:-0}"
 
           if [ "$fetch_health" != "healthy" ] || [ "$fetch_blocked" -gt 0 ]; then
@@ -344,6 +390,13 @@ jobs:
             echo "- Quality-gate held: ${quality_gate_held}"
             echo "- Escalations: ${escalations}"
             echo "- Tier-1 coverage: ${tier1_fetched}/${tier1_total} (${tier1_pct}%)"
+            echo "- Supabase configured: ${supabase_configured}"
+            echo "- Supabase sync enabled: ${supabase_sync_enabled}"
+            echo "- Supabase state sync enabled: ${supabase_state_sync_enabled}"
+            echo "- Supabase sync healthy: ${supabase_sync_ok}"
+            echo "- Supabase events upserted: ${supabase_events_upserted}"
+            echo "- Supabase daily alerts upserted: ${supabase_daily_alert_upserted}"
+            echo "- Supabase state artifacts synced: ${supabase_state_synced}"
             echo "- Public issue automation: ${issue_mode}"
             if [ -n "${FETCH_FAILURE_BY_POLICY:-}" ]; then
               echo "- Fetch failures by policy: ${FETCH_FAILURE_BY_POLICY}"
@@ -370,6 +423,11 @@ jobs:
 
       - name: Commit policy artifacts to aggregation branch
         id: commit_artifacts
+        env:
+          SUPABASE_SYNC_OK: ${{ steps.check.outputs.supabase_sync_ok }}
+          SUPABASE_SYNC_ENABLED: ${{ steps.check.outputs.supabase_sync_enabled }}
+          SUPABASE_STATE_SYNC_ENABLED: ${{ steps.check.outputs.supabase_state_sync_enabled }}
+          POLICY_SUPABASE_SUPPRESS_GIT_STATE: ${{ steps.check.outputs.policy_supabase_suppress_git_state }}
         run: |
           set +e
           git config user.name "github-actions[bot]"
@@ -409,16 +467,43 @@ jobs:
             rules/cancel-policy-semantic-state.json
             rules/return-policy-semantic-state.json
             rules/trial-policy-semantic-state.json
-            rules/policy-alert-review-feed.json
             rules/policy-events.ndjson
             rules/policy-status-report.json
             rules/policy-status-report.md
             rules/policy-weekly-triage.json
             rules/policy-weekly-triage.md
           )
+          report_files=(
+            rules/policy-status-report.json
+            rules/policy-status-report.md
+            rules/policy-weekly-triage.json
+            rules/policy-weekly-triage.md
+          )
+
+          suppress_state_churn=0
+          if [ "${SUPABASE_SYNC_OK:-0}" = "1" ] && [ "${SUPABASE_SYNC_ENABLED:-0}" = "1" ] && [ "${SUPABASE_STATE_SYNC_ENABLED:-0}" = "1" ] && [ "${POLICY_SUPABASE_SUPPRESS_GIT_STATE:-1}" = "1" ]; then
+            suppress_state_churn=1
+            echo "Supabase sync healthy; suppressing high-churn state artifact commits."
+          fi
+
+          should_skip_file() {
+            local target="$1"
+            if [ "$suppress_state_churn" -ne 1 ]; then
+              return 1
+            fi
+            for f in "${persistent_state_files[@]}" "${report_files[@]}"; do
+              if [ "$target" = "$f" ]; then
+                return 0
+              fi
+            done
+            return 1
+          }
 
           existing=()
           for f in "${publish_files[@]}" "${persistent_state_files[@]}"; do
+            if should_skip_file "$f"; then
+              continue
+            fi
             if [ -f "$f" ]; then
               existing+=("$f")
             fi

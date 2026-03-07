@@ -10,11 +10,12 @@
  *   node scripts/check-policies.js --update   # update stored hashes without diffing
  */
 
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
 import { buildAlertSignature } from "./lib/policy-feed-reliability.js";
+import { getPolicySupabaseConfig, supabaseRestRequest, supabaseUpsertRows } from "../lib/policy-supabase.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CHECKER_CONFIG = {
@@ -265,11 +266,40 @@ const POLICY_STATUS_REPORT_MD_PATH = join(__dirname, "..", "rules", "policy-stat
 const POLICY_WEEKLY_TRIAGE_JSON_PATH = join(__dirname, "..", "rules", "policy-weekly-triage.json");
 const POLICY_WEEKLY_TRIAGE_MD_PATH = join(__dirname, "..", "rules", "policy-weekly-triage.md");
 const POLICY_COUNT_KEYS = ["refund", "cancel", "return", "trial"];
+const POLICY_SUPABASE_STATE_ARTIFACTS = [
+  "rules/policy-hashes.json",
+  "rules/cancel-policy-hashes.json",
+  "rules/return-policy-hashes.json",
+  "rules/trial-policy-hashes.json",
+  "rules/policy-change-candidates.json",
+  "rules/cancel-policy-change-candidates.json",
+  "rules/return-policy-change-candidates.json",
+  "rules/trial-policy-change-candidates.json",
+  "rules/policy-coverage-state.json",
+  "rules/cancel-policy-coverage-state.json",
+  "rules/return-policy-coverage-state.json",
+  "rules/trial-policy-coverage-state.json",
+  "rules/policy-semantic-state.json",
+  "rules/cancel-policy-semantic-state.json",
+  "rules/return-policy-semantic-state.json",
+  "rules/trial-policy-semantic-state.json",
+  "rules/policy-confirmed-baseline.json",
+  "rules/cancel-policy-confirmed-baseline.json",
+  "rules/return-policy-confirmed-baseline.json",
+  "rules/trial-policy-confirmed-baseline.json",
+  "rules/policy-events.ndjson",
+  "rules/policy-alert-feed.json",
+  "rules/policy-alert-review-feed.json",
+];
 
 const isUpdate = process.argv.includes("--update");
 
 function hash(text) {
   return createHash("sha256").update(text).digest("hex").slice(0, 16);
+}
+
+function sha256Hex(text = "") {
+  return createHash("sha256").update(String(text || ""), "utf8").digest("hex");
 }
 
 function readJson(filePath, fallback = {}) {
@@ -566,6 +596,7 @@ function updatePolicyAlertFeed(entry, eventLogEntries = []) {
     feedChanged: strictChanged,
     reviewFeedChanged: reviewChanged,
     strictEligible,
+    daily_entry: normalizedEntry,
   };
 }
 
@@ -781,6 +812,215 @@ function readNdjson(filePath) {
     }
   }
   return parsed;
+}
+
+function toArtifactAbsolutePath(artifactPath = "") {
+  return join(__dirname, "..", String(artifactPath || "").trim());
+}
+
+async function hydratePolicyStateArtifactsFromSupabase(supabaseConfig) {
+  if (!supabaseConfig?.stateSyncEnabled) {
+    return {
+      enabled: false,
+      ok: true,
+      hydrated_count: 0,
+      missing_count: POLICY_SUPABASE_STATE_ARTIFACTS.length,
+      error: "",
+    };
+  }
+
+  const result = await supabaseRestRequest(supabaseConfig, {
+    method: "GET",
+    path: "/rest/v1/policy_state_artifacts",
+    params: {
+      select: "artifact_path,content_text",
+    },
+  });
+  if (!result.ok) {
+    return {
+      enabled: true,
+      ok: false,
+      hydrated_count: 0,
+      missing_count: POLICY_SUPABASE_STATE_ARTIFACTS.length,
+      error: String(result.error || "supabase_state_hydrate_failed"),
+    };
+  }
+
+  const rows = Array.isArray(result.data) ? result.data : [];
+  const byPath = new Map();
+  for (const row of rows) {
+    const artifactPath = String(row?.artifact_path || "").trim();
+    if (!artifactPath) continue;
+    byPath.set(artifactPath, String(row?.content_text || ""));
+  }
+
+  let hydratedCount = 0;
+  let missingCount = 0;
+  for (const artifactPath of POLICY_SUPABASE_STATE_ARTIFACTS) {
+    if (!byPath.has(artifactPath)) {
+      missingCount += 1;
+      continue;
+    }
+    const absolutePath = toArtifactAbsolutePath(artifactPath);
+    mkdirSync(dirname(absolutePath), { recursive: true });
+    writeFileSync(absolutePath, byPath.get(artifactPath), "utf8");
+    hydratedCount += 1;
+  }
+
+  return {
+    enabled: true,
+    ok: true,
+    hydrated_count: hydratedCount,
+    missing_count: missingCount,
+    error: "",
+  };
+}
+
+async function syncPolicyStateArtifactsToSupabase(supabaseConfig) {
+  if (!supabaseConfig?.stateSyncEnabled) {
+    return {
+      enabled: false,
+      ok: true,
+      synced_count: 0,
+      skipped_count: POLICY_SUPABASE_STATE_ARTIFACTS.length,
+      error: "",
+    };
+  }
+
+  const rows = [];
+  let skippedCount = 0;
+  const updatedAtUtc = utcIsoTimestamp();
+  const runId = String(process.env.GITHUB_RUN_ID || "").trim();
+  const runAttempt = String(process.env.GITHUB_RUN_ATTEMPT || "").trim();
+  const commitSha = String(process.env.GITHUB_SHA || "").trim();
+  for (const artifactPath of POLICY_SUPABASE_STATE_ARTIFACTS) {
+    const absolutePath = toArtifactAbsolutePath(artifactPath);
+    if (!existsSync(absolutePath)) {
+      skippedCount += 1;
+      continue;
+    }
+    const contentText = String(readFileSync(absolutePath, "utf8") || "");
+    rows.push({
+      artifact_path: artifactPath,
+      content_text: contentText,
+      content_sha256: sha256Hex(contentText),
+      run_id: runId,
+      run_attempt: runAttempt,
+      commit_sha: commitSha,
+      source: "check-policies.js",
+      updated_at_utc: updatedAtUtc,
+    });
+  }
+
+  const upsert = await supabaseUpsertRows(supabaseConfig, "policy_state_artifacts", rows, ["artifact_path"]);
+  return {
+    enabled: true,
+    ok: upsert.ok,
+    synced_count: upsert.ok ? rows.length : 0,
+    skipped_count: skippedCount,
+    error: String(upsert.error || ""),
+  };
+}
+
+function buildSupabasePolicyEventRows(eventLogEntries = [], dateUtc = "") {
+  const targetDate = String(dateUtc || "").trim();
+  return [...(eventLogEntries || [])]
+    .filter((event) => {
+      if (!targetDate) return true;
+      return toDateUtcPrefix(event?.emitted_at_utc || "") === targetDate;
+    })
+    .map((event) => {
+      const emittedAtUtc = String(event?.emitted_at_utc || "").trim();
+      return {
+        event_id: String(event?.event_id || "").trim() || buildPolicyEventId(event),
+        emitted_at_utc: emittedAtUtc,
+        date_utc: toDateUtcPrefix(emittedAtUtc),
+        policy: String(event?.policy || "").trim(),
+        vendor: String(event?.vendor || "").trim(),
+        confirmed_hash: String(event?.confirmed_hash || "").trim(),
+        previous_hash: String(event?.previous_hash || "").trim(),
+        semantic_diff_summary: String(event?.semantic_diff_summary || "").trim(),
+        source_url: String(event?.source_url || "").trim(),
+        rules_file: String(event?.rules_file || "").trim(),
+        run_id: String(event?.run_id || "").trim(),
+        run_attempt: String(event?.run_attempt || "").trim(),
+        commit_sha: String(event?.commit_sha || "").trim(),
+        run_url: String(event?.run_url || "").trim(),
+        raw: event && typeof event === "object" ? event : {},
+        updated_at_utc: utcIsoTimestamp(),
+      };
+    })
+    .filter((row) => row.event_id && row.policy && row.vendor && row.date_utc);
+}
+
+function buildSupabaseDailyAlertRow(entry = {}, strictEligible = false) {
+  const dateUtc = String(entry?.date_utc || "").trim();
+  if (!dateUtc) return null;
+  return {
+    date_utc: dateUtc,
+    generated_at_utc: String(entry?.generated_at_utc || entry?.updated_at || utcIsoTimestamp()).trim(),
+    strict_eligible: Boolean(strictEligible),
+    changed_count: Number(entry?.changed_count || 0),
+    dedupe_changed_count: Number(entry?.dedupe_changed_count || entry?.changed_count || 0),
+    reported_changed_count: Number(entry?.reported_changed_count || 0),
+    repeated_count: Number(entry?.repeated_count || 0),
+    by_policy: entry?.by_policy && typeof entry.by_policy === "object" ? entry.by_policy : {},
+    changed_sample: Array.isArray(entry?.changed_sample) ? entry.changed_sample.slice(0, 50) : [],
+    pending_count: Number(entry?.pending_count || 0),
+    volatile_pending_count: Number(entry?.volatile_pending_count || 0),
+    escalation_count: Number(entry?.escalation_count || 0),
+    coverage_gap_count: Number(entry?.coverage_gap_count || 0),
+    fetch_failure_count: Number(entry?.fetch_failure_count || 0),
+    fetch_health_status: String(entry?.fetch_health_status || "unknown"),
+    fetch_blocked_pending_count: Number(entry?.fetch_blocked_pending_count || 0),
+    quality_gate_held_count: Number(entry?.quality_gate_held_count || 0),
+    metadata_stability_held_count: Number(entry?.metadata_stability_held_count || 0),
+    material_oscillation_suppressed_count: Number(entry?.material_oscillation_suppressed_count || 0),
+    source_migration_reset_count: Number(entry?.source_migration_reset_count || 0),
+    signal_confidence: String(entry?.signal_confidence || (strictEligible ? "high-confidence" : "manual-review")),
+    signal_confidence_reason: String(entry?.signal_confidence_reason || ""),
+    status: String(entry?.status || (strictEligible ? "confirmed" : "review")),
+    state: String(entry?.state || (strictEligible ? "verified" : "needs_review")),
+    run_id: String(entry?.run_id || "").trim(),
+    run_attempt: String(entry?.run_attempt || "").trim(),
+    commit_sha: String(entry?.commit_sha || "").trim(),
+    run_url: String(entry?.run_url || "").trim(),
+    source: String(entry?.source || "check-policies.js").trim() || "check-policies.js",
+    raw: entry && typeof entry === "object" ? entry : {},
+    updated_at_utc: utcIsoTimestamp(),
+  };
+}
+
+async function syncPolicyAlertsToSupabase({
+  supabaseConfig,
+  dateUtc = "",
+  eventLogEntries = [],
+  dailyAlertEntry = null,
+  strictEligible = false,
+} = {}) {
+  if (!supabaseConfig?.syncEnabled) {
+    return {
+      enabled: false,
+      ok: true,
+      event_upserted_count: 0,
+      daily_alert_upserted_count: 0,
+      error: "",
+    };
+  }
+
+  const eventRows = buildSupabasePolicyEventRows(eventLogEntries, dateUtc);
+  const eventUpsert = await supabaseUpsertRows(supabaseConfig, "policy_events", eventRows, ["event_id"]);
+  const dailyRow = buildSupabaseDailyAlertRow(dailyAlertEntry || {}, strictEligible);
+  const dailyRows = dailyRow ? [dailyRow] : [];
+  const dailyUpsert = await supabaseUpsertRows(supabaseConfig, "policy_daily_alerts", dailyRows, ["date_utc"]);
+
+  return {
+    enabled: true,
+    ok: eventUpsert.ok && dailyUpsert.ok,
+    event_upserted_count: eventUpsert.ok ? eventRows.length : 0,
+    daily_alert_upserted_count: dailyUpsert.ok ? dailyRows.length : 0,
+    error: [eventUpsert.error, dailyUpsert.error].filter(Boolean).join("; "),
+  };
 }
 
 function buildPolicyEventId(item) {
@@ -4185,6 +4425,17 @@ async function checkPolicySet({
 }
 
 async function main() {
+  const supabaseConfig = getPolicySupabaseConfig();
+  const supabaseStateHydrateResult = await hydratePolicyStateArtifactsFromSupabase(supabaseConfig);
+  if (supabaseStateHydrateResult.enabled && !supabaseStateHydrateResult.ok) {
+    console.log(`::warning::Supabase state hydrate failed: ${supabaseStateHydrateResult.error}`);
+  }
+  if (supabaseStateHydrateResult.enabled && supabaseStateHydrateResult.hydrated_count > 0) {
+    console.log(
+      `::notice::Supabase state hydrate restored ${supabaseStateHydrateResult.hydrated_count} artifact(s) (missing=${supabaseStateHydrateResult.missing_count}).`
+    );
+  }
+
   const tier1Config = loadTier1VendorsConfig();
   const allObservedChanged = [];
   const allMaterialChanged = [];
@@ -4653,6 +4904,7 @@ async function main() {
     feedChanged: false,
     reviewFeedChanged: false,
     strictEligible: false,
+    daily_entry: null,
   };
   const policyEventLogResult = !isUpdate
     ? appendPolicyEventLog(allMaterialChanged, generatedAtUtc)
@@ -4707,14 +4959,42 @@ async function main() {
       feedChanged: false,
       reviewFeedChanged: false,
       strictEligible: false,
+      daily_entry: null,
     };
   }
+  const supabaseAlertSyncResult = await syncPolicyAlertsToSupabase({
+    supabaseConfig,
+    dateUtc: changedDateUtc,
+    eventLogEntries: policyEventLogEntries,
+    dailyAlertEntry: alertFeedPublishState.daily_entry,
+    strictEligible: alertFeedPublishState.strictEligible,
+  });
+  const supabaseStateSyncResult = await syncPolicyStateArtifactsToSupabase(supabaseConfig);
+  const supabaseAnySyncEnabled = supabaseAlertSyncResult.enabled || supabaseStateSyncResult.enabled;
+  const supabaseSyncOk = supabaseAnySyncEnabled && supabaseAlertSyncResult.ok && supabaseStateSyncResult.ok;
+
+  if (supabaseAlertSyncResult.enabled && !supabaseAlertSyncResult.ok) {
+    console.log(`::warning::Supabase policy alert sync failed: ${supabaseAlertSyncResult.error}`);
+  }
+  if (supabaseStateSyncResult.enabled && !supabaseStateSyncResult.ok) {
+    console.log(`::warning::Supabase policy state sync failed: ${supabaseStateSyncResult.error}`);
+  }
+
   console.log(`ALERT_FEED_PUBLISHED=${alertFeedPublishState.published ? "1" : "0"}`);
   console.log(`ALERT_REVIEW_FEED_PUBLISHED=${alertFeedPublishState.review_published ? "1" : "0"}`);
   console.log(`ALERT_FEED_REASON=${alertFeedPublishState.reason}`);
   console.log(`ALERT_FEED_SIGNATURE=${alertFeedPublishState.signature}`);
   console.log(`ALERT_FEED_CHANGED=${alertFeedPublishState.feedChanged ? "1" : "0"}`);
   console.log(`ALERT_REVIEW_FEED_CHANGED=${alertFeedPublishState.reviewFeedChanged ? "1" : "0"}`);
+  console.log(`SUPABASE_CONFIGURED=${supabaseConfig.configured ? "1" : "0"}`);
+  console.log(`SUPABASE_SYNC_ENABLED=${supabaseAlertSyncResult.enabled ? "1" : "0"}`);
+  console.log(`SUPABASE_STATE_SYNC_ENABLED=${supabaseStateSyncResult.enabled ? "1" : "0"}`);
+  console.log(`POLICY_SUPABASE_SUPPRESS_GIT_STATE=${supabaseConfig.suppressGitState ? "1" : "0"}`);
+  console.log(`SUPABASE_STATE_HYDRATED_COUNT=${supabaseStateHydrateResult.hydrated_count || 0}`);
+  console.log(`SUPABASE_EVENTS_UPSERTED_COUNT=${supabaseAlertSyncResult.event_upserted_count || 0}`);
+  console.log(`SUPABASE_DAILY_ALERT_UPSERTED_COUNT=${supabaseAlertSyncResult.daily_alert_upserted_count || 0}`);
+  console.log(`SUPABASE_STATE_SYNCED_COUNT=${supabaseStateSyncResult.synced_count || 0}`);
+  console.log(`SUPABASE_SYNC_OK=${supabaseSyncOk ? "1" : "0"}`);
   console.log(`FETCH_FAILURE_COUNT=${allErrors.length}`);
   console.log(`FETCH_FAILURE_BY_POLICY=${fetchFailureByPolicy}`);
   console.log(`FETCH_FAILURE_SAMPLE=${fetchFailureSample}`);
