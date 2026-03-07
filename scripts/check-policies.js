@@ -56,6 +56,7 @@ const CHECKER_CONFIG = {
   fetchQualityMinChars: Number.parseInt(process.env.POLICY_CHECK_FETCH_QUALITY_MIN_CHARS || "140", 10),
   fetchQualityMinLines: Number.parseInt(process.env.POLICY_CHECK_FETCH_QUALITY_MIN_LINES || "5", 10),
   fetchQualityMinPolicyHits: Number.parseInt(process.env.POLICY_CHECK_FETCH_QUALITY_MIN_POLICY_HITS || "1", 10),
+  qualityGateRejectFailures: Number.parseInt(process.env.POLICY_CHECK_QUALITY_GATE_REJECT_FAILURES || "3", 10),
   alertLowSignalThreshold: Number.parseInt(process.env.POLICY_ALERT_LOW_SIGNAL_THRESHOLD || "1", 10),
   alertLowSignalLookback: Number.parseInt(process.env.POLICY_ALERT_LOW_SIGNAL_LOOKBACK || "6", 10),
   browserHookUrl: String(process.env.POLICY_CHECK_BROWSER_HOOK_URL || "").trim(),
@@ -1610,6 +1611,11 @@ function getFetchQualityMinLines() {
 function getFetchQualityMinPolicyHits() {
   if (!Number.isFinite(CHECKER_CONFIG.fetchQualityMinPolicyHits)) return 1;
   return Math.max(1, CHECKER_CONFIG.fetchQualityMinPolicyHits);
+}
+
+function getQualityGateRejectFailures() {
+  if (!Number.isFinite(CHECKER_CONFIG.qualityGateRejectFailures)) return 3;
+  return Math.max(1, Math.floor(CHECKER_CONFIG.qualityGateRejectFailures));
 }
 
 function getFetchQualityThresholds(policyType, vendorKey) {
@@ -3468,6 +3474,10 @@ async function checkPolicySet({
     coverage.pending_fetch_blocked = false;
     coverage.fallback_signal_consecutive_runs = 0;
     delete coverage.pending_fetch_blocked_reason;
+    delete coverage.last_quality_gate_rejected_hash;
+    delete coverage.last_quality_gate_rejected_utc;
+    delete coverage.last_quality_gate_rejected_reason;
+    delete coverage.last_quality_gate_rejected_failures;
     delete coverage.pending_legacy;
     delete coverage.last_pending_source_url;
     delete coverage.last_pending_change_key;
@@ -3865,12 +3875,19 @@ async function checkPolicySet({
           metadataSignature &&
           previousMetadataSignature &&
           metadataSignature === previousMetadataSignature;
+        const priorCandidate = activeStoredCandidates[vendor];
+        const previousHash = comparisonHashes[vendor];
         const quality = assessFetchQuality({
           rawText: fetchResult.text,
           normalizedText: normalized,
           policyType: name,
           vendorKey: vendor,
         });
+        const priorHashForQuality = typeof priorCandidate?.hash === "string" ? priorCandidate.hash : "";
+        const priorQualityFailuresForQuality = Number(priorCandidate?.quality_gate_failures || 0);
+        const priorQualityPassesForQuality = Number(priorCandidate?.quality_gate_passes || 0);
+        const nextQualityFailuresForQuality =
+          (priorHashForQuality && priorHashForQuality === h ? priorQualityFailuresForQuality : 0) + (quality.passed ? 0 : 1);
         if (!quality.passed) {
           qualityGateHeldSet.add(vendor);
           coverage.last_quality_gate_failure_utc = fetchedAtUtc;
@@ -3878,10 +3895,11 @@ async function checkPolicySet({
         } else {
           delete coverage.last_quality_gate_failure_utc;
           delete coverage.last_quality_gate_failure_reason;
+          delete coverage.last_quality_gate_rejected_hash;
+          delete coverage.last_quality_gate_rejected_utc;
+          delete coverage.last_quality_gate_rejected_reason;
+          delete coverage.last_quality_gate_rejected_failures;
         }
-
-        const priorCandidate = activeStoredCandidates[vendor];
-        const previousHash = comparisonHashes[vendor];
         const priorSemanticSignature =
           typeof priorCandidate?.semantic_signature === "string" ? priorCandidate.semantic_signature : "";
         const currentChangeKey = buildChangeKey(h, semanticSignature);
@@ -3899,6 +3917,25 @@ async function checkPolicySet({
           typeof signalWindowDecision.hashDecision === "string"
             ? signalWindowDecision.hashDecision
             : "";
+
+        // Repeated low-quality deltas (often interstitial/JS-shell captures) should not live forever in pending.
+        // Keep baseline stable and suppress re-queuing of the same rejected hash until quality improves.
+        if (!quality.passed && previousHash && previousHash !== h) {
+          const rejectedHash = String(coverage.last_quality_gate_rejected_hash || "").trim();
+          const rejectThreshold = getQualityGateRejectFailures();
+          const shouldRejectLowQualityDiff =
+            (rejectedHash && rejectedHash === h) ||
+            (nextQualityFailuresForQuality >= rejectThreshold && priorQualityPassesForQuality === 0);
+          if (shouldRejectLowQualityDiff) {
+            coverage.last_quality_gate_rejected_hash = h;
+            coverage.last_quality_gate_rejected_utc = fetchedAtUtc;
+            coverage.last_quality_gate_rejected_reason = quality.reason;
+            coverage.last_quality_gate_rejected_failures = nextQualityFailuresForQuality;
+            delete newCandidates[vendor];
+            pendingSet.delete(vendor);
+            return;
+          }
+        }
 
         if (isUpdate || rebaselineForProfile || !previousHash) {
           newHashes[vendor] = h;
@@ -4590,12 +4627,15 @@ async function checkPolicySet({
   volatilePending.sort((a, b) => a.localeCompare(b));
   escalatedPending.sort((a, b) => a.localeCompare(b));
   coverageGaps.sort((a, b) => a.localeCompare(b));
+  const qualityGateHeldPending = [...qualityGateHeldSet]
+    .filter((vendor) => Boolean(newCandidates[vendor]))
+    .sort((a, b) => a.localeCompare(b));
   const provisionalVendorSet = new Set([
     ...actionablePending,
     ...fetchBlockedPending,
     ...legacyPending,
     ...errors,
-    ...qualityGateHeldSet,
+    ...qualityGateHeldPending,
   ]);
   const provisionalVendors = [...provisionalVendorSet].sort((a, b) => a.localeCompare(b));
   const trackedVendorSet = new Set(vendors.map(([vendor]) => vendor));
@@ -4728,7 +4768,7 @@ async function checkPolicySet({
   const pendingSetForReport = new Set(actionablePending);
   const fetchBlockedSetForReport = new Set(fetchBlockedPending);
   const legacyPendingSetForReport = new Set(legacyPending);
-  const qualityHeldSetForReport = new Set(qualityGateHeldSet);
+  const qualityHeldSetForReport = new Set(qualityGateHeldPending);
   const staleSetForReport = new Set(stalePending);
   const volatileSetForReport = new Set(volatilePending);
   const escalatedSetForReport = new Set(escalatedPending);
@@ -4885,7 +4925,7 @@ async function checkPolicySet({
     escalatedReasons,
     escalationFlipOverrides,
     coverageGaps,
-    qualityGateHeld: [...qualityGateHeldSet].sort((a, b) => a.localeCompare(b)),
+    qualityGateHeld: qualityGateHeldPending,
     legacyPending,
     provisionalVendors,
     blockedRetryQueueVendors,
