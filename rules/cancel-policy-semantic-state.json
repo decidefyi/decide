@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T06:39:55Z",
+  "updated_utc": "2026-03-07T09:06:07Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -271,9 +271,9 @@
       "metadata_signature": ""
     },
     "coursera_plus": {
-      "hash": "1c071fddc7fd566a",
+      "hash": "f56ad277047f7529",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T06:32:37Z",
+      "extracted_at_utc": "2026-03-07T08:58:42Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -330,9 +330,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "85a1acb14b2e800a",
+      "hash": "e44d5e7f179a1b8e",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T06:32:43Z",
+      "extracted_at_utc": "2026-03-07T08:58:49Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -760,9 +760,9 @@
       "metadata_signature": ""
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T06:36:05Z",
+      "extracted_at_utc": "2026-03-07T09:02:09Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -779,15 +779,15 @@
       "metadata_signature": "249b168ffc67c82c"
     },
     "ring_protect": {
-      "hash": "d2ee31e9f2d00e38",
+      "hash": "74272ac5151d54ab",
       "source_url": "https://ring.com/protect-plans",
-      "extracted_at_utc": "2026-03-06T22:06:34Z",
+      "extracted_at_utc": "2026-03-07T09:02:09Z",
       "tokens": [
         "billing:auto_renew"
       ],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Ring Protect - Subscription Plans for Home Security | Ring",
+        "source_title": "Ring Protect Plans - Subscription Plans for Home Security | Ring",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -795,7 +795,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "d0834e9d9714a2ec"
+      "metadata_signature": "6ce37b3c63476e97"
     },
     "shutterstock": {
       "hash": "93fce0170819948f",
@@ -967,23 +967,21 @@
       "metadata_signature": ""
     },
     "tinder": {
-      "hash": "272c00ac2fea4ba5",
-      "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
-      "extracted_at_utc": "2026-03-07T01:10:16Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale"
-      ],
+      "hash": "6262b9b931b4e93b",
+      "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
+      "extracted_at_utc": "2026-03-07T09:05:00Z",
+      "tokens": [],
       "page_metadata": {
-        "source_kind": "zendesk_article_json",
-        "source_title": "Refund Requests",
+        "source_kind": "browser_hook",
+        "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "2025-12-16T15:47:26Z",
-        "source_edited_at_utc": "2025-04-14T09:17:12Z"
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
       },
-      "metadata_signature": "0bc063ab89b545dc"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "walmart_plus": {
       "hash": "a1db564ba162d3c1",
@@ -1222,12 +1220,21 @@
       "metadata_signature": "b502199edc965575"
     },
     "ubisoft_plus": {
-      "hash": "a6321869ff7c0812",
+      "hash": "da2742b09bacfbe3",
       "source_url": "https://www.ubisoft.com/help/article/canceling-a-ubisoft-subscription/000064975",
-      "extracted_at_utc": "2026-02-28T01:08:47Z",
-      "tokens": [
-        "flow:support_request"
-      ]
+      "extracted_at_utc": "2026-03-07T09:03:39Z",
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "html",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "ea7c709252c84b20"
     },
     "roblox_premium": {
       "hash": "45b57a4920c2ff47",
@@ -1493,9 +1500,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "espn_plus": {
-      "hash": "b0ae0c7913c4e356",
+      "hash": "46639110e2ed29bc",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T06:33:16Z",
+      "extracted_at_utc": "2026-03-07T08:59:21Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1510,9 +1517,9 @@
       "metadata_signature": "c17cbbfb2657430a"
     },
     "google_one": {
-      "hash": "47fe303a75ca7032",
+      "hash": "e9a1e24fd931c011",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T01:06:06Z",
+      "extracted_at_utc": "2026-03-07T09:00:24Z",
       "tokens": [
         "cancel:anytime"
       ],
@@ -1546,12 +1553,12 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "peacock": {
-      "hash": "1ee376168c2f131d",
+      "hash": "20b644fe8e5ecac4",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-03-07T01:07:58Z",
+      "extracted_at_utc": "2026-03-07T09:02:05Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "html",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1560,7 +1567,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "ea7c709252c84b20"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "evernote": {
       "hash": "5fb98c6ad4e6367d",
@@ -1706,9 +1713,9 @@
       "metadata_signature": "a6aa06925084c746"
     },
     "audible": {
-      "hash": "54609b4d1c371512",
+      "hash": "966a968b14df6bcc",
       "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-03-07T06:32:24Z",
+      "extracted_at_utc": "2026-03-07T08:58:29Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

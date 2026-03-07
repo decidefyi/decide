@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T06:49:20Z",
+  "updated_utc": "2026-03-07T09:16:00Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -89,9 +89,9 @@
       "metadata_signature": ""
     },
     "amazon_prime": {
-      "hash": "5d18b63bf1d694d2",
+      "hash": "4cf5a425dd295c82",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-03-07T06:45:01Z",
+      "extracted_at_utc": "2026-03-07T09:11:04Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -245,9 +245,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "crunchyroll": {
-      "hash": "8e9ce324d46569ce",
+      "hash": "7c0aa5e95ec97ea3",
       "source_url": "https://www.crunchyroll.com/welcome",
-      "extracted_at_utc": "2026-03-07T06:45:24Z",
+      "extracted_at_utc": "2026-03-07T09:11:31Z",
       "tokens": [
         "trial_window_days:7"
       ],
@@ -320,9 +320,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "disney_plus": {
-      "hash": "a938ab1b7e750940",
+      "hash": "a27a41655966a0cb",
       "source_url": "https://www.disneyplus.com/",
-      "extracted_at_utc": "2026-03-07T06:45:24Z",
+      "extracted_at_utc": "2026-03-07T09:11:32Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -337,9 +337,9 @@
       "metadata_signature": "28e2bf140f62715d"
     },
     "doordash_dashpass": {
-      "hash": "a3a44990b5af3590",
+      "hash": "288adc9338ab4d75",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T06:45:29Z",
+      "extracted_at_utc": "2026-03-07T09:11:41Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -553,9 +553,9 @@
       "metadata_signature": "d325f190679ffa56"
     },
     "hellofresh": {
-      "hash": "b88c5deb805c6cfc",
+      "hash": "e127548b324aceac",
       "source_url": "https://www.hellofresh.com/plans",
-      "extracted_at_utc": "2026-03-07T06:45:54Z",
+      "extracted_at_utc": "2026-03-07T09:12:36Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -854,9 +854,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T06:46:56Z",
+      "extracted_at_utc": "2026-03-07T09:13:28Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1136,9 +1136,9 @@
       "metadata_signature": "31a01414039c2547"
     },
     "youtube_premium": {
-      "hash": "4d0da39bd5f79688",
+      "hash": "a7798db371d4f093",
       "source_url": "https://www.youtube.com/premium",
-      "extracted_at_utc": "2026-03-07T06:47:39Z",
+      "extracted_at_utc": "2026-03-07T09:13:58Z",
       "tokens": [
         "trial_window_days:360"
       ],
@@ -1689,9 +1689,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "b0ae0c7913c4e356",
+      "hash": "bea213404e064019",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T06:45:30Z",
+      "extracted_at_utc": "2026-03-07T09:11:43Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1706,9 +1706,9 @@
       "metadata_signature": "c17cbbfb2657430a"
     },
     "peacock": {
-      "hash": "1b3b338e45363cc4",
+      "hash": "9d5ebe1adff952a6",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-03-07T06:46:48Z",
+      "extracted_at_utc": "2026-03-07T09:13:27Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1740,13 +1740,15 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "nordvpn": {
-      "hash": "a177453cdc4643f7",
+      "hash": "29657c037ade5039",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-03-06T22:56:44Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-03-07T09:16:00Z",
+      "tokens": [
+        "billing:auto_renew"
+      ],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Live Chat, VPN Setup, Troubleshooting | NordVPN Customer Support",
+        "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1754,12 +1756,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "19c95b8b9d4a4690"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "canva": {
-      "hash": "8c8b2a79919eaa19",
+      "hash": "079f91961ebcc17e",
       "source_url": "https://www.canva.com/pro/",
-      "extracted_at_utc": "2026-03-07T06:45:14Z",
+      "extracted_at_utc": "2026-03-07T09:11:27Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

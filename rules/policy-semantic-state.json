@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T06:31:19Z",
+  "updated_utc": "2026-03-07T08:57:25Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -95,9 +95,9 @@
       "metadata_signature": ""
     },
     "amazon_prime": {
-      "hash": "7c25d815528390c6",
+      "hash": "6bb8825a65099707",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-03-07T00:15:09Z",
+      "extracted_at_utc": "2026-03-07T08:52:25Z",
       "tokens": [
         "billing:auto_renew",
         "billing:prorated",
@@ -107,7 +107,7 @@
       ],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Amazon Prime Terms & Conditions - Amazon Customer Service",
+        "source_title": "",
         "display_last_updated_label": "May 11, 2021",
         "display_last_updated_date_utc": "2021-05-11",
         "display_effective_date_label": "",
@@ -115,7 +115,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "86ce736f781a912d"
+      "metadata_signature": "d0e94d39c49f068b"
     },
     "apple_music": {
       "hash": "91882bfe2276dfad",
@@ -284,9 +284,9 @@
       "metadata_signature": ""
     },
     "coursera_plus": {
-      "hash": "a8469e928837014e",
+      "hash": "84dfd3ba8d448f31",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T06:26:02Z",
+      "extracted_at_utc": "2026-03-07T08:53:02Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -346,9 +346,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "a766caf2e21bc7b5",
+      "hash": "e538666819de22ca",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T06:26:08Z",
+      "extracted_at_utc": "2026-03-07T08:53:08Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -615,9 +615,9 @@
       "metadata_signature": ""
     },
     "masterclass": {
-      "hash": "e6d641115730b63f",
+      "hash": "31e9c6990d098854",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-03-07T06:28:45Z",
+      "extracted_at_utc": "2026-03-07T08:54:50Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -769,9 +769,9 @@
       "metadata_signature": ""
     },
     "paramount_plus": {
-      "hash": "d4edbc390b1bb528",
+      "hash": "ee9e646294fc375b",
       "source_url": "https://help.paramountplus.com/s/article/PD-What-s-the-refund-policy-for-Paramount",
-      "extracted_at_utc": "2026-03-07T06:28:59Z",
+      "extracted_at_utc": "2026-03-07T08:55:07Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1301,9 +1301,9 @@
       "metadata_signature": "2d738d81adc8e4a0"
     },
     "weightwatchers": {
-      "hash": "99dc7291a650dc4c",
+      "hash": "698553673f2fcca0",
       "source_url": "https://www.weightwatchers.com/us/terms-and-conditions",
-      "extracted_at_utc": "2026-03-07T06:29:26Z",
+      "extracted_at_utc": "2026-03-07T08:55:38Z",
       "tokens": [
         "billing:auto_renew",
         "refund_window_days:180",
@@ -1704,9 +1704,9 @@
       "metadata_signature": "698d782ea2fd7d01"
     },
     "google_one": {
-      "hash": "e9a1e24fd931c011",
+      "hash": "4e4e6cd4b671fe2a",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T06:27:21Z",
+      "extracted_at_utc": "2026-03-07T08:54:23Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1793,9 +1793,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "b0ae0c7913c4e356",
+      "hash": "46639110e2ed29bc",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T06:26:41Z",
+      "extracted_at_utc": "2026-03-07T08:53:41Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1867,9 +1867,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "f992155a8ebbbb53",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-03-06T23:41:12Z",
+      "extracted_at_utc": "2026-03-07T08:54:55Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T06:44:01Z",
+  "updated_utc": "2026-03-07T09:10:06Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -93,26 +93,21 @@
       "metadata_signature": ""
     },
     "amazon_prime": {
-      "hash": "275bfcb68d90bd96",
+      "hash": "dd1cf3b0abf20dfb",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-03-07T00:29:37Z",
-      "tokens": [
-        "billing:auto_renew",
-        "billing:prorated",
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ],
+      "extracted_at_utc": "2026-03-07T09:09:44Z",
+      "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Amazon Prime Terms & Conditions - Amazon Customer Service",
-        "display_last_updated_label": "May 11, 2021",
-        "display_last_updated_date_utc": "2021-05-11",
+        "source_title": "Amazon.com",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "86ce736f781a912d"
+      "metadata_signature": "38b49e1b37f8eb30"
     },
     "apple_music": {
       "hash": "91882bfe2276dfad",
@@ -251,9 +246,9 @@
       "metadata_signature": ""
     },
     "coursera_plus": {
-      "hash": "726dc980e05cf4fb",
+      "hash": "b2d36ecb7928322a",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T06:41:01Z",
+      "extracted_at_utc": "2026-03-07T09:07:17Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -312,9 +307,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "93dc350acf19dfaa",
+      "hash": "da5d3f7334f3b9a9",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T06:41:26Z",
+      "extracted_at_utc": "2026-03-07T09:07:28Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -479,21 +474,21 @@
       "metadata_signature": ""
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
+      "hash": "00bb244b6d292ffe",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-03-07T01:13:19Z",
+      "extracted_at_utc": "2026-03-07T09:08:19Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "browser_hook",
-        "source_title": "",
+        "source_kind": "zendesk_article_json",
+        "source_title": "Can I get a refund?",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
+        "source_updated_at_utc": "2025-10-27T20:22:40Z",
+        "source_edited_at_utc": "2025-10-27T20:22:40Z"
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "f7c4dff89de1e273"
     },
     "hulu": {
       "hash": "faa30a67717ade10",
@@ -772,9 +767,9 @@
       "metadata_signature": ""
     },
     "paramount_plus": {
-      "hash": "57489796eed9f6bc",
+      "hash": "5344f2ae710e5ee4",
       "source_url": "https://help.paramountplus.com/s/article/PD-What-s-the-refund-policy-for-Paramount",
-      "extracted_at_utc": "2026-03-07T06:42:14Z",
+      "extracted_at_utc": "2026-03-07T09:08:32Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1305,9 +1300,9 @@
       "metadata_signature": "2d738d81adc8e4a0"
     },
     "weightwatchers": {
-      "hash": "99dc7291a650dc4c",
+      "hash": "698553673f2fcca0",
       "source_url": "https://www.weightwatchers.com/us/terms-and-conditions",
-      "extracted_at_utc": "2026-03-07T06:42:27Z",
+      "extracted_at_utc": "2026-03-07T09:08:45Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1703,9 +1698,9 @@
       "metadata_signature": ""
     },
     "google_one": {
-      "hash": "4e4e6cd4b671fe2a",
+      "hash": "d23940a24c68c03f",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T06:41:43Z",
+      "extracted_at_utc": "2026-03-07T09:07:59Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1720,9 +1715,9 @@
       "metadata_signature": "e47e0c36e2bbf62b"
     },
     "proton": {
-      "hash": "9797e79eb7ad6a9c",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T01:13:32Z",
+      "extracted_at_utc": "2026-03-07T09:08:33Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1776,9 +1771,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "b0ae0c7913c4e356",
+      "hash": "bea213404e064019",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T06:41:40Z",
+      "extracted_at_utc": "2026-03-07T09:07:57Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
