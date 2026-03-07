@@ -1,0 +1,36 @@
+{
+  "name": "decide-runtime-packet-shape",
+  "request": {
+    "method": "POST",
+    "url": "/api/decide",
+    "headers": {
+      "content-type": "application/json",
+      "user-agent": "contract-test-runtime"
+    },
+    "body": {
+      "prompt": "Should we use automatic overage billing or burst packs for extra API usage?",
+      "decision_type": "usage_billing_policy",
+      "context": {
+        "goal": "Maximize expansion MRR while preserving no-surprise billing trust.",
+        "constraints": [
+          "gross margin floor >= 70%",
+          "support tickets per 100 accounts must not rise by more than 10%"
+        ],
+        "options": [
+          "Burst packs",
+          "Automatic overage",
+          "Hybrid grace + overage"
+        ],
+        "inputs": {
+          "starter_cap": 10000,
+          "team_cap": 50000,
+          "near_capacity_accounts": 180,
+          "expansion_mrr_30d": 4200
+        }
+      }
+    }
+  },
+  "expect": {
+    "statusCode": 200
+  }
+}

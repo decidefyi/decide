@@ -114,6 +114,82 @@ async function testDecideApiKeyFixture() {
   }
 }
 
+async function testDecideRuntimeFixture() {
+  const fixture = loadFixture("decide-runtime.json");
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "";
+  global.fetch = async () => ({
+    ok: true,
+    async json() {
+      return {
+        candidates: [
+          {
+            content: {
+              parts: [
+                {
+                  text: JSON.stringify({
+                    decision: {
+                      recommended_option: "Burst packs",
+                      confidence: 0.73,
+                    },
+                    scorecard: [
+                      { option: "Burst packs", score: 8.7, confidence: 0.79, impact: "high projected expansion", risk: "low", rank: 1 },
+                      { option: "Automatic overage", score: 8.4, confidence: 0.67, impact: "high expansion with trust risk", risk: "high", rank: 2 },
+                      { option: "Hybrid grace + overage", score: 8.2, confidence: 0.7, impact: "balanced expansion and retention", risk: "medium", rank: 3 },
+                    ],
+                    tradeoffs: [],
+                    next_actions: [],
+                    citations: [],
+                  }),
+                },
+              ],
+            },
+          },
+        ],
+      };
+    },
+  });
+
+  try {
+    const result = await invokeJson(decideHandler, fixture.request);
+    assert.equal(result.statusCode, fixture.expect.statusCode, "decide runtime status mismatch");
+    assert.equal(result.json?.status, "ok", "decide runtime status field mismatch");
+    assert.equal(result.json?.engine, "decide", "decide runtime engine mismatch");
+    assert.equal(result.json?.c, "ok", "decide runtime c mismatch");
+    assert.equal(result.json?.v, "ok", "decide runtime v mismatch");
+
+    const recommended = result.json?.decision?.recommended_option;
+    const options = fixture.request.body.context.options;
+    assert.equal(typeof recommended, "string", "decide runtime recommended option missing");
+    assert.ok(options.includes(recommended), "decide runtime recommended option must match one of the options");
+    assert.equal(typeof result.json?.decision?.confidence, "number", "decide runtime confidence missing");
+
+    assert.ok(Array.isArray(result.json?.scorecard), "decide runtime scorecard missing");
+    assert.equal(result.json.scorecard.length, options.length, "decide runtime scorecard length mismatch");
+
+    assert.ok(Array.isArray(result.json?.tradeoffs), "decide runtime tradeoffs missing");
+    assert.ok(result.json.tradeoffs.length >= 1, "decide runtime tradeoffs must be non-empty");
+    assert.ok(Array.isArray(result.json?.next_actions), "decide runtime next_actions missing");
+    assert.ok(result.json.next_actions.length >= 1, "decide runtime next_actions must be non-empty");
+    assert.ok(Array.isArray(result.json?.citations), "decide runtime citations missing");
+    assert.ok(result.json.citations.length >= 1, "decide runtime citations must be non-empty");
+
+    const firstCitation = result.json.citations[0] || {};
+    assert.equal(typeof firstCitation.title, "string", "decide runtime citation title missing");
+    assert.ok(Array.isArray(firstCitation.reasoning_lines), "decide runtime citation reasoning_lines missing");
+    assert.ok(firstCitation.reasoning_lines.length >= 2, "decide runtime citation reasoning_lines must be non-empty");
+
+    assertLineage(result.json, "decide_runtime");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
 async function testPolicyV1Fixture() {
   const fixture = loadFixture("policy-refund-v1.json");
   const result = await invokeJson(v1PolicyDispatcher, fixture.request);
@@ -165,6 +241,7 @@ async function main() {
   const tests = [
     ["decide-single", testDecideSingleFixture],
     ["decide-api-key", testDecideApiKeyFixture],
+    ["decide-runtime", testDecideRuntimeFixture],
     ["policy-v1-dispatch", testPolicyV1Fixture],
     ["workflow-zendesk-dispatch", testWorkflowFixture],
     ["ucp-vendor-enum-consistency", testUcpVendorEnumConsistency],

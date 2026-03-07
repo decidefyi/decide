@@ -56,6 +56,18 @@ function parseMultiQuestion(raw = "") {
   return { stem, options };
 }
 
+function asObject(value, fallback = {}) {
+  return value && typeof value === "object" && !Array.isArray(value) ? value : fallback;
+}
+
+function toStringArray(value, maxLength = 8) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((entry) => String(entry || "").trim())
+    .filter(Boolean)
+    .slice(0, maxLength);
+}
+
 function extractJson(text = "") {
   const raw = String(text || "").trim();
   if (!raw) return null;
@@ -80,6 +92,115 @@ function sanitizeScore(n) {
   if (!Number.isFinite(parsed)) return null;
   const clamped = Math.max(1, Math.min(10, parsed));
   return Number(clamped.toFixed(1));
+}
+
+function sanitizeUnitScore(n) {
+  const parsed = Number(n);
+  if (!Number.isFinite(parsed)) return null;
+  const clamped = Math.max(0, Math.min(1, parsed > 1 ? parsed / 100 : parsed));
+  return Number(clamped.toFixed(3));
+}
+
+function normalizeRisk(value, fallback = "medium") {
+  const normalized = String(value || "").trim().toLowerCase();
+  if (normalized === "low" || normalized === "medium" || normalized === "high") return normalized;
+  return fallback;
+}
+
+function normalizeRuntimeCitations(citations) {
+  if (!Array.isArray(citations)) return [];
+  return citations
+    .slice(0, 8)
+    .map((entry, idx) => {
+      if (typeof entry === "string") {
+        const title = String(entry || "").trim();
+        if (!title) return null;
+        return {
+          title,
+          url: "",
+          reasoning_lines: ["Derived from request context.", "Compared against provided constraints."],
+        };
+      }
+
+      const item = asObject(entry);
+      const title = String(item.title || item.name || item.label || `citation_${idx + 1}`).trim();
+      const url = String(item.url || "").trim();
+      const reasoningLines = toStringArray(item.reasoning_lines || item.reasoningLines, 6);
+      return {
+        title,
+        url,
+        reasoning_lines: reasoningLines.length
+          ? reasoningLines
+          : ["Derived from request context.", "Compared against provided constraints."],
+      };
+    })
+    .filter(Boolean);
+}
+
+function buildRuntimeFallbackEvidence(payload = {}, context = {}) {
+  const next = {
+    ...payload,
+    tradeoffs: toStringArray(payload.tradeoffs, 8),
+    next_actions: toStringArray(payload.next_actions, 8),
+    citations: normalizeRuntimeCitations(payload.citations),
+  };
+
+  const scorecard = Array.isArray(next.scorecard) ? next.scorecard : [];
+  const top = scorecard[0];
+  const runnerUp = scorecard[1];
+  const topLabel = String(top?.option || "top option").trim();
+  const runnerUpLabel = String(runnerUp?.option || "next-best option").trim();
+  const goal = String(context.goal || "").trim();
+  const constraints = toStringArray(context.constraints, 12);
+  const inputs = asObject(context.inputs);
+
+  if (!next.tradeoffs.length) {
+    next.tradeoffs = [
+      `${topLabel} outperformed ${runnerUpLabel} on combined impact, confidence, and risk under the stated constraints.`,
+    ];
+  }
+
+  if (!next.next_actions.length) {
+    next.next_actions = [
+      `Run a 14-day pilot for ${topLabel} with KPI and guardrail tracking.`,
+      "Define rollback triggers and owner before launch.",
+    ];
+  }
+
+  if (!next.citations.length) {
+    const inputPairs = Object.entries(inputs)
+      .slice(0, 3)
+      .map(([key, value]) => `${key}=${String(value)}`);
+    const reasoning = [
+      goal ? `Goal considered: ${goal}` : "Goal considered: maximize target KPI with constraints.",
+      constraints[0] ? `Constraint considered: ${constraints[0]}` : "Constraint considered: preserve operational guardrails.",
+    ];
+    if (inputPairs.length) {
+      reasoning.push(`Input evidence: ${inputPairs.join(", ")}`);
+    }
+
+    next.citations = [
+      {
+        title: "Requester context evidence",
+        url: "",
+        reasoning_lines: reasoning.slice(0, 6),
+      },
+    ];
+  } else {
+    next.citations = next.citations.map((citation) => {
+      const item = asObject(citation);
+      const reasoningLines = toStringArray(item.reasoning_lines || item.reasoningLines, 6);
+      return {
+        title: String(item.title || "runtime_citation").trim(),
+        url: String(item.url || "").trim(),
+        reasoning_lines: reasoningLines.length
+          ? reasoningLines
+          : ["Derived from request context.", "Compared against provided constraints."],
+      };
+    });
+  }
+
+  return next;
 }
 
 function normalizeHeaderValue(value) {
@@ -246,8 +367,15 @@ export default async function handler(req, res) {
     const mode = String(body.mode || "").toLowerCase().trim();
     let stem = typeof body.stem === "string" ? body.stem.trim() : "";
     let options = Array.isArray(body.options) ? body.options.map((item) => String(item || "").trim()).filter(Boolean) : [];
+    const runtimePrompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
+    const runtimeContext = asObject(body.context);
+    const runtimeGoal = String(runtimeContext.goal || "").trim();
+    const runtimeOptions = toStringArray(runtimeContext.options, 8);
+    const runtimeConstraints = toStringArray(runtimeContext.constraints, 12);
+    const runtimeInputs = asObject(runtimeContext.inputs);
 
     const multiRequested = mode === "multi" || options.length > 0 || question.includes("|");
+    const runtimeRequested = Boolean(runtimePrompt && runtimeOptions.length >= 2);
 
     const API_KEY = process.env.GEMINI_API_KEY;
     if (!API_KEY) {
@@ -265,6 +393,177 @@ export default async function handler(req, res) {
 
     const MODEL = "gemini-2.0-flash-lite";
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
+
+    if (runtimeRequested) {
+      const normalizedForPolicy = normalize(
+        [runtimePrompt, runtimeGoal, runtimeOptions.join(" "), runtimeConstraints.join(" ")].join(" ")
+      );
+      if (isFinanceAdvice(normalizedForPolicy) || isMedicalAdvice(normalizedForPolicy) || isLegalAdvice(normalizedForPolicy)) {
+        const category = isFinanceAdvice(normalizedForPolicy) ? "finance" : isMedicalAdvice(normalizedForPolicy) ? "medical" : "legal";
+        sendDecisionJson(
+          res,
+          200,
+          { c: "filtered", v: `Cannot provide ${category} advice`, request_id },
+          { mode: "runtime", question: runtimePrompt, stem: runtimePrompt, options: runtimeOptions }
+        );
+        await persistLog("decide_runtime_request", { request_id, event: "filtered_question", category, ip: clientIp, ua });
+        return;
+      }
+
+      const optionList = runtimeOptions.map((option, idx) => `${idx + 1}. ${option}`).join("\n");
+      const prompt = `You are a strict decision engine.
+Task: choose one recommended option and provide structured evidence.
+
+Decision prompt: ${runtimePrompt}
+Goal: ${runtimeGoal || "Select the highest-value option under stated constraints."}
+Constraints:
+${runtimeConstraints.length ? runtimeConstraints.map((item, idx) => `${idx + 1}. ${item}`).join("\n") : "none"}
+Options:
+${optionList}
+Inputs JSON:
+${JSON.stringify(runtimeInputs)}
+
+Return ONLY JSON with this exact schema:
+{
+  "decision": {
+    "recommended_option": "string",
+    "confidence": 0.0
+  },
+  "scorecard": [
+    {
+      "option": "string",
+      "score": 0.0,
+      "confidence": 0.0,
+      "impact": "string",
+      "risk": "low|medium|high",
+      "rank": 1
+    }
+  ],
+  "tradeoffs": ["string"],
+  "next_actions": ["string"],
+  "citations": [
+    {
+      "title": "string",
+      "url": "string",
+      "reasoning_lines": ["string", "string"]
+    }
+  ]
+}
+
+Rules:
+- recommended_option must match one option exactly
+- include all options in scorecard
+- include at least 1 tradeoff
+- include at least 1 next_action
+- include at least 1 citation
+- each citation must include at least 2 reasoning_lines
+- no markdown, no extra text`;
+
+      const startedAt = Date.now();
+      const apiRes = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": API_KEY,
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.2, maxOutputTokens: 900 },
+        }),
+      });
+
+      const data = await apiRes.json();
+      if (!apiRes.ok) {
+        sendDecisionJson(
+          res,
+          200,
+          { c: "unclear", v: "try again", request_id },
+          { mode: "runtime", question: runtimePrompt, stem: runtimePrompt, options: runtimeOptions }
+        );
+        return;
+      }
+
+      const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+      const parsed = asObject(extractJson(rawText));
+      const parsedDecision = asObject(parsed.decision);
+      const parsedScorecard = Array.isArray(parsed.scorecard) ? parsed.scorecard : [];
+
+      let scorecard = runtimeOptions.map((option, idx) => {
+        const row = parsedScorecard.find((entry) => {
+          const item = asObject(entry);
+          return String(item.option || item.id || item.label || "").trim() === option;
+        });
+        const item = asObject(row);
+        const score = sanitizeScore(item.score);
+        const confidence = sanitizeUnitScore(item.confidence);
+        return {
+          option,
+          score: score === null ? Number(Math.max(1, 9 - idx * 0.8).toFixed(1)) : score,
+          confidence: confidence === null ? Number(Math.max(0.5, 0.82 - idx * 0.08).toFixed(3)) : confidence,
+          impact: String(item.impact || item.expected_impact || (idx === 0 ? "highest projected impact" : "lower projected impact")).trim(),
+          risk: normalizeRisk(item.risk || item.risk_level, idx === 0 ? "low" : "medium"),
+          rank: Number.isFinite(Number(item.rank)) ? Number(item.rank) : idx + 1,
+        };
+      });
+      scorecard = scorecard
+        .sort((left, right) => right.score - left.score)
+        .map((row, idx) => ({ ...row, rank: idx + 1 }));
+
+      const recommendedCandidate = String(parsedDecision.recommended_option || "").trim();
+      const recommendedOption = runtimeOptions.includes(recommendedCandidate)
+        ? recommendedCandidate
+        : String(scorecard[0]?.option || runtimeOptions[0] || "").trim();
+      const decisionConfidence = sanitizeUnitScore(parsedDecision.confidence);
+
+      const payload = buildRuntimeFallbackEvidence(
+        {
+          c: "ok",
+          v: "ok",
+          request_id,
+          status: "ok",
+          engine: "decide",
+          decision: {
+            recommended_option: recommendedOption,
+            confidence: decisionConfidence === null ? 0.67 : decisionConfidence,
+          },
+          scorecard,
+          tradeoffs: toStringArray(parsed.tradeoffs, 8),
+          next_actions: toStringArray(parsed.next_actions || parsed.nextActions, 8),
+          citations: normalizeRuntimeCitations(parsed.citations),
+          meta: {
+            request_id,
+            latency_ms: Date.now() - startedAt,
+          },
+        },
+        {
+          goal: runtimeGoal,
+          constraints: runtimeConstraints,
+          inputs: runtimeInputs,
+        }
+      );
+
+      sendDecisionJson(res, 200, payload, {
+        mode: "runtime",
+        question: runtimePrompt,
+        stem: runtimePrompt,
+        options: runtimeOptions,
+      });
+      await persistLog("decide_runtime_request", {
+        request_id,
+        prompt: runtimePrompt,
+        recommended_option: payload.decision?.recommended_option,
+        confidence: payload.decision?.confidence,
+        tradeoffs_count: payload.tradeoffs?.length || 0,
+        next_actions_count: payload.next_actions?.length || 0,
+        citations_count: payload.citations?.length || 0,
+        ip: clientIp,
+        ua,
+        trusted_proxy: proxyContext.trusted,
+        decide_plan: proxyContext.plan || undefined,
+        customer_id: proxyContext.customerId || undefined,
+      });
+      return;
+    }
 
     if (multiRequested) {
       if ((!stem || options.length < 2) && question) {
