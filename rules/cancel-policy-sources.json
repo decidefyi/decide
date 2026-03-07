@@ -574,8 +574,16 @@
       ]
     },
     "nfl_plus": {
-      "url": "https://support.nfl.com/hc/en-us/articles/5402041435292-NFL-Subscription-Renewals-Cancellations",
-      "notes": "Cancel auto-renewal anytime; access remains through paid term."
+      "url": "https://www.nfl.com/legal/subscriptions_terms",
+      "notes": "NFL+ cancellation and subscription billing terms.",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://support.nfl.com/hc/en-us/articles/5402041435292-NFL-Subscription-Renewals-Cancellations"
+      ]
     },
     "mlb_tv": {
       "url": "https://www.mlb.com/live-stream-games/help-center",

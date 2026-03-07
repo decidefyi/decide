@@ -241,6 +241,7 @@ const ACTUAL_CONFIRM_RUN_OVERRIDES = {
 };
 const FETCH_QUALITY_OVERRIDES = {
   cancel: {
+    canva: { minPolicyHits: 2, minLines: 6 },
     icloud_plus: { minPolicyHits: 0 },
     linkedin_premium: { minPolicyHits: 0 },
   },
@@ -744,6 +745,82 @@ function updateJsonStringField(filePath, fieldName, nextValue) {
   }
 
   return false;
+}
+
+export function normalizeSourceUrlForComparison(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  try {
+    const parsed = new URL(raw);
+    parsed.hash = "";
+    if ((parsed.protocol === "https:" && parsed.port === "443") || (parsed.protocol === "http:" && parsed.port === "80")) {
+      parsed.port = "";
+    }
+    parsed.hostname = parsed.hostname.toLowerCase();
+    parsed.pathname = parsed.pathname.replace(/\/+$/, "") || "/";
+    if (parsed.search) {
+      const sortedParams = [...parsed.searchParams.entries()].sort(([aKey, aValue], [bKey, bValue]) =>
+        aKey === bKey ? aValue.localeCompare(bValue) : aKey.localeCompare(bKey)
+      );
+      const nextSearchParams = new URLSearchParams();
+      for (const [key, val] of sortedParams) {
+        nextSearchParams.append(key, val);
+      }
+      const sortedSearch = nextSearchParams.toString();
+      parsed.search = sortedSearch ? `?${sortedSearch}` : "";
+    }
+    return parsed.toString().replace(/\/$/, parsed.pathname === "/" ? "/" : "");
+  } catch {
+    return raw.replace(/\/+$/, "");
+  }
+}
+
+function firstNonEmptyString(values = []) {
+  for (const value of values) {
+    if (typeof value === "string" && value.trim()) return value.trim();
+  }
+  return "";
+}
+
+export function evaluateVendorSourceMigration({
+  configuredSourceUrl = "",
+  baselineSourceUrl = "",
+  candidateSourceUrl = "",
+  coverageSourceUrl = "",
+  semanticSourceUrl = "",
+} = {}) {
+  const configuredRaw = String(configuredSourceUrl || "").trim();
+  if (!configuredRaw) {
+    return {
+      migrated: false,
+      previousSourceUrl: "",
+      configuredSourceUrl: "",
+      reason: "missing_configured_source",
+    };
+  }
+  const previousRaw = firstNonEmptyString([
+    candidateSourceUrl,
+    coverageSourceUrl,
+    baselineSourceUrl,
+    semanticSourceUrl,
+  ]);
+  if (!previousRaw) {
+    return {
+      migrated: false,
+      previousSourceUrl: "",
+      configuredSourceUrl: configuredRaw,
+      reason: "no_prior_source",
+    };
+  }
+  const configuredNormalized = normalizeSourceUrlForComparison(configuredRaw);
+  const previousNormalized = normalizeSourceUrlForComparison(previousRaw);
+  const migrated = Boolean(configuredNormalized && previousNormalized && configuredNormalized !== previousNormalized);
+  return {
+    migrated,
+    previousSourceUrl: previousRaw,
+    configuredSourceUrl: configuredRaw,
+    reason: migrated ? "primary_source_url_changed" : "stable_source",
+  };
 }
 
 function detectFetchInterstitial(text) {
@@ -2570,6 +2647,7 @@ async function checkPolicySet({
       fallbackProbeAvailable: [],
       fallbackSignalChanged: [],
       fallbackSignalActionable: [],
+      sourceMigrationResets: [],
     };
   }
 
@@ -2675,6 +2753,7 @@ async function checkPolicySet({
   const fallbackProbeAvailableSet = new Set();
   const fallbackSignalChangedSet = new Set();
   const fallbackSignalActionableSet = new Set();
+  const sourceMigrationResetSet = new Set();
   let successfulChecks = 0;
 
   const ensureCoverageEntry = (vendor) => {
@@ -2696,6 +2775,56 @@ async function checkPolicySet({
     const coverage = ensureCoverageEntry(vendor);
     coverage.last_confirmed_change_utc = whenUtc;
   };
+
+  const getConfiguredSourceUrl = (vendorConfig) => {
+    if (vendorConfig && typeof vendorConfig === "object" && typeof vendorConfig.url === "string") {
+      return vendorConfig.url.trim();
+    }
+    if (typeof vendorConfig === "string") {
+      return vendorConfig.trim();
+    }
+    return "";
+  };
+
+  for (const [vendor, vendorConfig] of vendors) {
+    const configuredSourceUrl = getConfiguredSourceUrl(vendorConfig);
+    if (!configuredSourceUrl) continue;
+    const coverage = ensureCoverageEntry(vendor);
+    const sourceMigration = evaluateVendorSourceMigration({
+      configuredSourceUrl,
+      baselineSourceUrl: storedBaselineVendors[vendor]?.source_url || "",
+      candidateSourceUrl: activeStoredCandidates[vendor]?.source_url || "",
+      coverageSourceUrl: coverage.last_pending_source_url || "",
+      semanticSourceUrl: storedSemanticProfiles[vendor]?.source_url || "",
+    });
+    if (!sourceMigration.migrated) continue;
+
+    const resetAtUtc = utcIsoTimestamp();
+    sourceMigrationResetSet.add(vendor);
+    delete activeStoredCandidates[vendor];
+    delete newCandidates[vendor];
+    delete comparisonHashes[vendor];
+    delete comparisonSemanticProfiles[vendor];
+    delete newHashes[vendor];
+    coverage.signal_window = [];
+    coverage.last_pending_age_days = 0;
+    coverage.last_pending_flip_count = 0;
+    coverage.last_pending_recent_flip_count = 0;
+    coverage.pending_fetch_failure_streak = 0;
+    coverage.pending_fetch_blocked = false;
+    coverage.fallback_signal_consecutive_runs = 0;
+    delete coverage.pending_fetch_blocked_reason;
+    delete coverage.pending_legacy;
+    delete coverage.last_pending_source_url;
+    delete coverage.last_pending_change_key;
+    delete coverage.last_pending_bucket;
+    delete coverage.pending_model_id;
+    delete coverage.pending_model_first_observed_utc;
+    coverage.last_source_migration_reset_utc = resetAtUtc;
+    coverage.last_source_migration_from_url = sourceMigration.previousSourceUrl;
+    coverage.last_source_migration_to_url = sourceMigration.configuredSourceUrl;
+    coverage.last_source_migration_reason = sourceMigration.reason;
+  }
 
   const upsertConfirmedBaseline = ({ vendor, sourceUrl, confirmedHash, confirmedProfile, confirmedAtUtc }) => {
     const normalizedProfile = normalizeSemanticProfile(confirmedProfile, {
@@ -3925,6 +4054,7 @@ async function checkPolicySet({
     fallbackProbeAvailable: [...fallbackProbeAvailableSet].sort((a, b) => a.localeCompare(b)),
     fallbackSignalChanged: [...fallbackSignalChangedSet].sort((a, b) => a.localeCompare(b)),
     fallbackSignalActionable: [...fallbackSignalActionableSet].sort((a, b) => a.localeCompare(b)),
+    sourceMigrationResets: [...sourceMigrationResetSet].sort((a, b) => a.localeCompare(b)),
     vendorStatusRows,
   };
 }
@@ -3944,6 +4074,7 @@ async function main() {
   const allFallbackProbeAvailable = [];
   const allFallbackSignalChanged = [];
   const allFallbackSignalActionable = [];
+  const allSourceMigrationResets = [];
   const allPending = [];
   const allFetchBlockedPending = [];
   const allLegacyPending = [];
@@ -4096,6 +4227,12 @@ async function main() {
         `::notice::${result.name}: stale_pending_dropped=${result.staleDropped.length} (older than ${getCandidateTtlDays()} day(s)).`
       );
     }
+    if (result.sourceMigrationResets.length > 0) {
+      const names = sortedLimitedVendors(result.sourceMigrationResets, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: source_migration_resets=${result.sourceMigrationResets.length} (primary source URL changed; cleared pending/flip history); first ${names.length}: ${names.join(", ")}`
+      );
+    }
     if (result.stalePending.length > 0) {
       const staleNames = sortedLimitedVendors(result.stalePending, getPendingDetailLimit());
       console.log(
@@ -4188,6 +4325,9 @@ async function main() {
     }
     for (const vendor of result.fallbackSignalActionable) {
       allFallbackSignalActionable.push({ policyType: result.name, vendor });
+    }
+    for (const vendor of result.sourceMigrationResets) {
+      allSourceMigrationResets.push({ policyType: result.name, vendor });
     }
     for (const vendor of result.pending) {
       allPending.push({ policyType: result.name, vendor });
@@ -4352,6 +4492,11 @@ async function main() {
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
+  const sourceMigrationResetByPolicy = toPolicyCountString(allSourceMigrationResets);
+  const sourceMigrationResetSample = allSourceMigrationResets
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
   const fetchHealthStatus = allErrors.length > 0 ? "degraded" : "healthy";
   const tier1Total = Object.values(tier1ByPolicy).reduce((sum, value) => sum + Number(value.total || 0), 0);
   const tier1Fetched = Object.values(tier1ByPolicy).reduce((sum, value) => sum + Number(value.fetched || 0), 0);
@@ -4440,6 +4585,9 @@ async function main() {
   console.log(`FALLBACK_SIGNAL_ACTIONABLE_COUNT=${allFallbackSignalActionable.length}`);
   console.log(`FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY=${fallbackSignalActionableByPolicy}`);
   console.log(`FALLBACK_SIGNAL_ACTIONABLE_SAMPLE=${fallbackSignalActionableSample}`);
+  console.log(`SOURCE_MIGRATION_RESET_COUNT=${allSourceMigrationResets.length}`);
+  console.log(`SOURCE_MIGRATION_RESET_BY_POLICY=${sourceMigrationResetByPolicy}`);
+  console.log(`SOURCE_MIGRATION_RESET_SAMPLE=${sourceMigrationResetSample}`);
   console.log(`FETCH_HEALTH_STATUS=${fetchHealthStatus}`);
   console.log(`TIER1_TOTAL=${tier1Total}`);
   console.log(`TIER1_FETCHED=${tier1Fetched}`);

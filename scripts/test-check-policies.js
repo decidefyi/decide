@@ -7,6 +7,7 @@ import {
   classifyFetchFailureBlock,
   countSignalWindowChangeFlips,
   evaluateFallbackSignalTransition,
+  evaluateVendorSourceMigration,
   evaluateSignalWindow,
   getCandidatePendingModelId,
   getCrossRunWindowRequiredForCandidate,
@@ -14,6 +15,7 @@ import {
   isHighSignalWindowCandidate,
   isLegacyPendingCandidate,
   LEGACY_PENDING_MODEL_ID,
+  normalizeSourceUrlForComparison,
   PENDING_MODEL_ID,
   semanticSignaturesStable,
   toZendeskHelpCenterApiTarget,
@@ -334,6 +336,40 @@ function testFallbackSignalTransitionActionableThreshold() {
   assert.equal(atThreshold.reason, "strong_signal_changed", "expected changed reason for actionable transition");
 }
 
+function testNormalizeSourceUrlForComparisonCanonicalizesTrivialDifferences() {
+  const left = normalizeSourceUrlForComparison("https://EXAMPLE.com/path/?b=2&a=1#fragment");
+  const right = normalizeSourceUrlForComparison("https://example.com/path?a=1&b=2");
+  assert.equal(left, right, "URL normalization should ignore host case, hash, query order, and trailing slash");
+}
+
+function testEvaluateVendorSourceMigrationDetectsPrimaryUrlChanges() {
+  const migration = evaluateVendorSourceMigration({
+    configuredSourceUrl: "https://www.nfl.com/legal/subscriptions_terms",
+    candidateSourceUrl: "https://support.nfl.com/hc/en-us/articles/5402041435292-NFL-Subscription-Renewals-Cancellations",
+  });
+  assert.equal(migration.migrated, true, "different source roots should trigger migration reset");
+  assert.equal(migration.reason, "primary_source_url_changed", "expected explicit migration reason");
+}
+
+function testEvaluateVendorSourceMigrationSkipsStableOrMissingSources() {
+  const stable = evaluateVendorSourceMigration({
+    configuredSourceUrl: "https://example.com/policy/",
+    baselineSourceUrl: "https://example.com/policy",
+  });
+  assert.equal(stable.migrated, false, "equivalent URLs should not trigger migration reset");
+  assert.equal(stable.reason, "stable_source", "stable URL comparison should emit stable_source reason");
+
+  const noPrior = evaluateVendorSourceMigration({
+    configuredSourceUrl: "https://example.com/policy",
+    baselineSourceUrl: "",
+    candidateSourceUrl: "",
+    coverageSourceUrl: "",
+    semanticSourceUrl: "",
+  });
+  assert.equal(noPrior.migrated, false, "missing previous source should not trigger migration reset");
+  assert.equal(noPrior.reason, "no_prior_source", "missing prior source should emit no_prior_source reason");
+}
+
 function main() {
   testImmediateBlockOnCloudflareAnd403();
   console.log("PASS check-policies immediate block on anti-bot");
@@ -404,7 +440,16 @@ function main() {
   testFallbackSignalTransitionActionableThreshold();
   console.log("PASS check-policies fallback transition actionable threshold");
 
-  console.log("Check-policies tests passed: 23/23");
+  testNormalizeSourceUrlForComparisonCanonicalizesTrivialDifferences();
+  console.log("PASS check-policies URL normalization");
+
+  testEvaluateVendorSourceMigrationDetectsPrimaryUrlChanges();
+  console.log("PASS check-policies source migration detection");
+
+  testEvaluateVendorSourceMigrationSkipsStableOrMissingSources();
+  console.log("PASS check-policies source migration stable/missing");
+
+  console.log("Check-policies tests passed: 26/26");
 }
 
 try {
