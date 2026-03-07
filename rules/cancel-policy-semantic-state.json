@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T11:49:16Z",
+  "updated_utc": "2026-03-07T12:40:02Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -23,7 +23,7 @@
     "1password": {
       "hash": "b861e7b433e09551",
       "source_url": "https://support.1password.com/cancel-subscription/",
-      "extracted_at_utc": "2026-03-07T11:43:10Z",
+      "extracted_at_utc": "2026-03-07T12:31:02Z",
       "tokens": [
         "flow:support_request"
       ],
@@ -271,9 +271,9 @@
       "metadata_signature": "5ecc5d0b35ff86b5"
     },
     "coursera_plus": {
-      "hash": "7b54c8a44536fd98",
+      "hash": "521bd36692972707",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T11:44:29Z",
+      "extracted_at_utc": "2026-03-07T12:32:36Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -341,9 +341,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "doordash_dashpass": {
-      "hash": "dc86f4fa834a3bda",
+      "hash": "a81fe32c48274eb2",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T11:44:35Z",
+      "extracted_at_utc": "2026-03-07T12:32:42Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -507,9 +507,9 @@
       "metadata_signature": "780e23151094d75b"
     },
     "hellofresh": {
-      "hash": "e127548b324aceac",
+      "hash": "0c7f027e6173ed7c",
       "source_url": "https://www.hellofresh.com/about/faq",
-      "extracted_at_utc": "2026-03-07T09:50:09Z",
+      "extracted_at_utc": "2026-03-07T12:35:32Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -649,9 +649,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "midjourney": {
-      "hash": "cda38716917340a8",
+      "hash": "05a4746cf3c4be3c",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-03-07T09:50:49Z",
+      "extracted_at_utc": "2026-03-07T12:35:39Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -786,9 +786,9 @@
       "metadata_signature": "b017e31ec9bfb2a9"
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T11:46:23Z",
+      "extracted_at_utc": "2026-03-07T09:50:59Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1087,7 +1087,7 @@
     "wix": {
       "hash": "c1178ef30a393d66",
       "source_url": "https://support.wix.com/en/article/canceling-a-premium-plan",
-      "extracted_at_utc": "2026-03-07T11:46:35Z",
+      "extracted_at_utc": "2026-03-07T12:37:08Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1325,7 +1325,7 @@
     "nfl_plus": {
       "hash": "d5cbd5db7a1b0c26",
       "source_url": "https://www.nfl.com/legal/subscriptions_terms",
-      "extracted_at_utc": "2026-03-07T11:47:26Z",
+      "extracted_at_utc": "2026-03-07T12:38:09Z",
       "tokens": [
         "risk:chargeback_or_dispute"
       ],
@@ -1342,9 +1342,9 @@
       "metadata_signature": "4633d3d448dfdb5e"
     },
     "wall_street_journal": {
-      "hash": "8bcaca7bd2756902",
+      "hash": "636fd9a26e87ec2a",
       "source_url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
-      "extracted_at_utc": "2026-03-07T09:52:14Z",
+      "extracted_at_utc": "2026-03-07T12:38:13Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1356,7 +1356,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "ea7c709252c84b20"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "washington_post": {
       "hash": "facbda2fc8418cb4",
@@ -1533,9 +1533,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "espn_plus": {
-      "hash": "bea213404e064019",
+      "hash": "464fce512c92d1fa",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T09:49:03Z",
+      "extracted_at_utc": "2026-03-07T12:33:21Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1550,9 +1550,9 @@
       "metadata_signature": "c17cbbfb2657430a"
     },
     "google_one": {
-      "hash": "47fe303a75ca7032",
+      "hash": "e9a1e24fd931c011",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T09:50:06Z",
+      "extracted_at_utc": "2026-03-07T12:34:03Z",
       "tokens": [
         "cancel:anytime"
       ],
@@ -1693,9 +1693,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "patreon": {
-      "hash": "658852cb63b73f34",
+      "hash": "82837f17e72715f7",
       "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-      "extracted_at_utc": "2026-03-07T09:51:58Z",
+      "extracted_at_utc": "2026-03-07T12:38:02Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1731,7 +1731,7 @@
     "dropbox_us": {
       "hash": "0adfdc179206e059",
       "source_url": "https://help.dropbox.com/plans/cancel-plan",
-      "extracted_at_utc": "2026-03-07T11:45:20Z",
+      "extracted_at_utc": "2026-03-07T12:33:23Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1746,9 +1746,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "audible": {
-      "hash": "2e4567a6727f8e5d",
+      "hash": "5df24ac7f4beb8a7",
       "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-03-07T11:44:14Z",
+      "extracted_at_utc": "2026-03-07T12:32:02Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1763,9 +1763,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "paramount_plus": {
-      "hash": "4054bbfcba366fe0",
+      "hash": "9c11cbac8a95f585",
       "source_url": "https://www.paramountplus.com/legal/subscriber/",
-      "extracted_at_utc": "2026-03-07T11:04:24Z",
+      "extracted_at_utc": "2026-03-07T12:36:49Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1819,9 +1819,9 @@
       "metadata_signature": "719fe1ff7adacc68"
     },
     "canva": {
-      "hash": "f4ee79fa354ee525",
+      "hash": "69d172f6c0185ed3",
       "source_url": "https://www.canva.com/policies/terms-of-use-2022-12-05/",
-      "extracted_at_utc": "2026-03-07T11:48:35Z",
+      "extracted_at_utc": "2026-03-07T12:32:30Z",
       "tokens": [
         "billing:prorated"
       ],

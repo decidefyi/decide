@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T11:43:06Z",
+  "updated_utc": "2026-03-07T12:30:58Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -284,9 +284,9 @@
       "metadata_signature": "5ecc5d0b35ff86b5"
     },
     "coursera_plus": {
-      "hash": "8131fc416a4274a5",
+      "hash": "f6495a0c44749502",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T11:38:13Z",
+      "extracted_at_utc": "2026-03-07T12:23:56Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -346,9 +346,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "ade47905e1caaae9",
+      "hash": "31463ddbfa20b259",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T11:38:19Z",
+      "extracted_at_utc": "2026-03-07T12:24:05Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -771,9 +771,9 @@
       "metadata_signature": "b50787fc583e692c"
     },
     "paramount_plus": {
-      "hash": "4be9792a57f81181",
+      "hash": "793eff645c85efeb",
       "source_url": "https://help.paramountplus.com/s/article/PD-What-s-the-refund-policy-for-Paramount",
-      "extracted_at_utc": "2026-03-07T11:39:53Z",
+      "extracted_at_utc": "2026-03-07T12:27:14Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1129,9 +1129,9 @@
       "metadata_signature": ""
     },
     "xbox_game_pass": {
-      "hash": "000c3cabe65092a5",
+      "hash": "c9e7d8f402ac2aed",
       "source_url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
-      "extracted_at_utc": "2026-03-07T09:43:49Z",
+      "extracted_at_utc": "2026-03-07T12:27:36Z",
       "tokens": [
         "billing:prorated",
         "refund:partial_allowed"
@@ -1304,9 +1304,9 @@
       "metadata_signature": "2d738d81adc8e4a0"
     },
     "weightwatchers": {
-      "hash": "78300457d1a8e8da",
+      "hash": "99dc7291a650dc4c",
       "source_url": "https://www.weightwatchers.com/us/terms-and-conditions",
-      "extracted_at_utc": "2026-03-07T11:40:06Z",
+      "extracted_at_utc": "2026-03-07T09:43:55Z",
       "tokens": [
         "billing:auto_renew",
         "refund_window_days:180",
@@ -1463,9 +1463,9 @@
       "metadata_signature": "76327de6101105cc"
     },
     "wall_street_journal": {
-      "hash": "8bcaca7bd2756902",
+      "hash": "636fd9a26e87ec2a",
       "source_url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
-      "extracted_at_utc": "2026-03-07T09:44:00Z",
+      "extracted_at_utc": "2026-03-07T12:27:52Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1707,9 +1707,9 @@
       "metadata_signature": "698d782ea2fd7d01"
     },
     "google_one": {
-      "hash": "47fe303a75ca7032",
+      "hash": "4e4e6cd4b671fe2a",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T09:43:25Z",
+      "extracted_at_utc": "2026-03-07T12:25:59Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1796,9 +1796,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "espn_plus": {
-      "hash": "bea213404e064019",
+      "hash": "1e9cfaad3aa7ddc1",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T09:43:22Z",
+      "extracted_at_utc": "2026-03-07T12:25:19Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1832,9 +1832,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "grammarly": {
-      "hash": "287ff660877b52d8",
+      "hash": "00bb244b6d292ffe",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-03-07T09:43:26Z",
+      "extracted_at_utc": "2026-03-07T12:26:20Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "zendesk_article_json",
@@ -1846,7 +1846,7 @@
         "source_updated_at_utc": "2025-10-27T20:22:40Z",
         "source_edited_at_utc": "2025-10-27T20:22:40Z"
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "f7c4dff89de1e273"
     },
     "scribd": {
       "hash": "0cac65b719c1c5b6",
@@ -1870,9 +1870,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "f992155a8ebbbb53",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-03-07T09:43:30Z",
+      "extracted_at_utc": "2026-03-07T12:27:07Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

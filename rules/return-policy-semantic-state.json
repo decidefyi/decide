@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T11:55:02Z",
+  "updated_utc": "2026-03-07T12:46:42Z",
   "policy": "return",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -93,27 +93,21 @@
       "metadata_signature": "1a544a162d1d2bbe"
     },
     "amazon_prime": {
-      "hash": "3b8e0a0a0072edec",
+      "hash": "dd1cf3b0abf20dfb",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-03-07T09:55:21Z",
-      "tokens": [
-        "billing:auto_renew",
-        "billing:prorated",
-        "restriction:no_refund_or_final_sale",
-        "return:shipping_costs",
-        "risk:chargeback_or_dispute"
-      ],
+      "extracted_at_utc": "2026-03-07T12:45:23Z",
+      "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "",
-        "display_last_updated_label": "May 11, 2021",
-        "display_last_updated_date_utc": "2021-05-11",
+        "source_title": "Amazon.com",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "d0e94d39c49f068b"
+      "metadata_signature": "38b49e1b37f8eb30"
     },
     "apple_music": {
       "hash": "91882bfe2276dfad",
@@ -252,9 +246,9 @@
       "metadata_signature": "5ecc5d0b35ff86b5"
     },
     "coursera_plus": {
-      "hash": "b76df55ca77e9603",
+      "hash": "6a605c23843d3504",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T11:50:23Z",
+      "extracted_at_utc": "2026-03-07T12:41:09Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -313,9 +307,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "be946227c1c47905",
+      "hash": "24dba89c25461806",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T11:50:31Z",
+      "extracted_at_utc": "2026-03-07T12:41:17Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -683,9 +677,9 @@
       "metadata_signature": "6003c1881a038366"
     },
     "midjourney": {
-      "hash": "1b2f6e20c6cb63ba",
+      "hash": "f992155a8ebbbb53",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "extracted_at_utc": "2026-03-07T09:59:06Z",
+      "extracted_at_utc": "2026-03-07T12:42:59Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -773,9 +767,9 @@
       "metadata_signature": "1b71b58d10718b7d"
     },
     "paramount_plus": {
-      "hash": "a99babf74a28416d",
+      "hash": "e241e781a465264a",
       "source_url": "https://help.paramountplus.com/s/article/PD-What-s-the-refund-policy-for-Paramount",
-      "extracted_at_utc": "2026-03-07T11:51:59Z",
+      "extracted_at_utc": "2026-03-07T12:43:26Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1044,7 +1038,7 @@
     "tinder": {
       "hash": "94874f35eb7a8496",
       "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
-      "extracted_at_utc": "2026-03-07T11:52:05Z",
+      "extracted_at_utc": "2026-03-07T12:43:33Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
@@ -1193,7 +1187,7 @@
     "youtube_tv": {
       "hash": "e0e0cec49a668280",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-03-07T11:52:09Z",
+      "extracted_at_utc": "2026-03-07T12:43:36Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
@@ -1443,9 +1437,9 @@
       "metadata_signature": "76327de6101105cc"
     },
     "wall_street_journal": {
-      "hash": "8bcaca7bd2756902",
+      "hash": "636fd9a26e87ec2a",
       "source_url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
-      "extracted_at_utc": "2026-03-07T09:59:56Z",
+      "extracted_at_utc": "2026-03-07T12:43:44Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1704,9 +1698,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "google_one": {
-      "hash": "d23940a24c68c03f",
+      "hash": "e9a1e24fd931c011",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T11:51:45Z",
+      "extracted_at_utc": "2026-03-07T12:42:51Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1723,7 +1717,7 @@
     "proton": {
       "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T11:52:00Z",
+      "extracted_at_utc": "2026-03-07T12:43:27Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1777,9 +1771,9 @@
       "metadata_signature": "a850ad2f88c65afb"
     },
     "espn_plus": {
-      "hash": "bea213404e064019",
+      "hash": "464fce512c92d1fa",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T09:57:33Z",
+      "extracted_at_utc": "2026-03-07T12:42:49Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

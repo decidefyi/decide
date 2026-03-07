@@ -1,8 +1,8 @@
 # Policy Status Report
 
-Generated UTC: 2026-03-07T11:58:42Z
+Generated UTC: 2026-03-07T12:51:32Z
 Rows: 400
-Status totals: unchanged=396, pending_confirmation=3, observed_non_material=1
+Status totals: unchanged=391, pending_confirmation=5, quality_gate_held=2, observed_non_material=2
 
 ## refund (100 vendors)
 - 1password: unchanged. no material policy update observed. Source: https://support.1password.com/refund-policy/
@@ -28,10 +28,10 @@ Status totals: unchanged=396, pending_confirmation=3, observed_non_material=1
 - deezer: unchanged. no material policy update observed. Source: https://www.deezer.com/legal/cgu
 - discord_nitro: unchanged. no material policy update observed. Source: https://discord.com/nitro
 - discovery_plus: unchanged. no material policy update observed. Source: https://www.discoveryplus.com/terms
-- disney_plus: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 4/3). Source: https://www.disneyplus.com/legal/subscriber-agreement
+- disney_plus: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 5/3). Source: https://www.disneyplus.com/legal/subscriber-agreement
 - doordash_dashpass: unchanged. no material policy update observed. Source: https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription
 - dropbox_us: unchanged. no material policy update observed. Source: https://www.dropbox.com/terms
-- duolingo: unchanged. no material policy update observed. Source: https://www.duolingo.com/help/how-do-I-request-a-refund
+- duolingo: quality_gate_held. quality gate held. Source: https://www.duolingo.com/help/how-do-I-request-a-refund
 - ea_play: unchanged. no material policy update observed. Source: https://www.ea.com/legal/user-agreement
 - espn_plus: unchanged. no material policy update observed. Source: https://www.espn.com/espnplus/
 - evernote: unchanged. no material policy update observed. Source: https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy
@@ -110,7 +110,7 @@ Status totals: unchanged=396, pending_confirmation=3, observed_non_material=1
 - 1password: unchanged. no material policy update observed. Source: https://support.1password.com/cancel-subscription/
 - adobe: unchanged. no material policy update observed. Source: https://www.adobe.com/legal/subscription-terms.html
 - amazon_music_unlimited: unchanged. no material policy update observed. Source: https://www.amazon.com/music/unlimited
-- amazon_prime: unchanged. no material policy update observed. Source: https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP
+- amazon_prime: pending_confirmation. awaiting confirmation (2/3 runs, signal_window 2/2). Source: https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP
 - amc_plus: unchanged. no material policy update observed. Source: https://support.amcplus.com/en/support/solutions/articles/11000126475-how-do-i-cancel-my-amc-subscription
 - apple_app_store: unchanged. no material policy update observed. Source: https://support.apple.com/en-us/118223
 - apple_arcade: unchanged. no material policy update observed. Source: https://www.apple.com/apple-arcade/
@@ -121,7 +121,7 @@ Status totals: unchanged=396, pending_confirmation=3, observed_non_material=1
 - britbox: unchanged. no material policy update observed. Source: https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel
 - bumble: unchanged. no material policy update observed. Source: https://bumble.com/en-us/terms
 - calm: unchanged. no material policy update observed. Source: https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund
-- canva: observed_non_material. observed page-content update without material semantic change. Source: https://www.canva.com/policies/terms-of-use-2022-12-05/
+- canva: unchanged. no material policy update observed. Source: https://www.canva.com/policies/terms-of-use-2022-12-05/
 - chatgpt_plus: unchanged. no material policy update observed. Source: https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription
 - claude_pro: unchanged. no material policy update observed. Source: https://support.anthropic.com/en/articles/9579605-how-do-i-cancel-my-plan
 - coursera_plus: unchanged. no material policy update observed. Source: https://www.coursera.support/s/article/208280266-Refund-policies
@@ -130,10 +130,10 @@ Status totals: unchanged=396, pending_confirmation=3, observed_non_material=1
 - deezer: unchanged. no material policy update observed. Source: https://www.deezer.com/legal/cgu
 - discord_nitro: unchanged. no material policy update observed. Source: https://discord.com/nitro
 - discovery_plus: unchanged. no material policy update observed. Source: https://help.discoveryplus.com/hc/en-us
-- disney_plus: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 3/3). Source: https://help.disneyplus.com/article/disneyplus-cancel-subscription
+- disney_plus: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 4/3). Source: https://help.disneyplus.com/article/disneyplus-cancel-subscription
 - doordash_dashpass: unchanged. no material policy update observed. Source: https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription
 - dropbox_us: unchanged. no material policy update observed. Source: https://help.dropbox.com/plans/cancel-plan
-- duolingo: unchanged. no material policy update observed. Source: https://support.duolingo.com/hc/en-us/articles/360030236551-How-do-I-cancel-my-Super-Duolingo-subscription
+- duolingo: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 1/3). Source: https://support.duolingo.com/hc/en-us/articles/360030236551-How-do-I-cancel-my-Super-Duolingo-subscription
 - ea_play: unchanged. no material policy update observed. Source: https://help.ea.com/en/help/account/manage-your-ea-play-membership/
 - espn_plus: unchanged. no material policy update observed. Source: https://www.espn.com/espnplus/
 - evernote: unchanged. no material policy update observed. Source: https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy
@@ -212,7 +212,7 @@ Status totals: unchanged=396, pending_confirmation=3, observed_non_material=1
 - 1password: unchanged. no material policy update observed. Source: https://support.1password.com/refund-policy/
 - adobe: unchanged. no material policy update observed. Source: https://www.adobe.com/legal/subscription-terms.html
 - amazon_music_unlimited: unchanged. no material policy update observed. Source: https://www.amazon.com/music/unlimited
-- amazon_prime: unchanged. no material policy update observed. Source: https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP
+- amazon_prime: observed_non_material. observed page-content update without material semantic change. Source: https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP
 - amc_plus: unchanged. no material policy update observed. Source: https://www.amcplus.com/terms
 - apple_app_store: unchanged. no material policy update observed. Source: https://support.apple.com/en-us/118223
 - apple_arcade: unchanged. no material policy update observed. Source: https://www.apple.com/apple-arcade/
@@ -232,7 +232,7 @@ Status totals: unchanged=396, pending_confirmation=3, observed_non_material=1
 - deezer: unchanged. no material policy update observed. Source: https://www.deezer.com/legal/cgu
 - discord_nitro: unchanged. no material policy update observed. Source: https://discord.com/nitro
 - discovery_plus: unchanged. no material policy update observed. Source: https://www.discoveryplus.com/terms
-- disney_plus: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 4/3). Source: https://www.disneyplus.com/legal/subscriber-agreement
+- disney_plus: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 5/3). Source: https://www.disneyplus.com/legal/subscriber-agreement
 - doordash_dashpass: unchanged. no material policy update observed. Source: https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription
 - dropbox_us: unchanged. no material policy update observed. Source: https://www.dropbox.com/terms
 - duolingo: unchanged. no material policy update observed. Source: https://www.duolingo.com/help/how-do-I-request-a-refund
@@ -367,10 +367,10 @@ Status totals: unchanged=396, pending_confirmation=3, observed_non_material=1
 - myfitnesspal_premium: unchanged. no material policy update observed. Source: https://www.myfitnesspal.com/premium
 - netflix: unchanged. no material policy update observed. Source: https://www.netflix.com/signup
 - new_york_times: unchanged. no material policy update observed. Source: https://www.nytimes.com/subscription
-- nfl_plus: unchanged. no material policy update observed. Source: https://www.nfl.com/plus/
+- nfl_plus: quality_gate_held. quality gate held. Source: https://www.nfl.com/plus/
 - nintendo_switch_online: unchanged. no material policy update observed. Source: https://www.nintendo.com/us/switch/online/
 - noom: unchanged. no material policy update observed. Source: https://www.noom.com/
-- nordvpn: unchanged. no material policy update observed. Source: https://nordvpn.com/pricing/
+- nordvpn: observed_non_material. observed page-content update without material semantic change. Source: https://nordvpn.com/pricing/
 - notion: unchanged. no material policy update observed. Source: https://www.notion.so/pricing
 - paramount_plus: unchanged. no material policy update observed. Source: https://www.paramountplus.com/
 - patreon: unchanged. no material policy update observed. Source: https://www.patreon.com/
