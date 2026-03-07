@@ -1,123 +1,55 @@
 {
-  "chatgpt_plus": {
-    "hash": "eb3a57aa86e8eaa3",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
+  "disney_plus": {
+    "hash": "603d527f337bb199",
+    "count": 2,
+    "flip_count": 1,
+    "fetch_failure_streak": 0,
+    "fetch_blocked": false,
+    "run_confirmations": 0,
+    "semantic_run_confirmations": 0,
+    "semantic_signature": "",
+    "change_key": "603d527f337bb199",
+    "signal_window_hash_decision": "cbf60316eea65420",
+    "signal_window_change_decision": "cbf60316eea65420",
+    "signal_window_required_votes": 3,
+    "signal_window_top_hash_votes": 4,
+    "signal_window_baseline_votes": 0,
     "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-02T06:53:57Z",
-    "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-    "pending_since_utc": "2026-03-02T06:53:57Z",
-    "first_seen_utc": "2026-03-02T06:53:57Z",
-    "last_seen_utc": "2026-03-02T06:55:31Z",
+    "metadata_confirm_runs_required": 2,
+    "metadata_signature": "ea7c709252c84b20",
+    "previous_metadata_signature": "",
+    "metadata_signal_stable": false,
+    "last_run_observed_utc": "2026-03-07T09:57:31Z",
+    "source_url": "https://www.disneyplus.com/legal/subscriber-agreement",
+    "pending_since_utc": "2026-03-06T20:25:54Z",
+    "first_seen_utc": "2026-03-07T09:33:05Z",
+    "last_seen_utc": "2026-03-07T09:57:31Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "eb3a57aa86e8eaa3",
-      "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-03-02T06:55:31Z",
-      "tokens": []
-    }
-  },
-  "crunchyroll": {
-    "hash": "5951d6a11fb8f5d2",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-02T06:54:02Z",
-    "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-    "pending_since_utc": "2026-03-02T06:54:02Z",
-    "first_seen_utc": "2026-03-02T06:54:02Z",
-    "last_seen_utc": "2026-03-02T06:55:33Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "5951d6a11fb8f5d2",
-      "source_url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-      "extracted_at_utc": "2026-03-02T06:55:33Z",
-      "tokens": []
-    }
-  },
-  "espn_plus": {
-    "hash": "32753db840f81622",
-    "count": 3,
-    "flip_count": 30,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-02T06:54:04Z",
-    "source_url": "https://www.espn.com/espnplus/",
-    "pending_since_utc": "2026-02-25T00:31:58Z",
-    "first_seen_utc": "2026-03-02T06:54:04Z",
-    "last_seen_utc": "2026-03-02T06:55:31Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "32753db840f81622",
-      "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-02T06:55:31Z",
-      "tokens": []
-    }
-  },
-  "myfitnesspal_premium": {
-    "hash": "2484c696df102cdd",
-    "count": 1,
-    "flip_count": 169,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-03-02T06:54:43Z",
-    "source_url": "https://www.myfitnesspal.com/terms-of-use",
-    "pending_since_utc": "2026-02-18T09:00:33Z",
-    "first_seen_utc": "2026-03-02T06:55:38Z",
-    "last_seen_utc": "2026-03-02T06:55:38Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "2484c696df102cdd",
-      "source_url": "https://www.myfitnesspal.com/terms-of-use",
-      "extracted_at_utc": "2026-03-02T06:55:38Z",
-      "tokens": [
-        "flow:support_request"
-      ]
-    }
-  },
-  "substack": {
-    "hash": "f5fa5608fc35aee4",
-    "count": 3,
-    "flip_count": 15,
-    "run_confirmations": 2,
-    "actual_confirm_runs_required": 3,
-    "last_run_observed_utc": "2026-03-02T06:54:57Z",
-    "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-    "pending_since_utc": "2026-02-27T18:38:09Z",
-    "first_seen_utc": "2026-03-02T01:21:49Z",
-    "last_seen_utc": "2026-03-02T06:55:39Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "f5fa5608fc35aee4",
-      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-03-02T06:55:39Z",
-      "tokens": [
-        "flow:support_request"
-      ]
-    }
-  },
-  "x_premium": {
-    "hash": "4dab8c3660cc4e8c",
-    "count": 3,
-    "flip_count": 0,
-    "run_confirmations": 1,
-    "actual_confirm_runs_required": 2,
-    "last_run_observed_utc": "2026-03-02T06:55:03Z",
-    "source_url": "https://help.x.com/en/using-x/x-premium",
-    "pending_since_utc": "2026-03-02T06:55:03Z",
-    "first_seen_utc": "2026-03-02T06:55:03Z",
-    "last_seen_utc": "2026-03-02T06:55:35Z",
-    "baseline_observations": 0,
-    "profile": {
-      "hash": "4dab8c3660cc4e8c",
-      "source_url": "https://help.x.com/en/using-x/x-premium",
-      "extracted_at_utc": "2026-03-02T06:55:35Z",
-      "tokens": [
-        "billing:prorated",
-        "restriction:no_refund_or_final_sale"
-      ]
-    }
+      "hash": "603d527f337bb199",
+      "source_url": "https://www.disneyplus.com/legal/subscriber-agreement",
+      "extracted_at_utc": "2026-03-07T09:57:31Z",
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "html",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "ea7c709252c84b20"
+    },
+    "quality_gate_passes": 0,
+    "quality_gate_failures": 6,
+    "quality_gate_last_reason": "weak_policy_terms:0<1",
+    "quality_gate_last_observed_utc": "2026-03-07T10:03:03Z",
+    "quality_gate_policy_hits": 0,
+    "quality_gate_lines": 6,
+    "quality_gate_chars": 272,
+    "pending_model_id": "signal-v2",
+    "pending_model_first_observed_utc": "2026-03-07T09:57:31Z"
   }
 }

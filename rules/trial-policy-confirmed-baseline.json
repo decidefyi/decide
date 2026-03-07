@@ -1,0 +1,707 @@
+{
+  "updated_utc": "2026-03-07T10:06:38Z",
+  "policy": "trial",
+  "hash_profile": "focus-v1",
+  "vendors": {
+    "1password": {
+      "hash": "1aab5260d309eb54",
+      "semantic_signature": "",
+      "metadata_signature": "1dc230dd23c2d552",
+      "source_url": "https://1password.com/sign-up",
+      "last_confirmed_change_utc": "2026-03-07T10:03:04Z"
+    },
+    "adobe": {
+      "hash": "0cefd9fe1290780e",
+      "semantic_signature": "",
+      "metadata_signature": "181a6e7cfafa9b62",
+      "source_url": "https://www.adobe.com/creativecloud/plans.html",
+      "last_confirmed_change_utc": "2026-03-07T10:03:59Z"
+    },
+    "amazon_music_unlimited": {
+      "hash": "aa196cbede9badd6",
+      "semantic_signature": "",
+      "metadata_signature": "59780a5d3fff9de5",
+      "source_url": "https://www.amazon.com/music/unlimited",
+      "last_confirmed_change_utc": "2026-03-07T10:03:05Z"
+    },
+    "amazon_prime": {
+      "hash": "7c8f77fcdb4c1914",
+      "semantic_signature": "",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
+      "last_confirmed_change_utc": "2026-03-07T10:04:00Z"
+    },
+    "amc_plus": {
+      "hash": "8a4f6919f70dfdb6",
+      "semantic_signature": "",
+      "metadata_signature": "a7cf0d1613a67609",
+      "source_url": "https://www.amcplus.com/",
+      "last_confirmed_change_utc": "2026-03-07T10:06:28Z"
+    },
+    "apple_app_store": {
+      "hash": "91882bfe2276dfad",
+      "semantic_signature": "",
+      "metadata_signature": "aaf0cb7acefc1cdd",
+      "source_url": "https://support.apple.com/en-us/118223",
+      "last_confirmed_change_utc": "2026-03-07T10:04:00Z"
+    },
+    "apple_arcade": {
+      "hash": "2a78b01cea6c25d7",
+      "semantic_signature": "",
+      "metadata_signature": "1a544a162d1d2bbe",
+      "source_url": "https://www.apple.com/apple-arcade/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:00Z"
+    },
+    "apple_music": {
+      "hash": "821df01be2a2b311",
+      "semantic_signature": "trial_window_days:30",
+      "metadata_signature": "91e1bfc54d8018f9",
+      "source_url": "https://www.apple.com/apple-music/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:01Z"
+    },
+    "apple_tv_plus": {
+      "hash": "192e95dda1012696",
+      "semantic_signature": "trial_window_days:30|trial_window_days:7|trial_window_days:90",
+      "metadata_signature": "e0ee996894602963",
+      "source_url": "https://www.apple.com/apple-tv-plus/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:01Z"
+    },
+    "audible": {
+      "hash": "5c903bdde6be6a0f",
+      "semantic_signature": "",
+      "metadata_signature": "0b2d6ccd3cbf2905",
+      "source_url": "https://www.audible.com/ep/freetrial",
+      "last_confirmed_change_utc": "2026-03-07T10:04:01Z"
+    },
+    "bitwarden": {
+      "hash": "cfb7d23fb4ad78d2",
+      "semantic_signature": "",
+      "metadata_signature": "621e2c24f1f38100",
+      "source_url": "https://bitwarden.com/pricing/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:02Z"
+    },
+    "britbox": {
+      "hash": "740f7407816addea",
+      "semantic_signature": "trial_window_days:360",
+      "metadata_signature": "1ae7b776d9e9d62f",
+      "source_url": "https://www.britbox.com/us/",
+      "last_confirmed_change_utc": "2026-03-07T10:06:28Z"
+    },
+    "bumble": {
+      "hash": "33e413ba157e9286",
+      "semantic_signature": "",
+      "metadata_signature": "41fb81482b7d20ea",
+      "source_url": "https://bumble.com/en-us/the-buzz/bumble-premium",
+      "last_confirmed_change_utc": "2026-03-07T10:04:02Z"
+    },
+    "calm": {
+      "hash": "93c363214132f735",
+      "semantic_signature": "",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://www.calm.com/subscribe",
+      "last_confirmed_change_utc": "2026-03-07T10:04:11Z"
+    },
+    "canva": {
+      "hash": "8c8b2a79919eaa19",
+      "semantic_signature": "",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://www.canva.com/pro/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:13Z"
+    },
+    "chatgpt_plus": {
+      "hash": "98df18ea4c4e33bd",
+      "semantic_signature": "",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://openai.com/chatgpt/pricing/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:15Z"
+    },
+    "claude_pro": {
+      "hash": "48404e3cb47b0662",
+      "semantic_signature": "",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://claude.ai/upgrade",
+      "last_confirmed_change_utc": "2026-03-07T10:04:13Z"
+    },
+    "coursera_plus": {
+      "hash": "546c34d7a89ffb46",
+      "semantic_signature": "",
+      "metadata_signature": "75557e375b337289",
+      "source_url": "https://www.coursera.org/courseraplus",
+      "last_confirmed_change_utc": "2026-03-07T10:04:16Z"
+    },
+    "crunchyroll": {
+      "hash": "7c0aa5e95ec97ea3",
+      "semantic_signature": "trial_window_days:7",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://www.crunchyroll.com/welcome",
+      "last_confirmed_change_utc": "2026-03-07T10:04:16Z"
+    },
+    "dashlane": {
+      "hash": "01e6586acacee47b",
+      "semantic_signature": "",
+      "metadata_signature": "d8d262ce86b13575",
+      "source_url": "https://www.dashlane.com/pricing",
+      "last_confirmed_change_utc": "2026-03-07T10:05:17Z"
+    },
+    "deezer": {
+      "hash": "992e2ac0205e4299",
+      "semantic_signature": "trial_window_days:30|trial_window_days:7",
+      "metadata_signature": "9e47e1b244d80672",
+      "source_url": "https://www.deezer.com/en/offers",
+      "last_confirmed_change_utc": "2026-03-07T10:04:16Z"
+    },
+    "discord_nitro": {
+      "hash": "d7050a8609b439da",
+      "semantic_signature": "flow:support_request",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://discord.com/nitro",
+      "last_confirmed_change_utc": "2026-03-07T10:04:18Z"
+    },
+    "discovery_plus": {
+      "hash": "1d8c0959540e93c4",
+      "semantic_signature": "",
+      "metadata_signature": "2d2df798c07e9a7e",
+      "source_url": "https://www.discoveryplus.com/",
+      "last_confirmed_change_utc": "2026-03-07T10:06:27Z"
+    },
+    "disney_plus": {
+      "hash": "f2c89694348caddd",
+      "semantic_signature": "",
+      "metadata_signature": "28e2bf140f62715d",
+      "source_url": "https://www.disneyplus.com/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:17Z"
+    },
+    "doordash_dashpass": {
+      "hash": "8a2e2266ec700dd2",
+      "semantic_signature": "",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
+      "last_confirmed_change_utc": "2026-03-07T10:04:27Z"
+    },
+    "dropbox_us": {
+      "hash": "7378b9d174c76a17",
+      "semantic_signature": "trial_window_days:30",
+      "metadata_signature": "a6aa06925084c746",
+      "source_url": "https://www.dropbox.com/plans",
+      "last_confirmed_change_utc": "2026-03-07T10:04:29Z"
+    },
+    "duolingo": {
+      "hash": "30270c0e4a83d648",
+      "semantic_signature": "",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://www.duolingo.com/super",
+      "last_confirmed_change_utc": "2026-03-07T10:04:28Z"
+    },
+    "ea_play": {
+      "hash": "91e0a4acd22d6c6e",
+      "semantic_signature": "",
+      "metadata_signature": "1c719aad8f58f3d1",
+      "source_url": "https://www.ea.com/ea-play",
+      "last_confirmed_change_utc": "2026-03-07T10:05:24Z"
+    },
+    "espn_plus": {
+      "hash": "46639110e2ed29bc",
+      "semantic_signature": "",
+      "metadata_signature": "c17cbbfb2657430a",
+      "source_url": "https://www.espn.com/espnplus/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:28Z"
+    },
+    "evernote": {
+      "hash": "4384632937987f9b",
+      "semantic_signature": "trial_window_days:30|trial_window_days:7|trial:auto_converts_to_paid|trial:cancel_before_end",
+      "metadata_signature": "cdefb4c8098692bc",
+      "source_url": "https://evernote.com/compare-plans",
+      "last_confirmed_change_utc": "2026-03-07T10:04:30Z"
+    },
+    "expressvpn": {
+      "hash": "af4ed0ae09b6a604",
+      "semantic_signature": "",
+      "metadata_signature": "c4619367e660d3a9",
+      "source_url": "https://www.expressvpn.com/order",
+      "last_confirmed_change_utc": "2026-03-07T10:04:30Z"
+    },
+    "figma": {
+      "hash": "3f59e0da46a9b0fd",
+      "semantic_signature": "",
+      "metadata_signature": "af24f72f93ff8483",
+      "source_url": "https://www.figma.com/pricing/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:30Z"
+    },
+    "fitbit_premium": {
+      "hash": "a37eb69e95a1c388",
+      "semantic_signature": "",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://www.fitbit.com/global/us/products/services/premium",
+      "last_confirmed_change_utc": "2026-03-07T10:05:20Z"
+    },
+    "fubo_tv": {
+      "hash": "730cfac095b9423b",
+      "semantic_signature": "",
+      "metadata_signature": "d4019a9b153655e6",
+      "source_url": "https://www.fubo.tv/welcome",
+      "last_confirmed_change_utc": "2026-03-07T10:04:32Z"
+    },
+    "github_pro": {
+      "hash": "4eda4de5efb831cc",
+      "semantic_signature": "trial_window_days:30|trial_window_days:360",
+      "metadata_signature": "859581a8b21c9781",
+      "source_url": "https://github.com/pricing",
+      "last_confirmed_change_utc": "2026-03-07T10:04:31Z"
+    },
+    "google_one": {
+      "hash": "8896cdf009ba2002",
+      "semantic_signature": "",
+      "metadata_signature": "e47e0c36e2bbf62b",
+      "source_url": "https://one.google.com/about/plans",
+      "last_confirmed_change_utc": "2026-03-07T10:04:31Z"
+    },
+    "google_play": {
+      "hash": "b5cf2e31119e8d8d",
+      "semantic_signature": "",
+      "metadata_signature": "0b64f4b6a173667a",
+      "source_url": "https://support.google.com/googleplay/answer/7018481",
+      "last_confirmed_change_utc": "2026-03-07T10:04:33Z"
+    },
+    "grammarly": {
+      "hash": "26791c8310c0a959",
+      "semantic_signature": "billing:prorated",
+      "metadata_signature": "494d4dba220687f3",
+      "source_url": "https://www.grammarly.com/plans",
+      "last_confirmed_change_utc": "2026-03-07T10:04:32Z"
+    },
+    "headspace": {
+      "hash": "17a9980875628a18",
+      "semantic_signature": "",
+      "metadata_signature": "9e58f7de0a37834d",
+      "source_url": "https://www.headspace.com/subscriptions",
+      "last_confirmed_change_utc": "2026-03-07T10:04:33Z"
+    },
+    "hellofresh": {
+      "hash": "cc9de4704a3aa414",
+      "semantic_signature": "",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://www.hellofresh.com/plans",
+      "last_confirmed_change_utc": "2026-03-07T10:04:35Z"
+    },
+    "hinge": {
+      "hash": "12dd44bb8ff498c8",
+      "semantic_signature": "",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+      "last_confirmed_change_utc": "2026-03-07T10:04:33Z"
+    },
+    "hulu": {
+      "hash": "10dc7e8460ef064c",
+      "semantic_signature": "",
+      "metadata_signature": "d325f190679ffa56",
+      "source_url": "https://www.hulu.com/start",
+      "last_confirmed_change_utc": "2026-03-07T10:04:33Z"
+    },
+    "icloud_plus": {
+      "hash": "6be02ea27b3b27c1",
+      "semantic_signature": "",
+      "metadata_signature": "ccfebe73406d6873",
+      "source_url": "https://support.apple.com/en-us/108052",
+      "last_confirmed_change_utc": "2026-03-07T10:04:36Z"
+    },
+    "instacart_plus": {
+      "hash": "f93d706434bd5225",
+      "semantic_signature": "",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://www.instacart.com/store/instacart-plus",
+      "last_confirmed_change_utc": "2026-03-07T10:04:38Z"
+    },
+    "keeper": {
+      "hash": "8e84e5e6452d0705",
+      "semantic_signature": "",
+      "metadata_signature": "24506366598e236d",
+      "source_url": "https://www.keepersecurity.com/pricing/personal-and-family.html",
+      "last_confirmed_change_utc": "2026-03-07T10:05:19Z"
+    },
+    "kindle_unlimited": {
+      "hash": "8406b35ffe997971",
+      "semantic_signature": "",
+      "metadata_signature": "5962737ae1b74840",
+      "source_url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku",
+      "last_confirmed_change_utc": "2026-03-07T10:04:37Z"
+    },
+    "lastpass": {
+      "hash": "71d000585ae7f786",
+      "semantic_signature": "",
+      "metadata_signature": "d2f07a292aedd27a",
+      "source_url": "https://www.lastpass.com/pricing",
+      "last_confirmed_change_utc": "2026-03-07T10:05:19Z"
+    },
+    "linkedin_premium": {
+      "hash": "8af384f4631f8faa",
+      "semantic_signature": "trial_window_days:360",
+      "metadata_signature": "fb969be319933d21",
+      "source_url": "https://premium.linkedin.com/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:39Z"
+    },
+    "masterclass": {
+      "hash": "e6d641115730b63f",
+      "semantic_signature": "",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://www.masterclass.com/legal/terms",
+      "last_confirmed_change_utc": "2026-03-07T10:04:40Z"
+    },
+    "max": {
+      "hash": "98c631d8f5ab58bc",
+      "semantic_signature": "trial:auto_converts_to_paid",
+      "metadata_signature": "f7332c93b830efc3",
+      "source_url": "https://www.max.com/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:39Z"
+    },
+    "microsoft_365": {
+      "hash": "39b3dcafdcbb352a",
+      "semantic_signature": "trial_window_days:30",
+      "metadata_signature": "b0f135a53ce5e10a",
+      "source_url": "https://www.microsoft.com/en-us/microsoft-365/try",
+      "last_confirmed_change_utc": "2026-03-07T10:04:41Z"
+    },
+    "midjourney": {
+      "hash": "05a4746cf3c4be3c",
+      "semantic_signature": "",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://www.midjourney.com/home",
+      "last_confirmed_change_utc": "2026-03-07T10:04:46Z"
+    },
+    "mlb_tv": {
+      "hash": "cf16c73a45bf5f62",
+      "semantic_signature": "",
+      "metadata_signature": "aae117071833e118",
+      "source_url": "https://www.mlb.com/live-stream-games/subscribe",
+      "last_confirmed_change_utc": "2026-03-07T10:05:25Z"
+    },
+    "myfitnesspal_premium": {
+      "hash": "9c81fbf8949d205a",
+      "semantic_signature": "billing:auto_renew|trial:auto_converts_to_paid",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://www.myfitnesspal.com/premium",
+      "last_confirmed_change_utc": "2026-03-07T10:05:21Z"
+    },
+    "netflix": {
+      "hash": "4db8679770bff0a2",
+      "semantic_signature": "",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://www.netflix.com/signup",
+      "last_confirmed_change_utc": "2026-03-07T10:04:42Z"
+    },
+    "new_york_times": {
+      "hash": "85a7cdfc9e15947a",
+      "semantic_signature": "",
+      "metadata_signature": "76327de6101105cc",
+      "source_url": "https://www.nytimes.com/subscription",
+      "last_confirmed_change_utc": "2026-03-07T10:05:25Z"
+    },
+    "nfl_plus": {
+      "hash": "884d65b8375b4d61",
+      "semantic_signature": "",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://www.nfl.com/plus/",
+      "last_confirmed_change_utc": "2026-03-07T10:05:25Z"
+    },
+    "nintendo_switch_online": {
+      "hash": "3d9c9339d4bc7c64",
+      "semantic_signature": "billing:auto_renew",
+      "metadata_signature": "0a0611f87f115bb4",
+      "source_url": "https://www.nintendo.com/us/switch/online/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:46Z"
+    },
+    "noom": {
+      "hash": "54e7088ed1b4551b",
+      "semantic_signature": "",
+      "metadata_signature": "39deaff8b5f42e22",
+      "source_url": "https://www.noom.com/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:46Z"
+    },
+    "nordvpn": {
+      "hash": "d90ec5423176cfc1",
+      "semantic_signature": "billing:auto_renew",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://nordvpn.com/pricing/",
+      "last_confirmed_change_utc": "2026-03-07T10:06:38Z"
+    },
+    "notion": {
+      "hash": "1eeaccda873a52bc",
+      "semantic_signature": "billing:prorated",
+      "metadata_signature": "b50787fc583e692c",
+      "source_url": "https://www.notion.so/pricing",
+      "last_confirmed_change_utc": "2026-03-07T10:04:50Z"
+    },
+    "paramount_plus": {
+      "hash": "3d5ea1cf7d0c6e09",
+      "semantic_signature": "",
+      "metadata_signature": "d4e19be7e232d2d9",
+      "source_url": "https://www.paramountplus.com/",
+      "last_confirmed_change_utc": "2026-03-07T10:04:50Z"
+    },
+    "patreon": {
+      "hash": "1e7744378c9d24a0",
+      "semantic_signature": "",
+      "metadata_signature": "e3958b19e67eda74",
+      "source_url": "https://www.patreon.com/",
+      "last_confirmed_change_utc": "2026-03-07T10:05:22Z"
+    },
+    "peacock": {
+      "hash": "9d5ebe1adff952a6",
+      "semantic_signature": "",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://www.peacocktv.com/plans",
+      "last_confirmed_change_utc": "2026-03-07T10:04:51Z"
+    },
+    "peloton": {
+      "hash": "c5965fffd8b50842",
+      "semantic_signature": "trial:payment_method_required",
+      "metadata_signature": "6ea0407a3f43bcad",
+      "source_url": "https://www.onepeloton.com/app",
+      "last_confirmed_change_utc": "2026-03-07T10:04:52Z"
+    },
+    "playstation_plus": {
+      "hash": "b366cb3b9db9ad8b",
+      "semantic_signature": "",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://store.playstation.com/en-us/category/ps-plus",
+      "last_confirmed_change_utc": "2026-03-07T10:05:04Z"
+    },
+    "proton": {
+      "hash": "4da803c89e030feb",
+      "semantic_signature": "billing:auto_renew",
+      "metadata_signature": "249b168ffc67c82c",
+      "source_url": "https://proton.me/pricing",
+      "last_confirmed_change_utc": "2026-03-07T10:04:52Z"
+    },
+    "reddit_premium": {
+      "hash": "f7d1a14f0e2d7430",
+      "semantic_signature": "",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://www.reddit.com/premium",
+      "last_confirmed_change_utc": "2026-03-07T10:06:25Z"
+    },
+    "ring_protect": {
+      "hash": "f7ae6c2313211b88",
+      "semantic_signature": "billing:auto_renew",
+      "metadata_signature": "d0834e9d9714a2ec",
+      "source_url": "https://ring.com/protect-plans",
+      "last_confirmed_change_utc": "2026-03-07T10:05:05Z"
+    },
+    "roblox_premium": {
+      "hash": "d029e8febc29b146",
+      "semantic_signature": "",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://www.roblox.com/premium/membership",
+      "last_confirmed_change_utc": "2026-03-07T10:05:24Z"
+    },
+    "scribd": {
+      "hash": "ba392ea44badf011",
+      "semantic_signature": "",
+      "metadata_signature": "dd461547b37920be",
+      "source_url": "https://www.scribd.com/subscribe",
+      "last_confirmed_change_utc": "2026-03-07T10:05:05Z"
+    },
+    "shutterstock": {
+      "hash": "93fce0170819948f",
+      "semantic_signature": "",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://www.shutterstock.com/pricing",
+      "last_confirmed_change_utc": "2026-03-07T10:05:07Z"
+    },
+    "siriusxm": {
+      "hash": "6c4d9f5f3e90ffde",
+      "semantic_signature": "restriction:no_refund_or_final_sale|trial:payment_method_required",
+      "metadata_signature": "365838128ec715ed",
+      "source_url": "https://www.siriusxm.com/offers",
+      "last_confirmed_change_utc": "2026-03-07T10:05:23Z"
+    },
+    "slack": {
+      "hash": "2086af280cb6ad34",
+      "semantic_signature": "",
+      "metadata_signature": "64da6194cb4ebc4b",
+      "source_url": "https://slack.com/pricing",
+      "last_confirmed_change_utc": "2026-03-07T10:05:08Z"
+    },
+    "sling_tv": {
+      "hash": "886ae9f832fefa12",
+      "semantic_signature": "",
+      "metadata_signature": "930d1d239a6b450b",
+      "source_url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
+      "last_confirmed_change_utc": "2026-03-07T10:05:08Z"
+    },
+    "snapchat_plus": {
+      "hash": "8422edc2c23478c2",
+      "semantic_signature": "",
+      "metadata_signature": "bc95debf4125b111",
+      "source_url": "https://www.snapchat.com/plus",
+      "last_confirmed_change_utc": "2026-03-07T10:06:23Z"
+    },
+    "soundcloud_go": {
+      "hash": "bf6f426a2126312f",
+      "semantic_signature": "",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+      "last_confirmed_change_utc": "2026-03-07T10:06:27Z"
+    },
+    "spotify": {
+      "hash": "43d1b6038b8b7428",
+      "semantic_signature": "",
+      "metadata_signature": "a61eed00544b083b",
+      "source_url": "https://www.spotify.com/us/premium/",
+      "last_confirmed_change_utc": "2026-03-07T10:05:08Z"
+    },
+    "squarespace": {
+      "hash": "978e382932020217",
+      "semantic_signature": "",
+      "metadata_signature": "dfe73028833b970f",
+      "source_url": "https://www.squarespace.com/pricing",
+      "last_confirmed_change_utc": "2026-03-07T10:05:09Z"
+    },
+    "starz": {
+      "hash": "5d31288a471e88bb",
+      "semantic_signature": "billing:prorated|restriction:no_refund_or_final_sale|risk:chargeback_or_dispute",
+      "metadata_signature": "012bc045a82435d3",
+      "source_url": "https://www.starz.com/us/en/termsofuse",
+      "last_confirmed_change_utc": "2026-03-07T10:06:28Z"
+    },
+    "strava": {
+      "hash": "4e09b0a7f54d8764",
+      "semantic_signature": "trial_window_days:2|trial_window_days:30",
+      "metadata_signature": "a7b0da01442534e8",
+      "source_url": "https://www.strava.com/subscribe",
+      "last_confirmed_change_utc": "2026-03-07T10:05:09Z"
+    },
+    "substack": {
+      "hash": "f5fa5608fc35aee4",
+      "semantic_signature": "flow:support_request",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "last_confirmed_change_utc": "2026-03-07T10:05:29Z"
+    },
+    "surfshark": {
+      "hash": "a1ef793fd4ea4c65",
+      "semantic_signature": "",
+      "metadata_signature": "da2500b917943a9e",
+      "source_url": "https://surfshark.com/pricing",
+      "last_confirmed_change_utc": "2026-03-07T10:05:09Z"
+    },
+    "telegram_premium": {
+      "hash": "857f9ce3b690e047",
+      "semantic_signature": "",
+      "metadata_signature": "2dac4c9d0bfb62f5",
+      "source_url": "https://telegram.org/premium",
+      "last_confirmed_change_utc": "2026-03-07T10:06:27Z"
+    },
+    "tidal": {
+      "hash": "0e8b379821983a86",
+      "semantic_signature": "",
+      "metadata_signature": "e18c5ea37454df39",
+      "source_url": "https://tidal.com/pricing",
+      "last_confirmed_change_utc": "2026-03-07T10:05:13Z"
+    },
+    "tinder": {
+      "hash": "d31e0b17742170ae",
+      "semantic_signature": "",
+      "metadata_signature": "88bfc06a7114bcdd",
+      "source_url": "https://tinder.com/feature/subscription-tiers",
+      "last_confirmed_change_utc": "2026-03-07T10:05:10Z"
+    },
+    "todoist": {
+      "hash": "1bc7fbf88d7df8bc",
+      "semantic_signature": "",
+      "metadata_signature": "68e522b7544593f9",
+      "source_url": "https://todoist.com/pricing",
+      "last_confirmed_change_utc": "2026-03-07T10:05:10Z"
+    },
+    "twitch": {
+      "hash": "854ead54426e17ca",
+      "semantic_signature": "",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://www.twitch.tv/turbo",
+      "last_confirmed_change_utc": "2026-03-07T10:05:13Z"
+    },
+    "uber_one": {
+      "hash": "c3255cd8b0a50462",
+      "semantic_signature": "restriction:no_refund_or_final_sale",
+      "metadata_signature": "99420bc8068792f9",
+      "source_url": "https://www.uber.com/us/en/u/uber-one/",
+      "last_confirmed_change_utc": "2026-03-07T10:05:14Z"
+    },
+    "ubisoft_plus": {
+      "hash": "43ee112ef0757868",
+      "semantic_signature": "",
+      "metadata_signature": "172877202005eb2d",
+      "source_url": "https://store.ubisoft.com/us/ubisoftplus",
+      "last_confirmed_change_utc": "2026-03-07T10:05:24Z"
+    },
+    "wall_street_journal": {
+      "hash": "8880348608bdedf3",
+      "semantic_signature": "billing:auto_renew|billing:prorated",
+      "metadata_signature": "d55a8e804c26c6b2",
+      "source_url": "https://www.wsj.com/subscribe",
+      "last_confirmed_change_utc": "2026-03-07T10:05:26Z"
+    },
+    "walmart_plus": {
+      "hash": "a1db564ba162d3c1",
+      "semantic_signature": "",
+      "metadata_signature": "6d5dbc25098101d6",
+      "source_url": "https://www.walmart.com/plus",
+      "last_confirmed_change_utc": "2026-03-07T10:05:13Z"
+    },
+    "washington_post": {
+      "hash": "4294167f7648c27f",
+      "semantic_signature": "",
+      "metadata_signature": "3a5ec85970a0419c",
+      "source_url": "https://www.washingtonpost.com/subscribe/",
+      "last_confirmed_change_utc": "2026-03-07T10:06:22Z"
+    },
+    "weightwatchers": {
+      "hash": "0df247ef5b45ab3f",
+      "semantic_signature": "trial_window_days:180",
+      "metadata_signature": "a1e3be8613b20d3f",
+      "source_url": "https://www.weightwatchers.com/us/plans",
+      "last_confirmed_change_utc": "2026-03-07T10:05:22Z"
+    },
+    "wix": {
+      "hash": "48b9c3e11c4740f3",
+      "semantic_signature": "",
+      "metadata_signature": "31a01414039c2547",
+      "source_url": "https://www.wix.com/upgrade/website",
+      "last_confirmed_change_utc": "2026-03-07T10:05:15Z"
+    },
+    "x_premium": {
+      "hash": "0e33a04876ac3062",
+      "semantic_signature": "",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://legal.x.com/purchaser-terms.html",
+      "last_confirmed_change_utc": "2026-03-07T10:06:26Z"
+    },
+    "xbox_game_pass": {
+      "hash": "23412fc153542744",
+      "semantic_signature": "trial:payment_method_required",
+      "metadata_signature": "cb5002441b998f6f",
+      "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
+      "last_confirmed_change_utc": "2026-03-07T10:05:14Z"
+    },
+    "youtube_premium": {
+      "hash": "f28eb61dcf45b91e",
+      "semantic_signature": "trial_window_days:360",
+      "metadata_signature": "ea7c709252c84b20",
+      "source_url": "https://www.youtube.com/premium",
+      "last_confirmed_change_utc": "2026-03-07T10:05:17Z"
+    },
+    "youtube_tv": {
+      "hash": "57c8aa3ecd808225",
+      "semantic_signature": "restriction:no_refund_or_final_sale",
+      "metadata_signature": "e89099edc5ee035a",
+      "source_url": "https://tv.youtube.com/",
+      "last_confirmed_change_utc": "2026-03-07T10:05:17Z"
+    },
+    "zoom": {
+      "hash": "a5a6710b4050060a",
+      "semantic_signature": "",
+      "metadata_signature": "d04dc22a74a56e42",
+      "source_url": "https://zoom.us/pricing",
+      "last_confirmed_change_utc": "2026-03-07T10:06:29Z"
+    }
+  }
+}
