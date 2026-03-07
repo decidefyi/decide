@@ -1,7 +1,7 @@
 {
   "disney_plus": {
     "hash": "603d527f337bb199",
-    "count": 6,
+    "count": 7,
     "flip_count": 1,
     "fetch_failure_streak": 0,
     "fetch_blocked": false,
@@ -19,16 +19,16 @@
     "metadata_signature": "ea7c709252c84b20",
     "previous_metadata_signature": "",
     "metadata_signal_stable": false,
-    "last_run_observed_utc": "2026-03-07T18:38:03Z",
+    "last_run_observed_utc": "2026-03-07T19:02:17Z",
     "source_url": "https://www.disneyplus.com/legal/subscriber-agreement",
     "pending_since_utc": "2026-03-06T20:25:54Z",
     "first_seen_utc": "2026-03-07T09:33:05Z",
-    "last_seen_utc": "2026-03-07T18:38:03Z",
+    "last_seen_utc": "2026-03-07T19:02:17Z",
     "baseline_observations": 0,
     "profile": {
       "hash": "603d527f337bb199",
       "source_url": "https://www.disneyplus.com/legal/subscriber-agreement",
-      "extracted_at_utc": "2026-03-07T18:38:03Z",
+      "extracted_at_utc": "2026-03-07T19:02:17Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -43,13 +43,13 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "quality_gate_passes": 0,
-    "quality_gate_failures": 18,
+    "quality_gate_failures": 21,
     "quality_gate_last_reason": "weak_policy_terms:0<1",
-    "quality_gate_last_observed_utc": "2026-03-07T18:41:35Z",
+    "quality_gate_last_observed_utc": "2026-03-07T19:05:56Z",
     "quality_gate_policy_hits": 0,
     "quality_gate_lines": 6,
     "quality_gate_chars": 272,
     "pending_model_id": "signal-v2",
-    "pending_model_first_observed_utc": "2026-03-07T18:38:03Z"
+    "pending_model_first_observed_utc": "2026-03-07T19:02:17Z"
   }
 }

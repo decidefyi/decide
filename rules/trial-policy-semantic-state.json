@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T18:46:21Z",
+  "updated_utc": "2026-03-07T19:09:42Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -197,9 +197,9 @@
       "metadata_signature": "41fb81482b7d20ea"
     },
     "calm": {
-      "hash": "93c363214132f735",
+      "hash": "11b83b14f681f5fa",
       "source_url": "https://www.calm.com/subscribe",
-      "extracted_at_utc": "2026-03-07T10:04:11Z",
+      "extracted_at_utc": "2026-03-07T19:07:02Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -211,12 +211,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "ea7c709252c84b20"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "claude_pro": {
-      "hash": "1d4762c19e63ca8d",
+      "hash": "48404e3cb47b0662",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-03-07T18:42:54Z",
+      "extracted_at_utc": "2026-03-07T10:04:13Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -250,7 +250,7 @@
     "crunchyroll": {
       "hash": "8e9ce324d46569ce",
       "source_url": "https://www.crunchyroll.com/welcome",
-      "extracted_at_utc": "2026-03-07T18:43:01Z",
+      "extracted_at_utc": "2026-03-07T19:07:06Z",
       "tokens": [
         "trial_window_days:7"
       ],
@@ -325,7 +325,7 @@
     "disney_plus": {
       "hash": "9197d49e44c18385",
       "source_url": "https://www.disneyplus.com/",
-      "extracted_at_utc": "2026-03-07T18:43:01Z",
+      "extracted_at_utc": "2026-03-07T19:07:07Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -340,9 +340,9 @@
       "metadata_signature": "28e2bf140f62715d"
     },
     "doordash_dashpass": {
-      "hash": "cbf10e79b0e8d152",
+      "hash": "f863a3bd6f295036",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T18:43:06Z",
+      "extracted_at_utc": "2026-03-07T19:07:13Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -556,9 +556,9 @@
       "metadata_signature": "d325f190679ffa56"
     },
     "hellofresh": {
-      "hash": "b88c5deb805c6cfc",
+      "hash": "a3a12335cd2da496",
       "source_url": "https://www.hellofresh.com/plans",
-      "extracted_at_utc": "2026-03-07T18:43:32Z",
+      "extracted_at_utc": "2026-03-07T19:07:22Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -734,7 +734,7 @@
     "midjourney": {
       "hash": "cda38716917340a8",
       "source_url": "https://www.midjourney.com/home",
-      "extracted_at_utc": "2026-03-07T18:43:39Z",
+      "extracted_at_utc": "2026-03-07T19:07:30Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -857,9 +857,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "proton": {
-      "hash": "907f7b3c0a1a6184",
+      "hash": "4da803c89e030feb",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T18:44:35Z",
+      "extracted_at_utc": "2026-03-07T10:04:52Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1139,7 +1139,7 @@
     "youtube_premium": {
       "hash": "e91bbad45f6bbff3",
       "source_url": "https://www.youtube.com/premium",
-      "extracted_at_utc": "2026-03-07T18:45:00Z",
+      "extracted_at_utc": "2026-03-07T19:08:30Z",
       "tokens": [
         "trial_window_days:360"
       ],
@@ -1156,9 +1156,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "youtube_tv": {
-      "hash": "57c8aa3ecd808225",
+      "hash": "7e3cd45beae9f932",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-03-07T10:05:17Z",
+      "extracted_at_utc": "2026-03-07T19:08:31Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
@@ -1319,9 +1319,9 @@
       "metadata_signature": "e3958b19e67eda74"
     },
     "roblox_premium": {
-      "hash": "f083fad981a20ff3",
+      "hash": "d029e8febc29b146",
       "source_url": "https://www.roblox.com/premium/membership",
-      "extracted_at_utc": "2026-03-07T18:45:09Z",
+      "extracted_at_utc": "2026-03-07T10:05:24Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1370,9 +1370,9 @@
       "metadata_signature": "172877202005eb2d"
     },
     "nfl_plus": {
-      "hash": "4f949de9e96e774d",
+      "hash": "8d14d70ceb2dc5e6",
       "source_url": "https://www.nfl.com/plus/",
-      "extracted_at_utc": "2026-03-07T18:45:18Z",
+      "extracted_at_utc": "2026-03-07T19:08:38Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1638,7 +1638,7 @@
     "zoom": {
       "hash": "0acfcc01dfe25faa",
       "source_url": "https://zoom.us/pricing",
-      "extracted_at_utc": "2026-03-07T18:46:21Z",
+      "extracted_at_utc": "2026-03-07T19:09:42Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1690,9 +1690,9 @@
       "metadata_signature": "a7b0da01442534e8"
     },
     "espn_plus": {
-      "hash": "c775fe25a9b01735",
+      "hash": "3f51dc4261ee8ec5",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T18:43:07Z",
+      "extracted_at_utc": "2026-03-07T19:07:14Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1743,7 +1743,7 @@
     "nordvpn": {
       "hash": "414af56426040b33",
       "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-03-07T18:43:52Z",
+      "extracted_at_utc": "2026-03-07T19:07:46Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1762,7 +1762,7 @@
     "canva": {
       "hash": "079f91961ebcc17e",
       "source_url": "https://www.canva.com/pro/",
-      "extracted_at_utc": "2026-03-07T18:42:50Z",
+      "extracted_at_utc": "2026-03-07T19:07:04Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T18:35:33Z",
+  "updated_utc": "2026-03-07T18:59:36Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -271,9 +271,9 @@
       "metadata_signature": "5ecc5d0b35ff86b5"
     },
     "coursera_plus": {
-      "hash": "97016f070a6e9a2d",
+      "hash": "610ef195a671c4f0",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T18:28:17Z",
+      "extracted_at_utc": "2026-03-07T18:54:21Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -341,9 +341,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "doordash_dashpass": {
-      "hash": "f37ddf767aadd3db",
+      "hash": "7f8f0d0c8b9613f0",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T18:28:23Z",
+      "extracted_at_utc": "2026-03-07T18:54:32Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -649,9 +649,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "midjourney": {
-      "hash": "05a4746cf3c4be3c",
+      "hash": "cda38716917340a8",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-03-07T18:31:09Z",
+      "extracted_at_utc": "2026-03-07T09:50:49Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -788,7 +788,7 @@
     "proton": {
       "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T18:32:21Z",
+      "extracted_at_utc": "2026-03-07T18:56:42Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1087,7 +1087,7 @@
     "wix": {
       "hash": "c1178ef30a393d66",
       "source_url": "https://support.wix.com/en/article/canceling-a-premium-plan",
-      "extracted_at_utc": "2026-03-07T18:32:41Z",
+      "extracted_at_utc": "2026-03-07T18:56:54Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1236,7 +1236,7 @@
     "ea_play": {
       "hash": "d81195367d990e8c",
       "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-      "extracted_at_utc": "2026-03-07T18:33:36Z",
+      "extracted_at_utc": "2026-03-07T18:57:37Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1325,7 +1325,7 @@
     "nfl_plus": {
       "hash": "d5cbd5db7a1b0c26",
       "source_url": "https://www.nfl.com/legal/subscriptions_terms",
-      "extracted_at_utc": "2026-03-07T18:33:40Z",
+      "extracted_at_utc": "2026-03-07T18:57:44Z",
       "tokens": [
         "risk:chargeback_or_dispute"
       ],
@@ -1410,9 +1410,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "reddit_premium": {
-      "hash": "e1cff4bb803073eb",
+      "hash": "bf0cb87af4daaa53",
       "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
-      "extracted_at_utc": "2026-03-07T18:33:52Z",
+      "extracted_at_utc": "2026-03-07T09:52:16Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "zendesk_article_json",
@@ -1424,7 +1424,7 @@
         "source_updated_at_utc": "2026-02-04T12:41:50Z",
         "source_edited_at_utc": "2025-07-15T23:31:20Z"
       },
-      "metadata_signature": "24f777024215263f"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "discovery_plus": {
       "hash": "98ce026a824195b3",
@@ -1533,9 +1533,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "espn_plus": {
-      "hash": "ea52d685a190e944",
+      "hash": "aa7adcbbc973a91c",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T18:29:01Z",
+      "extracted_at_utc": "2026-03-07T18:55:07Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1550,9 +1550,9 @@
       "metadata_signature": "c17cbbfb2657430a"
     },
     "google_one": {
-      "hash": "d23940a24c68c03f",
+      "hash": "47fe303a75ca7032",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T18:29:44Z",
+      "extracted_at_utc": "2026-03-07T09:50:06Z",
       "tokens": [
         "cancel:anytime"
       ],
@@ -1586,9 +1586,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "peacock": {
-      "hash": "1ee376168c2f131d",
+      "hash": "e62155cc0df13024",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-03-07T09:50:55Z",
+      "extracted_at_utc": "2026-03-07T18:56:41Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1600,7 +1600,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "ea7c709252c84b20"
     },
     "evernote": {
       "hash": "5fb98c6ad4e6367d",
@@ -1693,9 +1693,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "patreon": {
-      "hash": "82837f17e72715f7",
+      "hash": "658852cb63b73f34",
       "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-      "extracted_at_utc": "2026-03-07T18:33:35Z",
+      "extracted_at_utc": "2026-03-07T09:51:58Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1731,7 +1731,7 @@
     "dropbox_us": {
       "hash": "0adfdc179206e059",
       "source_url": "https://help.dropbox.com/plans/cancel-plan",
-      "extracted_at_utc": "2026-03-07T18:29:24Z",
+      "extracted_at_utc": "2026-03-07T18:55:30Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1746,9 +1746,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "audible": {
-      "hash": "ae6189ba3a1e2a4b",
+      "hash": "71449a1774bcba91",
       "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-03-07T18:27:37Z",
+      "extracted_at_utc": "2026-03-07T18:54:06Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1763,9 +1763,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "paramount_plus": {
-      "hash": "34b4e80a00321e5b",
+      "hash": "4054bbfcba366fe0",
       "source_url": "https://www.paramountplus.com/legal/subscriber/",
-      "extracted_at_utc": "2026-03-07T18:32:19Z",
+      "extracted_at_utc": "2026-03-07T18:56:40Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1819,9 +1819,9 @@
       "metadata_signature": "719fe1ff7adacc68"
     },
     "canva": {
-      "hash": "69d172f6c0185ed3",
+      "hash": "f4ee79fa354ee525",
       "source_url": "https://www.canva.com/policies/terms-of-use-2022-12-05/",
-      "extracted_at_utc": "2026-03-07T12:32:30Z",
+      "extracted_at_utc": "2026-03-07T18:54:10Z",
       "tokens": [
         "billing:prorated"
       ],

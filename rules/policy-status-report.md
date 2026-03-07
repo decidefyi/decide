@@ -1,8 +1,8 @@
 # Policy Status Report
 
-Generated UTC: 2026-03-07T18:46:21Z
+Generated UTC: 2026-03-07T19:09:42Z
 Rows: 400
-Status totals: unchanged=394, pending_confirmation=4, quality_gate_held=1, fetch_failed=1
+Status totals: unchanged=396, pending_confirmation=3, quality_gate_held=1
 
 ## refund (100 vendors)
 - 1password: unchanged. no material policy update observed. Source: https://support.1password.com/refund-policy/
@@ -31,7 +31,7 @@ Status totals: unchanged=394, pending_confirmation=4, quality_gate_held=1, fetch
 - disney_plus: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 6/3). Source: https://www.disneyplus.com/legal/subscriber-agreement
 - doordash_dashpass: unchanged. no material policy update observed. Source: https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription
 - dropbox_us: unchanged. no material policy update observed. Source: https://www.dropbox.com/terms
-- duolingo: quality_gate_held. quality gate held. Source: https://www.duolingo.com/help/how-do-I-request-a-refund
+- duolingo: unchanged. no material policy update observed. Source: https://www.duolingo.com/help/how-do-I-request-a-refund
 - ea_play: unchanged. no material policy update observed. Source: https://www.ea.com/legal/user-agreement
 - espn_plus: unchanged. no material policy update observed. Source: https://www.espn.com/espnplus/
 - evernote: unchanged. no material policy update observed. Source: https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy
@@ -53,7 +53,7 @@ Status totals: unchanged=394, pending_confirmation=4, quality_gate_held=1, fetch
 - kindle_unlimited: unchanged. no material policy update observed. Source: https://www.amazon.com/kindle-dbs/hz/subscribe/ku
 - lastpass: unchanged. no material policy update observed. Source: https://www.lastpass.com/legal-center/terms-of-service
 - linkedin_premium: unchanged. no material policy update observed. Source: https://www.linkedin.com/legal/l/refund-policy
-- masterclass: fetch_failed. https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g [browser_hook] (interstitial:just_a_moment); https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g [direct] (HTTP 403); https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g [mirror] (timeout); https://www.masterclass.com/legal/terms [browser_hook] (interstitial:just_a_moment); https://www.masterclass.com/legal/terms [direct] (HTTP 403); https://www.masterclass.com/legal/terms [mirror] (interstitial:just_a_moment); https://www.masterclass.com/ [browser_hook] (interstitial:just_a_moment); https://www.masterclass.com/ [direct] (HTTP 403); https://www.masterclass.com/ [mirror] (interstitial:just_a_moment). Source: https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g
+- masterclass: unchanged. no material policy update observed. Source: https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g
 - max: unchanged. no material policy update observed. Source: https://help.hbomax.com/US/Answer/Detail/000002522
 - microsoft_365: unchanged. no material policy update observed. Source: https://support.microsoft.com/en-us/account-billing/returning-items-you-bought-from-microsoft-for-exchange-or-refund-81629012-aa4f-f48b-2394-8596f415072b
 - midjourney: unchanged. no material policy update observed. Source: https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund
@@ -133,7 +133,7 @@ Status totals: unchanged=394, pending_confirmation=4, quality_gate_held=1, fetch
 - disney_plus: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 5/3). Source: https://help.disneyplus.com/article/disneyplus-cancel-subscription
 - doordash_dashpass: unchanged. no material policy update observed. Source: https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription
 - dropbox_us: unchanged. no material policy update observed. Source: https://help.dropbox.com/plans/cancel-plan
-- duolingo: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 2/3). Source: https://support.duolingo.com/hc/en-us/articles/360030236551-How-do-I-cancel-my-Super-Duolingo-subscription
+- duolingo: quality_gate_held. quality gate held. Source: https://support.duolingo.com/hc/en-us/articles/360030236551-How-do-I-cancel-my-Super-Duolingo-subscription
 - ea_play: unchanged. no material policy update observed. Source: https://help.ea.com/en/help/account/manage-your-ea-play-membership/
 - espn_plus: unchanged. no material policy update observed. Source: https://www.espn.com/espnplus/
 - evernote: unchanged. no material policy update observed. Source: https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy
