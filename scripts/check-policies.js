@@ -2736,6 +2736,12 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             }
             candidate.change_key = majorityChangeKey;
             candidate.metadata_signature = String(candidate.profile?.metadata_signature || candidate.metadata_signature || "");
+            candidate.signal_window_hash_decision = majorityChangeKey;
+            candidate.signal_window_change_decision = majorityChangeKey;
+            candidate.signal_window_top_hash_votes = Number(majorityDecision.winnerVotes || candidate.signal_window_top_hash_votes || 0);
+            candidate.signal_window_required_votes = Number(
+              majorityDecision.requiredVotes || candidate.signal_window_required_votes || getCrossRunWindowRequired()
+            );
             const parsedConfirmRuns = Number(
               candidate.metadata_confirm_runs_required ||
               candidate.actual_confirm_runs_required ||
