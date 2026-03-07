@@ -1,23 +1,22 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-03-07T12:51:32Z",
+  "updated_utc": "2026-03-07T18:46:21Z",
   "current_week": "2026-W10",
   "weeks": [
     {
       "week_key": "2026-W10",
-      "generated_at_utc": "2026-03-07T12:51:32Z",
-      "pending_total": 7,
+      "generated_at_utc": "2026-03-07T18:46:21Z",
+      "pending_total": 6,
       "fetch_blocked_total": 0,
-      "fetch_failed_total": 0,
+      "fetch_failed_total": 1,
       "confirmed_changed_total": 0,
       "volatile_pending_total": 0,
       "escalation_candidate_total": 0,
       "fallback_signal_actionable_total": 0,
       "pending_by_policy": {
-        "refund": 2,
-        "cancel": 3,
-        "return": 1,
-        "trial": 1
+        "refund": 3,
+        "cancel": 2,
+        "return": 1
       },
       "fetch_blocked_by_policy": {},
       "confirmed_changed_by_policy": {}

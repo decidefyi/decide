@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T12:40:02Z",
+  "updated_utc": "2026-03-07T18:35:33Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -21,9 +21,9 @@
       "metadata_signature": "59780a5d3fff9de5"
     },
     "1password": {
-      "hash": "b861e7b433e09551",
+      "hash": "229f4e9a9a5cc299",
       "source_url": "https://support.1password.com/cancel-subscription/",
-      "extracted_at_utc": "2026-03-07T12:31:02Z",
+      "extracted_at_utc": "2026-03-07T09:47:03Z",
       "tokens": [
         "flow:support_request"
       ],
@@ -97,7 +97,7 @@
     "amazon_prime": {
       "hash": "6bb8825a65099707",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-03-07T06:32:16Z",
+      "extracted_at_utc": "2026-03-07T09:47:55Z",
       "tokens": [
         "billing:auto_renew",
         "billing:prorated",
@@ -271,9 +271,9 @@
       "metadata_signature": "5ecc5d0b35ff86b5"
     },
     "coursera_plus": {
-      "hash": "521bd36692972707",
+      "hash": "97016f070a6e9a2d",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T12:32:36Z",
+      "extracted_at_utc": "2026-03-07T18:28:17Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -341,9 +341,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "doordash_dashpass": {
-      "hash": "a81fe32c48274eb2",
+      "hash": "f37ddf767aadd3db",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T12:32:42Z",
+      "extracted_at_utc": "2026-03-07T18:28:23Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -507,9 +507,9 @@
       "metadata_signature": "780e23151094d75b"
     },
     "hellofresh": {
-      "hash": "0c7f027e6173ed7c",
+      "hash": "e127548b324aceac",
       "source_url": "https://www.hellofresh.com/about/faq",
-      "extracted_at_utc": "2026-03-07T12:35:32Z",
+      "extracted_at_utc": "2026-03-07T09:50:09Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -651,7 +651,7 @@
     "midjourney": {
       "hash": "05a4746cf3c4be3c",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-03-07T12:35:39Z",
+      "extracted_at_utc": "2026-03-07T18:31:09Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -786,9 +786,9 @@
       "metadata_signature": "b017e31ec9bfb2a9"
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T09:50:59Z",
+      "extracted_at_utc": "2026-03-07T18:32:21Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1087,7 +1087,7 @@
     "wix": {
       "hash": "c1178ef30a393d66",
       "source_url": "https://support.wix.com/en/article/canceling-a-premium-plan",
-      "extracted_at_utc": "2026-03-07T12:37:08Z",
+      "extracted_at_utc": "2026-03-07T18:32:41Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1234,9 +1234,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "ea_play": {
-      "hash": "f6b3dcd7e9381130",
+      "hash": "d81195367d990e8c",
       "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-      "extracted_at_utc": "2026-03-07T09:51:59Z",
+      "extracted_at_utc": "2026-03-07T18:33:36Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1325,7 +1325,7 @@
     "nfl_plus": {
       "hash": "d5cbd5db7a1b0c26",
       "source_url": "https://www.nfl.com/legal/subscriptions_terms",
-      "extracted_at_utc": "2026-03-07T12:38:09Z",
+      "extracted_at_utc": "2026-03-07T18:33:40Z",
       "tokens": [
         "risk:chargeback_or_dispute"
       ],
@@ -1342,9 +1342,9 @@
       "metadata_signature": "4633d3d448dfdb5e"
     },
     "wall_street_journal": {
-      "hash": "636fd9a26e87ec2a",
+      "hash": "8bcaca7bd2756902",
       "source_url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
-      "extracted_at_utc": "2026-03-07T12:38:13Z",
+      "extracted_at_utc": "2026-03-07T09:52:14Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1356,7 +1356,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "ea7c709252c84b20"
     },
     "washington_post": {
       "hash": "facbda2fc8418cb4",
@@ -1410,9 +1410,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "reddit_premium": {
-      "hash": "bf0cb87af4daaa53",
+      "hash": "e1cff4bb803073eb",
       "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
-      "extracted_at_utc": "2026-03-07T09:52:16Z",
+      "extracted_at_utc": "2026-03-07T18:33:52Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "zendesk_article_json",
@@ -1424,7 +1424,7 @@
         "source_updated_at_utc": "2026-02-04T12:41:50Z",
         "source_edited_at_utc": "2025-07-15T23:31:20Z"
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "24f777024215263f"
     },
     "discovery_plus": {
       "hash": "98ce026a824195b3",
@@ -1533,9 +1533,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "espn_plus": {
-      "hash": "464fce512c92d1fa",
+      "hash": "ea52d685a190e944",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T12:33:21Z",
+      "extracted_at_utc": "2026-03-07T18:29:01Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1550,9 +1550,9 @@
       "metadata_signature": "c17cbbfb2657430a"
     },
     "google_one": {
-      "hash": "e9a1e24fd931c011",
+      "hash": "d23940a24c68c03f",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T12:34:03Z",
+      "extracted_at_utc": "2026-03-07T18:29:44Z",
       "tokens": [
         "cancel:anytime"
       ],
@@ -1695,7 +1695,7 @@
     "patreon": {
       "hash": "82837f17e72715f7",
       "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-      "extracted_at_utc": "2026-03-07T12:38:02Z",
+      "extracted_at_utc": "2026-03-07T18:33:35Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1731,10 +1731,10 @@
     "dropbox_us": {
       "hash": "0adfdc179206e059",
       "source_url": "https://help.dropbox.com/plans/cancel-plan",
-      "extracted_at_utc": "2026-03-07T12:33:23Z",
+      "extracted_at_utc": "2026-03-07T18:29:24Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "browser_hook",
+        "source_kind": "html",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1743,12 +1743,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "ea7c709252c84b20"
     },
     "audible": {
-      "hash": "5df24ac7f4beb8a7",
+      "hash": "ae6189ba3a1e2a4b",
       "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-03-07T12:32:02Z",
+      "extracted_at_utc": "2026-03-07T18:27:37Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1763,9 +1763,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "paramount_plus": {
-      "hash": "9c11cbac8a95f585",
+      "hash": "34b4e80a00321e5b",
       "source_url": "https://www.paramountplus.com/legal/subscriber/",
-      "extracted_at_utc": "2026-03-07T12:36:49Z",
+      "extracted_at_utc": "2026-03-07T18:32:19Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
