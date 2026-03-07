@@ -827,6 +827,19 @@ function assessFetchQuality({ rawText, normalizedText, policyType }) {
   };
 }
 
+function scoreFetchQuality(quality) {
+  const normalizedLength = Number(quality?.normalizedLength || 0);
+  const lineCount = Number(quality?.lineCount || 0);
+  const policyKeywordHits = Number(quality?.policyKeywordHits || 0);
+  const reason = String(quality?.reason || "");
+  let score = policyKeywordHits * 100000 + lineCount * 1000 + normalizedLength;
+  if (reason.includes("interstitial:")) score -= 10000000;
+  if (reason.includes("weak_policy_terms:")) score -= 10000;
+  if (reason.includes("short_lines:")) score -= 5000;
+  if (reason.includes("short_text:")) score -= 5000;
+  return score;
+}
+
 function normalizePageMetadata(input = {}) {
   const source = input && typeof input === "object" ? input : {};
   return {
@@ -1895,6 +1908,7 @@ async function fetchWithFallback(vendorConfig, context = {}) {
   const failures = [];
   const attemptedLanes = [];
   const attemptedLaneSet = new Set();
+  let bestLowQualityResult = null;
   for (const candidateUrl of candidates) {
     for (const lane of lanes) {
       if (!attemptedLaneSet.has(lane)) {
@@ -1906,16 +1920,54 @@ async function fetchWithFallback(vendorConfig, context = {}) {
         continue;
       }
       if (laneResult?.ok && typeof laneResult.text === "string" && laneResult.text.trim()) {
-        return {
+        const normalized = normalizeFetchedText(
+          laneResult.text,
+          context?.policyType || "default",
+          context?.vendor || ""
+        );
+        const quality = assessFetchQuality({
+          rawText: laneResult.text,
+          normalizedText: normalized,
+          policyType: context?.policyType || "default",
+        });
+        if (quality.passed) {
+          return {
+            text: laneResult.text,
+            sourceUrl: laneResult.sourceUrl || candidateUrl,
+            sourceMetadata: laneResult.sourceMetadata || {},
+            fetchLane: lane,
+            attemptedLanes,
+          };
+        }
+
+        const candidateLowQuality = {
           text: laneResult.text,
           sourceUrl: laneResult.sourceUrl || candidateUrl,
           sourceMetadata: laneResult.sourceMetadata || {},
           fetchLane: lane,
-          attemptedLanes,
+          quality,
         };
+        if (
+          !bestLowQualityResult ||
+          scoreFetchQuality(candidateLowQuality.quality) > scoreFetchQuality(bestLowQualityResult.quality)
+        ) {
+          bestLowQualityResult = candidateLowQuality;
+        }
+        failures.push(`${candidateUrl} [${lane}] (low_quality:${quality.reason || "unknown"})`);
+        continue;
       }
       failures.push(`${candidateUrl} [${lane}] (${laneResult?.error || "request failed"})`);
     }
+  }
+
+  if (bestLowQualityResult) {
+    return {
+      text: bestLowQualityResult.text,
+      sourceUrl: bestLowQualityResult.sourceUrl,
+      sourceMetadata: bestLowQualityResult.sourceMetadata,
+      fetchLane: bestLowQualityResult.fetchLane,
+      attemptedLanes,
+    };
   }
 
   return {
@@ -2663,11 +2715,17 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             candidate.last_seen_utc = fetchedAtUtc;
             if (sourceUrl) candidate.source_url = sourceUrl;
             candidate.run_confirmations = previousCandidateHash === majorityDecision.hash
-              ? Number(candidate.run_confirmations || 1)
+              ? Math.max(
+                Number(candidate.run_confirmations || 1),
+                Number(majorityDecision.winnerVotes || 1)
+              )
               : 1;
             candidate.semantic_signature = majoritySemanticSignature;
             candidate.semantic_run_confirmations = previousCandidateHash === majorityDecision.hash
-              ? Number(candidate.semantic_run_confirmations || 1)
+              ? Math.max(
+                Number(candidate.semantic_run_confirmations || 1),
+                Number(majorityDecision.winnerVotes || 1)
+              )
               : 1;
             if (
               previousCandidateHash !== majorityDecision.hash &&
@@ -2678,6 +2736,41 @@ async function checkPolicySet({ name, sourcesPath, hashesPath, candidatesPath, c
             }
             candidate.change_key = majorityChangeKey;
             candidate.metadata_signature = String(candidate.profile?.metadata_signature || candidate.metadata_signature || "");
+            const parsedConfirmRuns = Number(
+              candidate.metadata_confirm_runs_required ||
+              candidate.actual_confirm_runs_required ||
+              getActualConfirmRunsForVendor(metadata.vendorConfig, vendor)
+            );
+            const metadataConfirmRunsRequired = Number.isFinite(parsedConfirmRuns)
+              ? Math.max(1, Math.floor(parsedConfirmRuns))
+              : getActualConfirmRunsForVendor(metadata.vendorConfig, vendor);
+            const hasSemanticEvidence = Boolean(candidate.semantic_signature);
+            const semanticConfirmReady =
+              !hasSemanticEvidence || Number(candidate.semantic_run_confirmations || 0) >= metadataConfirmRunsRequired;
+            const signalWindowDecision = getCandidateSignalWindowDecision(candidate);
+            const signalWindowConfirmed =
+              Boolean(signalWindowDecision) &&
+              Boolean(candidate.change_key) &&
+              signalWindowDecision === candidate.change_key;
+            if (
+              Number(candidate.run_confirmations || 0) >= metadataConfirmRunsRequired &&
+              semanticConfirmReady &&
+              signalWindowConfirmed
+            ) {
+              registerConfirmedChange({
+                vendor,
+                sourceUrl: sourceUrl || candidate.source_url || metadata.sourceUrl || "",
+                confirmedHash: candidate.hash,
+                confirmedProfile: candidate.profile || semanticProfile,
+                confirmedAtUtc: fetchedAtUtc,
+              });
+              newHashes[vendor] = candidate.hash;
+              delete newCandidates[vendor];
+              pendingSet.delete(vendor);
+              recheckConfirmedSet.add(vendor);
+              crossRunWindowConfirmedSet.add(vendor);
+              return;
+            }
             newCandidates[vendor] = candidate;
             return;
           }
