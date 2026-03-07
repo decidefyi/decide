@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T00:15:48Z",
+  "updated_utc": "2026-03-07T01:03:27Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -284,9 +284,9 @@
       "metadata_signature": ""
     },
     "coursera_plus": {
-      "hash": "d00d582ca914abc6",
+      "hash": "2325e0d697da006c",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T00:11:52Z",
+      "extracted_at_utc": "2026-03-07T01:00:29Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -346,9 +346,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "31140122f745fab8",
+      "hash": "7b748094dca353b6",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T00:12:01Z",
+      "extracted_at_utc": "2026-03-07T01:00:35Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -769,9 +769,9 @@
       "metadata_signature": ""
     },
     "paramount_plus": {
-      "hash": "2b5d67091de6fb84",
+      "hash": "770c5e076691a68b",
       "source_url": "https://help.paramountplus.com/s/article/PD-What-s-the-refund-policy-for-Paramount",
-      "extracted_at_utc": "2026-03-07T00:13:26Z",
+      "extracted_at_utc": "2026-03-07T01:01:31Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -830,9 +830,9 @@
       "metadata_signature": ""
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "7eee55087667d851",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-06T23:14:55Z",
+      "extracted_at_utc": "2026-03-07T01:01:32Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1127,12 +1127,15 @@
       "metadata_signature": ""
     },
     "xbox_game_pass": {
-      "hash": "b2b64b0a1fb05d56",
+      "hash": "000c3cabe65092a5",
       "source_url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
-      "extracted_at_utc": "2026-02-21T01:08:25Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-03-07T01:01:46Z",
+      "tokens": [
+        "billing:prorated",
+        "refund:partial_allowed"
+      ],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "html",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1141,7 +1144,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "ea7c709252c84b20"
     },
     "wix": {
       "hash": "a30d3e0398b157fd",
@@ -1359,9 +1362,9 @@
       "metadata_signature": "08091bf7dc0366df"
     },
     "ubisoft_plus": {
-      "hash": "12dc3738d7667345",
+      "hash": "5d2d195c20dff859",
       "source_url": "https://legal.ubi.com/termsofuse/en-US",
-      "extracted_at_utc": "2026-03-07T00:14:01Z",
+      "extracted_at_utc": "2026-03-07T01:01:52Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
@@ -1457,9 +1460,9 @@
       "metadata_signature": ""
     },
     "wall_street_journal": {
-      "hash": "636fd9a26e87ec2a",
+      "hash": "8bcaca7bd2756902",
       "source_url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
-      "extracted_at_utc": "2026-03-06T23:15:29Z",
+      "extracted_at_utc": "2026-03-07T01:01:56Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1756,12 +1759,12 @@
       "metadata_signature": ""
     },
     "hellofresh": {
-      "hash": "d0fe4030fbecd2c7",
+      "hash": "bae5a92fab84cca8",
       "source_url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "extracted_at_utc": "2026-02-28T06:25:48Z",
+      "extracted_at_utc": "2026-03-07T01:01:14Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "zendesk_section_json",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1770,7 +1773,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "1cdb7d92371a93aa"
     },
     "washington_post": {
       "hash": "facbda2fc8418cb4",
@@ -1790,9 +1793,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "819c5f95fc21fc94",
+      "hash": "682d27b82f8fb9dc",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T00:12:32Z",
+      "extracted_at_utc": "2026-03-07T01:01:08Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

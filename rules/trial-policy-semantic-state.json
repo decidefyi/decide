@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T00:35:54Z",
+  "updated_utc": "2026-03-07T01:19:06Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -194,9 +194,9 @@
       "metadata_signature": ""
     },
     "calm": {
-      "hash": "93c363214132f735",
+      "hash": "ce3c121983b80da8",
       "source_url": "https://www.calm.com/subscribe",
-      "extracted_at_utc": "2026-03-06T22:56:13Z",
+      "extracted_at_utc": "2026-03-07T01:16:30Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -211,9 +211,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "claude_pro": {
-      "hash": "3088ee651923ab6e",
+      "hash": "e902c12a4dda712a",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-03-07T00:31:32Z",
+      "extracted_at_utc": "2026-03-07T01:16:33Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -228,9 +228,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "chatgpt_plus": {
-      "hash": "33c7ab3c7d8c5fc3",
+      "hash": "76864cd3b5d2dc98",
       "source_url": "https://openai.com/chatgpt/pricing/",
-      "extracted_at_utc": "2026-03-07T00:31:38Z",
+      "extracted_at_utc": "2026-03-07T01:16:35Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -320,9 +320,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "disney_plus": {
-      "hash": "a938ab1b7e750940",
+      "hash": "a27a41655966a0cb",
       "source_url": "https://www.disneyplus.com/",
-      "extracted_at_utc": "2026-03-06T23:50:13Z",
+      "extracted_at_utc": "2026-03-07T01:16:36Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -337,9 +337,9 @@
       "metadata_signature": "28e2bf140f62715d"
     },
     "doordash_dashpass": {
-      "hash": "82ca37df97136507",
+      "hash": "2b66a8c7bb486c98",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T00:31:47Z",
+      "extracted_at_utc": "2026-03-07T01:16:41Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -553,9 +553,9 @@
       "metadata_signature": "d325f190679ffa56"
     },
     "hellofresh": {
-      "hash": "b88c5deb805c6cfc",
+      "hash": "a3a12335cd2da496",
       "source_url": "https://www.hellofresh.com/plans",
-      "extracted_at_utc": "2026-03-07T00:32:13Z",
+      "extracted_at_utc": "2026-03-07T01:16:50Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -676,12 +676,12 @@
       "metadata_signature": "f7332c93b830efc3"
     },
     "masterclass": {
-      "hash": "31e9c6990d098854",
+      "hash": "e6d641115730b63f",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-03-07T00:32:23Z",
+      "extracted_at_utc": "2026-03-07T01:17:00Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "browser_hook",
+        "source_kind": "html",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -690,7 +690,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "ea7c709252c84b20"
     },
     "microsoft_365": {
       "hash": "9871730e5db07f70",
@@ -782,12 +782,12 @@
       "metadata_signature": ""
     },
     "paramount_plus": {
-      "hash": "f5ae7288ed0f719e",
+      "hash": "4054bbfcba366fe0",
       "source_url": "https://www.paramountplus.com/",
-      "extracted_at_utc": "2026-02-28T06:39:15Z",
+      "extracted_at_utc": "2026-03-07T01:17:07Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "html",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -796,7 +796,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "ea7c709252c84b20"
     },
     "notion": {
       "hash": "09255b785f7fc90b",
@@ -1367,9 +1367,9 @@
       "metadata_signature": ""
     },
     "nfl_plus": {
-      "hash": "4f949de9e96e774d",
+      "hash": "e63f27969e82d40e",
       "source_url": "https://www.nfl.com/plus/",
-      "extracted_at_utc": "2026-03-07T00:34:37Z",
+      "extracted_at_utc": "2026-03-07T01:17:57Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1687,9 +1687,9 @@
       "metadata_signature": ""
     },
     "espn_plus": {
-      "hash": "2070bc092f350e8b",
+      "hash": "6655138a815e4c5d",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T00:31:49Z",
+      "extracted_at_utc": "2026-03-07T01:16:42Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

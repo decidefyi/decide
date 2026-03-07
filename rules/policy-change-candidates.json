@@ -1,7 +1,7 @@
 {
   "disney_plus": {
     "hash": "cbf60316eea65420",
-    "count": 7,
+    "count": 8,
     "flip_count": 0,
     "fetch_failure_streak": 0,
     "fetch_blocked": false,
@@ -19,16 +19,16 @@
     "metadata_signature": "e18c5ea37454df39",
     "previous_metadata_signature": "",
     "metadata_signal_stable": false,
-    "last_run_observed_utc": "2026-03-07T00:12:30Z",
+    "last_run_observed_utc": "2026-03-07T01:01:07Z",
     "source_url": "https://help.disneyplus.com/article/disneyplus-refund",
     "pending_since_utc": "2026-03-06T20:18:15Z",
     "first_seen_utc": "2026-03-06T20:18:15Z",
-    "last_seen_utc": "2026-03-07T00:12:30Z",
+    "last_seen_utc": "2026-03-07T01:01:07Z",
     "baseline_observations": 0,
     "profile": {
       "hash": "cbf60316eea65420",
       "source_url": "https://help.disneyplus.com/article/disneyplus-refund",
-      "extracted_at_utc": "2026-03-07T00:12:30Z",
+      "extracted_at_utc": "2026-03-07T01:01:07Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -43,25 +43,25 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "quality_gate_passes": 0,
-    "quality_gate_failures": 21,
+    "quality_gate_failures": 24,
     "quality_gate_last_reason": "interstitial:empty&short_text:0<140&short_lines:0<5&weak_policy_terms:0<1",
-    "quality_gate_last_observed_utc": "2026-03-07T00:15:46Z",
+    "quality_gate_last_observed_utc": "2026-03-07T01:03:27Z",
     "quality_gate_policy_hits": 0,
     "quality_gate_lines": 0,
     "quality_gate_chars": 0,
     "pending_model_id": "signal-v2",
-    "pending_model_first_observed_utc": "2026-03-07T00:12:30Z"
+    "pending_model_first_observed_utc": "2026-03-07T01:01:07Z"
   },
-  "xbox_game_pass": {
-    "hash": "000c3cabe65092a5",
+  "duolingo": {
+    "hash": "1d5e6bae62035367",
     "count": 3,
     "flip_count": 0,
     "fetch_failure_streak": 0,
     "fetch_blocked": false,
     "run_confirmations": 3,
     "semantic_run_confirmations": 3,
-    "semantic_signature": "billing:prorated|refund:partial_allowed",
-    "change_key": "billing:prorated|refund:partial_allowed",
+    "semantic_signature": "restriction:no_refund_or_final_sale",
+    "change_key": "restriction:no_refund_or_final_sale",
     "signal_window_hash_decision": "",
     "signal_window_change_decision": "",
     "signal_window_required_votes": 2,
@@ -72,19 +72,18 @@
     "metadata_signature": "ea7c709252c84b20",
     "previous_metadata_signature": "",
     "metadata_signal_stable": false,
-    "last_run_observed_utc": "2026-03-07T00:13:41Z",
-    "source_url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
-    "pending_since_utc": "2026-03-07T00:13:41Z",
-    "first_seen_utc": "2026-03-07T00:13:41Z",
-    "last_seen_utc": "2026-03-07T00:15:09Z",
+    "last_run_observed_utc": "2026-03-07T01:01:08Z",
+    "source_url": "https://www.duolingo.com/help/how-do-I-request-a-refund",
+    "pending_since_utc": "2026-03-07T01:01:08Z",
+    "first_seen_utc": "2026-03-07T01:01:08Z",
+    "last_seen_utc": "2026-03-07T01:02:50Z",
     "baseline_observations": 0,
     "profile": {
-      "hash": "000c3cabe65092a5",
-      "source_url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
-      "extracted_at_utc": "2026-03-07T00:15:09Z",
+      "hash": "1d5e6bae62035367",
+      "source_url": "https://www.duolingo.com/help/how-do-I-request-a-refund",
+      "extracted_at_utc": "2026-03-07T01:02:50Z",
       "tokens": [
-        "billing:prorated",
-        "refund:partial_allowed"
+        "restriction:no_refund_or_final_sale"
       ],
       "page_metadata": {
         "source_kind": "html",
@@ -101,11 +100,11 @@
     "quality_gate_passes": 3,
     "quality_gate_failures": 0,
     "quality_gate_last_reason": "",
-    "quality_gate_last_observed_utc": "2026-03-07T00:15:09Z",
-    "quality_gate_policy_hits": 9,
-    "quality_gate_lines": 45,
-    "quality_gate_chars": 2268,
+    "quality_gate_last_observed_utc": "2026-03-07T01:02:50Z",
+    "quality_gate_policy_hits": 2,
+    "quality_gate_lines": 10,
+    "quality_gate_chars": 964,
     "pending_model_id": "signal-v2",
-    "pending_model_first_observed_utc": "2026-03-07T00:13:41Z"
+    "pending_model_first_observed_utc": "2026-03-07T01:01:08Z"
   }
 }

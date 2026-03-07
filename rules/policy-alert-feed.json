@@ -1,8 +1,50 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-03-07T00:35:54Z",
+  "updated_utc": "2026-03-07T01:19:06Z",
   "source": "check-policies.js",
   "alerts": [
+    {
+      "date_utc": "2026-03-07",
+      "generated_at_utc": "2026-03-07T01:19:06Z",
+      "changed_count": 7,
+      "by_policy": {
+        "cancel": 3,
+        "refund": 1,
+        "return": 3,
+        "trial": 0
+      },
+      "changed_sample": [
+        "refund:xbox_game_pass",
+        "cancel:xbox_game_pass",
+        "cancel:mlb_tv",
+        "cancel:tinder",
+        "return:duolingo",
+        "return:xbox_game_pass",
+        "return:weightwatchers"
+      ],
+      "pending_count": 12,
+      "pending_by_policy": {
+        "cancel": 7,
+        "refund": 2,
+        "return": 1,
+        "trial": 2
+      },
+      "fetch_blocked_pending_count": 0,
+      "stale_pending_count": 4,
+      "volatile_pending_count": 4,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "quality_gate_held_count": 11,
+      "metadata_stability_held_count": 0,
+      "material_oscillation_suppressed_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22788362811",
+      "run_id": "22788362811",
+      "run_attempt": "1",
+      "commit_sha": "580bb14a6d490fcaec5cd89fbb3c0e40ca5a3101",
+      "source": "check-policies.js",
+      "by_policy_signature": "cancel:3,refund:1,return:3,trial:0",
+      "alert_signature": "67a82d31bc3c1b66"
+    },
     {
       "date_utc": "2026-03-07",
       "generated_at_utc": "2026-03-07T00:35:54Z",
