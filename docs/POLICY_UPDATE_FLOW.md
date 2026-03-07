@@ -22,7 +22,10 @@ Reduce commit noise on `main` while keeping refresh behavior deterministic.
    - `rules/*-policy-sources.json`
    - `rules/*-coverage-state.json`
    - `rules/*-semantic-state.json`
+   - `rules/*-policy-daily-fingerprints.json`
+   - `rules/*-policy-blocked-retry-queue.json`
    - `rules/policy-alert-feed.json`
+   - `rules/policy-alert-review-feed.json`
 4. Merge PR after validation.
 
 ## Emergency/manual flow

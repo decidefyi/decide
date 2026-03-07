@@ -57,6 +57,14 @@ jobs:
             rules/cancel-policy-confirmed-baseline.json
             rules/return-policy-confirmed-baseline.json
             rules/trial-policy-confirmed-baseline.json
+            rules/policy-daily-fingerprints.json
+            rules/cancel-policy-daily-fingerprints.json
+            rules/return-policy-daily-fingerprints.json
+            rules/trial-policy-daily-fingerprints.json
+            rules/policy-blocked-retry-queue.json
+            rules/cancel-policy-blocked-retry-queue.json
+            rules/return-policy-blocked-retry-queue.json
+            rules/trial-policy-blocked-retry-queue.json
             rules/policy-events.ndjson
             rules/policy-status-report.json
             rules/policy-status-report.md
@@ -161,6 +169,20 @@ jobs:
           tier1_failed_sample=$(extract_output_value "TIER1_FAILED_SAMPLE")
           tier1_missing_configured_count=$(extract_output_value "TIER1_MISSING_CONFIGURED_COUNT" | tr -d '[:space:]')
           tier1_missing_configured_sample=$(extract_output_value "TIER1_MISSING_CONFIGURED_SAMPLE")
+          unique_vendor_total=$(extract_output_value "UNIQUE_VENDOR_TOTAL" | tr -d '[:space:]')
+          unique_vendor_fetched=$(extract_output_value "UNIQUE_VENDOR_FETCHED" | tr -d '[:space:]')
+          unique_vendor_failed=$(extract_output_value "UNIQUE_VENDOR_FAILED" | tr -d '[:space:]')
+          unique_vendor_coverage_pct=$(extract_output_value "UNIQUE_VENDOR_COVERAGE_PCT")
+          provisional_count=$(extract_output_value "PROVISIONAL_COUNT" | tr -d '[:space:]')
+          provisional_by_policy=$(extract_output_value "PROVISIONAL_BY_POLICY")
+          provisional_sample=$(extract_output_value "PROVISIONAL_SAMPLE")
+          blocked_retry_queue_count=$(extract_output_value "BLOCKED_RETRY_QUEUE_COUNT" | tr -d '[:space:]')
+          blocked_retry_queue_by_policy=$(extract_output_value "BLOCKED_RETRY_QUEUE_BY_POLICY")
+          blocked_retry_queue_sample=$(extract_output_value "BLOCKED_RETRY_QUEUE_SAMPLE")
+          flaky_source_count=$(extract_output_value "FLAKY_SOURCE_COUNT" | tr -d '[:space:]')
+          flaky_source_by_policy=$(extract_output_value "FLAKY_SOURCE_BY_POLICY")
+          flaky_source_sample=$(extract_output_value "FLAKY_SOURCE_SAMPLE")
+          baseline_comparison_mode=$(extract_output_value "BASELINE_COMPARISON_MODE")
           quality_gate_held_count=$(extract_output_value "QUALITY_GATE_HELD_COUNT" | tr -d '[:space:]')
           quality_gate_held_by_policy=$(extract_output_value "QUALITY_GATE_HELD_BY_POLICY")
           quality_gate_held_sample=$(extract_output_value "QUALITY_GATE_HELD_SAMPLE")
@@ -200,6 +222,14 @@ jobs:
           if [ -z "$tier1_failed" ]; then tier1_failed=0; fi
           if [ -z "$tier1_coverage_pct" ]; then tier1_coverage_pct=0.00; fi
           if [ -z "$tier1_missing_configured_count" ]; then tier1_missing_configured_count=0; fi
+          if [ -z "$unique_vendor_total" ]; then unique_vendor_total=0; fi
+          if [ -z "$unique_vendor_fetched" ]; then unique_vendor_fetched=0; fi
+          if [ -z "$unique_vendor_failed" ]; then unique_vendor_failed=0; fi
+          if [ -z "$unique_vendor_coverage_pct" ]; then unique_vendor_coverage_pct=0.00; fi
+          if [ -z "$provisional_count" ]; then provisional_count=0; fi
+          if [ -z "$blocked_retry_queue_count" ]; then blocked_retry_queue_count=0; fi
+          if [ -z "$flaky_source_count" ]; then flaky_source_count=0; fi
+          if [ -z "$baseline_comparison_mode" ]; then baseline_comparison_mode=unknown; fi
           if [ -z "$quality_gate_held_count" ]; then quality_gate_held_count=0; fi
           if [ -z "$supabase_configured" ]; then supabase_configured=0; fi
           if [ -z "$supabase_sync_enabled" ]; then supabase_sync_enabled=0; fi
@@ -296,6 +326,20 @@ jobs:
           echo "tier1_failed_sample=$tier1_failed_sample" >> "$GITHUB_OUTPUT"
           echo "tier1_missing_configured_count=$tier1_missing_configured_count" >> "$GITHUB_OUTPUT"
           echo "tier1_missing_configured_sample=$tier1_missing_configured_sample" >> "$GITHUB_OUTPUT"
+          echo "unique_vendor_total=$unique_vendor_total" >> "$GITHUB_OUTPUT"
+          echo "unique_vendor_fetched=$unique_vendor_fetched" >> "$GITHUB_OUTPUT"
+          echo "unique_vendor_failed=$unique_vendor_failed" >> "$GITHUB_OUTPUT"
+          echo "unique_vendor_coverage_pct=$unique_vendor_coverage_pct" >> "$GITHUB_OUTPUT"
+          echo "provisional_count=$provisional_count" >> "$GITHUB_OUTPUT"
+          echo "provisional_by_policy=$provisional_by_policy" >> "$GITHUB_OUTPUT"
+          echo "provisional_sample=$provisional_sample" >> "$GITHUB_OUTPUT"
+          echo "blocked_retry_queue_count=$blocked_retry_queue_count" >> "$GITHUB_OUTPUT"
+          echo "blocked_retry_queue_by_policy=$blocked_retry_queue_by_policy" >> "$GITHUB_OUTPUT"
+          echo "blocked_retry_queue_sample=$blocked_retry_queue_sample" >> "$GITHUB_OUTPUT"
+          echo "flaky_source_count=$flaky_source_count" >> "$GITHUB_OUTPUT"
+          echo "flaky_source_by_policy=$flaky_source_by_policy" >> "$GITHUB_OUTPUT"
+          echo "flaky_source_sample=$flaky_source_sample" >> "$GITHUB_OUTPUT"
+          echo "baseline_comparison_mode=$baseline_comparison_mode" >> "$GITHUB_OUTPUT"
           echo "quality_gate_held_count=$quality_gate_held_count" >> "$GITHUB_OUTPUT"
           echo "quality_gate_held_by_policy=$quality_gate_held_by_policy" >> "$GITHUB_OUTPUT"
           echo "quality_gate_held_sample=$quality_gate_held_sample" >> "$GITHUB_OUTPUT"
@@ -334,6 +378,16 @@ jobs:
           TIER1_TOTAL: ${{ steps.check.outputs.tier1_total }}
           TIER1_FETCHED: ${{ steps.check.outputs.tier1_fetched }}
           TIER1_COVERAGE_PCT: ${{ steps.check.outputs.tier1_coverage_pct }}
+          UNIQUE_VENDOR_TOTAL: ${{ steps.check.outputs.unique_vendor_total }}
+          UNIQUE_VENDOR_FETCHED: ${{ steps.check.outputs.unique_vendor_fetched }}
+          UNIQUE_VENDOR_COVERAGE_PCT: ${{ steps.check.outputs.unique_vendor_coverage_pct }}
+          PROVISIONAL_COUNT: ${{ steps.check.outputs.provisional_count }}
+          PROVISIONAL_BY_POLICY: ${{ steps.check.outputs.provisional_by_policy }}
+          BLOCKED_RETRY_QUEUE_COUNT: ${{ steps.check.outputs.blocked_retry_queue_count }}
+          BLOCKED_RETRY_QUEUE_BY_POLICY: ${{ steps.check.outputs.blocked_retry_queue_by_policy }}
+          FLAKY_SOURCE_COUNT: ${{ steps.check.outputs.flaky_source_count }}
+          FLAKY_SOURCE_BY_POLICY: ${{ steps.check.outputs.flaky_source_by_policy }}
+          BASELINE_COMPARISON_MODE: ${{ steps.check.outputs.baseline_comparison_mode }}
           QUALITY_GATE_HELD_COUNT: ${{ steps.check.outputs.quality_gate_held_count }}
           QUALITY_GATE_HELD_BY_POLICY: ${{ steps.check.outputs.quality_gate_held_by_policy }}
           SUPABASE_CONFIGURED: ${{ steps.check.outputs.supabase_configured }}
@@ -359,6 +413,13 @@ jobs:
           tier1_total="${TIER1_TOTAL:-0}"
           tier1_fetched="${TIER1_FETCHED:-0}"
           tier1_pct="${TIER1_COVERAGE_PCT:-0.00}"
+          unique_total="${UNIQUE_VENDOR_TOTAL:-0}"
+          unique_fetched="${UNIQUE_VENDOR_FETCHED:-0}"
+          unique_pct="${UNIQUE_VENDOR_COVERAGE_PCT:-0.00}"
+          provisional="${PROVISIONAL_COUNT:-0}"
+          blocked_retry_queue="${BLOCKED_RETRY_QUEUE_COUNT:-0}"
+          flaky_sources="${FLAKY_SOURCE_COUNT:-0}"
+          baseline_mode="${BASELINE_COMPARISON_MODE:-unknown}"
           quality_gate_held="${QUALITY_GATE_HELD_COUNT:-0}"
           supabase_configured="${SUPABASE_CONFIGURED:-0}"
           supabase_sync_enabled="${SUPABASE_SYNC_ENABLED:-0}"
@@ -389,7 +450,12 @@ jobs:
             echo "- Fallback metadata signals actionable: ${fallback_signal_actionable}"
             echo "- Quality-gate held: ${quality_gate_held}"
             echo "- Escalations: ${escalations}"
-            echo "- Tier-1 coverage: ${tier1_fetched}/${tier1_total} (${tier1_pct}%)"
+            echo "- Tier-1 coverage (gate set): ${tier1_fetched}/${tier1_total} (${tier1_pct}%)"
+            echo "- All-vendor coverage: ${unique_fetched}/${unique_total} (${unique_pct}%)"
+            echo "- Provisional vendors: ${provisional}"
+            echo "- Blocked retry queue: ${blocked_retry_queue}"
+            echo "- Flaky-source vendors tracked: ${flaky_sources}"
+            echo "- Baseline comparison mode: ${baseline_mode}"
             echo "- Supabase configured: ${supabase_configured}"
             echo "- Supabase sync enabled: ${supabase_sync_enabled}"
             echo "- Supabase state sync enabled: ${supabase_state_sync_enabled}"
@@ -415,6 +481,15 @@ jobs:
             fi
             if [ -n "${FETCH_BLOCKED_PENDING_BY_POLICY:-}" ]; then
               echo "- Fetch-blocked pending by policy: ${FETCH_BLOCKED_PENDING_BY_POLICY}"
+            fi
+            if [ -n "${PROVISIONAL_BY_POLICY:-}" ]; then
+              echo "- Provisional by policy: ${PROVISIONAL_BY_POLICY}"
+            fi
+            if [ -n "${BLOCKED_RETRY_QUEUE_BY_POLICY:-}" ]; then
+              echo "- Blocked retry queue by policy: ${BLOCKED_RETRY_QUEUE_BY_POLICY}"
+            fi
+            if [ -n "${FLAKY_SOURCE_BY_POLICY:-}" ]; then
+              echo "- Flaky-source tracked by policy: ${FLAKY_SOURCE_BY_POLICY}"
             fi
             if [ -n "${QUALITY_GATE_HELD_BY_POLICY:-}" ]; then
               echo "- Quality-gate held by policy: ${QUALITY_GATE_HELD_BY_POLICY}"
@@ -602,6 +677,12 @@ jobs:
           ESCALATION_COUNT: ${{ steps.check.outputs.escalation_count }}
           FETCH_FAILURE_COUNT: ${{ steps.check.outputs.fetch_failure_count }}
           FETCH_FAILURE_BY_POLICY: ${{ steps.check.outputs.fetch_failure_by_policy }}
+          UNIQUE_VENDOR_TOTAL: ${{ steps.check.outputs.unique_vendor_total }}
+          UNIQUE_VENDOR_FETCHED: ${{ steps.check.outputs.unique_vendor_fetched }}
+          UNIQUE_VENDOR_COVERAGE_PCT: ${{ steps.check.outputs.unique_vendor_coverage_pct }}
+          PROVISIONAL_COUNT: ${{ steps.check.outputs.provisional_count }}
+          BLOCKED_RETRY_QUEUE_COUNT: ${{ steps.check.outputs.blocked_retry_queue_count }}
+          BASELINE_COMPARISON_MODE: ${{ steps.check.outputs.baseline_comparison_mode }}
           FALLBACK_SIGNAL_COUNT: ${{ steps.check.outputs.fallback_signal_count }}
           FALLBACK_SIGNAL_BY_POLICY: ${{ steps.check.outputs.fallback_signal_by_policy }}
           FALLBACK_SIGNAL_ACTIONABLE_COUNT: ${{ steps.check.outputs.fallback_signal_actionable_count }}
@@ -630,6 +711,10 @@ jobs:
                 `- Escalation count: ${process.env.ESCALATION_COUNT || '0'}`,
                 `- Fetch failures: ${process.env.FETCH_FAILURE_COUNT || '0'} (${process.env.FETCH_HEALTH_STATUS || 'unknown'})`,
                 process.env.FETCH_FAILURE_BY_POLICY ? `- Fetch failures by policy: ${process.env.FETCH_FAILURE_BY_POLICY}` : '',
+                `- All-vendor coverage: ${process.env.UNIQUE_VENDOR_FETCHED || '0'}/${process.env.UNIQUE_VENDOR_TOTAL || '0'} (${process.env.UNIQUE_VENDOR_COVERAGE_PCT || '0.00'}%)`,
+                `- Provisional vendors: ${process.env.PROVISIONAL_COUNT || '0'}`,
+                `- Blocked retry queue: ${process.env.BLOCKED_RETRY_QUEUE_COUNT || '0'}`,
+                `- Baseline comparison mode: ${process.env.BASELINE_COMPARISON_MODE || 'unknown'}`,
                 `- Fallback metadata signals changed: ${process.env.FALLBACK_SIGNAL_COUNT || '0'}`,
                 process.env.FALLBACK_SIGNAL_BY_POLICY ? `- Fallback metadata signals by policy: ${process.env.FALLBACK_SIGNAL_BY_POLICY}` : '',
                 `- Fallback metadata signals actionable: ${process.env.FALLBACK_SIGNAL_ACTIONABLE_COUNT || '0'}`,
@@ -744,6 +829,17 @@ jobs:
           TIER1_FAILED_SAMPLE: ${{ steps.check.outputs.tier1_failed_sample }}
           TIER1_MISSING_CONFIGURED_COUNT: ${{ steps.check.outputs.tier1_missing_configured_count }}
           TIER1_MISSING_CONFIGURED_SAMPLE: ${{ steps.check.outputs.tier1_missing_configured_sample }}
+          UNIQUE_VENDOR_TOTAL: ${{ steps.check.outputs.unique_vendor_total }}
+          UNIQUE_VENDOR_FETCHED: ${{ steps.check.outputs.unique_vendor_fetched }}
+          UNIQUE_VENDOR_FAILED: ${{ steps.check.outputs.unique_vendor_failed }}
+          UNIQUE_VENDOR_COVERAGE_PCT: ${{ steps.check.outputs.unique_vendor_coverage_pct }}
+          PROVISIONAL_COUNT: ${{ steps.check.outputs.provisional_count }}
+          PROVISIONAL_BY_POLICY: ${{ steps.check.outputs.provisional_by_policy }}
+          BLOCKED_RETRY_QUEUE_COUNT: ${{ steps.check.outputs.blocked_retry_queue_count }}
+          BLOCKED_RETRY_QUEUE_BY_POLICY: ${{ steps.check.outputs.blocked_retry_queue_by_policy }}
+          FLAKY_SOURCE_COUNT: ${{ steps.check.outputs.flaky_source_count }}
+          FLAKY_SOURCE_BY_POLICY: ${{ steps.check.outputs.flaky_source_by_policy }}
+          BASELINE_COMPARISON_MODE: ${{ steps.check.outputs.baseline_comparison_mode }}
           QUALITY_GATE_HELD_COUNT: ${{ steps.check.outputs.quality_gate_held_count }}
           QUALITY_GATE_HELD_BY_POLICY: ${{ steps.check.outputs.quality_gate_held_by_policy }}
           QUALITY_GATE_HELD_SAMPLE: ${{ steps.check.outputs.quality_gate_held_sample }}
@@ -801,6 +897,17 @@ jobs:
             const tier1FailedSample = process.env.TIER1_FAILED_SAMPLE || '';
             const tier1MissingConfiguredCount = Number.parseInt(process.env.TIER1_MISSING_CONFIGURED_COUNT || '0', 10) || 0;
             const tier1MissingConfiguredSample = process.env.TIER1_MISSING_CONFIGURED_SAMPLE || '';
+            const uniqueVendorTotal = Number.parseInt(process.env.UNIQUE_VENDOR_TOTAL || '0', 10) || 0;
+            const uniqueVendorFetched = Number.parseInt(process.env.UNIQUE_VENDOR_FETCHED || '0', 10) || 0;
+            const uniqueVendorFailed = Number.parseInt(process.env.UNIQUE_VENDOR_FAILED || '0', 10) || 0;
+            const uniqueVendorCoveragePct = process.env.UNIQUE_VENDOR_COVERAGE_PCT || '0.00';
+            const provisionalCount = Number.parseInt(process.env.PROVISIONAL_COUNT || '0', 10) || 0;
+            const provisionalByPolicy = process.env.PROVISIONAL_BY_POLICY || '';
+            const blockedRetryQueueCount = Number.parseInt(process.env.BLOCKED_RETRY_QUEUE_COUNT || '0', 10) || 0;
+            const blockedRetryQueueByPolicy = process.env.BLOCKED_RETRY_QUEUE_BY_POLICY || '';
+            const flakySourceCount = Number.parseInt(process.env.FLAKY_SOURCE_COUNT || '0', 10) || 0;
+            const flakySourceByPolicy = process.env.FLAKY_SOURCE_BY_POLICY || '';
+            const baselineComparisonMode = process.env.BASELINE_COMPARISON_MODE || 'unknown';
             const qualityGateHeldCount = Number.parseInt(process.env.QUALITY_GATE_HELD_COUNT || '0', 10) || 0;
             const qualityGateHeldByPolicy = process.env.QUALITY_GATE_HELD_BY_POLICY || '';
             const qualityGateHeldSample = process.env.QUALITY_GATE_HELD_SAMPLE || '';
@@ -895,6 +1002,24 @@ jobs:
               .filter(Boolean)
               .map((item) => `- ${item.replace(':', ': ')}`)
               .join('\n');
+            const provisionalByPolicyList = provisionalByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
+            const blockedRetryQueueByPolicyList = blockedRetryQueueByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
+            const flakySourceByPolicyList = flakySourceByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
 
             const pendingDetailList = pendingDetail
               .split(';')
@@ -943,12 +1068,21 @@ jobs:
               `Fallback metadata probes available: **${fallbackProbeCount}**`,
               `Fallback metadata signals changed: **${fallbackSignalCount}**`,
               `Fallback metadata signals actionable: **${fallbackSignalActionableCount}**`,
-              `Tier-1 coverage: **${tier1Fetched}/${tier1Total} (${tier1CoveragePct}%)**`,
+              `Tier-1 coverage (gate set): **${tier1Fetched}/${tier1Total} (${tier1CoveragePct}%)**`,
+              `All-vendor coverage: **${uniqueVendorFetched}/${uniqueVendorTotal} (${uniqueVendorCoveragePct}%)**`,
+              `All-vendor fetch misses: **${uniqueVendorFailed}**`,
+              `Provisional vendors: **${provisionalCount}**`,
+              `Blocked retry queue: **${blockedRetryQueueCount}**`,
+              `Flaky-source vendors tracked: **${flakySourceCount}**`,
+              `Baseline comparison mode: **${baselineComparisonMode}**`,
               "",
               changedByPolicy ? "### By policy\n" + changedByPolicyList + "\n" : "",
               sampleList ? "### Confirmed sample (first 10)\n" + sampleList + "\n" : "",
               actualDiffSample ? `Policy diff sample: \`${actualDiffSample}\`\n` : "",
               pendingByPolicy ? "### Pending by policy\n" + pendingByPolicyList + "\n" : "",
+              provisionalByPolicy ? "### Provisional by policy\n" + provisionalByPolicyList + "\n" : "",
+              blockedRetryQueueByPolicy ? "### Blocked retry queue by policy\n" + blockedRetryQueueByPolicyList + "\n" : "",
+              flakySourceByPolicy ? "### Flaky-source tracked by policy\n" + flakySourceByPolicyList + "\n" : "",
               pendingDetailList ? "### Pending vendors (first slice per policy)\n" + pendingDetailList + "\n" : "",
               pendingSample ? `Pending sample: \`${pendingSample}\`\n` : "",
               legacyPendingCount > 0 ? `### Legacy pending carried\n- Total: **${legacyPendingCount}**\n${legacyPendingByPolicyList}\n${legacyPendingSample ? `Sample: \`${legacyPendingSample}\`` : ""}\n` : "",
@@ -1036,9 +1170,18 @@ jobs:
                     `Fallback metadata probes available: **${fallbackProbeCount}**`,
                     `Fallback metadata signals changed: **${fallbackSignalCount}**`,
                     `Fallback metadata signals actionable: **${fallbackSignalActionableCount}**`,
-                    `Tier-1 coverage: **${tier1Fetched}/${tier1Total} (${tier1CoveragePct}%)**`,
+                    `Tier-1 coverage (gate set): **${tier1Fetched}/${tier1Total} (${tier1CoveragePct}%)**`,
+                    `All-vendor coverage: **${uniqueVendorFetched}/${uniqueVendorTotal} (${uniqueVendorCoveragePct}%)**`,
+                    `All-vendor fetch misses: **${uniqueVendorFailed}**`,
+                    `Provisional vendors: **${provisionalCount}**`,
+                    `Blocked retry queue: **${blockedRetryQueueCount}**`,
+                    `Flaky-source vendors tracked: **${flakySourceCount}**`,
+                    `Baseline comparison mode: **${baselineComparisonMode}**`,
                     changedByPolicy ? `By policy: ${changedByPolicy}` : "",
                     pendingByPolicy ? `Pending by policy: ${pendingByPolicy}` : "",
+                    provisionalByPolicy ? `Provisional by policy: ${provisionalByPolicy}` : "",
+                    blockedRetryQueueByPolicy ? `Blocked retry queue by policy: ${blockedRetryQueueByPolicy}` : "",
+                    flakySourceByPolicy ? `Flaky-source by policy: ${flakySourceByPolicy}` : "",
                     pendingDetail ? `Pending detail: ${pendingDetail}` : "",
                     stalePendingCount > 0 ? `Stale pending: ${stalePendingCount} (${stalePendingByPolicy || 'by-policy-unavailable'})` : "",
                     volatilePendingCount > 0 ? `Volatile pending: ${volatilePendingCount} (${volatilePendingByPolicy || 'by-policy-unavailable'})` : "",

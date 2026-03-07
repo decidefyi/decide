@@ -17,6 +17,7 @@ import {
   LEGACY_PENDING_MODEL_ID,
   normalizeSourceUrlForComparison,
   PENDING_MODEL_ID,
+  resolveSourceVolatilityTier,
   semanticSignaturesStable,
   toZendeskHelpCenterApiTarget,
 } from "./check-policies.js";
@@ -265,6 +266,44 @@ function testVolatileFlipThresholdOverrides() {
   assert.equal(fallback.threshold >= 1, true, "default volatile threshold should remain positive");
 }
 
+function testSourceVolatilityTierResolution() {
+  const explicitFlaky = resolveSourceVolatilityTier(
+    { volatility_tier: "flaky" },
+    "https://www.example.com/legal/policy"
+  );
+  assert.equal(explicitFlaky, "flaky", "explicit vendor volatility_tier should win");
+
+  const inferredFlaky = resolveSourceVolatilityTier(
+    {},
+    "https://help.example.com/hc/en-us/articles/123456-cancel-policy"
+  );
+  assert.equal(inferredFlaky, "flaky", "help/support style sources should infer flaky tier");
+
+  const inferredNormal = resolveSourceVolatilityTier(
+    {},
+    "https://www.example.com/legal/terms"
+  );
+  assert.equal(inferredNormal, "normal", "stable canonical legal pages should remain normal tier");
+}
+
+function testVolatileFlipThresholdIncludesFlakyTierDelta() {
+  const normalDefault = getVolatileFlipThresholdForVendor("cancel", "unknown_vendor", "normal");
+  const flakyDefault = getVolatileFlipThresholdForVendor("cancel", "unknown_vendor", "flaky");
+  assert.equal(
+    flakyDefault.threshold,
+    normalDefault.threshold + 2,
+    "flaky tier should raise default volatile flip threshold by configured delta"
+  );
+
+  const normalOverride = getVolatileFlipThresholdForVendor("cancel", "canva", "normal");
+  const flakyOverride = getVolatileFlipThresholdForVendor("cancel", "canva", "flaky");
+  assert.equal(
+    flakyOverride.threshold,
+    normalOverride.threshold + 2,
+    "flaky tier should raise override volatile flip threshold by configured delta"
+  );
+}
+
 function testFallbackSignalTransitionRequiresStrongSignatures() {
   const emptyNext = evaluateFallbackSignalTransition({
     previousStrongSignature: "abc123",
@@ -431,6 +470,12 @@ function main() {
   testVolatileFlipThresholdOverrides();
   console.log("PASS check-policies volatile threshold overrides");
 
+  testSourceVolatilityTierResolution();
+  console.log("PASS check-policies source volatility tier resolution");
+
+  testVolatileFlipThresholdIncludesFlakyTierDelta();
+  console.log("PASS check-policies volatile threshold source-tier delta");
+
   testFallbackSignalTransitionRequiresStrongSignatures();
   console.log("PASS check-policies fallback transition strong signal requirement");
 
@@ -449,7 +494,7 @@ function main() {
   testEvaluateVendorSourceMigrationSkipsStableOrMissingSources();
   console.log("PASS check-policies source migration stable/missing");
 
-  console.log("Check-policies tests passed: 26/26");
+  console.log("Check-policies tests passed: 28/28");
 }
 
 try {

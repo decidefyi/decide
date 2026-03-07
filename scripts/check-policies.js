@@ -77,6 +77,8 @@ const POLICY_SETS = [
     coveragePath: join(__dirname, "..", "rules", "policy-coverage-state.json"),
     semanticPath: join(__dirname, "..", "rules", "policy-semantic-state.json"),
     baselinePath: join(__dirname, "..", "rules", "policy-confirmed-baseline.json"),
+    dailyFingerprintPath: join(__dirname, "..", "rules", "policy-daily-fingerprints.json"),
+    blockedRetryPath: join(__dirname, "..", "rules", "policy-blocked-retry-queue.json"),
     rulesFile: "v1_us_individual.json",
   },
   {
@@ -87,6 +89,8 @@ const POLICY_SETS = [
     coveragePath: join(__dirname, "..", "rules", "cancel-policy-coverage-state.json"),
     semanticPath: join(__dirname, "..", "rules", "cancel-policy-semantic-state.json"),
     baselinePath: join(__dirname, "..", "rules", "cancel-policy-confirmed-baseline.json"),
+    dailyFingerprintPath: join(__dirname, "..", "rules", "cancel-policy-daily-fingerprints.json"),
+    blockedRetryPath: join(__dirname, "..", "rules", "cancel-policy-blocked-retry-queue.json"),
     rulesFile: "v1_us_individual_cancel.json",
   },
   {
@@ -97,6 +101,8 @@ const POLICY_SETS = [
     coveragePath: join(__dirname, "..", "rules", "return-policy-coverage-state.json"),
     semanticPath: join(__dirname, "..", "rules", "return-policy-semantic-state.json"),
     baselinePath: join(__dirname, "..", "rules", "return-policy-confirmed-baseline.json"),
+    dailyFingerprintPath: join(__dirname, "..", "rules", "return-policy-daily-fingerprints.json"),
+    blockedRetryPath: join(__dirname, "..", "rules", "return-policy-blocked-retry-queue.json"),
     rulesFile: "v1_us_individual_return.json",
   },
   {
@@ -107,6 +113,8 @@ const POLICY_SETS = [
     coveragePath: join(__dirname, "..", "rules", "trial-policy-coverage-state.json"),
     semanticPath: join(__dirname, "..", "rules", "trial-policy-semantic-state.json"),
     baselinePath: join(__dirname, "..", "rules", "trial-policy-confirmed-baseline.json"),
+    dailyFingerprintPath: join(__dirname, "..", "rules", "trial-policy-daily-fingerprints.json"),
+    blockedRetryPath: join(__dirname, "..", "rules", "trial-policy-blocked-retry-queue.json"),
     rulesFile: "v1_us_individual_trial.json",
   },
 ];
@@ -254,6 +262,18 @@ const FETCH_QUALITY_OVERRIDES = {
     x_premium: { minPolicyHits: 0 },
   },
 };
+const SOURCE_VOLATILITY_RULES = {
+  normal: {
+    actualConfirmRunsDelta: 0,
+    volatileFlipThresholdDelta: 0,
+    escalationFlipThresholdDelta: 0,
+  },
+  flaky: {
+    actualConfirmRunsDelta: 1,
+    volatileFlipThresholdDelta: 2,
+    escalationFlipThresholdDelta: 2,
+  },
+};
 const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v1";
 export const LEGACY_PENDING_MODEL_ID = "legacy-v1";
 export const PENDING_MODEL_ID = process.env.POLICY_CHECK_PENDING_MODEL || "signal-v2";
@@ -287,6 +307,14 @@ const POLICY_SUPABASE_STATE_ARTIFACTS = [
   "rules/cancel-policy-confirmed-baseline.json",
   "rules/return-policy-confirmed-baseline.json",
   "rules/trial-policy-confirmed-baseline.json",
+  "rules/policy-daily-fingerprints.json",
+  "rules/cancel-policy-daily-fingerprints.json",
+  "rules/return-policy-daily-fingerprints.json",
+  "rules/trial-policy-daily-fingerprints.json",
+  "rules/policy-blocked-retry-queue.json",
+  "rules/cancel-policy-blocked-retry-queue.json",
+  "rules/return-policy-blocked-retry-queue.json",
+  "rules/trial-policy-blocked-retry-queue.json",
   "rules/policy-events.ndjson",
   "rules/policy-alert-feed.json",
   "rules/policy-alert-review-feed.json",
@@ -458,6 +486,144 @@ function toDateUtcPrefix(value = "") {
   return text.slice(0, 10);
 }
 
+function normalizeSourceHostname(value = "") {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  try {
+    return String(new URL(raw).hostname || "").trim().toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+function normalizeVolatilityTier(value = "") {
+  const normalized = String(value || "").trim().toLowerCase();
+  if (normalized === "flaky") return "flaky";
+  return "normal";
+}
+
+function inferSourceVolatilityTier(sourceUrl = "") {
+  const raw = String(sourceUrl || "").trim();
+  if (!raw) return "normal";
+  try {
+    const parsed = new URL(raw);
+    const hostname = String(parsed.hostname || "").toLowerCase();
+    const pathname = String(parsed.pathname || "").toLowerCase();
+    if (
+      hostname.startsWith("help.") ||
+      hostname.startsWith("support.") ||
+      hostname.includes("zendesk.") ||
+      pathname.includes("/hc/") ||
+      pathname.includes("/help/") ||
+      pathname.includes("/support/")
+    ) {
+      return "flaky";
+    }
+  } catch {
+    return "normal";
+  }
+  return "normal";
+}
+
+function getSourceVolatilityRule(tier = "normal") {
+  const normalizedTier = normalizeVolatilityTier(tier);
+  return SOURCE_VOLATILITY_RULES[normalizedTier] || SOURCE_VOLATILITY_RULES.normal;
+}
+
+export function resolveSourceVolatilityTier(vendorConfig, sourceUrl = "") {
+  if (vendorConfig && typeof vendorConfig === "object") {
+    const configuredTier = normalizeVolatilityTier(vendorConfig.volatility_tier);
+    if (configuredTier === "flaky") return configuredTier;
+  }
+  return inferSourceVolatilityTier(sourceUrl);
+}
+
+function normalizeDailyFingerprintEntry(input) {
+  if (!input || typeof input !== "object") {
+    return {
+      date_utc: "",
+      hash: "",
+      semantic_signature: "",
+      metadata_signature: "",
+      source_url: "",
+      source_hostname: "",
+      volatility_tier: "normal",
+      confirmed_change_utc: "",
+      updated_utc: "",
+    };
+  }
+  const sourceUrl = String(input.source_url || "").trim();
+  return {
+    date_utc: toDateUtcPrefix(input.date_utc || input.updated_utc || ""),
+    hash: String(input.hash || "").trim(),
+    semantic_signature: String(input.semantic_signature || "").trim(),
+    metadata_signature: String(input.metadata_signature || "").trim(),
+    source_url: sourceUrl,
+    source_hostname: String(input.source_hostname || normalizeSourceHostname(sourceUrl)).trim().toLowerCase(),
+    volatility_tier: normalizeVolatilityTier(input.volatility_tier),
+    confirmed_change_utc: String(input.confirmed_change_utc || "").trim(),
+    updated_utc: String(input.updated_utc || "").trim(),
+  };
+}
+
+function normalizeBlockedRetryEntry(input) {
+  if (!input || typeof input !== "object") {
+    return {
+      source_url: "",
+      source_hostname: "",
+      volatility_tier: "normal",
+      blocked_reason: "",
+      first_blocked_utc: "",
+      last_blocked_utc: "",
+      retry_count: 0,
+      fetch_failure_streak: 0,
+      fallback_probe_signature: "",
+      fallback_probe_strong_signature: "",
+      fallback_signal_consecutive_runs: 0,
+      fallback_signal_actionable: false,
+      fallback_probe_sample: "",
+    };
+  }
+  const sourceUrl = String(input.source_url || "").trim();
+  const retryCount = Number.parseInt(String(input.retry_count || 0), 10);
+  const failureStreak = Number.parseInt(String(input.fetch_failure_streak || 0), 10);
+  const fallbackRuns = Number.parseInt(String(input.fallback_signal_consecutive_runs || 0), 10);
+  return {
+    source_url: sourceUrl,
+    source_hostname: String(input.source_hostname || normalizeSourceHostname(sourceUrl)).trim().toLowerCase(),
+    volatility_tier: normalizeVolatilityTier(input.volatility_tier),
+    blocked_reason: String(input.blocked_reason || "").trim(),
+    first_blocked_utc: String(input.first_blocked_utc || "").trim(),
+    last_blocked_utc: String(input.last_blocked_utc || "").trim(),
+    retry_count: Number.isFinite(retryCount) && retryCount > 0 ? retryCount : 0,
+    fetch_failure_streak: Number.isFinite(failureStreak) && failureStreak > 0 ? failureStreak : 0,
+    fallback_probe_signature: String(input.fallback_probe_signature || "").trim(),
+    fallback_probe_strong_signature: String(input.fallback_probe_strong_signature || "").trim(),
+    fallback_signal_consecutive_runs: Number.isFinite(fallbackRuns) && fallbackRuns > 0 ? fallbackRuns : 0,
+    fallback_signal_actionable:
+      String(input.fallback_signal_actionable || "").trim() === "1" || Boolean(input.fallback_signal_actionable),
+    fallback_probe_sample: String(input.fallback_probe_sample || "").trim(),
+  };
+}
+
+function buildComparisonBaselineEntry({ baselineEntry, dailyFingerprintEntry }) {
+  const normalizedBaseline = normalizeConfirmedBaselineEntry(baselineEntry);
+  const normalizedDaily = normalizeDailyFingerprintEntry(dailyFingerprintEntry);
+  if (!normalizedDaily.hash) {
+    return normalizedBaseline;
+  }
+  return normalizeConfirmedBaselineEntry({
+    hash: normalizedDaily.hash || normalizedBaseline.hash,
+    semantic_signature: normalizedDaily.semantic_signature || normalizedBaseline.semantic_signature,
+    metadata_signature: normalizedDaily.metadata_signature || normalizedBaseline.metadata_signature,
+    source_url: normalizedDaily.source_url || normalizedBaseline.source_url,
+    last_confirmed_change_utc:
+      normalizedDaily.confirmed_change_utc ||
+      normalizedDaily.updated_utc ||
+      normalizedBaseline.last_confirmed_change_utc,
+  });
+}
+
 function buildDailyPolicyCountsFromEvents(dayEvents = []) {
   const counts = Object.fromEntries(POLICY_COUNT_KEYS.map((policy) => [policy, 0]));
   for (const event of dayEvents) {
@@ -514,8 +680,10 @@ function buildDailyAlertFromEvents(entry = {}, eventLogEntries = []) {
 function isStrictDailyAlertEntry(entry = {}) {
   return (
     Number(entry.changed_count || 0) > 0 &&
+    Number(entry.provisional_count || 0) === 0 &&
     Number(entry.fetch_failure_count || 0) === 0 &&
     Number(entry.fetch_blocked_pending_count || 0) === 0 &&
+    Number(entry.blocked_retry_queue_count || 0) === 0 &&
     Number(entry.quality_gate_held_count || 0) === 0 &&
     Number(entry.volatile_pending_count || 0) === 0 &&
     Number(entry.escalation_count || 0) === 0 &&
@@ -1946,7 +2114,7 @@ function getActualConfirmRuns() {
   return Math.max(2, CHECKER_CONFIG.actualConfirmRuns);
 }
 
-function getActualConfirmRunsForVendor(vendorConfig, vendor) {
+function getActualConfirmRunsForVendor(vendorConfig, vendor, sourceVolatilityTier = "normal") {
   let required = getActualConfirmRuns();
   if (vendorConfig && typeof vendorConfig === "object") {
     const configured = Number.parseInt(vendorConfig.confirm_runs, 10);
@@ -1959,6 +2127,11 @@ function getActualConfirmRunsForVendor(vendorConfig, vendor) {
     if (Number.isFinite(override)) {
       required = Math.max(required, Math.floor(override));
     }
+  }
+  const volatilityRule = getSourceVolatilityRule(sourceVolatilityTier);
+  const delta = Number(volatilityRule?.actualConfirmRunsDelta || 0);
+  if (Number.isFinite(delta) && delta > 0) {
+    required += Math.floor(delta);
   }
   return Math.max(2, required);
 }
@@ -2108,40 +2281,48 @@ function getFallbackSignalConsecutiveRuns() {
   return Math.max(2, CHECKER_CONFIG.fallbackSignalConsecutiveRuns);
 }
 
-function getEscalationFlipThresholdForVendor(policyName, vendor) {
+function getEscalationFlipThresholdForVendor(policyName, vendor, sourceVolatilityTier = "normal") {
   const defaultThreshold = getEscalationFlipThreshold();
+  const volatilityRule = getSourceVolatilityRule(sourceVolatilityTier);
+  const delta = Number(volatilityRule?.escalationFlipThresholdDelta || 0);
+  const adjustedDefault = Math.max(1, Math.floor(defaultThreshold + (Number.isFinite(delta) ? delta : 0)));
   if (typeof policyName !== "string" || typeof vendor !== "string") {
-    return { threshold: defaultThreshold, overridden: false };
+    return { threshold: adjustedDefault, overridden: false };
   }
   const policyOverrides = ESCALATION_FLIP_THRESHOLD_OVERRIDES[policyName];
   if (!policyOverrides || typeof policyOverrides !== "object") {
-    return { threshold: defaultThreshold, overridden: false };
+    return { threshold: adjustedDefault, overridden: false };
   }
   const overrideValue = Number(policyOverrides[vendor]);
   if (!Number.isFinite(overrideValue)) {
-    return { threshold: defaultThreshold, overridden: false };
+    return { threshold: adjustedDefault, overridden: false };
   }
+  const adjustedThreshold = Math.max(1, Math.floor(overrideValue + (Number.isFinite(delta) ? delta : 0)));
   return {
-    threshold: Math.max(1, Math.floor(overrideValue)),
+    threshold: adjustedThreshold,
     overridden: true,
   };
 }
 
-export function getVolatileFlipThresholdForVendor(policyName, vendor) {
+export function getVolatileFlipThresholdForVendor(policyName, vendor, sourceVolatilityTier = "normal") {
   const defaultThreshold = getVolatileFlipThreshold();
+  const volatilityRule = getSourceVolatilityRule(sourceVolatilityTier);
+  const delta = Number(volatilityRule?.volatileFlipThresholdDelta || 0);
+  const adjustedDefault = Math.max(1, Math.floor(defaultThreshold + (Number.isFinite(delta) ? delta : 0)));
   if (typeof policyName !== "string" || typeof vendor !== "string") {
-    return { threshold: defaultThreshold, overridden: false };
+    return { threshold: adjustedDefault, overridden: false };
   }
   const policyOverrides = VOLATILE_FLIP_THRESHOLD_OVERRIDES[policyName];
   if (!policyOverrides || typeof policyOverrides !== "object") {
-    return { threshold: defaultThreshold, overridden: false };
+    return { threshold: adjustedDefault, overridden: false };
   }
   const overrideValue = Number(policyOverrides[vendor]);
   if (!Number.isFinite(overrideValue)) {
-    return { threshold: defaultThreshold, overridden: false };
+    return { threshold: adjustedDefault, overridden: false };
   }
+  const adjustedThreshold = Math.max(1, Math.floor(overrideValue + (Number.isFinite(delta) ? delta : 0)));
   return {
-    threshold: Math.max(1, Math.floor(overrideValue)),
+    threshold: adjustedThreshold,
     overridden: true,
   };
 }
@@ -2972,6 +3153,8 @@ async function checkPolicySet({
   coveragePath,
   semanticPath,
   baselinePath,
+  dailyFingerprintPath,
+  blockedRetryPath,
   rulesFile,
 }) {
   if (!existsSync(sourcesPath)) {
@@ -3013,6 +3196,9 @@ async function checkPolicySet({
       fallbackSignalChanged: [],
       fallbackSignalActionable: [],
       sourceMigrationResets: [],
+      provisionalVendors: [],
+      blockedRetryQueueVendors: [],
+      blockedRetryQueueEntries: {},
     };
   }
 
@@ -3027,6 +3213,8 @@ async function checkPolicySet({
   const storedCoverage = readJson(coveragePath, { vendors: {} });
   const storedSemanticState = readJson(semanticPath, { vendors: {} });
   const storedBaselineState = readJson(baselinePath, { vendors: {} });
+  const storedDailyFingerprintState = readJson(dailyFingerprintPath, { vendors: {} });
+  const storedBlockedRetryState = readJson(blockedRetryPath, { vendors: {} });
   const storedBaselineVendorsRaw =
     storedBaselineState && typeof storedBaselineState.vendors === "object" && storedBaselineState.vendors
       ? storedBaselineState.vendors
@@ -3043,27 +3231,46 @@ async function checkPolicySet({
   for (const [vendorKey, profileValue] of Object.entries(storedSemanticProfilesRaw)) {
     storedSemanticProfiles[vendorKey] = normalizeSemanticProfile(profileValue);
   }
+  const storedDailyFingerprintVendorsRaw =
+    storedDailyFingerprintState && typeof storedDailyFingerprintState.vendors === "object" && storedDailyFingerprintState.vendors
+      ? storedDailyFingerprintState.vendors
+      : {};
+  const storedDailyFingerprintVendors = {};
+  for (const [vendorKey, fingerprintValue] of Object.entries(storedDailyFingerprintVendorsRaw)) {
+    storedDailyFingerprintVendors[vendorKey] = normalizeDailyFingerprintEntry(fingerprintValue);
+  }
+  const storedBlockedRetryVendorsRaw =
+    storedBlockedRetryState && typeof storedBlockedRetryState.vendors === "object" && storedBlockedRetryState.vendors
+      ? storedBlockedRetryState.vendors
+      : {};
+  const storedBlockedRetryVendors = {};
+  for (const [vendorKey, blockedValue] of Object.entries(storedBlockedRetryVendorsRaw)) {
+    storedBlockedRetryVendors[vendorKey] = normalizeBlockedRetryEntry(blockedValue);
+  }
   const coverageVendors = storedCoverage && typeof storedCoverage.vendors === "object" && storedCoverage.vendors
     ? { ...storedCoverage.vendors }
     : {};
-  const comparisonHashes = { ...storedHashes };
+  const comparisonHashes = {};
   const comparisonSemanticProfiles = {};
   const comparisonVendorKeys = new Set([
-    ...Object.keys(storedHashes || {}),
+    ...Object.keys(storedDailyFingerprintVendors || {}),
     ...Object.keys(storedSemanticProfiles || {}),
     ...Object.keys(storedBaselineVendors || {}),
   ]);
   for (const vendor of comparisonVendorKeys) {
-    const baselineEntry = storedBaselineVendors[vendor];
-    if (baselineEntry?.hash) {
-      comparisonHashes[vendor] = baselineEntry.hash;
-    }
+    const baselineEntry = buildComparisonBaselineEntry({
+      baselineEntry: storedBaselineVendors[vendor],
+      dailyFingerprintEntry: storedDailyFingerprintVendors[vendor],
+    });
     const comparisonProfile = buildComparisonSemanticProfile({
       baselineEntry,
       fallbackProfile: storedSemanticProfiles[vendor],
     });
     if (comparisonProfile) {
       comparisonSemanticProfiles[vendor] = comparisonProfile;
+      if (comparisonProfile.hash) {
+        comparisonHashes[vendor] = comparisonProfile.hash;
+      }
     }
   }
   const activeStoredCandidates = {};
@@ -3105,6 +3312,8 @@ async function checkPolicySet({
   const newCandidates = {};
   const newSemanticProfiles = { ...storedSemanticProfilesRaw };
   const newConfirmedBaseline = { ...storedBaselineVendors };
+  const newDailyFingerprints = { ...storedDailyFingerprintVendors };
+  const newBlockedRetryQueue = { ...storedBlockedRetryVendors };
   const runObservations = {};
   const recheckConfirmedSet = new Set();
   const recheckResolvedSet = new Set();
@@ -3119,7 +3328,9 @@ async function checkPolicySet({
   const fallbackSignalChangedSet = new Set();
   const fallbackSignalActionableSet = new Set();
   const sourceMigrationResetSet = new Set();
+  const flakySourceVendorSet = new Set();
   let successfulChecks = 0;
+  const runDateUtc = toDateUtcPrefix(utcIsoTimestamp());
 
   const ensureCoverageEntry = (vendor) => {
     if (!coverageVendors[vendor] || typeof coverageVendors[vendor] !== "object") {
@@ -3151,10 +3362,96 @@ async function checkPolicySet({
     return "";
   };
 
+  const getVendorVolatilityTier = (vendorConfig, sourceUrl = "") => {
+    const configuredSourceUrl = getConfiguredSourceUrl(vendorConfig);
+    return resolveSourceVolatilityTier(vendorConfig, configuredSourceUrl || sourceUrl || "");
+  };
+
+  const upsertDailyFingerprint = ({
+    vendor,
+    vendorConfig,
+    sourceUrl,
+    confirmedHash,
+    confirmedProfile,
+    confirmedAtUtc,
+  }) => {
+    const normalizedProfile = normalizeSemanticProfile(confirmedProfile, {
+      hash: confirmedHash,
+      sourceUrl,
+      extractedAtUtc: confirmedAtUtc,
+    });
+    const resolvedSourceUrl = String(sourceUrl || normalizedProfile.source_url || "").trim();
+    const volatilityTier = getVendorVolatilityTier(vendorConfig, resolvedSourceUrl);
+    if (volatilityTier === "flaky") {
+      flakySourceVendorSet.add(vendor);
+    }
+    newDailyFingerprints[vendor] = normalizeDailyFingerprintEntry({
+      date_utc: runDateUtc,
+      hash: String(confirmedHash || "").trim(),
+      semantic_signature: semanticTokenSignature(normalizedProfile),
+      metadata_signature: String(normalizedProfile.metadata_signature || "").trim(),
+      source_url: resolvedSourceUrl,
+      source_hostname: normalizeSourceHostname(resolvedSourceUrl),
+      volatility_tier: volatilityTier,
+      confirmed_change_utc: String(confirmedAtUtc || "").trim(),
+      updated_utc: String(confirmedAtUtc || "").trim(),
+    });
+  };
+
+  const clearBlockedRetryQueueEntry = (vendor) => {
+    delete newBlockedRetryQueue[vendor];
+  };
+
+  const upsertBlockedRetryQueueEntry = ({
+    vendor,
+    vendorConfig,
+    sourceUrl,
+    blockedReason,
+    failureAtUtc,
+    fetchFailureStreak = 0,
+    fallbackProbeResult = null,
+    fallbackSignalConsecutiveRuns = 0,
+    fallbackSignalActionable = false,
+  }) => {
+    const previous = normalizeBlockedRetryEntry(newBlockedRetryQueue[vendor]);
+    const resolvedSourceUrl = String(sourceUrl || previous.source_url || getConfiguredSourceUrl(vendorConfig) || "").trim();
+    const volatilityTier = getVendorVolatilityTier(vendorConfig, resolvedSourceUrl);
+    if (volatilityTier === "flaky") {
+      flakySourceVendorSet.add(vendor);
+    }
+    const retryCount = Number(previous.retry_count || 0) + 1;
+    newBlockedRetryQueue[vendor] = normalizeBlockedRetryEntry({
+      source_url: resolvedSourceUrl,
+      source_hostname: normalizeSourceHostname(resolvedSourceUrl),
+      volatility_tier: volatilityTier,
+      blocked_reason: String(blockedReason || previous.blocked_reason || "fetch_blocked").trim(),
+      first_blocked_utc: String(previous.first_blocked_utc || failureAtUtc || "").trim(),
+      last_blocked_utc: String(failureAtUtc || previous.last_blocked_utc || "").trim(),
+      retry_count: retryCount,
+      fetch_failure_streak: Number(fetchFailureStreak || 0),
+      fallback_probe_signature: String(
+        fallbackProbeResult?.signature || previous.fallback_probe_signature || ""
+      ).trim(),
+      fallback_probe_strong_signature: String(
+        fallbackProbeResult?.strongSignature || previous.fallback_probe_strong_signature || ""
+      ).trim(),
+      fallback_signal_consecutive_runs: Number(fallbackSignalConsecutiveRuns || 0),
+      fallback_signal_actionable: Boolean(fallbackSignalActionable),
+      fallback_probe_sample: String(
+        fallbackProbeResult?.sample || previous.fallback_probe_sample || ""
+      ).trim(),
+    });
+  };
+
   for (const [vendor, vendorConfig] of vendors) {
     const configuredSourceUrl = getConfiguredSourceUrl(vendorConfig);
     if (!configuredSourceUrl) continue;
     const coverage = ensureCoverageEntry(vendor);
+    const sourceVolatilityTier = getVendorVolatilityTier(vendorConfig, configuredSourceUrl);
+    coverage.source_volatility_tier = sourceVolatilityTier;
+    if (sourceVolatilityTier === "flaky") {
+      flakySourceVendorSet.add(vendor);
+    }
     const sourceMigration = evaluateVendorSourceMigration({
       configuredSourceUrl,
       baselineSourceUrl: storedBaselineVendors[vendor]?.source_url || "",
@@ -3171,6 +3468,8 @@ async function checkPolicySet({
     delete comparisonHashes[vendor];
     delete comparisonSemanticProfiles[vendor];
     delete newHashes[vendor];
+    delete newDailyFingerprints[vendor];
+    delete newBlockedRetryQueue[vendor];
     coverage.signal_window = [];
     coverage.last_pending_age_days = 0;
     coverage.last_pending_flip_count = 0;
@@ -3191,7 +3490,14 @@ async function checkPolicySet({
     coverage.last_source_migration_reason = sourceMigration.reason;
   }
 
-  const upsertConfirmedBaseline = ({ vendor, sourceUrl, confirmedHash, confirmedProfile, confirmedAtUtc }) => {
+  const upsertConfirmedBaseline = ({
+    vendor,
+    vendorConfig,
+    sourceUrl,
+    confirmedHash,
+    confirmedProfile,
+    confirmedAtUtc,
+  }) => {
     const normalizedProfile = normalizeSemanticProfile(confirmedProfile, {
       hash: confirmedHash,
       sourceUrl,
@@ -3204,9 +3510,24 @@ async function checkPolicySet({
       source_url: String(sourceUrl || "").trim(),
       last_confirmed_change_utc: String(confirmedAtUtc || "").trim(),
     };
+    upsertDailyFingerprint({
+      vendor,
+      vendorConfig,
+      sourceUrl,
+      confirmedHash,
+      confirmedProfile: normalizedProfile,
+      confirmedAtUtc,
+    });
   };
 
-  const registerConfirmedChange = ({ vendor, sourceUrl, confirmedHash, confirmedProfile, confirmedAtUtc }) => {
+  const registerConfirmedChange = ({
+    vendor,
+    vendorConfig,
+    sourceUrl,
+    confirmedHash,
+    confirmedProfile,
+    confirmedAtUtc,
+  }) => {
     const normalizedProfile = normalizeSemanticProfile(confirmedProfile, {
       hash: confirmedHash,
       sourceUrl,
@@ -3346,6 +3667,7 @@ async function checkPolicySet({
     comparisonHashes[vendor] = String(confirmedHash || "").trim();
     upsertConfirmedBaseline({
       vendor,
+      vendorConfig,
       sourceUrl,
       confirmedHash,
       confirmedProfile: normalizedProfile,
@@ -3362,12 +3684,18 @@ async function checkPolicySet({
     const batch = vendors.slice(i, i + batchSize);
     await Promise.all(
       batch.map(async ([vendor, vendorConfig]) => {
+        const configuredSourceUrl = getConfiguredSourceUrl(vendorConfig);
+        let sourceVolatilityTier = getVendorVolatilityTier(vendorConfig, configuredSourceUrl);
+        const coverage = ensureCoverageEntry(vendor);
+        coverage.source_volatility_tier = sourceVolatilityTier;
+        if (sourceVolatilityTier === "flaky") {
+          flakySourceVendorSet.add(vendor);
+        }
         const fetchResult = await fetchWithFallback(vendorConfig, { vendor, policyType: name });
         if (!fetchResult.text) {
           errors.push(vendor);
           const failureReason = fetchResult.error || "request failed";
           errorReasons[vendor] = failureReason;
-          const coverage = ensureCoverageEntry(vendor);
           const failureAtUtc = utcIsoTimestamp();
           const priorFailureStreak = Number(
             activeStoredCandidates[vendor]?.fetch_failure_streak || coverage.consecutive_fetch_failures || 0
@@ -3398,6 +3726,8 @@ async function checkPolicySet({
             coverage.fallback_signal_consecutive_runs || activeStoredCandidates[vendor]?.fallback_signal_consecutive_runs || 0
           );
           const fallbackProbeResult = await probeFallbackMetadata(vendorConfig);
+          let fallbackSignalConsecutiveRuns = 0;
+          let fallbackSignalActionable = false;
           if (fallbackProbeResult.available && fallbackProbeResult.signature) {
             fallbackProbeAvailableSet.add(vendor);
             coverage.last_fallback_probe_observed_utc = failureAtUtc;
@@ -3417,6 +3747,8 @@ async function checkPolicySet({
             });
             coverage.fallback_signal_consecutive_runs = fallbackTransition.consecutiveRuns;
             coverage.last_fallback_signal_reason = fallbackTransition.reason;
+            fallbackSignalConsecutiveRuns = fallbackTransition.consecutiveRuns;
+            fallbackSignalActionable = fallbackTransition.actionable;
             if (fallbackTransition.changed) {
               fallbackSignalChangedSet.add(vendor);
               coverage.last_fallback_signal_changed_utc = failureAtUtc;
@@ -3430,6 +3762,21 @@ async function checkPolicySet({
           } else if (fallbackProbeResult.error) {
             coverage.fallback_signal_consecutive_runs = 0;
             coverage.last_fallback_probe_error = fallbackProbeResult.error;
+            fallbackSignalConsecutiveRuns = 0;
+            fallbackSignalActionable = false;
+          }
+          if (isFetchBlocked) {
+            upsertBlockedRetryQueueEntry({
+              vendor,
+              vendorConfig,
+              sourceUrl: configuredSourceUrl || "",
+              blockedReason: coverage.pending_fetch_blocked_reason || failureReason,
+              failureAtUtc,
+              fetchFailureStreak: nextFailureStreak,
+              fallbackProbeResult,
+              fallbackSignalConsecutiveRuns,
+              fallbackSignalActionable,
+            });
           }
           if (activeStoredCandidates[vendor]) {
             newCandidates[vendor] = {
@@ -3469,6 +3816,7 @@ async function checkPolicySet({
                 String(coverage.last_fallback_signal_actionable_utc) === failureAtUtc
                   ? failureAtUtc
                   : String(activeStoredCandidates[vendor]?.fallback_signal_actionable_utc || ""),
+              volatility_tier: sourceVolatilityTier,
             };
           }
           return;
@@ -3478,7 +3826,6 @@ async function checkPolicySet({
         successfulChecks += 1;
         const fetchedAtUtc = utcIsoTimestamp();
         markSuccessfulFetch(vendor, fetchedAtUtc, fetchResult.fetchLane || "");
-        const coverage = ensureCoverageEntry(vendor);
         delete coverage.last_fetch_failure_utc;
         delete coverage.last_fetch_failure_reason;
         delete coverage.last_fetch_failure_lanes;
@@ -3487,12 +3834,18 @@ async function checkPolicySet({
         delete coverage.pending_fetch_blocked_reason;
         delete coverage.last_fallback_probe_error;
         coverage.fallback_signal_consecutive_runs = 0;
-        const actualConfirmRuns = getActualConfirmRunsForVendor(vendorConfig, vendor);
+        clearBlockedRetryQueueEntry(vendor);
 
         const sourceUrl =
           typeof vendorConfig?.url === "string" && vendorConfig.url
             ? vendorConfig.url
             : fetchResult.sourceUrl;
+        sourceVolatilityTier = getVendorVolatilityTier(vendorConfig, sourceUrl || "");
+        coverage.source_volatility_tier = sourceVolatilityTier;
+        if (sourceVolatilityTier === "flaky") {
+          flakySourceVendorSet.add(vendor);
+        }
+        const actualConfirmRuns = getActualConfirmRunsForVendor(vendorConfig, vendor, sourceVolatilityTier);
         const pageMetadata = extractPageMetadata({
           rawText: fetchResult.text,
           sourceMetadata: fetchResult.sourceMetadata,
@@ -3565,6 +3918,7 @@ async function checkPolicySet({
           if (quality.passed) {
             upsertConfirmedBaseline({
               vendor,
+              vendorConfig,
               sourceUrl: sourceUrl || "",
               confirmedHash: h,
               confirmedProfile: semanticProfile,
@@ -3582,9 +3936,20 @@ async function checkPolicySet({
           if (quality.passed && !newConfirmedBaseline[vendor]?.hash) {
             upsertConfirmedBaseline({
               vendor,
+              vendorConfig,
               sourceUrl: sourceUrl || "",
               confirmedHash: h,
               confirmedProfile: semanticProfile,
+              confirmedAtUtc: fetchedAtUtc,
+            });
+          }
+          if (quality.passed) {
+            upsertDailyFingerprint({
+              vendor,
+              vendorConfig,
+              sourceUrl: sourceUrl || "",
+              confirmedHash: h,
+              confirmedProfile: comparisonSemanticProfiles[vendor] || semanticProfile,
               confirmedAtUtc: fetchedAtUtc,
             });
           }
@@ -3603,6 +3968,7 @@ async function checkPolicySet({
           comparisonSemanticProfiles[vendor] = semanticProfile;
           upsertConfirmedBaseline({
             vendor,
+            vendorConfig,
             sourceUrl: sourceUrl || "",
             confirmedHash: h,
             confirmedProfile: semanticProfile,
@@ -3692,6 +4058,7 @@ async function checkPolicySet({
         ) {
           registerConfirmedChange({
             vendor,
+            vendorConfig,
             sourceUrl: sourceUrl || "",
             confirmedHash: h,
             confirmedProfile: semanticProfile,
@@ -3750,6 +4117,7 @@ async function checkPolicySet({
           quality_gate_policy_hits: quality.policyKeywordHits,
           quality_gate_lines: quality.lineCount,
           quality_gate_chars: quality.normalizedLength,
+          volatility_tier: sourceVolatilityTier,
         }, fetchedAtUtc);
         pendingMetadata[vendor] = {
           vendorConfig,
@@ -3823,6 +4191,26 @@ async function checkPolicySet({
             candidate.fetch_blocked_reason = isFetchBlocked
               ? (fetchBlockClassification.reason || `consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}`)
               : "";
+            candidate.volatility_tier = normalizeVolatilityTier(
+              candidate.volatility_tier || coverage.source_volatility_tier || resolveSourceVolatilityTier(metadata.vendorConfig)
+            );
+            if (isFetchBlocked) {
+              upsertBlockedRetryQueueEntry({
+                vendor,
+                vendorConfig: metadata.vendorConfig,
+                sourceUrl: metadata.sourceUrl || candidate.source_url || "",
+                blockedReason: coverage.pending_fetch_blocked_reason || failureReason,
+                failureAtUtc: String(coverage.last_fetch_failure_utc || utcIsoTimestamp()),
+                fetchFailureStreak: nextFailureStreak,
+                fallbackProbeResult: {
+                  signature: candidate.fallback_probe_signature || "",
+                  strongSignature: candidate.fallback_probe_strong_signature || "",
+                  sample: coverage.last_fallback_probe_sample || "",
+                },
+                fallbackSignalConsecutiveRuns: Number(candidate.fallback_signal_consecutive_runs || 0),
+                fallbackSignalActionable: Boolean(candidate.fallback_signal_actionable_utc),
+              });
+            }
             return;
           }
 
@@ -3838,10 +4226,17 @@ async function checkPolicySet({
           candidate.fetch_failure_streak = 0;
           candidate.fetch_blocked = false;
           delete candidate.fetch_blocked_reason;
+          clearBlockedRetryQueueEntry(vendor);
 
           const normalized = normalizeFetchedText(recheckResult.text, name, vendor);
           const h = hash(normalized || recheckResult.text);
           const sourceUrl = recheckResult.sourceUrl || metadata.sourceUrl || "";
+          const sourceVolatilityTier = getVendorVolatilityTier(metadata.vendorConfig, sourceUrl || "");
+          coverage.source_volatility_tier = sourceVolatilityTier;
+          candidate.volatility_tier = sourceVolatilityTier;
+          if (sourceVolatilityTier === "flaky") {
+            flakySourceVendorSet.add(vendor);
+          }
           const pageMetadata = extractPageMetadata({
             rawText: recheckResult.text,
             sourceMetadata: recheckResult.sourceMetadata,
@@ -3956,11 +4351,19 @@ async function checkPolicySet({
             const parsedConfirmRuns = Number(
               candidate.metadata_confirm_runs_required ||
               candidate.actual_confirm_runs_required ||
-              getActualConfirmRunsForVendor(metadata.vendorConfig, vendor)
+              getActualConfirmRunsForVendor(
+                metadata.vendorConfig,
+                vendor,
+                candidate.volatility_tier || coverage.source_volatility_tier || "normal"
+              )
             );
             const metadataConfirmRunsRequired = Number.isFinite(parsedConfirmRuns)
               ? Math.max(1, Math.floor(parsedConfirmRuns))
-              : getActualConfirmRunsForVendor(metadata.vendorConfig, vendor);
+              : getActualConfirmRunsForVendor(
+                metadata.vendorConfig,
+                vendor,
+                candidate.volatility_tier || coverage.source_volatility_tier || "normal"
+              );
             const hasSemanticEvidence = Boolean(candidate.semantic_signature);
             const semanticConfirmReady =
               !hasSemanticEvidence || Number(candidate.semantic_run_confirmations || 0) >= metadataConfirmRunsRequired;
@@ -3976,6 +4379,7 @@ async function checkPolicySet({
             ) {
               registerConfirmedChange({
                 vendor,
+                vendorConfig: metadata.vendorConfig,
                 sourceUrl: sourceUrl || candidate.source_url || metadata.sourceUrl || "",
                 confirmedHash: candidate.hash,
                 confirmedProfile: candidate.profile || semanticProfile,
@@ -4059,6 +4463,19 @@ async function checkPolicySet({
     const coverage = ensureCoverageEntry(vendor);
     const pendingModelId = getCandidatePendingModelId(candidate);
     const legacyPendingCandidate = isLegacyPendingCandidate(candidate);
+    const configuredVendorConfig = sources?.vendors?.[vendor];
+    const sourceVolatilityTier = normalizeVolatilityTier(
+      candidate?.volatility_tier ||
+        coverage.source_volatility_tier ||
+        resolveSourceVolatilityTier(
+          configuredVendorConfig,
+          candidate?.source_url || coverage.last_pending_source_url || ""
+        )
+    );
+    coverage.source_volatility_tier = sourceVolatilityTier;
+    if (sourceVolatilityTier === "flaky") {
+      flakySourceVendorSet.add(vendor);
+    }
     const ageDays = getCandidateAgeDays(candidate, summaryNowMs);
     const flipCount = Number(candidate?.flip_count || 0);
     const recentFlipCount = countSignalWindowChangeFlips(coverage.signal_window);
@@ -4073,8 +4490,8 @@ async function checkPolicySet({
       fetchFailureStreak >= getFetchFailureQuarantineStreak();
     coverage.pending_model_id = pendingModelId;
     coverage.pending_model_first_observed_utc = getPendingModelFirstObservedUtc(candidate, coverage.pending_model_first_observed_utc || "");
-    const escalationFlipConfig = getEscalationFlipThresholdForVendor(name, vendor);
-    const volatileFlipConfig = getVolatileFlipThresholdForVendor(name, vendor);
+    const escalationFlipConfig = getEscalationFlipThresholdForVendor(name, vendor, sourceVolatilityTier);
+    const volatileFlipConfig = getVolatileFlipThresholdForVendor(name, vendor, sourceVolatilityTier);
     if (escalationFlipConfig.overridden) {
       escalationFlipOverrides[vendor] = {
         threshold: escalationFlipConfig.threshold,
@@ -4183,6 +4600,21 @@ async function checkPolicySet({
   volatilePending.sort((a, b) => a.localeCompare(b));
   escalatedPending.sort((a, b) => a.localeCompare(b));
   coverageGaps.sort((a, b) => a.localeCompare(b));
+  const provisionalVendorSet = new Set([
+    ...actionablePending,
+    ...fetchBlockedPending,
+    ...legacyPending,
+    ...errors,
+    ...qualityGateHeldSet,
+  ]);
+  const provisionalVendors = [...provisionalVendorSet].sort((a, b) => a.localeCompare(b));
+  const trackedVendorSet = new Set(vendors.map(([vendor]) => vendor));
+  for (const queueVendor of Object.keys(newBlockedRetryQueue)) {
+    if (!trackedVendorSet.has(queueVendor)) {
+      delete newBlockedRetryQueue[queueVendor];
+    }
+  }
+  const blockedRetryQueueVendors = Object.keys(newBlockedRetryQueue).sort((a, b) => a.localeCompare(b));
 
   const verifiedAtUtc = utcIsoTimestamp();
   if (vendors.length > 0 && successfulChecks === 0) {
@@ -4260,6 +4692,45 @@ async function checkPolicySet({
       2
     ) + "\n"
   );
+  const sortedDailyFingerprintVendors = Object.fromEntries(
+    Object.entries(newDailyFingerprints)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([vendor, entry]) => [vendor, normalizeDailyFingerprintEntry(entry)])
+  );
+  writeFileSync(
+    dailyFingerprintPath,
+    JSON.stringify(
+      {
+        schema_version: 1,
+        updated_utc: verifiedAtUtc,
+        date_utc: runDateUtc,
+        policy: name,
+        hash_profile: HASH_PROFILE_ID,
+        vendors: sortedDailyFingerprintVendors,
+      },
+      null,
+      2
+    ) + "\n"
+  );
+  const sortedBlockedRetryVendors = Object.fromEntries(
+    Object.entries(newBlockedRetryQueue)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([vendor, entry]) => [vendor, normalizeBlockedRetryEntry(entry)])
+  );
+  writeFileSync(
+    blockedRetryPath,
+    JSON.stringify(
+      {
+        schema_version: 1,
+        updated_utc: verifiedAtUtc,
+        date_utc: runDateUtc,
+        policy: name,
+        vendors: sortedBlockedRetryVendors,
+      },
+      null,
+      2
+    ) + "\n"
+  );
 
   const materialByVendor = new Map(materialChanged.map((entry) => [entry.vendor, entry]));
   const observedByVendor = new Map(observedChanged.map((entry) => [entry.vendor, entry]));
@@ -4281,6 +4752,11 @@ async function checkPolicySet({
       const candidate = newCandidates[vendor];
       const materialEntry = materialByVendor.get(vendor);
       const observedEntry = observedByVendor.get(vendor);
+      const sourceVolatilityTier = normalizeVolatilityTier(
+        candidate?.volatility_tier ||
+          coverage.source_volatility_tier ||
+          resolveSourceVolatilityTier(vendorConfig, candidate?.source_url || coverage.last_pending_source_url || "")
+      );
       let status = "unchanged";
       const reasonParts = [];
       const flags = [];
@@ -4351,6 +4827,10 @@ async function checkPolicySet({
         reasonParts.push(`fallback_signal_actionable(${getFallbackSignalConsecutiveRuns()}+ blocked runs)`);
         flags.push("fallback_signal_actionable");
       }
+      if (sourceVolatilityTier === "flaky") {
+        reasonParts.push("source_volatility_tier:flaky");
+        flags.push("flaky_source");
+      }
 
       const statusOrder = {
         confirmed_changed: 1,
@@ -4374,6 +4854,7 @@ async function checkPolicySet({
           typeof vendorConfig?.url === "string"
             ? vendorConfig.url
             : (typeof vendorConfig === "string" ? vendorConfig : ""),
+        source_volatility_tier: sourceVolatilityTier,
         last_successful_fetch_utc: String(coverage.last_successful_fetch_utc || ""),
         last_confirmed_change_utc: String(coverage.last_confirmed_change_utc || ""),
         last_fetch_failure_utc: String(coverage.last_fetch_failure_utc || ""),
@@ -4416,6 +4897,10 @@ async function checkPolicySet({
     coverageGaps,
     qualityGateHeld: [...qualityGateHeldSet].sort((a, b) => a.localeCompare(b)),
     legacyPending,
+    provisionalVendors,
+    blockedRetryQueueVendors,
+    blockedRetryQueueEntries: sortedBlockedRetryVendors,
+    flakySourceVendors: [...flakySourceVendorSet].sort((a, b) => a.localeCompare(b)),
     fallbackProbeAvailable: [...fallbackProbeAvailableSet].sort((a, b) => a.localeCompare(b)),
     fallbackSignalChanged: [...fallbackSignalChangedSet].sort((a, b) => a.localeCompare(b)),
     fallbackSignalActionable: [...fallbackSignalActionableSet].sort((a, b) => a.localeCompare(b)),
@@ -4458,17 +4943,29 @@ async function main() {
   const allVolatilePending = [];
   const allEscalatedPending = [];
   const allCoverageGaps = [];
+  const allProvisional = [];
+  const allBlockedRetryQueue = [];
+  const allFlakySources = [];
   const allTier1Failed = [];
   const allTier1MissingConfigured = [];
   const allVendorStatusRows = [];
   const pendingDetailByPolicy = {};
   const escalationDetailByPolicy = {};
   const tier1ByPolicy = {};
+  const uniqueVendorCoverage = new Map();
 
   for (const policySet of POLICY_SETS) {
     const result = await checkPolicySet(policySet);
     const tier1Target = getTier1TargetForPolicy(result.name, result.vendorKeys || [], tier1Config);
     const errorSet = new Set(result.errors || []);
+    for (const vendor of result.vendorKeys || []) {
+      const existing = uniqueVendorCoverage.get(vendor) || { totalPolicies: new Set(), fetchedPolicies: new Set() };
+      existing.totalPolicies.add(result.name);
+      if (!errorSet.has(vendor)) {
+        existing.fetchedPolicies.add(result.name);
+      }
+      uniqueVendorCoverage.set(vendor, existing);
+    }
     const tier1FailedVendors = tier1Target.target.filter((vendor) => errorSet.has(vendor));
     const tier1FetchedVendors = tier1Target.target.filter((vendor) => !errorSet.has(vendor));
     tier1ByPolicy[result.name] = {
@@ -4542,6 +5039,12 @@ async function main() {
       const blockedNames = sortedLimitedVendors(result.fetchBlockedPending, getPendingDetailLimit());
       console.log(
         `::notice::${result.name}: fetch_blocked_pending=${result.fetchBlockedPending.length} (consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}); first ${blockedNames.length}: ${blockedNames.join(", ")}`
+      );
+    }
+    if (result.blockedRetryQueueVendors.length > 0) {
+      const queueNames = sortedLimitedVendors(result.blockedRetryQueueVendors, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: blocked_retry_queue=${result.blockedRetryQueueVendors.length}; first ${queueNames.length}: ${queueNames.join(", ")}`
       );
     }
     if (result.recheckConfirmed.length > 0 || result.recheckResolved.length > 0 || result.recheckFetchFailures.length > 0) {
@@ -4661,6 +5164,12 @@ async function main() {
         `::notice::${result.name}: hash_profile_rebaselined=${HASH_PROFILE_ID}; pending candidates reset for this policy set.`
       );
     }
+    if (result.flakySourceVendors.length > 0) {
+      const flakyNames = sortedLimitedVendors(result.flakySourceVendors, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: source_volatility_flaky=${result.flakySourceVendors.length}; first ${flakyNames.length}: ${flakyNames.join(", ")}`
+      );
+    }
 
     console.log(
       `Checked ${result.name}: ${result.successfulChecks}/${result.totalChecks} vendors fetched successfully.`
@@ -4714,6 +5223,15 @@ async function main() {
     for (const vendor of result.legacyPending) {
       allLegacyPending.push({ policyType: result.name, vendor });
     }
+    for (const vendor of result.provisionalVendors) {
+      allProvisional.push({ policyType: result.name, vendor });
+    }
+    for (const vendor of result.blockedRetryQueueVendors) {
+      allBlockedRetryQueue.push({ policyType: result.name, vendor });
+    }
+    for (const vendor of result.flakySourceVendors) {
+      allFlakySources.push({ policyType: result.name, vendor });
+    }
     if (result.pending.length > 0) {
       pendingDetailByPolicy[result.name] = [...result.pending];
     }
@@ -4751,6 +5269,21 @@ async function main() {
 
   const pendingByPolicy = toPolicyCountString(allPending);
   const pendingSample = allPending
+    .slice(0, 25)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const provisionalByPolicy = toPolicyCountString(allProvisional);
+  const provisionalSample = allProvisional
+    .slice(0, 25)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const blockedRetryQueueByPolicy = toPolicyCountString(allBlockedRetryQueue);
+  const blockedRetryQueueSample = allBlockedRetryQueue
+    .slice(0, 25)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const flakySourceByPolicy = toPolicyCountString(allFlakySources);
+  const flakySourceSample = allFlakySources
     .slice(0, 25)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
@@ -4847,6 +5380,8 @@ async function main() {
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
+  const provisionalByPolicyObject = toPolicyCountObject(allProvisional);
+  const blockedRetryQueueByPolicyObject = toPolicyCountObject(allBlockedRetryQueue);
   const pendingByPolicyObject = toPolicyCountObject(allPending);
   const fetchFailureByPolicy = toPolicyCountString(allErrors);
   const fetchFailureSample = allErrors
@@ -4892,6 +5427,19 @@ async function main() {
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
+  const uniqueVendorTotal = uniqueVendorCoverage.size;
+  let uniqueVendorFetched = 0;
+  for (const coverage of uniqueVendorCoverage.values()) {
+    const totalPolicies = coverage?.totalPolicies instanceof Set ? coverage.totalPolicies.size : 0;
+    const fetchedPolicies = coverage?.fetchedPolicies instanceof Set ? coverage.fetchedPolicies.size : 0;
+    if (totalPolicies > 0 && fetchedPolicies >= totalPolicies) {
+      uniqueVendorFetched += 1;
+    }
+  }
+  const uniqueVendorFailed = Math.max(0, uniqueVendorTotal - uniqueVendorFetched);
+  const uniqueVendorCoveragePct = uniqueVendorTotal > 0
+    ? ((uniqueVendorFetched / uniqueVendorTotal) * 100).toFixed(2)
+    : "0.00";
   const generatedAtUtc = utcIsoTimestamp();
   writePolicyStatusReports(allVendorStatusRows, generatedAtUtc);
   writeWeeklyTriageReports(allVendorStatusRows, generatedAtUtc);
@@ -4929,6 +5477,8 @@ async function main() {
         changed_count: allMaterialChanged.length,
         by_policy: actualByPolicyObject,
         changed_sample: actualSampleList,
+        provisional_count: allProvisional.length,
+        provisional_by_policy: provisionalByPolicyObject,
         pending_count: allPending.length,
         pending_by_policy: pendingByPolicyObject,
         fetch_failure_count: allErrors.length,
@@ -4942,6 +5492,14 @@ async function main() {
         metadata_stability_held_count: allMetadataStabilityHeld.length,
         material_oscillation_suppressed_count: allMaterialOscillationSuppressed.length,
         source_migration_reset_count: allSourceMigrationResets.length,
+        blocked_retry_queue_count: allBlockedRetryQueue.length,
+        blocked_retry_queue_by_policy: blockedRetryQueueByPolicyObject,
+        flaky_source_count: allFlakySources.length,
+        flaky_source_by_policy: toPolicyCountObject(allFlakySources),
+        unique_vendor_total: uniqueVendorTotal,
+        unique_vendor_fetched: uniqueVendorFetched,
+        unique_vendor_failed: uniqueVendorFailed,
+        unique_vendor_coverage_pct: uniqueVendorCoveragePct,
         run_url: buildRunUrl(),
         run_id: String(process.env.GITHUB_RUN_ID || "").trim(),
         run_attempt: String(process.env.GITHUB_RUN_ATTEMPT || "").trim(),
@@ -4995,6 +5553,7 @@ async function main() {
   console.log(`SUPABASE_DAILY_ALERT_UPSERTED_COUNT=${supabaseAlertSyncResult.daily_alert_upserted_count || 0}`);
   console.log(`SUPABASE_STATE_SYNCED_COUNT=${supabaseStateSyncResult.synced_count || 0}`);
   console.log(`SUPABASE_SYNC_OK=${supabaseSyncOk ? "1" : "0"}`);
+  console.log("BASELINE_COMPARISON_MODE=confirmed_daily_fingerprint");
   console.log(`FETCH_FAILURE_COUNT=${allErrors.length}`);
   console.log(`FETCH_FAILURE_BY_POLICY=${fetchFailureByPolicy}`);
   console.log(`FETCH_FAILURE_SAMPLE=${fetchFailureSample}`);
@@ -5019,7 +5578,14 @@ async function main() {
   console.log(`TIER1_FAILED_SAMPLE=${tier1FailedSample}`);
   console.log(`TIER1_MISSING_CONFIGURED_COUNT=${allTier1MissingConfigured.length}`);
   console.log(`TIER1_MISSING_CONFIGURED_SAMPLE=${tier1MissingConfiguredSample}`);
+  console.log(`UNIQUE_VENDOR_TOTAL=${uniqueVendorTotal}`);
+  console.log(`UNIQUE_VENDOR_FETCHED=${uniqueVendorFetched}`);
+  console.log(`UNIQUE_VENDOR_FAILED=${uniqueVendorFailed}`);
+  console.log(`UNIQUE_VENDOR_COVERAGE_PCT=${uniqueVendorCoveragePct}`);
 
+  console.log(`PROVISIONAL_COUNT=${allProvisional.length}`);
+  console.log(`PROVISIONAL_BY_POLICY=${provisionalByPolicy}`);
+  console.log(`PROVISIONAL_SAMPLE=${provisionalSample}`);
   console.log(`PENDING_COUNT=${allPending.length}`);
   console.log(`PENDING_BY_POLICY=${pendingByPolicy}`);
   console.log(`PENDING_SAMPLE=${pendingSample}`);
@@ -5030,6 +5596,9 @@ async function main() {
   console.log(`FETCH_BLOCKED_PENDING_COUNT=${allFetchBlockedPending.length}`);
   console.log(`FETCH_BLOCKED_PENDING_BY_POLICY=${fetchBlockedPendingByPolicy}`);
   console.log(`FETCH_BLOCKED_PENDING_SAMPLE=${fetchBlockedPendingSample}`);
+  console.log(`BLOCKED_RETRY_QUEUE_COUNT=${allBlockedRetryQueue.length}`);
+  console.log(`BLOCKED_RETRY_QUEUE_BY_POLICY=${blockedRetryQueueByPolicy}`);
+  console.log(`BLOCKED_RETRY_QUEUE_SAMPLE=${blockedRetryQueueSample}`);
   console.log(`STALE_PENDING_COUNT=${allStalePending.length}`);
   console.log(`STALE_PENDING_BY_POLICY=${stalePendingByPolicy}`);
   console.log(`STALE_PENDING_SAMPLE=${stalePendingSample}`);
@@ -5037,6 +5606,9 @@ async function main() {
   console.log(`VOLATILE_PENDING_BY_POLICY=${volatilePendingByPolicy}`);
   console.log(`VOLATILE_PENDING_SAMPLE=${volatilePendingSample}`);
   console.log(`VOLATILE_RECENT_FLIP_REQUIRED=${getVolatileRequireRecentFlip() ? "1" : "0"}`);
+  console.log(`FLAKY_SOURCE_COUNT=${allFlakySources.length}`);
+  console.log(`FLAKY_SOURCE_BY_POLICY=${flakySourceByPolicy}`);
+  console.log(`FLAKY_SOURCE_SAMPLE=${flakySourceSample}`);
   console.log(`ESCALATION_COUNT=${allEscalatedPending.length}`);
   console.log(`ESCALATION_BY_POLICY=${escalationByPolicy}`);
   console.log(`ESCALATION_SAMPLE=${escalationSample}`);

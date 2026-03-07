@@ -35,6 +35,10 @@ When enabled:
 - It upserts daily events into `policy_events`.
 - It upserts daily rollup into `policy_daily_alerts`.
 - It re-syncs artifact state into `policy_state_artifacts`.
+- Comparison mode is `confirmed_daily_fingerprint`:
+  - diffing prefers confirmed baseline + canonical daily fingerprints (`rules/*-policy-daily-fingerprints.json`)
+  - transient run-hash drift is excluded from baseline comparison.
+- Blocked-source retry queues are persisted as state artifacts (`rules/*-policy-blocked-retry-queue.json`).
 
 Workflow behavior:
 
