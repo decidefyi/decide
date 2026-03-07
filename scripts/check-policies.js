@@ -14,7 +14,7 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
-import { mergePolicyAlertFeed } from "./lib/policy-feed-reliability.js";
+import { buildAlertSignature } from "./lib/policy-feed-reliability.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CHECKER_CONFIG = {
@@ -257,6 +257,7 @@ const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v1";
 export const LEGACY_PENDING_MODEL_ID = "legacy-v1";
 export const PENDING_MODEL_ID = process.env.POLICY_CHECK_PENDING_MODEL || "signal-v2";
 const POLICY_ALERT_FEED_PATH = join(__dirname, "..", "rules", "policy-alert-feed.json");
+const POLICY_ALERT_REVIEW_FEED_PATH = join(__dirname, "..", "rules", "policy-alert-review-feed.json");
 const POLICY_EVENT_LOG_PATH = join(__dirname, "..", "rules", "policy-events.ndjson");
 const POLICY_TIER1_VENDORS_PATH = join(__dirname, "..", "rules", "policy-tier1-vendors.json");
 const POLICY_STATUS_REPORT_JSON_PATH = join(__dirname, "..", "rules", "policy-status-report.json");
@@ -388,16 +389,6 @@ function getPolicyAlertFeedMaxEntries() {
   return Math.min(366, parsed);
 }
 
-function getPolicyAlertLowSignalThreshold() {
-  if (!Number.isFinite(CHECKER_CONFIG.alertLowSignalThreshold)) return 1;
-  return Math.max(0, CHECKER_CONFIG.alertLowSignalThreshold);
-}
-
-function getPolicyAlertLowSignalLookback() {
-  if (!Number.isFinite(CHECKER_CONFIG.alertLowSignalLookback)) return 6;
-  return Math.max(1, CHECKER_CONFIG.alertLowSignalLookback);
-}
-
 function getPolicyAlertIncludeZeroChange() {
   const value = String(process.env.POLICY_ALERT_INCLUDE_ZERO_CHANGE || "0").trim().toLowerCase();
   return value === "1" || value === "true" || value === "yes";
@@ -410,37 +401,171 @@ function buildRunUrl() {
   return `https://github.com/${repository}/actions/runs/${runId}`;
 }
 
-function updatePolicyAlertFeed(entry) {
-  const existing = readJson(POLICY_ALERT_FEED_PATH, { alerts: [] });
-  const existingAlerts = Array.isArray(existing.alerts) ? existing.alerts : [];
-  const merged = mergePolicyAlertFeed({
-    existingAlerts,
-    entry,
-    maxEntries: getPolicyAlertFeedMaxEntries(),
-    lowSignalThreshold: getPolicyAlertLowSignalThreshold(),
-    lowSignalLookback: getPolicyAlertLowSignalLookback(),
+function sortAlertsByGeneratedUtcDesc(alerts = []) {
+  return [...alerts].sort((left, right) => {
+    const leftValue = String(left?.generated_at_utc || left?.updated_at || left?.date_utc || "");
+    const rightValue = String(right?.generated_at_utc || right?.updated_at || right?.date_utc || "");
+    return rightValue.localeCompare(leftValue);
   });
-  const nextAlerts = merged.alerts;
-  const previousSerialized = JSON.stringify(existingAlerts);
-  const nextSerialized = JSON.stringify(nextAlerts);
-  const feedChanged = previousSerialized !== nextSerialized;
+}
 
-  const nextPayload = {
-    schema_version: 1,
-    updated_utc: utcIsoTimestamp(),
+function removeAlertsForDate(alerts = [], dateUtc = "") {
+  const target = String(dateUtc || "").trim();
+  if (!target) return [...alerts];
+  return alerts.filter((entry) => String(entry?.date_utc || "").trim() !== target);
+}
+
+function upsertDailyAlert(alerts = [], dailyEntry = {}, maxEntries = 120) {
+  const targetDate = String(dailyEntry?.date_utc || "").trim();
+  if (!targetDate) return sortAlertsByGeneratedUtcDesc(alerts).slice(0, Math.max(1, maxEntries));
+  const withoutDate = removeAlertsForDate(alerts, targetDate);
+  return sortAlertsByGeneratedUtcDesc([dailyEntry, ...withoutDate]).slice(0, Math.max(1, maxEntries));
+}
+
+function toDateUtcPrefix(value = "") {
+  const text = String(value || "").trim();
+  if (!text) return "";
+  return text.slice(0, 10);
+}
+
+function buildDailyPolicyCountsFromEvents(dayEvents = []) {
+  const counts = Object.fromEntries(POLICY_COUNT_KEYS.map((policy) => [policy, 0]));
+  for (const event of dayEvents) {
+    const policy = String(event?.policy || "").trim();
+    if (!policy || !(policy in counts)) continue;
+    counts[policy] = Number(counts[policy] || 0) + 1;
+  }
+  return counts;
+}
+
+function buildDailyAlertFromEvents(entry = {}, eventLogEntries = []) {
+  const dateUtc = String(entry.date_utc || "").trim() || toDateUtcPrefix(entry.generated_at_utc || "");
+  const sortedDayEvents = [...(eventLogEntries || [])]
+    .filter((event) => toDateUtcPrefix(event?.emitted_at_utc || "") === dateUtc)
+    .sort((left, right) => String(right?.emitted_at_utc || "").localeCompare(String(left?.emitted_at_utc || "")));
+
+  const dedupedByKey = new Map();
+  for (const event of sortedDayEvents) {
+    const policy = String(event?.policy || "").trim();
+    const vendor = String(event?.vendor || "").trim();
+    if (!policy || !vendor) continue;
+    const key = `${policy}:${vendor}`;
+    if (!dedupedByKey.has(key)) {
+      dedupedByKey.set(key, event);
+    }
+  }
+
+  const dedupedEntries = [...dedupedByKey.entries()];
+  const dedupeChangedSample = dedupedEntries.slice(0, 20).map(([key]) => key);
+  const dedupeByPolicy = buildDailyPolicyCountsFromEvents(dedupedEntries.map(([, event]) => event));
+  const dedupeChangedCount = dedupedEntries.length;
+  const repeatedCount = Math.max(0, sortedDayEvents.length - dedupeChangedCount);
+
+  return {
+    ...entry,
+    date_utc: dateUtc,
+    changed_date: dateUtc,
+    created_at: String(entry.generated_at_utc || "").trim(),
+    updated_at: String(entry.generated_at_utc || "").trim(),
+    changed_count: dedupeChangedCount,
+    actual_changed_count: dedupeChangedCount,
+    material_changed_count: dedupeChangedCount,
+    dedupe_changed_count: dedupeChangedCount,
+    reported_changed_count: Number(entry.changed_count || 0),
+    repeated_count: repeatedCount,
+    by_policy: dedupeByPolicy,
+    dedupe_by_policy: dedupeByPolicy,
+    changed_sample: dedupeChangedSample,
+    dedupe_changed_sample: dedupeChangedSample,
     source: "check-policies.js",
-    alerts: nextAlerts,
+  };
+}
+
+function isStrictDailyAlertEntry(entry = {}) {
+  return (
+    Number(entry.changed_count || 0) > 0 &&
+    Number(entry.fetch_failure_count || 0) === 0 &&
+    Number(entry.fetch_blocked_pending_count || 0) === 0 &&
+    Number(entry.quality_gate_held_count || 0) === 0 &&
+    Number(entry.volatile_pending_count || 0) === 0 &&
+    Number(entry.escalation_count || 0) === 0 &&
+    Number(entry.coverage_gap_count || 0) === 0 &&
+    Number(entry.metadata_stability_held_count || 0) === 0 &&
+    Number(entry.material_oscillation_suppressed_count || 0) === 0
+  );
+}
+
+function updatePolicyAlertFeed(entry, eventLogEntries = []) {
+  const maxEntries = getPolicyAlertFeedMaxEntries();
+  const strictExisting = readJson(POLICY_ALERT_FEED_PATH, { alerts: [] });
+  const reviewExisting = readJson(POLICY_ALERT_REVIEW_FEED_PATH, { alerts: [] });
+  const existingStrictAlerts = Array.isArray(strictExisting.alerts) ? strictExisting.alerts : [];
+  const existingReviewAlerts = Array.isArray(reviewExisting.alerts) ? reviewExisting.alerts : [];
+
+  const dailyEntry = buildDailyAlertFromEvents(entry, eventLogEntries);
+  const strictEligible = isStrictDailyAlertEntry(dailyEntry);
+  const signalConfidence = strictEligible ? "high-confidence" : "manual-review";
+  const signalConfidenceReason = strictEligible
+    ? "Confirmed semantic changes passed strict quality and stability gates."
+    : "Strict quality/stability gates not met; requires review.";
+  const normalizedEntry = {
+    ...dailyEntry,
+    signal_confidence: signalConfidence,
+    signal_confidence_reason: signalConfidenceReason,
+    status: strictEligible ? "confirmed" : "review",
+    state: strictEligible ? "verified" : "needs_review",
   };
 
-  if (feedChanged) {
-    writeFileSync(POLICY_ALERT_FEED_PATH, JSON.stringify(nextPayload, null, 2) + "\n");
+  const nextReviewAlerts = upsertDailyAlert(existingReviewAlerts, normalizedEntry, maxEntries);
+  const nextStrictAlerts = strictEligible
+    ? upsertDailyAlert(existingStrictAlerts, normalizedEntry, maxEntries)
+    : removeAlertsForDate(existingStrictAlerts, normalizedEntry.date_utc).slice(0, Math.max(1, maxEntries));
+
+  const strictChanged = JSON.stringify(existingStrictAlerts) !== JSON.stringify(nextStrictAlerts);
+  const reviewChanged = JSON.stringify(existingReviewAlerts) !== JSON.stringify(nextReviewAlerts);
+
+  if (strictChanged) {
+    writeFileSync(
+      POLICY_ALERT_FEED_PATH,
+      JSON.stringify(
+        {
+          schema_version: 2,
+          mode: "strict_daily_confirmed",
+          updated_utc: utcIsoTimestamp(),
+          source: "check-policies.js",
+          alerts: nextStrictAlerts,
+        },
+        null,
+        2
+      ) + "\n"
+    );
+  }
+
+  if (reviewChanged) {
+    writeFileSync(
+      POLICY_ALERT_REVIEW_FEED_PATH,
+      JSON.stringify(
+        {
+          schema_version: 2,
+          mode: "daily_review_queue",
+          updated_utc: utcIsoTimestamp(),
+          source: "check-policies.js",
+          alerts: nextReviewAlerts,
+        },
+        null,
+        2
+      ) + "\n"
+    );
   }
 
   return {
-    published: Boolean(merged.published),
-    reason: String(merged.reason || ""),
-    signature: String(merged.signature || ""),
-    feedChanged,
+    published: strictEligible,
+    review_published: true,
+    reason: strictEligible ? "" : "strict_quality_filter",
+    signature: String(normalizedEntry.alert_signature || buildAlertSignature(normalizedEntry)),
+    feedChanged: strictChanged,
+    reviewFeedChanged: reviewChanged,
+    strictEligible,
   };
 }
 
@@ -4522,45 +4647,13 @@ async function main() {
   const changedDateUtc = generatedAtUtc.slice(0, 10);
   let alertFeedPublishState = {
     published: false,
+    review_published: false,
     reason: "skipped_update_mode",
     signature: "",
     feedChanged: false,
+    reviewFeedChanged: false,
+    strictEligible: false,
   };
-
-  const includeZeroChangeAlerts = getPolicyAlertIncludeZeroChange();
-  const shouldPublishAlertFeed = allMaterialChanged.length > 0 || includeZeroChangeAlerts;
-
-  if (!isUpdate && shouldPublishAlertFeed) {
-    alertFeedPublishState = updatePolicyAlertFeed({
-      date_utc: changedDateUtc,
-      generated_at_utc: generatedAtUtc,
-      changed_count: allMaterialChanged.length,
-      by_policy: actualByPolicyObject,
-      changed_sample: actualSampleList,
-      pending_count: allPending.length,
-      pending_by_policy: pendingByPolicyObject,
-      fetch_blocked_pending_count: allFetchBlockedPending.length,
-      stale_pending_count: allStalePending.length,
-      volatile_pending_count: allVolatilePending.length,
-      escalation_count: allEscalatedPending.length,
-      coverage_gap_count: allCoverageGaps.length,
-      quality_gate_held_count: allQualityGateHeld.length,
-      metadata_stability_held_count: allMetadataStabilityHeld.length,
-      material_oscillation_suppressed_count: allMaterialOscillationSuppressed.length,
-      run_url: buildRunUrl(),
-      run_id: String(process.env.GITHUB_RUN_ID || "").trim(),
-      run_attempt: String(process.env.GITHUB_RUN_ATTEMPT || "").trim(),
-      commit_sha: String(process.env.GITHUB_SHA || "").trim(),
-      source: "check-policies.js",
-    });
-  } else if (!isUpdate && !shouldPublishAlertFeed) {
-    alertFeedPublishState = {
-      published: false,
-      reason: "no_confirmed_changes",
-      signature: "",
-      feedChanged: false,
-    };
-  }
   const policyEventLogResult = !isUpdate
     ? appendPolicyEventLog(allMaterialChanged, generatedAtUtc)
     : {
@@ -4569,10 +4662,59 @@ async function main() {
       skipped_invalid_count: 0,
       total_count: readNdjson(POLICY_EVENT_LOG_PATH).length,
     };
+  const policyEventLogEntries = !isUpdate ? readNdjson(POLICY_EVENT_LOG_PATH) : [];
+  const includeZeroChangeAlerts = getPolicyAlertIncludeZeroChange();
+  const hasDailyEventChanges = policyEventLogEntries.some(
+    (event) => toDateUtcPrefix(event?.emitted_at_utc || "") === changedDateUtc
+  );
+  const shouldPublishAlertFeed = hasDailyEventChanges || includeZeroChangeAlerts;
+
+  if (!isUpdate && shouldPublishAlertFeed) {
+    alertFeedPublishState = updatePolicyAlertFeed(
+      {
+        date_utc: changedDateUtc,
+        generated_at_utc: generatedAtUtc,
+        changed_count: allMaterialChanged.length,
+        by_policy: actualByPolicyObject,
+        changed_sample: actualSampleList,
+        pending_count: allPending.length,
+        pending_by_policy: pendingByPolicyObject,
+        fetch_failure_count: allErrors.length,
+        fetch_health_status: fetchHealthStatus,
+        fetch_blocked_pending_count: allFetchBlockedPending.length,
+        stale_pending_count: allStalePending.length,
+        volatile_pending_count: allVolatilePending.length,
+        escalation_count: allEscalatedPending.length,
+        coverage_gap_count: allCoverageGaps.length,
+        quality_gate_held_count: allQualityGateHeld.length,
+        metadata_stability_held_count: allMetadataStabilityHeld.length,
+        material_oscillation_suppressed_count: allMaterialOscillationSuppressed.length,
+        source_migration_reset_count: allSourceMigrationResets.length,
+        run_url: buildRunUrl(),
+        run_id: String(process.env.GITHUB_RUN_ID || "").trim(),
+        run_attempt: String(process.env.GITHUB_RUN_ATTEMPT || "").trim(),
+        commit_sha: String(process.env.GITHUB_SHA || "").trim(),
+        source: "check-policies.js",
+      },
+      policyEventLogEntries
+    );
+  } else if (!isUpdate && !shouldPublishAlertFeed) {
+    alertFeedPublishState = {
+      published: false,
+      review_published: false,
+      reason: "no_confirmed_changes",
+      signature: "",
+      feedChanged: false,
+      reviewFeedChanged: false,
+      strictEligible: false,
+    };
+  }
   console.log(`ALERT_FEED_PUBLISHED=${alertFeedPublishState.published ? "1" : "0"}`);
+  console.log(`ALERT_REVIEW_FEED_PUBLISHED=${alertFeedPublishState.review_published ? "1" : "0"}`);
   console.log(`ALERT_FEED_REASON=${alertFeedPublishState.reason}`);
   console.log(`ALERT_FEED_SIGNATURE=${alertFeedPublishState.signature}`);
   console.log(`ALERT_FEED_CHANGED=${alertFeedPublishState.feedChanged ? "1" : "0"}`);
+  console.log(`ALERT_REVIEW_FEED_CHANGED=${alertFeedPublishState.reviewFeedChanged ? "1" : "0"}`);
   console.log(`FETCH_FAILURE_COUNT=${allErrors.length}`);
   console.log(`FETCH_FAILURE_BY_POLICY=${fetchFailureByPolicy}`);
   console.log(`FETCH_FAILURE_SAMPLE=${fetchFailureSample}`);

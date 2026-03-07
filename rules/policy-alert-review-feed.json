@@ -1,0 +1,7 @@
+{
+  "schema_version": 2,
+  "mode": "daily_review_queue",
+  "updated_utc": "1970-01-01T00:00:00Z",
+  "source": "check-policies.js",
+  "alerts": []
+}

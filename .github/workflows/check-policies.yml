@@ -40,6 +40,7 @@ jobs:
             rules/return-policy-hashes.json
             rules/trial-policy-hashes.json
             rules/policy-alert-feed.json
+            rules/policy-alert-review-feed.json
             rules/policy-change-candidates.json
             rules/cancel-policy-change-candidates.json
             rules/return-policy-change-candidates.json
@@ -383,6 +384,7 @@ jobs:
             rules/return-policy-sources.json
             rules/trial-policy-sources.json
             rules/policy-alert-feed.json
+            rules/policy-alert-review-feed.json
             rules/policy-status-report.json
             rules/policy-status-report.md
             rules/policy-weekly-triage.json
@@ -407,6 +409,7 @@ jobs:
             rules/cancel-policy-semantic-state.json
             rules/return-policy-semantic-state.json
             rules/trial-policy-semantic-state.json
+            rules/policy-alert-review-feed.json
             rules/policy-events.ndjson
             rules/policy-status-report.json
             rules/policy-status-report.md
@@ -887,6 +890,7 @@ jobs:
               "- `rules/return-policy-semantic-state.json`",
               "- `rules/trial-policy-semantic-state.json`",
               "- `rules/policy-alert-feed.json`",
+              "- `rules/policy-alert-review-feed.json`",
               "- `rules/policy-events.ndjson`",
               "- `rules/policy-status-report.json`",
               "- `rules/policy-status-report.md`",
