@@ -39,6 +39,7 @@ When enabled:
   - diffing prefers confirmed baseline + canonical daily fingerprints (`rules/*-policy-daily-fingerprints.json`)
   - transient run-hash drift is excluded from baseline comparison.
 - Blocked-source retry queues are persisted as state artifacts (`rules/*-policy-blocked-retry-queue.json`).
+- Public strict feed publishes from confirmed event log only; provisional/quality-held/fetch telemetry stays internal (`raw` payload/ops reports).
 
 Workflow behavior:
 

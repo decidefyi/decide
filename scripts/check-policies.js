@@ -678,19 +678,9 @@ function buildDailyAlertFromEvents(entry = {}, eventLogEntries = []) {
 }
 
 function isStrictDailyAlertEntry(entry = {}) {
-  return (
-    Number(entry.changed_count || 0) > 0 &&
-    Number(entry.provisional_count || 0) === 0 &&
-    Number(entry.fetch_failure_count || 0) === 0 &&
-    Number(entry.fetch_blocked_pending_count || 0) === 0 &&
-    Number(entry.blocked_retry_queue_count || 0) === 0 &&
-    Number(entry.quality_gate_held_count || 0) === 0 &&
-    Number(entry.volatile_pending_count || 0) === 0 &&
-    Number(entry.escalation_count || 0) === 0 &&
-    Number(entry.coverage_gap_count || 0) === 0 &&
-    Number(entry.metadata_stability_held_count || 0) === 0 &&
-    Number(entry.material_oscillation_suppressed_count || 0) === 0
-  );
+  // Public strict feed should mirror confirmed policy events only.
+  // Operational telemetry (provisional/pending/quality-held/fetch blockers) remains internal.
+  return Number(entry.changed_count || 0) > 0;
 }
 
 function updatePolicyAlertFeed(entry, eventLogEntries = []) {
@@ -704,8 +694,8 @@ function updatePolicyAlertFeed(entry, eventLogEntries = []) {
   const strictEligible = isStrictDailyAlertEntry(dailyEntry);
   const signalConfidence = strictEligible ? "high-confidence" : "manual-review";
   const signalConfidenceReason = strictEligible
-    ? "Confirmed semantic changes passed strict quality and stability gates."
-    : "Strict quality/stability gates not met; requires review.";
+    ? "Confirmed semantic changes emitted to strict feed; operational telemetry is tracked separately."
+    : "No confirmed policy changes for the date; nothing published to strict feed.";
   const normalizedEntry = {
     ...dailyEntry,
     signal_confidence: signalConfidence,
