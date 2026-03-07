@@ -97,7 +97,12 @@ function sanitizeScore(n) {
 function sanitizeUnitScore(n) {
   const parsed = Number(n);
   if (!Number.isFinite(parsed)) return null;
-  const clamped = Math.max(0, Math.min(1, parsed > 1 ? parsed / 100 : parsed));
+  let normalized = parsed;
+  if (normalized > 1) {
+    // Treat slightly-above-1 values as overflows on a 0..1 scale; treat larger values as percent scale.
+    normalized = normalized > 2 ? normalized / 100 : 1;
+  }
+  const clamped = Math.max(0, Math.min(1, normalized));
   return Number(clamped.toFixed(3));
 }
 
@@ -137,6 +142,27 @@ function normalizeRuntimeCitations(citations) {
     .filter(Boolean);
 }
 
+const SENSITIVE_INPUT_KEY_PATTERN =
+  /(api[_-]?key|token|secret|password|passphrase|authorization|cookie|session|email|phone|ssn|credit|card|iban|address|bearer)/i;
+
+function summarizeInputEvidenceValue(value) {
+  if (value == null) return "null";
+  if (typeof value === "number") return Number.isFinite(value) ? String(Number(value.toFixed(4))) : "number";
+  if (typeof value === "boolean") return value ? "true" : "false";
+  if (Array.isArray(value)) return `array(${value.length})`;
+  if (typeof value === "object") return `object(${Object.keys(value).length})`;
+  const normalized = String(value).replace(/\s+/g, " ").trim();
+  if (!normalized) return "text";
+  return normalized.length > 24 ? `${normalized.slice(0, 21)}...` : normalized;
+}
+
+function buildInputEvidenceSummary(inputs = {}) {
+  return Object.entries(asObject(inputs))
+    .filter(([key]) => key && !SENSITIVE_INPUT_KEY_PATTERN.test(String(key)))
+    .slice(0, 3)
+    .map(([key, value]) => `${String(key)}=${summarizeInputEvidenceValue(value)}`);
+}
+
 function buildRuntimeFallbackEvidence(payload = {}, context = {}) {
   const next = {
     ...payload,
@@ -168,15 +194,15 @@ function buildRuntimeFallbackEvidence(payload = {}, context = {}) {
   }
 
   if (!next.citations.length) {
-    const inputPairs = Object.entries(inputs)
-      .slice(0, 3)
-      .map(([key, value]) => `${key}=${String(value)}`);
+    const inputPairs = buildInputEvidenceSummary(inputs);
     const reasoning = [
       goal ? `Goal considered: ${goal}` : "Goal considered: maximize target KPI with constraints.",
       constraints[0] ? `Constraint considered: ${constraints[0]}` : "Constraint considered: preserve operational guardrails.",
     ];
     if (inputPairs.length) {
       reasoning.push(`Input evidence: ${inputPairs.join(", ")}`);
+    } else if (Object.keys(inputs).length) {
+      reasoning.push("Input evidence: structured inputs considered (sensitive values redacted).");
     }
 
     next.citations = [

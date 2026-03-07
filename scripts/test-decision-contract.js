@@ -116,6 +116,9 @@ async function testDecideApiKeyFixture() {
 
 async function testDecideRuntimeFixture() {
   const fixture = loadFixture("decide-runtime.json");
+  const sensitiveInputValue = "sk_live_should_not_echo";
+  fixture.request.body.context.inputs.api_key = sensitiveInputValue;
+  fixture.request.body.context.inputs.access_token = "tok_should_not_echo";
   const originalFetch = global.fetch;
   const previousApiKey = process.env.GEMINI_API_KEY;
   const previousDecideApiKey = process.env.DECIDE_API_KEY;
@@ -133,10 +136,10 @@ async function testDecideRuntimeFixture() {
                   text: JSON.stringify({
                     decision: {
                       recommended_option: "Burst packs",
-                      confidence: 0.73,
+                      confidence: 1.2,
                     },
                     scorecard: [
-                      { option: "Burst packs", score: 8.7, confidence: 0.79, impact: "high projected expansion", risk: "low", rank: 1 },
+                      { option: "Burst packs", score: 8.7, confidence: 1.1, impact: "high projected expansion", risk: "low", rank: 1 },
                       { option: "Automatic overage", score: 8.4, confidence: 0.67, impact: "high expansion with trust risk", risk: "high", rank: 2 },
                       { option: "Hybrid grace + overage", score: 8.2, confidence: 0.7, impact: "balanced expansion and retention", risk: "medium", rank: 3 },
                     ],
@@ -166,9 +169,14 @@ async function testDecideRuntimeFixture() {
     assert.equal(typeof recommended, "string", "decide runtime recommended option missing");
     assert.ok(options.includes(recommended), "decide runtime recommended option must match one of the options");
     assert.equal(typeof result.json?.decision?.confidence, "number", "decide runtime confidence missing");
+    assert.equal(result.json?.decision?.confidence, 1, "decide runtime confidence should clamp slight >1 overflows");
 
     assert.ok(Array.isArray(result.json?.scorecard), "decide runtime scorecard missing");
     assert.equal(result.json.scorecard.length, options.length, "decide runtime scorecard length mismatch");
+    result.json.scorecard.forEach((row, idx) => {
+      assert.equal(typeof row?.confidence, "number", `decide runtime scorecard confidence missing for row ${idx}`);
+      assert.ok(row.confidence >= 0 && row.confidence <= 1, `decide runtime scorecard confidence out of range for row ${idx}`);
+    });
 
     assert.ok(Array.isArray(result.json?.tradeoffs), "decide runtime tradeoffs missing");
     assert.ok(result.json.tradeoffs.length >= 1, "decide runtime tradeoffs must be non-empty");
@@ -181,6 +189,11 @@ async function testDecideRuntimeFixture() {
     assert.equal(typeof firstCitation.title, "string", "decide runtime citation title missing");
     assert.ok(Array.isArray(firstCitation.reasoning_lines), "decide runtime citation reasoning_lines missing");
     assert.ok(firstCitation.reasoning_lines.length >= 2, "decide runtime citation reasoning_lines must be non-empty");
+    const reasoningText = result.json.citations
+      .flatMap((entry) => (Array.isArray(entry?.reasoning_lines) ? entry.reasoning_lines : []))
+      .join(" ");
+    assert.equal(reasoningText.includes(sensitiveInputValue), false, "sensitive input value leaked into fallback citation reasoning");
+    assert.equal(/api[_-]?key\s*=/.test(reasoningText.toLowerCase()), false, "sensitive input key should not be echoed in reasoning");
 
     assertLineage(result.json, "decide_runtime");
   } finally {
