@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T10:56:01Z",
+  "updated_utc": "2026-03-07T11:43:06Z",
   "policy": "refund",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -284,9 +284,9 @@
       "metadata_signature": "5ecc5d0b35ff86b5"
     },
     "coursera_plus": {
-      "hash": "2324cf397dda2159",
+      "hash": "8131fc416a4274a5",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T10:50:14Z",
+      "extracted_at_utc": "2026-03-07T11:38:13Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -346,9 +346,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "18e39a8772129a80",
+      "hash": "ade47905e1caaae9",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T10:50:21Z",
+      "extracted_at_utc": "2026-03-07T11:38:19Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -771,9 +771,9 @@
       "metadata_signature": "b50787fc583e692c"
     },
     "paramount_plus": {
-      "hash": "2a4218abfa11e67b",
+      "hash": "4be9792a57f81181",
       "source_url": "https://help.paramountplus.com/s/article/PD-What-s-the-refund-policy-for-Paramount",
-      "extracted_at_utc": "2026-03-07T10:52:15Z",
+      "extracted_at_utc": "2026-03-07T11:39:53Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -832,9 +832,9 @@
       "metadata_signature": "b017e31ec9bfb2a9"
     },
     "proton": {
-      "hash": "7eee55087667d851",
+      "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T10:52:17Z",
+      "extracted_at_utc": "2026-03-07T09:43:41Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1035,9 +1035,9 @@
       "metadata_signature": "b1504b354be2969b"
     },
     "tinder": {
-      "hash": "272c00ac2fea4ba5",
+      "hash": "94874f35eb7a8496",
       "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
-      "extracted_at_utc": "2026-03-07T10:52:26Z",
+      "extracted_at_utc": "2026-03-07T09:43:47Z",
       "tokens": [
         "refund_window_days:14",
         "restriction:no_refund_or_final_sale"
@@ -1052,7 +1052,7 @@
         "source_updated_at_utc": "2025-12-16T15:47:26Z",
         "source_edited_at_utc": "2025-04-14T09:17:12Z"
       },
-      "metadata_signature": "0bc063ab89b545dc"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "tidal": {
       "hash": "0b9d257da80273e5",
@@ -1304,9 +1304,9 @@
       "metadata_signature": "2d738d81adc8e4a0"
     },
     "weightwatchers": {
-      "hash": "99dc7291a650dc4c",
+      "hash": "78300457d1a8e8da",
       "source_url": "https://www.weightwatchers.com/us/terms-and-conditions",
-      "extracted_at_utc": "2026-03-07T09:43:55Z",
+      "extracted_at_utc": "2026-03-07T11:40:06Z",
       "tokens": [
         "billing:auto_renew",
         "refund_window_days:180",
@@ -1707,9 +1707,9 @@
       "metadata_signature": "698d782ea2fd7d01"
     },
     "google_one": {
-      "hash": "e9a1e24fd931c011",
+      "hash": "47fe303a75ca7032",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T10:51:39Z",
+      "extracted_at_utc": "2026-03-07T09:43:25Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1796,9 +1796,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "espn_plus": {
-      "hash": "46639110e2ed29bc",
+      "hash": "bea213404e064019",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T10:51:36Z",
+      "extracted_at_utc": "2026-03-07T09:43:22Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1832,9 +1832,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "grammarly": {
-      "hash": "00bb244b6d292ffe",
+      "hash": "287ff660877b52d8",
       "source_url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "extracted_at_utc": "2026-03-07T10:52:00Z",
+      "extracted_at_utc": "2026-03-07T09:43:26Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "zendesk_article_json",
@@ -1846,7 +1846,7 @@
         "source_updated_at_utc": "2025-10-27T20:22:40Z",
         "source_edited_at_utc": "2025-10-27T20:22:40Z"
       },
-      "metadata_signature": "f7c4dff89de1e273"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "scribd": {
       "hash": "0cac65b719c1c5b6",

@@ -1,7 +1,7 @@
 {
   "disney_plus": {
     "hash": "603d527f337bb199",
-    "count": 3,
+    "count": 4,
     "flip_count": 1,
     "fetch_failure_streak": 0,
     "fetch_blocked": false,
@@ -9,26 +9,26 @@
     "semantic_run_confirmations": 0,
     "semantic_signature": "",
     "change_key": "603d527f337bb199",
-    "signal_window_hash_decision": "",
-    "signal_window_change_decision": "",
+    "signal_window_hash_decision": "603d527f337bb199",
+    "signal_window_change_decision": "603d527f337bb199",
     "signal_window_required_votes": 3,
-    "signal_window_top_hash_votes": 3,
+    "signal_window_top_hash_votes": 4,
     "signal_window_baseline_votes": 0,
     "actual_confirm_runs_required": 2,
     "metadata_confirm_runs_required": 2,
     "metadata_signature": "ea7c709252c84b20",
     "previous_metadata_signature": "",
     "metadata_signal_stable": false,
-    "last_run_observed_utc": "2026-03-07T10:51:35Z",
+    "last_run_observed_utc": "2026-03-07T11:39:32Z",
     "source_url": "https://www.disneyplus.com/legal/subscriber-agreement",
     "pending_since_utc": "2026-03-06T20:18:15Z",
     "first_seen_utc": "2026-03-07T09:18:45Z",
-    "last_seen_utc": "2026-03-07T10:51:35Z",
+    "last_seen_utc": "2026-03-07T11:39:32Z",
     "baseline_observations": 0,
     "profile": {
       "hash": "603d527f337bb199",
       "source_url": "https://www.disneyplus.com/legal/subscriber-agreement",
-      "extracted_at_utc": "2026-03-07T10:51:35Z",
+      "extracted_at_utc": "2026-03-07T11:39:32Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -43,13 +43,13 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "quality_gate_passes": 0,
-    "quality_gate_failures": 9,
+    "quality_gate_failures": 12,
     "quality_gate_last_reason": "weak_policy_terms:0<1",
-    "quality_gate_last_observed_utc": "2026-03-07T10:56:01Z",
+    "quality_gate_last_observed_utc": "2026-03-07T11:43:06Z",
     "quality_gate_policy_hits": 0,
     "quality_gate_lines": 6,
     "quality_gate_chars": 272,
     "pending_model_id": "signal-v2",
-    "pending_model_first_observed_utc": "2026-03-07T10:51:35Z"
+    "pending_model_first_observed_utc": "2026-03-07T11:39:32Z"
   }
 }
