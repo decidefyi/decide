@@ -1,8 +1,8 @@
 # Policy Status Report
 
-Generated UTC: 2026-03-07T19:09:42Z
+Generated UTC: 2026-03-07T19:54:32Z
 Rows: 400
-Status totals: unchanged=396, pending_confirmation=3, quality_gate_held=1
+Status totals: unchanged=392, pending_confirmation=5, quality_gate_held=3
 
 ## refund (100 vendors)
 - 1password: unchanged. no material policy update observed. Source: https://support.1password.com/refund-policy/
@@ -31,7 +31,7 @@ Status totals: unchanged=396, pending_confirmation=3, quality_gate_held=1
 - disney_plus: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 6/3). Source: https://www.disneyplus.com/legal/subscriber-agreement
 - doordash_dashpass: unchanged. no material policy update observed. Source: https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription
 - dropbox_us: unchanged. no material policy update observed. Source: https://www.dropbox.com/terms
-- duolingo: unchanged. no material policy update observed. Source: https://www.duolingo.com/help/how-do-I-request-a-refund
+- duolingo: quality_gate_held. quality gate held. Source: https://www.duolingo.com/help/how-do-I-request-a-refund
 - ea_play: unchanged. no material policy update observed. Source: https://www.ea.com/legal/user-agreement
 - espn_plus: unchanged. no material policy update observed. Source: https://www.espn.com/espnplus/
 - evernote: unchanged. no material policy update observed. Source: https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy
@@ -133,7 +133,7 @@ Status totals: unchanged=396, pending_confirmation=3, quality_gate_held=1
 - disney_plus: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 5/3). Source: https://help.disneyplus.com/article/disneyplus-cancel-subscription
 - doordash_dashpass: unchanged. no material policy update observed. Source: https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription
 - dropbox_us: unchanged. no material policy update observed. Source: https://help.dropbox.com/plans/cancel-plan
-- duolingo: quality_gate_held. quality gate held. Source: https://support.duolingo.com/hc/en-us/articles/360030236551-How-do-I-cancel-my-Super-Duolingo-subscription
+- duolingo: pending_confirmation. awaiting confirmation (0/2 runs, signal_window 4/3). Source: https://support.duolingo.com/hc/en-us/articles/360030236551-How-do-I-cancel-my-Super-Duolingo-subscription
 - ea_play: unchanged. no material policy update observed. Source: https://help.ea.com/en/help/account/manage-your-ea-play-membership/
 - espn_plus: unchanged. no material policy update observed. Source: https://www.espn.com/espnplus/
 - evernote: unchanged. no material policy update observed. Source: https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy
@@ -159,7 +159,7 @@ Status totals: unchanged=396, pending_confirmation=3, quality_gate_held=1
 - max: unchanged. no material policy update observed. Source: https://help.max.com/US/Answer/Detail/000002536
 - microsoft_365: unchanged. no material policy update observed. Source: https://support.microsoft.com/en-us/office/cancel-a-microsoft-365-subscription-46e2634a-c64d-4c57-820c-3aa8e525e4e0
 - midjourney: unchanged. no material policy update observed. Source: https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan
-- mlb_tv: unchanged. no material policy update observed. Source: https://www.mlb.com/live-stream-games/help-center
+- mlb_tv: pending_confirmation. awaiting confirmation (1/2 runs, signal_window 1/3). Source: https://www.mlb.com/live-stream-games/help-center
 - myfitnesspal_premium: unchanged. no material policy update observed. Source: https://support.myfitnesspal.com/hc/en-us/articles/360032625371-How-do-I-cancel-my-Premium-subscription-renewal
 - netflix: unchanged. no material policy update observed. Source: https://help.netflix.com/en/node/407
 - new_york_times: unchanged. no material policy update observed. Source: https://help.nytimes.com/hc/en-us/articles/360003499613-Cancel-your-subscription
@@ -367,7 +367,7 @@ Status totals: unchanged=396, pending_confirmation=3, quality_gate_held=1
 - myfitnesspal_premium: unchanged. no material policy update observed. Source: https://www.myfitnesspal.com/premium
 - netflix: unchanged. no material policy update observed. Source: https://www.netflix.com/signup
 - new_york_times: unchanged. no material policy update observed. Source: https://www.nytimes.com/subscription
-- nfl_plus: unchanged. no material policy update observed. Source: https://www.nfl.com/plus/
+- nfl_plus: quality_gate_held. quality gate held. Source: https://www.nfl.com/plus/
 - nintendo_switch_online: unchanged. no material policy update observed. Source: https://www.nintendo.com/us/switch/online/
 - noom: unchanged. no material policy update observed. Source: https://www.noom.com/
 - nordvpn: unchanged. no material policy update observed. Source: https://nordvpn.com/pricing/
@@ -408,6 +408,6 @@ Status totals: unchanged=396, pending_confirmation=3, quality_gate_held=1
 - wix: unchanged. no material policy update observed. Source: https://www.wix.com/upgrade/website
 - x_premium: unchanged. no material policy update observed. Source: https://legal.x.com/purchaser-terms.html
 - xbox_game_pass: unchanged. no material policy update observed. Source: https://www.xbox.com/en-US/xbox-game-pass
-- youtube_premium: unchanged. no material policy update observed. Source: https://www.youtube.com/premium
+- youtube_premium: quality_gate_held. quality gate held. Source: https://www.youtube.com/premium
 - youtube_tv: unchanged. no material policy update observed. Source: https://tv.youtube.com/
 - zoom: unchanged. no material policy update observed. Source: https://zoom.us/pricing

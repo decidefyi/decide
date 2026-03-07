@@ -1,12 +1,12 @@
 {
   "schema_version": 2,
   "mode": "daily_review_queue",
-  "updated_utc": "2026-03-07T19:09:42Z",
+  "updated_utc": "2026-03-07T19:54:32Z",
   "source": "check-policies.js",
   "alerts": [
     {
       "date_utc": "2026-03-07",
-      "generated_at_utc": "2026-03-07T19:09:42Z",
+      "generated_at_utc": "2026-03-07T19:54:32Z",
       "changed_count": 41,
       "by_policy": {
         "refund": 11,
@@ -36,10 +36,10 @@
         "return:weightwatchers",
         "refund:crunchyroll"
       ],
-      "pending_count": 3,
+      "pending_count": 5,
       "pending_by_policy": {
         "refund": 1,
-        "cancel": 1,
+        "cancel": 3,
         "return": 1,
         "trial": 0
       },
@@ -50,18 +50,18 @@
       "volatile_pending_count": 0,
       "escalation_count": 0,
       "coverage_gap_count": 0,
-      "quality_gate_held_count": 4,
+      "quality_gate_held_count": 7,
       "metadata_stability_held_count": 0,
       "material_oscillation_suppressed_count": 0,
       "source_migration_reset_count": 1,
-      "run_url": "https://github.com/decidefyi/decide/actions/runs/22804872883",
-      "run_id": "22804872883",
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22805614985",
+      "run_id": "22805614985",
       "run_attempt": "1",
-      "commit_sha": "3edd0848b2995d71c4bade22c6b28b9ef286ff1a",
+      "commit_sha": "61cda7e688356925ccda32a7ee5af4ab30d15770",
       "source": "check-policies.js",
       "changed_date": "2026-03-07",
-      "created_at": "2026-03-07T19:09:42Z",
-      "updated_at": "2026-03-07T19:09:42Z",
+      "created_at": "2026-03-07T19:54:32Z",
+      "updated_at": "2026-03-07T19:54:32Z",
       "actual_changed_count": 41,
       "material_changed_count": 41,
       "dedupe_changed_count": 41,

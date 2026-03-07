@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T18:59:36Z",
+  "updated_utc": "2026-03-07T19:42:55Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -21,9 +21,9 @@
       "metadata_signature": "59780a5d3fff9de5"
     },
     "1password": {
-      "hash": "229f4e9a9a5cc299",
+      "hash": "b861e7b433e09551",
       "source_url": "https://support.1password.com/cancel-subscription/",
-      "extracted_at_utc": "2026-03-07T09:47:03Z",
+      "extracted_at_utc": "2026-03-07T19:34:09Z",
       "tokens": [
         "flow:support_request"
       ],
@@ -271,9 +271,9 @@
       "metadata_signature": "5ecc5d0b35ff86b5"
     },
     "coursera_plus": {
-      "hash": "610ef195a671c4f0",
+      "hash": "9cc2e56e84b28309",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T18:54:21Z",
+      "extracted_at_utc": "2026-03-07T19:35:44Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -341,9 +341,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "doordash_dashpass": {
-      "hash": "7f8f0d0c8b9613f0",
+      "hash": "585c3bf1efe3e8fa",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T18:54:32Z",
+      "extracted_at_utc": "2026-03-07T19:35:50Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -649,9 +649,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "midjourney": {
-      "hash": "cda38716917340a8",
+      "hash": "05a4746cf3c4be3c",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-03-07T09:50:49Z",
+      "extracted_at_utc": "2026-03-07T19:38:34Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -788,7 +788,7 @@
     "proton": {
       "hash": "274a5ed74b27e80f",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T18:56:42Z",
+      "extracted_at_utc": "2026-03-07T19:39:44Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1087,7 +1087,7 @@
     "wix": {
       "hash": "c1178ef30a393d66",
       "source_url": "https://support.wix.com/en/article/canceling-a-premium-plan",
-      "extracted_at_utc": "2026-03-07T18:56:54Z",
+      "extracted_at_utc": "2026-03-07T19:40:04Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1217,9 +1217,9 @@
       "metadata_signature": "4f3bd75cf1279f4b"
     },
     "weightwatchers": {
-      "hash": "fb691d33dcd68bae",
+      "hash": "a53c17c2ab4b966b",
       "source_url": "https://www.weightwatchers.com/us/help",
-      "extracted_at_utc": "2026-03-07T09:51:58Z",
+      "extracted_at_utc": "2026-03-07T19:40:54Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1236,7 +1236,7 @@
     "ea_play": {
       "hash": "d81195367d990e8c",
       "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-      "extracted_at_utc": "2026-03-07T18:57:37Z",
+      "extracted_at_utc": "2026-03-07T19:40:56Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1325,7 +1325,7 @@
     "nfl_plus": {
       "hash": "d5cbd5db7a1b0c26",
       "source_url": "https://www.nfl.com/legal/subscriptions_terms",
-      "extracted_at_utc": "2026-03-07T18:57:44Z",
+      "extracted_at_utc": "2026-03-07T19:41:01Z",
       "tokens": [
         "risk:chargeback_or_dispute"
       ],
@@ -1533,9 +1533,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "espn_plus": {
-      "hash": "aa7adcbbc973a91c",
+      "hash": "6516d33c681385d7",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T18:55:07Z",
+      "extracted_at_utc": "2026-03-07T19:36:28Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1586,9 +1586,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "peacock": {
-      "hash": "e62155cc0df13024",
+      "hash": "1ee376168c2f131d",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-03-07T18:56:41Z",
+      "extracted_at_utc": "2026-03-07T09:50:55Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1600,7 +1600,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "ea7c709252c84b20"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "evernote": {
       "hash": "5fb98c6ad4e6367d",
@@ -1693,9 +1693,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "patreon": {
-      "hash": "658852cb63b73f34",
+      "hash": "82837f17e72715f7",
       "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-      "extracted_at_utc": "2026-03-07T09:51:58Z",
+      "extracted_at_utc": "2026-03-07T19:40:55Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1731,10 +1731,10 @@
     "dropbox_us": {
       "hash": "0adfdc179206e059",
       "source_url": "https://help.dropbox.com/plans/cancel-plan",
-      "extracted_at_utc": "2026-03-07T18:55:30Z",
+      "extracted_at_utc": "2026-03-07T19:36:31Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "html",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1743,12 +1743,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "ea7c709252c84b20"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "audible": {
-      "hash": "71449a1774bcba91",
+      "hash": "eb62c0176a0f2701",
       "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-03-07T18:54:06Z",
+      "extracted_at_utc": "2026-03-07T19:35:10Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1763,9 +1763,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "paramount_plus": {
-      "hash": "4054bbfcba366fe0",
+      "hash": "54f241e4365bb59d",
       "source_url": "https://www.paramountplus.com/legal/subscriber/",
-      "extracted_at_utc": "2026-03-07T18:56:40Z",
+      "extracted_at_utc": "2026-03-07T19:39:42Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1819,9 +1819,9 @@
       "metadata_signature": "719fe1ff7adacc68"
     },
     "canva": {
-      "hash": "f4ee79fa354ee525",
+      "hash": "69d172f6c0185ed3",
       "source_url": "https://www.canva.com/policies/terms-of-use-2022-12-05/",
-      "extracted_at_utc": "2026-03-07T18:54:10Z",
+      "extracted_at_utc": "2026-03-07T19:35:38Z",
       "tokens": [
         "billing:prorated"
       ],
