@@ -76,11 +76,16 @@
       ]
     },
     "canva": {
-      "url": "https://www.canva.com/help/cancellation/",
-      "notes": "Cancel anytime; reverts to free tier",
+      "url": "https://www.canva.com/policies/terms-of-use-2022-12-05/",
+      "notes": "Cancellation and billing terms for Canva subscriptions.",
+      "fetch_lanes": [
+        "direct",
+        "browser_hook"
+      ],
       "backup_urls": [
+        "https://www.canva.com/help/cancellation/",
         "https://www.canva.com/policies/terms-of-use/",
-        "https://www.canva.com/help/"
+        "https://www.canva.com/policies/terms-of-use-2021-11-03/"
       ]
     },
     "chatgpt_plus": {
@@ -336,8 +341,17 @@
       ]
     },
     "paramount_plus": {
-      "url": "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
-      "notes": "Cancel anytime; access until end of billing period"
+      "url": "https://www.paramountplus.com/legal/subscriber/",
+      "notes": "Subscriber agreement with cancellation and billing terms.",
+      "fetch_lanes": [
+        "direct",
+        "browser_hook",
+        "mirror"
+      ],
+      "backup_urls": [
+        "https://help.paramountplus.com/s/article/PD-How-do-I-cancel-my-Paramount-subscription",
+        "https://www.paramountplus.com/terms/"
+      ]
     },
     "peacock": {
       "url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
@@ -433,8 +447,17 @@
       "notes": "Cancel anytime; reverts to free tier"
     },
     "twitch": {
-      "url": "https://help.twitch.tv/s/article/cancel-twitch-turbo",
-      "notes": "Cancel Turbo anytime; access until end of billing period"
+      "url": "https://www.twitch.tv/p/en/legal/terms-of-sale/",
+      "notes": "Twitch subscription cancellation and billing terms.",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://help.twitch.tv/s/article/cancel-twitch-turbo",
+        "https://www.twitch.tv/p/en/legal/terms-of-service/"
+      ]
     },
     "uber_one": {
       "url": "https://www.uber.com/us/en/u/uber-one/",
@@ -489,8 +512,17 @@
       "notes": "Cancel anytime; service remains active through current billing period."
     },
     "fitbit_premium": {
-      "url": "https://support.google.com/fitbit/",
-      "notes": "Cancel via account purchase channel; access continues through current term."
+      "url": "https://support.google.com/fitbit/workflow/14085163?hl=en",
+      "notes": "Fitbit Premium cancellation flow and billed-term behavior.",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://support.google.com/product-documentation/answer/14816019?hl=en",
+        "https://www.fitbit.com/global/us/legal/terms-of-service"
+      ]
     },
     "myfitnesspal_premium": {
       "url": "https://support.myfitnesspal.com/hc/en-us/articles/360032625371-How-do-I-cancel-my-Premium-subscription-renewal",

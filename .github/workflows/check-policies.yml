@@ -57,6 +57,10 @@ jobs:
             rules/return-policy-confirmed-baseline.json
             rules/trial-policy-confirmed-baseline.json
             rules/policy-events.ndjson
+            rules/policy-status-report.json
+            rules/policy-status-report.md
+            rules/policy-weekly-triage.json
+            rules/policy-weekly-triage.md
           )
 
           git fetch origin "${artifact_branch}" || {
@@ -133,6 +137,15 @@ jobs:
           fetch_failure_count=$(extract_output_value "FETCH_FAILURE_COUNT" | tr -d '[:space:]')
           fetch_failure_by_policy=$(extract_output_value "FETCH_FAILURE_BY_POLICY")
           fetch_failure_sample=$(extract_output_value "FETCH_FAILURE_SAMPLE")
+          fallback_probe_count=$(extract_output_value "FALLBACK_PROBE_COUNT" | tr -d '[:space:]')
+          fallback_probe_by_policy=$(extract_output_value "FALLBACK_PROBE_BY_POLICY")
+          fallback_probe_sample=$(extract_output_value "FALLBACK_PROBE_SAMPLE")
+          fallback_signal_count=$(extract_output_value "FALLBACK_SIGNAL_COUNT" | tr -d '[:space:]')
+          fallback_signal_by_policy=$(extract_output_value "FALLBACK_SIGNAL_BY_POLICY")
+          fallback_signal_sample=$(extract_output_value "FALLBACK_SIGNAL_SAMPLE")
+          fallback_signal_actionable_count=$(extract_output_value "FALLBACK_SIGNAL_ACTIONABLE_COUNT" | tr -d '[:space:]')
+          fallback_signal_actionable_by_policy=$(extract_output_value "FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY")
+          fallback_signal_actionable_sample=$(extract_output_value "FALLBACK_SIGNAL_ACTIONABLE_SAMPLE")
           fetch_health_status=$(extract_output_value "FETCH_HEALTH_STATUS")
           tier1_total=$(extract_output_value "TIER1_TOTAL" | tr -d '[:space:]')
           tier1_fetched=$(extract_output_value "TIER1_FETCHED" | tr -d '[:space:]')
@@ -163,6 +176,9 @@ jobs:
           if [ -z "$escalation_count" ]; then escalation_count=0; fi
           if [ -z "$coverage_gap_count" ]; then coverage_gap_count=0; fi
           if [ -z "$fetch_failure_count" ]; then fetch_failure_count=0; fi
+          if [ -z "$fallback_probe_count" ]; then fallback_probe_count=0; fi
+          if [ -z "$fallback_signal_count" ]; then fallback_signal_count=0; fi
+          if [ -z "$fallback_signal_actionable_count" ]; then fallback_signal_actionable_count=0; fi
           if [ -z "$fetch_health_status" ]; then fetch_health_status=healthy; fi
           if [ -z "$tier1_total" ]; then tier1_total=0; fi
           if [ -z "$tier1_fetched" ]; then tier1_fetched=0; fi
@@ -238,6 +254,15 @@ jobs:
           echo "fetch_failure_count=$fetch_failure_count" >> "$GITHUB_OUTPUT"
           echo "fetch_failure_by_policy=$fetch_failure_by_policy" >> "$GITHUB_OUTPUT"
           echo "fetch_failure_sample=$fetch_failure_sample" >> "$GITHUB_OUTPUT"
+          echo "fallback_probe_count=$fallback_probe_count" >> "$GITHUB_OUTPUT"
+          echo "fallback_probe_by_policy=$fallback_probe_by_policy" >> "$GITHUB_OUTPUT"
+          echo "fallback_probe_sample=$fallback_probe_sample" >> "$GITHUB_OUTPUT"
+          echo "fallback_signal_count=$fallback_signal_count" >> "$GITHUB_OUTPUT"
+          echo "fallback_signal_by_policy=$fallback_signal_by_policy" >> "$GITHUB_OUTPUT"
+          echo "fallback_signal_sample=$fallback_signal_sample" >> "$GITHUB_OUTPUT"
+          echo "fallback_signal_actionable_count=$fallback_signal_actionable_count" >> "$GITHUB_OUTPUT"
+          echo "fallback_signal_actionable_by_policy=$fallback_signal_actionable_by_policy" >> "$GITHUB_OUTPUT"
+          echo "fallback_signal_actionable_sample=$fallback_signal_actionable_sample" >> "$GITHUB_OUTPUT"
           echo "fetch_health_status=$fetch_health_status" >> "$GITHUB_OUTPUT"
           echo "tier1_total=$tier1_total" >> "$GITHUB_OUTPUT"
           echo "tier1_fetched=$tier1_fetched" >> "$GITHUB_OUTPUT"
@@ -266,6 +291,12 @@ jobs:
           ESCALATION_COUNT: ${{ steps.check.outputs.escalation_count }}
           FETCH_FAILURE_COUNT: ${{ steps.check.outputs.fetch_failure_count }}
           FETCH_FAILURE_BY_POLICY: ${{ steps.check.outputs.fetch_failure_by_policy }}
+          FALLBACK_PROBE_COUNT: ${{ steps.check.outputs.fallback_probe_count }}
+          FALLBACK_PROBE_BY_POLICY: ${{ steps.check.outputs.fallback_probe_by_policy }}
+          FALLBACK_SIGNAL_COUNT: ${{ steps.check.outputs.fallback_signal_count }}
+          FALLBACK_SIGNAL_BY_POLICY: ${{ steps.check.outputs.fallback_signal_by_policy }}
+          FALLBACK_SIGNAL_ACTIONABLE_COUNT: ${{ steps.check.outputs.fallback_signal_actionable_count }}
+          FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY: ${{ steps.check.outputs.fallback_signal_actionable_by_policy }}
           FETCH_HEALTH_STATUS: ${{ steps.check.outputs.fetch_health_status }}
           TIER1_TOTAL: ${{ steps.check.outputs.tier1_total }}
           TIER1_FETCHED: ${{ steps.check.outputs.tier1_fetched }}
@@ -281,6 +312,9 @@ jobs:
           volatile="${VOLATILE_PENDING_COUNT:-0}"
           escalations="${ESCALATION_COUNT:-0}"
           fetch_failures="${FETCH_FAILURE_COUNT:-0}"
+          fallback_probe="${FALLBACK_PROBE_COUNT:-0}"
+          fallback_signal="${FALLBACK_SIGNAL_COUNT:-0}"
+          fallback_signal_actionable="${FALLBACK_SIGNAL_ACTIONABLE_COUNT:-0}"
           fetch_health="${FETCH_HEALTH_STATUS:-healthy}"
           tier1_total="${TIER1_TOTAL:-0}"
           tier1_fetched="${TIER1_FETCHED:-0}"
@@ -303,12 +337,24 @@ jobs:
             echo "- Legacy pending carried: ${legacy_pending}"
             echo "- Fetch-blocked pending: ${fetch_blocked}"
             echo "- Fetch failures: ${fetch_failures} (${fetch_health})"
+            echo "- Fallback probes (HEAD metadata): ${fallback_probe}"
+            echo "- Fallback metadata signals changed: ${fallback_signal}"
+            echo "- Fallback metadata signals actionable: ${fallback_signal_actionable}"
             echo "- Quality-gate held: ${quality_gate_held}"
             echo "- Escalations: ${escalations}"
             echo "- Tier-1 coverage: ${tier1_fetched}/${tier1_total} (${tier1_pct}%)"
             echo "- Public issue automation: ${issue_mode}"
             if [ -n "${FETCH_FAILURE_BY_POLICY:-}" ]; then
               echo "- Fetch failures by policy: ${FETCH_FAILURE_BY_POLICY}"
+            fi
+            if [ -n "${FALLBACK_PROBE_BY_POLICY:-}" ]; then
+              echo "- Fallback probes by policy: ${FALLBACK_PROBE_BY_POLICY}"
+            fi
+            if [ -n "${FALLBACK_SIGNAL_BY_POLICY:-}" ]; then
+              echo "- Fallback metadata signals by policy: ${FALLBACK_SIGNAL_BY_POLICY}"
+            fi
+            if [ -n "${FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY:-}" ]; then
+              echo "- Fallback metadata actionable signals by policy: ${FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY}"
             fi
             if [ -n "${LEGACY_PENDING_BY_POLICY:-}" ]; then
               echo "- Legacy pending by policy: ${LEGACY_PENDING_BY_POLICY}"
@@ -337,6 +383,10 @@ jobs:
             rules/return-policy-sources.json
             rules/trial-policy-sources.json
             rules/policy-alert-feed.json
+            rules/policy-status-report.json
+            rules/policy-status-report.md
+            rules/policy-weekly-triage.json
+            rules/policy-weekly-triage.md
           )
           source_files=(
             rules/policy-sources.json
@@ -358,6 +408,10 @@ jobs:
             rules/return-policy-semantic-state.json
             rules/trial-policy-semantic-state.json
             rules/policy-events.ndjson
+            rules/policy-status-report.json
+            rules/policy-status-report.md
+            rules/policy-weekly-triage.json
+            rules/policy-weekly-triage.md
           )
 
           existing=()
@@ -460,6 +514,10 @@ jobs:
           ESCALATION_COUNT: ${{ steps.check.outputs.escalation_count }}
           FETCH_FAILURE_COUNT: ${{ steps.check.outputs.fetch_failure_count }}
           FETCH_FAILURE_BY_POLICY: ${{ steps.check.outputs.fetch_failure_by_policy }}
+          FALLBACK_SIGNAL_COUNT: ${{ steps.check.outputs.fallback_signal_count }}
+          FALLBACK_SIGNAL_BY_POLICY: ${{ steps.check.outputs.fallback_signal_by_policy }}
+          FALLBACK_SIGNAL_ACTIONABLE_COUNT: ${{ steps.check.outputs.fallback_signal_actionable_count }}
+          FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY: ${{ steps.check.outputs.fallback_signal_actionable_by_policy }}
           FETCH_HEALTH_STATUS: ${{ steps.check.outputs.fetch_health_status }}
         with:
           github-token: ${{ secrets.POLICY_BOT_TOKEN || github.token }}
@@ -484,6 +542,10 @@ jobs:
                 `- Escalation count: ${process.env.ESCALATION_COUNT || '0'}`,
                 `- Fetch failures: ${process.env.FETCH_FAILURE_COUNT || '0'} (${process.env.FETCH_HEALTH_STATUS || 'unknown'})`,
                 process.env.FETCH_FAILURE_BY_POLICY ? `- Fetch failures by policy: ${process.env.FETCH_FAILURE_BY_POLICY}` : '',
+                `- Fallback metadata signals changed: ${process.env.FALLBACK_SIGNAL_COUNT || '0'}`,
+                process.env.FALLBACK_SIGNAL_BY_POLICY ? `- Fallback metadata signals by policy: ${process.env.FALLBACK_SIGNAL_BY_POLICY}` : '',
+                `- Fallback metadata signals actionable: ${process.env.FALLBACK_SIGNAL_ACTIONABLE_COUNT || '0'}`,
+                process.env.FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY ? `- Fallback metadata actionable by policy: ${process.env.FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY}` : '',
                 '',
                 '## Test Evidence',
                 '- Generated by scheduled `Daily Policy Check` run.',
@@ -539,7 +601,7 @@ jobs:
             }
 
       - name: Open issue if policies changed or candidates pending
-        if: env.POLICY_CHECK_PUBLIC_ISSUES_ENABLED == '1' && steps.check.outputs.contract_valid == '1' && ((steps.check.outputs.changed_count && steps.check.outputs.changed_count != '0') || (steps.check.outputs.pending_count && steps.check.outputs.pending_count != '0'))
+        if: env.POLICY_CHECK_PUBLIC_ISSUES_ENABLED == '1' && steps.check.outputs.contract_valid == '1' && ((steps.check.outputs.changed_count && steps.check.outputs.changed_count != '0') || (steps.check.outputs.pending_count && steps.check.outputs.pending_count != '0') || (steps.check.outputs.fallback_signal_actionable_count && steps.check.outputs.fallback_signal_actionable_count != '0'))
         continue-on-error: true
         uses: actions/github-script@v7
         env:
@@ -576,6 +638,15 @@ jobs:
           FETCH_FAILURE_COUNT: ${{ steps.check.outputs.fetch_failure_count }}
           FETCH_FAILURE_BY_POLICY: ${{ steps.check.outputs.fetch_failure_by_policy }}
           FETCH_FAILURE_SAMPLE: ${{ steps.check.outputs.fetch_failure_sample }}
+          FALLBACK_PROBE_COUNT: ${{ steps.check.outputs.fallback_probe_count }}
+          FALLBACK_PROBE_BY_POLICY: ${{ steps.check.outputs.fallback_probe_by_policy }}
+          FALLBACK_PROBE_SAMPLE: ${{ steps.check.outputs.fallback_probe_sample }}
+          FALLBACK_SIGNAL_COUNT: ${{ steps.check.outputs.fallback_signal_count }}
+          FALLBACK_SIGNAL_BY_POLICY: ${{ steps.check.outputs.fallback_signal_by_policy }}
+          FALLBACK_SIGNAL_SAMPLE: ${{ steps.check.outputs.fallback_signal_sample }}
+          FALLBACK_SIGNAL_ACTIONABLE_COUNT: ${{ steps.check.outputs.fallback_signal_actionable_count }}
+          FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY: ${{ steps.check.outputs.fallback_signal_actionable_by_policy }}
+          FALLBACK_SIGNAL_ACTIONABLE_SAMPLE: ${{ steps.check.outputs.fallback_signal_actionable_sample }}
           FETCH_HEALTH_STATUS: ${{ steps.check.outputs.fetch_health_status }}
           TIER1_TOTAL: ${{ steps.check.outputs.tier1_total }}
           TIER1_FETCHED: ${{ steps.check.outputs.tier1_fetched }}
@@ -624,6 +695,15 @@ jobs:
             const fetchFailureCount = Number.parseInt(process.env.FETCH_FAILURE_COUNT || '0', 10) || 0;
             const fetchFailureByPolicy = process.env.FETCH_FAILURE_BY_POLICY || '';
             const fetchFailureSample = process.env.FETCH_FAILURE_SAMPLE || '';
+            const fallbackProbeCount = Number.parseInt(process.env.FALLBACK_PROBE_COUNT || '0', 10) || 0;
+            const fallbackProbeByPolicy = process.env.FALLBACK_PROBE_BY_POLICY || '';
+            const fallbackProbeSample = process.env.FALLBACK_PROBE_SAMPLE || '';
+            const fallbackSignalCount = Number.parseInt(process.env.FALLBACK_SIGNAL_COUNT || '0', 10) || 0;
+            const fallbackSignalByPolicy = process.env.FALLBACK_SIGNAL_BY_POLICY || '';
+            const fallbackSignalSample = process.env.FALLBACK_SIGNAL_SAMPLE || '';
+            const fallbackSignalActionableCount = Number.parseInt(process.env.FALLBACK_SIGNAL_ACTIONABLE_COUNT || '0', 10) || 0;
+            const fallbackSignalActionableByPolicy = process.env.FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY || '';
+            const fallbackSignalActionableSample = process.env.FALLBACK_SIGNAL_ACTIONABLE_SAMPLE || '';
             const fetchHealthStatus = process.env.FETCH_HEALTH_STATUS || (fetchFailureCount > 0 ? 'degraded' : 'healthy');
             const tier1Total = Number.parseInt(process.env.TIER1_TOTAL || '0', 10) || 0;
             const tier1Fetched = Number.parseInt(process.env.TIER1_FETCHED || '0', 10) || 0;
@@ -703,6 +783,24 @@ jobs:
               .filter(Boolean)
               .map((item) => `- ${item.replace(':', ': ')}`)
               .join('\n');
+            const fallbackProbeByPolicyList = fallbackProbeByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
+            const fallbackSignalByPolicyList = fallbackSignalByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
+            const fallbackSignalActionableByPolicyList = fallbackSignalActionableByPolicy
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((item) => `- ${item.replace(':', ': ')}`)
+              .join('\n');
             const qualityGateHeldByPolicyList = qualityGateHeldByPolicy
               .split(',')
               .map((s) => s.trim())
@@ -754,6 +852,9 @@ jobs:
               `Active pending candidates (needs confirmation): **${pendingCount}**`,
               `Legacy pending carried forward: **${legacyPendingCount}**`,
               `Fetch health: **${fetchHealthStatus}**`,
+              `Fallback metadata probes available: **${fallbackProbeCount}**`,
+              `Fallback metadata signals changed: **${fallbackSignalCount}**`,
+              `Fallback metadata signals actionable: **${fallbackSignalActionableCount}**`,
               `Tier-1 coverage: **${tier1Fetched}/${tier1Total} (${tier1CoveragePct}%)**`,
               "",
               changedByPolicy ? "### By policy\n" + changedByPolicyList + "\n" : "",
@@ -770,6 +871,9 @@ jobs:
               escalationCount > 0 ? `### Escalation candidates (SLA)\n- Total: **${escalationCount}**\n${escalationByPolicyList}\n${escalationDetailList ? `${escalationDetailList}\n` : ""}${escalationSample ? `Sample: \`${escalationSample}\`` : ""}\n` : "",
               coverageGapCount > 0 ? `### Pending without confirm/escalation (coverage gap)\n- Total: **${coverageGapCount}**\n${coverageGapByPolicyList}\n${coverageGapSample ? `Sample: \`${coverageGapSample}\`` : ""}\n` : "",
               fetchFailureCount > 0 ? `### Fetch failures (degraded observability)\n- Total: **${fetchFailureCount}**\n${fetchFailureByPolicyList}\n${fetchFailureSample ? `Sample: \`${fetchFailureSample}\`` : ""}\n` : "",
+              fallbackProbeCount > 0 ? `### Fallback probes (HEAD metadata)\n- Total: **${fallbackProbeCount}**\n${fallbackProbeByPolicyList}\n${fallbackProbeSample ? `Sample: \`${fallbackProbeSample}\`` : ""}\n` : "",
+              fallbackSignalCount > 0 ? `### Fallback metadata signals changed (signal-only)\n- Total: **${fallbackSignalCount}**\n${fallbackSignalByPolicyList}\n${fallbackSignalSample ? `Sample: \`${fallbackSignalSample}\`` : ""}\n` : "",
+              fallbackSignalActionableCount > 0 ? `### Fallback metadata signals actionable (strong headers changed in repeated blocked runs)\n- Total: **${fallbackSignalActionableCount}**\n${fallbackSignalActionableByPolicyList}\n${fallbackSignalActionableSample ? `Sample: \`${fallbackSignalActionableSample}\`` : ""}\n` : "",
               tier1ByPolicy ? `### Tier-1 coverage by policy\n- ${tier1ByPolicy.split(',').join('\n- ')}\n` : "",
               tier1Failed > 0 ? `Tier-1 failed vendors: \`${tier1FailedSample || 'sample unavailable'}\`\n` : "",
               tier1MissingConfiguredCount > 0 ? `Tier-1 config missing vendors: \`${tier1MissingConfiguredSample || 'sample unavailable'}\`\n` : "",
@@ -784,6 +888,10 @@ jobs:
               "- `rules/trial-policy-semantic-state.json`",
               "- `rules/policy-alert-feed.json`",
               "- `rules/policy-events.ndjson`",
+              "- `rules/policy-status-report.json`",
+              "- `rules/policy-status-report.md`",
+              "- `rules/policy-weekly-triage.json`",
+              "- `rules/policy-weekly-triage.md`",
               "",
               "### Feed contract fields",
               `ACTUAL_CHANGED_COUNT=${changedCount}`,
@@ -836,6 +944,9 @@ jobs:
                     `Policy changes: **${changedCount}**`,
                     `Pending candidates (needs confirmation): **${pendingCount}**`,
                     `Fetch health: **${fetchHealthStatus}**`,
+                    `Fallback metadata probes available: **${fallbackProbeCount}**`,
+                    `Fallback metadata signals changed: **${fallbackSignalCount}**`,
+                    `Fallback metadata signals actionable: **${fallbackSignalActionableCount}**`,
                     `Tier-1 coverage: **${tier1Fetched}/${tier1Total} (${tier1CoveragePct}%)**`,
                     changedByPolicy ? `By policy: ${changedByPolicy}` : "",
                     pendingByPolicy ? `Pending by policy: ${pendingByPolicy}` : "",
@@ -846,6 +957,9 @@ jobs:
                     escalationDetail ? `Escalation detail: ${escalationDetail}` : "",
                     coverageGapCount > 0 ? `Coverage gaps: ${coverageGapCount} (${coverageGapByPolicy || 'by-policy-unavailable'})` : "",
                     fetchFailureCount > 0 ? `Fetch failures: ${fetchFailureCount} (${fetchFailureByPolicy || 'by-policy-unavailable'})` : "",
+                    fallbackProbeCount > 0 ? `Fallback probes: ${fallbackProbeCount} (${fallbackProbeByPolicy || 'by-policy-unavailable'})` : "",
+                    fallbackSignalCount > 0 ? `Fallback signals changed: ${fallbackSignalCount} (${fallbackSignalByPolicy || 'by-policy-unavailable'})` : "",
+                    fallbackSignalActionableCount > 0 ? `Fallback signals actionable: ${fallbackSignalActionableCount} (${fallbackSignalActionableByPolicy || 'by-policy-unavailable'})` : "",
                     tier1ByPolicy ? `Tier-1 by policy: ${tier1ByPolicy}` : "",
                     tier1Failed > 0 ? `Tier-1 failed sample: ${tier1FailedSample || 'sample-unavailable'}` : "",
                     tier1MissingConfiguredCount > 0 ? `Tier-1 missing-configured sample: ${tier1MissingConfiguredSample || 'sample-unavailable'}` : "",
@@ -854,6 +968,9 @@ jobs:
                     escalationSample ? `Escalation sample: ${escalationSample}` : "",
                     coverageGapSample ? `Coverage gap sample: ${coverageGapSample}` : "",
                     fetchFailureSample ? `Fetch failure sample: ${fetchFailureSample}` : "",
+                    fallbackProbeSample ? `Fallback probe sample: ${fallbackProbeSample}` : "",
+                    fallbackSignalSample ? `Fallback signal sample: ${fallbackSignalSample}` : "",
+                    fallbackSignalActionableSample ? `Fallback actionable signal sample: ${fallbackSignalActionableSample}` : "",
                     pendingSample ? `Pending sample: ${pendingSample}` : ""
                   ].filter(Boolean).join("\n")
                 });

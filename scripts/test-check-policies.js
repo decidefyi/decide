@@ -6,6 +6,7 @@ import {
   buildChangeKey,
   classifyFetchFailureBlock,
   countSignalWindowChangeFlips,
+  evaluateFallbackSignalTransition,
   evaluateSignalWindow,
   getCandidatePendingModelId,
   getCrossRunWindowRequiredForCandidate,
@@ -262,6 +263,77 @@ function testVolatileFlipThresholdOverrides() {
   assert.equal(fallback.threshold >= 1, true, "default volatile threshold should remain positive");
 }
 
+function testFallbackSignalTransitionRequiresStrongSignatures() {
+  const emptyNext = evaluateFallbackSignalTransition({
+    previousStrongSignature: "abc123",
+    nextStrongSignature: "",
+    previousConsecutiveRuns: 4,
+    thresholdRuns: 2,
+  });
+  assert.deepEqual(
+    emptyNext,
+    {
+      changed: false,
+      consecutiveRuns: 0,
+      actionable: false,
+      reason: "no_strong_signal",
+    },
+    "missing strong signal should reset fallback transition counters"
+  );
+
+  const firstStrong = evaluateFallbackSignalTransition({
+    previousStrongSignature: "",
+    nextStrongSignature: "def456",
+    previousConsecutiveRuns: 1,
+    thresholdRuns: 2,
+  });
+  assert.equal(firstStrong.changed, false, "first observed strong signature should not be treated as a change");
+  assert.equal(firstStrong.actionable, false, "first observed strong signature should not be actionable");
+  assert.equal(firstStrong.reason, "first_strong_signal", "first strong signature should emit first-signal reason");
+}
+
+function testFallbackSignalTransitionStableSignatureResetsConsecutiveRuns() {
+  const stable = evaluateFallbackSignalTransition({
+    previousStrongSignature: "abc123",
+    nextStrongSignature: "abc123",
+    previousConsecutiveRuns: 3,
+    thresholdRuns: 2,
+  });
+  assert.deepEqual(
+    stable,
+    {
+      changed: false,
+      consecutiveRuns: 0,
+      actionable: false,
+      reason: "stable_strong_signal",
+    },
+    "stable strong signatures should reset consecutive changed-run counter"
+  );
+}
+
+function testFallbackSignalTransitionActionableThreshold() {
+  const belowThreshold = evaluateFallbackSignalTransition({
+    previousStrongSignature: "abc123",
+    nextStrongSignature: "def456",
+    previousConsecutiveRuns: 0,
+    thresholdRuns: 2,
+  });
+  assert.equal(belowThreshold.changed, true, "signature change should be detected");
+  assert.equal(belowThreshold.consecutiveRuns, 1, "first changed run should increment to one");
+  assert.equal(belowThreshold.actionable, false, "single changed run should stay non-actionable");
+
+  const atThreshold = evaluateFallbackSignalTransition({
+    previousStrongSignature: "abc123",
+    nextStrongSignature: "def456",
+    previousConsecutiveRuns: 1,
+    thresholdRuns: 2,
+  });
+  assert.equal(atThreshold.changed, true, "signature change should remain detected");
+  assert.equal(atThreshold.consecutiveRuns, 2, "second changed run should increment to threshold");
+  assert.equal(atThreshold.actionable, true, "changed runs at threshold should become actionable");
+  assert.equal(atThreshold.reason, "strong_signal_changed", "expected changed reason for actionable transition");
+}
+
 function main() {
   testImmediateBlockOnCloudflareAnd403();
   console.log("PASS check-policies immediate block on anti-bot");
@@ -323,7 +395,16 @@ function main() {
   testVolatileFlipThresholdOverrides();
   console.log("PASS check-policies volatile threshold overrides");
 
-  console.log("Check-policies tests passed: 20/20");
+  testFallbackSignalTransitionRequiresStrongSignatures();
+  console.log("PASS check-policies fallback transition strong signal requirement");
+
+  testFallbackSignalTransitionStableSignatureResetsConsecutiveRuns();
+  console.log("PASS check-policies fallback transition stability reset");
+
+  testFallbackSignalTransitionActionableThreshold();
+  console.log("PASS check-policies fallback transition actionable threshold");
+
+  console.log("Check-policies tests passed: 23/23");
 }
 
 try {

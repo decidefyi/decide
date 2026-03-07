@@ -43,6 +43,10 @@ const CHECKER_CONFIG = {
   escalationFlipThreshold: Number.parseInt(process.env.POLICY_CHECK_ESCALATION_FLIP_THRESHOLD || "4", 10),
   escalationRequireRecentFlip: String(process.env.POLICY_CHECK_ESCALATION_REQUIRE_RECENT_FLIP || "1").trim().toLowerCase(),
   fetchFailureQuarantineStreak: Number.parseInt(process.env.POLICY_CHECK_FETCH_FAILURE_QUARANTINE_STREAK || "2", 10),
+  fallbackSignalConsecutiveRuns: Number.parseInt(
+    process.env.POLICY_CHECK_FALLBACK_SIGNAL_CONSECUTIVE_RUNS || "2",
+    10
+  ),
   noConfirmEscalationDays: Number.parseInt(process.env.POLICY_CHECK_NO_CONFIRM_ESCALATION_DAYS || "7", 10),
   materialCooldownDays: Number.parseInt(process.env.POLICY_CHECK_MATERIAL_COOLDOWN_DAYS || "14", 10),
   materialOscillationWindowDays: Number.parseInt(process.env.POLICY_CHECK_MATERIAL_OSCILLATION_WINDOW_DAYS || "21", 10),
@@ -254,6 +258,10 @@ export const PENDING_MODEL_ID = process.env.POLICY_CHECK_PENDING_MODEL || "signa
 const POLICY_ALERT_FEED_PATH = join(__dirname, "..", "rules", "policy-alert-feed.json");
 const POLICY_EVENT_LOG_PATH = join(__dirname, "..", "rules", "policy-events.ndjson");
 const POLICY_TIER1_VENDORS_PATH = join(__dirname, "..", "rules", "policy-tier1-vendors.json");
+const POLICY_STATUS_REPORT_JSON_PATH = join(__dirname, "..", "rules", "policy-status-report.json");
+const POLICY_STATUS_REPORT_MD_PATH = join(__dirname, "..", "rules", "policy-status-report.md");
+const POLICY_WEEKLY_TRIAGE_JSON_PATH = join(__dirname, "..", "rules", "policy-weekly-triage.json");
+const POLICY_WEEKLY_TRIAGE_MD_PATH = join(__dirname, "..", "rules", "policy-weekly-triage.md");
 const POLICY_COUNT_KEYS = ["refund", "cancel", "return", "trial"];
 
 const isUpdate = process.argv.includes("--update");
@@ -433,6 +441,200 @@ function updatePolicyAlertFeed(entry) {
     signature: String(merged.signature || ""),
     feedChanged,
   };
+}
+
+function summarizeStatusCounts(rows) {
+  const counts = {};
+  for (const row of rows || []) {
+    const status = String(row?.status || "unknown").trim() || "unknown";
+    counts[status] = Number(counts[status] || 0) + 1;
+  }
+  return counts;
+}
+
+function summarizePolicyStatusCounts(rows, statuses = []) {
+  const statusSet = new Set((statuses || []).map((status) => String(status || "").trim()).filter(Boolean));
+  const counts = {};
+  for (const row of rows || []) {
+    const policy = String(row?.policy || "").trim();
+    const status = String(row?.status || "").trim();
+    if (!policy) continue;
+    if (statusSet.size > 0 && !statusSet.has(status)) continue;
+    counts[policy] = Number(counts[policy] || 0) + 1;
+  }
+  return counts;
+}
+
+function writePolicyStatusReports(rows, generatedAtUtc) {
+  const sortedRows = [...(rows || [])].sort((a, b) => {
+    const policyOrder = POLICY_COUNT_KEYS.indexOf(String(a.policy || ""));
+    const nextPolicyOrder = POLICY_COUNT_KEYS.indexOf(String(b.policy || ""));
+    if (policyOrder !== nextPolicyOrder) {
+      return (policyOrder === -1 ? 999 : policyOrder) - (nextPolicyOrder === -1 ? 999 : nextPolicyOrder);
+    }
+    return String(a.vendor || "").localeCompare(String(b.vendor || ""));
+  });
+
+  const statusCounts = summarizeStatusCounts(sortedRows);
+  const byPolicyRows = {};
+  for (const row of sortedRows) {
+    const policy = String(row.policy || "").trim() || "unknown";
+    if (!byPolicyRows[policy]) byPolicyRows[policy] = [];
+    byPolicyRows[policy].push(row);
+  }
+
+  const payload = {
+    schema_version: 1,
+    generated_at_utc: generatedAtUtc,
+    run_id: String(process.env.GITHUB_RUN_ID || "").trim(),
+    run_attempt: String(process.env.GITHUB_RUN_ATTEMPT || "").trim(),
+    commit_sha: String(process.env.GITHUB_SHA || "").trim(),
+    run_url: buildRunUrl(),
+    totals: {
+      row_count: sortedRows.length,
+      status_counts: statusCounts,
+    },
+    rows: sortedRows,
+  };
+  writeFileSync(POLICY_STATUS_REPORT_JSON_PATH, JSON.stringify(payload, null, 2) + "\n");
+
+  const lines = [];
+  lines.push("# Policy Status Report");
+  lines.push("");
+  lines.push(`Generated UTC: ${generatedAtUtc}`);
+  lines.push(`Rows: ${sortedRows.length}`);
+  lines.push(
+    `Status totals: ${Object.entries(statusCounts)
+      .map(([status, count]) => `${status}=${count}`)
+      .join(", ")}`
+  );
+  lines.push("");
+
+  const orderedPolicies = [...POLICY_COUNT_KEYS, ...Object.keys(byPolicyRows).filter((p) => !POLICY_COUNT_KEYS.includes(p))];
+  for (const policy of orderedPolicies) {
+    const policyRows = byPolicyRows[policy] || [];
+    if (policyRows.length === 0) continue;
+    lines.push(`## ${policy} (${policyRows.length} vendors)`);
+    for (const row of policyRows) {
+      const reason = String(row.reason || "").trim() || "no additional details";
+      const source = String(row.source_url || "").trim();
+      const sourceSuffix = source ? ` Source: ${source}` : "";
+      lines.push(`- ${row.vendor}: ${row.status}. ${reason}.${sourceSuffix}`);
+    }
+    lines.push("");
+  }
+
+  writeFileSync(POLICY_STATUS_REPORT_MD_PATH, lines.join("\n").trimEnd() + "\n");
+}
+
+function toIsoWeekKey(utcIso) {
+  const date = new Date(utcIso);
+  if (Number.isNaN(date.getTime())) return "";
+  date.setUTCHours(0, 0, 0, 0);
+  const day = (date.getUTCDay() + 6) % 7;
+  date.setUTCDate(date.getUTCDate() - day + 3);
+  const firstThursday = new Date(Date.UTC(date.getUTCFullYear(), 0, 4));
+  const firstDay = (firstThursday.getUTCDay() + 6) % 7;
+  firstThursday.setUTCDate(firstThursday.getUTCDate() - firstDay + 3);
+  const weekNo = 1 + Math.round((date.getTime() - firstThursday.getTime()) / (7 * 24 * 60 * 60 * 1000));
+  return `${date.getUTCFullYear()}-W${String(weekNo).padStart(2, "0")}`;
+}
+
+function buildWeeklyTriageSnapshot(rows, generatedAtUtc) {
+  const statuses = new Set(["pending_confirmation", "legacy_pending", "quality_gate_held", "fetch_blocked", "fetch_failed"]);
+  const pendingRows = (rows || []).filter((row) => statuses.has(String(row?.status || "")));
+  const fetchBlockedRows = (rows || []).filter((row) => String(row?.status || "") === "fetch_blocked");
+  const fetchFailedRows = (rows || []).filter((row) => String(row?.status || "") === "fetch_failed");
+  const confirmedRows = (rows || []).filter((row) => String(row?.status || "") === "confirmed_changed");
+  const volatileRows = (rows || []).filter((row) => Array.isArray(row?.flags) && row.flags.includes("volatile_pending"));
+  const escalationRows = (rows || []).filter((row) => Array.isArray(row?.flags) && row.flags.includes("escalation_candidate"));
+  const fallbackActionableRows = (rows || []).filter(
+    (row) => Array.isArray(row?.flags) && row.flags.includes("fallback_signal_actionable")
+  );
+
+  return {
+    week_key: toIsoWeekKey(generatedAtUtc),
+    generated_at_utc: generatedAtUtc,
+    pending_total: pendingRows.length,
+    fetch_blocked_total: fetchBlockedRows.length,
+    fetch_failed_total: fetchFailedRows.length,
+    confirmed_changed_total: confirmedRows.length,
+    volatile_pending_total: volatileRows.length,
+    escalation_candidate_total: escalationRows.length,
+    fallback_signal_actionable_total: fallbackActionableRows.length,
+    pending_by_policy: summarizePolicyStatusCounts(pendingRows),
+    fetch_blocked_by_policy: summarizePolicyStatusCounts(fetchBlockedRows),
+    confirmed_changed_by_policy: summarizePolicyStatusCounts(confirmedRows),
+  };
+}
+
+function writeWeeklyTriageReports(rows, generatedAtUtc) {
+  const snapshot = buildWeeklyTriageSnapshot(rows, generatedAtUtc);
+  if (!snapshot.week_key) return;
+
+  const existing = readJson(POLICY_WEEKLY_TRIAGE_JSON_PATH, { schema_version: 1, weeks: [] });
+  const weeks = Array.isArray(existing.weeks) ? [...existing.weeks] : [];
+  const existingIndex = weeks.findIndex((entry) => String(entry?.week_key || "") === snapshot.week_key);
+  if (existingIndex >= 0) {
+    weeks[existingIndex] = snapshot;
+  } else {
+    weeks.push(snapshot);
+  }
+  weeks.sort((a, b) => String(a.week_key || "").localeCompare(String(b.week_key || "")));
+  const retainedWeeks = weeks.slice(Math.max(0, weeks.length - 26));
+  const currentIndex = retainedWeeks.findIndex((entry) => String(entry?.week_key || "") === snapshot.week_key);
+  const previous = currentIndex > 0 ? retainedWeeks[currentIndex - 1] : null;
+
+  const payload = {
+    schema_version: 1,
+    updated_utc: generatedAtUtc,
+    current_week: snapshot.week_key,
+    weeks: retainedWeeks,
+  };
+  writeFileSync(POLICY_WEEKLY_TRIAGE_JSON_PATH, JSON.stringify(payload, null, 2) + "\n");
+
+  const delta = (key) => {
+    if (!previous) return 0;
+    return Number(snapshot[key] || 0) - Number(previous[key] || 0);
+  };
+
+  const lines = [];
+  lines.push("# Policy Weekly Triage");
+  lines.push("");
+  lines.push(`Current week: ${snapshot.week_key}`);
+  lines.push(`Generated UTC: ${generatedAtUtc}`);
+  lines.push("");
+  lines.push("## Current Snapshot");
+  lines.push(`- Pending total: ${snapshot.pending_total}`);
+  lines.push(`- Fetch blocked total: ${snapshot.fetch_blocked_total}`);
+  lines.push(`- Fetch failed total: ${snapshot.fetch_failed_total}`);
+  lines.push(`- Confirmed changed total: ${snapshot.confirmed_changed_total}`);
+  lines.push(`- Volatile pending total: ${snapshot.volatile_pending_total}`);
+  lines.push(`- Escalation candidate total: ${snapshot.escalation_candidate_total}`);
+  lines.push(`- Fallback signal actionable total: ${snapshot.fallback_signal_actionable_total}`);
+  if (previous) {
+    lines.push("");
+    lines.push(`## Week-over-Week Delta vs ${previous.week_key}`);
+    lines.push(`- Pending delta: ${delta("pending_total")}`);
+    lines.push(`- Fetch blocked delta: ${delta("fetch_blocked_total")}`);
+    lines.push(`- Confirmed changed delta: ${delta("confirmed_changed_total")}`);
+    lines.push(`- Volatile pending delta: ${delta("volatile_pending_total")}`);
+  }
+  lines.push("");
+  lines.push("## Weekly History (most recent first)");
+  for (const entry of [...retainedWeeks].reverse().slice(0, 12)) {
+    lines.push(
+      `- ${entry.week_key}: pending=${entry.pending_total}, blocked=${entry.fetch_blocked_total}, confirmed=${entry.confirmed_changed_total}, volatile=${entry.volatile_pending_total}, fallback_actionable=${entry.fallback_signal_actionable_total}`
+    );
+  }
+  lines.push("");
+  lines.push("Tracking source files:");
+  lines.push("- rules/policy-coverage-state.json");
+  lines.push("- rules/cancel-policy-coverage-state.json");
+  lines.push("- rules/return-policy-coverage-state.json");
+  lines.push("- rules/trial-policy-coverage-state.json");
+
+  writeFileSync(POLICY_WEEKLY_TRIAGE_MD_PATH, lines.join("\n").trimEnd() + "\n");
 }
 
 function readNdjson(filePath) {
@@ -1459,6 +1661,11 @@ function getFetchFailureQuarantineStreak() {
   return Math.max(1, CHECKER_CONFIG.fetchFailureQuarantineStreak);
 }
 
+function getFallbackSignalConsecutiveRuns() {
+  if (!Number.isFinite(CHECKER_CONFIG.fallbackSignalConsecutiveRuns)) return 2;
+  return Math.max(2, CHECKER_CONFIG.fallbackSignalConsecutiveRuns);
+}
+
 function getEscalationFlipThresholdForVendor(policyName, vendor) {
   const defaultThreshold = getEscalationFlipThreshold();
   if (typeof policyName !== "string" || typeof vendor !== "string") {
@@ -1691,6 +1898,232 @@ async function fetchText(url, attempts = 3) {
     }
   }
   return { text: null, error: lastErrorMessage };
+}
+
+function normalizeFallbackProbeHeaderValue(value) {
+  return String(value || "").replace(/\s+/g, " ").trim();
+}
+
+function getFallbackProbeHeader(headers, key) {
+  if (!headers || typeof headers.get !== "function") return "";
+  return normalizeFallbackProbeHeaderValue(headers.get(key));
+}
+
+function buildFallbackProbeEntrySignatures(entry) {
+  const common = {
+    source_url: String(entry?.source_url || "").trim(),
+    final_url: String(entry?.final_url || "").trim(),
+    status: Number.isFinite(Number(entry?.status)) ? Number(entry.status) : 0,
+  };
+  const strong = {
+    etag: String(entry?.etag || "").trim(),
+    last_modified: String(entry?.last_modified || "").trim(),
+    version_id: String(entry?.version_id || "").trim(),
+  };
+  const weak = {
+    content_length: String(entry?.content_length || "").trim(),
+    content_type: String(entry?.content_type || "").trim(),
+    cache_control: String(entry?.cache_control || "").trim(),
+  };
+  const hasStrongSignal = Boolean(strong.etag || strong.last_modified || strong.version_id);
+  const hasWeakSignal = Boolean(weak.content_length || weak.content_type || weak.cache_control);
+  const strongSignature = hasStrongSignal
+    ? createHash("sha256").update(JSON.stringify({ ...common, ...strong })).digest("hex").slice(0, 16)
+    : "";
+  const weakSignature = hasWeakSignal
+    ? createHash("sha256").update(JSON.stringify({ ...common, ...weak })).digest("hex").slice(0, 16)
+    : "";
+  return {
+    strongSignature,
+    weakSignature,
+    combinedSignature: strongSignature || weakSignature,
+  };
+}
+
+export function evaluateFallbackSignalTransition({
+  previousStrongSignature,
+  nextStrongSignature,
+  previousConsecutiveRuns = 0,
+  thresholdRuns = getFallbackSignalConsecutiveRuns(),
+} = {}) {
+  const previous = String(previousStrongSignature || "").trim();
+  const next = String(nextStrongSignature || "").trim();
+  const consecutiveBase = Number.isFinite(Number(previousConsecutiveRuns))
+    ? Math.max(0, Math.floor(Number(previousConsecutiveRuns)))
+    : 0;
+  const threshold = Number.isFinite(Number(thresholdRuns))
+    ? Math.max(2, Math.floor(Number(thresholdRuns)))
+    : 2;
+
+  if (!next) {
+    return {
+      changed: false,
+      consecutiveRuns: 0,
+      actionable: false,
+      reason: "no_strong_signal",
+    };
+  }
+  if (!previous) {
+    return {
+      changed: false,
+      consecutiveRuns: 0,
+      actionable: false,
+      reason: "first_strong_signal",
+    };
+  }
+  if (previous === next) {
+    return {
+      changed: false,
+      consecutiveRuns: 0,
+      actionable: false,
+      reason: "stable_strong_signal",
+    };
+  }
+
+  const consecutiveRuns = consecutiveBase + 1;
+  return {
+    changed: true,
+    consecutiveRuns,
+    actionable: consecutiveRuns >= threshold,
+    reason: "strong_signal_changed",
+  };
+}
+
+async function probeHeadMetadata(url, attempts = 2) {
+  let lastErrorMessage = "unknown";
+  const target = String(url || "").trim();
+  if (!target) {
+    return { ok: false, error: "missing source URL" };
+  }
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), CHECKER_CONFIG.timeoutMs);
+    try {
+      const response = await fetch(target, {
+        method: "HEAD",
+        signal: controller.signal,
+        headers: {
+          "User-Agent": USER_AGENTS[(attempt - 1) % USER_AGENTS.length],
+          Accept: "*/*",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+        },
+      });
+      if (!response.ok) {
+        lastErrorMessage = `HTTP ${response.status}`;
+        throw new Error(lastErrorMessage);
+      }
+
+      const metadataEntry = {
+        source_url: target,
+        final_url: String(response.url || target).trim(),
+        status: Number(response.status || 0),
+        etag: getFallbackProbeHeader(response.headers, "etag"),
+        last_modified: getFallbackProbeHeader(response.headers, "last-modified"),
+        content_length: getFallbackProbeHeader(response.headers, "content-length"),
+        content_type: getFallbackProbeHeader(response.headers, "content-type"),
+        cache_control: getFallbackProbeHeader(response.headers, "cache-control"),
+        version_id: getFallbackProbeHeader(response.headers, "x-amz-version-id"),
+      };
+      const signatures = buildFallbackProbeEntrySignatures(metadataEntry);
+      if (!signatures.combinedSignature) {
+        lastErrorMessage = "missing_probe_headers";
+        throw new Error(lastErrorMessage);
+      }
+      return {
+        ok: true,
+        signature: signatures.combinedSignature,
+        strong_signature: signatures.strongSignature,
+        weak_signature: signatures.weakSignature,
+        entry: metadataEntry,
+      };
+    } catch (error) {
+      const message = error?.name === "AbortError" ? "timeout" : error?.message || "request failed";
+      lastErrorMessage = message;
+      if (attempt < attempts) {
+        await sleep(450 * attempt + jitter(250));
+      }
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  return { ok: false, error: lastErrorMessage };
+}
+
+async function probeFallbackMetadata(vendorConfig) {
+  const candidates = buildCandidateUrls(vendorConfig);
+  if (candidates.length === 0) {
+    return { available: false, error: "missing source URL", entries: [] };
+  }
+
+  const entries = [];
+  const failures = [];
+  for (const candidateUrl of candidates) {
+    const result = await probeHeadMetadata(candidateUrl, CHECKER_CONFIG.fallbackAttempts);
+    if (!result.ok || !result.entry || !result.signature) {
+      failures.push(`${candidateUrl} (${result.error || "probe failed"})`);
+      continue;
+    }
+    entries.push({
+      ...result.entry,
+      signature: result.signature,
+      strong_signature: String(result.strong_signature || "").trim(),
+      weak_signature: String(result.weak_signature || "").trim(),
+    });
+  }
+
+  if (entries.length === 0) {
+    return {
+      available: false,
+      error: failures.length > 0 ? failures.join("; ") : "no probe metadata available",
+      entries: [],
+    };
+  }
+
+  const sortedEntries = [...entries].sort((a, b) => {
+    const left = String(a.source_url || "");
+    const right = String(b.source_url || "");
+    return left.localeCompare(right);
+  });
+  const aggregateInput = sortedEntries
+    .map((entry) => `${entry.source_url}|${entry.final_url}|${entry.status}|${entry.signature}`)
+    .join("||");
+  const aggregateSignature = createHash("sha256").update(aggregateInput).digest("hex").slice(0, 16);
+  const strongEntries = sortedEntries.filter((entry) => String(entry.strong_signature || "").trim());
+  const strongAggregateInput = strongEntries
+    .map(
+      (entry) =>
+        `${entry.source_url}|${entry.final_url}|${entry.status}|${String(entry.strong_signature || "").trim()}`
+    )
+    .join("||");
+  const strongAggregateSignature = strongAggregateInput
+    ? createHash("sha256").update(strongAggregateInput).digest("hex").slice(0, 16)
+    : "";
+  const sample = sortedEntries
+    .slice(0, 3)
+    .map((entry) => {
+      const parts = [
+        `etag=${String(entry.etag || "-")}`,
+        `last-modified=${String(entry.last_modified || "-")}`,
+        `content-length=${String(entry.content_length || "-")}`,
+        `content-type=${String(entry.content_type || "-")}`,
+        `cache-control=${String(entry.cache_control || "-")}`,
+        `x-amz-version-id=${String(entry.version_id || "-")}`,
+      ];
+      return `${entry.source_url} [${entry.status}] ${parts.join(",")}`;
+    })
+    .join(" | ");
+
+  return {
+    available: true,
+    signature: aggregateSignature,
+    strongSignature: strongAggregateSignature,
+    sample,
+    entries: sortedEntries,
+  };
 }
 
 async function fetchBrowserHookText({ url, vendor, policyType }, attempts = 1) {
@@ -2134,6 +2567,9 @@ async function checkPolicySet({
       qualityGateHeld: [],
       fetchBlockedPending: [],
       legacyPending: [],
+      fallbackProbeAvailable: [],
+      fallbackSignalChanged: [],
+      fallbackSignalActionable: [],
     };
   }
 
@@ -2236,6 +2672,9 @@ async function checkPolicySet({
   const metadataStabilityHeldSet = new Set();
   const qualityGateHeldSet = new Set();
   const noiseSuppressedSet = new Set();
+  const fallbackProbeAvailableSet = new Set();
+  const fallbackSignalChangedSet = new Set();
+  const fallbackSignalActionableSet = new Set();
   let successfulChecks = 0;
 
   const ensureCoverageEntry = (vendor) => {
@@ -2457,6 +2896,47 @@ async function checkPolicySet({
           } else {
             delete coverage.pending_fetch_blocked_reason;
           }
+          const priorFallbackStrongSignature =
+            typeof coverage.last_fallback_probe_strong_signature === "string"
+              ? coverage.last_fallback_probe_strong_signature
+              : "";
+          const priorFallbackConsecutiveRuns = Number(
+            coverage.fallback_signal_consecutive_runs || activeStoredCandidates[vendor]?.fallback_signal_consecutive_runs || 0
+          );
+          const fallbackProbeResult = await probeFallbackMetadata(vendorConfig);
+          if (fallbackProbeResult.available && fallbackProbeResult.signature) {
+            fallbackProbeAvailableSet.add(vendor);
+            coverage.last_fallback_probe_observed_utc = failureAtUtc;
+            coverage.last_fallback_probe_signature = fallbackProbeResult.signature;
+            coverage.last_fallback_probe_strong_signature = String(fallbackProbeResult.strongSignature || "");
+            coverage.last_fallback_probe_weak_only = fallbackProbeResult.strongSignature ? "0" : "1";
+            coverage.last_fallback_probe_sample = fallbackProbeResult.sample || "";
+            coverage.last_fallback_probe_source_count = Array.isArray(fallbackProbeResult.entries)
+              ? fallbackProbeResult.entries.length
+              : 0;
+            delete coverage.last_fallback_probe_error;
+            const fallbackTransition = evaluateFallbackSignalTransition({
+              previousStrongSignature: priorFallbackStrongSignature,
+              nextStrongSignature: fallbackProbeResult.strongSignature,
+              previousConsecutiveRuns: priorFallbackConsecutiveRuns,
+              thresholdRuns: getFallbackSignalConsecutiveRuns(),
+            });
+            coverage.fallback_signal_consecutive_runs = fallbackTransition.consecutiveRuns;
+            coverage.last_fallback_signal_reason = fallbackTransition.reason;
+            if (fallbackTransition.changed) {
+              fallbackSignalChangedSet.add(vendor);
+              coverage.last_fallback_signal_changed_utc = failureAtUtc;
+              coverage.last_fallback_signal_previous_signature = priorFallbackStrongSignature;
+              coverage.last_fallback_signal_signature = String(fallbackProbeResult.strongSignature || "");
+            }
+            if (fallbackTransition.actionable) {
+              fallbackSignalActionableSet.add(vendor);
+              coverage.last_fallback_signal_actionable_utc = failureAtUtc;
+            }
+          } else if (fallbackProbeResult.error) {
+            coverage.fallback_signal_consecutive_runs = 0;
+            coverage.last_fallback_probe_error = fallbackProbeResult.error;
+          }
           if (activeStoredCandidates[vendor]) {
             newCandidates[vendor] = {
               ...activeStoredCandidates[vendor],
@@ -2467,6 +2947,34 @@ async function checkPolicySet({
               fetch_blocked_reason: isFetchBlocked
                 ? (fetchBlockClassification.reason || `consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}`)
                 : "",
+              fallback_probe_signature:
+                fallbackProbeResult.available && fallbackProbeResult.signature
+                  ? fallbackProbeResult.signature
+                  : String(activeStoredCandidates[vendor]?.fallback_probe_signature || ""),
+              fallback_probe_strong_signature:
+                fallbackProbeResult.available && fallbackProbeResult.strongSignature
+                  ? String(fallbackProbeResult.strongSignature)
+                  : String(activeStoredCandidates[vendor]?.fallback_probe_strong_signature || ""),
+              fallback_probe_observed_utc:
+                fallbackProbeResult.available && fallbackProbeResult.signature
+                  ? failureAtUtc
+                  : String(activeStoredCandidates[vendor]?.fallback_probe_observed_utc || ""),
+              fallback_signal_consecutive_runs:
+                fallbackProbeResult.available
+                  ? Number(coverage.fallback_signal_consecutive_runs || 0)
+                  : 0,
+              fallback_signal_changed_utc:
+                fallbackProbeResult.available &&
+                Boolean(coverage.last_fallback_signal_changed_utc) &&
+                String(coverage.last_fallback_signal_changed_utc) === failureAtUtc
+                  ? failureAtUtc
+                  : String(activeStoredCandidates[vendor]?.fallback_signal_changed_utc || ""),
+              fallback_signal_actionable_utc:
+                fallbackProbeResult.available &&
+                Boolean(coverage.last_fallback_signal_actionable_utc) &&
+                String(coverage.last_fallback_signal_actionable_utc) === failureAtUtc
+                  ? failureAtUtc
+                  : String(activeStoredCandidates[vendor]?.fallback_signal_actionable_utc || ""),
             };
           }
           return;
@@ -2483,6 +2991,8 @@ async function checkPolicySet({
         coverage.consecutive_fetch_failures = 0;
         coverage.pending_fetch_blocked = false;
         delete coverage.pending_fetch_blocked_reason;
+        delete coverage.last_fallback_probe_error;
+        coverage.fallback_signal_consecutive_runs = 0;
         const actualConfirmRuns = getActualConfirmRunsForVendor(vendorConfig, vendor);
 
         const sourceUrl =
@@ -3257,6 +3767,127 @@ async function checkPolicySet({
     ) + "\n"
   );
 
+  const materialByVendor = new Map(materialChanged.map((entry) => [entry.vendor, entry]));
+  const observedByVendor = new Map(observedChanged.map((entry) => [entry.vendor, entry]));
+  const errorSet = new Set(errors);
+  const pendingSetForReport = new Set(actionablePending);
+  const fetchBlockedSetForReport = new Set(fetchBlockedPending);
+  const legacyPendingSetForReport = new Set(legacyPending);
+  const qualityHeldSetForReport = new Set(qualityGateHeldSet);
+  const staleSetForReport = new Set(stalePending);
+  const volatileSetForReport = new Set(volatilePending);
+  const escalatedSetForReport = new Set(escalatedPending);
+  const fallbackProbeSetForReport = new Set(fallbackProbeAvailableSet);
+  const fallbackSignalSetForReport = new Set(fallbackSignalChangedSet);
+  const fallbackSignalActionableSetForReport = new Set(fallbackSignalActionableSet);
+
+  const vendorStatusRows = vendors
+    .map(([vendor, vendorConfig]) => {
+      const coverage = ensureCoverageEntry(vendor);
+      const candidate = newCandidates[vendor];
+      const materialEntry = materialByVendor.get(vendor);
+      const observedEntry = observedByVendor.get(vendor);
+      let status = "unchanged";
+      const reasonParts = [];
+      const flags = [];
+
+      if (fetchBlockedSetForReport.has(vendor)) {
+        status = "fetch_blocked";
+        reasonParts.push(
+          String(
+            coverage.pending_fetch_blocked_reason ||
+            coverage.last_fetch_failure_reason ||
+            errorReasons[vendor] ||
+            "fetch blocked"
+          )
+        );
+      } else if (errorSet.has(vendor)) {
+        status = "fetch_failed";
+        reasonParts.push(String(errorReasons[vendor] || coverage.last_fetch_failure_reason || "fetch failed"));
+      } else if (materialEntry) {
+        status = "confirmed_changed";
+        reasonParts.push(String(materialEntry.semantic_diff_summary || "material semantic change confirmed"));
+      } else if (pendingSetForReport.has(vendor)) {
+        status = "pending_confirmation";
+        if (candidate && typeof candidate === "object") {
+          const runConfirmations = Number(candidate.run_confirmations || 0);
+          const runsRequired = Number(
+            candidate.metadata_confirm_runs_required || candidate.actual_confirm_runs_required || getActualConfirmRuns()
+          );
+          const signalWindowVotes = Number(candidate.signal_window_top_hash_votes || 0);
+          const signalWindowRequired = Number(candidate.signal_window_required_votes || getCrossRunWindowRequired());
+          reasonParts.push(
+            `awaiting confirmation (${runConfirmations}/${runsRequired} runs, signal_window ${signalWindowVotes}/${signalWindowRequired})`
+          );
+        } else {
+          reasonParts.push("awaiting cross-run confirmation");
+        }
+      } else if (legacyPendingSetForReport.has(vendor)) {
+        status = "legacy_pending";
+        reasonParts.push(`legacy pending candidate (${LEGACY_PENDING_MODEL_ID})`);
+      } else if (qualityHeldSetForReport.has(vendor)) {
+        status = "quality_gate_held";
+        reasonParts.push(String(coverage.last_quality_gate_failure_reason || "quality gate held"));
+      } else if (observedEntry) {
+        status = "observed_non_material";
+        reasonParts.push("observed page-content update without material semantic change");
+      } else {
+        reasonParts.push("no material policy update observed");
+      }
+
+      if (staleSetForReport.has(vendor)) reasonParts.push("stale_pending");
+      if (staleSetForReport.has(vendor)) flags.push("stale_pending");
+      if (volatileSetForReport.has(vendor)) {
+        reasonParts.push("volatile_pending");
+        flags.push("volatile_pending");
+      }
+      if (escalatedSetForReport.has(vendor)) {
+        reasonParts.push("escalation_candidate");
+        flags.push("escalation_candidate");
+      }
+      if (fallbackProbeSetForReport.has(vendor)) {
+        reasonParts.push("fallback_probe_available");
+        flags.push("fallback_probe_available");
+      }
+      if (fallbackSignalSetForReport.has(vendor)) {
+        reasonParts.push("fallback_metadata_changed");
+        flags.push("fallback_metadata_changed");
+      }
+      if (fallbackSignalActionableSetForReport.has(vendor)) {
+        reasonParts.push(`fallback_signal_actionable(${getFallbackSignalConsecutiveRuns()}+ blocked runs)`);
+        flags.push("fallback_signal_actionable");
+      }
+
+      const statusOrder = {
+        confirmed_changed: 1,
+        pending_confirmation: 2,
+        legacy_pending: 3,
+        quality_gate_held: 4,
+        fetch_blocked: 5,
+        fetch_failed: 6,
+        observed_non_material: 7,
+        unchanged: 8,
+      };
+
+      return {
+        policy: name,
+        vendor,
+        status,
+        status_order: Number(statusOrder[status] || 99),
+        reason: reasonParts.filter(Boolean).join("; "),
+        flags,
+        source_url:
+          typeof vendorConfig?.url === "string"
+            ? vendorConfig.url
+            : (typeof vendorConfig === "string" ? vendorConfig : ""),
+        last_successful_fetch_utc: String(coverage.last_successful_fetch_utc || ""),
+        last_confirmed_change_utc: String(coverage.last_confirmed_change_utc || ""),
+        last_fetch_failure_utc: String(coverage.last_fetch_failure_utc || ""),
+        last_fetch_failure_reason: String(coverage.last_fetch_failure_reason || ""),
+      };
+    })
+    .sort((a, b) => a.vendor.localeCompare(b.vendor));
+
   return {
     name,
     vendorKeys: vendors.map(([vendor]) => vendor).sort((a, b) => a.localeCompare(b)),
@@ -3291,6 +3922,10 @@ async function checkPolicySet({
     coverageGaps,
     qualityGateHeld: [...qualityGateHeldSet].sort((a, b) => a.localeCompare(b)),
     legacyPending,
+    fallbackProbeAvailable: [...fallbackProbeAvailableSet].sort((a, b) => a.localeCompare(b)),
+    fallbackSignalChanged: [...fallbackSignalChangedSet].sort((a, b) => a.localeCompare(b)),
+    fallbackSignalActionable: [...fallbackSignalActionableSet].sort((a, b) => a.localeCompare(b)),
+    vendorStatusRows,
   };
 }
 
@@ -3306,6 +3941,9 @@ async function main() {
   const allAdaptiveWindowRelaxed = [];
   const allNoiseSuppressed = [];
   const allErrors = [];
+  const allFallbackProbeAvailable = [];
+  const allFallbackSignalChanged = [];
+  const allFallbackSignalActionable = [];
   const allPending = [];
   const allFetchBlockedPending = [];
   const allLegacyPending = [];
@@ -3315,6 +3953,7 @@ async function main() {
   const allCoverageGaps = [];
   const allTier1Failed = [];
   const allTier1MissingConfigured = [];
+  const allVendorStatusRows = [];
   const pendingDetailByPolicy = {};
   const escalationDetailByPolicy = {};
   const tier1ByPolicy = {};
@@ -3358,6 +3997,24 @@ async function main() {
         );
       }
       allErrors.push(...result.errors.map((vendor) => ({ policyType: result.name, vendor })));
+    }
+    if (result.fallbackProbeAvailable.length > 0) {
+      const names = sortedLimitedVendors(result.fallbackProbeAvailable, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: fallback_probe_available=${result.fallbackProbeAvailable.length} (HEAD metadata captured while full-content fetch failed); first ${names.length}: ${names.join(", ")}`
+      );
+    }
+    if (result.fallbackSignalChanged.length > 0) {
+      const names = sortedLimitedVendors(result.fallbackSignalChanged, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: fallback_signal_changed=${result.fallbackSignalChanged.length} (metadata changed while full content was unavailable; signal-only, not auto-confirmed); first ${names.length}: ${names.join(", ")}`
+      );
+    }
+    if (result.fallbackSignalActionable.length > 0) {
+      const names = sortedLimitedVendors(result.fallbackSignalActionable, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: fallback_signal_actionable=${result.fallbackSignalActionable.length} (strong metadata changed in ${getFallbackSignalConsecutiveRuns()}+ consecutive blocked runs); first ${names.length}: ${names.join(", ")}`
+      );
     }
     if (result.pending.length > 0) {
       console.log(
@@ -3523,6 +4180,15 @@ async function main() {
     for (const vendor of result.noiseSuppressed) {
       allNoiseSuppressed.push({ policyType: result.name, vendor });
     }
+    for (const vendor of result.fallbackProbeAvailable) {
+      allFallbackProbeAvailable.push({ policyType: result.name, vendor });
+    }
+    for (const vendor of result.fallbackSignalChanged) {
+      allFallbackSignalChanged.push({ policyType: result.name, vendor });
+    }
+    for (const vendor of result.fallbackSignalActionable) {
+      allFallbackSignalActionable.push({ policyType: result.name, vendor });
+    }
     for (const vendor of result.pending) {
       allPending.push({ policyType: result.name, vendor });
     }
@@ -3557,6 +4223,9 @@ async function main() {
     }
     for (const vendor of result.coverageGaps) {
       allCoverageGaps.push({ policyType: result.name, vendor });
+    }
+    for (const row of result.vendorStatusRows || []) {
+      allVendorStatusRows.push(row);
     }
   }
 
@@ -3668,6 +4337,21 @@ async function main() {
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
+  const fallbackProbeByPolicy = toPolicyCountString(allFallbackProbeAvailable);
+  const fallbackProbeSample = allFallbackProbeAvailable
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const fallbackSignalByPolicy = toPolicyCountString(allFallbackSignalChanged);
+  const fallbackSignalSample = allFallbackSignalChanged
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
+  const fallbackSignalActionableByPolicy = toPolicyCountString(allFallbackSignalActionable);
+  const fallbackSignalActionableSample = allFallbackSignalActionable
+    .slice(0, 20)
+    .map((item) => `${item.policyType}:${item.vendor}`)
+    .join(",");
   const fetchHealthStatus = allErrors.length > 0 ? "degraded" : "healthy";
   const tier1Total = Object.values(tier1ByPolicy).reduce((sum, value) => sum + Number(value.total || 0), 0);
   const tier1Fetched = Object.values(tier1ByPolicy).reduce((sum, value) => sum + Number(value.fetched || 0), 0);
@@ -3688,6 +4372,8 @@ async function main() {
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
   const generatedAtUtc = utcIsoTimestamp();
+  writePolicyStatusReports(allVendorStatusRows, generatedAtUtc);
+  writeWeeklyTriageReports(allVendorStatusRows, generatedAtUtc);
   const changedDateUtc = generatedAtUtc.slice(0, 10);
   let alertFeedPublishState = {
     published: false,
@@ -3745,6 +4431,15 @@ async function main() {
   console.log(`FETCH_FAILURE_COUNT=${allErrors.length}`);
   console.log(`FETCH_FAILURE_BY_POLICY=${fetchFailureByPolicy}`);
   console.log(`FETCH_FAILURE_SAMPLE=${fetchFailureSample}`);
+  console.log(`FALLBACK_PROBE_COUNT=${allFallbackProbeAvailable.length}`);
+  console.log(`FALLBACK_PROBE_BY_POLICY=${fallbackProbeByPolicy}`);
+  console.log(`FALLBACK_PROBE_SAMPLE=${fallbackProbeSample}`);
+  console.log(`FALLBACK_SIGNAL_COUNT=${allFallbackSignalChanged.length}`);
+  console.log(`FALLBACK_SIGNAL_BY_POLICY=${fallbackSignalByPolicy}`);
+  console.log(`FALLBACK_SIGNAL_SAMPLE=${fallbackSignalSample}`);
+  console.log(`FALLBACK_SIGNAL_ACTIONABLE_COUNT=${allFallbackSignalActionable.length}`);
+  console.log(`FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY=${fallbackSignalActionableByPolicy}`);
+  console.log(`FALLBACK_SIGNAL_ACTIONABLE_SAMPLE=${fallbackSignalActionableSample}`);
   console.log(`FETCH_HEALTH_STATUS=${fetchHealthStatus}`);
   console.log(`TIER1_TOTAL=${tier1Total}`);
   console.log(`TIER1_FETCHED=${tier1Fetched}`);
