@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-03-07T09:06:07Z",
+  "updated_utc": "2026-03-07T09:30:35Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
@@ -271,9 +271,9 @@
       "metadata_signature": ""
     },
     "coursera_plus": {
-      "hash": "f56ad277047f7529",
+      "hash": "ade8bc5d0638053f",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T08:58:42Z",
+      "extracted_at_utc": "2026-03-07T09:23:55Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -330,9 +330,9 @@
       "tokens": []
     },
     "doordash_dashpass": {
-      "hash": "e44d5e7f179a1b8e",
+      "hash": "8fac1413799163ec",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T08:58:49Z",
+      "extracted_at_utc": "2026-03-07T09:24:02Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -475,10 +475,25 @@
       "metadata_signature": ""
     },
     "hulu": {
-      "hash": "fef20f3735512b2b",
-      "source_url": "https://help.hulu.com/article/cancel-subscription",
-      "extracted_at_utc": "2026-02-27T12:40:48Z",
-      "tokens": []
+      "hash": "d8657a5127491423",
+      "source_url": "https://www.hulu.com/subscriber_agreement",
+      "extracted_at_utc": "2026-03-07T09:29:05Z",
+      "tokens": [
+        "cancel:effective_end_of_term",
+        "restriction:no_refund_or_final_sale",
+        "risk:chargeback_or_dispute"
+      ],
+      "page_metadata": {
+        "source_kind": "html",
+        "source_title": "Subscriber Agreement | Hulu | Hulu",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "780e23151094d75b"
     },
     "hellofresh": {
       "hash": "e127548b324aceac",
@@ -623,9 +638,9 @@
       "metadata_signature": ""
     },
     "midjourney": {
-      "hash": "05a4746cf3c4be3c",
+      "hash": "cda38716917340a8",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-03-07T01:07:30Z",
+      "extracted_at_utc": "2026-03-07T09:26:06Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -779,15 +794,15 @@
       "metadata_signature": "249b168ffc67c82c"
     },
     "ring_protect": {
-      "hash": "74272ac5151d54ab",
+      "hash": "d2ee31e9f2d00e38",
       "source_url": "https://ring.com/protect-plans",
-      "extracted_at_utc": "2026-03-07T09:02:09Z",
+      "extracted_at_utc": "2026-03-07T09:26:18Z",
       "tokens": [
         "billing:auto_renew"
       ],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Ring Protect Plans - Subscription Plans for Home Security | Ring",
+        "source_title": "Ring Protect - Subscription Plans for Home Security | Ring",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -795,7 +810,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "6ce37b3c63476e97"
+      "metadata_signature": "d0834e9d9714a2ec"
     },
     "shutterstock": {
       "hash": "93fce0170819948f",
@@ -984,13 +999,13 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "walmart_plus": {
-      "hash": "a1db564ba162d3c1",
+      "hash": "c827a14ea3235428",
       "source_url": "https://www.walmart.com/help/article/walmart-plus-cancellation/eacb97cd44a84d0c877d5e7f2b7e39c4",
-      "extracted_at_utc": "2026-02-19T23:28:19Z",
+      "extracted_at_utc": "2026-03-07T09:26:26Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Help - Walmart.com",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -998,7 +1013,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "b032ae4a06dc48d8"
     },
     "uber_one": {
       "hash": "c3255cd8b0a50462",
@@ -1076,10 +1091,11 @@
       "metadata_signature": ""
     },
     "youtube_tv": {
-      "hash": "970d03bca8d72a23",
+      "hash": "916a4d9a32fe1501",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-03-07T00:23:33Z",
+      "extracted_at_utc": "2026-03-07T09:30:31Z",
       "tokens": [
+        "cancel_window_days:60",
         "cancel:anytime",
         "restriction:no_refund_or_final_sale"
       ],
@@ -1096,13 +1112,17 @@
       "metadata_signature": "e89099edc5ee035a"
     },
     "lastpass": {
-      "hash": "795dc583d84a7a2c",
-      "source_url": "https://support.lastpass.com/help/cancel-a-lastpass-subscription",
-      "extracted_at_utc": "2026-02-19T23:28:33Z",
-      "tokens": [],
+      "hash": "c3ce7b2ee88c8107",
+      "source_url": "https://www.lastpass.com/legal-center/terms-of-service",
+      "extracted_at_utc": "2026-03-07T09:29:45Z",
+      "tokens": [
+        "billing:prorated",
+        "restriction:no_refund_or_final_sale",
+        "risk:chargeback_or_dispute"
+      ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "html",
+        "source_title": "LastPass Business Terms of Service",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1110,7 +1130,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "dd3b45432d3113aa"
     },
     "dashlane": {
       "hash": "5b339b17835cdb72",
@@ -1411,13 +1431,13 @@
       "metadata_signature": ""
     },
     "telegram_premium": {
-      "hash": "26cdc197dd1d6b9f",
+      "hash": "47d321d7f612cd46",
       "source_url": "https://telegram.org/faq",
-      "extracted_at_utc": "2026-02-19T23:29:12Z",
+      "extracted_at_utc": "2026-03-07T09:27:38Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Telegram FAQ",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1425,7 +1445,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": ""
+      "metadata_signature": "74c0479f2046c652"
     },
     "soundcloud_go": {
       "hash": "29ef335eedc7bef5",
@@ -1500,9 +1520,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "espn_plus": {
-      "hash": "46639110e2ed29bc",
+      "hash": "bea213404e064019",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T08:59:21Z",
+      "extracted_at_utc": "2026-03-07T09:24:40Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1517,9 +1537,9 @@
       "metadata_signature": "c17cbbfb2657430a"
     },
     "google_one": {
-      "hash": "e9a1e24fd931c011",
+      "hash": "47fe303a75ca7032",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T09:00:24Z",
+      "extracted_at_utc": "2026-03-07T09:25:24Z",
       "tokens": [
         "cancel:anytime"
       ],
@@ -1553,12 +1573,12 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "peacock": {
-      "hash": "20b644fe8e5ecac4",
+      "hash": "1ee376168c2f131d",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-03-07T09:02:05Z",
+      "extracted_at_utc": "2026-03-07T09:26:14Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "browser_hook",
+        "source_kind": "html",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1567,7 +1587,7 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "ea7c709252c84b20"
     },
     "evernote": {
       "hash": "5fb98c6ad4e6367d",
@@ -1660,9 +1680,9 @@
       "metadata_signature": ""
     },
     "patreon": {
-      "hash": "82837f17e72715f7",
+      "hash": "658852cb63b73f34",
       "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-      "extracted_at_utc": "2026-03-07T06:37:21Z",
+      "extracted_at_utc": "2026-03-07T09:27:13Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1696,13 +1716,13 @@
       "metadata_signature": ""
     },
     "dropbox_us": {
-      "hash": "c609144e56e2f6f1",
+      "hash": "0adfdc179206e059",
       "source_url": "https://help.dropbox.com/plans/cancel-plan",
-      "extracted_at_utc": "2026-03-07T06:34:13Z",
+      "extracted_at_utc": "2026-03-07T09:24:57Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Find Your Dropbox Plan | Get 30 Days Free Trial",
+        "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1710,12 +1730,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "a6aa06925084c746"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "audible": {
-      "hash": "966a968b14df6bcc",
+      "hash": "5956f1b603a26032",
       "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-03-07T08:58:29Z",
+      "extracted_at_utc": "2026-03-07T09:23:19Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",

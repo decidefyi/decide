@@ -130,8 +130,17 @@
       ]
     },
     "disney_plus": {
-      "url": "https://help.disneyplus.com/article/disneyplus-refund",
-      "notes": "No returns"
+      "url": "https://www.disneyplus.com/legal/subscriber-agreement",
+      "notes": "No returns",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://help.disneyplus.com/article/disneyplus-refund",
+        "https://help.disneyplus.com/article/disneyplus-cancel-subscription"
+      ]
     },
     "doordash_dashpass": {
       "url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
@@ -610,6 +619,6 @@
       "notes": "Non-refundable"
     }
   },
-  "last_verified_utc": "2026-03-07T09:10:06Z",
+  "last_verified_utc": "2026-03-02T06:55:39Z",
   "hash_profile": "focus-v1"
 }

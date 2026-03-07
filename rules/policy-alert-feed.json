@@ -1,8 +1,52 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-03-07T09:16:00Z",
+  "updated_utc": "2026-03-07T09:40:42Z",
   "source": "check-policies.js",
   "alerts": [
+    {
+      "date_utc": "2026-03-07",
+      "generated_at_utc": "2026-03-07T09:40:42Z",
+      "changed_count": 9,
+      "by_policy": {
+        "cancel": 3,
+        "refund": 2,
+        "return": 1,
+        "trial": 3
+      },
+      "changed_sample": [
+        "refund:duolingo",
+        "refund:lastpass",
+        "cancel:hulu",
+        "cancel:lastpass",
+        "cancel:youtube_tv",
+        "return:amazon_prime",
+        "trial:apple_tv_plus",
+        "trial:apple_music",
+        "trial:slack"
+      ],
+      "pending_count": 7,
+      "pending_by_policy": {
+        "cancel": 5,
+        "refund": 1,
+        "return": 1,
+        "trial": 0
+      },
+      "fetch_blocked_pending_count": 0,
+      "stale_pending_count": 4,
+      "volatile_pending_count": 4,
+      "escalation_count": 0,
+      "coverage_gap_count": 0,
+      "quality_gate_held_count": 4,
+      "metadata_stability_held_count": 0,
+      "material_oscillation_suppressed_count": 0,
+      "run_url": "https://github.com/decidefyi/decide/actions/runs/22796105378",
+      "run_id": "22796105378",
+      "run_attempt": "1",
+      "commit_sha": "fca0c49101fd0c70ea29901c4bc3d644c0c8de92",
+      "source": "check-policies.js",
+      "by_policy_signature": "cancel:3,refund:2,return:1,trial:3",
+      "alert_signature": "9245065d71190dac"
+    },
     {
       "date_utc": "2026-03-07",
       "generated_at_utc": "2026-03-07T09:16:00Z",
