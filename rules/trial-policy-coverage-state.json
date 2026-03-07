@@ -1,17 +1,17 @@
 {
-  "updated_utc": "2026-03-07T10:06:38Z",
+  "updated_utc": "2026-03-07T18:46:21Z",
   "policy": "trial",
   "vendors": {
     "1password": {
-      "last_successful_fetch_utc": "2026-03-07T10:03:04Z",
+      "last_successful_fetch_utc": "2026-03-07T18:41:36Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "1aab5260d309eb54",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -22,10 +22,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "1aab5260d309eb54",
       "last_noise_suppressed_change_key": "1aab5260d309eb54",
-      "last_noise_suppressed_source_url": "https://1password.com/sign-up"
+      "last_noise_suppressed_source_url": "https://1password.com/sign-up",
+      "fallback_signal_consecutive_runs": 0
     },
     "amazon_music_unlimited": {
-      "last_successful_fetch_utc": "2026-03-07T10:03:05Z",
+      "last_successful_fetch_utc": "2026-03-07T18:41:37Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -46,10 +47,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "aa196cbede9badd6",
       "last_noise_suppressed_change_key": "aa196cbede9badd6",
-      "last_noise_suppressed_source_url": "https://www.amazon.com/music/unlimited"
+      "last_noise_suppressed_source_url": "https://www.amazon.com/music/unlimited",
+      "fallback_signal_consecutive_runs": 0
     },
     "adobe": {
-      "last_successful_fetch_utc": "2026-03-07T10:03:59Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:31Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -63,10 +65,11 @@
       "last_successful_fetch_lane": "direct",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "apple_app_store": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:00Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:32Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -80,18 +83,19 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "apple_arcade": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:00Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:32Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "2a78b01cea6c25d7",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -102,18 +106,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "2a78b01cea6c25d7",
       "last_noise_suppressed_change_key": "2a78b01cea6c25d7",
-      "last_noise_suppressed_source_url": "https://www.apple.com/apple-arcade/"
+      "last_noise_suppressed_source_url": "https://www.apple.com/apple-arcade/",
+      "fallback_signal_consecutive_runs": 0
     },
     "amazon_prime": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:00Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:38Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "5d18b63bf1d694d2",
-        "4cf5a425dd295c82",
         "7c8f77fcdb4c1914",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "dd1cf3b0abf20dfb",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-03-01T12:40:11Z",
@@ -123,22 +128,23 @@
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T09:37:43Z",
+      "last_noise_suppressed_utc": "2026-03-07T12:47:38Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "7c8f77fcdb4c1914",
-      "last_noise_suppressed_change_key": "7c8f77fcdb4c1914",
-      "last_noise_suppressed_source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC"
+      "last_noise_suppressed_hash": "dd1cf3b0abf20dfb",
+      "last_noise_suppressed_change_key": "dd1cf3b0abf20dfb",
+      "last_noise_suppressed_source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
+      "fallback_signal_consecutive_runs": 0
     },
     "apple_tv_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:01Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:39Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "trial_window_days:30|trial_window_days:7|trial_window_days:90",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -148,18 +154,19 @@
       "last_material_signature": "added:trial_window_days:30::removed:",
       "last_material_emitted_utc": "2026-03-07T09:40:34Z",
       "last_material_emitted_hash": "192e95dda1012696",
-      "last_confirmed_change_utc": "2026-03-07T09:40:34Z"
+      "last_confirmed_change_utc": "2026-03-07T09:40:34Z",
+      "fallback_signal_consecutive_runs": 0
     },
     "apple_music": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:01Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:39Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "trial_window_days:30",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_pending_seen_utc": "2026-02-25T12:53:37Z",
@@ -170,10 +177,11 @@
       "pending_fetch_failure_streak": 0,
       "last_material_signature": "added:trial_window_days:30::removed:",
       "last_material_emitted_utc": "2026-03-07T09:40:34Z",
-      "last_material_emitted_hash": "821df01be2a2b311"
+      "last_material_emitted_hash": "821df01be2a2b311",
+      "fallback_signal_consecutive_runs": 0
     },
     "audible": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:01Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:39Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -194,18 +202,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "5c903bdde6be6a0f",
       "last_noise_suppressed_change_key": "5c903bdde6be6a0f",
-      "last_noise_suppressed_source_url": "https://www.audible.com/ep/freetrial"
+      "last_noise_suppressed_source_url": "https://www.audible.com/ep/freetrial",
+      "fallback_signal_consecutive_runs": 0
     },
     "bitwarden": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:02Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:40Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "cfb7d23fb4ad78d2",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-26T07:00:16Z",
@@ -218,18 +227,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "cfb7d23fb4ad78d2",
       "last_noise_suppressed_change_key": "cfb7d23fb4ad78d2",
-      "last_noise_suppressed_source_url": "https://bitwarden.com/pricing/"
+      "last_noise_suppressed_source_url": "https://bitwarden.com/pricing/",
+      "fallback_signal_consecutive_runs": 0
     },
     "bumble": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:02Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:40Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "33e413ba157e9286",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -240,41 +250,43 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "33e413ba157e9286",
       "last_noise_suppressed_change_key": "33e413ba157e9286",
-      "last_noise_suppressed_source_url": "https://bumble.com/en-us/the-buzz/bumble-premium"
+      "last_noise_suppressed_source_url": "https://bumble.com/en-us/the-buzz/bumble-premium",
+      "fallback_signal_consecutive_runs": 0
     },
     "calm": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:11Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:48Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "ce3c121983b80da8",
-        "93c363214132f735",
-        "__baseline__",
-        "__baseline__",
         "__baseline__"
       ],
-      "last_successful_fetch_lane": "mirror",
+      "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "last_pending_seen_utc": "2026-03-06T23:28:26Z",
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T06:45:12Z",
+      "last_noise_suppressed_utc": "2026-03-07T12:47:47Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "93c363214132f735",
-      "last_noise_suppressed_change_key": "93c363214132f735",
-      "last_noise_suppressed_source_url": "https://www.calm.com/subscribe"
+      "last_noise_suppressed_hash": "ce3c121983b80da8",
+      "last_noise_suppressed_change_key": "ce3c121983b80da8",
+      "last_noise_suppressed_source_url": "https://www.calm.com/subscribe",
+      "fallback_signal_consecutive_runs": 0
     },
     "chatgpt_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:15Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:57Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "33c7ab3c7d8c5fc3",
-        "76864cd3b5d2dc98",
-        "__baseline__",
-        "__baseline__",
         "98df18ea4c4e33bd",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_pending_seen_utc": "2026-03-06T21:07:23Z",
@@ -287,19 +299,20 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "98df18ea4c4e33bd",
       "last_noise_suppressed_change_key": "98df18ea4c4e33bd",
-      "last_noise_suppressed_source_url": "https://openai.com/chatgpt/pricing/"
+      "last_noise_suppressed_source_url": "https://openai.com/chatgpt/pricing/",
+      "fallback_signal_consecutive_runs": 0
     },
     "claude_pro": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:13Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:54Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "3088ee651923ab6e",
-        "e902c12a4dda712a",
-        "3088ee651923ab6e",
-        "__baseline__",
         "48404e3cb47b0662",
-        "__baseline__"
+        "__baseline__",
+        "1d4762c19e63ca8d",
+        "__baseline__",
+        "1d4762c19e63ca8d",
+        "1d4762c19e63ca8d"
       ],
       "last_confirmed_change_utc": "2026-03-01T23:50:47Z",
       "last_pending_seen_utc": "2026-03-06T21:07:23Z",
@@ -308,48 +321,50 @@
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T09:37:54Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:42:54Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "48404e3cb47b0662",
-      "last_noise_suppressed_change_key": "48404e3cb47b0662",
-      "last_noise_suppressed_source_url": "https://claude.ai/upgrade"
+      "last_noise_suppressed_hash": "1d4762c19e63ca8d",
+      "last_noise_suppressed_change_key": "1d4762c19e63ca8d",
+      "last_noise_suppressed_source_url": "https://claude.ai/upgrade",
+      "fallback_signal_consecutive_runs": 0
     },
     "canva": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:13Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:50Z",
       "last_pending_seen_utc": "2026-03-06T20:33:39Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_escalated_utc": "2026-02-28T01:17:26Z",
       "signal_window": [
+        "8c8b2a79919eaa19",
+        "__baseline__",
         "079f91961ebcc17e",
         "__baseline__",
-        "8c8b2a79919eaa19",
         "079f91961ebcc17e",
-        "8c8b2a79919eaa19",
-        "__baseline__"
+        "079f91961ebcc17e"
       ],
       "last_confirmed_change_utc": "2026-02-17T18:53:53Z",
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T09:37:54Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:42:50Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "8c8b2a79919eaa19",
-      "last_noise_suppressed_change_key": "8c8b2a79919eaa19",
-      "last_noise_suppressed_source_url": "https://www.canva.com/pro/"
+      "last_noise_suppressed_hash": "079f91961ebcc17e",
+      "last_noise_suppressed_change_key": "079f91961ebcc17e",
+      "last_noise_suppressed_source_url": "https://www.canva.com/pro/",
+      "fallback_signal_consecutive_runs": 0
     },
     "crunchyroll": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:16Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:01Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "trial_window_days:7",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__",
         "trial_window_days:7",
-        "trial_window_days:7",
-        "__baseline__",
-        "__baseline__"
+        "trial_window_days:7"
       ],
       "last_successful_fetch_lane": "mirror",
       "consecutive_fetch_failures": 0,
@@ -361,22 +376,23 @@
       "last_material_emitted_utc": "2026-03-07T00:35:49Z",
       "last_material_emitted_hash": "7c0aa5e95ec97ea3",
       "last_confirmed_change_utc": "2026-03-07T00:35:49Z",
-      "last_noise_suppressed_utc": "2026-03-07T09:11:31Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:43:01Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "7c0aa5e95ec97ea3",
+      "last_noise_suppressed_hash": "8e9ce324d46569ce",
       "last_noise_suppressed_change_key": "trial_window_days:7",
-      "last_noise_suppressed_source_url": "https://www.crunchyroll.com/welcome"
+      "last_noise_suppressed_source_url": "https://www.crunchyroll.com/welcome",
+      "fallback_signal_consecutive_runs": 0
     },
     "deezer": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:16Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:58Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "trial_window_days:30|trial_window_days:7",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -387,10 +403,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "992e2ac0205e4299",
       "last_noise_suppressed_change_key": "trial_window_days:30|trial_window_days:7",
-      "last_noise_suppressed_source_url": "https://www.deezer.com/en/offers"
+      "last_noise_suppressed_source_url": "https://www.deezer.com/en/offers",
+      "fallback_signal_consecutive_runs": 0
     },
     "coursera_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:16Z",
+      "last_successful_fetch_utc": "2026-03-07T18:42:58Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -406,10 +423,11 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "discord_nitro": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:18Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:02Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -417,7 +435,7 @@
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "flow:support_request",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "mirror",
@@ -434,19 +452,20 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "d7050a8609b439da",
       "last_noise_suppressed_change_key": "flow:support_request",
-      "last_noise_suppressed_source_url": "https://discord.com/nitro"
+      "last_noise_suppressed_source_url": "https://discord.com/nitro",
+      "fallback_signal_consecutive_runs": 0
     },
     "disney_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:17Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:01Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "a27a41655966a0cb",
-        "a938ab1b7e750940",
-        "a27a41655966a0cb",
         "f2c89694348caddd",
-        "__baseline__"
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "8e555985bf4006c4",
+        "9197d49e44c18385"
       ],
       "last_confirmed_change_utc": "2026-02-17T21:24:09Z",
       "last_successful_fetch_lane": "browser_hook",
@@ -454,46 +473,48 @@
       "pending_fetch_blocked": false,
       "last_pending_seen_utc": "2026-03-06T21:07:23Z",
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T09:37:59Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:43:01Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "f2c89694348caddd",
-      "last_noise_suppressed_change_key": "f2c89694348caddd",
-      "last_noise_suppressed_source_url": "https://www.disneyplus.com/"
+      "last_noise_suppressed_hash": "9197d49e44c18385",
+      "last_noise_suppressed_change_key": "9197d49e44c18385",
+      "last_noise_suppressed_source_url": "https://www.disneyplus.com/",
+      "fallback_signal_consecutive_runs": 0
     },
     "doordash_dashpass": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:27Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:06Z",
       "last_pending_seen_utc": "2026-03-06T21:07:23Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-02-18T09:04:30Z",
       "signal_window": [
-        "82ca37df97136507",
-        "2b66a8c7bb486c98",
-        "a3a44990b5af3590",
-        "288adc9338ab4d75",
         "78088043ed1e6ebe",
-        "8a2e2266ec700dd2"
+        "8a2e2266ec700dd2",
+        "89b80a252507e0bf",
+        "cb6c89dcc1d01905",
+        "ac6ee8e88302dc9a",
+        "cbf10e79b0e8d152"
       ],
       "last_successful_fetch_lane": "mirror",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T10:04:27Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:43:06Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "8a2e2266ec700dd2",
-      "last_noise_suppressed_change_key": "8a2e2266ec700dd2",
-      "last_noise_suppressed_source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription"
+      "last_noise_suppressed_hash": "cbf10e79b0e8d152",
+      "last_noise_suppressed_change_key": "cbf10e79b0e8d152",
+      "last_noise_suppressed_source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
+      "fallback_signal_consecutive_runs": 0
     },
     "duolingo": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:28Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:17Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "1cf859340081285f",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "30270c0e4a83d648",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "mirror",
@@ -504,20 +525,21 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "30270c0e4a83d648",
       "last_noise_suppressed_change_key": "30270c0e4a83d648",
-      "last_noise_suppressed_source_url": "https://www.duolingo.com/super"
+      "last_noise_suppressed_source_url": "https://www.duolingo.com/super",
+      "fallback_signal_consecutive_runs": 0
     },
     "espn_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:28Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:07Z",
       "last_confirmed_change_utc": "2026-02-24T19:02:13Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "2070bc092f350e8b",
-        "6655138a815e4c5d",
-        "b0ae0c7913c4e356",
-        "bea213404e064019",
         "__baseline__",
-        "46639110e2ed29bc"
+        "46639110e2ed29bc",
+        "bea213404e064019",
+        "bea213404e064019",
+        "464fce512c92d1fa",
+        "c775fe25a9b01735"
       ],
       "last_pending_seen_utc": "2026-03-06T21:07:23Z",
       "last_escalated_utc": "2026-03-06T20:33:39Z",
@@ -525,22 +547,23 @@
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T10:04:28Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:43:07Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "46639110e2ed29bc",
-      "last_noise_suppressed_change_key": "46639110e2ed29bc",
-      "last_noise_suppressed_source_url": "https://www.espn.com/espnplus/"
+      "last_noise_suppressed_hash": "c775fe25a9b01735",
+      "last_noise_suppressed_change_key": "c775fe25a9b01735",
+      "last_noise_suppressed_source_url": "https://www.espn.com/espnplus/",
+      "fallback_signal_consecutive_runs": 0
     },
     "dropbox_us": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:29Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:09Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "trial_window_days:30",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -551,10 +574,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "7378b9d174c76a17",
       "last_noise_suppressed_change_key": "trial_window_days:30",
-      "last_noise_suppressed_source_url": "https://www.dropbox.com/plans"
+      "last_noise_suppressed_source_url": "https://www.dropbox.com/plans",
+      "fallback_signal_consecutive_runs": 0
     },
     "evernote": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:30Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:18Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -569,18 +593,19 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "figma": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:30Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:18Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "3f59e0da46a9b0fd",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -592,18 +617,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "3f59e0da46a9b0fd",
       "last_noise_suppressed_change_key": "3f59e0da46a9b0fd",
-      "last_noise_suppressed_source_url": "https://www.figma.com/pricing/"
+      "last_noise_suppressed_source_url": "https://www.figma.com/pricing/",
+      "fallback_signal_consecutive_runs": 0
     },
     "expressvpn": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:30Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:18Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "af4ed0ae09b6a604",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-03-02T06:56:34Z",
@@ -616,18 +642,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "af4ed0ae09b6a604",
       "last_noise_suppressed_change_key": "af4ed0ae09b6a604",
-      "last_noise_suppressed_source_url": "https://www.expressvpn.com/order"
+      "last_noise_suppressed_source_url": "https://www.expressvpn.com/order",
+      "fallback_signal_consecutive_runs": 0
     },
     "github_pro": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:31Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:19Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "trial_window_days:30|trial_window_days:360",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -638,18 +665,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "4eda4de5efb831cc",
       "last_noise_suppressed_change_key": "trial_window_days:30|trial_window_days:360",
-      "last_noise_suppressed_source_url": "https://github.com/pricing"
+      "last_noise_suppressed_source_url": "https://github.com/pricing",
+      "fallback_signal_consecutive_runs": 0
     },
     "google_one": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:31Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:20Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "47fe303a75ca7032",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "8896cdf009ba2002",
+        "__baseline__",
+        "__baseline__",
+        "b27f49526aaa8341",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-19T23:37:47Z",
@@ -658,20 +686,21 @@
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T09:38:09Z",
+      "last_noise_suppressed_utc": "2026-03-07T11:56:34Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "8896cdf009ba2002",
-      "last_noise_suppressed_change_key": "8896cdf009ba2002",
-      "last_noise_suppressed_source_url": "https://one.google.com/about/plans"
+      "last_noise_suppressed_hash": "b27f49526aaa8341",
+      "last_noise_suppressed_change_key": "b27f49526aaa8341",
+      "last_noise_suppressed_source_url": "https://one.google.com/about/plans",
+      "fallback_signal_consecutive_runs": 0
     },
     "fubo_tv": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:32Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:20Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "__baseline__",
         "__baseline__",
-        "__baseline__",
+        "54e00c0597dbe2aa",
         "__baseline__",
         "__baseline__",
         "__baseline__"
@@ -681,10 +710,16 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0,
+      "last_noise_suppressed_utc": "2026-03-07T11:13:55Z",
+      "last_noise_suppressed_reason": "non_material_repeat",
+      "last_noise_suppressed_hash": "54e00c0597dbe2aa",
+      "last_noise_suppressed_change_key": "54e00c0597dbe2aa",
+      "last_noise_suppressed_source_url": "https://www.fubo.tv/welcome"
     },
     "google_play": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:33Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:21Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -698,10 +733,11 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "grammarly": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:32Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:21Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -716,10 +752,11 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "headspace": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:33Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:21Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -734,18 +771,19 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "hulu": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:33Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:22Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "10dc7e8460ef064c",
+        "__baseline__",
+        "__baseline__",
+        "67baac9524788ef4",
+        "67baac9524788ef4",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -753,37 +791,39 @@
       "pending_fetch_blocked": false,
       "last_pending_seen_utc": "2026-03-06T21:07:23Z",
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T09:38:11Z",
+      "last_noise_suppressed_utc": "2026-03-07T12:48:13Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "10dc7e8460ef064c",
-      "last_noise_suppressed_change_key": "10dc7e8460ef064c",
-      "last_noise_suppressed_source_url": "https://www.hulu.com/start"
+      "last_noise_suppressed_hash": "67baac9524788ef4",
+      "last_noise_suppressed_change_key": "67baac9524788ef4",
+      "last_noise_suppressed_source_url": "https://www.hulu.com/start",
+      "fallback_signal_consecutive_runs": 0
     },
     "hellofresh": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:35Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:32Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "b88c5deb805c6cfc",
-        "a3a12335cd2da496",
-        "b88c5deb805c6cfc",
-        "e127548b324aceac",
         "cc9de4704a3aa414",
-        "__baseline__"
+        "__baseline__",
+        "2b0b164d13358559",
+        "a3a12335cd2da496",
+        "__baseline__",
+        "b88c5deb805c6cfc"
       ],
       "last_successful_fetch_lane": "mirror",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "last_pending_seen_utc": "2026-03-06T21:07:23Z",
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T09:38:14Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:43:32Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "cc9de4704a3aa414",
-      "last_noise_suppressed_change_key": "cc9de4704a3aa414",
-      "last_noise_suppressed_source_url": "https://www.hellofresh.com/plans"
+      "last_noise_suppressed_hash": "b88c5deb805c6cfc",
+      "last_noise_suppressed_change_key": "b88c5deb805c6cfc",
+      "last_noise_suppressed_source_url": "https://www.hellofresh.com/plans",
+      "fallback_signal_consecutive_runs": 0
     },
     "hinge": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:33Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:24Z",
       "last_pending_seen_utc": "2026-02-28T06:42:15Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
@@ -800,10 +840,11 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "icloud_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:36Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:32Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -817,10 +858,11 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "kindle_unlimited": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:37Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:33Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -839,16 +881,17 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "8406b35ffe997971",
       "last_noise_suppressed_change_key": "8406b35ffe997971",
-      "last_noise_suppressed_source_url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku"
+      "last_noise_suppressed_source_url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku",
+      "fallback_signal_consecutive_runs": 0
     },
     "instacart_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:38Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:34Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "__baseline__",
         "__baseline__",
-        "__baseline__",
+        "e868a5795de28407",
         "__baseline__",
         "__baseline__",
         "__baseline__"
@@ -856,18 +899,24 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0,
+      "last_noise_suppressed_utc": "2026-03-07T11:14:11Z",
+      "last_noise_suppressed_reason": "non_material_repeat",
+      "last_noise_suppressed_hash": "e868a5795de28407",
+      "last_noise_suppressed_change_key": "e868a5795de28407",
+      "last_noise_suppressed_source_url": "https://www.instacart.com/store/instacart-plus"
     },
     "linkedin_premium": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:39Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:34Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "trial_window_days:360",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -878,10 +927,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "8af384f4631f8faa",
       "last_noise_suppressed_change_key": "trial_window_days:360",
-      "last_noise_suppressed_source_url": "https://premium.linkedin.com/"
+      "last_noise_suppressed_source_url": "https://premium.linkedin.com/",
+      "fallback_signal_consecutive_runs": 0
     },
     "max": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:39Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:34Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -889,7 +939,7 @@
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "trial:auto_converts_to_paid",
+        "__baseline__",
         "__baseline__"
       ],
       "last_pending_seen_utc": "2026-03-06T23:52:26Z",
@@ -906,15 +956,16 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "98c631d8f5ab58bc",
       "last_noise_suppressed_change_key": "trial:auto_converts_to_paid",
-      "last_noise_suppressed_source_url": "https://www.max.com/"
+      "last_noise_suppressed_source_url": "https://www.max.com/",
+      "fallback_signal_consecutive_runs": 0
     },
     "masterclass": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:40Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:35Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "31e9c6990d098854",
-        "e6d641115730b63f",
+        "__baseline__",
+        "__baseline__",
         "__baseline__",
         "__baseline__",
         "__baseline__",
@@ -930,18 +981,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "e6d641115730b63f",
       "last_noise_suppressed_change_key": "e6d641115730b63f",
-      "last_noise_suppressed_source_url": "https://www.masterclass.com/legal/terms"
+      "last_noise_suppressed_source_url": "https://www.masterclass.com/legal/terms",
+      "fallback_signal_consecutive_runs": 0
     },
     "microsoft_365": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:41Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:36Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "trial_window_days:30",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -952,14 +1004,15 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "39b3dcafdcbb352a",
       "last_noise_suppressed_change_key": "trial_window_days:30",
-      "last_noise_suppressed_source_url": "https://www.microsoft.com/en-us/microsoft-365/try"
+      "last_noise_suppressed_source_url": "https://www.microsoft.com/en-us/microsoft-365/try",
+      "fallback_signal_consecutive_runs": 0
     },
     "netflix": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:42Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:49Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "4db8679770bff0a2",
+        "__baseline__",
         "__baseline__",
         "__baseline__",
         "__baseline__",
@@ -974,33 +1027,35 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "4db8679770bff0a2",
       "last_noise_suppressed_change_key": "4db8679770bff0a2",
-      "last_noise_suppressed_source_url": "https://www.netflix.com/signup"
+      "last_noise_suppressed_source_url": "https://www.netflix.com/signup",
+      "fallback_signal_consecutive_runs": 0
     },
     "midjourney": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:46Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:39Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
+        "__baseline__",
+        "05a4746cf3c4be3c",
+        "__baseline__",
         "cda38716917340a8",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "05a4746cf3c4be3c"
+        "cda38716917340a8",
+        "cda38716917340a8"
       ],
       "last_confirmed_change_utc": "2026-02-17T18:53:55Z",
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T10:04:46Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:43:39Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "05a4746cf3c4be3c",
-      "last_noise_suppressed_change_key": "05a4746cf3c4be3c",
-      "last_noise_suppressed_source_url": "https://www.midjourney.com/home"
+      "last_noise_suppressed_hash": "cda38716917340a8",
+      "last_noise_suppressed_change_key": "cda38716917340a8",
+      "last_noise_suppressed_source_url": "https://www.midjourney.com/home",
+      "fallback_signal_consecutive_runs": 0
     },
     "noom": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:46Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:50Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1014,19 +1069,20 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "nintendo_switch_online": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:46Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:50Z",
       "last_confirmed_change_utc": "2026-02-28T01:15:38Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "billing:auto_renew",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_pending_seen_utc": "2026-02-27T18:43:05Z",
@@ -1038,21 +1094,22 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "3d9c9339d4bc7c64",
       "last_noise_suppressed_change_key": "billing:auto_renew",
-      "last_noise_suppressed_source_url": "https://www.nintendo.com/us/switch/online/"
+      "last_noise_suppressed_source_url": "https://www.nintendo.com/us/switch/online/",
+      "fallback_signal_consecutive_runs": 0
     },
     "nordvpn": {
-      "last_successful_fetch_utc": "2026-03-07T10:06:38Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:52Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
+        "a177453cdc4643f7",
+        "a177453cdc4643f7",
         "__baseline__",
-        "__baseline__",
-        "billing:auto_renew",
         "billing:auto_renew",
         "a177453cdc4643f7",
-        "a177453cdc4643f7"
+        "billing:auto_renew"
       ],
-      "last_confirmed_change_utc": "2026-03-07T10:06:38Z",
+      "last_confirmed_change_utc": "2026-03-07T12:51:32Z",
       "last_pending_seen_utc": "2026-03-07T06:49:20Z",
       "last_material_signature": "added:billing:auto_renew::removed:",
       "last_material_emitted_utc": "2026-03-07T09:16:00Z",
@@ -1061,27 +1118,28 @@
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-06T22:56:44Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:43:52Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "a177453cdc4643f7",
-      "last_noise_suppressed_change_key": "a177453cdc4643f7",
+      "last_noise_suppressed_hash": "414af56426040b33",
+      "last_noise_suppressed_change_key": "billing:auto_renew",
       "last_noise_suppressed_source_url": "https://nordvpn.com/pricing/",
       "last_pending_recent_flip_count": 1,
       "last_material_signature_prev": "added:::removed:billing:auto_renew",
       "last_material_emitted_prev_utc": "2026-02-24T07:02:14Z",
       "last_material_emitted_hash_prev": "",
-      "last_material_emitted_hash": "29657c037ade5039"
+      "last_material_emitted_hash": "29657c037ade5039",
+      "fallback_signal_consecutive_runs": 0
     },
     "paramount_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:50Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:53Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "4054bbfcba366fe0",
-        "f5ae7288ed0f719e",
-        "bb60061f9e311db7",
         "3d5ea1cf7d0c6e09",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_pending_seen_utc": "2026-02-28T01:17:26Z",
@@ -1094,18 +1152,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "3d5ea1cf7d0c6e09",
       "last_noise_suppressed_change_key": "3d5ea1cf7d0c6e09",
-      "last_noise_suppressed_source_url": "https://www.paramountplus.com/"
+      "last_noise_suppressed_source_url": "https://www.paramountplus.com/",
+      "fallback_signal_consecutive_runs": 0
     },
     "notion": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:50Z",
+      "last_successful_fetch_utc": "2026-03-07T18:43:53Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "billing:prorated",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -1116,34 +1175,36 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "1eeaccda873a52bc",
       "last_noise_suppressed_change_key": "billing:prorated",
-      "last_noise_suppressed_source_url": "https://www.notion.so/pricing"
+      "last_noise_suppressed_source_url": "https://www.notion.so/pricing",
+      "fallback_signal_consecutive_runs": 0
     },
     "peacock": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:51Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:33Z",
       "last_pending_seen_utc": "2026-02-26T01:24:44Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "__baseline__",
         "__baseline__",
-        "1b3b338e45363cc4",
-        "9d5ebe1adff952a6",
         "__baseline__",
+        "__baseline__",
+        "1b3b338e45363cc4",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-24T19:02:21Z",
-      "last_successful_fetch_lane": "browser_hook",
+      "last_successful_fetch_lane": "mirror",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T09:13:27Z",
+      "last_noise_suppressed_utc": "2026-03-07T12:48:50Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "9d5ebe1adff952a6",
-      "last_noise_suppressed_change_key": "9d5ebe1adff952a6",
-      "last_noise_suppressed_source_url": "https://www.peacocktv.com/plans"
+      "last_noise_suppressed_hash": "1b3b338e45363cc4",
+      "last_noise_suppressed_change_key": "1b3b338e45363cc4",
+      "last_noise_suppressed_source_url": "https://www.peacocktv.com/plans",
+      "fallback_signal_consecutive_runs": 0
     },
     "peloton": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:52Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:34Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1157,19 +1218,20 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "proton": {
-      "last_successful_fetch_utc": "2026-03-07T10:04:52Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:35Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-03-01T06:47:35Z",
       "signal_window": [
         "billing:auto_renew",
+        "billing:auto_renew",
         "__baseline__",
         "billing:auto_renew",
-        "billing:auto_renew",
-        "billing:auto_renew",
+        "__baseline__",
         "billing:auto_renew"
       ],
       "last_pending_seen_utc": "2026-03-02T06:59:03Z",
@@ -1177,18 +1239,19 @@
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T10:04:52Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:44:35Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "4da803c89e030feb",
+      "last_noise_suppressed_hash": "907f7b3c0a1a6184",
       "last_noise_suppressed_change_key": "billing:auto_renew",
-      "last_noise_suppressed_source_url": "https://proton.me/pricing"
+      "last_noise_suppressed_source_url": "https://proton.me/pricing",
+      "fallback_signal_consecutive_runs": 0
     },
     "playstation_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:04Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:39Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "b366cb3b9db9ad8b",
+        "__baseline__",
         "__baseline__",
         "__baseline__",
         "__baseline__",
@@ -1203,10 +1266,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "b366cb3b9db9ad8b",
       "last_noise_suppressed_change_key": "b366cb3b9db9ad8b",
-      "last_noise_suppressed_source_url": "https://store.playstation.com/en-us/category/ps-plus"
+      "last_noise_suppressed_source_url": "https://store.playstation.com/en-us/category/ps-plus",
+      "fallback_signal_consecutive_runs": 0
     },
     "scribd": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:05Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:40Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1226,18 +1290,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "ba392ea44badf011",
       "last_noise_suppressed_change_key": "ba392ea44badf011",
-      "last_noise_suppressed_source_url": "https://www.scribd.com/subscribe"
+      "last_noise_suppressed_source_url": "https://www.scribd.com/subscribe",
+      "fallback_signal_consecutive_runs": 0
     },
     "ring_protect": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:05Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:41Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "billing:auto_renew",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-20T06:57:10Z",
@@ -1250,10 +1315,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "f7ae6c2313211b88",
       "last_noise_suppressed_change_key": "billing:auto_renew",
-      "last_noise_suppressed_source_url": "https://ring.com/protect-plans"
+      "last_noise_suppressed_source_url": "https://ring.com/protect-plans",
+      "fallback_signal_consecutive_runs": 0
     },
     "shutterstock": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:07Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:44Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1267,10 +1333,11 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "sling_tv": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:08Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:45Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1285,18 +1352,19 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "spotify": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:08Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:45Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "43d1b6038b8b7428",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-24T12:55:00Z",
@@ -1308,18 +1376,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "43d1b6038b8b7428",
       "last_noise_suppressed_change_key": "43d1b6038b8b7428",
-      "last_noise_suppressed_source_url": "https://www.spotify.com/us/premium/"
+      "last_noise_suppressed_source_url": "https://www.spotify.com/us/premium/",
+      "fallback_signal_consecutive_runs": 0
     },
     "slack": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:08Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:45Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "2086af280cb6ad34",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -1331,10 +1400,11 @@
       "last_material_signature": "added:::removed:billing:prorated",
       "last_material_emitted_utc": "2026-03-07T09:40:38Z",
       "last_material_emitted_hash": "2086af280cb6ad34",
-      "last_confirmed_change_utc": "2026-03-07T09:40:38Z"
+      "last_confirmed_change_utc": "2026-03-07T09:40:38Z",
+      "fallback_signal_consecutive_runs": 0
     },
     "squarespace": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:09Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:45Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1348,18 +1418,19 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "strava": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:09Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:46Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "trial_window_days:2|trial_window_days:30",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-19T23:37:49Z",
@@ -1371,18 +1442,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "4e09b0a7f54d8764",
       "last_noise_suppressed_change_key": "trial_window_days:2|trial_window_days:30",
-      "last_noise_suppressed_source_url": "https://www.strava.com/subscribe"
+      "last_noise_suppressed_source_url": "https://www.strava.com/subscribe",
+      "fallback_signal_consecutive_runs": 0
     },
     "surfshark": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:09Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:46Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "a1ef793fd4ea4c65",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -1393,18 +1465,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "a1ef793fd4ea4c65",
       "last_noise_suppressed_change_key": "a1ef793fd4ea4c65",
-      "last_noise_suppressed_source_url": "https://surfshark.com/pricing"
+      "last_noise_suppressed_source_url": "https://surfshark.com/pricing",
+      "fallback_signal_consecutive_runs": 0
     },
     "tinder": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:10Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:47Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "d31e0b17742170ae",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -1415,18 +1488,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "d31e0b17742170ae",
       "last_noise_suppressed_change_key": "d31e0b17742170ae",
-      "last_noise_suppressed_source_url": "https://tinder.com/feature/subscription-tiers"
+      "last_noise_suppressed_source_url": "https://tinder.com/feature/subscription-tiers",
+      "fallback_signal_consecutive_runs": 0
     },
     "todoist": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:10Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:46Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "1bc7fbf88d7df8bc",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -1437,10 +1511,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "1bc7fbf88d7df8bc",
       "last_noise_suppressed_change_key": "1bc7fbf88d7df8bc",
-      "last_noise_suppressed_source_url": "https://todoist.com/pricing"
+      "last_noise_suppressed_source_url": "https://todoist.com/pricing",
+      "fallback_signal_consecutive_runs": 0
     },
     "tidal": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:13Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:48Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1455,16 +1530,17 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "twitch": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:13Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:53Z",
       "last_pending_seen_utc": "2026-03-06T23:52:26Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_escalated_utc": "2026-03-06T20:33:39Z",
       "signal_window": [
-        "854ead54426e17ca",
+        "__baseline__",
         "__baseline__",
         "__baseline__",
         "__baseline__",
@@ -1481,10 +1557,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "854ead54426e17ca",
       "last_noise_suppressed_change_key": "854ead54426e17ca",
-      "last_noise_suppressed_source_url": "https://www.twitch.tv/turbo"
+      "last_noise_suppressed_source_url": "https://www.twitch.tv/turbo",
+      "fallback_signal_consecutive_runs": 0
     },
     "walmart_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:13Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:49Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1499,10 +1576,11 @@
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_pending_seen_utc": "2026-03-06T23:28:26Z"
+      "last_pending_seen_utc": "2026-03-06T23:28:26Z",
+      "fallback_signal_consecutive_runs": 0
     },
     "uber_one": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:14Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:49Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1517,18 +1595,19 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "xbox_game_pass": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:14Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:54Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "trial:payment_method_required",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-28T12:41:09Z",
@@ -1541,18 +1620,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "23412fc153542744",
       "last_noise_suppressed_change_key": "trial:payment_method_required",
-      "last_noise_suppressed_source_url": "https://www.xbox.com/en-US/xbox-game-pass"
+      "last_noise_suppressed_source_url": "https://www.xbox.com/en-US/xbox-game-pass",
+      "fallback_signal_consecutive_runs": 0
     },
     "wix": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:15Z",
+      "last_successful_fetch_utc": "2026-03-07T18:44:54Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "48b9c3e11c4740f3",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_pending_seen_utc": "2026-03-06T21:07:23Z",
@@ -1564,19 +1644,20 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "48b9c3e11c4740f3",
       "last_noise_suppressed_change_key": "48b9c3e11c4740f3",
-      "last_noise_suppressed_source_url": "https://www.wix.com/upgrade/website"
+      "last_noise_suppressed_source_url": "https://www.wix.com/upgrade/website",
+      "fallback_signal_consecutive_runs": 0
     },
     "youtube_premium": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:17Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:00Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
+        "trial_window_days:360",
         "__baseline__",
         "trial_window_days:360",
         "trial_window_days:360",
         "trial_window_days:360",
-        "trial_window_days:360",
-        "__baseline__"
+        "trial_window_days:360"
       ],
       "last_successful_fetch_lane": "mirror",
       "consecutive_fetch_failures": 0,
@@ -1588,23 +1669,24 @@
       "last_material_emitted_utc": "2026-03-07T06:47:39Z",
       "last_material_emitted_hash": "4d0da39bd5f79688",
       "last_confirmed_change_utc": "2026-03-07T06:47:39Z",
-      "last_noise_suppressed_utc": "2026-03-07T09:39:20Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:45:00Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "f28eb61dcf45b91e",
+      "last_noise_suppressed_hash": "e91bbad45f6bbff3",
       "last_noise_suppressed_change_key": "trial_window_days:360",
-      "last_noise_suppressed_source_url": "https://www.youtube.com/premium"
+      "last_noise_suppressed_source_url": "https://www.youtube.com/premium",
+      "fallback_signal_consecutive_runs": 0
     },
     "youtube_tv": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:17Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:01Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "restriction:no_refund_or_final_sale",
-        "__baseline__",
+        "restriction:no_refund_or_final_sale",
         "__baseline__",
         "__baseline__",
         "restriction:no_refund_or_final_sale",
-        "restriction:no_refund_or_final_sale"
+        "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-27T18:41:28Z",
       "last_pending_seen_utc": "2026-02-27T12:51:55Z",
@@ -1612,22 +1694,23 @@
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T10:05:17Z",
+      "last_noise_suppressed_utc": "2026-03-07T12:49:30Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "57c8aa3ecd808225",
+      "last_noise_suppressed_hash": "7e3cd45beae9f932",
       "last_noise_suppressed_change_key": "restriction:no_refund_or_final_sale",
-      "last_noise_suppressed_source_url": "https://tv.youtube.com/"
+      "last_noise_suppressed_source_url": "https://tv.youtube.com/",
+      "fallback_signal_consecutive_runs": 0
     },
     "dashlane": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:17Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:01Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "01e6586acacee47b",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-18T18:52:45Z",
@@ -1639,18 +1722,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "01e6586acacee47b",
       "last_noise_suppressed_change_key": "01e6586acacee47b",
-      "last_noise_suppressed_source_url": "https://www.dashlane.com/pricing"
+      "last_noise_suppressed_source_url": "https://www.dashlane.com/pricing",
+      "fallback_signal_consecutive_runs": 0
     },
     "lastpass": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:19Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:02Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "71d000585ae7f786",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-23T12:54:37Z",
@@ -1662,18 +1746,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "71d000585ae7f786",
       "last_noise_suppressed_change_key": "71d000585ae7f786",
-      "last_noise_suppressed_source_url": "https://www.lastpass.com/pricing"
+      "last_noise_suppressed_source_url": "https://www.lastpass.com/pricing",
+      "fallback_signal_consecutive_runs": 0
     },
     "keeper": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:19Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:02Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "8e84e5e6452d0705",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -1684,10 +1769,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "8e84e5e6452d0705",
       "last_noise_suppressed_change_key": "8e84e5e6452d0705",
-      "last_noise_suppressed_source_url": "https://www.keepersecurity.com/pricing/personal-and-family.html"
+      "last_noise_suppressed_source_url": "https://www.keepersecurity.com/pricing/personal-and-family.html",
+      "fallback_signal_consecutive_runs": 0
     },
     "myfitnesspal_premium": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:21Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:04Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1708,18 +1794,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "9c81fbf8949d205a",
       "last_noise_suppressed_change_key": "billing:auto_renew|trial:auto_converts_to_paid",
-      "last_noise_suppressed_source_url": "https://www.myfitnesspal.com/premium"
+      "last_noise_suppressed_source_url": "https://www.myfitnesspal.com/premium",
+      "fallback_signal_consecutive_runs": 0
     },
     "fitbit_premium": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:20Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:03Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "a37eb69e95a1c388",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-18T18:52:48Z",
@@ -1732,18 +1819,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "a37eb69e95a1c388",
       "last_noise_suppressed_change_key": "a37eb69e95a1c388",
-      "last_noise_suppressed_source_url": "https://www.fitbit.com/global/us/products/services/premium"
+      "last_noise_suppressed_source_url": "https://www.fitbit.com/global/us/products/services/premium",
+      "fallback_signal_consecutive_runs": 0
     },
     "siriusxm": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:23Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:05Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "restriction:no_refund_or_final_sale|trial:payment_method_required",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-19T01:26:12Z",
@@ -1755,18 +1843,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "6c4d9f5f3e90ffde",
       "last_noise_suppressed_change_key": "restriction:no_refund_or_final_sale|trial:payment_method_required",
-      "last_noise_suppressed_source_url": "https://www.siriusxm.com/offers"
+      "last_noise_suppressed_source_url": "https://www.siriusxm.com/offers",
+      "fallback_signal_consecutive_runs": 0
     },
     "weightwatchers": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:22Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:05Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "trial_window_days:180",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-18T18:52:48Z",
@@ -1779,10 +1868,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "0df247ef5b45ab3f",
       "last_noise_suppressed_change_key": "trial_window_days:180",
-      "last_noise_suppressed_source_url": "https://www.weightwatchers.com/us/plans"
+      "last_noise_suppressed_source_url": "https://www.weightwatchers.com/us/plans",
+      "fallback_signal_consecutive_runs": 0
     },
     "patreon": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:22Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:05Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1803,40 +1893,42 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "1e7744378c9d24a0",
       "last_noise_suppressed_change_key": "1e7744378c9d24a0",
-      "last_noise_suppressed_source_url": "https://www.patreon.com/"
+      "last_noise_suppressed_source_url": "https://www.patreon.com/",
+      "fallback_signal_consecutive_runs": 0
     },
     "roblox_premium": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:24Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:09Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "d029e8febc29b146",
         "__baseline__",
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "__baseline__"
+        "f083fad981a20ff3",
+        "f083fad981a20ff3"
       ],
       "last_successful_fetch_lane": "mirror",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T00:34:31Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:45:09Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "d029e8febc29b146",
-      "last_noise_suppressed_change_key": "d029e8febc29b146",
-      "last_noise_suppressed_source_url": "https://www.roblox.com/premium/membership"
+      "last_noise_suppressed_hash": "f083fad981a20ff3",
+      "last_noise_suppressed_change_key": "f083fad981a20ff3",
+      "last_noise_suppressed_source_url": "https://www.roblox.com/premium/membership",
+      "fallback_signal_consecutive_runs": 0
     },
     "ubisoft_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:24Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:06Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "43ee112ef0757868",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -1847,18 +1939,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "43ee112ef0757868",
       "last_noise_suppressed_change_key": "43ee112ef0757868",
-      "last_noise_suppressed_source_url": "https://store.ubisoft.com/us/ubisoftplus"
+      "last_noise_suppressed_source_url": "https://store.ubisoft.com/us/ubisoftplus",
+      "fallback_signal_consecutive_runs": 0
     },
     "ea_play": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:24Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:06Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "91e0a4acd22d6c6e",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -1869,32 +1962,35 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "91e0a4acd22d6c6e",
       "last_noise_suppressed_change_key": "91e0a4acd22d6c6e",
-      "last_noise_suppressed_source_url": "https://www.ea.com/ea-play"
+      "last_noise_suppressed_source_url": "https://www.ea.com/ea-play",
+      "fallback_signal_consecutive_runs": 0
     },
     "nfl_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:25Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:18Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "4f949de9e96e774d",
-        "e63f27969e82d40e",
-        "4f949de9e96e774d",
-        "__baseline__",
         "884d65b8375b4d61",
-        "__baseline__"
+        "__baseline__",
+        "4f949de9e96e774d",
+        "8d14d70ceb2dc5e6",
+        "0287af11bc9a6715",
+        "4f949de9e96e774d"
       ],
       "last_successful_fetch_lane": "mirror",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T09:39:29Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:45:18Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "884d65b8375b4d61",
-      "last_noise_suppressed_change_key": "884d65b8375b4d61",
-      "last_noise_suppressed_source_url": "https://www.nfl.com/plus/"
+      "last_noise_suppressed_hash": "4f949de9e96e774d",
+      "last_noise_suppressed_change_key": "4f949de9e96e774d",
+      "last_noise_suppressed_source_url": "https://www.nfl.com/plus/",
+      "fallback_signal_consecutive_runs": 0,
+      "last_confirmed_change_utc": "2026-03-07T12:51:28Z"
     },
     "new_york_times": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:25Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:10Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -1908,18 +2004,19 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "mlb_tv": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:25Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:10Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "cf16c73a45bf5f62",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-23T19:04:30Z",
@@ -1931,18 +2028,19 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "cf16c73a45bf5f62",
       "last_noise_suppressed_change_key": "cf16c73a45bf5f62",
-      "last_noise_suppressed_source_url": "https://www.mlb.com/live-stream-games/subscribe"
+      "last_noise_suppressed_source_url": "https://www.mlb.com/live-stream-games/subscribe",
+      "fallback_signal_consecutive_runs": 0
     },
     "wall_street_journal": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:26Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:19Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "billing:auto_renew|billing:prorated",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_confirmed_change_utc": "2026-02-20T18:49:50Z",
@@ -1955,10 +2053,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "8880348608bdedf3",
       "last_noise_suppressed_change_key": "billing:auto_renew|billing:prorated",
-      "last_noise_suppressed_source_url": "https://www.wsj.com/subscribe"
+      "last_noise_suppressed_source_url": "https://www.wsj.com/subscribe",
+      "fallback_signal_consecutive_runs": 0
     },
     "substack": {
-      "last_successful_fetch_utc": "2026-03-07T10:05:29Z",
+      "last_successful_fetch_utc": "2026-03-07T18:45:23Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-02-23T07:08:08Z",
@@ -1975,18 +2074,19 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "washington_post": {
-      "last_successful_fetch_utc": "2026-03-07T10:06:22Z",
+      "last_successful_fetch_utc": "2026-03-07T18:46:14Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "4294167f7648c27f",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "direct",
@@ -1998,10 +2098,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "4294167f7648c27f",
       "last_noise_suppressed_change_key": "4294167f7648c27f",
-      "last_noise_suppressed_source_url": "https://www.washingtonpost.com/subscribe/"
+      "last_noise_suppressed_source_url": "https://www.washingtonpost.com/subscribe/",
+      "fallback_signal_consecutive_runs": 0
     },
     "snapchat_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:06:23Z",
+      "last_successful_fetch_utc": "2026-03-07T18:46:15Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -2015,18 +2116,19 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "x_premium": {
-      "last_successful_fetch_utc": "2026-03-07T10:06:26Z",
+      "last_successful_fetch_utc": "2026-03-07T18:46:19Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "ad8619c6fc333f66",
-        "556858a9e070638d",
-        "ad8619c6fc333f66",
-        "ad8619c6fc333f66",
         "0e33a04876ac3062",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "mirror",
@@ -2039,10 +2141,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "0e33a04876ac3062",
       "last_noise_suppressed_change_key": "0e33a04876ac3062",
-      "last_noise_suppressed_source_url": "https://legal.x.com/purchaser-terms.html"
+      "last_noise_suppressed_source_url": "https://legal.x.com/purchaser-terms.html",
+      "fallback_signal_consecutive_runs": 0
     },
     "reddit_premium": {
-      "last_successful_fetch_utc": "2026-03-07T10:06:25Z",
+      "last_successful_fetch_utc": "2026-03-07T18:46:17Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -2056,10 +2159,11 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "discovery_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:06:27Z",
+      "last_successful_fetch_utc": "2026-03-07T18:46:19Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "last_confirmed_change_utc": "2026-02-23T19:04:34Z",
@@ -2074,17 +2178,18 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "telegram_premium": {
-      "last_successful_fetch_utc": "2026-03-07T10:06:27Z",
+      "last_successful_fetch_utc": "2026-03-07T18:46:19Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
         "__baseline__",
         "__baseline__",
-        "029a025549b95ee7",
-        "029a025549b95ee7",
+        "__baseline__",
+        "__baseline__",
         "__baseline__",
         "__baseline__"
       ],
@@ -2094,10 +2199,11 @@
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "pending_fetch_failure_streak": 0,
-      "last_pending_recent_flip_count": 0
+      "last_pending_recent_flip_count": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "soundcloud_go": {
-      "last_successful_fetch_utc": "2026-03-07T10:06:27Z",
+      "last_successful_fetch_utc": "2026-03-07T18:46:19Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -2113,18 +2219,19 @@
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "amc_plus": {
-      "last_successful_fetch_utc": "2026-03-07T10:06:28Z",
+      "last_successful_fetch_utc": "2026-03-07T18:46:20Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "8a4f6919f70dfdb6",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -2136,10 +2243,11 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "8a4f6919f70dfdb6",
       "last_noise_suppressed_change_key": "8a4f6919f70dfdb6",
-      "last_noise_suppressed_source_url": "https://www.amcplus.com/"
+      "last_noise_suppressed_source_url": "https://www.amcplus.com/",
+      "fallback_signal_consecutive_runs": 0
     },
     "starz": {
-      "last_successful_fetch_utc": "2026-03-07T10:06:28Z",
+      "last_successful_fetch_utc": "2026-03-07T18:46:20Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -2155,10 +2263,11 @@
       "pending_fetch_blocked": false,
       "last_observed_last_updated_label": "September 2, 2025",
       "last_observed_last_updated_date_utc": "2025-09-02",
-      "pending_fetch_failure_streak": 0
+      "pending_fetch_failure_streak": 0,
+      "fallback_signal_consecutive_runs": 0
     },
     "britbox": {
-      "last_successful_fetch_utc": "2026-03-07T10:06:28Z",
+      "last_successful_fetch_utc": "2026-03-07T18:46:20Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
@@ -2166,7 +2275,7 @@
         "__baseline__",
         "__baseline__",
         "__baseline__",
-        "trial_window_days:360",
+        "__baseline__",
         "__baseline__"
       ],
       "last_successful_fetch_lane": "browser_hook",
@@ -2183,30 +2292,32 @@
       "last_noise_suppressed_reason": "non_material_repeat",
       "last_noise_suppressed_hash": "740f7407816addea",
       "last_noise_suppressed_change_key": "trial_window_days:360",
-      "last_noise_suppressed_source_url": "https://www.britbox.com/us/"
+      "last_noise_suppressed_source_url": "https://www.britbox.com/us/",
+      "fallback_signal_consecutive_runs": 0
     },
     "zoom": {
-      "last_successful_fetch_utc": "2026-03-07T10:06:29Z",
+      "last_successful_fetch_utc": "2026-03-07T18:46:21Z",
       "last_pending_age_days": 0,
       "last_pending_flip_count": 0,
       "signal_window": [
-        "21c03864945efe64",
-        "__baseline__",
-        "__baseline__",
-        "__baseline__",
         "a5a6710b4050060a",
-        "__baseline__"
+        "__baseline__",
+        "0acfcc01dfe25faa",
+        "__baseline__",
+        "__baseline__",
+        "0acfcc01dfe25faa"
       ],
       "last_successful_fetch_lane": "browser_hook",
       "consecutive_fetch_failures": 0,
       "pending_fetch_blocked": false,
       "last_pending_seen_utc": "2026-03-06T20:33:39Z",
       "pending_fetch_failure_streak": 0,
-      "last_noise_suppressed_utc": "2026-03-07T09:40:32Z",
+      "last_noise_suppressed_utc": "2026-03-07T18:46:21Z",
       "last_noise_suppressed_reason": "non_material_repeat",
-      "last_noise_suppressed_hash": "a5a6710b4050060a",
-      "last_noise_suppressed_change_key": "a5a6710b4050060a",
-      "last_noise_suppressed_source_url": "https://zoom.us/pricing"
+      "last_noise_suppressed_hash": "0acfcc01dfe25faa",
+      "last_noise_suppressed_change_key": "0acfcc01dfe25faa",
+      "last_noise_suppressed_source_url": "https://zoom.us/pricing",
+      "fallback_signal_consecutive_runs": 0
     }
   }
 }
