@@ -37,6 +37,14 @@ function parseLimit(rawValue, fallback = 20) {
   return Math.min(100, parsed);
 }
 
+function parseIncludeZero(rawValue, fallback = true) {
+  const normalized = String(rawValue || "").trim().toLowerCase();
+  if (!normalized) return fallback;
+  if (["1", "true", "yes", "on"].includes(normalized)) return true;
+  if (["0", "false", "no", "off"].includes(normalized)) return false;
+  return fallback;
+}
+
 function toNumber(value, fallback = 0) {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : fallback;
@@ -169,6 +177,7 @@ function buildSuccessPayload({
   source = "unknown",
   state = "confirmed",
   limit = 20,
+  includeZero = true,
   dateFrom = "",
   dateTo = "",
   alerts = [],
@@ -181,6 +190,7 @@ function buildSuccessPayload({
     source,
     state,
     limit,
+    include_zero: includeZero,
     date_from: dateFrom,
     date_to: dateTo,
     alerts,
@@ -207,7 +217,12 @@ function sortAlertsNewest(alerts = []) {
   });
 }
 
-function loadAlertsFromFiles({ state = "confirmed", dateFrom = "", dateTo = "", limit = 20 } = {}) {
+function filterByIncludeZero(alerts = [], includeZero = true) {
+  if (includeZero) return [...alerts];
+  return alerts.filter((entry) => toNumber(entry?.changed_count, 0) > 0);
+}
+
+function loadAlertsFromFiles({ state = "confirmed", dateFrom = "", dateTo = "", limit = 20, includeZero = true } = {}) {
   const strictFeed = readJson(STRICT_FEED_PATH, { alerts: [] });
   const reviewFeed = readJson(REVIEW_FEED_PATH, { alerts: [] });
   const strictAlerts = Array.isArray(strictFeed?.alerts)
@@ -229,8 +244,9 @@ function loadAlertsFromFiles({ state = "confirmed", dateFrom = "", dateTo = "", 
     alerts = strictAlerts;
   }
 
-  const filtered = filterByDateRange(alerts, dateFrom, dateTo);
-  return sortAlertsNewest(filtered).slice(0, limit);
+  const dateFiltered = filterByDateRange(alerts, dateFrom, dateTo);
+  const includeZeroFiltered = filterByIncludeZero(dateFiltered, includeZero);
+  return sortAlertsNewest(includeZeroFiltered).slice(0, limit);
 }
 
 async function loadAlertsFromSupabase({
@@ -238,6 +254,7 @@ async function loadAlertsFromSupabase({
   dateFrom = "",
   dateTo = "",
   limit = 20,
+  includeZero = true,
   supabaseConfig,
 }) {
   const params = {
@@ -250,7 +267,9 @@ async function loadAlertsFromSupabase({
     params.strict_eligible = "eq.false";
   } else if (state === "confirmed") {
     params.strict_eligible = "eq.true";
-    params.changed_count = "gt.0";
+    if (!includeZero) {
+      params.changed_count = "gt.0";
+    }
   }
 
   if (dateFrom && dateTo) {
@@ -275,9 +294,10 @@ async function loadAlertsFromSupabase({
   }
 
   const rows = Array.isArray(result.data) ? result.data : [];
+  const alerts = rows.map((row) => toAlertObjectFromDailyRow(row));
   return {
     ok: true,
-    alerts: rows.map((row) => toAlertObjectFromDailyRow(row)),
+    alerts: filterByIncludeZero(alerts, includeZero),
     error: "",
   };
 }
@@ -299,6 +319,7 @@ export default async function handler(req, res) {
 
   const state = normalizeState(readQueryValue(req, "state", "confirmed"));
   const limit = parseLimit(readQueryValue(req, "limit", "20"), 20);
+  const includeZero = parseIncludeZero(readQueryValue(req, "include_zero", "1"), true);
   const dateFrom = normalizeDateOnly(readQueryValue(req, "date_from", ""));
   const dateTo = normalizeDateOnly(readQueryValue(req, "date_to", ""));
   const supabaseConfig = getPolicySupabaseConfig();
@@ -310,6 +331,7 @@ export default async function handler(req, res) {
       dateFrom,
       dateTo,
       limit,
+      includeZero,
       supabaseConfig,
     });
     if (supabaseResult.ok) {
@@ -320,6 +342,7 @@ export default async function handler(req, res) {
           source: "supabase",
           state,
           limit,
+          includeZero,
           dateFrom,
           dateTo,
           alerts: supabaseResult.alerts,
@@ -329,7 +352,7 @@ export default async function handler(req, res) {
     supabaseError = supabaseResult.error;
   }
 
-  const fileAlerts = loadAlertsFromFiles({ state, dateFrom, dateTo, limit });
+  const fileAlerts = loadAlertsFromFiles({ state, dateFrom, dateTo, limit, includeZero });
   return send(
     res,
     200,
@@ -337,6 +360,7 @@ export default async function handler(req, res) {
       source: "file_fallback",
       state,
       limit,
+      includeZero,
       dateFrom,
       dateTo,
       alerts: fileAlerts,

@@ -51,6 +51,7 @@ Workflow behavior:
 - Query params:
   - `state=confirmed|review|all` (default `confirmed`)
   - `limit` (default `20`, max `100`)
+  - `include_zero=1|0` (default `1`; set `0` to hide zero-change daily rows)
   - `date_from=YYYY-MM-DD`
   - `date_to=YYYY-MM-DD`
 
