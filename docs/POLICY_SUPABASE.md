@@ -26,6 +26,8 @@ Optional flags:
 - `POLICY_SUPABASE_SYNC_ENABLED=1`
 - `POLICY_SUPABASE_STATE_SYNC_ENABLED=1`
 - `POLICY_SUPABASE_SUPPRESS_GIT_STATE=1`
+- `POLICY_ALERT_INCLUDE_ZERO_CHANGE=1` (recommended; default now `1`)
+- `POLICY_ALERTS_ALLOW_FILE_FALLBACK=0|1` (default: `0` in production, `1` elsewhere)
 
 ## 3) Behavior
 
@@ -34,12 +36,14 @@ When enabled:
 - `scripts/check-policies.js` hydrates local state from `policy_state_artifacts` before checks.
 - It upserts daily events into `policy_events`.
 - It upserts daily rollup into `policy_daily_alerts`.
+- It enforces daily date continuity for recent history (`POLICY_ALERT_CONTINUITY_LOOKBACK_DAYS`, default `120`):
+  - if a UTC date is missing, a zero-change continuity row is backfilled.
 - It re-syncs artifact state into `policy_state_artifacts`.
 - Comparison mode is `confirmed_daily_fingerprint`:
   - diffing prefers confirmed baseline + canonical daily fingerprints (`rules/*-policy-daily-fingerprints.json`)
   - transient run-hash drift is excluded from baseline comparison.
 - Blocked-source retry queues are persisted as state artifacts (`rules/*-policy-blocked-retry-queue.json`).
-- Public strict feed publishes from confirmed event log only; provisional/quality-held/fetch telemetry stays internal (`raw` payload/ops reports).
+- Public strict feed remains date-continuous (including zero-change days); provisional/quality-held/fetch telemetry stays internal (`raw` payload/ops reports).
 
 Workflow behavior:
 
@@ -55,7 +59,8 @@ Workflow behavior:
   - `date_from=YYYY-MM-DD`
   - `date_to=YYYY-MM-DD`
 
-If Supabase sync is enabled, this route reads from `policy_daily_alerts`. Otherwise it falls back to local file feeds.
+If Supabase sync is enabled, this route reads from `policy_daily_alerts`.
+File fallback is disabled by default in production (`POLICY_ALERTS_ALLOW_FILE_FALLBACK=0`) and enabled by default in non-production.
 
 Response contract:
 

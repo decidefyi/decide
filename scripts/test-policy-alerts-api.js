@@ -69,6 +69,7 @@ function assertAlertShapeIfPresent(result) {
 
 async function main() {
   process.env.POLICY_SUPABASE_SYNC_ENABLED = "0";
+  process.env.POLICY_ALERTS_ALLOW_FILE_FALLBACK = "1";
 
   const confirmed = await invoke({ state: "confirmed", limit: "3" });
   assertCommonPayload(confirmed, "confirmed", 3, true);
@@ -118,7 +119,15 @@ async function main() {
   assert.equal(methodNotAllowed.json?.error, "method_not_allowed", "POST error mismatch");
   console.log("PASS policy-alerts-api-method-guard");
 
-  console.log("Policy alerts API tests passed: 5/5");
+  process.env.POLICY_ALERTS_ALLOW_FILE_FALLBACK = "0";
+  const noFallback = await invoke({ state: "all", limit: "5" });
+  assert.equal(noFallback.statusCode, 503, "fallback disabled without Supabase should fail");
+  assert.equal(noFallback.json?.ok, false, "fallback disabled should return ok=false");
+  assert.equal(noFallback.json?.error, "supabase_sync_not_enabled", "fallback-disabled error mismatch");
+  console.log("PASS policy-alerts-api-no-fallback-guard");
+  process.env.POLICY_ALERTS_ALLOW_FILE_FALLBACK = "1";
+
+  console.log("Policy alerts API tests passed: 6/6");
 }
 
 main().catch((error) => {

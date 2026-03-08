@@ -59,6 +59,7 @@ const CHECKER_CONFIG = {
   qualityGateRejectFailures: Number.parseInt(process.env.POLICY_CHECK_QUALITY_GATE_REJECT_FAILURES || "3", 10),
   alertLowSignalThreshold: Number.parseInt(process.env.POLICY_ALERT_LOW_SIGNAL_THRESHOLD || "1", 10),
   alertLowSignalLookback: Number.parseInt(process.env.POLICY_ALERT_LOW_SIGNAL_LOOKBACK || "6", 10),
+  alertContinuityLookbackDays: Number.parseInt(process.env.POLICY_ALERT_CONTINUITY_LOOKBACK_DAYS || "120", 10),
   browserHookUrl: String(process.env.POLICY_CHECK_BROWSER_HOOK_URL || "").trim(),
   browserHookToken: String(process.env.POLICY_CHECK_BROWSER_HOOK_TOKEN || "").trim(),
   fetchLaneDefault: String(process.env.POLICY_CHECK_FETCH_LANES_DEFAULT || "").trim(),
@@ -423,6 +424,74 @@ function utcIsoTimestamp(date = new Date()) {
   return date.toISOString().replace(/\.\d{3}Z$/, "Z");
 }
 
+function parseDateOnlyToUtc(value = "") {
+  const raw = String(value || "").trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return null;
+  const parsed = new Date(`${raw}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return parsed;
+}
+
+function toDateOnlyUtc(date = new Date()) {
+  return utcIsoTimestamp(date).slice(0, 10);
+}
+
+function addUtcDays(value = "", days = 0) {
+  const parsed = parseDateOnlyToUtc(value);
+  if (!parsed) return "";
+  parsed.setUTCDate(parsed.getUTCDate() + Number(days || 0));
+  return toDateOnlyUtc(parsed);
+}
+
+function toZeroPolicyCounts() {
+  return Object.fromEntries(POLICY_COUNT_KEYS.map((policy) => [policy, 0]));
+}
+
+function buildZeroChangeContinuityAlert(dateUtc = "") {
+  const normalizedDateUtc = String(dateUtc || "").trim();
+  if (!normalizedDateUtc) return null;
+  const zeroByPolicy = toZeroPolicyCounts();
+  return {
+    date_utc: normalizedDateUtc,
+    changed_date: normalizedDateUtc,
+    generated_at_utc: `${normalizedDateUtc}T23:59:59Z`,
+    created_at: `${normalizedDateUtc}T23:59:59Z`,
+    updated_at: `${normalizedDateUtc}T23:59:59Z`,
+    changed_count: 0,
+    actual_changed_count: 0,
+    material_changed_count: 0,
+    dedupe_changed_count: 0,
+    reported_changed_count: 0,
+    repeated_count: 0,
+    by_policy: zeroByPolicy,
+    dedupe_by_policy: zeroByPolicy,
+    changed_sample: [],
+    dedupe_changed_sample: [],
+    pending_count: 0,
+    pending_by_policy: zeroByPolicy,
+    fetch_failure_count: 0,
+    fetch_health_status: "healthy",
+    fetch_blocked_pending_count: 0,
+    stale_pending_count: 0,
+    volatile_pending_count: 0,
+    escalation_count: 0,
+    coverage_gap_count: 0,
+    quality_gate_held_count: 0,
+    metadata_stability_held_count: 0,
+    material_oscillation_suppressed_count: 0,
+    signal_confidence: "high-confidence",
+    signal_confidence_reason: "No confirmed policy changes for the UTC date; published as a zero-change continuity row.",
+    status: "confirmed",
+    state: "verified",
+    strict_eligible: true,
+    run_id: "",
+    run_attempt: "",
+    commit_sha: "",
+    run_url: "",
+    source: "check-policies.js:continuity_backfill",
+  };
+}
+
 function summarizePolicyCounts(changedItems) {
   const counts = {};
   for (const item of changedItems) {
@@ -449,7 +518,7 @@ function getPolicyAlertFeedMaxEntries() {
 }
 
 function getPolicyAlertIncludeZeroChange() {
-  const value = String(process.env.POLICY_ALERT_INCLUDE_ZERO_CHANGE || "0").trim().toLowerCase();
+  const value = String(process.env.POLICY_ALERT_INCLUDE_ZERO_CHANGE || "1").trim().toLowerCase();
   return value === "1" || value === "true" || value === "yes";
 }
 
@@ -479,6 +548,45 @@ function upsertDailyAlert(alerts = [], dailyEntry = {}, maxEntries = 120) {
   if (!targetDate) return sortAlertsByGeneratedUtcDesc(alerts).slice(0, Math.max(1, maxEntries));
   const withoutDate = removeAlertsForDate(alerts, targetDate);
   return sortAlertsByGeneratedUtcDesc([dailyEntry, ...withoutDate]).slice(0, Math.max(1, maxEntries));
+}
+
+function collapseAlertsByDate(alerts = []) {
+  const sorted = sortAlertsByGeneratedUtcDesc(alerts);
+  const byDate = new Map();
+  for (const entry of sorted) {
+    const dateUtc = String(entry?.date_utc || "").trim();
+    if (!parseDateOnlyToUtc(dateUtc)) continue;
+    if (!byDate.has(dateUtc)) {
+      byDate.set(dateUtc, entry);
+    }
+  }
+  return sortAlertsByGeneratedUtcDesc([...byDate.values()]);
+}
+
+function ensureAlertDateContinuity(alerts = [], maxEntries = 120) {
+  const collapsed = collapseAlertsByDate(alerts);
+  if (collapsed.length === 0) return collapsed;
+
+  const datesAsc = [...new Set(collapsed.map((entry) => String(entry?.date_utc || "").trim()))]
+    .filter((dateUtc) => parseDateOnlyToUtc(dateUtc))
+    .sort((left, right) => left.localeCompare(right));
+  if (datesAsc.length === 0) return collapsed;
+
+  const earliestDateUtc = datesAsc[0];
+  const latestDateUtc = datesAsc[datesAsc.length - 1];
+  const byDate = new Map(collapsed.map((entry) => [String(entry?.date_utc || "").trim(), entry]));
+  let cursorDateUtc = earliestDateUtc;
+  while (cursorDateUtc && cursorDateUtc <= latestDateUtc) {
+    if (!byDate.has(cursorDateUtc)) {
+      const continuityAlert = buildZeroChangeContinuityAlert(cursorDateUtc);
+      if (continuityAlert) byDate.set(cursorDateUtc, continuityAlert);
+    }
+    const nextDateUtc = addUtcDays(cursorDateUtc, 1);
+    if (!nextDateUtc || nextDateUtc === cursorDateUtc) break;
+    cursorDateUtc = nextDateUtc;
+  }
+
+  return sortAlertsByGeneratedUtcDesc([...byDate.values()]).slice(0, Math.max(1, maxEntries));
 }
 
 function toDateUtcPrefix(value = "") {
@@ -678,25 +786,29 @@ function buildDailyAlertFromEvents(entry = {}, eventLogEntries = []) {
   };
 }
 
-function isStrictDailyAlertEntry(entry = {}) {
-  // Public strict feed should mirror confirmed policy events only.
-  // Operational telemetry (provisional/pending/quality-held/fetch blockers) remains internal.
-  return Number(entry.changed_count || 0) > 0;
+function isStrictDailyAlertEntry(entry = {}, { includeZeroChange = true } = {}) {
+  // Public strict feed should remain date-continuous: confirmed change rows + confirmed zero-change rows.
+  const changedCount = Number(entry.changed_count || 0);
+  if (changedCount > 0) return true;
+  return Boolean(includeZeroChange);
 }
 
-function updatePolicyAlertFeed(entry, eventLogEntries = []) {
+function updatePolicyAlertFeed(entry, eventLogEntries = [], { includeZeroChange = true } = {}) {
   const maxEntries = getPolicyAlertFeedMaxEntries();
   const strictExisting = readJson(POLICY_ALERT_FEED_PATH, { alerts: [] });
   const reviewExisting = readJson(POLICY_ALERT_REVIEW_FEED_PATH, { alerts: [] });
-  const existingStrictAlerts = Array.isArray(strictExisting.alerts) ? strictExisting.alerts : [];
-  const existingReviewAlerts = Array.isArray(reviewExisting.alerts) ? reviewExisting.alerts : [];
+  const existingStrictAlerts = collapseAlertsByDate(Array.isArray(strictExisting.alerts) ? strictExisting.alerts : []);
+  const existingReviewAlerts = collapseAlertsByDate(Array.isArray(reviewExisting.alerts) ? reviewExisting.alerts : []);
 
   const dailyEntry = buildDailyAlertFromEvents(entry, eventLogEntries);
-  const strictEligible = isStrictDailyAlertEntry(dailyEntry);
+  const strictEligible = isStrictDailyAlertEntry(dailyEntry, { includeZeroChange });
+  const hasConfirmedChanges = Number(dailyEntry.changed_count || 0) > 0;
   const signalConfidence = strictEligible ? "high-confidence" : "manual-review";
-  const signalConfidenceReason = strictEligible
+  const signalConfidenceReason = hasConfirmedChanges
     ? "Confirmed semantic changes emitted to strict feed; operational telemetry is tracked separately."
-    : "No confirmed policy changes for the date; nothing published to strict feed.";
+    : strictEligible
+      ? "No confirmed policy changes for the UTC date; published as a zero-change continuity row."
+      : "No confirmed policy changes for the date; nothing published to strict feed.";
   const normalizedEntry = {
     ...dailyEntry,
     signal_confidence: signalConfidence,
@@ -705,10 +817,18 @@ function updatePolicyAlertFeed(entry, eventLogEntries = []) {
     state: strictEligible ? "verified" : "needs_review",
   };
 
-  const nextReviewAlerts = upsertDailyAlert(existingReviewAlerts, normalizedEntry, maxEntries);
-  const nextStrictAlerts = strictEligible
+  const nextReviewAlerts = collapseAlertsByDate(upsertDailyAlert(existingReviewAlerts, normalizedEntry, maxEntries)).slice(
+    0,
+    Math.max(1, maxEntries)
+  );
+  let nextStrictAlerts = strictEligible
     ? upsertDailyAlert(existingStrictAlerts, normalizedEntry, maxEntries)
     : removeAlertsForDate(existingStrictAlerts, normalizedEntry.date_utc).slice(0, Math.max(1, maxEntries));
+  if (strictEligible && includeZeroChange) {
+    nextStrictAlerts = ensureAlertDateContinuity(nextStrictAlerts, maxEntries);
+  } else {
+    nextStrictAlerts = collapseAlertsByDate(nextStrictAlerts).slice(0, Math.max(1, maxEntries));
+  }
 
   const strictChanged = JSON.stringify(existingStrictAlerts) !== JSON.stringify(nextStrictAlerts);
   const reviewChanged = JSON.stringify(existingReviewAlerts) !== JSON.stringify(nextReviewAlerts);
@@ -750,7 +870,7 @@ function updatePolicyAlertFeed(entry, eventLogEntries = []) {
   return {
     published: strictEligible,
     review_published: true,
-    reason: strictEligible ? "" : "strict_quality_filter",
+    reason: strictEligible ? (hasConfirmedChanges ? "" : "zero_change_continuity") : "strict_quality_filter",
     signature: String(normalizedEntry.alert_signature || buildAlertSignature(normalizedEntry)),
     feedChanged: strictChanged,
     reviewFeedChanged: reviewChanged,
@@ -1150,6 +1270,116 @@ function buildSupabaseDailyAlertRow(entry = {}, strictEligible = false) {
   };
 }
 
+function getAlertContinuityLookbackDays() {
+  const parsed = Number.parseInt(String(CHECKER_CONFIG.alertContinuityLookbackDays || "120"), 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) return 120;
+  return Math.min(366, parsed);
+}
+
+function listDateRangeUtc(startDateUtc = "", endDateUtc = "") {
+  const startDate = parseDateOnlyToUtc(startDateUtc);
+  const endDate = parseDateOnlyToUtc(endDateUtc);
+  if (!startDate || !endDate || startDate > endDate) return [];
+
+  const dates = [];
+  let cursor = new Date(startDate.getTime());
+  while (cursor <= endDate) {
+    dates.push(toDateOnlyUtc(cursor));
+    cursor.setUTCDate(cursor.getUTCDate() + 1);
+  }
+  return dates;
+}
+
+async function fetchSupabaseDailyAlertDateSet(supabaseConfig, startDateUtc = "", endDateUtc = "") {
+  const start = String(startDateUtc || "").trim();
+  const end = String(endDateUtc || "").trim();
+  if (!start || !end) return new Set();
+  const result = await supabaseRestRequest(supabaseConfig, {
+    method: "GET",
+    path: "/rest/v1/policy_daily_alerts",
+    params: {
+      select: "date_utc",
+      order: "date_utc.asc",
+      and: `(date_utc.gte.${start},date_utc.lte.${end})`,
+      limit: "400",
+    },
+  });
+  if (!result.ok || !Array.isArray(result.data)) {
+    return new Set();
+  }
+  return new Set(
+    result.data
+      .map((row) => String(row?.date_utc || "").trim())
+      .filter((dateUtc) => parseDateOnlyToUtc(dateUtc))
+  );
+}
+
+function buildSupabaseZeroChangeContinuityRow(dateUtc = "", templateEntry = {}) {
+  const normalizedDateUtc = String(dateUtc || "").trim();
+  if (!normalizedDateUtc) return null;
+  const zeroByPolicy = toZeroPolicyCounts();
+  return buildSupabaseDailyAlertRow(
+    {
+      date_utc: normalizedDateUtc,
+      generated_at_utc: `${normalizedDateUtc}T23:59:59Z`,
+      changed_count: 0,
+      dedupe_changed_count: 0,
+      reported_changed_count: 0,
+      repeated_count: 0,
+      by_policy: zeroByPolicy,
+      changed_sample: [],
+      pending_count: 0,
+      volatile_pending_count: 0,
+      escalation_count: 0,
+      coverage_gap_count: 0,
+      fetch_failure_count: 0,
+      fetch_health_status: "healthy",
+      fetch_blocked_pending_count: 0,
+      quality_gate_held_count: 0,
+      metadata_stability_held_count: 0,
+      material_oscillation_suppressed_count: 0,
+      source_migration_reset_count: 0,
+      signal_confidence: "high-confidence",
+      signal_confidence_reason: "No confirmed policy changes for the UTC date; published as a zero-change continuity row.",
+      status: "confirmed",
+      state: "verified",
+      run_id: String(templateEntry?.run_id || "").trim(),
+      run_attempt: String(templateEntry?.run_attempt || "").trim(),
+      commit_sha: String(templateEntry?.commit_sha || "").trim(),
+      run_url: String(templateEntry?.run_url || "").trim(),
+      source: "check-policies.js:continuity_backfill",
+      raw: {
+        continuity_backfill: true,
+      },
+    },
+    true
+  );
+}
+
+async function buildSupabaseContinuityBackfillRows({
+  supabaseConfig,
+  targetDateUtc = "",
+  dailyAlertEntry = {},
+} = {}) {
+  const normalizedTargetDateUtc = String(targetDateUtc || "").trim();
+  if (!parseDateOnlyToUtc(normalizedTargetDateUtc)) return [];
+
+  const lookbackDays = getAlertContinuityLookbackDays();
+  const startDateUtc = addUtcDays(normalizedTargetDateUtc, -Math.max(0, lookbackDays - 1));
+  const rangeDates = listDateRangeUtc(startDateUtc, normalizedTargetDateUtc);
+  if (rangeDates.length === 0) return [];
+
+  const existingDateSet = await fetchSupabaseDailyAlertDateSet(supabaseConfig, startDateUtc, normalizedTargetDateUtc);
+  const rows = [];
+  for (const dateUtc of rangeDates) {
+    if (dateUtc === normalizedTargetDateUtc) continue;
+    if (existingDateSet.has(dateUtc)) continue;
+    const row = buildSupabaseZeroChangeContinuityRow(dateUtc, dailyAlertEntry);
+    if (row) rows.push(row);
+  }
+  return rows;
+}
+
 async function syncPolicyAlertsToSupabase({
   supabaseConfig,
   dateUtc = "",
@@ -1163,6 +1393,7 @@ async function syncPolicyAlertsToSupabase({
       ok: true,
       event_upserted_count: 0,
       daily_alert_upserted_count: 0,
+      daily_alert_backfilled_count: 0,
       error: "",
     };
   }
@@ -1170,7 +1401,23 @@ async function syncPolicyAlertsToSupabase({
   const eventRows = buildSupabasePolicyEventRows(eventLogEntries, dateUtc);
   const eventUpsert = await supabaseUpsertRows(supabaseConfig, "policy_events", eventRows, ["event_id"]);
   const dailyRow = buildSupabaseDailyAlertRow(dailyAlertEntry || {}, strictEligible);
-  const dailyRows = dailyRow ? [dailyRow] : [];
+  const continuityRows = dailyRow
+    ? await buildSupabaseContinuityBackfillRows({
+      supabaseConfig,
+      targetDateUtc: String(dailyRow.date_utc || "").trim(),
+      dailyAlertEntry: dailyAlertEntry || {},
+    })
+    : [];
+  const dailyRowsByDate = new Map();
+  for (const row of continuityRows) {
+    const key = String(row?.date_utc || "").trim();
+    if (!key) continue;
+    dailyRowsByDate.set(key, row);
+  }
+  if (dailyRow) {
+    dailyRowsByDate.set(String(dailyRow.date_utc || "").trim(), dailyRow);
+  }
+  const dailyRows = [...dailyRowsByDate.values()];
   const dailyUpsert = await supabaseUpsertRows(supabaseConfig, "policy_daily_alerts", dailyRows, ["date_utc"]);
 
   return {
@@ -1178,6 +1425,7 @@ async function syncPolicyAlertsToSupabase({
     ok: eventUpsert.ok && dailyUpsert.ok,
     event_upserted_count: eventUpsert.ok ? eventRows.length : 0,
     daily_alert_upserted_count: dailyUpsert.ok ? dailyRows.length : 0,
+    daily_alert_backfilled_count: continuityRows.length,
     error: [eventUpsert.error, dailyUpsert.error].filter(Boolean).join("; "),
   };
 }
@@ -5536,7 +5784,8 @@ async function main() {
         commit_sha: String(process.env.GITHUB_SHA || "").trim(),
         source: "check-policies.js",
       },
-      policyEventLogEntries
+      policyEventLogEntries,
+      { includeZeroChange: includeZeroChangeAlerts }
     );
   } else if (!isUpdate && !shouldPublishAlertFeed) {
     alertFeedPublishState = {
@@ -5581,6 +5830,7 @@ async function main() {
   console.log(`SUPABASE_STATE_HYDRATED_COUNT=${supabaseStateHydrateResult.hydrated_count || 0}`);
   console.log(`SUPABASE_EVENTS_UPSERTED_COUNT=${supabaseAlertSyncResult.event_upserted_count || 0}`);
   console.log(`SUPABASE_DAILY_ALERT_UPSERTED_COUNT=${supabaseAlertSyncResult.daily_alert_upserted_count || 0}`);
+  console.log(`SUPABASE_DAILY_ALERT_BACKFILLED_COUNT=${supabaseAlertSyncResult.daily_alert_backfilled_count || 0}`);
   console.log(`SUPABASE_STATE_SYNCED_COUNT=${supabaseStateSyncResult.synced_count || 0}`);
   console.log(`SUPABASE_SYNC_OK=${supabaseSyncOk ? "1" : "0"}`);
   console.log("BASELINE_COMPARISON_MODE=confirmed_daily_fingerprint");

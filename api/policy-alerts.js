@@ -45,6 +45,14 @@ function parseIncludeZero(rawValue, fallback = true) {
   return fallback;
 }
 
+function parseBooleanFlag(rawValue, fallback = false) {
+  const normalized = String(rawValue || "").trim().toLowerCase();
+  if (!normalized) return fallback;
+  if (["1", "true", "yes", "on"].includes(normalized)) return true;
+  if (["0", "false", "no", "off"].includes(normalized)) return false;
+  return fallback;
+}
+
 function toNumber(value, fallback = 0) {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : fallback;
@@ -76,6 +84,11 @@ function normalizeDateOnly(value = "") {
   const raw = String(value || "").trim();
   if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return "";
   return raw;
+}
+
+function defaultAllowFileFallback(env = process.env) {
+  const runtime = String(env.VERCEL_ENV || env.NODE_ENV || "").trim().toLowerCase();
+  return runtime !== "production";
 }
 
 function toAlertObjectFromDailyRow(row = {}) {
@@ -322,6 +335,10 @@ export default async function handler(req, res) {
   const includeZero = parseIncludeZero(readQueryValue(req, "include_zero", "1"), true);
   const dateFrom = normalizeDateOnly(readQueryValue(req, "date_from", ""));
   const dateTo = normalizeDateOnly(readQueryValue(req, "date_to", ""));
+  const allowFileFallback = parseBooleanFlag(
+    readQueryValue(req, "allow_file_fallback", process.env.POLICY_ALERTS_ALLOW_FILE_FALLBACK || ""),
+    defaultAllowFileFallback(process.env)
+  );
   const supabaseConfig = getPolicySupabaseConfig();
   let supabaseError = "";
 
@@ -350,6 +367,24 @@ export default async function handler(req, res) {
       );
     }
     supabaseError = supabaseResult.error;
+    if (!allowFileFallback) {
+      return send(res, 503, {
+        ok: false,
+        error: "supabase_unavailable",
+        detail: String(supabaseError || "supabase_fetch_failed"),
+        source: "supabase",
+        state,
+        include_zero: includeZero,
+      });
+    }
+  } else if (!allowFileFallback) {
+    return send(res, 503, {
+      ok: false,
+      error: "supabase_sync_not_enabled",
+      source: "supabase",
+      state,
+      include_zero: includeZero,
+    });
   }
 
   const fileAlerts = loadAlertsFromFiles({ state, dateFrom, dateTo, limit, includeZero });
