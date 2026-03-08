@@ -67,3 +67,5 @@ Workflow bridge guard:
 
 - `Daily Policy Check` now runs `npm run verify:policy-alerts-bridge` after a healthy Supabase sync.
 - This guard verifies the live public API contract and confirms the current workflow run is visible in `/api/policy-alerts`.
+- By default this guard is warning-only (`POLICY_ALERTS_BRIDGE_ENFORCE=0`).
+- Set repo variable `POLICY_ALERTS_BRIDGE_ENFORCE=1` to make bridge failures block the workflow.

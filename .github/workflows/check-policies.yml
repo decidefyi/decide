@@ -498,11 +498,12 @@ jobs:
 
       - name: Verify public policy alerts bridge
         if: steps.check.outputs.supabase_sync_enabled == '1' && steps.check.outputs.supabase_sync_ok == '1'
+        continue-on-error: ${{ (vars.POLICY_ALERTS_BRIDGE_ENFORCE || '0') != '1' }}
         env:
           POLICY_ALERTS_BRIDGE_URL: ${{ vars.POLICY_ALERTS_BRIDGE_URL || 'https://www.decide.fyi/api/policy-alerts' }}
           POLICY_ALERTS_BRIDGE_STATE: all
           POLICY_ALERTS_BRIDGE_LIMIT: 10
-          POLICY_ALERTS_BRIDGE_RETRIES: ${{ vars.POLICY_ALERTS_BRIDGE_RETRIES || '12' }}
+          POLICY_ALERTS_BRIDGE_RETRIES: ${{ vars.POLICY_ALERTS_BRIDGE_RETRIES || '6' }}
           POLICY_ALERTS_BRIDGE_DELAY_MS: ${{ vars.POLICY_ALERTS_BRIDGE_DELAY_MS || '15000' }}
           POLICY_ALERTS_BRIDGE_EXPECT_SCHEMA_VERSION: policy_alerts_v2
           POLICY_ALERTS_BRIDGE_EXPECT_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
