@@ -1,10 +1,10 @@
 # Policy Weekly Triage
 
 Current week: 2026-W10
-Generated UTC: 2026-03-07T23:30:00Z
+Generated UTC: 2026-03-08T01:25:52Z
 
 ## Current Snapshot
-- Pending total: 6
+- Pending total: 2
 - Fetch blocked total: 0
 - Fetch failed total: 0
 - Confirmed changed total: 0
@@ -13,7 +13,7 @@ Generated UTC: 2026-03-07T23:30:00Z
 - Fallback signal actionable total: 0
 
 ## Weekly History (most recent first)
-- 2026-W10: pending=6, blocked=0, confirmed=0, volatile=1, fallback_actionable=0
+- 2026-W10: pending=2, blocked=0, confirmed=0, volatile=1, fallback_actionable=0
 
 Tracking source files:
 - rules/policy-coverage-state.json
