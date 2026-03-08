@@ -55,3 +55,15 @@ Workflow behavior:
   - `date_to=YYYY-MM-DD`
 
 If Supabase sync is enabled, this route reads from `policy_daily_alerts`. Otherwise it falls back to local file feeds.
+
+Response contract:
+
+- top-level `schema_version=policy_alerts_v2`
+- top-level `source` is a string (`supabase` or `file_fallback`)
+- top-level `state`, `limit`, `alerts[]`
+- each alert should include normalized `date_utc`, `changed_count`, `pending_count`, `state`, `status`, `run_url`
+
+Workflow bridge guard:
+
+- `Daily Policy Check` now runs `npm run verify:policy-alerts-bridge` after a healthy Supabase sync.
+- This guard verifies the live public API contract and confirms the current workflow run is visible in `/api/policy-alerts`.

@@ -496,6 +496,24 @@ jobs:
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Verify public policy alerts bridge
+        if: steps.check.outputs.supabase_sync_enabled == '1' && steps.check.outputs.supabase_sync_ok == '1'
+        env:
+          POLICY_ALERTS_BRIDGE_URL: ${{ vars.POLICY_ALERTS_BRIDGE_URL || 'https://www.decide.fyi/api/policy-alerts' }}
+          POLICY_ALERTS_BRIDGE_STATE: all
+          POLICY_ALERTS_BRIDGE_LIMIT: 10
+          POLICY_ALERTS_BRIDGE_RETRIES: ${{ vars.POLICY_ALERTS_BRIDGE_RETRIES || '12' }}
+          POLICY_ALERTS_BRIDGE_DELAY_MS: ${{ vars.POLICY_ALERTS_BRIDGE_DELAY_MS || '15000' }}
+          POLICY_ALERTS_BRIDGE_EXPECT_SCHEMA_VERSION: policy_alerts_v2
+          POLICY_ALERTS_BRIDGE_EXPECT_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          POLICY_ALERTS_BRIDGE_REQUIRE_SUPABASE: 1
+          POLICY_ALERTS_BRIDGE_REQUIRE_LIVE_RUN: 1
+          POLICY_ALERTS_BRIDGE_ALLOW_FILE_FALLBACK: 0
+          POLICY_ALERTS_BRIDGE_MIN_ALERTS: 1
+        run: |
+          export POLICY_ALERTS_BRIDGE_EXPECT_DATE="$(date -u +%F)"
+          npm run verify:policy-alerts-bridge
+
       - name: Commit policy artifacts to aggregation branch
         id: commit_artifacts
         env:

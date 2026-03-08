@@ -35,3 +35,6 @@ jobs:
 
       - name: Run policy feed reliability tests
         run: npm run test:policy-feed
+
+      - name: Run policy alerts API contract tests
+        run: npm run test:policy-alerts-api
