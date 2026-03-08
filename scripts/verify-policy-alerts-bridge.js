@@ -88,7 +88,14 @@ function validatePayload(payload, options) {
   }
 
   if (expectedDate) {
-    const hasExpectedDate = alerts.some((alert) => String(alert?.date_utc || "").trim() === expectedDate);
+    const hasExpectedDate = alerts.some((alert) => {
+      const rawDate = String(alert?.date_utc || alert?.changed_date || "").trim();
+      if (!rawDate) return false;
+      if (rawDate === expectedDate) return true;
+      const parsed = new Date(rawDate);
+      if (Number.isNaN(parsed.getTime())) return false;
+      return parsed.toISOString().slice(0, 10) === expectedDate;
+    });
     if (!hasExpectedDate) {
       errors.push(`no alert found for expected date ${expectedDate}`);
     }
