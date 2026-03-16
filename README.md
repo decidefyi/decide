@@ -1,6 +1,6 @@
 # decide.fyi
 
-> Deterministic subscription decision notaries for US consumers
+> Decision API + MCP notaries for deterministic system and agent decisions
 
 [![Version](https://img.shields.io/badge/version-1.2.1-blue.svg)](https://decide.fyi)
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
@@ -325,7 +325,7 @@ Policies are sourced from official vendor documentation and terms of service.
 - Trial Notary MCP (trial.decide.fyi) — free trial terms checker
 - Hostname-based middleware routing for all subdomains
 - Policy source files and daily checking for cancel, return, and trial policies
-- Humans/Agents mode toggle on landing page
+- Systems/Agents mode framing on landing page
 - MCP catalog with cards for all 4 servers
 
 **Fixed:**
