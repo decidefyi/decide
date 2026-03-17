@@ -1,0 +1,20 @@
+name: Inventory Freshness
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  inventory-freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check generated inventory docs are fresh
+        run: |
+          chmod +x ./scripts/generate-project-inventory.sh ./scripts/check-project-inventory.sh
+          ./scripts/check-project-inventory.sh
