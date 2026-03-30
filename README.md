@@ -85,6 +85,10 @@ npm run workflow:test
 
 ---
 
+## Hosted deployment
+
+A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/decidefyi-decide).
+
 ## Zendesk Workflow Orchestrators
 
 Use workflow endpoints when you want one request to return:
