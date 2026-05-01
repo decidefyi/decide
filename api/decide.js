@@ -6,6 +6,16 @@ import { timingSafeEqual } from "node:crypto";
 // Rate limiter: 20 requests per minute per IP
 const rateLimiter = createRateLimiter(20, 60000);
 const DECIDE_POLICY_VERSION = "decide_classifier_v1";
+const DEFAULT_GEMINI_MODEL_LADDER = [
+  "gemini-3.1-pro-preview",
+  "gemini-2.5-pro",
+  "gemini-3-flash-preview",
+  "gemini-3.1-flash-lite-preview",
+  "gemini-2.5-flash",
+  "gemini-2.5-flash-lite",
+  "gemini-2.0-flash",
+  "gemini-2.0-flash-lite",
+];
 
 function rid() {
   return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
@@ -257,6 +267,86 @@ function readApiToken(req) {
   return parts[1].trim();
 }
 
+function resolveGeminiModelLadder() {
+  const configured = String(process.env.DECIDE_GEMINI_MODEL_LADDER || "")
+    .split(",")
+    .map((entry) => String(entry || "").trim())
+    .filter(Boolean);
+  const source = configured.length ? configured : DEFAULT_GEMINI_MODEL_LADDER;
+  return [...new Set(source)];
+}
+
+function shouldRetryGeminiModel(statusCode, payload) {
+  if ([400, 401].includes(Number(statusCode))) return false;
+  if ([403, 404, 408, 409, 429, 500, 502, 503, 504].includes(Number(statusCode))) return true;
+  const message = JSON.stringify(payload?.error || payload || "").toLowerCase();
+  if (!message) return false;
+  return /(quota|rate limit|resource exhausted|temporarily unavailable|unavailable|overloaded|not found|deprecated|unsupported)/.test(message);
+}
+
+async function requestGeminiGenerateContent({ apiKey, prompt, generationConfig, request_id }) {
+  const attempts = [];
+  let lastStatus = 0;
+  let lastData = null;
+  let lastError = null;
+
+  for (const model of resolveGeminiModelLadder()) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+    try {
+      const startedAt = Date.now();
+      const apiRes = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey,
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig,
+        }),
+      });
+      const data = await apiRes.json();
+      attempts.push({ model, status: apiRes.status, latency_ms: Date.now() - startedAt });
+      if (apiRes.ok) {
+        return {
+          ok: true,
+          data,
+          model,
+          attempts,
+        };
+      }
+      lastStatus = apiRes.status;
+      lastData = data;
+      if (!shouldRetryGeminiModel(apiRes.status, data)) {
+        break;
+      }
+    } catch (error) {
+      lastError = error;
+      attempts.push({ model, status: 0, error: String(error?.message || error) });
+    }
+  }
+
+  if (lastError) {
+    console.error(
+      JSON.stringify({
+        ts: new Date().toISOString(),
+        request_id,
+        error: "GEMINI_MODEL_LADDER_EXHAUSTED",
+        message: String(lastError?.message || lastError),
+        attempts,
+      })
+    );
+  }
+
+  return {
+    ok: false,
+    status: lastStatus,
+    data: lastData,
+    attempts,
+    error: lastError,
+  };
+}
+
 function safeEqualToken(left, right) {
   const a = String(left || "").trim();
   const b = String(right || "").trim();
@@ -417,9 +507,6 @@ export default async function handler(req, res) {
       return;
     }
 
-    const MODEL = "gemini-2.0-flash-lite";
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
-
     if (runtimeRequested) {
       const normalizedForPolicy = normalize(
         [runtimePrompt, runtimeGoal, runtimeOptions.join(" "), runtimeConstraints.join(" ")].join(" ")
@@ -486,20 +573,14 @@ Rules:
 - no markdown, no extra text`;
 
       const startedAt = Date.now();
-      const apiRes = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": API_KEY,
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.2, maxOutputTokens: 900 },
-        }),
+      const runtimeResult = await requestGeminiGenerateContent({
+        apiKey: API_KEY,
+        prompt,
+        generationConfig: { temperature: 0.2, maxOutputTokens: 900 },
+        request_id,
       });
-
-      const data = await apiRes.json();
-      if (!apiRes.ok) {
+      const data = runtimeResult.data;
+      if (!runtimeResult.ok) {
         sendDecisionJson(
           res,
           200,
@@ -559,6 +640,8 @@ Rules:
           meta: {
             request_id,
             latency_ms: Date.now() - startedAt,
+            model: runtimeResult.model,
+            model_attempts: runtimeResult.attempts,
           },
         },
         {
@@ -582,6 +665,8 @@ Rules:
         tradeoffs_count: payload.tradeoffs?.length || 0,
         next_actions_count: payload.next_actions?.length || 0,
         citations_count: payload.citations?.length || 0,
+        gemini_model: runtimeResult.model,
+        gemini_model_attempts: runtimeResult.attempts?.length || 0,
         ip: clientIp,
         ua,
         trusted_proxy: proxyContext.trusted,
@@ -634,20 +719,14 @@ Rules:
 - evaluate comparatively, not independently
 - no markdown, no extra text`;
 
-      const apiRes = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": API_KEY,
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0, maxOutputTokens: 220 },
-        }),
+      const multiResult = await requestGeminiGenerateContent({
+        apiKey: API_KEY,
+        prompt,
+        generationConfig: { temperature: 0, maxOutputTokens: 220 },
+        request_id,
       });
-
-      const data = await apiRes.json();
-      if (!apiRes.ok) {
+      const data = multiResult.data;
+      if (!multiResult.ok) {
         sendDecisionJson(res, 200, { c: "unclear", v: "try again", request_id }, { mode: "multi", question, stem, options });
         return;
       }
@@ -699,6 +778,8 @@ Rules:
         scores,
         ip: clientIp,
         ua,
+        gemini_model: multiResult.model,
+        gemini_model_attempts: multiResult.attempts?.length || 0,
         trusted_proxy: proxyContext.trusted,
         decide_plan: proxyContext.plan || undefined,
         customer_id: proxyContext.customerId || undefined,
@@ -733,20 +814,14 @@ Rules:
 User's question: ${q}
 Output exactly one of: yes, no`;
 
-    const apiRes = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": API_KEY,
-      },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.7, maxOutputTokens: 10 },
-      }),
+    const singleResult = await requestGeminiGenerateContent({
+      apiKey: API_KEY,
+      prompt,
+      generationConfig: { temperature: 0.7, maxOutputTokens: 10 },
+      request_id,
     });
-
-    const data = await apiRes.json();
-    if (!apiRes.ok) {
+    const data = singleResult.data;
+    if (!singleResult.ok) {
       sendDecisionJson(res, 200, { c: "unclear", v: "try again", request_id }, { mode: "single", question: q });
       return;
     }
@@ -766,6 +841,8 @@ Output exactly one of: yes, no`;
       request_id,
       method: req.method,
       verdict: out,
+      gemini_model: singleResult.model,
+      gemini_model_attempts: singleResult.attempts?.length || 0,
       ip: clientIp,
       ua,
       trusted_proxy: proxyContext.trusted,
