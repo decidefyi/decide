@@ -97,6 +97,12 @@ function extractJson(text = "") {
   return null;
 }
 
+function readGeminiText(data) {
+  const parts = data?.candidates?.[0]?.content?.parts;
+  if (!Array.isArray(parts)) return "";
+  return parts.map((part) => (typeof part?.text === "string" ? part.text : "")).join("");
+}
+
 function sanitizeScore(n) {
   const parsed = Number(n);
   if (!Number.isFinite(parsed)) return null;
@@ -306,8 +312,15 @@ async function requestGeminiGenerateContent({ apiKey, prompt, generationConfig, 
         }),
       });
       const data = await apiRes.json();
-      attempts.push({ model, status: apiRes.status, latency_ms: Date.now() - startedAt });
+      const attempt = { model, status: apiRes.status, latency_ms: Date.now() - startedAt };
+      attempts.push(attempt);
       if (apiRes.ok) {
+        if (!readGeminiText(data).trim()) {
+          attempt.empty_text = true;
+          lastStatus = apiRes.status;
+          lastData = data;
+          continue;
+        }
         return {
           ok: true,
           data,
@@ -590,7 +603,7 @@ Rules:
         return;
       }
 
-      const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+      const rawText = readGeminiText(data);
       const parsed = asObject(extractJson(rawText));
       const parsedDecision = asObject(parsed.decision);
       const parsedScorecard = Array.isArray(parsed.scorecard) ? parsed.scorecard : [];
@@ -731,7 +744,7 @@ Rules:
         return;
       }
 
-      const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+      const rawText = readGeminiText(data);
       const parsed = extractJson(rawText);
       const rawScores = Array.isArray(parsed?.scores) ? parsed.scores : [];
 
@@ -826,7 +839,7 @@ Output exactly one of: yes, no`;
       return;
     }
 
-    let out = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+    let out = readGeminiText(data);
     out = out.toLowerCase().trim().replace(/^"+|"+$/g, "").replace(/[^\w\s]/g, "").trim();
 
     if (out === "yes") {

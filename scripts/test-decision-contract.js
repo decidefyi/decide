@@ -257,6 +257,64 @@ async function testDecideModelFallbackOrder() {
   }
 }
 
+async function testDecideModelFallbackOnEmptyText() {
+  const fixture = loadFixture("decide-single.json");
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "";
+  const urls = [];
+  global.fetch = async (url) => {
+    urls.push(String(url));
+    if (urls.length === 1) {
+      return {
+        ok: true,
+        status: 200,
+        async json() {
+          return {
+            candidates: [
+              {
+                content: {
+                  parts: [{ text: "" }],
+                },
+              },
+            ],
+          };
+        },
+      };
+    }
+    return {
+      ok: true,
+      status: 200,
+      async json() {
+        return {
+          candidates: [
+            {
+              content: {
+                parts: [{ text: "yes" }],
+              },
+            },
+          ],
+        };
+      },
+    };
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, fixture.request);
+    assert.equal(result.statusCode, 200, "decide empty-text fallback status mismatch");
+    assert.equal(result.json?.c, "yes", "decide empty-text fallback verdict mismatch");
+    assert.equal(urls.length, 2, "expected second model attempt after empty first response");
+    assert.match(urls[0], /models\/gemini-3\.1-pro-preview:generateContent/, "first attempt should use gemini-3.1-pro-preview");
+    assert.match(urls[1], /models\/gemini-2\.5-pro:generateContent/, "second attempt should use gemini-2.5-pro");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
 async function testDecideExtendedFallbackOrder() {
   const fixture = loadFixture("decide-single.json");
   const originalFetch = global.fetch;
@@ -372,6 +430,7 @@ async function main() {
     ["decide-api-key", testDecideApiKeyFixture],
     ["decide-runtime", testDecideRuntimeFixture],
     ["decide-model-fallback-order", testDecideModelFallbackOrder],
+    ["decide-model-fallback-empty-text", testDecideModelFallbackOnEmptyText],
     ["decide-extended-fallback-order", testDecideExtendedFallbackOrder],
     ["policy-v1-dispatch", testPolicyV1Fixture],
     ["workflow-zendesk-dispatch", testWorkflowFixture],
