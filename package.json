@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "smoke": "node scripts/smoke-test.js",
+    "smoke:customer-key": "node scripts/customer-key-smoke.js",
     "mcp:check": "bash scripts/mcp-check.sh",
     "workflow:test": "node scripts/workflow-zendesk-refund-test.js",
     "test:policy-check": "node scripts/test-check-policies.js",

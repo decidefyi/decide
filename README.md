@@ -81,6 +81,9 @@ npm run mcp:check
 
 # End-to-end workflow fixture (example -> result)
 npm run workflow:test
+
+# Production customer-key verification after provisioning a key
+DECIDE_SMOKE_API_KEY='<customer-key>' npm run smoke:customer-key
 ```
 
 ---
@@ -361,6 +364,8 @@ If you run `decide` behind the `decidesite` proxy with dynamic customer keys, al
 - `DECIDE_API_KEY`: backend internal key that the trusted proxy forwards upstream (recommended to keep backend private).
 
 Rate limit: 100 requests/minute per IP.
+
+For first-customer handoff and keyed production verification, see [`docs/FIRST_CUSTOMER_RUNBOOK.md`](docs/FIRST_CUSTOMER_RUNBOOK.md).
 
 ### Policy Fetch Hook (for policy checker browser-hook lane)
 
