@@ -1,7 +1,7 @@
 # Policy Weekly Triage
 
 Current week: 2026-W19
-Generated UTC: 2026-05-04T13:35:52Z
+Generated UTC: 2026-05-04T19:28:25Z
 
 ## Current Snapshot
 - Pending total: 1
