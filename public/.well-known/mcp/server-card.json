@@ -1,7 +1,7 @@
 {
   "name": "decide.fyi",
   "version": "1.2.1",
-  "description": "Deterministic subscription decision notaries for US consumers. Stateless.",
+  "description": "Stable Decide API remotes for Krafthaus Policy MCP Notaries. Stateless.",
   "transports": [
     { "type": "streamable-http", "url": "https://refund.decide.fyi/api/mcp" },
     { "type": "streamable-http", "url": "https://cancel.decide.fyi/api/mcp" },

@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.decidefyi/decide",
-  "description": "Subscription decision notaries for US consumers. 4 tools: refund, cancel, return, trial.",
+  "description": "Stable Decide API remotes for Krafthaus Policy MCP Notaries. 4 tools: refund, cancel, return, trial.",
   "repository": {
     "url": "https://github.com/decidefyi/decide",
     "source": "github"

@@ -1,10 +1,14 @@
-# decide.fyi
+# decide.fyi Decision API
 
-> Decision API + MCP notaries for deterministic system and agent decisions
+> Deterministic Decision API engine powering Krafthaus products and stable MCP notary remotes
 
 [![Version](https://img.shields.io/badge/version-1.2.1-blue.svg)](https://decide.fyi)
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
 [![Vendors](https://img.shields.io/badge/vendors-100-orange.svg)](https://decide.fyi)
+
+**Product ownership:** Policy MCP Notaries are now a Krafthaus product built on the Decide API runtime. This repo and the `*.decide.fyi/api/mcp` URLs remain the stable engine, registry, and compatibility surface.
+
+Human-facing product home: [Krafthaus Policy MCP Notaries](https://www.krafthaus.app/policy-notaries)
 
 ## One-Click Install
 
@@ -12,7 +16,7 @@
 
 > Buttons install the **Refund Notary** server. To add all 4 servers, use the [JSON config below](#connect-via-mcp-claude-desktop--windsurf--other-clients).
 
-## MCP Servers
+## Stable MCP Remotes
 
 | Server | Domain | Tool | Verdicts |
 |--------|--------|------|----------|
@@ -21,7 +25,7 @@
 | **Return Notary** | [return.decide.fyi](https://return.decide.fyi) | `return_eligibility` | RETURNABLE / EXPIRED / NON_RETURNABLE / UNKNOWN |
 | **Trial Notary** | [trial.decide.fyi](https://trial.decide.fyi) | `trial_terms` | TRIAL_AVAILABLE / NO_TRIAL / UNKNOWN |
 
-All servers: 100 vendors, US region, individual plans, stateless, no auth, 100 req/min.
+All servers: 100 vendors, US region, individual plans, stateless, no auth, 100 req/min. Product documentation and positioning live on Krafthaus; runtime contracts stay here.
 
 ## Quick Start
 
@@ -314,6 +318,9 @@ Policies are sourced from official vendor documentation and terms of service.
 - `GET /api/compliance-export` endpoint for policy monitoring evidence export (CSV default, JSON via `?format=json`).
 - Smoke test coverage for compliance export JSON and CSV paths.
 
+**Changed:**
+- Landing pages now position Decide as the Decision API engine and bridge Policy MCP Notaries to Krafthaus.
+
 ### v1.2.1 (2026-02-08)
 
 **Changed:**
@@ -401,6 +408,7 @@ Questions? [decidefyi@gmail.com](mailto:decidefyi@gmail.com) or [@decidefyi on X
 ## Links
 
 - **Website:** [https://decide.fyi](https://decide.fyi)
+- **Policy MCP Notaries product:** [https://www.krafthaus.app/policy-notaries](https://www.krafthaus.app/policy-notaries)
 - **Refund:** [https://refund.decide.fyi](https://refund.decide.fyi)
 - **Cancel:** [https://cancel.decide.fyi](https://cancel.decide.fyi)
 - **Return:** [https://return.decide.fyi](https://return.decide.fyi)
@@ -410,4 +418,4 @@ Questions? [decidefyi@gmail.com](mailto:decidefyi@gmail.com) or [@decidefyi on X
 
 ---
 
-Built with love by the [decide.fyi](https://decide.fyi) team
+Decide is the API engine. Krafthaus is the product layer built on it.

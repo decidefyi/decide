@@ -8,6 +8,7 @@
     "smoke:customer-key": "node scripts/customer-key-smoke.js",
     "mcp:check": "bash scripts/mcp-check.sh",
     "workflow:test": "node scripts/workflow-zendesk-refund-test.js",
+    "test:site-bridge": "node scripts/site-bridge-regression.js",
     "test:policy-check": "node scripts/test-check-policies.js",
     "test:contract": "node scripts/test-decision-contract.js",
     "test:policy-feed": "node scripts/test-policy-feed.js",

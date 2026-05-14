@@ -4,55 +4,74 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b0d10" />
-    <title>decide.fyi Decision API</title>
+    <meta
+      name="description"
+      content="decide.fyi is the deterministic Decision API engine. Krafthaus owns the product surfaces built on the runtime."
+    />
+    <title>decide.fyi Decision API Engine</title>
     <style>
       :root {
         color-scheme: dark;
         --bg: #0b0d10;
         --card: rgba(255, 255, 255, 0.06);
+        --card-strong: rgba(255, 255, 255, 0.1);
         --border: rgba(255, 255, 255, 0.12);
         --text: rgba(255, 255, 255, 0.92);
         --muted: rgba(255, 255, 255, 0.68);
+        --dim: rgba(255, 255, 255, 0.48);
         --accent: #7ef2c7;
+        --warm: #ff9966;
+      }
+
+      * {
+        box-sizing: border-box;
       }
 
       html,
       body {
-        height: 100%;
+        min-height: 100%;
       }
 
       body {
         margin: 0;
-        background: radial-gradient(900px 420px at 16% 16%, rgba(126, 242, 199, 0.12), transparent 60%),
+        background:
+          radial-gradient(900px 420px at 16% 16%, rgba(126, 242, 199, 0.12), transparent 60%),
           radial-gradient(900px 420px at 86% 20%, rgba(255, 153, 102, 0.1), transparent 65%),
-          radial-gradient(1200px 700px at 50% 100%, rgba(130, 170, 255, 0.08), transparent 60%), var(--bg);
+          radial-gradient(1200px 700px at 50% 100%, rgba(130, 170, 255, 0.08), transparent 60%),
+          var(--bg);
         color: var(--text);
         font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji",
           "Segoe UI Emoji";
       }
 
       .wrap {
-        max-width: 1020px;
+        max-width: 980px;
         margin: 0 auto;
         padding: 56px 20px 64px;
       }
 
-      .top-badges {
+      .top-badges,
+      .links,
+      .actions {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
       }
 
-      .badge {
+      .badge,
+      .pill {
         display: inline-flex;
-        gap: 8px;
         align-items: center;
-        padding: 8px 12px;
+        gap: 8px;
         border: 1px solid var(--border);
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.04);
-        font-size: 12px;
         color: var(--muted);
+      }
+
+      .badge {
+        padding: 8px 12px;
+        font-size: 12px;
         letter-spacing: 0.06em;
         text-transform: uppercase;
       }
@@ -67,57 +86,85 @@
 
       h1 {
         margin: 18px 0 10px;
-        font-size: 44px;
-        line-height: 1.06;
-        letter-spacing: -0.02em;
+        max-width: 780px;
+        font-size: clamp(2.5rem, 5vw, 4.1rem);
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+
+      h2,
+      h3,
+      p,
+      dl {
+        margin: 0;
       }
 
       .lead {
-        margin: 0;
         color: var(--muted);
         font-size: 17px;
-        line-height: 1.56;
-        max-width: 74ch;
+        line-height: 1.58;
+        max-width: 72ch;
       }
 
-      .stack-grid,
+      .section-label {
+        margin: 30px 0 0;
+        color: var(--dim);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .engine-grid,
+      .product-grid,
       .notary-grid {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 14px;
-        margin-top: 20px;
+        margin-top: 14px;
+      }
+
+      .engine-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 24px;
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
       .notary-grid {
-        margin-top: 14px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .card {
         border: 1px solid var(--border);
-        background: var(--card);
         border-radius: 18px;
-        padding: 16px 16px 14px;
+        padding: 16px;
+        background: var(--card);
+      }
+
+      .card.is-primary {
+        background: linear-gradient(180deg, var(--card-strong) 0%, rgba(255, 255, 255, 0.055) 100%);
       }
 
       .card h2,
       .card h3 {
         margin: 0 0 8px;
+        color: rgba(255, 255, 255, 0.88);
         font-size: 14px;
         letter-spacing: 0.04em;
         text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.86);
       }
 
       .card p {
-        margin: 0;
         color: var(--muted);
         font-size: 14px;
-        line-height: 1.48;
+        line-height: 1.5;
       }
 
       .kv {
         display: grid;
-        grid-template-columns: 145px minmax(0, 1fr);
+        grid-template-columns: 118px minmax(0, 1fr);
         gap: 8px 12px;
         margin: 12px 0 0;
         font-size: 13px;
@@ -125,26 +172,18 @@
       }
 
       .k {
-        color: rgba(255, 255, 255, 0.52);
+        color: var(--dim);
       }
 
       .k-pill {
-        margin-top: 10px;
         display: inline-flex;
-        padding: 6px 10px;
-        border-radius: 999px;
+        margin-top: 12px;
         border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 10px;
+        color: rgba(255, 255, 255, 0.72);
         font-size: 11px;
         letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.74);
-      }
-
-      .section-label {
-        margin: 24px 0 0;
-        color: rgba(255, 255, 255, 0.72);
-        font-size: 13px;
-        letter-spacing: 0.06em;
         text-transform: uppercase;
       }
 
@@ -157,43 +196,54 @@
         text-decoration: underline;
       }
 
-      .links {
-        margin-top: 22px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
       .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
         padding: 10px 12px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
         background: rgba(0, 0, 0, 0.24);
         font-size: 13px;
         color: rgba(255, 255, 255, 0.86);
       }
 
+      .pill.primary {
+        border-color: rgba(126, 242, 199, 0.38);
+        background: rgba(126, 242, 199, 0.11);
+        color: #ddfff3;
+      }
+
       code {
+        color: rgba(255, 255, 255, 0.9);
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
         font-size: 12px;
+      }
+
+      .bridge-note {
+        margin-top: 24px;
+        border: 1px solid rgba(126, 242, 199, 0.22);
+        border-radius: 18px;
+        padding: 16px;
+        background: rgba(126, 242, 199, 0.07);
+      }
+
+      .bridge-note strong {
+        display: block;
+        margin-bottom: 6px;
         color: rgba(255, 255, 255, 0.9);
       }
 
-      @media (max-width: 860px) {
-        h1 {
-          font-size: 36px;
-        }
+      .bridge-note p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
 
-        .stack-grid,
+      @media (max-width: 860px) {
+        .engine-grid,
+        .product-grid,
         .notary-grid {
           grid-template-columns: 1fr;
         }
 
         .kv {
-          grid-template-columns: 124px minmax(0, 1fr);
+          grid-template-columns: 96px minmax(0, 1fr);
         }
       }
     </style>
@@ -201,51 +251,62 @@
   <body>
     <div class="wrap">
       <div class="top-badges">
-        <div class="badge" id="product-badge"><span class="dot"></span> Decision API</div>
-        <a class="badge" href="https://signalnio.com/stack">Built by Signalnio</a>
+        <div class="badge" id="product-badge"><span class="dot"></span> Decision API engine</div>
+        <a class="badge" href="https://www.krafthaus.app/policy-notaries">Policy products on Krafthaus</a>
       </div>
 
-      <h1 id="main-title">decide.fyi for systems and agents</h1>
+      <h1 id="main-title">decide.fyi is the Decision API engine.</h1>
       <p class="lead" id="main-lead">
-        Deterministic decision infrastructure: REST endpoints for systems, plus MCP notaries for agents.
+        Stable runtime endpoints for deterministic system and agent decisions. Product surfaces built on this runtime now live on Krafthaus.
       </p>
 
-      <div class="stack-grid">
-        <article class="card" id="systems-card">
-          <h2>Systems (Core API)</h2>
-          <p>Use REST endpoints when your backend needs deterministic verdicts, request IDs, and repeatable logic.</p>
+      <div class="engine-grid" id="engine-grid">
+        <article class="card is-primary">
+          <h2>Core runtime</h2>
+          <p>Use Decide when your system needs deterministic verdicts, request IDs, and repeatable decision logic.</p>
           <div class="kv">
-            <div class="k">Runtime</div>
+            <div class="k">REST</div>
             <div><code>POST /api/v1/{policy}/{action}</code></div>
             <div class="k">Output</div>
-            <div><code>ALLOWED | DENIED | UNKNOWN</code> (or policy-specific verdicts)</div>
-            <div class="k">Design</div>
-            <div>Stateless request handling for auditable decision execution.</div>
+            <div><code>ALLOWED | DENIED | UNKNOWN</code> or policy-specific verdicts</div>
+            <div class="k">Role</div>
+            <div>Infrastructure layer, not the human-facing product suite.</div>
           </div>
-          <span class="k-pill">Deterministic system path</span>
+          <span class="k-pill">Engine stays here</span>
         </article>
 
-        <article class="card" id="agents-card">
-          <h2>Agents (MCP Notaries)</h2>
-          <p>Use MCP notaries when AI agents need a source-of-truth decision endpoint they cannot hallucinate around.</p>
-          <div class="kv">
-            <div class="k">Refund</div>
-            <div><a href="https://refund.decide.fyi/api/mcp">refund.decide.fyi/api/mcp</a></div>
-            <div class="k">Cancel</div>
-            <div><a href="https://cancel.decide.fyi/api/mcp">cancel.decide.fyi/api/mcp</a></div>
-            <div class="k">Return</div>
-            <div><a href="https://return.decide.fyi/api/mcp">return.decide.fyi/api/mcp</a></div>
-            <div class="k">Trial</div>
-            <div><a href="https://trial.decide.fyi/api/mcp">trial.decide.fyi/api/mcp</a></div>
+        <article class="card">
+          <h2>Products</h2>
+          <p>Krafthaus owns the product layer: policy notaries, decision score, execution-gate demos, workspace, and paid packet workflows.</p>
+          <div class="actions" style="margin-top: 12px">
+            <a class="pill primary" href="https://www.krafthaus.app/policy-notaries">Open Policy MCP Notaries</a>
+            <a class="pill" href="https://www.krafthaus.app">Open Krafthaus</a>
           </div>
-          <span class="k-pill">Contextual agent path</span>
+          <span class="k-pill">Products moved to Krafthaus</span>
         </article>
       </div>
 
-      <p class="section-label" id="notary-section-label">Notary endpoints</p>
+      <p class="section-label" id="products-label">Krafthaus products built on Decide</p>
+      <div class="product-grid" id="product-grid">
+        <a class="card" href="https://www.krafthaus.app/policy-notaries">
+          <h3>Policy MCP Notaries</h3>
+          <p>Refund, cancellation, return, and trial policy checks for agents.</p>
+        </a>
+        <a class="card" href="https://www.krafthaus.app/score">
+          <h3>Decision Readiness Score</h3>
+          <p>Preflight a decision before spending a Krafthaus memo credit.</p>
+        </a>
+        <a class="card" href="https://www.krafthaus.app/solana/demo">
+          <h3>Solana Execution Gate</h3>
+          <p>Inspect how a deterministic decision packet can gate irreversible execution.</p>
+        </a>
+      </div>
+
+      <p class="section-label" id="notary-section-label">Stable notary remotes</p>
       <div class="notary-grid" id="notary-grid">
         <article class="card" data-notary="refund">
           <h3>Refund Notary</h3>
+          <p>Stable runtime endpoint. Product home is Krafthaus.</p>
           <div class="kv">
             <div class="k">MCP</div>
             <div><a href="https://refund.decide.fyi/api/mcp">refund.decide.fyi/api/mcp</a></div>
@@ -256,6 +317,7 @@
 
         <article class="card" data-notary="cancel">
           <h3>Cancel Notary</h3>
+          <p>Stable runtime endpoint. Product home is Krafthaus.</p>
           <div class="kv">
             <div class="k">MCP</div>
             <div><a href="https://cancel.decide.fyi/api/mcp">cancel.decide.fyi/api/mcp</a></div>
@@ -266,6 +328,7 @@
 
         <article class="card" data-notary="return">
           <h3>Return Notary</h3>
+          <p>Stable runtime endpoint. Product home is Krafthaus.</p>
           <div class="kv">
             <div class="k">MCP</div>
             <div><a href="https://return.decide.fyi/api/mcp">return.decide.fyi/api/mcp</a></div>
@@ -276,6 +339,7 @@
 
         <article class="card" data-notary="trial">
           <h3>Trial Notary</h3>
+          <p>Stable runtime endpoint. Product home is Krafthaus.</p>
           <div class="kv">
             <div class="k">MCP</div>
             <div><a href="https://trial.decide.fyi/api/mcp">trial.decide.fyi/api/mcp</a></div>
@@ -285,11 +349,18 @@
         </article>
       </div>
 
+      <div class="bridge-note" id="bridge-note">
+        <strong>Compatibility promise</strong>
+        <p>
+          Existing MCP registry links, GitHub notary lists, and client configs can keep using Decide URLs. Human-facing product discovery should point to Krafthaus.
+        </p>
+      </div>
+
       <div class="links">
         <a class="pill" href="/.well-known/mcp/server-card.json">MCP server card</a>
-        <a class="pill" href="https://github.com/decidefyi/decide">GitHub</a>
+        <a class="pill" href="https://github.com/decidefyi/decide">Runtime GitHub</a>
+        <a class="pill primary" href="https://www.krafthaus.app/policy-notaries">Krafthaus Policy MCP Notaries</a>
         <a class="pill" href="https://signalnio.com/stack">Signalnio stack map</a>
-        <a class="pill" href="https://krafthaus.app">Krafthaus interface</a>
       </div>
     </div>
 
@@ -297,30 +368,38 @@
       (() => {
         const host = window.location.hostname.toLowerCase();
         const notaries = ["refund", "cancel", "return", "trial"];
-        const notary = notaries.find((n) => host === `${n}.decide.fyi` || host.startsWith(`${n}.`));
+        const notary = notaries.find((name) => host === `${name}.decide.fyi` || host.startsWith(`${name}.`));
         if (!notary) return;
 
-        const titleCase = notary.charAt(0).toUpperCase() + notary.slice(1);
-        document.title = `${titleCase} Notary | decide.fyi`;
+        const labels = {
+          refund: "Refund",
+          cancel: "Cancel",
+          return: "Return",
+          trial: "Trial",
+        };
+        const titleCase = labels[notary] || notary.charAt(0).toUpperCase() + notary.slice(1);
+        document.title = `${titleCase} Notary Runtime | decide.fyi`;
 
         const mainTitle = document.getElementById("main-title");
-        if (mainTitle) mainTitle.textContent = `${titleCase} notary endpoint`;
+        if (mainTitle) mainTitle.textContent = `${titleCase} notary runtime`;
 
         const mainLead = document.getElementById("main-lead");
         if (mainLead) {
           mainLead.textContent =
-            "Public MCP and REST runtime for this notary. Deterministic verdicts with request-linked outputs.";
+            "This Decide URL remains the stable MCP and REST runtime. The human-facing Policy MCP Notaries product now lives on Krafthaus.";
         }
 
         const badge = document.getElementById("product-badge");
-        if (badge) badge.innerHTML = '<span class="dot"></span> Notary runtime';
+        if (badge) badge.innerHTML = '<span class="dot"></span> Stable runtime bridge';
 
-        const systemsCard = document.getElementById("systems-card");
-        const agentsCard = document.getElementById("agents-card");
+        const engineGrid = document.getElementById("engine-grid");
+        const productGrid = document.getElementById("product-grid");
+        const productsLabel = document.getElementById("products-label");
         const label = document.getElementById("notary-section-label");
-        if (systemsCard) systemsCard.style.display = "none";
-        if (agentsCard) agentsCard.style.display = "none";
-        if (label) label.textContent = "Notary endpoint";
+        if (engineGrid) engineGrid.style.display = "none";
+        if (productGrid) productGrid.style.display = "none";
+        if (productsLabel) productsLabel.style.display = "none";
+        if (label) label.textContent = "Stable endpoint";
 
         document.querySelectorAll("[data-notary]").forEach((card) => {
           card.style.display = card.getAttribute("data-notary") === notary ? "" : "none";
