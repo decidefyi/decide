@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#0b0d10" />
     <meta
       name="description"
-      content="decide.fyi is the deterministic Decision API engine. Krafthaus owns the product surfaces built on the runtime."
+      content="decide.fyi is the deterministic Decision API engine. Reference applications include policy MCPs, decision memo packets, and execution gates."
     />
     <title>decide.fyi Decision API Engine</title>
     <style>
@@ -256,7 +256,7 @@
 
       <h1 id="main-title">decide.fyi is the Decision API engine.</h1>
       <p class="lead" id="main-lead">
-        Stable runtime endpoints for deterministic system and agent decisions. Product surfaces built on this runtime now live on Krafthaus.
+        Stable runtime endpoints for deterministic system and agent decisions. Reference applications show the same contract powering policy MCPs, decision memo packets, and execution gates.
       </p>
 
       <div class="engine-grid" id="engine-grid">
@@ -275,9 +275,9 @@
         </article>
 
         <article class="card">
-          <h2>Flagship application</h2>
-          <p>Krafthaus is the first product layer built on Decide: policy notaries, decision score, execution-gate demos, workspace, and paid packet workflows.</p>
-          <span class="k-pill">Product layer lives on Krafthaus</span>
+          <h2>Reference applications</h2>
+          <p>Policy MCPs, decision memo packets, and execution gates prove the same narrow contract: deterministic verdict, request ID, replayable evidence.</p>
+          <span class="k-pill">Applications prove the primitive</span>
         </article>
       </div>
 
@@ -285,7 +285,7 @@
       <div class="notary-grid" id="notary-grid">
         <article class="card" data-notary="refund">
           <h3>Refund Notary</h3>
-          <p>Stable runtime endpoint. Product home is Krafthaus.</p>
+          <p>Stable runtime endpoint for policy-check reference applications.</p>
           <div class="kv">
             <div class="k">MCP</div>
             <div><a href="https://refund.decide.fyi/api/mcp">refund.decide.fyi/api/mcp</a></div>
@@ -296,7 +296,7 @@
 
         <article class="card" data-notary="cancel">
           <h3>Cancel Notary</h3>
-          <p>Stable runtime endpoint. Product home is Krafthaus.</p>
+          <p>Stable runtime endpoint for policy-check reference applications.</p>
           <div class="kv">
             <div class="k">MCP</div>
             <div><a href="https://cancel.decide.fyi/api/mcp">cancel.decide.fyi/api/mcp</a></div>
@@ -307,7 +307,7 @@
 
         <article class="card" data-notary="return">
           <h3>Return Notary</h3>
-          <p>Stable runtime endpoint. Product home is Krafthaus.</p>
+          <p>Stable runtime endpoint for policy-check reference applications.</p>
           <div class="kv">
             <div class="k">MCP</div>
             <div><a href="https://return.decide.fyi/api/mcp">return.decide.fyi/api/mcp</a></div>
@@ -318,7 +318,7 @@
 
         <article class="card" data-notary="trial">
           <h3>Trial Notary</h3>
-          <p>Stable runtime endpoint. Product home is Krafthaus.</p>
+          <p>Stable runtime endpoint for policy-check reference applications.</p>
           <div class="kv">
             <div class="k">MCP</div>
             <div><a href="https://trial.decide.fyi/api/mcp">trial.decide.fyi/api/mcp</a></div>
@@ -331,14 +331,14 @@
       <div class="bridge-note" id="bridge-note">
         <strong>Compatibility promise</strong>
         <p>
-          Existing MCP registry links, GitHub notary lists, and client configs can keep using Decide URLs. Human-facing product discovery should point to Krafthaus.
+          Existing MCP registry links, GitHub notary lists, and client configs can keep using Decide URLs. Applications can build policy MCPs, memo packets, and execution gates on the same contract.
         </p>
       </div>
 
       <div class="links">
         <a class="pill" href="/.well-known/mcp/server-card.json">MCP server card</a>
         <a class="pill" href="https://github.com/decidefyi/decide">Runtime GitHub</a>
-        <a class="pill" href="https://signalnio.com/stack">Signalnio stack map</a>
+        <a class="pill" href="/.well-known/agent-card.json">Agent card</a>
       </div>
     </div>
 
@@ -364,7 +364,7 @@
         const mainLead = document.getElementById("main-lead");
         if (mainLead) {
           mainLead.textContent =
-            "This Decide URL remains the stable MCP and REST runtime. The human-facing Policy MCP Notaries product now lives on Krafthaus.";
+            "This Decide URL remains the stable MCP and REST runtime for policy-check reference applications.";
         }
 
         const badge = document.getElementById("product-badge");

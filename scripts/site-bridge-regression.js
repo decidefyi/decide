@@ -22,13 +22,15 @@ const html = read("public/index.html");
 const server = JSON.parse(read("server.json"));
 
 assert(html.includes("decide.fyi is the Decision API engine"), "home page should position Decide as API engine");
-assert(html.includes("Product surfaces built on this runtime now live on Krafthaus"), "home page should point products to Krafthaus");
-assert(!html.includes("https://www.krafthaus.app/policy-notaries"), "home page should not billboard Krafthaus product CTAs");
-pass("Decide root positions engine and bridges to Krafthaus");
+assert(html.includes("Reference applications show the same contract powering policy MCPs"), "home page should show proof applications");
+assert(html.includes("Applications prove the primitive"), "home page should frame applications as proof");
+assert(!html.includes("Krafthaus"), "home page should stay Decide-only");
+assert(!html.includes("krafthaus"), "home page should not mention external product brand");
+pass("Decide root positions engine and proof applications");
 
 assert(html.includes("This Decide URL remains the stable MCP and REST runtime"), "notary subdomain copy should preserve stable runtime message");
-assert(html.includes("The human-facing Policy MCP Notaries product now lives on Krafthaus"), "notary subdomain copy should bridge product ownership");
-pass("notary subdomain bridge copy is present");
+assert(html.includes("policy-check reference applications"), "notary subdomain copy should frame reference applications");
+pass("notary subdomain runtime copy is present");
 
 for (const endpoint of [
   "https://refund.decide.fyi/api/mcp",
@@ -45,4 +47,5 @@ for (const endpoint of [
 pass("MCP remotes remain stable in page and server.json");
 
 assert(!html.includes("Deterministic decision infrastructure: REST endpoints for systems, plus MCP notaries for agents."), "old mixed product positioning should be removed");
+assert(!server.description.includes("Krafthaus"), "server metadata should stay Decide-only");
 pass("old mixed product positioning is absent");
