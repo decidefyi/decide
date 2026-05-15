@@ -23,7 +23,7 @@ const server = JSON.parse(read("server.json"));
 
 assert(html.includes("decide.fyi is the Decision API engine"), "home page should position Decide as API engine");
 assert(html.includes("Product surfaces built on this runtime now live on Krafthaus"), "home page should point products to Krafthaus");
-assert(html.includes("https://www.krafthaus.app/policy-notaries"), "home page should link to Krafthaus Policy MCP Notaries");
+assert(!html.includes("https://www.krafthaus.app/policy-notaries"), "home page should not billboard Krafthaus product CTAs");
 pass("Decide root positions engine and bridges to Krafthaus");
 
 assert(html.includes("This Decide URL remains the stable MCP and REST runtime"), "notary subdomain copy should preserve stable runtime message");
