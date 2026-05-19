@@ -31,6 +31,9 @@ logs/
 # Vercel
 .vercel
 
+# Supabase CLI local state
+supabase/.temp/
+
 # MCP Registry tokens (sensitive credentials)
 .mcpregistry_*
 .env*.local
