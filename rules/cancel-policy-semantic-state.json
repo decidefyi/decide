@@ -1,12 +1,12 @@
 {
-  "updated_utc": "2026-03-07T19:42:55Z",
+  "updated_utc": "2026-05-27T09:10:24Z",
   "policy": "cancel",
   "hash_profile": "focus-v1",
   "vendors": {
     "amazon_music_unlimited": {
-      "hash": "aa196cbede9badd6",
+      "hash": "652abd72bcef9cde",
       "source_url": "https://www.amazon.com/music/unlimited",
-      "extracted_at_utc": "2026-03-07T09:47:00Z",
+      "extracted_at_utc": "2026-05-27T02:11:23Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -21,12 +21,10 @@
       "metadata_signature": "59780a5d3fff9de5"
     },
     "1password": {
-      "hash": "b861e7b433e09551",
+      "hash": "1d0ae851e4754336",
       "source_url": "https://support.1password.com/cancel-subscription/",
-      "extracted_at_utc": "2026-03-07T19:34:09Z",
-      "tokens": [
-        "flow:support_request"
-      ],
+      "extracted_at_utc": "2026-05-27T09:02:55Z",
+      "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
         "source_title": "",
@@ -42,7 +40,7 @@
     "adobe": {
       "hash": "fc474abb552cf409",
       "source_url": "https://www.adobe.com/legal/subscription-terms.html",
-      "extracted_at_utc": "2026-03-07T09:47:54Z",
+      "extracted_at_utc": "2026-05-27T02:12:18Z",
       "tokens": [
         "billing:prorated",
         "cancel_window_days:14",
@@ -63,11 +61,11 @@
     "apple_app_store": {
       "hash": "91882bfe2276dfad",
       "source_url": "https://support.apple.com/en-us/118223",
-      "extracted_at_utc": "2026-03-07T09:47:55Z",
+      "extracted_at_utc": "2026-05-27T02:12:19Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Request a refund for apps or content that you bought from Apple - Apple Support",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -78,13 +76,13 @@
       "metadata_signature": "aaf0cb7acefc1cdd"
     },
     "apple_arcade": {
-      "hash": "87314795832633cc",
+      "hash": "7cf9015a534d02a0",
       "source_url": "https://www.apple.com/apple-arcade/",
-      "extracted_at_utc": "2026-03-07T09:47:55Z",
+      "extracted_at_utc": "2026-05-27T02:12:19Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Apple Arcade - Apple",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -95,9 +93,9 @@
       "metadata_signature": "1a544a162d1d2bbe"
     },
     "amazon_prime": {
-      "hash": "6bb8825a65099707",
+      "hash": "5097b180752ec6d0",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "extracted_at_utc": "2026-03-07T09:47:55Z",
+      "extracted_at_utc": "2026-05-27T02:12:19Z",
       "tokens": [
         "billing:auto_renew",
         "billing:prorated",
@@ -119,11 +117,11 @@
     "apple_tv_plus": {
       "hash": "91882bfe2276dfad",
       "source_url": "https://support.apple.com/en-us/118223",
-      "extracted_at_utc": "2026-03-07T09:47:56Z",
+      "extracted_at_utc": "2026-05-27T02:12:20Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Request a refund for apps or content that you bought from Apple - Apple Support",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -136,11 +134,11 @@
     "apple_music": {
       "hash": "91882bfe2276dfad",
       "source_url": "https://support.apple.com/en-us/118223",
-      "extracted_at_utc": "2026-03-07T09:47:56Z",
+      "extracted_at_utc": "2026-05-27T02:12:20Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Request a refund for apps or content that you bought from Apple - Apple Support",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -151,9 +149,9 @@
       "metadata_signature": "aaf0cb7acefc1cdd"
     },
     "bitwarden": {
-      "hash": "27376d0026f7e97d",
+      "hash": "d64f6331d5422cbe",
       "source_url": "https://bitwarden.com/help/cancel-a-subscription/",
-      "extracted_at_utc": "2026-03-07T09:48:06Z",
+      "extracted_at_utc": "2026-05-27T02:12:28Z",
       "tokens": [
         "cancel_window_days:30",
         "flow:support_request"
@@ -171,9 +169,9 @@
       "metadata_signature": "4a3090907b8815b4"
     },
     "bumble": {
-      "hash": "fae6de25921aa44c",
+      "hash": "22c4e9ebc74cc215",
       "source_url": "https://bumble.com/en-us/terms",
-      "extracted_at_utc": "2026-03-07T09:48:07Z",
+      "extracted_at_utc": "2026-05-27T02:12:29Z",
       "tokens": [
         "billing:prorated",
         "cancel:effective_end_of_term",
@@ -182,8 +180,8 @@
         "risk:chargeback_or_dispute"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Bumble - terms",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -194,9 +192,9 @@
       "metadata_signature": "a2ee7c8a56c4d40f"
     },
     "calm": {
-      "hash": "32092096ec499d3b",
+      "hash": "5cdea2e17a8b6e59",
       "source_url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "extracted_at_utc": "2026-03-07T09:48:07Z",
+      "extracted_at_utc": "2026-05-27T09:03:58Z",
       "tokens": [
         "flow:support_request"
       ],
@@ -213,9 +211,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "chatgpt_plus": {
-      "hash": "3260d296ae1cbb69",
+      "hash": "dee5d1f09be658d5",
       "source_url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "extracted_at_utc": "2026-03-07T09:48:08Z",
+      "extracted_at_utc": "2026-05-26T19:58:37Z",
       "tokens": [
         "billing:prorated",
         "cancel_window_days:14"
@@ -233,12 +231,12 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "claude_pro": {
-      "hash": "f0cdddc836ef98ac",
+      "hash": "c38c1ea9cfd99de9",
       "source_url": "https://support.anthropic.com/en/articles/9579605-how-do-i-cancel-my-plan",
-      "extracted_at_utc": "2026-03-07T09:48:10Z",
+      "extracted_at_utc": "2026-05-27T02:12:35Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -252,15 +250,15 @@
     "deezer": {
       "hash": "d0fcf03910deace5",
       "source_url": "https://www.deezer.com/legal/cgu",
-      "extracted_at_utc": "2026-03-07T09:48:11Z",
+      "extracted_at_utc": "2026-05-27T02:13:11Z",
       "tokens": [
         "billing:auto_renew",
         "cancel:effective_end_of_term",
         "risk:chargeback_or_dispute"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Deezer - Terms and Conditions",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -271,9 +269,9 @@
       "metadata_signature": "5ecc5d0b35ff86b5"
     },
     "coursera_plus": {
-      "hash": "9cc2e56e84b28309",
+      "hash": "b2ed096db53db1a6",
       "source_url": "https://www.coursera.support/s/article/208280266-Refund-policies",
-      "extracted_at_utc": "2026-03-07T19:35:44Z",
+      "extracted_at_utc": "2026-05-27T09:04:35Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -288,12 +286,15 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "crunchyroll": {
-      "hash": "046a70948df9996c",
+      "hash": "af20b6735976c9c7",
       "source_url": "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
-      "extracted_at_utc": "2026-03-07T09:48:15Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-05-27T02:13:23Z",
+      "tokens": [
+        "cancel_window_days:14",
+        "flow:support_request"
+      ],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "zendesk_section_json",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -302,15 +303,13 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "ea7c709252c84b20"
+      "metadata_signature": "1cdb7d92371a93aa"
     },
     "discord_nitro": {
-      "hash": "5ffbd9e6b30b2476",
+      "hash": "b778e92eb6801f69",
       "source_url": "https://discord.com/nitro",
-      "extracted_at_utc": "2026-03-07T09:48:20Z",
-      "tokens": [
-        "flow:support_request"
-      ],
+      "extracted_at_utc": "2026-05-27T02:13:24Z",
+      "tokens": [],
       "page_metadata": {
         "source_kind": "html",
         "source_title": "",
@@ -324,9 +323,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "disney_plus": {
-      "hash": "2b0ad669854b9d2f",
+      "hash": "bd190757a288c2d3",
       "source_url": "https://help.disneyplus.com/article/disneyplus-cancel-subscription",
-      "extracted_at_utc": "2026-03-07T10:58:32Z",
+      "extracted_at_utc": "2026-05-27T02:13:39Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -341,10 +340,12 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "doordash_dashpass": {
-      "hash": "585c3bf1efe3e8fa",
+      "hash": "30df4cabfce7c9c1",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T19:35:50Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-05-27T02:13:24Z",
+      "tokens": [
+        "cancel:effective_end_of_term"
+      ],
       "page_metadata": {
         "source_kind": "html",
         "source_title": "",
@@ -360,7 +361,7 @@
     "duolingo": {
       "hash": "35ed9bc6105f7ce2",
       "source_url": "https://support.duolingo.com/hc/en-us/articles/360030236551-How-do-I-cancel-my-Super-Duolingo-subscription",
-      "extracted_at_utc": "2026-03-07T11:45:26Z",
+      "extracted_at_utc": "2026-05-27T02:13:56Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -375,33 +376,34 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "figma": {
-      "hash": "16e202d672b6747f",
+      "hash": "edd9fb08ca14ebba",
       "source_url": "https://www.figma.com/legal/renewal-and-cancellation/",
-      "extracted_at_utc": "2026-03-07T09:50:01Z",
+      "extracted_at_utc": "2026-05-27T02:13:57Z",
       "tokens": [
+        "billing:auto_renew",
         "billing:prorated",
         "cancel_window_days:30",
         "restriction:no_refund_or_final_sale"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Renewal and Cancellation Terms for Online Purchases",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
+        "display_effective_date_label": "March 11, 2026",
+        "display_effective_date_utc": "2026-03-11",
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "0020135f1b8acdea"
+      "metadata_signature": "a87e3196a1d4b225"
     },
     "expressvpn": {
       "hash": "7fc4298e9f79e8ce",
       "source_url": "https://www.expressvpn.com/support/manage-account/cancel-subscription/",
-      "extracted_at_utc": "2026-03-07T09:50:05Z",
+      "extracted_at_utc": "2026-05-27T02:14:01Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -413,9 +415,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "github_pro": {
-      "hash": "ceafce7fe4f94d56",
+      "hash": "04f71b62ac2b33d2",
       "source_url": "https://docs.github.com/en/billing/managing-the-plan-for-your-github-account/downgrading-your-accounts-plan",
-      "extracted_at_utc": "2026-03-07T09:50:06Z",
+      "extracted_at_utc": "2026-05-27T02:14:02Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -430,9 +432,9 @@
       "metadata_signature": "9926c8a3cfa29588"
     },
     "fubo_tv": {
-      "hash": "d94532d3b027dae7",
+      "hash": "1717de60ac6e04b5",
       "source_url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "extracted_at_utc": "2026-03-07T09:50:06Z",
+      "extracted_at_utc": "2026-05-27T02:14:02Z",
       "tokens": [
         "cancel:anytime",
         "cancel:fee_or_penalty"
@@ -452,13 +454,13 @@
     "google_play": {
       "hash": "b5cf2e31119e8d8d",
       "source_url": "https://support.google.com/googleplay/answer/7018481",
-      "extracted_at_utc": "2026-03-07T09:50:07Z",
+      "extracted_at_utc": "2026-05-27T02:14:03Z",
       "tokens": [
         "cancel:effective_end_of_term"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Cancel, pause, or change a subscription on Google Play - Computer - Google Play Help",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -469,12 +471,12 @@
       "metadata_signature": "0b64f4b6a173667a"
     },
     "headspace": {
-      "hash": "89241ceb28e6ead7",
+      "hash": "0ef89fe9f31fa530",
       "source_url": "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription",
-      "extracted_at_utc": "2026-03-07T09:50:07Z",
+      "extracted_at_utc": "2026-05-27T02:14:05Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -486,30 +488,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "hulu": {
-      "hash": "d8657a5127491423",
+      "hash": "bd190757a288c2d3",
       "source_url": "https://help.hulu.com/article/cancel-subscription",
-      "extracted_at_utc": "2026-03-07T09:50:45Z",
-      "tokens": [
-        "cancel:effective_end_of_term",
-        "restriction:no_refund_or_final_sale",
-        "risk:chargeback_or_dispute"
-      ],
-      "page_metadata": {
-        "source_kind": "html",
-        "source_title": "Subscriber Agreement | Hulu | Hulu",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": "780e23151094d75b"
-    },
-    "hellofresh": {
-      "hash": "e127548b324aceac",
-      "source_url": "https://www.hellofresh.com/about/faq",
-      "extracted_at_utc": "2026-03-07T09:50:09Z",
+      "extracted_at_utc": "2026-05-27T02:14:21Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -523,14 +504,37 @@
       },
       "metadata_signature": "ea7c709252c84b20"
     },
+    "hellofresh": {
+      "hash": "2399a5160507d4b4",
+      "source_url": "https://www.hellofresh.com/about/faq",
+      "extracted_at_utc": "2026-05-27T09:05:37Z",
+      "tokens": [
+        "billing:auto_renew",
+        "cancel_window_days:360",
+        "cancel_window_days:5",
+        "cancel:anytime",
+        "flow:support_request"
+      ],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "FAQs | HelloFresh",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "28c2278ce5182a59"
+    },
     "icloud_plus": {
-      "hash": "6be02ea27b3b27c1",
+      "hash": "e264e917b424f89e",
       "source_url": "https://support.apple.com/en-us/108052",
-      "extracted_at_utc": "2026-03-07T09:50:46Z",
+      "extracted_at_utc": "2026-05-27T02:14:22Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Identify your MacBook Pro model - Apple Support",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -541,15 +545,15 @@
       "metadata_signature": "ccfebe73406d6873"
     },
     "instacart_plus": {
-      "hash": "9264c5666c35214a",
+      "hash": "0ac1d83e78b4dccc",
       "source_url": "https://www.instacart.com/help/section/360007797952/4408784716820",
-      "extracted_at_utc": "2026-03-07T09:50:46Z",
+      "extracted_at_utc": "2026-05-27T02:14:22Z",
       "tokens": [
         "billing:auto_renew"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Instacart Help Center - Manage your Instacart+ membership",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -560,9 +564,9 @@
       "metadata_signature": "86b1127bbb5fccf1"
     },
     "kindle_unlimited": {
-      "hash": "8406b35ffe997971",
+      "hash": "036a6e2cd4834833",
       "source_url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku",
-      "extracted_at_utc": "2026-03-07T09:50:47Z",
+      "extracted_at_utc": "2026-05-27T02:14:22Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -579,11 +583,11 @@
     "linkedin_premium": {
       "hash": "d347e95c88aa9ce5",
       "source_url": "https://www.linkedin.com/help/linkedin/answer/a545555",
-      "extracted_at_utc": "2026-03-07T09:50:47Z",
+      "extracted_at_utc": "2026-05-27T02:14:23Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "People You May Know Feature | LinkedIn Help",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -594,9 +598,9 @@
       "metadata_signature": "74dad225e0c733b4"
     },
     "max": {
-      "hash": "10e63b9280d08d20",
+      "hash": "2f3b6bc0cd115d5d",
       "source_url": "https://help.max.com/US/Answer/Detail/000002536",
-      "extracted_at_utc": "2026-03-07T09:50:48Z",
+      "extracted_at_utc": "2026-05-27T02:14:23Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -613,15 +617,15 @@
     "netflix": {
       "hash": "50433e7b75b5acb0",
       "source_url": "https://help.netflix.com/en/node/407",
-      "extracted_at_utc": "2026-03-07T09:50:48Z",
+      "extracted_at_utc": "2026-05-27T02:14:31Z",
       "tokens": [
         "cancel_window_days:30",
         "cancel:anytime",
         "cancel:effective_end_of_term"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "How to cancel Netflix | Netflix Help Center",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -634,10 +638,10 @@
     "microsoft_365": {
       "hash": "a9cca6cfaca2629e",
       "source_url": "https://support.microsoft.com/en-us/office/cancel-a-microsoft-365-subscription-46e2634a-c64d-4c57-820c-3aa8e525e4e0",
-      "extracted_at_utc": "2026-03-07T09:50:49Z",
+      "extracted_at_utc": "2026-05-27T09:06:33Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -649,9 +653,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "midjourney": {
-      "hash": "05a4746cf3c4be3c",
+      "hash": "b02fcc59db82827e",
       "source_url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-      "extracted_at_utc": "2026-03-07T19:38:34Z",
+      "extracted_at_utc": "2026-05-26T20:00:51Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -666,17 +670,16 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "noom": {
-      "hash": "2f2edd7a59e0ff18",
+      "hash": "1fbf327e00a3085c",
       "source_url": "https://www.noom.com/support/faqs/programs/2025/10/noom-refund-policy/",
-      "extracted_at_utc": "2026-03-07T09:50:50Z",
+      "extracted_at_utc": "2026-05-27T02:14:49Z",
       "tokens": [
         "cancel_window_days:14",
-        "flow:support_request",
-        "restriction:no_refund_or_final_sale"
+        "flow:support_request"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Noom Refund Policy - Noom: Lose weight and keep it off.",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -687,13 +690,13 @@
       "metadata_signature": "6c8817a7ed5d7ce7"
     },
     "nordvpn": {
-      "hash": "7736e6b45baeccb5",
+      "hash": "b7209a86a5ae9006",
       "source_url": "https://support.nordvpn.com/hc/en-us/articles/19476991311121-What-is-your-refund-policy",
-      "extracted_at_utc": "2026-03-07T09:50:50Z",
+      "extracted_at_utc": "2026-05-27T02:14:49Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "What is your refund policy? &ndash; Live Chat, VPN Setup, Troubleshooting | NordVPN Customer Support",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -704,9 +707,9 @@
       "metadata_signature": "6d44daea5434b8c2"
     },
     "nintendo_switch_online": {
-      "hash": "9f49a85c861c3d20",
+      "hash": "b7585c441462406d",
       "source_url": "https://en-americas-support.nintendo.com/app/answers/detail/a_id/41228",
-      "extracted_at_utc": "2026-03-07T09:50:51Z",
+      "extracted_at_utc": "2026-05-27T02:14:50Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -723,14 +726,14 @@
     "notion": {
       "hash": "9ff29cbfd0040314",
       "source_url": "https://www.notion.com/help/upgrade-or-downgrade-your-plan",
-      "extracted_at_utc": "2026-03-07T09:50:52Z",
+      "extracted_at_utc": "2026-05-27T02:14:51Z",
       "tokens": [
         "billing:prorated",
         "cancel_window_days:30"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Change your plan – Notion Help Center",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -743,7 +746,7 @@
     "peloton": {
       "hash": "47597d9d6ecdb79f",
       "source_url": "https://www.onepeloton.com/membership-terms",
-      "extracted_at_utc": "2026-03-07T09:50:59Z",
+      "extracted_at_utc": "2026-05-27T02:15:34Z",
       "tokens": [
         "billing:prorated",
         "cancel_window_days:10",
@@ -752,10 +755,10 @@
         "restriction:no_refund_or_final_sale"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
+        "source_kind": "browser_hook",
+        "source_title": "Peloton® | Peloton Membership Terms",
+        "display_last_updated_label": "October 1, 2025",
+        "display_last_updated_date_utc": "2025-10-01",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
         "source_updated_at_utc": "",
@@ -766,7 +769,7 @@
     "playstation_plus": {
       "hash": "e42515e00c723562",
       "source_url": "https://www.playstation.com/en-us/legal/playstation-store-cancellation-policy/",
-      "extracted_at_utc": "2026-03-07T09:50:59Z",
+      "extracted_at_utc": "2026-05-27T02:15:35Z",
       "tokens": [
         "cancel_window_days:14",
         "cancel_window_days:7",
@@ -774,8 +777,8 @@
         "restriction:no_refund_or_final_sale"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "PlayStation Store cancellation policy (US)",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -786,9 +789,9 @@
       "metadata_signature": "b017e31ec9bfb2a9"
     },
     "proton": {
-      "hash": "274a5ed74b27e80f",
+      "hash": "d299a5a4f164401e",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T19:39:44Z",
+      "extracted_at_utc": "2026-05-27T02:15:35Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -805,9 +808,9 @@
       "metadata_signature": "249b168ffc67c82c"
     },
     "ring_protect": {
-      "hash": "d2ee31e9f2d00e38",
+      "hash": "dba23b611ce42be0",
       "source_url": "https://ring.com/protect-plans",
-      "extracted_at_utc": "2026-03-07T09:51:00Z",
+      "extracted_at_utc": "2026-05-27T02:15:36Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -824,12 +827,12 @@
       "metadata_signature": "d0834e9d9714a2ec"
     },
     "shutterstock": {
-      "hash": "93fce0170819948f",
+      "hash": "7eb5aa9df2ff383b",
       "source_url": "https://www.shutterstock.com/help/en/articles/10594851-can-i-get-a-refund-if-i-cancel-my-plan",
-      "extracted_at_utc": "2026-03-07T09:51:03Z",
+      "extracted_at_utc": "2026-05-27T02:15:38Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -841,17 +844,17 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "sling_tv": {
-      "hash": "62e1d378a3e365b8",
+      "hash": "a0fa441885de9fb6",
       "source_url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
-      "extracted_at_utc": "2026-03-07T09:51:04Z",
+      "extracted_at_utc": "2026-05-27T02:15:51Z",
       "tokens": [
         "cancel_window_days:1",
         "cancel_window_days:3",
         "cancel_window_days:7"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Cancel Your Sling TV Subscription | Sling TV Help",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -862,13 +865,13 @@
       "metadata_signature": "930d1d239a6b450b"
     },
     "spotify": {
-      "hash": "3c97c6f8130d514d",
+      "hash": "f030eaf6a7af92c7",
       "source_url": "https://support.spotify.com/us/article/cancel-premium/",
-      "extracted_at_utc": "2026-03-07T09:51:04Z",
+      "extracted_at_utc": "2026-05-27T02:15:51Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "How to cancel Premium plans - Spotify",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -879,9 +882,9 @@
       "metadata_signature": "32d52415258ea6ce"
     },
     "slack": {
-      "hash": "9866ee8110fcbfa4",
+      "hash": "08a2093b9586f65b",
       "source_url": "https://slack.com/help/articles/218915077-Slacks-Fair-Billing-Policy",
-      "extracted_at_utc": "2026-03-07T09:51:04Z",
+      "extracted_at_utc": "2026-05-27T02:15:51Z",
       "tokens": [
         "billing:prorated",
         "cancel_window_days:15",
@@ -891,8 +894,8 @@
         "restriction:no_refund_or_final_sale"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Slack's Fair Billing Policy | Slack",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -903,18 +906,18 @@
       "metadata_signature": "1b849e7a8119ab82"
     },
     "squarespace": {
-      "hash": "8d066341c0fc7d6d",
+      "hash": "69eda6deb7b56d0d",
       "source_url": "https://support.squarespace.com/hc/en-us/articles/205815928-Canceling-your-Squarespace-subscription",
-      "extracted_at_utc": "2026-03-07T09:51:05Z",
+      "extracted_at_utc": "2026-05-27T02:15:52Z",
       "tokens": [
         "flow:support_request",
         "risk:chargeback_or_dispute"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
+        "source_kind": "browser_hook",
+        "source_title": "Adding custom code to your site &ndash; Squarespace Help Center",
+        "display_last_updated_label": "September 26, 2025",
+        "display_last_updated_date_utc": "2025-09-26",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
         "source_updated_at_utc": "",
@@ -923,15 +926,13 @@
       "metadata_signature": "b4aabb1a692e0640"
     },
     "surfshark": {
-      "hash": "ee9f2142ee623487",
+      "hash": "96a822232807da9a",
       "source_url": "https://support.surfshark.com/hc/en-us/articles/360003103653-What-is-Surfshark-s-refund-policy",
-      "extracted_at_utc": "2026-03-07T09:51:05Z",
-      "tokens": [
-        "restriction:no_refund_or_final_sale"
-      ],
+      "extracted_at_utc": "2026-05-27T02:15:52Z",
+      "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "What is Surfshark's refund policy &ndash; Surfshark Customer Support",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -942,12 +943,12 @@
       "metadata_signature": "96b9f475a456e329"
     },
     "strava": {
-      "hash": "8212454c1334eca9",
+      "hash": "95b52ae13a20aab8",
       "source_url": "https://support.strava.com/hc/en-us/articles/216917967-Cancel-Subscription",
-      "extracted_at_utc": "2026-03-07T09:51:05Z",
+      "extracted_at_utc": "2026-05-27T02:15:59Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -959,13 +960,13 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "todoist": {
-      "hash": "2ae3388b7f7024af",
+      "hash": "ef9a856827e13349",
       "source_url": "https://www.todoist.com/help/articles/manage-your-plan-or-billing-tRBHzjBBT",
-      "extracted_at_utc": "2026-03-07T09:51:06Z",
+      "extracted_at_utc": "2026-05-27T02:16:00Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Todoist Help Center",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -976,12 +977,12 @@
       "metadata_signature": "983087aa53e64558"
     },
     "tidal": {
-      "hash": "0b9d257da80273e5",
+      "hash": "fcf3304aef49113f",
       "source_url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "extracted_at_utc": "2026-03-07T09:51:06Z",
+      "extracted_at_utc": "2026-05-27T02:16:00Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -993,9 +994,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "tinder": {
-      "hash": "6262b9b931b4e93b",
+      "hash": "5ab17938ad0f58cc",
       "source_url": "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
-      "extracted_at_utc": "2026-03-07T09:51:08Z",
+      "extracted_at_utc": "2026-05-26T14:44:29Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1012,7 +1013,7 @@
     "walmart_plus": {
       "hash": "a1db564ba162d3c1",
       "source_url": "https://www.walmart.com/help/article/walmart-plus-cancellation/eacb97cd44a84d0c877d5e7f2b7e39c4",
-      "extracted_at_utc": "2026-03-07T09:51:09Z",
+      "extracted_at_utc": "2026-05-27T02:16:08Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1027,16 +1028,16 @@
       "metadata_signature": "6d5dbc25098101d6"
     },
     "uber_one": {
-      "hash": "c3255cd8b0a50462",
+      "hash": "4c2eeae09e0d7919",
       "source_url": "https://www.uber.com/us/en/u/uber-one/",
-      "extracted_at_utc": "2026-03-07T09:51:09Z",
+      "extracted_at_utc": "2026-05-27T02:16:08Z",
       "tokens": [
         "cancel:anytime",
         "restriction:no_refund_or_final_sale"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Sign up for Uber One Membership | Uber",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1047,9 +1048,9 @@
       "metadata_signature": "99420bc8068792f9"
     },
     "xbox_game_pass": {
-      "hash": "000c3cabe65092a5",
+      "hash": "826c38ed07dd7091",
       "source_url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
-      "extracted_at_utc": "2026-03-07T09:51:16Z",
+      "extracted_at_utc": "2026-05-27T02:16:09Z",
       "tokens": [
         "billing:prorated"
       ],
@@ -1066,15 +1067,15 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "youtube_premium": {
-      "hash": "a7e4f98c6a25d82b",
+      "hash": "5f04c3178afd618d",
       "source_url": "https://support.google.com/youtube/answer/6308278",
-      "extracted_at_utc": "2026-03-07T09:51:16Z",
+      "extracted_at_utc": "2026-05-27T02:16:09Z",
       "tokens": [
         "cancel:effective_end_of_term"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Cancel YouTube Premium or YouTube Music Premium - Computer - YouTube Help",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1085,9 +1086,9 @@
       "metadata_signature": "deba977b9a59c9d9"
     },
     "wix": {
-      "hash": "c1178ef30a393d66",
+      "hash": "95caf8d56aa9f2d9",
       "source_url": "https://support.wix.com/en/article/canceling-a-premium-plan",
-      "extracted_at_utc": "2026-03-07T19:40:04Z",
+      "extracted_at_utc": "2026-05-27T02:16:11Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1102,11 +1103,12 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "youtube_tv": {
-      "hash": "916a4d9a32fe1501",
+      "hash": "0a18d901d728043e",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-03-07T09:30:31Z",
+      "extracted_at_utc": "2026-05-27T02:16:12Z",
       "tokens": [
-        "cancel_window_days:60",
+        "cancel_window_days:360",
+        "cancel_window_days:90",
         "cancel:anytime",
         "restriction:no_refund_or_final_sale"
       ],
@@ -1123,9 +1125,9 @@
       "metadata_signature": "e89099edc5ee035a"
     },
     "lastpass": {
-      "hash": "c3ce7b2ee88c8107",
+      "hash": "831a35ef5c16fe69",
       "source_url": "https://support.lastpass.com/help/cancel-a-lastpass-subscription",
-      "extracted_at_utc": "2026-03-07T09:51:55Z",
+      "extracted_at_utc": "2026-05-27T02:16:29Z",
       "tokens": [
         "billing:prorated",
         "restriction:no_refund_or_final_sale",
@@ -1146,10 +1148,10 @@
     "dashlane": {
       "hash": "5b339b17835cdb72",
       "source_url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "extracted_at_utc": "2026-03-07T09:51:18Z",
+      "extracted_at_utc": "2026-05-19T09:03:57Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1163,7 +1165,7 @@
     "myfitnesspal_premium": {
       "hash": "5463196f057155e0",
       "source_url": "https://support.myfitnesspal.com/hc/en-us/articles/360032625371-How-do-I-cancel-my-Premium-subscription-renewal",
-      "extracted_at_utc": "2026-03-07T09:51:56Z",
+      "extracted_at_utc": "2026-05-27T02:16:29Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -1180,12 +1182,12 @@
       "metadata_signature": "a1c60ae11f09e6ca"
     },
     "keeper": {
-      "hash": "b7612168f307006b",
+      "hash": "0aa5f64f0b088599",
       "source_url": "https://docs.keeper.io/user-guides/keeper-subscriptions-and-billing",
-      "extracted_at_utc": "2026-03-07T09:51:57Z",
+      "extracted_at_utc": "2026-05-27T02:16:32Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1197,16 +1199,16 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "siriusxm": {
-      "hash": "8059f5023b4653ca",
+      "hash": "c2d28ca0711f106c",
       "source_url": "https://www.siriusxm.com/help/manage-or-cancel-service/",
-      "extracted_at_utc": "2026-03-07T09:51:57Z",
+      "extracted_at_utc": "2026-05-27T02:16:33Z",
       "tokens": [
         "billing:prorated",
         "cancel:non_cancellable"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Manage or Cancel Service | SiriusXM Help",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1217,9 +1219,9 @@
       "metadata_signature": "4f3bd75cf1279f4b"
     },
     "weightwatchers": {
-      "hash": "a53c17c2ab4b966b",
+      "hash": "cadfc442ff55a256",
       "source_url": "https://www.weightwatchers.com/us/help",
-      "extracted_at_utc": "2026-03-07T19:40:54Z",
+      "extracted_at_utc": "2026-05-27T02:16:37Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1234,9 +1236,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "ea_play": {
-      "hash": "d81195367d990e8c",
+      "hash": "fa894c5dcba8e350",
       "source_url": "https://help.ea.com/en/help/account/manage-your-ea-play-membership/",
-      "extracted_at_utc": "2026-03-07T19:40:56Z",
+      "extracted_at_utc": "2026-05-27T09:08:29Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1251,9 +1253,9 @@
       "metadata_signature": "b502199edc965575"
     },
     "ubisoft_plus": {
-      "hash": "da2742b09bacfbe3",
+      "hash": "aea354c284fbbacf",
       "source_url": "https://www.ubisoft.com/help/article/canceling-a-ubisoft-subscription/000064975",
-      "extracted_at_utc": "2026-03-07T09:52:05Z",
+      "extracted_at_utc": "2026-05-27T02:16:46Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1268,9 +1270,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "roblox_premium": {
-      "hash": "45b57a4920c2ff47",
+      "hash": "d3d00119a404ba2d",
       "source_url": "https://en.help.roblox.com/hc/en-us/articles/203312800-How-to-Cancel-Membership",
-      "extracted_at_utc": "2026-03-07T09:51:59Z",
+      "extracted_at_utc": "2026-05-19T09:04:32Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1285,13 +1287,13 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "new_york_times": {
-      "hash": "0ade58c8adf4422e",
+      "hash": "1516a818a53249d4",
       "source_url": "https://help.nytimes.com/hc/en-us/articles/360003499613-Cancel-your-subscription",
-      "extracted_at_utc": "2026-03-07T09:52:06Z",
+      "extracted_at_utc": "2026-05-27T02:16:47Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "html",
+        "source_title": "Cancel Your Subscription - The New York Times Help Center",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1304,7 +1306,7 @@
     "mlb_tv": {
       "hash": "fd193b094c1bc234",
       "source_url": "https://www.mlb.com/live-stream-games/help-center",
-      "extracted_at_utc": "2026-03-07T01:09:14Z",
+      "extracted_at_utc": "2026-05-26T02:07:47Z",
       "tokens": [
         "billing:auto_renew",
         "billing:prorated",
@@ -1325,7 +1327,7 @@
     "nfl_plus": {
       "hash": "d5cbd5db7a1b0c26",
       "source_url": "https://www.nfl.com/legal/subscriptions_terms",
-      "extracted_at_utc": "2026-03-07T19:41:01Z",
+      "extracted_at_utc": "2026-05-27T02:16:47Z",
       "tokens": [
         "risk:chargeback_or_dispute"
       ],
@@ -1342,9 +1344,9 @@
       "metadata_signature": "4633d3d448dfdb5e"
     },
     "wall_street_journal": {
-      "hash": "8bcaca7bd2756902",
+      "hash": "fb789a78829723f4",
       "source_url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
-      "extracted_at_utc": "2026-03-07T09:52:14Z",
+      "extracted_at_utc": "2026-05-27T02:17:01Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1356,12 +1358,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "ea7c709252c84b20"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "washington_post": {
       "hash": "facbda2fc8418cb4",
       "source_url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-      "extracted_at_utc": "2026-03-07T09:52:12Z",
+      "extracted_at_utc": "2026-05-27T02:17:01Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "",
@@ -1376,13 +1378,13 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "snapchat_plus": {
-      "hash": "404795cef3eb7094",
+      "hash": "db171c7179bf6adc",
       "source_url": "https://help.snapchat.com/hc/en-us/articles/7012334940948-Snapchat-",
-      "extracted_at_utc": "2026-03-07T09:52:16Z",
+      "extracted_at_utc": "2026-05-27T02:17:08Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "When does Snapchat delete Snaps and Chats? &ndash; Snapchat Support",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1393,9 +1395,9 @@
       "metadata_signature": "28654392aea0ad5d"
     },
     "x_premium": {
-      "hash": "0e33a04876ac3062",
+      "hash": "c2831fbee60afed2",
       "source_url": "https://legal.x.com/purchaser-terms.html",
-      "extracted_at_utc": "2026-03-07T09:52:19Z",
+      "extracted_at_utc": "2026-05-27T02:17:11Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1410,9 +1412,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "reddit_premium": {
-      "hash": "bf0cb87af4daaa53",
-      "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
-      "extracted_at_utc": "2026-03-07T09:52:16Z",
+      "hash": "e1cff4bb803073eb",
+      "source_url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-my-Reddit-subscription",
+      "extracted_at_utc": "2026-05-27T09:10:16Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "zendesk_article_json",
@@ -1421,15 +1423,15 @@
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
         "display_effective_date_utc": "",
-        "source_updated_at_utc": "2026-02-04T12:41:50Z",
+        "source_updated_at_utc": "2026-05-27T04:43:33Z",
         "source_edited_at_utc": "2025-07-15T23:31:20Z"
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "b439ca7dfd43691d"
     },
     "discovery_plus": {
       "hash": "98ce026a824195b3",
       "source_url": "https://help.discoveryplus.com/hc/en-us",
-      "extracted_at_utc": "2026-03-07T09:52:21Z",
+      "extracted_at_utc": "2026-05-27T02:17:19Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "",
@@ -1444,9 +1446,9 @@
       "metadata_signature": "db5c2a32cce1b21b"
     },
     "telegram_premium": {
-      "hash": "47d321d7f612cd46",
+      "hash": "baa92ca68e860f5d",
       "source_url": "https://telegram.org/faq",
-      "extracted_at_utc": "2026-03-07T09:52:21Z",
+      "extracted_at_utc": "2026-05-27T02:17:19Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1461,12 +1463,12 @@
       "metadata_signature": "74c0479f2046c652"
     },
     "soundcloud_go": {
-      "hash": "29ef335eedc7bef5",
+      "hash": "cbac4a1c304b8722",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-03-07T09:52:21Z",
+      "extracted_at_utc": "2026-05-26T20:04:11Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1480,32 +1482,32 @@
     "starz": {
       "hash": "b2eefcb6ff8d9703",
       "source_url": "https://www.starz.com/us/en/termsofuse",
-      "extracted_at_utc": "2026-03-07T09:52:22Z",
+      "extracted_at_utc": "2026-05-27T02:17:20Z",
       "tokens": [
         "billing:prorated",
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
+        "source_kind": "browser_hook",
+        "source_title": "STARZ - Captivating Original Series. Hit Movies. Bold Storytelling.",
+        "display_last_updated_label": "September 2, 2025",
+        "display_last_updated_date_utc": "2025-09-02",
+        "display_effective_date_label": "September 2, 2025",
+        "display_effective_date_utc": "2025-09-02",
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
       "metadata_signature": "012bc045a82435d3"
     },
     "amc_plus": {
-      "hash": "674de7e87d2fe98c",
+      "hash": "e28f2437cd300c4d",
       "source_url": "https://support.amcplus.com/en/support/solutions/articles/11000126475-how-do-i-cancel-my-amc-subscription",
-      "extracted_at_utc": "2026-03-07T09:52:22Z",
+      "extracted_at_utc": "2026-05-27T02:17:20Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "AMC+ Customer KB",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1518,7 +1520,7 @@
     "zoom": {
       "hash": "57cf8abd5c467d42",
       "source_url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0060842",
-      "extracted_at_utc": "2026-03-07T09:52:25Z",
+      "extracted_at_utc": "2026-05-27T02:17:39Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1533,9 +1535,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "espn_plus": {
-      "hash": "6516d33c681385d7",
+      "hash": "294a8aed77160c86",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T19:36:28Z",
+      "extracted_at_utc": "2026-04-22T19:01:41Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1550,9 +1552,9 @@
       "metadata_signature": "c17cbbfb2657430a"
     },
     "google_one": {
-      "hash": "47fe303a75ca7032",
+      "hash": "071b6172b2fa9f4a",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T09:50:06Z",
+      "extracted_at_utc": "2026-05-27T02:14:02Z",
       "tokens": [
         "cancel:anytime"
       ],
@@ -1569,9 +1571,9 @@
       "metadata_signature": "e47e0c36e2bbf62b"
     },
     "masterclass": {
-      "hash": "31e9c6990d098854",
+      "hash": "985fe3098c0b2fc1",
       "source_url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "extracted_at_utc": "2026-03-07T09:50:47Z",
+      "extracted_at_utc": "2026-05-26T20:00:46Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1586,116 +1588,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "peacock": {
-      "hash": "1ee376168c2f131d",
+      "hash": "e1bdeef0160bdefb",
       "source_url": "https://www.peacocktv.com/help/article/how-do-i-cancel-my-peacock-premium-plan",
-      "extracted_at_utc": "2026-03-07T09:50:55Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "html",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": "e18c5ea37454df39"
-    },
-    "evernote": {
-      "hash": "5fb98c6ad4e6367d",
-      "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
-      "extracted_at_utc": "2026-03-07T09:50:01Z",
-      "tokens": [
-        "billing:prorated"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": "e18c5ea37454df39"
-    },
-    "grammarly": {
-      "hash": "c4982f46749a6ceb",
-      "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
-      "extracted_at_utc": "2026-03-07T09:50:07Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": "e18c5ea37454df39"
-    },
-    "hinge": {
-      "hash": "0ea183e83914b9fd",
-      "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
-      "extracted_at_utc": "2026-03-07T09:50:08Z",
-      "tokens": [
-        "flow:support_request",
-        "restriction:no_refund_or_final_sale"
-      ],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": "ec050465ee65cb36"
-    },
-    "scribd": {
-      "hash": "64aecd4a6b3a2db0",
-      "source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
-      "extracted_at_utc": "2026-03-07T09:51:03Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": "e18c5ea37454df39"
-    },
-    "britbox": {
-      "hash": "6d8506d3859a38d8",
-      "source_url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",
-      "extracted_at_utc": "2026-03-07T09:52:24Z",
-      "tokens": [],
-      "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
-        "source_updated_at_utc": "",
-        "source_edited_at_utc": ""
-      },
-      "metadata_signature": "e18c5ea37454df39"
-    },
-    "patreon": {
-      "hash": "82837f17e72715f7",
-      "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
-      "extracted_at_utc": "2026-03-07T19:40:55Z",
+      "extracted_at_utc": "2026-05-27T02:14:56Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1709,10 +1604,120 @@
       },
       "metadata_signature": "e18c5ea37454df39"
     },
+    "evernote": {
+      "hash": "726c1af85fab9d94",
+      "source_url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
+      "extracted_at_utc": "2026-05-27T02:13:59Z",
+      "tokens": [
+        "billing:prorated"
+      ],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "e18c5ea37454df39"
+    },
+    "grammarly": {
+      "hash": "2a28de2255fa9d8d",
+      "source_url": "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
+      "extracted_at_utc": "2026-05-27T02:14:03Z",
+      "tokens": [
+        "flow:support_request"
+      ],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "There’s a charge on a new card I haven’t added to my account &ndash; Grammarly Support",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "e5cf33f409af0820"
+    },
+    "hinge": {
+      "hash": "d991547d7c9079b5",
+      "source_url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
+      "extracted_at_utc": "2026-05-27T02:14:12Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale"
+      ],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "",
+        "display_last_updated_label": "February 3, 2026",
+        "display_last_updated_date_utc": "2026-02-03",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "3007beacbd62afc4"
+    },
+    "scribd": {
+      "hash": "8dae312b33ba828e",
+      "source_url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
+      "extracted_at_utc": "2026-05-26T20:01:22Z",
+      "tokens": [
+        "flow:support_request"
+      ],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "e18c5ea37454df39"
+    },
+    "britbox": {
+      "hash": "8d21dafb1e9e0e91",
+      "source_url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",
+      "extracted_at_utc": "2026-05-26T20:04:15Z",
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "browser_hook",
+        "source_title": "",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "",
+        "source_edited_at_utc": ""
+      },
+      "metadata_signature": "e18c5ea37454df39"
+    },
+    "patreon": {
+      "hash": "402288dcd16e1a01",
+      "source_url": "https://support.patreon.com/hc/en-us/articles/204606315-How-do-I-cancel-my-membership",
+      "extracted_at_utc": "2026-05-27T02:16:39Z",
+      "tokens": [],
+      "page_metadata": {
+        "source_kind": "zendesk_article_json",
+        "source_title": "What is Patreon?",
+        "display_last_updated_label": "",
+        "display_last_updated_date_utc": "",
+        "display_effective_date_label": "",
+        "display_effective_date_utc": "",
+        "source_updated_at_utc": "2026-05-24T22:50:09Z",
+        "source_edited_at_utc": "2025-06-16T16:06:49Z"
+      },
+      "metadata_signature": "78ac47cf2bf0ed3c"
+    },
     "substack": {
       "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-03-07T09:52:15Z",
+      "extracted_at_utc": "2026-05-26T20:04:01Z",
       "tokens": [
         "flow:support_request"
       ],
@@ -1731,7 +1736,7 @@
     "dropbox_us": {
       "hash": "0adfdc179206e059",
       "source_url": "https://help.dropbox.com/plans/cancel-plan",
-      "extracted_at_utc": "2026-03-07T19:36:31Z",
+      "extracted_at_utc": "2026-05-27T02:13:47Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1746,9 +1751,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "audible": {
-      "hash": "eb62c0176a0f2701",
+      "hash": "61b7d649f22ee898",
       "source_url": "https://help.audible.com/s/article/how-do-i-cancel-my-audible-membership",
-      "extracted_at_utc": "2026-03-07T19:35:10Z",
+      "extracted_at_utc": "2026-05-27T09:03:57Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1763,9 +1768,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "paramount_plus": {
-      "hash": "54f241e4365bb59d",
+      "hash": "a4341ebbaadd230e",
       "source_url": "https://www.paramountplus.com/legal/subscriber/",
-      "extracted_at_utc": "2026-03-07T19:39:42Z",
+      "extracted_at_utc": "2026-05-27T09:07:22Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1782,7 +1787,7 @@
     "twitch": {
       "hash": "16a7cce67f74b4e5",
       "source_url": "https://www.twitch.tv/p/en/legal/terms-of-sale/",
-      "extracted_at_utc": "2026-03-07T11:04:27Z",
+      "extracted_at_utc": "2026-05-27T02:16:07Z",
       "tokens": [
         "billing:auto_renew",
         "cancel:fee_or_penalty",
@@ -1802,13 +1807,13 @@
       "metadata_signature": "c8dc7de08928d844"
     },
     "fitbit_premium": {
-      "hash": "aef043bbce7faae4",
+      "hash": "ab5919579bb8e995",
       "source_url": "https://support.google.com/fitbit/workflow/14085163?hl=en",
-      "extracted_at_utc": "2026-03-07T11:04:28Z",
+      "extracted_at_utc": "2026-05-27T02:16:29Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
-        "source_title": "Manage your Fitbit Premium subscription - Fitbit Help Center",
+        "source_title": "Google Health Premium Subscription - Google Health Help Center",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1816,12 +1821,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "719fe1ff7adacc68"
+      "metadata_signature": "e55f0fc828b58763"
     },
     "canva": {
-      "hash": "69d172f6c0185ed3",
+      "hash": "f4ee79fa354ee525",
       "source_url": "https://www.canva.com/policies/terms-of-use-2022-12-05/",
-      "extracted_at_utc": "2026-03-07T19:35:38Z",
+      "extracted_at_utc": "2026-05-27T09:04:18Z",
       "tokens": [
         "billing:prorated"
       ],

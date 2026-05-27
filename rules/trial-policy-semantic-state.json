@@ -1,12 +1,12 @@
 {
-  "updated_utc": "2026-03-07T19:54:32Z",
+  "updated_utc": "2026-05-27T02:27:12Z",
   "policy": "trial",
   "hash_profile": "focus-v1",
   "vendors": {
     "1password": {
-      "hash": "1aab5260d309eb54",
+      "hash": "3ada443f72324b11",
       "source_url": "https://1password.com/sign-up",
-      "extracted_at_utc": "2026-03-07T10:03:04Z",
+      "extracted_at_utc": "2026-05-26T20:09:44Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -21,9 +21,9 @@
       "metadata_signature": "1dc230dd23c2d552"
     },
     "amazon_music_unlimited": {
-      "hash": "aa196cbede9badd6",
+      "hash": "652abd72bcef9cde",
       "source_url": "https://www.amazon.com/music/unlimited",
-      "extracted_at_utc": "2026-03-07T10:03:05Z",
+      "extracted_at_utc": "2026-05-26T20:09:45Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -40,7 +40,7 @@
     "adobe": {
       "hash": "0cefd9fe1290780e",
       "source_url": "https://www.adobe.com/creativecloud/plans.html",
-      "extracted_at_utc": "2026-03-07T10:03:59Z",
+      "extracted_at_utc": "2026-05-26T20:10:40Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "",
@@ -57,11 +57,11 @@
     "apple_app_store": {
       "hash": "91882bfe2276dfad",
       "source_url": "https://support.apple.com/en-us/118223",
-      "extracted_at_utc": "2026-03-07T10:04:00Z",
+      "extracted_at_utc": "2026-05-26T20:10:40Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Request a refund for apps or content that you bought from Apple - Apple Support",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -72,9 +72,9 @@
       "metadata_signature": "aaf0cb7acefc1cdd"
     },
     "apple_arcade": {
-      "hash": "2a78b01cea6c25d7",
+      "hash": "fb25d271ad39e65e",
       "source_url": "https://www.apple.com/apple-arcade/",
-      "extracted_at_utc": "2026-03-07T10:04:00Z",
+      "extracted_at_utc": "2026-05-26T20:10:41Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -89,13 +89,13 @@
       "metadata_signature": "1a544a162d1d2bbe"
     },
     "amazon_prime": {
-      "hash": "7c8f77fcdb4c1914",
+      "hash": "89566cade57933a7",
       "source_url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC",
-      "extracted_at_utc": "2026-03-07T10:04:00Z",
+      "extracted_at_utc": "2026-05-26T20:10:44Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Amazon.com",
+        "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -108,7 +108,7 @@
     "apple_music": {
       "hash": "821df01be2a2b311",
       "source_url": "https://www.apple.com/apple-music/",
-      "extracted_at_utc": "2026-03-07T10:04:01Z",
+      "extracted_at_utc": "2026-05-26T20:10:45Z",
       "tokens": [
         "trial_window_days:30"
       ],
@@ -127,7 +127,7 @@
     "apple_tv_plus": {
       "hash": "192e95dda1012696",
       "source_url": "https://www.apple.com/apple-tv-plus/",
-      "extracted_at_utc": "2026-03-07T10:04:01Z",
+      "extracted_at_utc": "2026-05-26T20:10:45Z",
       "tokens": [
         "trial_window_days:30",
         "trial_window_days:7",
@@ -148,7 +148,7 @@
     "audible": {
       "hash": "5c903bdde6be6a0f",
       "source_url": "https://www.audible.com/ep/freetrial",
-      "extracted_at_utc": "2026-03-07T10:04:01Z",
+      "extracted_at_utc": "2026-05-26T20:10:45Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -163,9 +163,9 @@
       "metadata_signature": "0b2d6ccd3cbf2905"
     },
     "bitwarden": {
-      "hash": "cfb7d23fb4ad78d2",
+      "hash": "42154545553a7010",
       "source_url": "https://bitwarden.com/pricing/",
-      "extracted_at_utc": "2026-03-07T10:04:02Z",
+      "extracted_at_utc": "2026-05-27T02:22:38Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -182,7 +182,7 @@
     "bumble": {
       "hash": "33e413ba157e9286",
       "source_url": "https://bumble.com/en-us/the-buzz/bumble-premium",
-      "extracted_at_utc": "2026-03-07T10:04:02Z",
+      "extracted_at_utc": "2026-05-26T20:10:47Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -197,9 +197,9 @@
       "metadata_signature": "41fb81482b7d20ea"
     },
     "calm": {
-      "hash": "93c363214132f735",
+      "hash": "84fed1a90e4a0ddc",
       "source_url": "https://www.calm.com/subscribe",
-      "extracted_at_utc": "2026-03-07T10:04:11Z",
+      "extracted_at_utc": "2026-05-27T02:22:43Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -211,12 +211,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "ea7c709252c84b20"
+      "metadata_signature": "e18c5ea37454df39"
     },
     "claude_pro": {
-      "hash": "1d4762c19e63ca8d",
+      "hash": "a7db55e5c6fb0646",
       "source_url": "https://claude.ai/upgrade",
-      "extracted_at_utc": "2026-03-07T19:50:12Z",
+      "extracted_at_utc": "2026-05-26T20:11:01Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -231,9 +231,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "chatgpt_plus": {
-      "hash": "98df18ea4c4e33bd",
+      "hash": "3a3f11a326638e3f",
       "source_url": "https://openai.com/chatgpt/pricing/",
-      "extracted_at_utc": "2026-03-07T10:04:15Z",
+      "extracted_at_utc": "2026-05-27T02:22:45Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -248,9 +248,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "crunchyroll": {
-      "hash": "8e9ce324d46569ce",
+      "hash": "265522004fdf7e34",
       "source_url": "https://www.crunchyroll.com/welcome",
-      "extracted_at_utc": "2026-03-07T19:50:22Z",
+      "extracted_at_utc": "2026-05-27T02:23:02Z",
       "tokens": [
         "trial_window_days:7"
       ],
@@ -267,13 +267,13 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "coursera_plus": {
-      "hash": "546c34d7a89ffb46",
+      "hash": "03a1141a33fe5dd4",
       "source_url": "https://www.coursera.org/courseraplus",
-      "extracted_at_utc": "2026-03-07T10:04:16Z",
+      "extracted_at_utc": "2026-05-26T20:11:30Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Coursera Plus | Unlimited Access to 10,000+ Online Courses",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -286,7 +286,7 @@
     "deezer": {
       "hash": "992e2ac0205e4299",
       "source_url": "https://www.deezer.com/en/offers",
-      "extracted_at_utc": "2026-03-07T10:04:16Z",
+      "extracted_at_utc": "2026-05-26T20:11:30Z",
       "tokens": [
         "trial_window_days:30",
         "trial_window_days:7"
@@ -304,12 +304,10 @@
       "metadata_signature": "9e47e1b244d80672"
     },
     "discord_nitro": {
-      "hash": "d7050a8609b439da",
+      "hash": "f09237455cfed5b8",
       "source_url": "https://discord.com/nitro",
-      "extracted_at_utc": "2026-03-07T10:04:18Z",
-      "tokens": [
-        "flow:support_request"
-      ],
+      "extracted_at_utc": "2026-05-26T20:11:59Z",
+      "tokens": [],
       "page_metadata": {
         "source_kind": "html",
         "source_title": "",
@@ -323,10 +321,12 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "disney_plus": {
-      "hash": "9197d49e44c18385",
+      "hash": "30f6e13f53ab8ee8",
       "source_url": "https://www.disneyplus.com/",
-      "extracted_at_utc": "2026-03-07T19:50:23Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-05-27T02:23:03Z",
+      "tokens": [
+        "restriction:no_refund_or_final_sale"
+      ],
       "page_metadata": {
         "source_kind": "browser_hook",
         "source_title": "Disney+ | Stream Movies, TV Shows, Documentaries & More | U.S. Site",
@@ -340,10 +340,12 @@
       "metadata_signature": "28e2bf140f62715d"
     },
     "doordash_dashpass": {
-      "hash": "5c99361ec619ed9e",
+      "hash": "f9f3a3494a77d0a9",
       "source_url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
-      "extracted_at_utc": "2026-03-07T19:50:31Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-05-26T14:52:12Z",
+      "tokens": [
+        "trial_window_days:360"
+      ],
       "page_metadata": {
         "source_kind": "html",
         "source_title": "",
@@ -357,9 +359,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "duolingo": {
-      "hash": "30270c0e4a83d648",
+      "hash": "0659526410d10f4a",
       "source_url": "https://www.duolingo.com/super",
-      "extracted_at_utc": "2026-03-07T10:04:28Z",
+      "extracted_at_utc": "2026-05-27T02:27:04Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -376,7 +378,7 @@
     "dropbox_us": {
       "hash": "7378b9d174c76a17",
       "source_url": "https://www.dropbox.com/plans",
-      "extracted_at_utc": "2026-03-07T10:04:29Z",
+      "extracted_at_utc": "2026-05-26T20:12:01Z",
       "tokens": [
         "trial_window_days:30"
       ],
@@ -393,18 +395,18 @@
       "metadata_signature": "a6aa06925084c746"
     },
     "evernote": {
-      "hash": "4384632937987f9b",
+      "hash": "ed71bb68167011ae",
       "source_url": "https://evernote.com/compare-plans",
-      "extracted_at_utc": "2026-03-07T10:04:30Z",
+      "extracted_at_utc": "2026-05-26T20:12:12Z",
       "tokens": [
-        "trial_window_days:30",
+        "trial_window_days:14",
         "trial_window_days:7",
         "trial:auto_converts_to_paid",
         "trial:cancel_before_end"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Compare plans and get started for free | Evernote",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -415,9 +417,9 @@
       "metadata_signature": "cdefb4c8098692bc"
     },
     "figma": {
-      "hash": "3f59e0da46a9b0fd",
+      "hash": "9d5cd839c09f52b1",
       "source_url": "https://www.figma.com/pricing/",
-      "extracted_at_utc": "2026-03-07T10:04:30Z",
+      "extracted_at_utc": "2026-05-26T20:12:12Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -432,9 +434,9 @@
       "metadata_signature": "af24f72f93ff8483"
     },
     "expressvpn": {
-      "hash": "af4ed0ae09b6a604",
+      "hash": "70d6948c4848e7b2",
       "source_url": "https://www.expressvpn.com/order",
-      "extracted_at_utc": "2026-03-07T10:04:30Z",
+      "extracted_at_utc": "2026-05-26T20:12:12Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -449,9 +451,9 @@
       "metadata_signature": "c4619367e660d3a9"
     },
     "github_pro": {
-      "hash": "4eda4de5efb831cc",
+      "hash": "d6050c37928ed986",
       "source_url": "https://github.com/pricing",
-      "extracted_at_utc": "2026-03-07T10:04:31Z",
+      "extracted_at_utc": "2026-05-26T20:12:13Z",
       "tokens": [
         "trial_window_days:30",
         "trial_window_days:360"
@@ -469,13 +471,15 @@
       "metadata_signature": "859581a8b21c9781"
     },
     "fubo_tv": {
-      "hash": "54e00c0597dbe2aa",
+      "hash": "15c2a225fcb250dd",
       "source_url": "https://www.fubo.tv/welcome",
-      "extracted_at_utc": "2026-03-07T19:50:44Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-05-27T02:23:23Z",
+      "tokens": [
+        "trial_window_days:3"
+      ],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Fubo - Watch Live Sports & TV Without Cable TV | Try Free",
+        "source_title": "fubo - Watch Live Sports & TV Without Cable TV | Try It Free",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -483,12 +487,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "d4019a9b153655e6"
+      "metadata_signature": "c9d8b66bb14b4533"
     },
     "grammarly": {
       "hash": "26791c8310c0a959",
       "source_url": "https://www.grammarly.com/plans",
-      "extracted_at_utc": "2026-03-07T10:04:32Z",
+      "extracted_at_utc": "2026-05-26T20:12:14Z",
       "tokens": [
         "billing:prorated"
       ],
@@ -507,11 +511,11 @@
     "google_play": {
       "hash": "b5cf2e31119e8d8d",
       "source_url": "https://support.google.com/googleplay/answer/7018481",
-      "extracted_at_utc": "2026-03-07T10:04:33Z",
+      "extracted_at_utc": "2026-05-26T20:12:15Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Cancel, pause, or change a subscription on Google Play - Computer - Google Play Help",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -524,11 +528,11 @@
     "headspace": {
       "hash": "17a9980875628a18",
       "source_url": "https://www.headspace.com/subscriptions",
-      "extracted_at_utc": "2026-03-07T10:04:33Z",
+      "extracted_at_utc": "2026-05-26T20:12:14Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Subscribe to Headspace",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -539,9 +543,9 @@
       "metadata_signature": "9e58f7de0a37834d"
     },
     "hulu": {
-      "hash": "10dc7e8460ef064c",
+      "hash": "d6e305a6b65e6a04",
       "source_url": "https://www.hulu.com/start",
-      "extracted_at_utc": "2026-03-07T10:04:33Z",
+      "extracted_at_utc": "2026-05-26T20:12:16Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -556,9 +560,9 @@
       "metadata_signature": "d325f190679ffa56"
     },
     "hellofresh": {
-      "hash": "b88c5deb805c6cfc",
+      "hash": "09d7c7411aeef5e7",
       "source_url": "https://www.hellofresh.com/plans",
-      "extracted_at_utc": "2026-03-07T19:50:55Z",
+      "extracted_at_utc": "2026-05-26T20:12:29Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -575,10 +579,10 @@
     "hinge": {
       "hash": "12dd44bb8ff498c8",
       "source_url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "extracted_at_utc": "2026-03-07T10:04:33Z",
+      "extracted_at_utc": "2026-05-26T20:12:26Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -590,13 +594,13 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "icloud_plus": {
-      "hash": "6be02ea27b3b27c1",
+      "hash": "e264e917b424f89e",
       "source_url": "https://support.apple.com/en-us/108052",
-      "extracted_at_utc": "2026-03-07T10:04:36Z",
+      "extracted_at_utc": "2026-05-26T20:12:31Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Identify your MacBook Pro model - Apple Support",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -607,9 +611,9 @@
       "metadata_signature": "ccfebe73406d6873"
     },
     "kindle_unlimited": {
-      "hash": "8406b35ffe997971",
+      "hash": "036a6e2cd4834833",
       "source_url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku",
-      "extracted_at_utc": "2026-03-07T10:04:37Z",
+      "extracted_at_utc": "2026-05-26T20:12:31Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -624,9 +628,9 @@
       "metadata_signature": "5962737ae1b74840"
     },
     "instacart_plus": {
-      "hash": "f93d706434bd5225",
+      "hash": "dc4d4c79d8f96af1",
       "source_url": "https://www.instacart.com/store/instacart-plus",
-      "extracted_at_utc": "2026-03-07T10:04:38Z",
+      "extracted_at_utc": "2026-05-26T20:12:33Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -641,9 +645,9 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "linkedin_premium": {
-      "hash": "8af384f4631f8faa",
+      "hash": "f93caa54283565ea",
       "source_url": "https://premium.linkedin.com/",
-      "extracted_at_utc": "2026-03-07T10:04:39Z",
+      "extracted_at_utc": "2026-05-26T20:12:34Z",
       "tokens": [
         "trial_window_days:360"
       ],
@@ -660,9 +664,9 @@
       "metadata_signature": "fb969be319933d21"
     },
     "max": {
-      "hash": "98c631d8f5ab58bc",
+      "hash": "47420bbb9120a2ba",
       "source_url": "https://www.max.com/",
-      "extracted_at_utc": "2026-03-07T10:04:39Z",
+      "extracted_at_utc": "2026-05-27T02:23:49Z",
       "tokens": [
         "trial:auto_converts_to_paid"
       ],
@@ -679,9 +683,9 @@
       "metadata_signature": "f7332c93b830efc3"
     },
     "masterclass": {
-      "hash": "e6d641115730b63f",
+      "hash": "42d5998f0b04a612",
       "source_url": "https://www.masterclass.com/legal/terms",
-      "extracted_at_utc": "2026-03-07T10:04:40Z",
+      "extracted_at_utc": "2026-05-27T02:23:58Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -693,12 +697,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "ea7c709252c84b20"
     },
     "microsoft_365": {
-      "hash": "39b3dcafdcbb352a",
+      "hash": "19ae6821c8f3b3fc",
       "source_url": "https://www.microsoft.com/en-us/microsoft-365/try",
-      "extracted_at_utc": "2026-03-07T10:04:41Z",
+      "extracted_at_utc": "2026-05-26T20:12:49Z",
       "tokens": [
         "trial_window_days:30"
       ],
@@ -715,9 +719,9 @@
       "metadata_signature": "b0f135a53ce5e10a"
     },
     "netflix": {
-      "hash": "4db8679770bff0a2",
+      "hash": "b090b16ae27553c6",
       "source_url": "https://www.netflix.com/signup",
-      "extracted_at_utc": "2026-03-07T10:04:42Z",
+      "extracted_at_utc": "2026-05-26T20:13:03Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -732,9 +736,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "midjourney": {
-      "hash": "cda38716917340a8",
+      "hash": "b02fcc59db82827e",
       "source_url": "https://www.midjourney.com/home",
-      "extracted_at_utc": "2026-03-07T19:51:04Z",
+      "extracted_at_utc": "2026-05-26T20:12:52Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -749,13 +753,13 @@
       "metadata_signature": "e18c5ea37454df39"
     },
     "noom": {
-      "hash": "54e7088ed1b4551b",
+      "hash": "81107ef044c22ca4",
       "source_url": "https://www.noom.com/",
-      "extracted_at_utc": "2026-03-07T10:04:46Z",
+      "extracted_at_utc": "2026-05-26T20:13:04Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Noom: Lose weight and keep it off.",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -763,12 +767,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "39deaff8b5f42e22"
+      "metadata_signature": "5f3e457eab533f63"
     },
     "nintendo_switch_online": {
-      "hash": "3d9c9339d4bc7c64",
+      "hash": "8567398442b54823",
       "source_url": "https://www.nintendo.com/us/switch/online/",
-      "extracted_at_utc": "2026-03-07T10:04:46Z",
+      "extracted_at_utc": "2026-05-26T20:13:04Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -785,9 +789,9 @@
       "metadata_signature": "0a0611f87f115bb4"
     },
     "paramount_plus": {
-      "hash": "3d5ea1cf7d0c6e09",
+      "hash": "5c0b910d7976c834",
       "source_url": "https://www.paramountplus.com/",
-      "extracted_at_utc": "2026-03-07T10:04:50Z",
+      "extracted_at_utc": "2026-05-26T20:13:17Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -802,9 +806,9 @@
       "metadata_signature": "d4e19be7e232d2d9"
     },
     "notion": {
-      "hash": "1eeaccda873a52bc",
+      "hash": "6e438dd3376e9699",
       "source_url": "https://www.notion.so/pricing",
-      "extracted_at_utc": "2026-03-07T10:04:50Z",
+      "extracted_at_utc": "2026-05-26T20:13:17Z",
       "tokens": [
         "billing:prorated"
       ],
@@ -823,13 +827,13 @@
     "peloton": {
       "hash": "c5965fffd8b50842",
       "source_url": "https://www.onepeloton.com/app",
-      "extracted_at_utc": "2026-03-07T10:04:52Z",
+      "extracted_at_utc": "2026-05-26T20:13:35Z",
       "tokens": [
         "trial:payment_method_required"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Peloton App: Your on-demand fitness companion",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -842,7 +846,7 @@
     "playstation_plus": {
       "hash": "b366cb3b9db9ad8b",
       "source_url": "https://store.playstation.com/en-us/category/ps-plus",
-      "extracted_at_utc": "2026-03-07T10:05:04Z",
+      "extracted_at_utc": "2026-05-26T20:13:43Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -857,9 +861,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "proton": {
-      "hash": "4da803c89e030feb",
+      "hash": "afd7c8b608e3374c",
       "source_url": "https://proton.me/pricing",
-      "extracted_at_utc": "2026-03-07T10:04:52Z",
+      "extracted_at_utc": "2026-05-26T20:13:36Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -876,9 +880,9 @@
       "metadata_signature": "249b168ffc67c82c"
     },
     "scribd": {
-      "hash": "ba392ea44badf011",
+      "hash": "37164bc030fa2a1a",
       "source_url": "https://www.scribd.com/subscribe",
-      "extracted_at_utc": "2026-03-07T10:05:05Z",
+      "extracted_at_utc": "2026-05-12T02:04:03Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -893,9 +897,9 @@
       "metadata_signature": "dd461547b37920be"
     },
     "ring_protect": {
-      "hash": "f7ae6c2313211b88",
+      "hash": "8ecf793199f718ce",
       "source_url": "https://ring.com/protect-plans",
-      "extracted_at_utc": "2026-03-07T10:05:05Z",
+      "extracted_at_utc": "2026-05-26T20:13:45Z",
       "tokens": [
         "billing:auto_renew"
       ],
@@ -912,12 +916,12 @@
       "metadata_signature": "d0834e9d9714a2ec"
     },
     "shutterstock": {
-      "hash": "93fce0170819948f",
+      "hash": "7eb5aa9df2ff383b",
       "source_url": "https://www.shutterstock.com/pricing",
-      "extracted_at_utc": "2026-03-07T10:05:07Z",
+      "extracted_at_utc": "2026-05-26T20:13:46Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -931,7 +935,7 @@
     "spotify": {
       "hash": "43d1b6038b8b7428",
       "source_url": "https://www.spotify.com/us/premium/",
-      "extracted_at_utc": "2026-03-07T10:05:08Z",
+      "extracted_at_utc": "2026-05-26T20:13:47Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -946,13 +950,13 @@
       "metadata_signature": "a61eed00544b083b"
     },
     "sling_tv": {
-      "hash": "886ae9f832fefa12",
+      "hash": "c8cc4acf1653c064",
       "source_url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
-      "extracted_at_utc": "2026-03-07T10:05:08Z",
+      "extracted_at_utc": "2026-05-26T20:13:47Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Cancel Your Sling TV Subscription | Sling TV Help",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -963,13 +967,15 @@
       "metadata_signature": "930d1d239a6b450b"
     },
     "slack": {
-      "hash": "2086af280cb6ad34",
+      "hash": "9b23becce22a61bd",
       "source_url": "https://slack.com/pricing",
-      "extracted_at_utc": "2026-03-07T10:05:08Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-05-26T20:13:47Z",
+      "tokens": [
+        "billing:prorated"
+      ],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Slack",
+        "source_title": "Slack Pricing Plans: Find the Right Fit for Your Team | Slack",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -977,16 +983,18 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "64da6194cb4ebc4b"
+      "metadata_signature": "f6c4dca4471257cb"
     },
     "squarespace": {
-      "hash": "978e382932020217",
+      "hash": "45b9278d803a9fb7",
       "source_url": "https://www.squarespace.com/pricing",
-      "extracted_at_utc": "2026-03-07T10:05:09Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-05-26T20:13:47Z",
+      "tokens": [
+        "trial:payment_method_required"
+      ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Squarespace Pricing Plans & Features &mdash; Squarespace",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -999,7 +1007,7 @@
     "surfshark": {
       "hash": "a1ef793fd4ea4c65",
       "source_url": "https://surfshark.com/pricing",
-      "extracted_at_utc": "2026-03-07T10:05:09Z",
+      "extracted_at_utc": "2026-05-26T20:13:48Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1016,7 +1024,7 @@
     "tinder": {
       "hash": "d31e0b17742170ae",
       "source_url": "https://tinder.com/feature/subscription-tiers",
-      "extracted_at_utc": "2026-03-07T10:05:10Z",
+      "extracted_at_utc": "2026-05-26T20:13:49Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1031,9 +1039,9 @@
       "metadata_signature": "88bfc06a7114bcdd"
     },
     "todoist": {
-      "hash": "1bc7fbf88d7df8bc",
+      "hash": "fe3f6750be0318cf",
       "source_url": "https://todoist.com/pricing",
-      "extracted_at_utc": "2026-03-07T10:05:10Z",
+      "extracted_at_utc": "2026-05-26T20:13:49Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1048,12 +1056,12 @@
       "metadata_signature": "68e522b7544593f9"
     },
     "tidal": {
-      "hash": "0e8b379821983a86",
+      "hash": "e248d2a95a87163b",
       "source_url": "https://tidal.com/pricing",
-      "extracted_at_utc": "2026-03-07T10:05:13Z",
+      "extracted_at_utc": "2026-05-26T20:13:51Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1067,11 +1075,11 @@
     "walmart_plus": {
       "hash": "a1db564ba162d3c1",
       "source_url": "https://www.walmart.com/plus",
-      "extracted_at_utc": "2026-03-07T10:05:13Z",
+      "extracted_at_utc": "2026-05-26T20:13:52Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Robot or human?",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1082,15 +1090,16 @@
       "metadata_signature": "6d5dbc25098101d6"
     },
     "uber_one": {
-      "hash": "c3255cd8b0a50462",
+      "hash": "4c2eeae09e0d7919",
       "source_url": "https://www.uber.com/us/en/u/uber-one/",
-      "extracted_at_utc": "2026-03-07T10:05:14Z",
+      "extracted_at_utc": "2026-05-26T20:13:52Z",
       "tokens": [
-        "restriction:no_refund_or_final_sale"
+        "restriction:no_refund_or_final_sale",
+        "trial_window_days:28"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Sign up for Uber One Membership | Uber",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1101,15 +1110,15 @@
       "metadata_signature": "99420bc8068792f9"
     },
     "xbox_game_pass": {
-      "hash": "23412fc153542744",
+      "hash": "db8d51011f730b81",
       "source_url": "https://www.xbox.com/en-US/xbox-game-pass",
-      "extracted_at_utc": "2026-03-07T10:05:14Z",
+      "extracted_at_utc": "2026-05-26T20:13:53Z",
       "tokens": [
         "trial:payment_method_required"
       ],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Join Xbox Game Pass: Discover Your Next Favorite Game | Xbox",
+        "source_title": "Join XBOX Game Pass: Discover Your Next Favorite Game | XBOX",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1117,13 +1126,15 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "cb5002441b998f6f"
+      "metadata_signature": "a6a0b959496fd103"
     },
     "wix": {
-      "hash": "48b9c3e11c4740f3",
+      "hash": "862e77d0e3ebd8d9",
       "source_url": "https://www.wix.com/upgrade/website",
-      "extracted_at_utc": "2026-03-07T10:05:15Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-05-26T20:13:53Z",
+      "tokens": [
+        "trial:payment_method_required"
+      ],
       "page_metadata": {
         "source_kind": "browser_hook",
         "source_title": "Wix Pricing Information | Upgrade to a Premium Plan | Wix.com",
@@ -1137,9 +1148,9 @@
       "metadata_signature": "31a01414039c2547"
     },
     "youtube_premium": {
-      "hash": "dfeeb43ddf8beecd",
+      "hash": "7ca28b2c20187d09",
       "source_url": "https://www.youtube.com/premium",
-      "extracted_at_utc": "2026-03-07T19:54:32Z",
+      "extracted_at_utc": "2026-05-27T02:25:15Z",
       "tokens": [
         "trial_window_days:360"
       ],
@@ -1156,9 +1167,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "youtube_tv": {
-      "hash": "7e3cd45beae9f932",
+      "hash": "1c252f02726616d7",
       "source_url": "https://tv.youtube.com/",
-      "extracted_at_utc": "2026-03-07T19:53:07Z",
+      "extracted_at_utc": "2026-05-26T20:14:01Z",
       "tokens": [
         "restriction:no_refund_or_final_sale"
       ],
@@ -1175,9 +1186,9 @@
       "metadata_signature": "e89099edc5ee035a"
     },
     "dashlane": {
-      "hash": "01e6586acacee47b",
+      "hash": "47805d04b86c6bcc",
       "source_url": "https://www.dashlane.com/pricing",
-      "extracted_at_utc": "2026-03-07T10:05:17Z",
+      "extracted_at_utc": "2026-05-26T20:14:01Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1192,9 +1203,9 @@
       "metadata_signature": "d8d262ce86b13575"
     },
     "lastpass": {
-      "hash": "71d000585ae7f786",
+      "hash": "63c3dbd29e126490",
       "source_url": "https://www.lastpass.com/pricing",
-      "extracted_at_utc": "2026-03-07T10:05:19Z",
+      "extracted_at_utc": "2026-05-26T20:14:02Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1209,9 +1220,9 @@
       "metadata_signature": "d2f07a292aedd27a"
     },
     "keeper": {
-      "hash": "8e84e5e6452d0705",
+      "hash": "b4be3d97b2dc4877",
       "source_url": "https://www.keepersecurity.com/pricing/personal-and-family.html",
-      "extracted_at_utc": "2026-03-07T10:05:19Z",
+      "extracted_at_utc": "2026-05-26T20:14:02Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1228,7 +1239,7 @@
     "myfitnesspal_premium": {
       "hash": "9c81fbf8949d205a",
       "source_url": "https://www.myfitnesspal.com/premium",
-      "extracted_at_utc": "2026-03-07T10:05:21Z",
+      "extracted_at_utc": "2026-05-16T08:03:31Z",
       "tokens": [
         "billing:auto_renew",
         "trial:auto_converts_to_paid"
@@ -1246,9 +1257,9 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "fitbit_premium": {
-      "hash": "a37eb69e95a1c388",
+      "hash": "8e784d63a5cac0fe",
       "source_url": "https://www.fitbit.com/global/us/products/services/premium",
-      "extracted_at_utc": "2026-03-07T10:05:20Z",
+      "extracted_at_utc": "2026-05-27T02:25:19Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1265,7 +1276,7 @@
     "siriusxm": {
       "hash": "6c4d9f5f3e90ffde",
       "source_url": "https://www.siriusxm.com/offers",
-      "extracted_at_utc": "2026-03-07T10:05:23Z",
+      "extracted_at_utc": "2026-05-26T20:14:06Z",
       "tokens": [
         "restriction:no_refund_or_final_sale",
         "trial:payment_method_required"
@@ -1283,9 +1294,9 @@
       "metadata_signature": "365838128ec715ed"
     },
     "weightwatchers": {
-      "hash": "0df247ef5b45ab3f",
+      "hash": "7cf3d5230dae96a4",
       "source_url": "https://www.weightwatchers.com/us/plans",
-      "extracted_at_utc": "2026-03-07T10:05:22Z",
+      "extracted_at_utc": "2026-05-27T02:25:25Z",
       "tokens": [
         "trial_window_days:180"
       ],
@@ -1304,7 +1315,7 @@
     "patreon": {
       "hash": "1e7744378c9d24a0",
       "source_url": "https://www.patreon.com/",
-      "extracted_at_utc": "2026-03-07T10:05:22Z",
+      "extracted_at_utc": "2026-05-26T20:14:06Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1319,9 +1330,9 @@
       "metadata_signature": "e3958b19e67eda74"
     },
     "roblox_premium": {
-      "hash": "d029e8febc29b146",
+      "hash": "751f70d4301a9fcb",
       "source_url": "https://www.roblox.com/premium/membership",
-      "extracted_at_utc": "2026-03-07T10:05:24Z",
+      "extracted_at_utc": "2026-05-26T20:14:15Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1338,7 +1349,7 @@
     "ea_play": {
       "hash": "91e0a4acd22d6c6e",
       "source_url": "https://www.ea.com/ea-play",
-      "extracted_at_utc": "2026-03-07T10:05:24Z",
+      "extracted_at_utc": "2026-05-26T20:14:08Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1355,7 +1366,7 @@
     "ubisoft_plus": {
       "hash": "43ee112ef0757868",
       "source_url": "https://store.ubisoft.com/us/ubisoftplus",
-      "extracted_at_utc": "2026-03-07T10:05:24Z",
+      "extracted_at_utc": "2026-05-26T20:14:08Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1370,9 +1381,9 @@
       "metadata_signature": "172877202005eb2d"
     },
     "nfl_plus": {
-      "hash": "8d14d70ceb2dc5e6",
+      "hash": "e2faf8d395b21ce0",
       "source_url": "https://www.nfl.com/plus/",
-      "extracted_at_utc": "2026-03-07T19:54:31Z",
+      "extracted_at_utc": "2026-05-27T02:25:37Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1389,7 +1400,7 @@
     "new_york_times": {
       "hash": "85a7cdfc9e15947a",
       "source_url": "https://www.nytimes.com/subscription",
-      "extracted_at_utc": "2026-03-07T10:05:25Z",
+      "extracted_at_utc": "2026-05-26T20:14:16Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "",
@@ -1404,9 +1415,9 @@
       "metadata_signature": "76327de6101105cc"
     },
     "mlb_tv": {
-      "hash": "cf16c73a45bf5f62",
+      "hash": "ea5978e1edfd2eb0",
       "source_url": "https://www.mlb.com/live-stream-games/subscribe",
-      "extracted_at_utc": "2026-03-07T10:05:25Z",
+      "extracted_at_utc": "2026-05-26T20:14:16Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1421,9 +1432,9 @@
       "metadata_signature": "aae117071833e118"
     },
     "wall_street_journal": {
-      "hash": "8880348608bdedf3",
+      "hash": "4c779f29fe319f10",
       "source_url": "https://www.wsj.com/subscribe",
-      "extracted_at_utc": "2026-03-07T10:05:26Z",
+      "extracted_at_utc": "2026-05-26T20:14:28Z",
       "tokens": [
         "billing:auto_renew",
         "billing:prorated"
@@ -1443,12 +1454,12 @@
     "substack": {
       "hash": "f5fa5608fc35aee4",
       "source_url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "extracted_at_utc": "2026-03-07T10:05:29Z",
+      "extracted_at_utc": "2026-05-26T14:55:03Z",
       "tokens": [
         "flow:support_request"
       ],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "html",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1457,12 +1468,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "ea7c709252c84b20"
     },
     "washington_post": {
-      "hash": "4294167f7648c27f",
+      "hash": "c8dc4b665a4ff87d",
       "source_url": "https://www.washingtonpost.com/subscribe/",
-      "extracted_at_utc": "2026-03-07T10:06:22Z",
+      "extracted_at_utc": "2026-05-26T20:15:23Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1477,9 +1488,9 @@
       "metadata_signature": "3a5ec85970a0419c"
     },
     "x_premium": {
-      "hash": "0e33a04876ac3062",
+      "hash": "c2831fbee60afed2",
       "source_url": "https://legal.x.com/purchaser-terms.html",
-      "extracted_at_utc": "2026-03-07T10:06:26Z",
+      "extracted_at_utc": "2026-05-26T20:15:30Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1494,13 +1505,13 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "snapchat_plus": {
-      "hash": "8422edc2c23478c2",
+      "hash": "0efcc9d5b324c989",
       "source_url": "https://www.snapchat.com/plus",
-      "extracted_at_utc": "2026-03-07T10:06:23Z",
+      "extracted_at_utc": "2026-05-26T20:15:24Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "browser_hook",
+        "source_title": "Snapchat+",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1513,7 +1524,7 @@
     "reddit_premium": {
       "hash": "f7d1a14f0e2d7430",
       "source_url": "https://www.reddit.com/premium",
-      "extracted_at_utc": "2026-03-07T10:06:25Z",
+      "extracted_at_utc": "2026-05-26T20:15:26Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "",
@@ -1530,7 +1541,7 @@
     "discovery_plus": {
       "hash": "1d8c0959540e93c4",
       "source_url": "https://www.discoveryplus.com/",
-      "extracted_at_utc": "2026-03-07T10:06:27Z",
+      "extracted_at_utc": "2026-05-26T20:15:31Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "",
@@ -1545,13 +1556,13 @@
       "metadata_signature": "2d2df798c07e9a7e"
     },
     "telegram_premium": {
-      "hash": "857f9ce3b690e047",
+      "hash": "ff76d5615e829c20",
       "source_url": "https://telegram.org/premium",
-      "extracted_at_utc": "2026-03-07T10:06:27Z",
+      "extracted_at_utc": "2026-05-26T20:15:31Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
+        "source_kind": "html",
+        "source_title": "Telegram Messenger",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1562,12 +1573,12 @@
       "metadata_signature": "2dac4c9d0bfb62f5"
     },
     "soundcloud_go": {
-      "hash": "bf6f426a2126312f",
+      "hash": "ed53b7c9248d24c9",
       "source_url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
-      "extracted_at_utc": "2026-03-07T10:06:27Z",
+      "extracted_at_utc": "2026-05-26T20:15:31Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "",
+        "source_kind": "browser_hook",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1581,28 +1592,28 @@
     "starz": {
       "hash": "5d31288a471e88bb",
       "source_url": "https://www.starz.com/us/en/termsofuse",
-      "extracted_at_utc": "2026-03-07T10:06:28Z",
+      "extracted_at_utc": "2026-05-26T20:15:32Z",
       "tokens": [
         "billing:prorated",
         "restriction:no_refund_or_final_sale",
         "risk:chargeback_or_dispute"
       ],
       "page_metadata": {
-        "source_kind": "",
-        "source_title": "",
-        "display_last_updated_label": "",
-        "display_last_updated_date_utc": "",
-        "display_effective_date_label": "",
-        "display_effective_date_utc": "",
+        "source_kind": "browser_hook",
+        "source_title": "STARZ - Captivating Original Series. Hit Movies. Bold Storytelling.",
+        "display_last_updated_label": "September 2, 2025",
+        "display_last_updated_date_utc": "2025-09-02",
+        "display_effective_date_label": "September 2, 2025",
+        "display_effective_date_utc": "2025-09-02",
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
       "metadata_signature": "012bc045a82435d3"
     },
     "britbox": {
-      "hash": "740f7407816addea",
+      "hash": "6373cdafd84c6346",
       "source_url": "https://www.britbox.com/us/",
-      "extracted_at_utc": "2026-03-07T10:06:28Z",
+      "extracted_at_utc": "2026-05-26T20:15:32Z",
       "tokens": [
         "trial_window_days:360"
       ],
@@ -1619,10 +1630,12 @@
       "metadata_signature": "1ae7b776d9e9d62f"
     },
     "amc_plus": {
-      "hash": "8a4f6919f70dfdb6",
+      "hash": "092dee285d3b4a41",
       "source_url": "https://www.amcplus.com/",
-      "extracted_at_utc": "2026-03-07T10:06:28Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-05-26T20:15:32Z",
+      "tokens": [
+        "trial_window_days:7"
+      ],
       "page_metadata": {
         "source_kind": "browser_hook",
         "source_title": "AMC+ | Premium Streaming Bundle | Watch TV Shows & Movies",
@@ -1636,13 +1649,13 @@
       "metadata_signature": "a7cf0d1613a67609"
     },
     "zoom": {
-      "hash": "0acfcc01dfe25faa",
+      "hash": "ab4bbb489c1ac4e4",
       "source_url": "https://zoom.us/pricing",
-      "extracted_at_utc": "2026-03-07T19:54:25Z",
+      "extracted_at_utc": "2026-05-26T20:15:32Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "Plans & Pricing for Zoom One | Zoom",
+        "source_title": "Zoom Workplace Pricing - Zoom",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1650,12 +1663,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "aeda4ea20b37f073"
+      "metadata_signature": "1684555f6a10c577"
     },
     "google_one": {
-      "hash": "8896cdf009ba2002",
+      "hash": "c2a88fb5fe5216cd",
       "source_url": "https://one.google.com/about/plans",
-      "extracted_at_utc": "2026-03-07T10:04:31Z",
+      "extracted_at_utc": "2026-05-26T20:12:13Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1672,7 +1685,7 @@
     "strava": {
       "hash": "4e09b0a7f54d8764",
       "source_url": "https://www.strava.com/subscribe",
-      "extracted_at_utc": "2026-03-07T10:05:09Z",
+      "extracted_at_utc": "2026-05-26T20:13:48Z",
       "tokens": [
         "trial_window_days:2",
         "trial_window_days:30"
@@ -1690,9 +1703,9 @@
       "metadata_signature": "a7b0da01442534e8"
     },
     "espn_plus": {
-      "hash": "2801a6f0a4ca21d4",
+      "hash": "2a55be35f9a04cbb",
       "source_url": "https://www.espn.com/espnplus/",
-      "extracted_at_utc": "2026-03-07T19:50:33Z",
+      "extracted_at_utc": "2026-04-22T19:10:13Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
@@ -1707,12 +1720,12 @@
       "metadata_signature": "c17cbbfb2657430a"
     },
     "peacock": {
-      "hash": "9d5ebe1adff952a6",
+      "hash": "97730ff87c393ee3",
       "source_url": "https://www.peacocktv.com/plans",
-      "extracted_at_utc": "2026-03-07T10:04:51Z",
+      "extracted_at_utc": "2026-05-26T20:13:34Z",
       "tokens": [],
       "page_metadata": {
-        "source_kind": "browser_hook",
+        "source_kind": "html",
         "source_title": "",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
@@ -1721,12 +1734,12 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "ea7c709252c84b20"
     },
     "twitch": {
       "hash": "854ead54426e17ca",
       "source_url": "https://www.twitch.tv/turbo",
-      "extracted_at_utc": "2026-03-07T10:05:13Z",
+      "extracted_at_utc": "2026-05-26T20:13:52Z",
       "tokens": [],
       "page_metadata": {
         "source_kind": "html",
@@ -1741,15 +1754,13 @@
       "metadata_signature": "ea7c709252c84b20"
     },
     "nordvpn": {
-      "hash": "414af56426040b33",
-      "source_url": "https://nordvpn.com/pricing/",
-      "extracted_at_utc": "2026-03-07T19:51:19Z",
-      "tokens": [
-        "billing:auto_renew"
-      ],
+      "hash": "a177453cdc4643f7",
+      "source_url": "https://support.nordvpn.com/hc/en-us",
+      "extracted_at_utc": "2026-05-27T02:26:59Z",
+      "tokens": [],
       "page_metadata": {
         "source_kind": "browser_hook",
-        "source_title": "",
+        "source_title": "Live Chat, VPN Setup, Troubleshooting | NordVPN Customer Support",
         "display_last_updated_label": "",
         "display_last_updated_date_utc": "",
         "display_effective_date_label": "",
@@ -1757,13 +1768,15 @@
         "source_updated_at_utc": "",
         "source_edited_at_utc": ""
       },
-      "metadata_signature": "e18c5ea37454df39"
+      "metadata_signature": "19c95b8b9d4a4690"
     },
     "canva": {
-      "hash": "8c8b2a79919eaa19",
+      "hash": "2ba052dad133b5c1",
       "source_url": "https://www.canva.com/pro/",
-      "extracted_at_utc": "2026-03-07T10:04:13Z",
-      "tokens": [],
+      "extracted_at_utc": "2026-05-26T20:11:29Z",
+      "tokens": [
+        "billing:prorated"
+      ],
       "page_metadata": {
         "source_kind": "browser_hook",
         "source_title": "",
