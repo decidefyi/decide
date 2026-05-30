@@ -57,6 +57,7 @@ if [[ "$changed" -ne 0 ]]; then
   echo
   echo "Inventory docs are stale. Regenerated files differ from committed versions."
   echo "Run: ./scripts/generate-project-inventory.sh"
+  git --no-pager diff -- "${FILES[@]}" || true
   exit 1
 fi
 
