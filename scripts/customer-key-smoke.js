@@ -3,7 +3,16 @@
 const DEFAULT_BASE_URL = "https://www.decide.fyi";
 const DEFAULT_QUESTION = "Should this support workflow use one deterministic API verdict for routing?";
 const DEFAULT_TIMEOUT_MS = 15000;
-const VALID_DECISIONS = new Set(["yes", "no", "tie"]);
+const VALID_DECISIONS = new Set(["yes", "no"]);
+const REQUIRED_DECISION_RECORD_FIELDS = [
+  "decision_record_version",
+  "decision_id",
+  "request_id",
+  "policy_version",
+  "source_hash",
+  "record_hash",
+  "verify_url",
+];
 
 function usage() {
   console.log(`Usage:
@@ -85,6 +94,7 @@ async function postJson(url, { key, question, timeoutMs }) {
       body: JSON.stringify({
         mode: "single",
         question,
+        response_view: "full",
       }),
       signal: controller.signal,
     });
@@ -141,21 +151,29 @@ async function main() {
     throw new Error(`unexpected HTTP ${response.status}: ${JSON.stringify(json).slice(0, 300)}`);
   }
 
-  const decision = String(json.c || "").trim().toLowerCase();
+  const decision = String(json.verdict || json.c || "").trim().toLowerCase();
   if (!VALID_DECISIONS.has(decision)) {
-    throw new Error(`transport worked, but decision contract was not customer-ready: c=${JSON.stringify(json.c)} v=${JSON.stringify(json.v)}`);
+    throw new Error(`transport worked, but decision contract was not customer-ready: verdict=${JSON.stringify(json.verdict)} c=${JSON.stringify(json.c)} v=${JSON.stringify(json.v)}`);
   }
-  if (!json.request_id || !json.policy_version || !json.source_hash) {
-    throw new Error("decision response is missing request_id, policy_version, or source_hash");
+  const missingFields = REQUIRED_DECISION_RECORD_FIELDS.filter((field) => !json[field]);
+  if (json.decision_record_version !== "decision_record_v1") {
+    missingFields.push("decision_record_version=decision_record_v1");
+  }
+  if (missingFields.length) {
+    throw new Error(`decision response is missing public Decision Record fields: ${missingFields.join(", ")}`);
   }
 
   console.log("PASS customer key smoke");
   console.log(`endpoint=${endpoint}`);
   console.log(`status=${response.status}`);
   console.log(`decision=${decision}`);
+  console.log(`decision_record_version=${json.decision_record_version}`);
+  console.log(`decision_id=${json.decision_id}`);
   console.log(`request_id=${json.request_id}`);
   console.log(`policy_version=${json.policy_version}`);
   console.log(`source_hash=${json.source_hash}`);
+  console.log(`record_hash=${json.record_hash}`);
+  console.log(`verify_url=${json.verify_url}`);
   console.log(`latency_ms=${latencyMs}`);
 }
 

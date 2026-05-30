@@ -94,7 +94,7 @@ DECIDE_SMOKE_API_KEY='<customer-key>' npm run smoke:customer-key
 
 Use workflow endpoints when you want one request to return:
 
-- decision classification (`yes | no | tie`) from `/api/decide`
+- decision classification (`yes | no`) from `/api/decide`
 - policy result from the relevant notary endpoint
 - recommended Zendesk action + tags + private note with `request_id`
 
