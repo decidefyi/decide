@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-05-15 23:30:27 CEST
+Generated: 2026-05-30 14:10:40 CEST
 
 ## Scope
 
@@ -406,12 +406,12 @@ scripts/check-policies.js:891:function summarizePolicyStatusCounts(rows, statuse
 scripts/check-policies.js:904:function writePolicyStatusReports(rows, generatedAtUtc) {
 scripts/check-policies.js:966:function toIsoWeekKey(utcIso) {
 scripts/check-policies.js:979:function buildWeeklyTriageSnapshot(rows, generatedAtUtc) {
-scripts/customer-key-smoke.js:104:async function main() {
-scripts/customer-key-smoke.js:27:function parseArgs(argv) {
-scripts/customer-key-smoke.js:58:function normalizeBaseUrl(value) {
-scripts/customer-key-smoke.js:68:function redactKey(key) {
-scripts/customer-key-smoke.js:74:async function postJson(url, { key, question, timeoutMs }) {
-scripts/customer-key-smoke.js:8:function usage() {
+scripts/customer-key-smoke.js:114:async function main() {
+scripts/customer-key-smoke.js:17:function usage() {
+scripts/customer-key-smoke.js:36:function parseArgs(argv) {
+scripts/customer-key-smoke.js:67:function normalizeBaseUrl(value) {
+scripts/customer-key-smoke.js:77:function redactKey(key) {
+scripts/customer-key-smoke.js:83:async function postJson(url, { key, question, timeoutMs }) {
 scripts/generate-outbound-domain-inventory.mjs:103:function inferTags(host, ownSuffixes) {
 scripts/generate-outbound-domain-inventory.mjs:141:function riskTier(tags, contexts) {
 scripts/generate-outbound-domain-inventory.mjs:172:function isCriticalDomain(tags) {
@@ -429,7 +429,7 @@ scripts/generate-outbound-domain-inventory.mjs:6:function parseArgs(argv) {
 scripts/generate-outbound-domain-inventory.mjs:72:function splitCombinedUrls(rawUrl) {
 scripts/generate-outbound-domain-inventory.mjs:79:function normalizeHost(hostname) {
 scripts/generate-outbound-domain-inventory.mjs:88:function inferContexts(filePath) {
-scripts/generate-project-inventory.sh:11:FUNC_PATTERN='export default|export async function|export function|function [A-Za-z0-9_]+\(|const [A-Za-z0-9_]+\s*=\s*\([^)]*\)\s*=>|const [A-Za-z0-9_]+\s*=\s*async\s*\([^)]*\)\s*=>'
+scripts/generate-project-inventory.sh:16:FUNC_PATTERN='export default|export async function|export function|function [A-Za-z0-9_]+\(|const [A-Za-z0-9_]+\s*=\s*\([^)]*\)\s*=>|const [A-Za-z0-9_]+\s*=\s*async\s*\([^)]*\)\s*=>'
 scripts/lib/policy-feed-reliability.js:100:export function mergePolicyAlertFeed({
 scripts/lib/policy-feed-reliability.js:13:function normalizeByPolicy(byPolicyValue) {
 scripts/lib/policy-feed-reliability.js:23:function buildByPolicySignature(byPolicy) {

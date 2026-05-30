@@ -20,6 +20,9 @@ function pass(message) {
 
 const html = read("public/index.html");
 const server = JSON.parse(read("server.json"));
+const readme = read("README.md");
+const customerRunbook = read("docs/FIRST_CUSTOMER_RUNBOOK.md");
+const customerSmoke = read("scripts/customer-key-smoke.js");
 
 assert(html.includes("decide.fyi is the Decision API engine"), "home page should position Decide as API engine");
 assert(html.includes("Reference applications show the same contract powering policy MCPs"), "home page should show proof applications");
@@ -49,3 +52,18 @@ pass("MCP remotes remain stable in page and server.json");
 assert(!html.includes("Deterministic decision infrastructure: REST endpoints for systems, plus MCP notaries for agents."), "old mixed product positioning should be removed");
 assert(!server.description.includes("Krafthaus"), "server metadata should stay Decide-only");
 pass("old mixed product positioning is absent");
+
+for (const source of [
+  ["README", readme],
+  ["customer runbook", customerRunbook],
+  ["customer key smoke", customerSmoke],
+]) {
+  assert(!source[1].includes("yes`, `no`, or `tie"), `${source[0]} should not document tie as a single-decision class`);
+  assert(!source[1].includes("yes | no | tie"), `${source[0]} should not document tie as a single-decision class`);
+  assert(!source[1].includes('"yes", "no", "tie"'), `${source[0]} should not accept tie as a single-decision class`);
+}
+for (const marker of ["decision_record_version", "decision_id", "record_hash", "verify_url"]) {
+  assert(customerRunbook.includes(marker), `customer runbook should mention public Decision Record field ${marker}`);
+  assert(customerSmoke.includes(marker), `customer key smoke should validate public Decision Record field ${marker}`);
+}
+pass("customer key smoke matches public Decision Record contract");

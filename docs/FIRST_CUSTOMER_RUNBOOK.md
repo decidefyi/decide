@@ -17,9 +17,13 @@ PASS customer key smoke
 endpoint=https://www.decide.fyi/api/decide
 status=200
 decision=yes
+decision_record_version=decision_record_v1
+decision_id=...
 request_id=...
 policy_version=...
 source_hash=...
+record_hash=...
+verify_url=...
 latency_ms=...
 ```
 
@@ -45,14 +49,17 @@ export DECIDE_API_KEY='<customer-key>'
 curl -sS -X POST https://www.decide.fyi/api/decide \
   -H "Authorization: Bearer $DECIDE_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"mode":"single","question":"Should this support workflow use one deterministic API verdict for routing?"}'
+  -d '{"mode":"single","response_view":"full","question":"Should this support workflow use one deterministic API verdict for routing?"}'
 ```
 
 The response should include:
 
-- `c`: `yes`, `no`, or `tie`
-- `v`: stable verdict string
+- `decision_record_version`: `decision_record_v1`
+- `decision_id`: stable Decision Record handle
 - `request_id`: support/debug handle
+- `verdict` / `c`: `yes` or `no` for a successful single-decision smoke
+- `v`: stable verdict string
+- `record_hash` and `verify_url`: public verification fields
 - `policy_version` and `source_hash`: replay/audit fields
 
 ## Free policy proof curl
@@ -70,7 +77,7 @@ curl -sS -X POST https://refund.decide.fyi/api/v1/refund/eligibility \
 - `401`: key not provisioned, copied incorrectly, or pointed at the wrong environment.
 - `429`: customer is hitting rate limit or the smoke was repeated too quickly.
 - `c="unclear"` with `v="try again"`: auth/transport worked, but model/provider path is degraded; check runtime logs and model fallback attempts.
-- Missing `request_id`, `policy_version`, or `source_hash`: response contract regression; do not hand off until fixed.
+- Missing `decision_record_version`, `decision_id`, `request_id`, `policy_version`, `source_hash`, `record_hash`, or `verify_url`: response contract regression; do not hand off until fixed.
 
 ## Handoff checklist
 

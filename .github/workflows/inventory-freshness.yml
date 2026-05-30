@@ -14,6 +14,13 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install inventory tooling
+        run: |
+          if ! command -v rg >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ripgrep
+          fi
+
       - name: Check generated inventory docs are fresh
         run: |
           chmod +x ./scripts/generate-project-inventory.sh ./scripts/check-project-inventory.sh
