@@ -4,6 +4,11 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
+if ! command -v rg >/dev/null 2>&1; then
+  echo "Missing required inventory tool: ripgrep (rg)" >&2
+  exit 2
+fi
+
 REPO_NAME="$(basename "$ROOT_DIR")"
 STOCKHOLM_TS="$(TZ=Europe/Stockholm date '+%Y-%m-%d %H:%M:%S %Z')"
 ISO_TS="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
