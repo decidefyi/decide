@@ -1,12 +1,12 @@
 # Policy Weekly Triage
 
 Current week: 2026-W23
-Generated UTC: 2026-06-01T02:37:43Z
+Generated UTC: 2026-06-01T11:25:00Z
 
 ## Current Snapshot
 - Pending total: 5
 - Fetch blocked total: 0
-- Fetch failed total: 2
+- Fetch failed total: 1
 - Confirmed changed total: 1
 - Volatile pending total: 0
 - Escalation candidate total: 0
