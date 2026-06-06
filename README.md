@@ -401,7 +401,7 @@ Checker (GitHub Actions, repo `decide`):
 - Secret `POLICY_CHECK_BROWSER_HOOK_TOKEN` = same token as runtime env
 - Variable `POLICY_CHECK_FETCH_LANES_DEFAULT` = `browser_hook,direct,zendesk_api,mirror`
 
-Questions? [decidefyi@gmail.com](mailto:decidefyi@gmail.com) or [@decidefyi on X](https://x.com/decidefyi)
+Questions? [support@decide.fyi](mailto:support@decide.fyi) or [@decidefyi on X](https://x.com/decidefyi)
 
 ## Links
 
