@@ -247,6 +247,8 @@ async function testDecideRulebookFixture() {
     assert.equal(first.json?.rulebook?.id, fixture.request.body.rulebook.rulebook_id, "rulebook id mismatch");
     assert.equal(first.json?.rulebook?.version, fixture.request.body.rulebook.version, "rulebook version mismatch");
     assert.equal(typeof first.json?.rulebook?.hash, "string", "rulebook hash missing");
+    assert.equal(typeof first.json?.input_hash, "string", "rulebook input hash missing");
+    assert.match(first.json.input_hash, /^[a-f0-9]{64}$/, "rulebook input hash must be sha256 hex");
     assert.equal(first.json?.policy_version, fixture.request.body.rulebook.version, "rulebook policy version mismatch");
     assert.equal(first.json?.source_hash, first.json?.rulebook?.hash, "rulebook source hash mismatch");
     assert.deepEqual(
@@ -257,6 +259,7 @@ async function testDecideRulebookFixture() {
         reason_code: second.json?.reason_code,
         matched_rule_id: second.json?.matched_rule_id,
         rulebook_hash: second.json?.rulebook?.hash,
+        input_hash: second.json?.input_hash,
       },
       {
         verdict: first.json?.verdict,
@@ -265,6 +268,7 @@ async function testDecideRulebookFixture() {
         reason_code: first.json?.reason_code,
         matched_rule_id: first.json?.matched_rule_id,
         rulebook_hash: first.json?.rulebook?.hash,
+        input_hash: first.json?.input_hash,
       },
       "same rulebook and inputs must produce the same semantic result"
     );
@@ -293,6 +297,8 @@ async function testDecideRulebookMissingInput() {
     assert.equal(result.json?.application_verdict, "NEEDS_INPUT", "missing rulebook application verdict mismatch");
     assert.equal(result.json?.action, "collect_required_input", "missing rulebook input action mismatch");
     assert.equal(result.json?.reason_code, "INPUT_SCHEMA_FAILED", "missing rulebook input reason mismatch");
+    assert.equal(typeof result.json?.input_hash, "string", "missing rulebook input hash missing");
+    assert.match(result.json.input_hash, /^[a-f0-9]{64}$/, "missing rulebook input hash must be sha256 hex");
     assert.deepEqual(result.json?.missing_fields, ["margin_percent"], "missing rulebook fields mismatch");
     assert.equal(result.json?.matched_rule_id, null, "missing input must not match a rule");
   } finally {
@@ -412,6 +418,8 @@ async function testDecideTrustedAdapterFixture() {
       "adapter implementation hash mismatch"
     );
     assert.equal(first.json?.trusted_adapter?.manifest_hash, manifest.manifest_hash, "adapter manifest hash mismatch");
+    assert.equal(typeof first.json?.input_hash, "string", "adapter-backed rulebook input hash missing");
+    assert.match(first.json.input_hash, /^[a-f0-9]{64}$/, "adapter-backed rulebook input hash must be sha256 hex");
     assert.equal(typeof first.json?.trusted_adapter?.input_hash, "string", "adapter input hash missing");
     assert.equal(typeof first.json?.trusted_adapter?.output_hash, "string", "adapter output hash missing");
     assert.equal(
@@ -429,12 +437,14 @@ async function testDecideTrustedAdapterFixture() {
       {
         verdict: second.json?.application_verdict,
         score: second.json?.adapter_facts?.decision_score,
+        rulebook_input_hash: second.json?.input_hash,
         input_hash: second.json?.trusted_adapter?.input_hash,
         output_hash: second.json?.trusted_adapter?.output_hash,
       },
       {
         verdict: first.json?.application_verdict,
         score: first.json?.adapter_facts?.decision_score,
+        rulebook_input_hash: first.json?.input_hash,
         input_hash: first.json?.trusted_adapter?.input_hash,
         output_hash: first.json?.trusted_adapter?.output_hash,
       },
@@ -608,6 +618,8 @@ async function testRulebookV1PublicConformanceFixtures() {
       assert.equal(first.json?.reason_code, fixture.expect.reason_code, `${fixtureRef.id}: reason code mismatch`);
       assert.equal(first.json?.matched_rule_id, fixture.expect.matched_rule_id, `${fixtureRef.id}: matched rule mismatch`);
       assert.equal(typeof first.json?.rulebook?.hash, "string", `${fixtureRef.id}: rulebook hash missing`);
+      assert.equal(typeof first.json?.input_hash, "string", `${fixtureRef.id}: input hash missing`);
+      assert.match(first.json.input_hash, /^[a-f0-9]{64}$/, `${fixtureRef.id}: input hash must be sha256 hex`);
       assert.deepEqual(
         {
           verdict: second.json?.verdict,
@@ -616,6 +628,7 @@ async function testRulebookV1PublicConformanceFixtures() {
           reason_code: second.json?.reason_code,
           matched_rule_id: second.json?.matched_rule_id,
           rulebook_hash: second.json?.rulebook?.hash,
+          input_hash: second.json?.input_hash,
           adapter_facts: second.json?.adapter_facts || null,
         },
         {
@@ -625,6 +638,7 @@ async function testRulebookV1PublicConformanceFixtures() {
           reason_code: first.json?.reason_code,
           matched_rule_id: first.json?.matched_rule_id,
           rulebook_hash: first.json?.rulebook?.hash,
+          input_hash: first.json?.input_hash,
           adapter_facts: first.json?.adapter_facts || null,
         },
         `${fixtureRef.id}: repeated fixture run must reproduce semantic output`

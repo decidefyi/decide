@@ -297,6 +297,11 @@ The response exposes that value as:
 - `policy_hash`
 - `source_hash`
 
+The runtime also computes `input_hash` over the canonical inputs or trusted
+adapter facts actually consumed by the declarative rulebook. The raw inputs do
+not need to be returned for downstream systems to bind the Decision Record to
+the replay material.
+
 The rulebook ID becomes `policy_id`, and its version becomes `policy_version`.
 The decidesite proxy then incorporates those values into Decision Record v1.
 
