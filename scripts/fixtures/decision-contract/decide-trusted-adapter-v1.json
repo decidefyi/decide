@@ -1,0 +1,163 @@
+{
+  "request": {
+    "method": "POST",
+    "path": "/api/decide",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "mode": "rulebook",
+      "adapter": {
+        "adapter_id": "solana_execution_gate",
+        "version": "1.0.0",
+        "manifest_hash": "resolved_by_test",
+        "input": {
+          "sol_amount": 48,
+          "risk_level": "medium",
+          "evidence_level": "strong",
+          "quorum_signed": true,
+          "budget_within_policy": true,
+          "recipient_verified": true
+        }
+      },
+      "rulebook": {
+        "schema_version": "rulebook_v1",
+        "rulebook_id": "solana_execution_gate",
+        "version": "2026-06-11",
+        "input_schema": {
+          "required": [
+            "decision_score",
+            "quorum_signed",
+            "budget_within_policy",
+            "recipient_verified"
+          ],
+          "properties": {
+            "decision_score": {
+              "type": "integer"
+            },
+            "quorum_signed": {
+              "type": "boolean"
+            },
+            "budget_within_policy": {
+              "type": "boolean"
+            },
+            "recipient_verified": {
+              "type": "boolean"
+            }
+          }
+        },
+        "rules": [
+          {
+            "rule_id": "block_unsafe_execution",
+            "priority": 300,
+            "condition": {
+              "any": [
+                {
+                  "field": "recipient_verified",
+                  "operator": "eq",
+                  "value": false
+                },
+                {
+                  "field": "decision_score",
+                  "operator": "lt",
+                  "value": 50
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "no",
+              "verdict": "BLOCK",
+              "action": "block_execution",
+              "reason_code": "EXECUTION_GATE_BLOCKED"
+            }
+          },
+          {
+            "rule_id": "defer_incomplete_execution",
+            "priority": 200,
+            "condition": {
+              "any": [
+                {
+                  "field": "decision_score",
+                  "operator": "lt",
+                  "value": 70
+                },
+                {
+                  "field": "quorum_signed",
+                  "operator": "eq",
+                  "value": false
+                },
+                {
+                  "field": "budget_within_policy",
+                  "operator": "eq",
+                  "value": false
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "DEFER",
+              "action": "defer_execution",
+              "reason_code": "EXECUTION_GATE_REVIEW_REQUIRED"
+            }
+          },
+          {
+            "rule_id": "approve_policy_compliant_execution",
+            "priority": 100,
+            "condition": {
+              "all": [
+                {
+                  "field": "decision_score",
+                  "operator": "gte",
+                  "value": 70
+                },
+                {
+                  "field": "quorum_signed",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "budget_within_policy",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "recipient_verified",
+                  "operator": "eq",
+                  "value": true
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "APPROVE",
+              "action": "authorize_execution",
+              "reason_code": "EXECUTION_GATE_APPROVED"
+            }
+          }
+        ],
+        "default_outcome": {
+          "decision": "review",
+          "verdict": "DEFER",
+          "action": "defer_execution",
+          "reason_code": "EXECUTION_GATE_NO_RULE_MATCHED"
+        }
+      },
+      "context": {
+        "workflow": "solana_execution_gate",
+        "source_record_id": "helios_grant_48",
+        "requested_action": "treasury_payout"
+      }
+    }
+  },
+  "expect": {
+    "statusCode": 200,
+    "decision": "yes",
+    "application_verdict": "APPROVE",
+    "action": "authorize_execution",
+    "reason_code": "EXECUTION_GATE_APPROVED",
+    "matched_rule_id": "approve_policy_compliant_execution",
+    "decision_score": 91,
+    "decision_edge_points": 34,
+    "confidence_pct": 94
+  }
+}

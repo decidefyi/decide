@@ -1,13 +1,17 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import decideHandler from "../api/decide.js";
 import v1PolicyDispatcher from "../api/v1/[policy]/[action].js";
 import zendeskWorkflowDispatcher from "../api/v1/workflows/zendesk/[workflow].js";
+import {
+  auditTrustedAdapterImplementation,
+  getTrustedAdapterManifest,
+} from "../lib/trusted-adapters.js";
 import { invokeJson } from "./test-helpers/http-harness.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -32,6 +36,14 @@ function assertLineage(payload, label) {
   assert.equal(typeof payload.source_hash, "string", `${label}: missing source_hash`);
   assert.ok(payload.source_hash.length >= 8, `${label}: source_hash looks too short`);
   assertIsoTimestamp(payload.evaluated_at, `${label}.evaluated_at`);
+}
+
+function assertUnknownField(errors, expectedField, label) {
+  assert.ok(Array.isArray(errors), `${label}: errors missing`);
+  assert.ok(
+    errors.some((entry) => entry?.code === "unknown_field" && entry?.field === expectedField),
+    `${label}: expected unknown_field for ${expectedField}`
+  );
 }
 
 async function testDecideSingleFixture() {
@@ -201,6 +213,349 @@ async function testDecideRuntimeFixture() {
     process.env.GEMINI_API_KEY = previousApiKey;
     process.env.DECIDE_API_KEY = previousDecideApiKey;
   }
+}
+
+async function testDecideRulebookFixture() {
+  const fixture = loadFixture("decide-rulebook-v1.json");
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("rulebook evaluation must not call an LLM");
+  };
+
+  try {
+    const first = await invokeJson(decideHandler, fixture.request);
+    const second = await invokeJson(decideHandler, fixture.request);
+
+    assert.equal(first.statusCode, fixture.expect.statusCode, "rulebook status mismatch");
+    assert.equal(first.json?.verdict, fixture.expect.decision, "rulebook decision mismatch");
+    assert.equal(first.json?.application_verdict, fixture.expect.application_verdict, "rulebook application verdict mismatch");
+    assert.equal(first.json?.action, fixture.expect.action, "rulebook action mismatch");
+    assert.equal(first.json?.reason_code, fixture.expect.reason_code, "rulebook reason code mismatch");
+    assert.equal(first.json?.matched_rule_id, fixture.expect.matched_rule_id, "rulebook matched rule mismatch");
+    assert.equal(first.json?.engine, "decide_rulebook_v1", "rulebook engine mismatch");
+    assert.equal(first.json?.rulebook?.schema_version, "rulebook_v1", "rulebook schema version mismatch");
+    assert.equal(first.json?.rulebook?.id, fixture.request.body.rulebook.rulebook_id, "rulebook id mismatch");
+    assert.equal(first.json?.rulebook?.version, fixture.request.body.rulebook.version, "rulebook version mismatch");
+    assert.equal(typeof first.json?.rulebook?.hash, "string", "rulebook hash missing");
+    assert.equal(first.json?.policy_version, fixture.request.body.rulebook.version, "rulebook policy version mismatch");
+    assert.equal(first.json?.source_hash, first.json?.rulebook?.hash, "rulebook source hash mismatch");
+    assert.deepEqual(
+      {
+        verdict: second.json?.verdict,
+        application_verdict: second.json?.application_verdict,
+        action: second.json?.action,
+        reason_code: second.json?.reason_code,
+        matched_rule_id: second.json?.matched_rule_id,
+        rulebook_hash: second.json?.rulebook?.hash,
+      },
+      {
+        verdict: first.json?.verdict,
+        application_verdict: first.json?.application_verdict,
+        action: first.json?.action,
+        reason_code: first.json?.reason_code,
+        matched_rule_id: first.json?.matched_rule_id,
+        rulebook_hash: first.json?.rulebook?.hash,
+      },
+      "same rulebook and inputs must produce the same semantic result"
+    );
+    assert.equal(fetchCalled, false, "rulebook evaluation unexpectedly called an LLM");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+async function testDecideRulebookMissingInput() {
+  const fixture = loadFixture("decide-rulebook-v1.json");
+  const request = JSON.parse(JSON.stringify(fixture.request));
+  delete request.body.context.inputs.margin_percent;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+
+  try {
+    const result = await invokeJson(decideHandler, request);
+    assert.equal(result.statusCode, 200, "missing rulebook input should return a bounded decision");
+    assert.equal(result.json?.status, "needs_input", "missing rulebook input status mismatch");
+    assert.equal(result.json?.verdict, "review", "missing rulebook input must fail closed to review");
+    assert.equal(result.json?.application_verdict, "NEEDS_INPUT", "missing rulebook application verdict mismatch");
+    assert.equal(result.json?.action, "collect_required_input", "missing rulebook input action mismatch");
+    assert.equal(result.json?.reason_code, "INPUT_SCHEMA_FAILED", "missing rulebook input reason mismatch");
+    assert.deepEqual(result.json?.missing_fields, ["margin_percent"], "missing rulebook fields mismatch");
+    assert.equal(result.json?.matched_rule_id, null, "missing input must not match a rule");
+  } finally {
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+async function testDecideRulebookRejectsExecutableOperator() {
+  const fixture = loadFixture("decide-rulebook-v1.json");
+  const request = JSON.parse(JSON.stringify(fixture.request));
+  request.body.rulebook.rules[0].condition.operator = "javascript";
+  request.body.rulebook.rules[0].condition.value = "return process.env";
+  request.body.rulebook.rules[0].script = "return process.env";
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("invalid rulebook must not call an LLM");
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, request);
+    assert.equal(result.statusCode, 422, "unsupported rulebook operator status mismatch");
+    assert.equal(result.json?.error, "RULEBOOK_INVALID", "unsupported rulebook operator error mismatch");
+    assert.ok(Array.isArray(result.json?.errors), "unsupported rulebook operator errors missing");
+    assert.ok(
+      result.json.errors.some((entry) => entry?.code === "unsupported_operator"),
+      "unsupported rulebook operator validation detail missing"
+    );
+    assert.ok(
+      result.json.errors.some((entry) => entry?.code === "unknown_field"),
+      "executable-like rulebook field must be rejected instead of ignored"
+    );
+    assert.equal(fetchCalled, false, "invalid rulebook unexpectedly called an LLM");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+async function testDecideRulebookRejectsExecutablePayloadFields() {
+  const fixture = loadFixture("decide-rulebook-v1.json");
+  const request = JSON.parse(JSON.stringify(fixture.request));
+  request.body.rulebook.code = "return { decision: 'yes' }";
+  request.body.rulebook.handler = "pricingException";
+  request.body.rulebook.rules[0].condition.function = "return process.env";
+  request.body.rulebook.default_outcome.javascript = "return 'approve'";
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("executable rulebook payload must not call an LLM");
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, request);
+    assert.equal(result.statusCode, 422, "executable rulebook payload status mismatch");
+    assert.equal(result.json?.error, "RULEBOOK_INVALID", "executable rulebook payload error mismatch");
+    assertUnknownField(result.json?.errors, "rulebook.code", "executable rulebook payload");
+    assertUnknownField(result.json?.errors, "rulebook.handler", "executable rulebook payload");
+    assertUnknownField(result.json?.errors, "rulebook.rules[0].condition.function", "executable rulebook payload");
+    assertUnknownField(result.json?.errors, "rulebook.default_outcome.javascript", "executable rulebook payload");
+    assert.equal(fetchCalled, false, "executable rulebook payload unexpectedly called an LLM");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+async function testDecideTrustedAdapterFixture() {
+  const fixture = loadFixture("decide-trusted-adapter-v1.json");
+  const manifest = getTrustedAdapterManifest("solana_execution_gate", "1.0.0");
+  fixture.request.body.adapter.manifest_hash = manifest.manifest_hash;
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("trusted adapter evaluation must not call a network dependency");
+  };
+
+  try {
+    const first = await invokeJson(decideHandler, fixture.request);
+    const second = await invokeJson(decideHandler, fixture.request);
+    assert.equal(first.statusCode, fixture.expect.statusCode, "trusted adapter status mismatch");
+    assert.equal(first.json?.verdict, fixture.expect.decision, "trusted adapter decision mismatch");
+    assert.equal(first.json?.application_verdict, fixture.expect.application_verdict, "trusted adapter verdict mismatch");
+    assert.equal(first.json?.action, fixture.expect.action, "trusted adapter action mismatch");
+    assert.equal(first.json?.reason_code, fixture.expect.reason_code, "trusted adapter reason mismatch");
+    assert.equal(first.json?.matched_rule_id, fixture.expect.matched_rule_id, "trusted adapter matched rule mismatch");
+    assert.equal(first.json?.adapter_facts?.decision_score, fixture.expect.decision_score, "adapter score mismatch");
+    assert.equal(
+      first.json?.adapter_facts?.decision_edge_points,
+      fixture.expect.decision_edge_points,
+      "adapter edge mismatch"
+    );
+    assert.equal(first.json?.adapter_facts?.confidence_pct, fixture.expect.confidence_pct, "adapter confidence mismatch");
+    assert.equal(first.json?.trusted_adapter?.adapter_id, "solana_execution_gate", "adapter id missing");
+    assert.equal(first.json?.trusted_adapter?.version, "1.0.0", "adapter version missing");
+    assert.equal(
+      first.json?.trusted_adapter?.implementation_hash,
+      manifest.implementation_hash,
+      "adapter implementation hash mismatch"
+    );
+    assert.equal(first.json?.trusted_adapter?.manifest_hash, manifest.manifest_hash, "adapter manifest hash mismatch");
+    assert.equal(typeof first.json?.trusted_adapter?.input_hash, "string", "adapter input hash missing");
+    assert.equal(typeof first.json?.trusted_adapter?.output_hash, "string", "adapter output hash missing");
+    assert.equal(
+      first.json?.trusted_adapter?.execution_isolation,
+      "worker_thread_one_shot_v1",
+      "adapter execution isolation missing"
+    );
+    assert.equal(
+      first.json?.trusted_adapter?.capability_enforcement,
+      "ambient_capability_deny_v1",
+      "adapter capability enforcement missing"
+    );
+    assert.equal(first.json?.trusted_adapter?.execution_timeout_ms, 250, "adapter timeout attestation mismatch");
+    assert.deepEqual(
+      {
+        verdict: second.json?.application_verdict,
+        score: second.json?.adapter_facts?.decision_score,
+        input_hash: second.json?.trusted_adapter?.input_hash,
+        output_hash: second.json?.trusted_adapter?.output_hash,
+      },
+      {
+        verdict: first.json?.application_verdict,
+        score: first.json?.adapter_facts?.decision_score,
+        input_hash: first.json?.trusted_adapter?.input_hash,
+        output_hash: first.json?.trusted_adapter?.output_hash,
+      },
+      "same adapter, input, and rulebook must reproduce the same semantic facts"
+    );
+    assert.equal(fetchCalled, false, "trusted adapter evaluation unexpectedly called a network dependency");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+function testTrustedAdapterCapabilityAudit() {
+  const denied = auditTrustedAdapterImplementation(function forbiddenAdapter() {
+    return { observed_at: Date.now(), random: Math.random(), secret: process.env.SECRET };
+  });
+  assert.equal(denied.ok, false, "forbidden ambient capabilities should fail registration audit");
+  assert.deepEqual(
+    denied.denied_capabilities,
+    ["clock_access", "environment_access", "randomness_access"],
+    "capability audit should report each denied ambient dependency"
+  );
+}
+
+async function testDecideTrustedAdapterRejectsManifestDrift() {
+  const fixture = loadFixture("decide-trusted-adapter-v1.json");
+  fixture.request.body.adapter.manifest_hash = "0".repeat(64);
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+
+  try {
+    const result = await invokeJson(decideHandler, fixture.request);
+    assert.equal(result.statusCode, 422, "adapter manifest mismatch status mismatch");
+    assert.equal(
+      result.json?.error,
+      "TRUSTED_ADAPTER_MANIFEST_MISMATCH",
+      "adapter manifest mismatch error missing"
+    );
+  } finally {
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+async function testDecideTrustedAdapterRejectsExecutablePayloadFields() {
+  const fixture = loadFixture("decide-trusted-adapter-v1.json");
+  const manifest = getTrustedAdapterManifest("solana_execution_gate", "1.0.0");
+  const request = JSON.parse(JSON.stringify(fixture.request));
+  request.body.adapter.manifest_hash = manifest.manifest_hash;
+  request.body.adapter.code = "return normalizedFacts";
+  request.body.adapter.handler = "solanaExecutionGateV1";
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("executable adapter payload must not call a network dependency");
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, request);
+    assert.equal(result.statusCode, 422, "executable adapter payload status mismatch");
+    assert.equal(result.json?.error, "TRUSTED_ADAPTER_INVALID", "executable adapter payload error mismatch");
+    assertUnknownField(result.json?.errors, "adapter.code", "executable adapter payload");
+    assertUnknownField(result.json?.errors, "adapter.handler", "executable adapter payload");
+    assert.equal(fetchCalled, false, "executable adapter payload unexpectedly called a network dependency");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+async function testDecideTrustedAdapterRejectsExecutableInputFields() {
+  const fixture = loadFixture("decide-trusted-adapter-v1.json");
+  const manifest = getTrustedAdapterManifest("solana_execution_gate", "1.0.0");
+  const request = JSON.parse(JSON.stringify(fixture.request));
+  request.body.adapter.manifest_hash = manifest.manifest_hash;
+  request.body.adapter.input.script = "return process.env";
+  request.body.adapter.input.wasm = "base64-module";
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+
+  try {
+    const result = await invokeJson(decideHandler, request);
+    assert.equal(result.statusCode, 422, "executable adapter input status mismatch");
+    assert.equal(result.json?.error, "TRUSTED_ADAPTER_INPUT_INVALID", "executable adapter input error mismatch");
+    assertUnknownField(result.json?.errors, "adapter.input.script", "executable adapter input");
+    assertUnknownField(result.json?.errors, "adapter.input.wasm", "executable adapter input");
+  } finally {
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+function testRulebookRuntimeArchitectureDoc() {
+  const architecturePath = join(__dirname, "..", "docs", "RULEBOOK_RUNTIME_ARCHITECTURE.md");
+  assert.ok(existsSync(architecturePath), "rulebook runtime architecture doc is missing");
+  const architecture = readFileSync(architecturePath, "utf8");
+  const readme = readFileSync(join(__dirname, "..", "README.md"), "utf8");
+  assert.ok(architecture.includes("Status: Accepted"), "runtime architecture doc must record accepted status");
+  assert.ok(
+    architecture.includes("Rulebook v1 is the public production determinism contract"),
+    "runtime architecture doc must name Rulebook v1 as the public deterministic core"
+  );
+  assert.ok(
+    architecture.includes("Customer-supplied executable rulebooks do not run inside Decide"),
+    "runtime architecture doc must reject customer executable rulebooks"
+  );
+  assert.ok(
+    architecture.includes("Trusted adapters may emit facts, but they do not select the binding verdict"),
+    "runtime architecture doc must keep trusted adapters out of verdict selection"
+  );
+  assert.ok(
+    readme.includes("docs/RULEBOOK_RUNTIME_ARCHITECTURE.md"),
+    "README must link the runtime architecture decision"
+  );
 }
 
 async function testDecideModelFallbackOrder() {
@@ -429,6 +784,16 @@ async function main() {
     ["decide-single", testDecideSingleFixture],
     ["decide-api-key", testDecideApiKeyFixture],
     ["decide-runtime", testDecideRuntimeFixture],
+    ["decide-rulebook-v1", testDecideRulebookFixture],
+    ["decide-rulebook-missing-input", testDecideRulebookMissingInput],
+    ["decide-rulebook-rejects-executable-operator", testDecideRulebookRejectsExecutableOperator],
+    ["decide-rulebook-rejects-executable-payload-fields", testDecideRulebookRejectsExecutablePayloadFields],
+    ["decide-trusted-adapter-v1", testDecideTrustedAdapterFixture],
+    ["trusted-adapter-capability-audit", testTrustedAdapterCapabilityAudit],
+    ["decide-trusted-adapter-manifest-drift", testDecideTrustedAdapterRejectsManifestDrift],
+    ["decide-trusted-adapter-rejects-executable-payload-fields", testDecideTrustedAdapterRejectsExecutablePayloadFields],
+    ["decide-trusted-adapter-rejects-executable-input-fields", testDecideTrustedAdapterRejectsExecutableInputFields],
+    ["rulebook-runtime-architecture-doc", testRulebookRuntimeArchitectureDoc],
     ["decide-model-fallback-order", testDecideModelFallbackOrder],
     ["decide-model-fallback-empty-text", testDecideModelFallbackOnEmptyText],
     ["decide-extended-fallback-order", testDecideExtendedFallbackOrder],

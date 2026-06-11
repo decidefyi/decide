@@ -1,6 +1,8 @@
 import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../lib/rate-limit.js";
 import { persistLog } from "../lib/log.js";
 import { buildSourceHash, withLineage } from "../lib/lineage.js";
+import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
+import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
 import { timingSafeEqual } from "node:crypto";
 
 // Rate limiter: 20 requests per minute per IP
@@ -404,15 +406,18 @@ function readTrustedProxyContext(req) {
 function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
   res.statusCode = statusCode;
   res.setHeader("Content-Type", "application/json");
-  const sourceHash = buildSourceHash({
-    policy: DECIDE_POLICY_VERSION,
-    mode: lineageInput.mode || "single",
-    question: lineageInput.question || "",
-    stem: lineageInput.stem || "",
-    options: Array.isArray(lineageInput.options) ? lineageInput.options : [],
-  });
+  const policyVersion = String(lineageInput.policyVersion || DECIDE_POLICY_VERSION);
+  const sourceHash =
+    String(lineageInput.sourceHash || "") ||
+    buildSourceHash({
+      policy: policyVersion,
+      mode: lineageInput.mode || "single",
+      question: lineageInput.question || "",
+      stem: lineageInput.stem || "",
+      options: Array.isArray(lineageInput.options) ? lineageInput.options : [],
+    });
   res.end(JSON.stringify(withLineage(payload, {
-    policyVersion: DECIDE_POLICY_VERSION,
+    policyVersion,
     sourceHash,
   })));
 }
@@ -501,10 +506,140 @@ export default async function handler(req, res) {
     const runtimeGoal = String(runtimeContext.goal || "").trim();
     const runtimeOptions = toStringArray(runtimeContext.options, 8);
     const runtimeConstraints = toStringArray(runtimeContext.constraints, 12);
-    const runtimeInputs = asObject(runtimeContext.inputs);
+    let runtimeInputs = asObject(runtimeContext.inputs);
 
     const multiRequested = mode === "multi" || options.length > 0 || question.includes("|");
     const runtimeRequested = Boolean(runtimePrompt && runtimeOptions.length >= 2);
+    const rulebookRequested = mode === "rulebook" || body.rulebook?.schema_version === "rulebook_v1";
+
+    if (rulebookRequested) {
+      let trustedAdapter = null;
+      if (body.adapter !== undefined) {
+        if (Object.keys(runtimeInputs).length > 0) {
+          sendDecisionJson(
+            res,
+            422,
+            {
+              c: "unclear",
+              v: "adapter_input_conflict",
+              request_id,
+              error: "TRUSTED_ADAPTER_INPUT_CONFLICT",
+              message: "Use adapter.input or context.inputs for a rulebook evaluation, not both.",
+            },
+            { mode: "rulebook" }
+          );
+          return;
+        }
+        const adapterEvaluation = await executeTrustedAdapter(body.adapter);
+        if (!adapterEvaluation.ok) {
+          sendDecisionJson(
+            res,
+            adapterEvaluation.statusCode || 422,
+            {
+              c: "unclear",
+              v: "invalid_trusted_adapter",
+              request_id,
+              error: adapterEvaluation.error,
+              message: adapterEvaluation.message,
+              errors: adapterEvaluation.errors,
+              denied_capabilities: adapterEvaluation.denied_capabilities,
+              expected_manifest_hash: adapterEvaluation.expected_manifest_hash,
+              registered_manifest_hash: adapterEvaluation.registered_manifest_hash,
+            },
+            { mode: "rulebook" }
+          );
+          await persistLog("decide_trusted_adapter_request", {
+            request_id,
+            event: "trusted_adapter_validation_failed",
+            adapter_id: String(body.adapter?.adapter_id || ""),
+            adapter_version: String(body.adapter?.version || ""),
+            error: adapterEvaluation.error,
+            ip: clientIp,
+            ua,
+            trusted_proxy: proxyContext.trusted,
+            decide_plan: proxyContext.plan || undefined,
+            customer_id: proxyContext.customerId || undefined,
+          });
+          return;
+        }
+        runtimeInputs = adapterEvaluation.facts;
+        trustedAdapter = adapterEvaluation;
+      }
+
+      const evaluation = evaluateRulebookV1({
+        rulebook: body.rulebook,
+        inputs: runtimeInputs,
+      });
+      if (!evaluation.ok) {
+        sendDecisionJson(
+          res,
+          evaluation.statusCode || 422,
+          {
+            c: "unclear",
+            v: "invalid_rulebook",
+            request_id,
+            error: evaluation.error,
+            message: evaluation.message,
+            errors: evaluation.errors,
+          },
+          { mode: "rulebook" }
+        );
+        await persistLog("decide_rulebook_request", {
+          request_id,
+          event: "rulebook_validation_failed",
+          error_count: evaluation.errors?.length || 0,
+          ip: clientIp,
+          ua,
+          trusted_proxy: proxyContext.trusted,
+          decide_plan: proxyContext.plan || undefined,
+          customer_id: proxyContext.customerId || undefined,
+        });
+        return;
+      }
+
+      const result = {
+        ...evaluation.result,
+        ...(trustedAdapter
+          ? {
+              trusted_adapter: trustedAdapter.attestation,
+              adapter_facts: trustedAdapter.facts,
+            }
+          : {}),
+      };
+      sendDecisionJson(
+        res,
+        200,
+        {
+          ...result,
+          request_id,
+        },
+        {
+          mode: "rulebook",
+          policyVersion: result.rulebook.version,
+          sourceHash: result.rulebook.hash,
+        }
+      );
+      await persistLog("decide_rulebook_request", {
+        request_id,
+        rulebook_id: result.rulebook.id,
+        rulebook_version: result.rulebook.version,
+        rulebook_hash: result.rulebook.hash,
+        verdict: result.verdict,
+        application_verdict: result.application_verdict,
+        action: result.action,
+        reason_code: result.reason_code,
+        matched_rule_id: result.matched_rule_id,
+        adapter_id: result.trusted_adapter?.adapter_id,
+        adapter_version: result.trusted_adapter?.version,
+        adapter_manifest_hash: result.trusted_adapter?.manifest_hash,
+        ip: clientIp,
+        ua,
+        trusted_proxy: proxyContext.trusted,
+        decide_plan: proxyContext.plan || undefined,
+        customer_id: proxyContext.customerId || undefined,
+      });
+      return;
+    }
 
     const API_KEY = process.env.GEMINI_API_KEY;
     if (!API_KEY) {

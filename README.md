@@ -8,6 +8,84 @@
 
 **Positioning:** Decide is the API engine and compatibility surface. Policy MCP Notaries, decision memo packets, execution gates, and future workflow applications are proof surfaces that reuse the same verdict, request ID, and evidence contract.
 
+## Production Determinism Boundary
+
+Binding production verdicts should use a versioned declarative rulebook:
+
+Runtime architecture: see [`docs/RULEBOOK_RUNTIME_ARCHITECTURE.md`](docs/RULEBOOK_RUNTIME_ARCHITECTURE.md).
+
+```json
+{
+  "mode": "rulebook",
+  "rulebook": {
+    "schema_version": "rulebook_v1",
+    "rulebook_id": "pricing_exception",
+    "version": "2026-06-11",
+    "input_schema": {
+      "required": ["discount_percent"],
+      "properties": {
+        "discount_percent": { "type": "number" }
+      }
+    },
+    "rules": [
+      {
+        "rule_id": "approve_standard_discount",
+        "priority": 50,
+        "condition": {
+          "field": "discount_percent",
+          "operator": "lte",
+          "value": 15
+        },
+        "outcome": {
+          "decision": "yes",
+          "verdict": "APPROVE",
+          "action": "approve_discount",
+          "reason_code": "WITHIN_STANDARD_LIMIT"
+        }
+      }
+    ],
+    "default_outcome": {
+      "decision": "review",
+      "verdict": "REVIEW",
+      "action": "route_to_owner",
+      "reason_code": "NO_RULE_MATCHED"
+    }
+  },
+  "context": {
+    "inputs": {
+      "discount_percent": 10
+    }
+  }
+}
+```
+
+`mode: "rulebook"` does not call an LLM. It validates and hashes the rulebook,
+evaluates bounded conditions, and returns normalized `yes`, `no`, or `review`
+alongside the application verdict, action, reason code, matched rule, and
+`evaluator_version`.
+
+At the public Decision Record boundary, successful evaluations are registered
+as immutable tenant-scoped snapshots. Historical replay restores the original
+canonical input and stored rulebook snapshot rather than trusting a caller
+override or the current application deployment.
+
+Rulebook v1 also supports registered first-party trusted adapters for bounded
+fact normalization. Adapter requests pin an exact semantic version and manifest
+hash; responses attest the bundled implementation source hash plus canonical
+input/output hashes and the enforced execution contract. Each invocation runs
+once in an empty-environment worker with hard time/resource limits and denied
+common ambient capabilities. The declarative rulebook remains the only binding
+verdict selector. See [`docs/TRUSTED_ADAPTERS_V1.md`](docs/TRUSTED_ADAPTERS_V1.md).
+
+The legacy `single`, `multi`, and `runtime` modes are AI-assisted surfaces.
+They are not the production determinism boundary for loosely defined business
+judgment.
+
+Architecture:
+
+- [Ecosystem constitution](docs/ECOSYSTEM_CONSTITUTION.md)
+- [Rulebook v1 contract](docs/RULEBOOK_V1.md)
+
 ## One-Click Install
 
 [![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.png)](cursor://anysphere.cursor-deeplink/mcp/install?name=refund-decide&config=eyJ1cmwiOiAiaHR0cHM6Ly9yZWZ1bmQuZGVjaWRlLmZ5aS9hcGkvbWNwIn0=) [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=refund-decide&config=%7B%22type%22%3A%20%22http%22%2C%20%22url%22%3A%20%22https%3A//refund.decide.fyi/api/mcp%22%7D) [![Add to Claude](https://fastmcp.me/badges/claude_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to ChatGPT](https://fastmcp.me/badges/chatgpt_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to Codex](https://fastmcp.me/badges/codex_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to Gemini](https://fastmcp.me/badges/gemini_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients)
