@@ -11,6 +11,14 @@ import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(__dirname, "..");
 const defaultCorpusPath = join(repoRoot, "public", "replay", "rulebook-v1", "index.json");
+const MIGRATION_SCHEMA_VERSION = "rulebook_migration_v1";
+const MIGRATION_STATUSES = new Set(["proposed", "approved", "rejected", "superseded"]);
+const COMPATIBILITY_CLASSES = new Set(["evaluator", "adapter", "rulebook", "public_response", "mixed"]);
+const EXPECTED_DRIFT_POLICIES = new Set(["none", "requires_approval"]);
+
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -41,6 +49,7 @@ Options:
   --allow-drift                               Exit 0 while preserving ok:false on drift/error
   --corpus <path>                             Corpus index path (default: public/replay/rulebook-v1/index.json)
   --fixture <id>                              Replay only one fixture; repeatable
+  --migration <path>                          Load a rulebook_migration_v1 manifest
   --candidate-evaluator-version <label>      Label the evaluator candidate under test
   --candidate-rulebook <rulebook_id>=<path>   Replace matching stored rulebook snapshots; repeatable
   --candidate-adapter <id>@<version>=<hash>   Replace matching adapter dependency; repeatable
@@ -87,7 +96,12 @@ function parseArgs(argv) {
     json: false,
     allowDrift: false,
     corpusPath: defaultCorpusPath,
+    corpusPathExplicit: false,
     fixtureIds: [],
+    migrationPath: null,
+    migrationManifest: null,
+    migration: null,
+    configErrors: [],
     candidateEvaluatorVersion: null,
     candidateRulebooks: new Map(),
     candidateAdapters: new Map(),
@@ -104,9 +118,13 @@ function parseArgs(argv) {
       options.help = true;
     } else if (arg === "--corpus") {
       options.corpusPath = resolveFromRepo(takeValue(argv, index, arg));
+      options.corpusPathExplicit = true;
       index += 1;
     } else if (arg === "--fixture") {
       options.fixtureIds.push(takeValue(argv, index, arg));
+      index += 1;
+    } else if (arg === "--migration") {
+      options.migrationPath = resolveFromRepo(takeValue(argv, index, arg));
       index += 1;
     } else if (arg === "--candidate-evaluator-version") {
       options.candidateEvaluatorVersion = takeValue(argv, index, arg);
@@ -125,6 +143,203 @@ function parseArgs(argv) {
   }
 
   return options;
+}
+
+function uniquePush(list, value) {
+  if (!list.includes(value)) list.push(value);
+}
+
+function pathRelativeToRepo(path) {
+  return path.startsWith(`${repoRoot}/`) ? path.slice(repoRoot.length + 1) : path;
+}
+
+function validateMigrationManifest(manifest, manifestPath) {
+  const errors = [];
+  if (!isPlainObject(manifest)) {
+    return ["Migration manifest must be an object"];
+  }
+  if (manifest.schema_version !== MIGRATION_SCHEMA_VERSION) {
+    errors.push(`Migration manifest schema_version must be ${MIGRATION_SCHEMA_VERSION}`);
+  }
+  if (typeof manifest.migration_id !== "string" || !manifest.migration_id.trim()) {
+    errors.push("Migration manifest migration_id is required");
+  }
+  if (!MIGRATION_STATUSES.has(String(manifest.status || ""))) {
+    errors.push(`Migration manifest status must be one of ${[...MIGRATION_STATUSES].join(", ")}`);
+  }
+  if (!COMPATIBILITY_CLASSES.has(String(manifest.compatibility_class || ""))) {
+    errors.push(`Migration manifest compatibility_class must be one of ${[...COMPATIBILITY_CLASSES].join(", ")}`);
+  }
+  if (manifest.corpus !== undefined && typeof manifest.corpus !== "string") {
+    errors.push("Migration manifest corpus must be a string path when provided");
+  }
+  if (manifest.fixtures !== undefined && !Array.isArray(manifest.fixtures)) {
+    errors.push("Migration manifest fixtures must be an array when provided");
+  }
+  if (Array.isArray(manifest.fixtures)) {
+    manifest.fixtures.forEach((fixture, index) => {
+      if (typeof fixture !== "string" || !fixture.trim()) {
+        errors.push(`Migration manifest fixtures[${index}] must be a non-empty string`);
+      }
+    });
+  }
+
+  const candidate = isPlainObject(manifest.candidate) ? manifest.candidate : {};
+  if (manifest.candidate !== undefined && !isPlainObject(manifest.candidate)) {
+    errors.push("Migration manifest candidate must be an object when provided");
+  }
+  if (candidate.evaluator_version !== undefined && typeof candidate.evaluator_version !== "string") {
+    errors.push("Migration manifest candidate.evaluator_version must be a string when provided");
+  }
+  if (candidate.rulebooks !== undefined && !Array.isArray(candidate.rulebooks)) {
+    errors.push("Migration manifest candidate.rulebooks must be an array when provided");
+  }
+  if (Array.isArray(candidate.rulebooks)) {
+    candidate.rulebooks.forEach((entry, index) => {
+      if (!isPlainObject(entry)) {
+        errors.push(`Migration manifest candidate.rulebooks[${index}] must be an object`);
+        return;
+      }
+      if (typeof entry.rulebook_id !== "string" || !entry.rulebook_id.trim()) {
+        errors.push(`Migration manifest candidate.rulebooks[${index}].rulebook_id is required`);
+      }
+      if (typeof entry.path !== "string" || !entry.path.trim()) {
+        errors.push(`Migration manifest candidate.rulebooks[${index}].path is required`);
+      }
+    });
+  }
+  if (candidate.adapters !== undefined && !Array.isArray(candidate.adapters)) {
+    errors.push("Migration manifest candidate.adapters must be an array when provided");
+  }
+  if (Array.isArray(candidate.adapters)) {
+    candidate.adapters.forEach((entry, index) => {
+      if (!isPlainObject(entry)) {
+        errors.push(`Migration manifest candidate.adapters[${index}] must be an object`);
+        return;
+      }
+      if (typeof entry.adapter_id !== "string" || !entry.adapter_id.trim()) {
+        errors.push(`Migration manifest candidate.adapters[${index}].adapter_id is required`);
+      }
+      if (typeof entry.version !== "string" || !entry.version.trim()) {
+        errors.push(`Migration manifest candidate.adapters[${index}].version is required`);
+      }
+      if (typeof entry.manifest_hash !== "string" || !entry.manifest_hash.trim()) {
+        errors.push(`Migration manifest candidate.adapters[${index}].manifest_hash is required`);
+      }
+    });
+  }
+
+  const expectedDrift = isPlainObject(manifest.expected_drift) ? manifest.expected_drift : {};
+  if (manifest.expected_drift !== undefined && !isPlainObject(manifest.expected_drift)) {
+    errors.push("Migration manifest expected_drift must be an object when provided");
+  }
+  const expectedPolicy = String(expectedDrift.policy || "none");
+  if (!EXPECTED_DRIFT_POLICIES.has(expectedPolicy)) {
+    errors.push(`Migration manifest expected_drift.policy must be one of ${[...EXPECTED_DRIFT_POLICIES].join(", ")}`);
+  }
+  for (const key of ["fixtures", "fields"]) {
+    if (expectedDrift[key] !== undefined && !Array.isArray(expectedDrift[key])) {
+      errors.push(`Migration manifest expected_drift.${key} must be an array when provided`);
+    }
+  }
+
+  const approval = isPlainObject(manifest.approval) ? manifest.approval : {};
+  if (manifest.approval !== undefined && !isPlainObject(manifest.approval)) {
+    errors.push("Migration manifest approval must be an object when provided");
+  }
+  const approvalStatus = String(approval.status || "not_required");
+  if (!["not_required", "pending", "approved", "rejected"].includes(approvalStatus)) {
+    errors.push("Migration manifest approval.status must be not_required, pending, approved, or rejected");
+  }
+  if (approvalStatus === "approved") {
+    if (manifest.status !== "approved") {
+      errors.push("Migration manifest status must be approved when approval.status is approved");
+    }
+    if (typeof approval.approved_by !== "string" || !approval.approved_by.trim()) {
+      errors.push("Migration manifest approval.approved_by is required when approved");
+    }
+    if (typeof approval.approved_at !== "string" || !Number.isFinite(Date.parse(approval.approved_at))) {
+      errors.push("Migration manifest approval.approved_at must be an ISO timestamp when approved");
+    }
+  }
+
+  if (!errors.length && expectedPolicy === "requires_approval" && approvalStatus === "not_required") {
+    errors.push("Migration manifest expected drift requires an approval object");
+  }
+  if (!errors.length && manifestPath) {
+    const normalized = pathRelativeToRepo(manifestPath);
+    if (normalized.includes("..")) {
+      errors.push("Migration manifest path must resolve inside the repository");
+    }
+  }
+  return errors;
+}
+
+function applyMigrationManifest(options) {
+  if (!options.migrationPath) return;
+
+  let manifest = null;
+  try {
+    manifest = loadJson(options.migrationPath);
+  } catch (error) {
+    options.configErrors.push(`Unable to load migration manifest: ${error.message}`);
+    return;
+  }
+
+  options.migrationManifest = manifest;
+  options.configErrors.push(...validateMigrationManifest(manifest, options.migrationPath));
+  const candidate = isPlainObject(manifest.candidate) ? manifest.candidate : {};
+  const expectedDrift = isPlainObject(manifest.expected_drift) ? manifest.expected_drift : {};
+  const approval = isPlainObject(manifest.approval) ? manifest.approval : {};
+
+  options.migration = {
+    schema_version: String(manifest.schema_version || ""),
+    migration_id: String(manifest.migration_id || ""),
+    status: String(manifest.status || ""),
+    compatibility_class: String(manifest.compatibility_class || ""),
+    summary: String(manifest.summary || ""),
+    manifest_path: pathRelativeToRepo(options.migrationPath),
+    expected_drift_policy: String(expectedDrift.policy || "none"),
+    approval_status: String(approval.status || "not_required"),
+    approved_by: approval.approved_by || null,
+    approved_at: approval.approved_at || null,
+  };
+
+  if (typeof manifest.corpus === "string" && manifest.corpus.trim() && !options.corpusPathExplicit) {
+    options.corpusPath = resolveFromRepo(manifest.corpus);
+  }
+  if (Array.isArray(manifest.fixtures)) {
+    for (const fixture of manifest.fixtures) uniquePush(options.fixtureIds, fixture);
+  }
+  if (typeof candidate.evaluator_version === "string" && candidate.evaluator_version.trim()) {
+    options.candidateEvaluatorVersion = candidate.evaluator_version;
+  }
+  if (Array.isArray(candidate.rulebooks)) {
+    for (const entry of candidate.rulebooks) {
+      if (isPlainObject(entry) && typeof entry.rulebook_id === "string" && typeof entry.path === "string") {
+        options.candidateRulebooks.set(entry.rulebook_id, {
+          rulebookId: entry.rulebook_id,
+          path: resolveFromRepo(entry.path),
+        });
+      }
+    }
+  }
+  if (Array.isArray(candidate.adapters)) {
+    for (const entry of candidate.adapters) {
+      if (
+        isPlainObject(entry) &&
+        typeof entry.adapter_id === "string" &&
+        typeof entry.version === "string" &&
+        typeof entry.manifest_hash === "string"
+      ) {
+        options.candidateAdapters.set(entry.adapter_id, {
+          adapterId: entry.adapter_id,
+          version: entry.version,
+          manifestHash: entry.manifest_hash,
+        });
+      }
+    }
+  }
 }
 
 async function evaluateReplayRequest(request, options) {
@@ -274,8 +489,44 @@ function fileNameFromFixtureRef(fixtureRef) {
   return tail;
 }
 
+function classifyDrifts(results, manifest) {
+  const expectedDrift = isPlainObject(manifest?.expected_drift) ? manifest.expected_drift : {};
+  const policy = String(expectedDrift.policy || "none");
+  const expectedFixtures = new Set(Array.isArray(expectedDrift.fixtures) ? expectedDrift.fixtures : []);
+  const expectedFields = new Set(Array.isArray(expectedDrift.fields) ? expectedDrift.fields : []);
+  let expectedDriftCount = 0;
+  let unexpectedDriftCount = 0;
+
+  for (const result of results) {
+    for (const drift of result.drifts || []) {
+      const fixtureMatches = expectedFixtures.size === 0 || expectedFixtures.has(result.id);
+      const fieldMatches = expectedFields.size === 0 || expectedFields.has(drift.field);
+      if (policy !== "none" && fixtureMatches && fieldMatches) {
+        expectedDriftCount += 1;
+      } else {
+        unexpectedDriftCount += 1;
+      }
+    }
+  }
+
+  return {
+    expected_drift_count: expectedDriftCount,
+    unexpected_drift_count: unexpectedDriftCount,
+  };
+}
+
+function migrationIsApproved(migration) {
+  return Boolean(
+    migration &&
+      migration.status === "approved" &&
+      migration.approval_status === "approved" &&
+      migration.approved_by &&
+      migration.approved_at
+  );
+}
+
 async function runDryRun(options) {
-  const configErrors = [];
+  const configErrors = [...(options.configErrors || [])];
   let index = null;
   try {
     index = loadJson(options.corpusPath);
@@ -299,9 +550,14 @@ async function runDryRun(options) {
       drift_count: 0,
       error_count: 0,
       config_errors: configErrors,
+      migration: options.migration,
       candidate_evaluator_version: options.candidateEvaluatorVersion,
       candidate_rulebooks: candidateRulebookIds,
       candidate_adapters: candidateAdapters,
+      gate_passed: false,
+      approval_required: false,
+      expected_drift_count: 0,
+      unexpected_drift_count: 0,
       results: [],
     };
   }
@@ -365,6 +621,19 @@ async function runDryRun(options) {
   const passCount = results.filter((entry) => entry.status === "pass").length;
   const driftCount = results.filter((entry) => entry.status === "drift").length;
   const errorCount = results.filter((entry) => entry.status === "error").length;
+  const driftClassification = classifyDrifts(results, options.migrationManifest);
+  const approvedMigration = migrationIsApproved(options.migration);
+  const approvalRequired = Boolean(
+    options.migration &&
+      driftCount > 0 &&
+      driftClassification.unexpected_drift_count === 0 &&
+      !approvedMigration
+  );
+  const gatePassed = Boolean(
+    configErrors.length === 0 &&
+      errorCount === 0 &&
+      (driftCount === 0 || (options.migration && driftClassification.unexpected_drift_count === 0 && approvedMigration))
+  );
   return {
     ok: configErrors.length === 0 && driftCount === 0 && errorCount === 0,
     corpus_version: index.corpus_version || null,
@@ -375,9 +644,13 @@ async function runDryRun(options) {
     drift_count: driftCount,
     error_count: errorCount,
     config_errors: configErrors,
+    migration: options.migration,
     candidate_evaluator_version: options.candidateEvaluatorVersion,
     candidate_rulebooks: candidateRulebookIds,
     candidate_adapters: candidateAdapters,
+    gate_passed: gatePassed,
+    approval_required: approvalRequired,
+    ...driftClassification,
     results,
   };
 }
@@ -410,6 +683,7 @@ async function main() {
     return;
   }
 
+  applyMigrationManifest(options);
   const report = await runDryRun(options);
   if (options.json) {
     console.log(JSON.stringify(report, null, 2));
@@ -418,6 +692,10 @@ async function main() {
   }
 
   if (report.config_errors.length) process.exit(2);
+  if (report.migration) {
+    if (!report.gate_passed && !options.allowDrift) process.exit(1);
+    return;
+  }
   if (!report.ok && !options.allowDrift) process.exit(1);
 }
 

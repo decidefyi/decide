@@ -23,6 +23,14 @@ Baseline command:
 npm run rulebook:migration-dry-run -- --json
 ```
 
+For release gates, prefer a `rulebook_migration_v1` manifest:
+
+```bash
+npm run rulebook:migration-dry-run -- --migration path/to/migration.json --json
+```
+
+See [Rulebook Migration Manifest v1](RULEBOOK_MIGRATION_MANIFEST_V1.md).
+
 ## Evaluator Migration Example
 
 Scenario: Decide introduces an internal evaluator candidate that optimizes
@@ -127,6 +135,37 @@ Dry-run the candidate rulebook before changing routing:
 
 ```bash
 npm run rulebook:migration-dry-run -- --fixture pricing_exception_direct_approve --candidate-rulebook pricing_exception=rules/pricing-exception-2026-07-01.json --json
+```
+
+Manifest version of the same candidate:
+
+```json
+{
+  "schema_version": "rulebook_migration_v1",
+  "migration_id": "pricing_exception_2026_07_01",
+  "status": "proposed",
+  "compatibility_class": "rulebook",
+  "corpus": "public/replay/rulebook-v1/index.json",
+  "fixtures": ["pricing_exception_direct_approve"],
+  "candidate": {
+    "rulebooks": [
+      {
+        "rulebook_id": "pricing_exception",
+        "path": "rules/pricing-exception-2026-07-01.json"
+      }
+    ]
+  },
+  "expected_drift": {
+    "policy": "requires_approval",
+    "fixtures": ["pricing_exception_direct_approve"],
+    "fields": ["rulebook", "attestation_hash"]
+  },
+  "approval": {
+    "status": "pending",
+    "approved_by": null,
+    "approved_at": null
+  }
+}
 ```
 
 Compatible example: adding an optional input field that no existing rule

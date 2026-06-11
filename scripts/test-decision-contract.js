@@ -1258,10 +1258,16 @@ function testRulebookMigrationDryRunCli() {
   const readme = readFileSync(join(repoRoot, "README.md"), "utf8");
   const compatibilityPolicy = readFileSync(join(repoRoot, "docs", "RULEBOOK_COMPATIBILITY_POLICY.md"), "utf8");
   const migrationExamples = readFileSync(join(repoRoot, "docs", "RULEBOOK_MIGRATION_EXAMPLES.md"), "utf8");
+  const migrationManifestDoc = readFileSync(join(repoRoot, "docs", "RULEBOOK_MIGRATION_MANIFEST_V1.md"), "utf8");
   const command = "npm run rulebook:migration-dry-run";
   assert.ok(readme.includes(command), "README must document the migration dry-run command");
   assert.ok(compatibilityPolicy.includes(command), "compatibility policy must document the migration dry-run command");
   assert.ok(migrationExamples.includes(command), "migration examples must document the migration dry-run command");
+  assert.ok(readme.includes("--migration"), "README must document migration manifest usage");
+  assert.ok(compatibilityPolicy.includes("rulebook_migration_v1"), "compatibility policy must mention migration manifests");
+  assert.ok(migrationExamples.includes("rulebook_migration_v1"), "migration examples must mention migration manifests");
+  assert.ok(migrationManifestDoc.includes("rulebook_migration_v1"), "migration manifest doc must define schema version");
+  assert.ok(migrationManifestDoc.includes("gate_passed"), "migration manifest doc must define gate_passed semantics");
 
   const env = {
     ...process.env,
@@ -1351,6 +1357,61 @@ function testRulebookMigrationDryRunCli() {
   const allowed = JSON.parse(allowedOutput);
   assert.equal(allowed.ok, false, "allow-drift should preserve not-ok report semantics");
   assert.equal(allowed.drift_count, 1, "allow-drift should preserve drift count");
+
+  let pendingManifestReport = null;
+  try {
+    execFileSync(
+      process.execPath,
+      [
+        "scripts/rulebook-migration-dry-run.js",
+        "--json",
+        "--migration",
+        "scripts/fixtures/decision-contract/pricing-exception-2026-07-01-migration-pending.json",
+      ],
+      {
+        cwd: repoRoot,
+        encoding: "utf8",
+        env,
+        stdio: ["ignore", "pipe", "pipe"],
+      }
+    );
+  } catch (error) {
+    pendingManifestReport = JSON.parse(String(error.stdout || ""));
+    assert.equal(error.status, 1, "pending manifest with expected drift should exit 1");
+  }
+  assert.ok(pendingManifestReport, "pending manifest dry-run should fail with a JSON report");
+  assert.equal(pendingManifestReport.migration?.schema_version, "rulebook_migration_v1", "manifest schema mismatch");
+  assert.equal(
+    pendingManifestReport.migration?.migration_id,
+    "pricing_exception_2026_07_01_pending",
+    "manifest id mismatch"
+  );
+  assert.equal(pendingManifestReport.migration?.approval_status, "pending", "pending approval status mismatch");
+  assert.equal(pendingManifestReport.gate_passed, false, "pending manifest gate should block");
+  assert.equal(pendingManifestReport.approval_required, true, "pending manifest should require approval");
+  assert.equal(pendingManifestReport.expected_drift_count, 2, "pending manifest should classify expected drift fields");
+  assert.equal(pendingManifestReport.unexpected_drift_count, 0, "pending manifest should have no unexpected drift");
+
+  const approvedManifestOutput = execFileSync(
+    process.execPath,
+    [
+      "scripts/rulebook-migration-dry-run.js",
+      "--json",
+      "--migration",
+      "scripts/fixtures/decision-contract/pricing-exception-2026-07-01-migration-approved.json",
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env,
+    }
+  );
+  const approvedManifest = JSON.parse(approvedManifestOutput);
+  assert.equal(approvedManifest.ok, false, "approved manifest should still report drift in strict ok semantics");
+  assert.equal(approvedManifest.gate_passed, true, "approved manifest gate should pass expected drift");
+  assert.equal(approvedManifest.migration?.approval_status, "approved", "approved manifest status mismatch");
+  assert.equal(approvedManifest.expected_drift_count, 2, "approved manifest expected drift count mismatch");
+  assert.equal(approvedManifest.unexpected_drift_count, 0, "approved manifest unexpected drift mismatch");
 }
 
 function testRulebookRuntimeArchitectureDoc() {

@@ -155,6 +155,12 @@ changes:
 For proposed versions, use `--candidate-rulebook <rulebook_id>=<path>`,
 `--candidate-adapter <adapter_id>@<version>=<manifest_hash>`, and
 `--candidate-evaluator-version <label>` before changing production routing.
+For release gates, package those fields in a `rulebook_migration_v1` manifest
+and run
+`npm run rulebook:migration-dry-run -- --migration path/to/migration.json --json`
+so expected drift and approval status are explicit.
 
 Use [Rulebook Migration Examples](RULEBOOK_MIGRATION_EXAMPLES.md) as the
 release-template reference for evaluator, adapter, and rulebook changes.
+Use [Rulebook Migration Manifest v1](RULEBOOK_MIGRATION_MANIFEST_V1.md) for the
+machine-readable release-gate contract.

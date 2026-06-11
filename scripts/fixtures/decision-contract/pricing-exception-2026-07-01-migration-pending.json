@@ -1,0 +1,37 @@
+{
+  "schema_version": "rulebook_migration_v1",
+  "migration_id": "pricing_exception_2026_07_01_pending",
+  "status": "proposed",
+  "compatibility_class": "rulebook",
+  "summary": "Lower the standard pricing exception threshold from 15 percent to 12 percent.",
+  "corpus": "public/replay/rulebook-v1/index.json",
+  "fixtures": [
+    "pricing_exception_direct_approve"
+  ],
+  "candidate": {
+    "evaluator_version": "decide_rulebook_v1_1",
+    "rulebooks": [
+      {
+        "rulebook_id": "pricing_exception",
+        "path": "scripts/fixtures/decision-contract/pricing-exception-2026-07-01-rulebook.json"
+      }
+    ],
+    "adapters": []
+  },
+  "expected_drift": {
+    "policy": "requires_approval",
+    "fixtures": [
+      "pricing_exception_direct_approve"
+    ],
+    "fields": [
+      "rulebook",
+      "attestation_hash"
+    ]
+  },
+  "approval": {
+    "status": "pending",
+    "approved_by": null,
+    "approved_at": null,
+    "notes": "This migration demonstrates that the new rulebook must not be silently rebound to old records."
+  }
+}

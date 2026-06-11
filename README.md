@@ -104,6 +104,13 @@ Use `--candidate-rulebook`, `--candidate-adapter`, and
 `--candidate-evaluator-version` to compare proposed migrations against the
 golden replay corpus before production routing changes.
 
+For release gates, prefer a `rulebook_migration_v1` manifest so candidate
+artifacts, expected drift, and approval status are reviewed together:
+
+```bash
+npm run rulebook:migration-dry-run -- --migration path/to/migration.json --json
+```
+
 The legacy `single`, `multi`, and `runtime` modes are AI-assisted surfaces.
 They are not the production determinism boundary for loosely defined business
 judgment.
@@ -114,6 +121,7 @@ Architecture:
 - [Rulebook v1 contract](docs/RULEBOOK_V1.md)
 - [Rulebook compatibility policy](docs/RULEBOOK_COMPATIBILITY_POLICY.md)
 - [Rulebook migration examples](docs/RULEBOOK_MIGRATION_EXAMPLES.md)
+- [Rulebook migration manifest](docs/RULEBOOK_MIGRATION_MANIFEST_V1.md)
 
 ## One-Click Install
 
