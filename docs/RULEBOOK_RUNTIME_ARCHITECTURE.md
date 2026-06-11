@@ -110,6 +110,9 @@ Two Krafthaus application patterns now exercise this architecture:
 - Refund, Trial, Cancel, and Return Policy MCP notaries supply normalized
   policy facts directly to Rulebook v1 and require no trusted adapter.
 
+Evaluator, rulebook, trusted-adapter, replay, and public response migrations are
+governed by [Rulebook Compatibility Policy](RULEBOOK_COMPATIBILITY_POLICY.md).
+
 ## Future Changes
 
 If Decide later supports customer-authored executable policy logic, it must be
@@ -127,4 +130,5 @@ See also:
 
 - [Rulebook v1](RULEBOOK_V1.md)
 - [Trusted Adapters v1](TRUSTED_ADAPTERS_V1.md)
+- [Rulebook Compatibility Policy](RULEBOOK_COMPATIBILITY_POLICY.md)
 - [Ecosystem Constitution](ECOSYSTEM_CONSTITUTION.md)

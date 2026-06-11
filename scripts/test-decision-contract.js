@@ -1097,12 +1097,15 @@ async function testRulebookV1PublicConformanceFixtures() {
 function testRulebookRuntimeArchitectureDoc() {
   const architecturePath = join(__dirname, "..", "docs", "RULEBOOK_RUNTIME_ARCHITECTURE.md");
   const rulebookDocPath = join(__dirname, "..", "docs", "RULEBOOK_V1.md");
+  const compatibilityPolicyPath = join(__dirname, "..", "docs", "RULEBOOK_COMPATIBILITY_POLICY.md");
   const schemaPath = join(__dirname, "..", "public", "schemas", "rulebook-v1.schema.json");
   assert.ok(existsSync(architecturePath), "rulebook runtime architecture doc is missing");
   assert.ok(existsSync(rulebookDocPath), "rulebook contract doc is missing");
+  assert.ok(existsSync(compatibilityPolicyPath), "rulebook compatibility policy doc is missing");
   assert.ok(existsSync(schemaPath), "public Rulebook v1 JSON Schema artifact is missing");
   const architecture = readFileSync(architecturePath, "utf8");
   const rulebookDoc = readFileSync(rulebookDocPath, "utf8");
+  const compatibilityPolicy = readFileSync(compatibilityPolicyPath, "utf8");
   const schema = loadJsonFromRepo("public", "schemas", "rulebook-v1.schema.json");
   const readme = readFileSync(join(__dirname, "..", "README.md"), "utf8");
   assert.ok(architecture.includes("Status: Accepted"), "runtime architecture doc must record accepted status");
@@ -1122,6 +1125,38 @@ function testRulebookRuntimeArchitectureDoc() {
     readme.includes("docs/RULEBOOK_RUNTIME_ARCHITECTURE.md"),
     "README must link the runtime architecture decision"
   );
+  assert.ok(
+    rulebookDoc.includes("RULEBOOK_COMPATIBILITY_POLICY.md"),
+    "rulebook contract doc must link the compatibility policy"
+  );
+  assert.ok(
+    architecture.includes("RULEBOOK_COMPATIBILITY_POLICY.md"),
+    "runtime architecture doc must link the compatibility policy"
+  );
+  assert.ok(
+    readme.includes("docs/RULEBOOK_COMPATIBILITY_POLICY.md"),
+    "README must link the compatibility policy"
+  );
+  for (const requiredCompatibilityMarker of [
+    "Policy version: `compatibility_policy_v1`",
+    "Historical replay never reinterprets stored records with the current evaluator or adapter",
+    "The same `rulebook_id` plus `version` cannot bind to a different canonical rulebook hash",
+    "The same `rulebook_id` plus `version` cannot silently move to a different evaluator version",
+    "Adapter dependency changes require a new adapter version, a new manifest hash, and an explicit rulebook version migration",
+    "Rulebook v1 remains declarative",
+    "Evaluator Migration",
+    "Adapter Migration",
+    "Public API Compatibility",
+    "conformance fixtures",
+    "golden replay corpus",
+    "add optional fields",
+    "remove, rename, or change the meaning"
+  ]) {
+    assert.ok(
+      compatibilityPolicy.includes(requiredCompatibilityMarker),
+      `compatibility policy doc missing marker: ${requiredCompatibilityMarker}`
+    );
+  }
   assert.equal(schema.$id, "https://api.decide.fyi/schemas/rulebook-v1.schema.json", "schema id must use the API origin");
   assert.equal(schema.properties?.schema_version?.const, "rulebook_v1", "schema must lock the Rulebook v1 version");
   assert.equal(schema.additionalProperties, false, "schema root must be closed");
@@ -1244,6 +1279,11 @@ function testRulebookRuntimeArchitectureDoc() {
     rulebookDoc.includes("Migrate a second materially different Krafthaus application"),
     false,
     "rulebook contract doc should not list the completed second-application migration as future work"
+  );
+  assert.equal(
+    rulebookDoc.includes("Define evaluator and adapter migration plus long-term compatibility policy"),
+    false,
+    "rulebook contract doc should not list implemented compatibility policy as future work"
   );
 }
 

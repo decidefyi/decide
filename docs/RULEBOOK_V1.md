@@ -441,6 +441,10 @@ The public Decision Record layer now:
 10. powers the Krafthaus Solana Execution Gate without browser-local verdict
     logic
 
-## Next Contract Work
+## Compatibility Policy
 
-1. Define evaluator and adapter migration plus long-term compatibility policy.
+Evaluator, rulebook, trusted-adapter, replay, and public response migrations are
+governed by [Rulebook Compatibility Policy](RULEBOOK_COMPATIBILITY_POLICY.md).
+
+The current next contract work is to expand the golden replay corpus and publish
+worked migration examples for evaluator, adapter, and rulebook version changes.

@@ -101,6 +101,7 @@ Architecture:
 
 - [Ecosystem constitution](docs/ECOSYSTEM_CONSTITUTION.md)
 - [Rulebook v1 contract](docs/RULEBOOK_V1.md)
+- [Rulebook compatibility policy](docs/RULEBOOK_COMPATIBILITY_POLICY.md)
 
 ## One-Click Install
 

@@ -78,6 +78,19 @@ Historical replay restores the original adapter invocation and immutable
 rulebook snapshot. A different adapter dependency or attestation is rejected
 instead of being reported as a successful reproduction.
 
+## Adapter Migration
+
+Adapter source, implementation revision, input schema, output schema, emitted
+fact semantics, capability contract, timeout/resource limits, and source audit
+requirements are versioned compatibility surfaces. Changing any of them requires
+a new adapter version or manifest hash.
+
+When a rulebook consumes adapter facts, changing the adapter dependency requires
+an explicit rulebook version migration. Existing Decision Records continue to
+replay with the stored adapter attestation and immutable rulebook snapshot.
+
+See [Rulebook Compatibility Policy](RULEBOOK_COMPATIBILITY_POLICY.md).
+
 ## First Production Application
 
 `solana_execution_gate@1.0.0` normalizes bounded Solana treasury facts for the
