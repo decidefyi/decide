@@ -111,6 +111,10 @@ artifacts, expected drift, and approval status are reviewed together:
 npm run rulebook:migration-dry-run -- --migration path/to/migration.json --json
 ```
 
+The manifest schema is published at
+`https://api.decide.fyi/schemas/rulebook-migration-v1.schema.json`, and the dry
+run validates manifests against that closed schema before replay.
+
 The legacy `single`, `multi`, and `runtime` modes are AI-assisted surfaces.
 They are not the production determinism boundary for loosely defined business
 judgment.

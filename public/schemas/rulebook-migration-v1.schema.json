@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.decide.fyi/schemas/rulebook-migration-v1.schema.json",
+  "title": "Decide Rulebook Migration Manifest v1",
+  "description": "Closed release-gate manifest for Decide Rulebook v1 evaluator, adapter, and rulebook migrations.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "migration_id",
+    "status",
+    "compatibility_class",
+    "candidate",
+    "expected_drift",
+    "approval"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "rulebook_migration_v1"
+    },
+    "migration_id": {
+      "$ref": "#/$defs/id"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "approved",
+        "rejected",
+        "superseded"
+      ]
+    },
+    "compatibility_class": {
+      "type": "string",
+      "enum": [
+        "evaluator",
+        "adapter",
+        "rulebook",
+        "public_response",
+        "mixed"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "corpus": {
+      "$ref": "#/$defs/path"
+    },
+    "fixtures": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "maxItems": 200
+    },
+    "candidate": {
+      "type": "object",
+      "properties": {
+        "evaluator_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "rulebooks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/candidate_rulebook"
+          },
+          "maxItems": 100
+        },
+        "adapters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/candidate_adapter"
+          },
+          "maxItems": 100
+        }
+      },
+      "additionalProperties": false
+    },
+    "expected_drift": {
+      "type": "object",
+      "required": [
+        "policy"
+      ],
+      "properties": {
+        "policy": {
+          "type": "string",
+          "enum": [
+            "none",
+            "requires_approval"
+          ]
+        },
+        "fixtures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "maxItems": 200
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "statusCode",
+              "engine",
+              "evaluator_version",
+              "semantic_output",
+              "rulebook",
+              "input_hash",
+              "attestation_hash",
+              "trusted_adapter",
+              "adapter_facts"
+            ]
+          },
+          "maxItems": 20
+        }
+      },
+      "additionalProperties": false
+    },
+    "approval": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_required",
+            "pending",
+            "approved",
+            "rejected"
+          ]
+        },
+        "approved_by": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "approved_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 1000
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.:-]{1,159}$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^(<sha256>|[a-f0-9]{64})$"
+    },
+    "candidate_rulebook": {
+      "type": "object",
+      "required": [
+        "rulebook_id",
+        "path"
+      ],
+      "properties": {
+        "rulebook_id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        }
+      },
+      "additionalProperties": false
+    },
+    "candidate_adapter": {
+      "type": "object",
+      "required": [
+        "adapter_id",
+        "version",
+        "manifest_hash"
+      ],
+      "properties": {
+        "adapter_id": {
+          "$ref": "#/$defs/id"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "manifest_hash": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -29,6 +29,9 @@ For release gates, prefer a `rulebook_migration_v1` manifest:
 npm run rulebook:migration-dry-run -- --migration path/to/migration.json --json
 ```
 
+Manifest schema:
+`https://api.decide.fyi/schemas/rulebook-migration-v1.schema.json`
+
 See [Rulebook Migration Manifest v1](RULEBOOK_MIGRATION_MANIFEST_V1.md).
 
 ## Evaluator Migration Example

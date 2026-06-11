@@ -158,7 +158,10 @@ For proposed versions, use `--candidate-rulebook <rulebook_id>=<path>`,
 For release gates, package those fields in a `rulebook_migration_v1` manifest
 and run
 `npm run rulebook:migration-dry-run -- --migration path/to/migration.json --json`
-so expected drift and approval status are explicit.
+so expected drift and approval status are explicit. The manifest schema is
+published at
+`https://api.decide.fyi/schemas/rulebook-migration-v1.schema.json`; the dry-run
+CLI validates this closed schema before replay.
 
 Use [Rulebook Migration Examples](RULEBOOK_MIGRATION_EXAMPLES.md) as the
 release-template reference for evaluator, adapter, and rulebook changes.

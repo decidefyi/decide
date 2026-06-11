@@ -2,12 +2,16 @@
 
 Status: Accepted release-gate contract
 Schema version: `rulebook_migration_v1`
+JSON Schema: `https://api.decide.fyi/schemas/rulebook-migration-v1.schema.json`
 Effective: 2026-06-11
 
 Rulebook migrations should be described by a machine-readable manifest before
 production routing changes. The manifest is the release-gate wrapper around the
 golden replay corpus: it declares the candidate artifacts, fixture scope,
 expected drift policy, and approval status.
+
+The dry-run CLI validates manifests against the published JSON Schema before it
+loads candidate artifacts or starts replay.
 
 Run a manifest through the dry-run gate:
 

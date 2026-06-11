@@ -1255,15 +1255,34 @@ async function testRulebookV1GoldenReplayCorpus() {
 
 function testRulebookMigrationDryRunCli() {
   const repoRoot = join(__dirname, "..");
+  const migrationManifestSchemaUrl = "https://api.decide.fyi/schemas/rulebook-migration-v1.schema.json";
+  const migrationManifestSchemaPath = join(repoRoot, "public", "schemas", "rulebook-migration-v1.schema.json");
   const readme = readFileSync(join(repoRoot, "README.md"), "utf8");
   const compatibilityPolicy = readFileSync(join(repoRoot, "docs", "RULEBOOK_COMPATIBILITY_POLICY.md"), "utf8");
   const migrationExamples = readFileSync(join(repoRoot, "docs", "RULEBOOK_MIGRATION_EXAMPLES.md"), "utf8");
   const migrationManifestDoc = readFileSync(join(repoRoot, "docs", "RULEBOOK_MIGRATION_MANIFEST_V1.md"), "utf8");
   const command = "npm run rulebook:migration-dry-run";
+  assert.ok(existsSync(migrationManifestSchemaPath), "Rulebook migration manifest JSON Schema must be published");
+  const migrationManifestSchema = loadJsonFromRepo("public", "schemas", "rulebook-migration-v1.schema.json");
+  assert.equal(migrationManifestSchema.$id, migrationManifestSchemaUrl, "migration manifest schema URL mismatch");
+  assert.equal(
+    migrationManifestSchema.properties?.schema_version?.const,
+    "rulebook_migration_v1",
+    "migration manifest schema must pin schema_version"
+  );
+  assert.equal(migrationManifestSchema.additionalProperties, false, "migration manifest schema must be closed");
+  assert.ok(migrationManifestSchema.properties?.candidate?.properties?.rulebooks, "schema missing candidate.rulebooks");
+  assert.ok(migrationManifestSchema.properties?.candidate?.properties?.adapters, "schema missing candidate.adapters");
+  assert.ok(migrationManifestSchema.properties?.expected_drift, "schema missing expected_drift");
+  assert.ok(migrationManifestSchema.properties?.approval, "schema missing approval");
   assert.ok(readme.includes(command), "README must document the migration dry-run command");
   assert.ok(compatibilityPolicy.includes(command), "compatibility policy must document the migration dry-run command");
   assert.ok(migrationExamples.includes(command), "migration examples must document the migration dry-run command");
   assert.ok(readme.includes("--migration"), "README must document migration manifest usage");
+  assert.ok(readme.includes(migrationManifestSchemaUrl), "README must publish migration manifest schema URL");
+  assert.ok(compatibilityPolicy.includes(migrationManifestSchemaUrl), "compatibility policy must publish schema URL");
+  assert.ok(migrationExamples.includes(migrationManifestSchemaUrl), "migration examples must publish schema URL");
+  assert.ok(migrationManifestDoc.includes(migrationManifestSchemaUrl), "migration manifest doc must publish schema URL");
   assert.ok(compatibilityPolicy.includes("rulebook_migration_v1"), "compatibility policy must mention migration manifests");
   assert.ok(migrationExamples.includes("rulebook_migration_v1"), "migration examples must mention migration manifests");
   assert.ok(migrationManifestDoc.includes("rulebook_migration_v1"), "migration manifest doc must define schema version");
@@ -1357,6 +1376,36 @@ function testRulebookMigrationDryRunCli() {
   const allowed = JSON.parse(allowedOutput);
   assert.equal(allowed.ok, false, "allow-drift should preserve not-ok report semantics");
   assert.equal(allowed.drift_count, 1, "allow-drift should preserve drift count");
+
+  let invalidManifestReport = null;
+  try {
+    execFileSync(
+      process.execPath,
+      [
+        "scripts/rulebook-migration-dry-run.js",
+        "--json",
+        "--migration",
+        "scripts/fixtures/decision-contract/invalid-migration-extra-field.json",
+      ],
+      {
+        cwd: repoRoot,
+        encoding: "utf8",
+        env,
+        stdio: ["ignore", "pipe", "pipe"],
+      }
+    );
+  } catch (error) {
+    invalidManifestReport = JSON.parse(String(error.stdout || ""));
+    assert.equal(error.status, 2, "invalid migration manifest should exit 2 before replay");
+  }
+  assert.ok(invalidManifestReport, "invalid manifest dry-run should fail with a JSON report");
+  assert.equal(invalidManifestReport.gate_passed, false, "invalid manifest gate should block");
+  assert.ok(
+    invalidManifestReport.config_errors?.some(
+      (entry) => entry.includes("unexpected") && entry.includes("additionalProperties")
+    ),
+    "invalid manifest should report schema additionalProperties violation"
+  );
 
   let pendingManifestReport = null;
   try {

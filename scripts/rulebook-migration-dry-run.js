@@ -11,6 +11,7 @@ import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(__dirname, "..");
 const defaultCorpusPath = join(repoRoot, "public", "replay", "rulebook-v1", "index.json");
+const migrationManifestSchemaPath = join(repoRoot, "public", "schemas", "rulebook-migration-v1.schema.json");
 const MIGRATION_SCHEMA_VERSION = "rulebook_migration_v1";
 const MIGRATION_STATUSES = new Set(["proposed", "approved", "rejected", "superseded"]);
 const COMPATIBILITY_CLASSES = new Set(["evaluator", "adapter", "rulebook", "public_response", "mixed"]);
@@ -39,6 +40,128 @@ function loadJson(path) {
 
 function resolveFromRepo(path) {
   return isAbsolute(path) ? path : resolve(repoRoot, path);
+}
+
+function resolveLocalSchemaRef(rootSchema, ref) {
+  if (!ref.startsWith("#/")) {
+    throw new Error(`Unsupported schema ref: ${ref}`);
+  }
+  return ref
+    .slice(2)
+    .split("/")
+    .map((segment) => segment.replace(/~1/g, "/").replace(/~0/g, "~"))
+    .reduce((current, segment) => current?.[segment], rootSchema);
+}
+
+function valueType(value) {
+  if (value === null) return "null";
+  if (Array.isArray(value)) return "array";
+  if (Number.isInteger(value)) return "integer";
+  if (typeof value === "number") return "number";
+  return typeof value;
+}
+
+function schemaTypeMatches(value, expectedType) {
+  if (expectedType === "null") return value === null;
+  if (expectedType === "array") return Array.isArray(value);
+  if (expectedType === "object") return isPlainObject(value);
+  if (expectedType === "integer") return Number.isInteger(value);
+  if (expectedType === "number") return typeof value === "number" && Number.isFinite(value);
+  return typeof value === expectedType;
+}
+
+function validateJsonSchemaSubset(value, schema, rootSchema = schema, path = "migration") {
+  if (schema === true) return [];
+  if (schema === false) return [`Migration manifest schema violation at ${path}: schema forbids this value`];
+  if (!isPlainObject(schema)) return [];
+
+  if (schema.$ref) {
+    const referencedSchema = resolveLocalSchemaRef(rootSchema, schema.$ref);
+    if (!referencedSchema) {
+      return [`Migration manifest schema violation at ${path}: unresolved schema ref ${schema.$ref}`];
+    }
+    return validateJsonSchemaSubset(value, referencedSchema, rootSchema, path);
+  }
+
+  const errors = [];
+  if (Object.hasOwn(schema, "const") && !valuesEqual(value, schema.const)) {
+    errors.push(`Migration manifest schema violation at ${path}: expected const ${JSON.stringify(schema.const)}`);
+  }
+  if (Array.isArray(schema.enum) && !schema.enum.some((entry) => valuesEqual(value, entry))) {
+    errors.push(`Migration manifest schema violation at ${path}: expected one of ${schema.enum.join(", ")}`);
+  }
+
+  if (schema.type !== undefined) {
+    const expectedTypes = Array.isArray(schema.type) ? schema.type : [schema.type];
+    if (!expectedTypes.some((entry) => schemaTypeMatches(value, entry))) {
+      errors.push(
+        `Migration manifest schema violation at ${path}: expected type ${expectedTypes.join("|")}, received ${valueType(value)}`
+      );
+      return errors;
+    }
+  }
+
+  if (typeof value === "string") {
+    if (typeof schema.minLength === "number" && value.length < schema.minLength) {
+      errors.push(`Migration manifest schema violation at ${path}: minLength ${schema.minLength}`);
+    }
+    if (typeof schema.maxLength === "number" && value.length > schema.maxLength) {
+      errors.push(`Migration manifest schema violation at ${path}: maxLength ${schema.maxLength}`);
+    }
+    if (typeof schema.pattern === "string" && !new RegExp(schema.pattern).test(value)) {
+      errors.push(`Migration manifest schema violation at ${path}: pattern ${schema.pattern}`);
+    }
+    if (schema.format === "date-time" && !Number.isFinite(Date.parse(value))) {
+      errors.push(`Migration manifest schema violation at ${path}: expected date-time`);
+    }
+  }
+
+  if (Array.isArray(value)) {
+    if (typeof schema.minItems === "number" && value.length < schema.minItems) {
+      errors.push(`Migration manifest schema violation at ${path}: minItems ${schema.minItems}`);
+    }
+    if (typeof schema.maxItems === "number" && value.length > schema.maxItems) {
+      errors.push(`Migration manifest schema violation at ${path}: maxItems ${schema.maxItems}`);
+    }
+    if (schema.items !== undefined) {
+      value.forEach((entry, index) => {
+        errors.push(...validateJsonSchemaSubset(entry, schema.items, rootSchema, `${path}[${index}]`));
+      });
+    }
+  }
+
+  if (isPlainObject(value)) {
+    const properties = isPlainObject(schema.properties) ? schema.properties : {};
+    const required = Array.isArray(schema.required) ? schema.required : [];
+    for (const key of required) {
+      if (!Object.hasOwn(value, key)) {
+        errors.push(`Migration manifest schema violation at ${path}.${key}: required`);
+      }
+    }
+    for (const [key, entry] of Object.entries(value)) {
+      if (Object.hasOwn(properties, key)) {
+        errors.push(...validateJsonSchemaSubset(entry, properties[key], rootSchema, `${path}.${key}`));
+      } else if (schema.additionalProperties === false) {
+        errors.push(`Migration manifest schema violation at ${path}.${key}: additionalProperties forbids field ${key}`);
+      } else if (isPlainObject(schema.additionalProperties)) {
+        errors.push(
+          ...validateJsonSchemaSubset(entry, schema.additionalProperties, rootSchema, `${path}.${key}`)
+        );
+      }
+    }
+  }
+
+  return errors;
+}
+
+function validateMigrationManifestSchema(manifest) {
+  let schema = null;
+  try {
+    schema = loadJson(migrationManifestSchemaPath);
+  } catch (error) {
+    return [`Unable to load migration manifest JSON Schema: ${error.message}`];
+  }
+  return validateJsonSchemaSubset(manifest, schema);
 }
 
 function usage() {
@@ -158,6 +281,7 @@ function validateMigrationManifest(manifest, manifestPath) {
   if (!isPlainObject(manifest)) {
     return ["Migration manifest must be an object"];
   }
+  errors.push(...validateMigrationManifestSchema(manifest));
   if (manifest.schema_version !== MIGRATION_SCHEMA_VERSION) {
     errors.push(`Migration manifest schema_version must be ${MIGRATION_SCHEMA_VERSION}`);
   }

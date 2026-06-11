@@ -1,0 +1,33 @@
+{
+  "schema_version": "rulebook_migration_v1",
+  "migration_id": "invalid_extra_field",
+  "status": "proposed",
+  "compatibility_class": "rulebook",
+  "summary": "Invalid manifest used to prove schema-level closure.",
+  "corpus": "public/replay/rulebook-v1/index.json",
+  "fixtures": [
+    "pricing_exception_direct_approve"
+  ],
+  "candidate": {
+    "evaluator_version": "decide_rulebook_v1_1",
+    "rulebooks": [
+      {
+        "rulebook_id": "pricing_exception",
+        "path": "scripts/fixtures/decision-contract/pricing-exception-2026-07-01-rulebook.json"
+      }
+    ],
+    "adapters": []
+  },
+  "expected_drift": {
+    "policy": "none",
+    "fixtures": [],
+    "fields": []
+  },
+  "approval": {
+    "status": "not_required",
+    "approved_by": null,
+    "approved_at": null,
+    "notes": "Schema closure probe."
+  },
+  "unexpected": true
+}
