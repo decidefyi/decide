@@ -307,12 +307,28 @@ Each successful Rulebook v1 response also includes `rulebook_attestation`:
 - `schema_version`: `rulebook_attestation_v1`
 - `bundle`: canonical semantic execution material
 - `bundle_hash`: SHA-256 over canonical bundle JSON
+- `signature`: Ed25519 signature envelope for `bundle_hash` when a signing key
+  is configured
 
 The bundle contains the engine, evaluator version, rulebook identity and hash,
-input hash, outcome fields, and trusted adapter attestation when present. It is
-not a cryptographic signature; it is the registry attestation that lets callers
-bind a Decision Record to the exact deterministic execution tuple without
-depending on mutable response formatting.
+input hash, outcome fields, and trusted adapter attestation when present. The
+bundle hash lets callers bind a Decision Record to the exact deterministic
+execution tuple without depending on mutable response formatting.
+
+The signature envelope uses schema version
+`rulebook_attestation_signature_v1`, algorithm `Ed25519`, and
+`signed_field: "bundle_hash"`.
+
+- `status: "signed"` means the response includes a base64url signature and
+  active public key metadata.
+- `status: "unsigned"` means no signing key is configured in that environment.
+- `status: "error"` means signing was configured but the key could not be used.
+
+Verification keys are published at:
+
+```http
+GET /.well-known/rulebook-attestation-keys.json
+```
 
 The rulebook ID becomes `policy_id`, and its version becomes `policy_version`.
 The decidesite proxy then incorporates those values into Decision Record v1.
@@ -371,7 +387,8 @@ The public Decision Record layer now:
 
 ## Next Contract Work
 
-1. Add cryptographic signing for `rulebook_attestation.bundle_hash`.
+1. Add key-rotation history and a production guard that can require signed
+   attestations.
 2. Add stronger runtime enforcement for declared adapter capability denial.
 3. Migrate a second materially different Krafthaus application.
 4. Define evaluator and adapter migration plus long-term compatibility policy.

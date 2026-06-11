@@ -1,12 +1,18 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
+import {
+  createHash,
+  createPublicKey,
+  generateKeyPairSync,
+  verify as cryptoVerify,
+} from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import decideHandler from "../api/decide.js";
+import rulebookAttestationKeysHandler from "../api/rulebook-attestation-keys.js";
 import v1PolicyDispatcher from "../api/v1/[policy]/[action].js";
 import zendeskWorkflowDispatcher from "../api/v1/workflows/zendesk/[workflow].js";
 import {
@@ -64,8 +70,18 @@ function sha256(value) {
   return createHash("sha256").update(value).digest("hex");
 }
 
+function verifySignature({ publicKeyPem, bundleHash, signature }) {
+  return cryptoVerify(
+    null,
+    Buffer.from(String(bundleHash || ""), "utf8"),
+    createPublicKey(publicKeyPem),
+    Buffer.from(String(signature || ""), "base64url")
+  );
+}
+
 function assertRulebookAttestation(payload, label) {
   const attestation = payload?.rulebook_attestation;
+  const signature = attestation?.signature;
   assert.equal(attestation?.schema_version, "rulebook_attestation_v1", `${label}: attestation schema mismatch`);
   assert.match(attestation?.bundle_hash || "", /^[a-f0-9]{64}$/, `${label}: attestation bundle hash must be sha256 hex`);
   assert.equal(
@@ -103,6 +119,48 @@ function assertRulebookAttestation(payload, label) {
   } else {
     assert.equal(attestation?.bundle?.trusted_adapter, null, `${label}: attestation trusted adapter should be null`);
   }
+
+  assert.equal(
+    signature?.schema_version,
+    "rulebook_attestation_signature_v1",
+    `${label}: attestation signature schema mismatch`
+  );
+  assert.equal(signature?.algorithm, "Ed25519", `${label}: attestation signature algorithm mismatch`);
+  assert.equal(signature?.signed_field, "bundle_hash", `${label}: attestation signature must cover bundle_hash`);
+  assert.equal(
+    signature?.public_key_url,
+    "https://api.decide.fyi/.well-known/rulebook-attestation-keys.json",
+    `${label}: attestation signature public key URL mismatch`
+  );
+  assert.ok(
+    ["signed", "unsigned"].includes(signature?.status),
+    `${label}: attestation signature status must be signed or unsigned`
+  );
+  if (signature.status === "signed") {
+    assert.equal(typeof signature.key_id, "string", `${label}: signed attestation key id missing`);
+    assert.match(signature.signature || "", /^[A-Za-z0-9_-]+$/, `${label}: signed attestation signature must be base64url`);
+    assert.match(signature.public_key_pem || "", /^-----BEGIN PUBLIC KEY-----/, `${label}: signed attestation public key missing`);
+    assert.equal(
+      verifySignature({
+        publicKeyPem: signature.public_key_pem,
+        bundleHash: attestation.bundle_hash,
+        signature: signature.signature,
+      }),
+      true,
+      `${label}: signed attestation signature verification failed`
+    );
+  } else {
+    assert.equal(signature.signature, null, `${label}: unsigned attestation signature should be null`);
+  }
+}
+
+function generateSigningEnv() {
+  const { privateKey, publicKey } = generateKeyPairSync("ed25519");
+  return {
+    privateKeyPem: privateKey.export({ type: "pkcs8", format: "pem" }),
+    publicKeyPem: publicKey.export({ type: "spki", format: "pem" }),
+    keyId: "contract-test-rulebook-key",
+  };
 }
 
 async function testDecideSingleFixture() {
@@ -363,6 +421,61 @@ async function testDecideRulebookMissingInput() {
   } finally {
     process.env.GEMINI_API_KEY = previousApiKey;
     process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+async function testDecideRulebookAttestationSigning() {
+  const fixture = loadFixture("decide-rulebook-v1.json");
+  const signing = generateSigningEnv();
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  const previousSigningKey = process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+  const previousSigningKeyId = process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = signing.privateKeyPem;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = signing.keyId;
+  global.fetch = async () => {
+    throw new Error("signed rulebook evaluation must not call an LLM");
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, fixture.request);
+    assert.equal(result.statusCode, 200, "signed rulebook status mismatch");
+    assertRulebookAttestation(result.json, "signed rulebook");
+    const signature = result.json?.rulebook_attestation?.signature;
+    assert.equal(signature?.status, "signed", "attestation should be signed when signing key is configured");
+    assert.equal(signature?.key_id, signing.keyId, "attestation signing key id mismatch");
+    assert.equal(signature?.public_key_pem, signing.publicKeyPem, "attestation public key mismatch");
+    assert.equal(
+      verifySignature({
+        publicKeyPem: signing.publicKeyPem,
+        bundleHash: result.json.rulebook_attestation.bundle_hash,
+        signature: signature.signature,
+      }),
+      true,
+      "attestation signature should verify with exported public key"
+    );
+
+    const keys = await invokeJson(rulebookAttestationKeysHandler, {
+      method: "GET",
+      headers: { "user-agent": "contract-test" },
+    });
+    assert.equal(keys.statusCode, 200, "attestation keys status mismatch");
+    assert.equal(keys.json?.schema_version, "rulebook_attestation_keys_v1", "attestation keys schema mismatch");
+    assert.equal(keys.json?.active_key_id, signing.keyId, "active attestation key id mismatch");
+    assert.equal(keys.json?.keys?.[0]?.key_id, signing.keyId, "published attestation key id mismatch");
+    assert.equal(keys.json?.keys?.[0]?.algorithm, "Ed25519", "published attestation key algorithm mismatch");
+    assert.equal(keys.json?.keys?.[0]?.public_key_pem, signing.publicKeyPem, "published attestation public key mismatch");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+    if (previousSigningKey === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = previousSigningKey;
+    if (previousSigningKeyId === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = previousSigningKeyId;
   }
 }
 
@@ -697,6 +810,21 @@ async function testRulebookV1PublicConformanceFixtures() {
         "sha256_hex",
         `${fixtureRef.id}: fixture must declare attestation hash format expectation`
       );
+      assert.equal(
+        fixture.expect.signature?.schema_version,
+        "rulebook_attestation_signature_v1",
+        `${fixtureRef.id}: fixture must declare attestation signature schema expectation`
+      );
+      assert.equal(
+        fixture.expect.signature?.algorithm,
+        "Ed25519",
+        `${fixtureRef.id}: fixture must declare attestation signature algorithm expectation`
+      );
+      assert.equal(
+        fixture.expect.signature?.signed_field,
+        "bundle_hash",
+        `${fixtureRef.id}: fixture must declare attestation signature field expectation`
+      );
       assertRulebookAttestation(first.json, `${fixtureRef.id}: rulebook attestation`);
       assert.deepEqual(
         {
@@ -795,10 +923,31 @@ function testRulebookRuntimeArchitectureDoc() {
     readme.includes("rulebook_attestation_v1"),
     "README must mention the Rulebook v1 attestation bundle"
   );
+  assert.ok(
+    architecture.includes("rulebook_attestation_signature_v1"),
+    "runtime architecture doc must mention the Rulebook v1 signature envelope"
+  );
+  assert.ok(
+    rulebookDoc.includes("rulebook_attestation_signature_v1"),
+    "rulebook contract doc must document the Rulebook v1 signature envelope"
+  );
+  assert.ok(
+    readme.includes("rulebook_attestation_signature_v1"),
+    "README must mention the Rulebook v1 attestation signature"
+  );
+  assert.ok(
+    rulebookDoc.includes("/.well-known/rulebook-attestation-keys.json"),
+    "rulebook contract doc must document the attestation public key endpoint"
+  );
   assert.equal(
     rulebookDoc.includes("Add a signed rulebook bundle or registry attestation"),
     false,
     "rulebook contract doc should not list implemented registry attestation as future work"
+  );
+  assert.equal(
+    rulebookDoc.includes("Add cryptographic signing for `rulebook_attestation.bundle_hash`"),
+    false,
+    "rulebook contract doc should not list implemented attestation signing as future work"
   );
 }
 
@@ -1030,6 +1179,7 @@ async function main() {
     ["decide-runtime", testDecideRuntimeFixture],
     ["decide-rulebook-v1", testDecideRulebookFixture],
     ["decide-rulebook-missing-input", testDecideRulebookMissingInput],
+    ["decide-rulebook-attestation-signing", testDecideRulebookAttestationSigning],
     ["decide-rulebook-rejects-executable-operator", testDecideRulebookRejectsExecutableOperator],
     ["decide-rulebook-rejects-executable-payload-fields", testDecideRulebookRejectsExecutablePayloadFields],
     ["decide-trusted-adapter-v1", testDecideTrustedAdapterFixture],

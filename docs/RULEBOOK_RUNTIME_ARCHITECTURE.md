@@ -25,8 +25,11 @@ Decision Record layer, and replayed from an immutable snapshot.
 Successful Rulebook v1 evaluations include a `rulebook_attestation_v1` registry
 attestation: canonical engine, evaluator, rulebook hash, input hash, outcome,
 and trusted-adapter lineage, plus a SHA-256 `bundle_hash` over that material.
-This is the replay binding surface for downstream Decision Records. It is not
-yet a cryptographic signature.
+This is the replay binding surface for downstream Decision Records.
+Environments with `DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM` configured also
+return a `rulebook_attestation_signature_v1` Ed25519 signature over the
+`bundle_hash`. Verification keys are published at
+`/.well-known/rulebook-attestation-keys.json`.
 
 Customer-supplied executable rulebooks do not run inside Decide.
 
@@ -88,9 +91,11 @@ If Decide later supports customer-authored executable policy logic, it must be
 introduced as a new architecture decision and a new versioned contract. It must
 not be added to Rulebook v1.
 
-If Decide later signs Rulebook v1 attestations, signing must cover the existing
-`rulebook_attestation.bundle_hash` and publish a verifier contract. The unsigned
-registry attestation remains the v1 canonical bundle format.
+Rulebook v1 signing covers the existing `rulebook_attestation.bundle_hash`, not
+the mutable response envelope. The unsigned registry attestation remains the v1
+canonical bundle format for local and development environments. Production
+deployments should configure a signing key and publish the matching public key
+through the well-known verifier endpoint.
 
 See also:
 

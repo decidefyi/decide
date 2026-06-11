@@ -66,6 +66,9 @@ alongside the application verdict, action, reason code, matched rule, and
 `evaluator_version`. Responses also include `input_hash`, a SHA-256 hash of the
 canonical inputs or adapter facts consumed by the declarative evaluator, plus a
 `rulebook_attestation_v1` bundle hash over the deterministic execution tuple.
+Production deployments can sign that bundle hash with a
+`rulebook_attestation_signature_v1` Ed25519 envelope; verification keys are
+published at `/.well-known/rulebook-attestation-keys.json`.
 
 At the public Decision Record boundary, successful evaluations are registered
 as immutable tenant-scoped snapshots. Historical replay restores the original

@@ -165,6 +165,12 @@
       "schema_version": "rulebook_attestation_v1",
       "bundle_hash_format": "sha256_hex"
     },
+    "signature": {
+      "schema_version": "rulebook_attestation_signature_v1",
+      "algorithm": "Ed25519",
+      "signed_field": "bundle_hash",
+      "status": "signed_when_key_configured"
+    },
     "adapter_facts": {
       "decision_score": 91,
       "decision_edge_points": 34,
