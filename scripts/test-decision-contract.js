@@ -1078,6 +1078,36 @@ async function testRulebookV1PublicConformanceFixtures() {
       const second = await invokeJson(decideHandler, request);
       assert.equal(first.json?.engine, "decide_rulebook_v1", `${fixtureRef.id}: engine mismatch`);
       assert.equal(first.json?.rulebook?.schema_version, "rulebook_v1", `${fixtureRef.id}: rulebook schema mismatch`);
+      assert.equal(
+        fixture.expect.rulebook_contract?.schema_url,
+        schema.$id,
+        `${fixtureRef.id}: fixture must declare the Rulebook v1 contract URL`
+      );
+      assert.equal(
+        fixture.expect.rulebook_contract?.schema_hash_format,
+        "sha256_hex",
+        `${fixtureRef.id}: fixture must declare the Rulebook v1 contract hash format`
+      );
+      assert.equal(
+        fixture.expect.rulebook_contract?.evaluator_version,
+        "decide_rulebook_v1",
+        `${fixtureRef.id}: fixture must declare the Rulebook v1 evaluator version`
+      );
+      assert.deepEqual(
+        {
+          schema_version: first.json?.rulebook_contract?.schema_version,
+          schema_url: first.json?.rulebook_contract?.schema_url,
+          schema_hash_format: /^[a-f0-9]{64}$/.test(first.json?.rulebook_contract?.schema_hash || "") ? "sha256_hex" : null,
+          evaluator_version: first.json?.rulebook_contract?.evaluator_version,
+        },
+        {
+          schema_version: "rulebook_v1",
+          schema_url: fixture.expect.rulebook_contract.schema_url,
+          schema_hash_format: fixture.expect.rulebook_contract.schema_hash_format,
+          evaluator_version: fixture.expect.rulebook_contract.evaluator_version,
+        },
+        `${fixtureRef.id}: runtime rulebook contract metadata mismatch`
+      );
       assert.equal(first.json?.verdict, fixture.expect.decision, `${fixtureRef.id}: decision mismatch`);
       assert.equal(first.json?.application_verdict, fixture.expect.application_verdict, `${fixtureRef.id}: application verdict mismatch`);
       assert.equal(first.json?.action, fixture.expect.action, `${fixtureRef.id}: action mismatch`);

@@ -418,6 +418,16 @@ The stable REST responses remain backward compatible and include the complete
 Rulebook v1 result and signed rulebook attestation under `rulebook_result`. MCP
 tool calls expose the same payload as structured content.
 
+## Public Conformance Fixtures
+
+The Rulebook v1 conformance index is published at
+`https://api.decide.fyi/conformance/rulebook-v1/index.json`.
+
+Success fixtures assert deterministic semantic output, `rulebook_contract`
+schema URL/hash/evaluator metadata, registry attestation, signature envelope
+shape, and trusted-adapter facts when present. Rejection fixtures assert
+fail-closed handling for executable-shaped payload fields.
+
 ## Golden Replay Corpus
 
 The Rulebook v1 golden replay corpus is published at

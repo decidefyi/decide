@@ -93,6 +93,11 @@
     "action": "approve_discount",
     "reason_code": "STANDARD_EXCEPTION_ALLOWED",
     "matched_rule_id": "approve_standard_exception",
+    "rulebook_contract": {
+      "schema_url": "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
+      "schema_hash_format": "sha256_hex",
+      "evaluator_version": "decide_rulebook_v1"
+    },
     "attestation": {
       "schema_version": "rulebook_attestation_v1",
       "bundle_hash_format": "sha256_hex"
