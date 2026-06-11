@@ -31,6 +31,12 @@ return a `rulebook_attestation_signature_v1` Ed25519 signature over the
 `bundle_hash`. Verification keys are published at
 `/.well-known/rulebook-attestation-keys.json`.
 
+Production can set `DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED=true` to
+fail closed. With that guard enabled, Rulebook v1 responses must be signed; if
+the signing key is missing or invalid, `/api/decide` returns
+`RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED` instead of a successful unsigned
+decision.
+
 Customer-supplied executable rulebooks do not run inside Decide.
 
 Executable code is allowed only through registered first-party trusted adapters.
@@ -95,7 +101,8 @@ Rulebook v1 signing covers the existing `rulebook_attestation.bundle_hash`, not
 the mutable response envelope. The unsigned registry attestation remains the v1
 canonical bundle format for local and development environments. Production
 deployments should configure a signing key and publish the matching public key
-through the well-known verifier endpoint.
+through the well-known verifier endpoint, then enable
+`DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED=true`.
 
 See also:
 

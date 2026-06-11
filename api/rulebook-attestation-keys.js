@@ -1,4 +1,7 @@
-import { getRulebookAttestationSigningKeys } from "../lib/rulebook-attestation-signing.js";
+import {
+  getRulebookAttestationSigningKeys,
+  isRulebookAttestationSignatureRequired,
+} from "../lib/rulebook-attestation-signing.js";
 
 function sendJson(res, statusCode, payload) {
   res.statusCode = statusCode;
@@ -18,18 +21,27 @@ export default async function handler(req, res) {
     return;
   }
 
+  const signatureRequired = isRulebookAttestationSignatureRequired();
+  const signingKeys = getRulebookAttestationSigningKeys();
   const payload = {
-    ok: true,
-    ...getRulebookAttestationSigningKeys(),
+    ok: !signatureRequired || signingKeys.status === "signed",
+    signature_required: signatureRequired,
+    ...signingKeys,
   };
+  if (signatureRequired && signingKeys.status !== "signed") {
+    payload.error = "RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED";
+    payload.signing_error = signingKeys.error;
+    payload.message = "Rulebook attestation signing is required, but no valid signing key is available.";
+  }
+  const statusCode = payload.ok ? 200 : 503;
 
   if (req.method === "HEAD") {
-    res.statusCode = 200;
+    res.statusCode = statusCode;
     res.setHeader("Content-Type", "application/json");
     res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
     res.end();
     return;
   }
 
-  sendJson(res, 200, payload);
+  sendJson(res, statusCode, payload);
 }

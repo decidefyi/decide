@@ -330,6 +330,12 @@ Verification keys are published at:
 GET /.well-known/rulebook-attestation-keys.json
 ```
 
+Production deployments can require signed Rulebook attestations by setting
+`DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED=true`. When that guard is
+enabled, a Rulebook evaluation without a usable signing key returns HTTP `503`
+with `RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED` instead of returning a successful
+unsigned Decision result.
+
 The rulebook ID becomes `policy_id`, and its version becomes `policy_version`.
 The decidesite proxy then incorporates those values into Decision Record v1.
 
@@ -387,8 +393,7 @@ The public Decision Record layer now:
 
 ## Next Contract Work
 
-1. Add key-rotation history and a production guard that can require signed
-   attestations.
+1. Add key-rotation history for multiple active and retired attestation keys.
 2. Add stronger runtime enforcement for declared adapter capability denial.
 3. Migrate a second materially different Krafthaus application.
 4. Define evaluator and adapter migration plus long-term compatibility policy.

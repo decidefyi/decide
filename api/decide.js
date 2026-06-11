@@ -3,6 +3,7 @@ import { persistLog } from "../lib/log.js";
 import { buildSourceHash, withLineage } from "../lib/lineage.js";
 import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
 import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
+import { isRulebookAttestationSignatureRequired } from "../lib/rulebook-attestation-signing.js";
 import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
 import { timingSafeEqual } from "node:crypto";
 
@@ -608,6 +609,38 @@ export default async function handler(req, res) {
           : {}),
       };
       result.rulebook_attestation = buildRulebookAttestation(result);
+      const attestationSignature = result.rulebook_attestation?.signature;
+      if (isRulebookAttestationSignatureRequired() && attestationSignature?.status !== "signed") {
+        sendDecisionJson(
+          res,
+          503,
+          {
+            c: "unclear",
+            v: "attestation_signature_required",
+            request_id,
+            error: "RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED",
+            message: "Rulebook attestation signing is required, but no valid signing key is available.",
+            signature_status: attestationSignature?.status || "missing",
+            signature_error: attestationSignature?.error,
+          },
+          { mode: "rulebook" }
+        );
+        await persistLog("decide_rulebook_request", {
+          request_id,
+          event: "rulebook_attestation_signature_required_failed",
+          rulebook_id: result.rulebook.id,
+          rulebook_version: result.rulebook.version,
+          rulebook_hash: result.rulebook.hash,
+          signature_status: attestationSignature?.status || "missing",
+          signature_error: attestationSignature?.error,
+          ip: clientIp,
+          ua,
+          trusted_proxy: proxyContext.trusted,
+          decide_plan: proxyContext.plan || undefined,
+          customer_id: proxyContext.customerId || undefined,
+        });
+        return;
+      }
       sendDecisionJson(
         res,
         200,

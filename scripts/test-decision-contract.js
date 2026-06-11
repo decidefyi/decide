@@ -432,10 +432,12 @@ async function testDecideRulebookAttestationSigning() {
   const previousDecideApiKey = process.env.DECIDE_API_KEY;
   const previousSigningKey = process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
   const previousSigningKeyId = process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+  const previousSignatureRequired = process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
   process.env.GEMINI_API_KEY = "";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = signing.privateKeyPem;
   process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = signing.keyId;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = "true";
   global.fetch = async () => {
     throw new Error("signed rulebook evaluation must not call an LLM");
   };
@@ -476,6 +478,51 @@ async function testDecideRulebookAttestationSigning() {
     else process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = previousSigningKey;
     if (previousSigningKeyId === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
     else process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = previousSigningKeyId;
+    if (previousSignatureRequired === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = previousSignatureRequired;
+  }
+}
+
+async function testDecideRulebookRequiresSignedAttestation() {
+  const fixture = loadFixture("decide-rulebook-v1.json");
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  const previousSigningKey = process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+  const previousSigningKeyId = process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+  const previousSignatureRequired = process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  delete process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+  delete process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = "true";
+  global.fetch = async () => {
+    throw new Error("required signed rulebook evaluation must not call an LLM");
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, fixture.request);
+    assert.equal(result.statusCode, 503, "required signed rulebook should fail closed without signing key");
+    assert.equal(result.json?.error, "RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED", "required signature error mismatch");
+    assert.equal(result.json?.signature_status, "unsigned", "required signature status mismatch");
+
+    const keys = await invokeJson(rulebookAttestationKeysHandler, {
+      method: "GET",
+      headers: { "user-agent": "contract-test" },
+    });
+    assert.equal(keys.statusCode, 503, "required attestation keys should fail closed without signing key");
+    assert.equal(keys.json?.error, "RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED", "required keys error mismatch");
+    assert.equal(keys.json?.status, "unsigned", "required keys signature status mismatch");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+    if (previousSigningKey === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = previousSigningKey;
+    if (previousSigningKeyId === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = previousSigningKeyId;
+    if (previousSignatureRequired === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = previousSignatureRequired;
   }
 }
 
@@ -939,6 +986,18 @@ function testRulebookRuntimeArchitectureDoc() {
     rulebookDoc.includes("/.well-known/rulebook-attestation-keys.json"),
     "rulebook contract doc must document the attestation public key endpoint"
   );
+  assert.ok(
+    architecture.includes("DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED=true"),
+    "runtime architecture doc must document the required-signature production guard"
+  );
+  assert.ok(
+    rulebookDoc.includes("DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED=true"),
+    "rulebook contract doc must document the required-signature production guard"
+  );
+  assert.ok(
+    readme.includes("DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED=true"),
+    "README must mention the required-signature production guard"
+  );
   assert.equal(
     rulebookDoc.includes("Add a signed rulebook bundle or registry attestation"),
     false,
@@ -1180,6 +1239,7 @@ async function main() {
     ["decide-rulebook-v1", testDecideRulebookFixture],
     ["decide-rulebook-missing-input", testDecideRulebookMissingInput],
     ["decide-rulebook-attestation-signing", testDecideRulebookAttestationSigning],
+    ["decide-rulebook-requires-signed-attestation", testDecideRulebookRequiresSignedAttestation],
     ["decide-rulebook-rejects-executable-operator", testDecideRulebookRejectsExecutableOperator],
     ["decide-rulebook-rejects-executable-payload-fields", testDecideRulebookRejectsExecutablePayloadFields],
     ["decide-trusted-adapter-v1", testDecideTrustedAdapterFixture],

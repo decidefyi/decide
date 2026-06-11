@@ -68,7 +68,9 @@ canonical inputs or adapter facts consumed by the declarative evaluator, plus a
 `rulebook_attestation_v1` bundle hash over the deterministic execution tuple.
 Production deployments can sign that bundle hash with a
 `rulebook_attestation_signature_v1` Ed25519 envelope; verification keys are
-published at `/.well-known/rulebook-attestation-keys.json`.
+published at `/.well-known/rulebook-attestation-keys.json`. Set
+`DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED=true` in production to fail
+closed instead of returning unsigned Rulebook decisions.
 
 At the public Decision Record boundary, successful evaluations are registered
 as immutable tenant-scoped snapshots. Historical replay restores the original
