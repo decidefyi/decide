@@ -17,6 +17,7 @@ import decideHandler from "../api/decide.js";
 import rulebookAttestationKeysHandler from "../api/rulebook-attestation-keys.js";
 import v1PolicyDispatcher from "../api/v1/[policy]/[action].js";
 import zendeskWorkflowDispatcher from "../api/v1/workflows/zendesk/[workflow].js";
+import { buildRulebookRuntimeManifest } from "../lib/rulebook-runtime-contract.js";
 import {
   auditTrustedAdapterImplementation,
   getTrustedAdapterManifest,
@@ -2776,6 +2777,78 @@ async function testUcpVendorEnumConsistency() {
   }
 }
 
+function testRulebookRuntimeManifest() {
+  const manifestPath = join(__dirname, "..", "public", "manifests", "rulebook-runtime-v1.json");
+  const schemaPath = join(__dirname, "..", "public", "schemas", "rulebook-v1.schema.json");
+  const manifestUrl = "https://api.decide.fyi/manifests/rulebook-runtime-v1.json";
+  assert.ok(existsSync(manifestPath), "public Rulebook runtime manifest is missing");
+
+  const manifest = loadJsonFromRepo("public", "manifests", "rulebook-runtime-v1.json");
+  const schemaText = readFileSync(schemaPath, "utf8");
+  const schema = JSON.parse(schemaText);
+  const conformance = loadPublicRulebookConformanceFixture("index.json");
+  const replay = loadJsonFromRepo("public", "replay", "rulebook-v1", "index.json");
+
+  assert.deepEqual(manifest, buildRulebookRuntimeManifest(), "published runtime manifest is stale");
+  assert.equal(manifest.manifest_version, "rulebook_runtime_manifest_v1", "runtime manifest version mismatch");
+  assert.equal(manifest.manifest_url, manifestUrl, "runtime manifest URL mismatch");
+  assert.deepEqual(
+    manifest.rulebook_contract,
+    {
+      schema_version: schema.properties?.schema_version?.const,
+      schema_url: schema.$id,
+      schema_hash: sha256(schemaText),
+      evaluator_version: schema["x-decide-evaluator-version"],
+    },
+    "runtime manifest must bind the active Rulebook contract"
+  );
+  assert.deepEqual(
+    manifest.execution_model,
+    {
+      binding_verdict_selector: "declarative_rulebook",
+      customer_supplied_code: "rejected",
+      trusted_adapters: "registered_fact_producers",
+    },
+    "runtime manifest must publish the production execution boundary"
+  );
+  assert.deepEqual(
+    manifest.conformance,
+    {
+      index_url: "https://api.decide.fyi/conformance/rulebook-v1/index.json",
+      version: conformance.conformance_version,
+    },
+    "runtime manifest conformance reference mismatch"
+  );
+  assert.deepEqual(
+    manifest.replay,
+    {
+      index_url: "https://api.decide.fyi/replay/rulebook-v1/index.json",
+      corpus_version: replay.corpus_version,
+      contract: replay.replay_contract,
+    },
+    "runtime manifest replay reference mismatch"
+  );
+
+  const readme = readFileSync(join(__dirname, "..", "README.md"), "utf8");
+  const packageJson = loadJsonFromRepo("package.json");
+  const contractWorkflow = readFileSync(
+    join(__dirname, "..", ".github", "workflows", "contract-policy-tests.yml"),
+    "utf8"
+  );
+  assert.ok(readme.includes(manifestUrl), "README must publish the Rulebook runtime manifest URL");
+  assert.equal(
+    packageJson.scripts?.["generate:rulebook-runtime-manifest"],
+    "node scripts/generate-rulebook-runtime-manifest.js",
+    "package scripts must expose the Rulebook runtime manifest generator"
+  );
+  for (const contractPath of ['"public/**"', '"docs/**"', '"README.md"']) {
+    assert.ok(
+      contractWorkflow.includes(contractPath),
+      `contract workflow must run when ${contractPath} changes`
+    );
+  }
+}
+
 async function main() {
   const tests = [
     ["decide-single", testDecideSingleFixture],
@@ -2801,6 +2874,7 @@ async function main() {
     ["rulebook-v1-golden-replay-corpus", testRulebookV1GoldenReplayCorpus],
     ["rulebook-migration-dry-run-cli", testRulebookMigrationDryRunCli],
     ["rulebook-runtime-architecture-doc", testRulebookRuntimeArchitectureDoc],
+    ["rulebook-runtime-manifest", testRulebookRuntimeManifest],
     ["decide-model-fallback-order", testDecideModelFallbackOrder],
     ["decide-model-fallback-empty-text", testDecideModelFallbackOnEmptyText],
     ["decide-extended-fallback-order", testDecideExtendedFallbackOrder],

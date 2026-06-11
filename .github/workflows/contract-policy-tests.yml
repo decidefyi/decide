@@ -7,15 +7,21 @@ on:
       - codex/**
     paths:
       - "api/**"
+      - "docs/**"
       - "lib/**"
+      - "public/**"
       - "scripts/**"
+      - "README.md"
       - "package.json"
       - ".github/workflows/contract-policy-tests.yml"
   pull_request:
     paths:
       - "api/**"
+      - "docs/**"
       - "lib/**"
+      - "public/**"
       - "scripts/**"
+      - "README.md"
       - "package.json"
       - ".github/workflows/contract-policy-tests.yml"
   workflow_dispatch:

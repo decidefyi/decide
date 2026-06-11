@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "generate:golden-replay": "node scripts/generate-golden-replay-corpus.js",
+    "generate:rulebook-runtime-manifest": "node scripts/generate-rulebook-runtime-manifest.js",
     "rulebook:migration-dry-run": "node scripts/rulebook-migration-dry-run.js",
     "smoke": "node scripts/smoke-test.js",
     "smoke:customer-key": "node scripts/customer-key-smoke.js",

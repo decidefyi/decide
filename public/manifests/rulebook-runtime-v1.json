@@ -1,0 +1,24 @@
+{
+  "manifest_version": "rulebook_runtime_manifest_v1",
+  "manifest_url": "https://api.decide.fyi/manifests/rulebook-runtime-v1.json",
+  "rulebook_contract": {
+    "schema_version": "rulebook_v1",
+    "schema_url": "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
+    "schema_hash": "bbf6d40dc8318e4943c6a3955d1ee10c64b63e8a6fdfd53ce33a498d826dfa5c",
+    "evaluator_version": "decide_rulebook_v1"
+  },
+  "execution_model": {
+    "binding_verdict_selector": "declarative_rulebook",
+    "customer_supplied_code": "rejected",
+    "trusted_adapters": "registered_fact_producers"
+  },
+  "conformance": {
+    "index_url": "https://api.decide.fyi/conformance/rulebook-v1/index.json",
+    "version": "rulebook_v1_conformance_v1"
+  },
+  "replay": {
+    "index_url": "https://api.decide.fyi/replay/rulebook-v1/index.json",
+    "corpus_version": "rulebook_v1_golden_replay_v1",
+    "contract": "historical_rulebook_replay_v1"
+  }
+}
