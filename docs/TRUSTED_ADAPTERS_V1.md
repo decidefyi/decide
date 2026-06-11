@@ -21,7 +21,7 @@ selects the outcome.
 {
   "adapter_id": "solana_execution_gate",
   "version": "1.0.0",
-  "manifest_hash": "75f30d8f83aa6cec814ff9f1deeaa71b8599ff5c92637b0f319085f821855f03",
+  "manifest_hash": "372ef38145c68e7a23da626fbe6f33256f868d73d7dfcc04371587765d916623",
   "input": {}
 }
 ```
@@ -49,7 +49,13 @@ execution-isolation, capability-enforcement, and timeout contract.
 
 - canonical adapter input is deep-frozen before execution
 - each invocation runs in a fresh worker thread with an empty environment
-- common ambient network, clock, timer, and randomness globals are denied
+- worker execution arguments are reset, so parent loaders, inspectors, and
+  runtime flags are not inherited
+- environment, high-resolution clock, Web Crypto randomness, network, and timer
+  globals are replaced with locked denial guards before adapter execution
+- denied globals cannot be reassigned by adapter code
+- runtime capability violations return
+  `TRUSTED_ADAPTER_CAPABILITY_DENIED` with the denied capability name
 - a registration-time source audit rejects direct references to denied ambient capabilities
 - the parent runtime enforces a 250 ms hard timeout and worker resource limits
 - output must exactly match the registered schema
@@ -84,6 +90,6 @@ pinned adapter and Rulebook v1.
 Trusted adapters are reviewed code bundled with Decide, not untrusted plugins
 and not a general-purpose or OS-level sandbox. V1 enforces one-shot worker
 isolation, an empty environment, hard time/resource limits, common ambient
-capability denial, and source auditing. A reviewed adapter module could still
-be unsafe if it deliberately bypassed those JavaScript-level controls, so
-registration review remains part of the trust boundary.
+capability denial, locked runtime guards, and source auditing. These controls
+deny the declared ambient globals but do not turn the worker into an OS sandbox,
+so registration review remains part of the trust boundary.

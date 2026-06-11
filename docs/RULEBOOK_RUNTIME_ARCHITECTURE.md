@@ -98,6 +98,11 @@ executable rulebook. It must have:
 
 Worker-thread isolation is an execution guardrail, not an OS sandbox.
 
+The `ambient_capability_deny_v2` runtime locks environment, high-resolution
+clock, Web Crypto randomness, network, and timer globals before invoking the
+adapter. Adapter attempts to use or replace those globals fail with
+`TRUSTED_ADAPTER_CAPABILITY_DENIED`.
+
 ## Future Changes
 
 If Decide later supports customer-authored executable policy logic, it must be

@@ -150,7 +150,7 @@ of `context.inputs`:
   "adapter": {
     "adapter_id": "solana_execution_gate",
     "version": "1.0.0",
-    "manifest_hash": "75f30d8f83aa6cec814ff9f1deeaa71b8599ff5c92637b0f319085f821855f03",
+    "manifest_hash": "372ef38145c68e7a23da626fbe6f33256f868d73d7dfcc04371587765d916623",
     "input": {
       "sol_amount": 48,
       "risk_level": "medium",
@@ -377,6 +377,11 @@ Adapter-backed responses additionally expose:
 - `trusted_adapter.output_hash`
 - `adapter_facts`
 
+The current adapter execution contract is `ambient_capability_deny_v2`.
+Environment, high-resolution clock, Web Crypto randomness, network, and timer
+globals are locked before execution. A runtime violation fails closed with
+`TRUSTED_ADAPTER_CAPABILITY_DENIED`.
+
 The public registry binds one rulebook ID/version to both an evaluator version
 and, when present, one trusted adapter dependency. Adapter drift requires an
 explicit rulebook or adapter version migration.
@@ -420,6 +425,5 @@ The public Decision Record layer now:
 
 ## Next Contract Work
 
-1. Add stronger runtime enforcement for declared adapter capability denial.
-2. Migrate a second materially different Krafthaus application.
-3. Define evaluator and adapter migration plus long-term compatibility policy.
+1. Migrate a second materially different Krafthaus application.
+2. Define evaluator and adapter migration plus long-term compatibility policy.

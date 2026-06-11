@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import {
   createHash,
   createPublicKey,
@@ -10,6 +11,7 @@ import {
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { Worker } from "node:worker_threads";
 
 import decideHandler from "../api/decide.js";
 import rulebookAttestationKeysHandler from "../api/rulebook-attestation-keys.js";
@@ -161,6 +163,49 @@ function generateSigningEnv(keyId = "contract-test-rulebook-key") {
     publicKeyPem: publicKey.export({ type: "spki", format: "pem" }),
     keyId,
   };
+}
+
+function runTrustedAdapterCapabilityRuntimeProbe() {
+  return new Promise((resolve, reject) => {
+    const capabilityModuleUrl = new URL("../lib/trusted-adapter-capabilities.js", import.meta.url).href;
+    const source = `
+      import { parentPort } from "node:worker_threads";
+      import { installDeniedAmbientCapabilities } from ${JSON.stringify(capabilityModuleUrl)};
+
+      const results = {};
+      const probe = (name, operation) => {
+        try {
+          operation();
+          results[name] = "allowed";
+        } catch (error) {
+          results[name] = String(error?.message || error);
+        }
+      };
+
+      installDeniedAmbientCapabilities();
+      probe("environment_access", () => process.env);
+      probe("clock_access", () => performance.now());
+      probe("randomness_access", () => crypto.randomUUID());
+      probe("network_access", () => fetch("https://example.com"));
+      probe("timer_access", () => setImmediate(() => {}));
+      probe("network_override", () => {
+        globalThis.fetch = () => ({ ok: true });
+      });
+      parentPort.postMessage(results);
+    `;
+    const worker = new Worker(new URL(`data:text/javascript,${encodeURIComponent(source)}`), {
+      type: "module",
+      env: {},
+    });
+    worker.once("message", (message) => {
+      void worker.terminate();
+      resolve(message);
+    });
+    worker.once("error", reject);
+    worker.once("exit", (code) => {
+      if (code !== 0) reject(new Error(`capability runtime probe exited with code ${code}`));
+    });
+  });
 }
 
 async function testDecideSingleFixture() {
@@ -753,7 +798,7 @@ async function testDecideTrustedAdapterFixture() {
     );
     assert.equal(
       first.json?.trusted_adapter?.capability_enforcement,
-      "ambient_capability_deny_v1",
+      "ambient_capability_deny_v2",
       "adapter capability enforcement missing"
     );
     assert.equal(first.json?.trusted_adapter?.execution_timeout_ms, 250, "adapter timeout attestation mismatch");
@@ -794,6 +839,44 @@ function testTrustedAdapterCapabilityAudit() {
     ["clock_access", "environment_access", "randomness_access"],
     "capability audit should report each denied ambient dependency"
   );
+}
+
+async function testTrustedAdapterCapabilityRuntimeEnforcement() {
+  const results = await runTrustedAdapterCapabilityRuntimeProbe();
+  assert.match(results.environment_access, /denied ambient capability: environment_access/i);
+  assert.match(results.clock_access, /denied ambient capability: clock_access/i);
+  assert.match(results.randomness_access, /denied ambient capability: randomness_access/i);
+  assert.match(results.network_access, /denied ambient capability: network_access/i);
+  assert.match(results.timer_access, /denied ambient capability: clock_access/i);
+  assert.match(results.network_override, /denied ambient capability: network_access/i);
+}
+
+function testTrustedAdapterColdStartIsolation() {
+  const isolationModuleUrl = new URL("../lib/trusted-adapter-isolation.js", import.meta.url).href;
+  const source = `
+    import { executeTrustedAdapterIsolated } from ${JSON.stringify(isolationModuleUrl)};
+    const result = await executeTrustedAdapterIsolated({
+      adapterId: "solana_execution_gate",
+      version: "1.0.0",
+      input: {
+        sol_amount: 48,
+        risk_level: "medium",
+        evidence_level: "strong",
+        quorum_signed: true,
+        budget_within_policy: true,
+        recipient_verified: true
+      }
+    });
+    if (!result.ok) throw new Error(JSON.stringify(result));
+    console.log(JSON.stringify({ ok: result.ok, decision_score: result.facts.decision_score }));
+  `;
+  const output = execFileSync(process.execPath, ["--input-type=module", "--eval", source], {
+    cwd: join(__dirname, ".."),
+    encoding: "utf8",
+    timeout: 5000,
+  });
+  const result = JSON.parse(output.trim());
+  assert.deepEqual(result, { ok: true, decision_score: 91 }, "cold trusted-adapter worker should execute safely");
 }
 
 async function testDecideTrustedAdapterRejectsManifestDrift() {
@@ -1102,6 +1185,14 @@ function testRulebookRuntimeArchitectureDoc() {
     "runtime architecture doc must document attestation key history"
   );
   assert.ok(
+    architecture.includes("ambient_capability_deny_v2"),
+    "runtime architecture doc must document the enforced trusted-adapter capability contract"
+  );
+  assert.ok(
+    rulebookDoc.includes("TRUSTED_ADAPTER_CAPABILITY_DENIED"),
+    "rulebook contract doc must document trusted-adapter runtime capability denial"
+  );
+  assert.ok(
     rulebookDoc.includes("DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON"),
     "rulebook contract doc must document attestation key history"
   );
@@ -1127,6 +1218,11 @@ function testRulebookRuntimeArchitectureDoc() {
     rulebookDoc.includes("Add key-rotation history for multiple active and retired attestation keys"),
     false,
     "rulebook contract doc should not list implemented attestation key history as future work"
+  );
+  assert.equal(
+    rulebookDoc.includes("Add stronger runtime enforcement for declared adapter capability denial"),
+    false,
+    "rulebook contract doc should not list implemented adapter capability enforcement as future work"
   );
 }
 
@@ -1366,6 +1462,8 @@ async function main() {
     ["decide-rulebook-rejects-executable-payload-fields", testDecideRulebookRejectsExecutablePayloadFields],
     ["decide-trusted-adapter-v1", testDecideTrustedAdapterFixture],
     ["trusted-adapter-capability-audit", testTrustedAdapterCapabilityAudit],
+    ["trusted-adapter-capability-runtime-enforcement", testTrustedAdapterCapabilityRuntimeEnforcement],
+    ["trusted-adapter-cold-start-isolation", testTrustedAdapterColdStartIsolation],
     ["decide-trusted-adapter-manifest-drift", testDecideTrustedAdapterRejectsManifestDrift],
     ["decide-trusted-adapter-rejects-executable-payload-fields", testDecideTrustedAdapterRejectsExecutablePayloadFields],
     ["decide-trusted-adapter-rejects-executable-input-fields", testDecideTrustedAdapterRejectsExecutableInputFields],
