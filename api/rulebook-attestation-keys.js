@@ -24,11 +24,14 @@ export default async function handler(req, res) {
   const signatureRequired = isRulebookAttestationSignatureRequired();
   const signingKeys = getRulebookAttestationSigningKeys();
   const payload = {
-    ok: !signatureRequired || signingKeys.status === "signed",
+    ok: signingKeys.status !== "error" && (!signatureRequired || signingKeys.status === "signed"),
     signature_required: signatureRequired,
     ...signingKeys,
   };
-  if (signatureRequired && signingKeys.status !== "signed") {
+  if (signingKeys.status === "error") {
+    payload.error = signingKeys.error;
+    payload.message = signingKeys.message;
+  } else if (signatureRequired && signingKeys.status !== "signed") {
     payload.error = "RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED";
     payload.signing_error = signingKeys.error;
     payload.message = "Rulebook attestation signing is required, but no valid signing key is available.";

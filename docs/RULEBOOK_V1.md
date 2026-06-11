@@ -330,11 +330,38 @@ Verification keys are published at:
 GET /.well-known/rulebook-attestation-keys.json
 ```
 
+The key endpoint returns `active_key_id`, `key_history_count`, and a `keys`
+array. The active signing key is marked `status: "active"`. Retired verifier
+keys are marked `status: "retired"` and can include `not_before` and
+`not_after` timestamps.
+
 Production deployments can require signed Rulebook attestations by setting
 `DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED=true`. When that guard is
 enabled, a Rulebook evaluation without a usable signing key returns HTTP `503`
 with `RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED` instead of returning a successful
 unsigned Decision result.
+
+Rotated verification keys can be published with
+`DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON`, a JSON array of retired Ed25519
+public keys:
+
+```json
+[
+  {
+    "key_id": "decide-rulebook-attestation-2026-06-01-prod",
+    "algorithm": "Ed25519",
+    "public_key_pem": "-----BEGIN PUBLIC KEY-----\\n...\\n-----END PUBLIC KEY-----",
+    "status": "retired",
+    "not_before": "2026-06-01T00:00:00.000Z",
+    "not_after": "2026-06-11T00:00:00.000Z",
+    "use": "rulebook_attestation_signature"
+  }
+]
+```
+
+Invalid key history is not partially published. The key endpoint returns
+`RULEBOOK_ATTESTATION_KEY_HISTORY_INVALID` until the configured history is
+valid.
 
 The rulebook ID becomes `policy_id`, and its version becomes `policy_version`.
 The decidesite proxy then incorporates those values into Decision Record v1.
@@ -393,7 +420,6 @@ The public Decision Record layer now:
 
 ## Next Contract Work
 
-1. Add key-rotation history for multiple active and retired attestation keys.
-2. Add stronger runtime enforcement for declared adapter capability denial.
-3. Migrate a second materially different Krafthaus application.
-4. Define evaluator and adapter migration plus long-term compatibility policy.
+1. Add stronger runtime enforcement for declared adapter capability denial.
+2. Migrate a second materially different Krafthaus application.
+3. Define evaluator and adapter migration plus long-term compatibility policy.

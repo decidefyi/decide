@@ -70,7 +70,9 @@ Production deployments can sign that bundle hash with a
 `rulebook_attestation_signature_v1` Ed25519 envelope; verification keys are
 published at `/.well-known/rulebook-attestation-keys.json`. Set
 `DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED=true` in production to fail
-closed instead of returning unsigned Rulebook decisions.
+closed instead of returning unsigned Rulebook decisions. Publish retired public
+verification keys with `DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON` so older
+Decision Records remain verifiable after rotation.
 
 At the public Decision Record boundary, successful evaluations are registered
 as immutable tenant-scoped snapshots. Historical replay restores the original

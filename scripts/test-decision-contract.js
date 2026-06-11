@@ -154,12 +154,12 @@ function assertRulebookAttestation(payload, label) {
   }
 }
 
-function generateSigningEnv() {
+function generateSigningEnv(keyId = "contract-test-rulebook-key") {
   const { privateKey, publicKey } = generateKeyPairSync("ed25519");
   return {
     privateKeyPem: privateKey.export({ type: "pkcs8", format: "pem" }),
     publicKeyPem: publicKey.export({ type: "spki", format: "pem" }),
-    keyId: "contract-test-rulebook-key",
+    keyId,
   };
 }
 
@@ -523,6 +523,105 @@ async function testDecideRulebookRequiresSignedAttestation() {
     else process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = previousSigningKeyId;
     if (previousSignatureRequired === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
     else process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = previousSignatureRequired;
+  }
+}
+
+async function testRulebookAttestationPublishesKeyHistory() {
+  const active = generateSigningEnv("contract-test-active-key");
+  const retired = generateSigningEnv("contract-test-retired-key");
+  const previousSigningKey = process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+  const previousSigningKeyId = process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+  const previousSignatureRequired = process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+  const previousKeyHistory = process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = active.privateKeyPem;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = active.keyId;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = "true";
+  process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON = JSON.stringify([
+    {
+      key_id: retired.keyId,
+      algorithm: "Ed25519",
+      public_key_pem: retired.publicKeyPem,
+      status: "retired",
+      not_before: "2026-06-01T00:00:00.000Z",
+      not_after: "2026-06-11T00:00:00.000Z",
+      use: "rulebook_attestation_signature",
+    },
+  ]);
+
+  try {
+    const keys = await invokeJson(rulebookAttestationKeysHandler, {
+      method: "GET",
+      headers: { "user-agent": "contract-test" },
+    });
+    assert.equal(keys.statusCode, 200, "attestation key history status mismatch");
+    assert.equal(keys.json?.schema_version, "rulebook_attestation_keys_v1", "attestation keys schema mismatch");
+    assert.equal(keys.json?.status, "signed", "attestation keys status mismatch");
+    assert.equal(keys.json?.signature_required, true, "attestation keys required flag mismatch");
+    assert.equal(keys.json?.active_key_id, active.keyId, "active attestation key id mismatch");
+    assert.equal(keys.json?.key_history_count, 1, "attestation key history count mismatch");
+    assert.deepEqual(
+      keys.json?.keys?.map((key) => key.key_id),
+      [active.keyId, retired.keyId],
+      "attestation keys should publish active key followed by retired keys"
+    );
+    assert.equal(keys.json?.keys?.[0]?.status, "active", "active key status mismatch");
+    assert.equal(keys.json?.keys?.[1]?.status, "retired", "retired key status mismatch");
+    assert.equal(keys.json?.keys?.[1]?.not_before, "2026-06-01T00:00:00.000Z", "retired key not_before mismatch");
+    assert.equal(keys.json?.keys?.[1]?.not_after, "2026-06-11T00:00:00.000Z", "retired key not_after mismatch");
+    assert.equal(keys.json?.keys?.[1]?.public_key_pem, retired.publicKeyPem.trim(), "retired key public key mismatch");
+  } finally {
+    if (previousSigningKey === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = previousSigningKey;
+    if (previousSigningKeyId === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = previousSigningKeyId;
+    if (previousSignatureRequired === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = previousSignatureRequired;
+    if (previousKeyHistory === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON = previousKeyHistory;
+  }
+}
+
+async function testRulebookAttestationRejectsInvalidKeyHistory() {
+  const active = generateSigningEnv("contract-test-active-key");
+  const previousSigningKey = process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+  const previousSigningKeyId = process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+  const previousSignatureRequired = process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+  const previousKeyHistory = process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = active.privateKeyPem;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = active.keyId;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = "true";
+  process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON = JSON.stringify([
+    {
+      key_id: active.keyId,
+      algorithm: "Ed25519",
+      public_key_pem: active.publicKeyPem,
+      status: "retired",
+    },
+  ]);
+
+  try {
+    const keys = await invokeJson(rulebookAttestationKeysHandler, {
+      method: "GET",
+      headers: { "user-agent": "contract-test" },
+    });
+    assert.equal(keys.statusCode, 503, "invalid attestation key history status mismatch");
+    assert.equal(keys.json?.ok, false, "invalid attestation key history ok mismatch");
+    assert.equal(
+      keys.json?.error,
+      "RULEBOOK_ATTESTATION_KEY_HISTORY_INVALID",
+      "invalid attestation key history error mismatch"
+    );
+    assert.equal(keys.json?.status, "error", "invalid attestation key history signing status mismatch");
+    assert.equal(keys.json?.key_history_count, 0, "invalid attestation key history count mismatch");
+  } finally {
+    if (previousSigningKey === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = previousSigningKey;
+    if (previousSigningKeyId === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = previousSigningKeyId;
+    if (previousSignatureRequired === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = previousSignatureRequired;
+    if (previousKeyHistory === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON = previousKeyHistory;
   }
 }
 
@@ -998,6 +1097,22 @@ function testRulebookRuntimeArchitectureDoc() {
     readme.includes("DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED=true"),
     "README must mention the required-signature production guard"
   );
+  assert.ok(
+    architecture.includes("DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON"),
+    "runtime architecture doc must document attestation key history"
+  );
+  assert.ok(
+    rulebookDoc.includes("DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON"),
+    "rulebook contract doc must document attestation key history"
+  );
+  assert.ok(
+    readme.includes("DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON"),
+    "README must mention attestation key history"
+  );
+  assert.ok(
+    rulebookDoc.includes("key_history_count"),
+    "rulebook contract doc must document the key history count"
+  );
   assert.equal(
     rulebookDoc.includes("Add a signed rulebook bundle or registry attestation"),
     false,
@@ -1007,6 +1122,11 @@ function testRulebookRuntimeArchitectureDoc() {
     rulebookDoc.includes("Add cryptographic signing for `rulebook_attestation.bundle_hash`"),
     false,
     "rulebook contract doc should not list implemented attestation signing as future work"
+  );
+  assert.equal(
+    rulebookDoc.includes("Add key-rotation history for multiple active and retired attestation keys"),
+    false,
+    "rulebook contract doc should not list implemented attestation key history as future work"
   );
 }
 
@@ -1240,6 +1360,8 @@ async function main() {
     ["decide-rulebook-missing-input", testDecideRulebookMissingInput],
     ["decide-rulebook-attestation-signing", testDecideRulebookAttestationSigning],
     ["decide-rulebook-requires-signed-attestation", testDecideRulebookRequiresSignedAttestation],
+    ["rulebook-attestation-key-history", testRulebookAttestationPublishesKeyHistory],
+    ["rulebook-attestation-rejects-invalid-key-history", testRulebookAttestationRejectsInvalidKeyHistory],
     ["decide-rulebook-rejects-executable-operator", testDecideRulebookRejectsExecutableOperator],
     ["decide-rulebook-rejects-executable-payload-fields", testDecideRulebookRejectsExecutablePayloadFields],
     ["decide-trusted-adapter-v1", testDecideTrustedAdapterFixture],

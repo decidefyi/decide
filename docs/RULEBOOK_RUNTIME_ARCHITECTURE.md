@@ -37,6 +37,13 @@ the signing key is missing or invalid, `/api/decide` returns
 `RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED` instead of a successful unsigned
 decision.
 
+Production can publish rotated verifier keys with
+`DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON`. The active key continues to
+sign new responses. Retired keys are published through the same well-known
+endpoint so older Decision Records remain independently verifiable after key
+rotation. Invalid key history fails closed at the verifier endpoint rather than
+publishing a partial or malformed keyset.
+
 Customer-supplied executable rulebooks do not run inside Decide.
 
 Executable code is allowed only through registered first-party trusted adapters.
