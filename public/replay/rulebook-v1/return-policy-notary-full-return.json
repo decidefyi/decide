@@ -1,0 +1,558 @@
+{
+  "corpus_version": "rulebook_v1_golden_replay_v1",
+  "id": "return_policy_notary_full_return",
+  "title": "Return Policy Notary full return approval",
+  "kind": "direct_policy_notary_rulebook",
+  "compatibility_policy": "compatibility_policy_v1",
+  "replay_contract": "historical_rulebook_replay_v1",
+  "recorded_at": "2026-06-11T00:00:00.000Z",
+  "notes": "Direct policy facts for the Return MCP notary without a trusted adapter.",
+  "replay": {
+    "request": {
+      "method": "POST",
+      "path": "/api/decide",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "body": {
+        "mode": "rulebook",
+        "rulebook": {
+          "schema_version": "rulebook_v1",
+          "rulebook_id": "return_policy_notary",
+          "version": "2026-06-11",
+          "input_schema": {
+            "required": [
+              "region_supported",
+              "plan_supported",
+              "vendor_supported",
+              "return_supported",
+              "within_window",
+              "days_since_purchase",
+              "return_window_days",
+              "return_type",
+              "method",
+              "conditions",
+              "vendor",
+              "region",
+              "plan",
+              "policy_rules_version",
+              "policy_source_url",
+              "policy_source_notes"
+            ],
+            "properties": {
+              "region_supported": {
+                "type": "boolean"
+              },
+              "plan_supported": {
+                "type": "boolean"
+              },
+              "vendor_supported": {
+                "type": "boolean"
+              },
+              "return_supported": {
+                "type": "boolean"
+              },
+              "within_window": {
+                "type": "boolean"
+              },
+              "days_since_purchase": {
+                "type": "integer"
+              },
+              "return_window_days": {
+                "type": "integer"
+              },
+              "return_type": {
+                "type": "string"
+              },
+              "method": {
+                "type": "string"
+              },
+              "conditions": {
+                "type": "string"
+              },
+              "vendor": {
+                "type": "string"
+              },
+              "region": {
+                "type": "string"
+              },
+              "plan": {
+                "type": "string"
+              },
+              "policy_rules_version": {
+                "type": "string"
+              },
+              "policy_source_url": {
+                "type": "string"
+              },
+              "policy_source_notes": {
+                "type": "string"
+              }
+            }
+          },
+          "rules": [
+            {
+              "rule_id": "review_unsupported_region",
+              "priority": 500,
+              "condition": {
+                "field": "region_supported",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "UNKNOWN",
+                "action": "request_supported_region",
+                "reason_code": "NON_US_REGION"
+              }
+            },
+            {
+              "rule_id": "review_unsupported_plan",
+              "priority": 490,
+              "condition": {
+                "field": "plan_supported",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "UNKNOWN",
+                "action": "request_supported_plan",
+                "reason_code": "NON_INDIVIDUAL_PLAN"
+              }
+            },
+            {
+              "rule_id": "review_unsupported_vendor",
+              "priority": 480,
+              "condition": {
+                "field": "vendor_supported",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "UNKNOWN",
+                "action": "request_supported_vendor",
+                "reason_code": "UNSUPPORTED_VENDOR"
+              }
+            },
+            {
+              "rule_id": "deny_no_returns",
+              "priority": 300,
+              "condition": {
+                "field": "return_supported",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "no",
+                "verdict": "NON_RETURNABLE",
+                "action": "deny_return",
+                "reason_code": "NO_RETURNS"
+              }
+            },
+            {
+              "rule_id": "allow_prorated_return",
+              "priority": 230,
+              "condition": {
+                "all": [
+                  {
+                    "field": "return_supported",
+                    "operator": "eq",
+                    "value": true
+                  },
+                  {
+                    "field": "within_window",
+                    "operator": "eq",
+                    "value": true
+                  },
+                  {
+                    "field": "return_type",
+                    "operator": "eq",
+                    "value": "prorated"
+                  }
+                ]
+              },
+              "outcome": {
+                "decision": "yes",
+                "verdict": "RETURNABLE",
+                "action": "approve_prorated_return",
+                "reason_code": "PRORATED_RETURN"
+              }
+            },
+            {
+              "rule_id": "allow_credit_return",
+              "priority": 220,
+              "condition": {
+                "all": [
+                  {
+                    "field": "return_supported",
+                    "operator": "eq",
+                    "value": true
+                  },
+                  {
+                    "field": "within_window",
+                    "operator": "eq",
+                    "value": true
+                  },
+                  {
+                    "field": "return_type",
+                    "operator": "eq",
+                    "value": "credit"
+                  }
+                ]
+              },
+              "outcome": {
+                "decision": "yes",
+                "verdict": "RETURNABLE",
+                "action": "approve_credit_return",
+                "reason_code": "CREDIT_RETURN"
+              }
+            },
+            {
+              "rule_id": "allow_full_return",
+              "priority": 210,
+              "condition": {
+                "all": [
+                  {
+                    "field": "return_supported",
+                    "operator": "eq",
+                    "value": true
+                  },
+                  {
+                    "field": "within_window",
+                    "operator": "eq",
+                    "value": true
+                  },
+                  {
+                    "field": "return_type",
+                    "operator": "not_in",
+                    "value": [
+                      "prorated",
+                      "credit"
+                    ]
+                  }
+                ]
+              },
+              "outcome": {
+                "decision": "yes",
+                "verdict": "RETURNABLE",
+                "action": "approve_full_return",
+                "reason_code": "FULL_RETURN"
+              }
+            }
+          ],
+          "default_outcome": {
+            "decision": "no",
+            "verdict": "EXPIRED",
+            "action": "deny_expired_return",
+            "reason_code": "OUTSIDE_WINDOW"
+          }
+        },
+        "context": {
+          "workflow": "return_policy_notary",
+          "source_record_id": "golden_return_adobe_full",
+          "requested_action": "return_eligibility",
+          "inputs": {
+            "region_supported": true,
+            "plan_supported": true,
+            "vendor_supported": true,
+            "return_supported": true,
+            "within_window": true,
+            "days_since_purchase": 12,
+            "return_window_days": 14,
+            "return_type": "full_refund",
+            "method": "self_service",
+            "conditions": "cancel within 14 days",
+            "vendor": "adobe",
+            "region": "US",
+            "plan": "individual",
+            "policy_rules_version": "2026-02-15",
+            "policy_source_url": "https://www.adobe.com/legal/subscription-terms.html",
+            "policy_source_notes": "14-day return window for full refund."
+          }
+        }
+      }
+    },
+    "stored_material": {
+      "evaluator_version": "decide_rulebook_v1",
+      "rulebook_snapshot": {
+        "schema_version": "rulebook_v1",
+        "rulebook_id": "return_policy_notary",
+        "version": "2026-06-11",
+        "input_schema": {
+          "required": [
+            "region_supported",
+            "plan_supported",
+            "vendor_supported",
+            "return_supported",
+            "within_window",
+            "days_since_purchase",
+            "return_window_days",
+            "return_type",
+            "method",
+            "conditions",
+            "vendor",
+            "region",
+            "plan",
+            "policy_rules_version",
+            "policy_source_url",
+            "policy_source_notes"
+          ],
+          "properties": {
+            "region_supported": {
+              "type": "boolean"
+            },
+            "plan_supported": {
+              "type": "boolean"
+            },
+            "vendor_supported": {
+              "type": "boolean"
+            },
+            "return_supported": {
+              "type": "boolean"
+            },
+            "within_window": {
+              "type": "boolean"
+            },
+            "days_since_purchase": {
+              "type": "integer"
+            },
+            "return_window_days": {
+              "type": "integer"
+            },
+            "return_type": {
+              "type": "string"
+            },
+            "method": {
+              "type": "string"
+            },
+            "conditions": {
+              "type": "string"
+            },
+            "vendor": {
+              "type": "string"
+            },
+            "region": {
+              "type": "string"
+            },
+            "plan": {
+              "type": "string"
+            },
+            "policy_rules_version": {
+              "type": "string"
+            },
+            "policy_source_url": {
+              "type": "string"
+            },
+            "policy_source_notes": {
+              "type": "string"
+            }
+          }
+        },
+        "rules": [
+          {
+            "rule_id": "review_unsupported_region",
+            "priority": 500,
+            "condition": {
+              "field": "region_supported",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "UNKNOWN",
+              "action": "request_supported_region",
+              "reason_code": "NON_US_REGION"
+            }
+          },
+          {
+            "rule_id": "review_unsupported_plan",
+            "priority": 490,
+            "condition": {
+              "field": "plan_supported",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "UNKNOWN",
+              "action": "request_supported_plan",
+              "reason_code": "NON_INDIVIDUAL_PLAN"
+            }
+          },
+          {
+            "rule_id": "review_unsupported_vendor",
+            "priority": 480,
+            "condition": {
+              "field": "vendor_supported",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "UNKNOWN",
+              "action": "request_supported_vendor",
+              "reason_code": "UNSUPPORTED_VENDOR"
+            }
+          },
+          {
+            "rule_id": "deny_no_returns",
+            "priority": 300,
+            "condition": {
+              "field": "return_supported",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "no",
+              "verdict": "NON_RETURNABLE",
+              "action": "deny_return",
+              "reason_code": "NO_RETURNS"
+            }
+          },
+          {
+            "rule_id": "allow_prorated_return",
+            "priority": 230,
+            "condition": {
+              "all": [
+                {
+                  "field": "return_supported",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "within_window",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "return_type",
+                  "operator": "eq",
+                  "value": "prorated"
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "RETURNABLE",
+              "action": "approve_prorated_return",
+              "reason_code": "PRORATED_RETURN"
+            }
+          },
+          {
+            "rule_id": "allow_credit_return",
+            "priority": 220,
+            "condition": {
+              "all": [
+                {
+                  "field": "return_supported",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "within_window",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "return_type",
+                  "operator": "eq",
+                  "value": "credit"
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "RETURNABLE",
+              "action": "approve_credit_return",
+              "reason_code": "CREDIT_RETURN"
+            }
+          },
+          {
+            "rule_id": "allow_full_return",
+            "priority": 210,
+            "condition": {
+              "all": [
+                {
+                  "field": "return_supported",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "within_window",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "return_type",
+                  "operator": "not_in",
+                  "value": [
+                    "prorated",
+                    "credit"
+                  ]
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "RETURNABLE",
+              "action": "approve_full_return",
+              "reason_code": "FULL_RETURN"
+            }
+          }
+        ],
+        "default_outcome": {
+          "decision": "no",
+          "verdict": "EXPIRED",
+          "action": "deny_expired_return",
+          "reason_code": "OUTSIDE_WINDOW"
+        }
+      },
+      "canonical_inputs": {
+        "region_supported": true,
+        "plan_supported": true,
+        "vendor_supported": true,
+        "return_supported": true,
+        "within_window": true,
+        "days_since_purchase": 12,
+        "return_window_days": 14,
+        "return_type": "full_refund",
+        "method": "self_service",
+        "conditions": "cancel within 14 days",
+        "vendor": "adobe",
+        "region": "US",
+        "plan": "individual",
+        "policy_rules_version": "2026-02-15",
+        "policy_source_url": "https://www.adobe.com/legal/subscription-terms.html",
+        "policy_source_notes": "14-day return window for full refund."
+      },
+      "trusted_adapter_invocation": null,
+      "trusted_adapter_dependency": null
+    }
+  },
+  "historical_record": {
+    "statusCode": 200,
+    "engine": "decide_rulebook_v1",
+    "evaluator_version": "decide_rulebook_v1",
+    "rulebook": {
+      "schema_version": "rulebook_v1",
+      "id": "return_policy_notary",
+      "version": "2026-06-11",
+      "hash": "7cedef0f3d69a57d131f4014f85d4f57c08609a6e1f0795b9b83a3cc9cdb7365"
+    },
+    "input_hash": "862e8eea2897e4e1ffd85c7bcb53ac99d280f0f0883d4784891dfc67ade5fc68",
+    "rulebook_attestation": {
+      "schema_version": "rulebook_attestation_v1",
+      "bundle_hash": "59b486d0949b40037d35fcf5095b91e3fa969a4634af5635916bd6b0ce3c48b4"
+    },
+    "semantic_output": {
+      "status": "ok",
+      "verdict": "yes",
+      "application_verdict": "RETURNABLE",
+      "action": "approve_full_return",
+      "reason_code": "FULL_RETURN",
+      "matched_rule_id": "allow_full_return"
+    }
+  }
+}

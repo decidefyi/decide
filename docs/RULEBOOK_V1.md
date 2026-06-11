@@ -404,6 +404,20 @@ The stable REST responses remain backward compatible and include the complete
 Rulebook v1 result and signed rulebook attestation under `rulebook_result`. MCP
 tool calls expose the same payload as structured content.
 
+## Golden Replay Corpus
+
+The Rulebook v1 golden replay corpus is published at
+`https://api.decide.fyi/replay/rulebook-v1/index.json`.
+
+- corpus version: `rulebook_v1_golden_replay_v1`
+- replay contract: `historical_rulebook_replay_v1`
+- generator: `npm run generate:golden-replay`
+
+Each fixture freezes the stored rulebook snapshot, evaluator version, direct
+input or trusted-adapter dependency, semantic output, rulebook hash, input hash,
+and attestation bundle hash. Compatibility changes must keep existing corpus
+fixtures replayable before they can ship.
+
 ## Current Production Boundary
 
 `mode: "rulebook"` is the deterministic production evaluation path.
@@ -446,5 +460,8 @@ The public Decision Record layer now:
 Evaluator, rulebook, trusted-adapter, replay, and public response migrations are
 governed by [Rulebook Compatibility Policy](RULEBOOK_COMPATIBILITY_POLICY.md).
 
-The current next contract work is to expand the golden replay corpus and publish
-worked migration examples for evaluator, adapter, and rulebook version changes.
+Worked evaluator, adapter, and rulebook changes are documented in
+[Rulebook Migration Examples](RULEBOOK_MIGRATION_EXAMPLES.md).
+
+The current next contract work is to expand the corpus with customer-specific
+golden records as new production workflows are added.

@@ -46,7 +46,10 @@ Adapter dependency changes require a new adapter version, a new manifest hash, a
 
 An evaluator change is compatible only when existing conformance fixtures and
 the golden replay corpus prove that all existing Rulebook v1 semantic outputs
-are unchanged.
+are unchanged. The current corpus is published at
+`https://api.decide.fyi/replay/rulebook-v1/index.json` with corpus version
+`rulebook_v1_golden_replay_v1` and replay contract
+`historical_rulebook_replay_v1`.
 
 Any change that can affect condition evaluation, priority ordering, lexical
 tie-breaking, schema validation, canonicalization, hashing, default-outcome
@@ -69,6 +72,9 @@ The evaluator migration gate is:
 
 Rollback for new evaluations is a routing or version-selection change back to
 the previous evaluator and rulebook version. Historical replay is unaffected.
+
+Worked evaluator, adapter, and rulebook examples live in
+[Rulebook Migration Examples](RULEBOOK_MIGRATION_EXAMPLES.md).
 
 ## Adapter Migration
 
@@ -144,3 +150,6 @@ changes:
 6. verify registry, attestation, signature, and replay metadata
 7. deploy through explicit versioned references
 8. run production smoke checks against the affected surfaces
+
+Use [Rulebook Migration Examples](RULEBOOK_MIGRATION_EXAMPLES.md) as the
+release-template reference for evaluator, adapter, and rulebook changes.

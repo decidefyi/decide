@@ -1,0 +1,46 @@
+{
+  "corpus_version": "rulebook_v1_golden_replay_v1",
+  "schema_version": "rulebook_v1",
+  "compatibility_policy": "compatibility_policy_v1",
+  "replay_contract": "historical_rulebook_replay_v1",
+  "recorded_at": "2026-06-11T00:00:00.000Z",
+  "description": "Golden Rulebook v1 historical replay corpus. Each fixture freezes a stored rulebook snapshot, evaluator version, input or trusted-adapter dependency, semantic output, rulebook hash, input hash, and attestation bundle hash.",
+  "fixtures": [
+    {
+      "id": "pricing_exception_direct_approve",
+      "title": "Pricing exception direct approval",
+      "kind": "direct_rulebook",
+      "url": "https://api.decide.fyi/replay/rulebook-v1/pricing-exception-direct-approve.json"
+    },
+    {
+      "id": "solana_execution_gate_adapter_approve",
+      "title": "Solana execution gate adapter approval",
+      "kind": "trusted_adapter_rulebook",
+      "url": "https://api.decide.fyi/replay/rulebook-v1/solana-execution-gate-adapter-approve.json"
+    },
+    {
+      "id": "refund_policy_notary_allow",
+      "title": "Refund Policy Notary approval",
+      "kind": "direct_policy_notary_rulebook",
+      "url": "https://api.decide.fyi/replay/rulebook-v1/refund-policy-notary-allow.json"
+    },
+    {
+      "id": "trial_policy_notary_auto_convert",
+      "title": "Trial Policy Notary auto-convert approval",
+      "kind": "direct_policy_notary_rulebook",
+      "url": "https://api.decide.fyi/replay/rulebook-v1/trial-policy-notary-auto-convert.json"
+    },
+    {
+      "id": "cancel_policy_notary_penalty",
+      "title": "Cancel Policy Notary penalty route",
+      "kind": "direct_policy_notary_rulebook",
+      "url": "https://api.decide.fyi/replay/rulebook-v1/cancel-policy-notary-penalty.json"
+    },
+    {
+      "id": "return_policy_notary_full_return",
+      "title": "Return Policy Notary full return approval",
+      "kind": "direct_policy_notary_rulebook",
+      "url": "https://api.decide.fyi/replay/rulebook-v1/return-policy-notary-full-return.json"
+    }
+  ]
+}

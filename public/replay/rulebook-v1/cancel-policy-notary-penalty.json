@@ -1,0 +1,398 @@
+{
+  "corpus_version": "rulebook_v1_golden_replay_v1",
+  "id": "cancel_policy_notary_penalty",
+  "title": "Cancel Policy Notary penalty route",
+  "kind": "direct_policy_notary_rulebook",
+  "compatibility_policy": "compatibility_policy_v1",
+  "replay_contract": "historical_rulebook_replay_v1",
+  "recorded_at": "2026-06-11T00:00:00.000Z",
+  "notes": "Direct policy facts for the Cancel MCP notary without a trusted adapter.",
+  "replay": {
+    "request": {
+      "method": "POST",
+      "path": "/api/decide",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "body": {
+        "mode": "rulebook",
+        "rulebook": {
+          "schema_version": "rulebook_v1",
+          "rulebook_id": "cancel_policy_notary",
+          "version": "2026-06-11",
+          "input_schema": {
+            "required": [
+              "region_supported",
+              "plan_supported",
+              "vendor_supported",
+              "policy",
+              "notice_days",
+              "penalty",
+              "vendor",
+              "region",
+              "plan",
+              "policy_rules_version",
+              "policy_source_url",
+              "policy_source_notes"
+            ],
+            "properties": {
+              "region_supported": {
+                "type": "boolean"
+              },
+              "plan_supported": {
+                "type": "boolean"
+              },
+              "vendor_supported": {
+                "type": "boolean"
+              },
+              "policy": {
+                "type": "string"
+              },
+              "notice_days": {
+                "type": "integer"
+              },
+              "penalty": {
+                "type": "string"
+              },
+              "vendor": {
+                "type": "string"
+              },
+              "region": {
+                "type": "string"
+              },
+              "plan": {
+                "type": "string"
+              },
+              "policy_rules_version": {
+                "type": "string"
+              },
+              "policy_source_url": {
+                "type": "string"
+              },
+              "policy_source_notes": {
+                "type": "string"
+              }
+            }
+          },
+          "rules": [
+            {
+              "rule_id": "review_unsupported_region",
+              "priority": 500,
+              "condition": {
+                "field": "region_supported",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "UNKNOWN",
+                "action": "request_supported_region",
+                "reason_code": "NON_US_REGION"
+              }
+            },
+            {
+              "rule_id": "review_unsupported_plan",
+              "priority": 490,
+              "condition": {
+                "field": "plan_supported",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "UNKNOWN",
+                "action": "request_supported_plan",
+                "reason_code": "NON_INDIVIDUAL_PLAN"
+              }
+            },
+            {
+              "rule_id": "review_unsupported_vendor",
+              "priority": 480,
+              "condition": {
+                "field": "vendor_supported",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "UNKNOWN",
+                "action": "request_supported_vendor",
+                "reason_code": "UNSUPPORTED_VENDOR"
+              }
+            },
+            {
+              "rule_id": "allow_free_cancel",
+              "priority": 300,
+              "condition": {
+                "field": "policy",
+                "operator": "eq",
+                "value": "free_cancel"
+              },
+              "outcome": {
+                "decision": "yes",
+                "verdict": "FREE_CANCEL",
+                "action": "approve_cancellation_without_penalty",
+                "reason_code": "NO_PENALTY"
+              }
+            },
+            {
+              "rule_id": "penalty_early_termination_fee",
+              "priority": 290,
+              "condition": {
+                "field": "policy",
+                "operator": "eq",
+                "value": "etf"
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "PENALTY",
+                "action": "route_early_termination_fee_review",
+                "reason_code": "EARLY_TERMINATION_FEE"
+              }
+            },
+            {
+              "rule_id": "deny_locked_contract",
+              "priority": 280,
+              "condition": {
+                "field": "policy",
+                "operator": "eq",
+                "value": "locked"
+              },
+              "outcome": {
+                "decision": "no",
+                "verdict": "LOCKED",
+                "action": "deny_mid_contract_cancellation",
+                "reason_code": "CONTRACT_LOCKED"
+              }
+            }
+          ],
+          "default_outcome": {
+            "decision": "review",
+            "verdict": "UNKNOWN",
+            "action": "route_cancellation_policy_review",
+            "reason_code": "UNKNOWN_POLICY"
+          }
+        },
+        "context": {
+          "workflow": "cancel_policy_notary",
+          "source_record_id": "golden_cancel_adobe_etf",
+          "requested_action": "cancellation_penalty",
+          "inputs": {
+            "region_supported": true,
+            "plan_supported": true,
+            "vendor_supported": true,
+            "policy": "etf",
+            "notice_days": 0,
+            "penalty": "early_termination_fee",
+            "vendor": "adobe",
+            "region": "US",
+            "plan": "individual",
+            "policy_rules_version": "2026-02-15",
+            "policy_source_url": "https://www.adobe.com/legal/subscription-terms.html",
+            "policy_source_notes": "Annual plan cancellation can trigger an early termination fee."
+          }
+        }
+      }
+    },
+    "stored_material": {
+      "evaluator_version": "decide_rulebook_v1",
+      "rulebook_snapshot": {
+        "schema_version": "rulebook_v1",
+        "rulebook_id": "cancel_policy_notary",
+        "version": "2026-06-11",
+        "input_schema": {
+          "required": [
+            "region_supported",
+            "plan_supported",
+            "vendor_supported",
+            "policy",
+            "notice_days",
+            "penalty",
+            "vendor",
+            "region",
+            "plan",
+            "policy_rules_version",
+            "policy_source_url",
+            "policy_source_notes"
+          ],
+          "properties": {
+            "region_supported": {
+              "type": "boolean"
+            },
+            "plan_supported": {
+              "type": "boolean"
+            },
+            "vendor_supported": {
+              "type": "boolean"
+            },
+            "policy": {
+              "type": "string"
+            },
+            "notice_days": {
+              "type": "integer"
+            },
+            "penalty": {
+              "type": "string"
+            },
+            "vendor": {
+              "type": "string"
+            },
+            "region": {
+              "type": "string"
+            },
+            "plan": {
+              "type": "string"
+            },
+            "policy_rules_version": {
+              "type": "string"
+            },
+            "policy_source_url": {
+              "type": "string"
+            },
+            "policy_source_notes": {
+              "type": "string"
+            }
+          }
+        },
+        "rules": [
+          {
+            "rule_id": "review_unsupported_region",
+            "priority": 500,
+            "condition": {
+              "field": "region_supported",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "UNKNOWN",
+              "action": "request_supported_region",
+              "reason_code": "NON_US_REGION"
+            }
+          },
+          {
+            "rule_id": "review_unsupported_plan",
+            "priority": 490,
+            "condition": {
+              "field": "plan_supported",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "UNKNOWN",
+              "action": "request_supported_plan",
+              "reason_code": "NON_INDIVIDUAL_PLAN"
+            }
+          },
+          {
+            "rule_id": "review_unsupported_vendor",
+            "priority": 480,
+            "condition": {
+              "field": "vendor_supported",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "UNKNOWN",
+              "action": "request_supported_vendor",
+              "reason_code": "UNSUPPORTED_VENDOR"
+            }
+          },
+          {
+            "rule_id": "allow_free_cancel",
+            "priority": 300,
+            "condition": {
+              "field": "policy",
+              "operator": "eq",
+              "value": "free_cancel"
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "FREE_CANCEL",
+              "action": "approve_cancellation_without_penalty",
+              "reason_code": "NO_PENALTY"
+            }
+          },
+          {
+            "rule_id": "penalty_early_termination_fee",
+            "priority": 290,
+            "condition": {
+              "field": "policy",
+              "operator": "eq",
+              "value": "etf"
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "PENALTY",
+              "action": "route_early_termination_fee_review",
+              "reason_code": "EARLY_TERMINATION_FEE"
+            }
+          },
+          {
+            "rule_id": "deny_locked_contract",
+            "priority": 280,
+            "condition": {
+              "field": "policy",
+              "operator": "eq",
+              "value": "locked"
+            },
+            "outcome": {
+              "decision": "no",
+              "verdict": "LOCKED",
+              "action": "deny_mid_contract_cancellation",
+              "reason_code": "CONTRACT_LOCKED"
+            }
+          }
+        ],
+        "default_outcome": {
+          "decision": "review",
+          "verdict": "UNKNOWN",
+          "action": "route_cancellation_policy_review",
+          "reason_code": "UNKNOWN_POLICY"
+        }
+      },
+      "canonical_inputs": {
+        "region_supported": true,
+        "plan_supported": true,
+        "vendor_supported": true,
+        "policy": "etf",
+        "notice_days": 0,
+        "penalty": "early_termination_fee",
+        "vendor": "adobe",
+        "region": "US",
+        "plan": "individual",
+        "policy_rules_version": "2026-02-15",
+        "policy_source_url": "https://www.adobe.com/legal/subscription-terms.html",
+        "policy_source_notes": "Annual plan cancellation can trigger an early termination fee."
+      },
+      "trusted_adapter_invocation": null,
+      "trusted_adapter_dependency": null
+    }
+  },
+  "historical_record": {
+    "statusCode": 200,
+    "engine": "decide_rulebook_v1",
+    "evaluator_version": "decide_rulebook_v1",
+    "rulebook": {
+      "schema_version": "rulebook_v1",
+      "id": "cancel_policy_notary",
+      "version": "2026-06-11",
+      "hash": "9f82769c757cac3fe9f2a8e2e54cef2f2b1f0b4e20d1ce8234ff676944bd60f4"
+    },
+    "input_hash": "ca6365f74f87070cca0661fd310f8daefe64b9380200c76e8f4f1bc1c3ae4cfe",
+    "rulebook_attestation": {
+      "schema_version": "rulebook_attestation_v1",
+      "bundle_hash": "ab13331890184126744d6f7fd22f4aa02a4a7a60c66fc8377bcace34ba7c196e"
+    },
+    "semantic_output": {
+      "status": "ok",
+      "verdict": "review",
+      "application_verdict": "PENALTY",
+      "action": "route_early_termination_fee_review",
+      "reason_code": "EARLY_TERMINATION_FEE",
+      "matched_rule_id": "penalty_early_termination_fee"
+    }
+  }
+}

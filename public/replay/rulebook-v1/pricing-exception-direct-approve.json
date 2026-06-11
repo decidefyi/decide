@@ -1,0 +1,193 @@
+{
+  "corpus_version": "rulebook_v1_golden_replay_v1",
+  "id": "pricing_exception_direct_approve",
+  "title": "Pricing exception direct approval",
+  "kind": "direct_rulebook",
+  "compatibility_policy": "compatibility_policy_v1",
+  "replay_contract": "historical_rulebook_replay_v1",
+  "recorded_at": "2026-06-11T00:00:00.000Z",
+  "notes": "Baseline direct Rulebook v1 decision before CRM or billing state changes.",
+  "replay": {
+    "request": {
+      "method": "POST",
+      "path": "/api/decide",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "body": {
+        "mode": "rulebook",
+        "rulebook": {
+          "schema_version": "rulebook_v1",
+          "rulebook_id": "pricing_exception",
+          "version": "2026-06-11",
+          "input_schema": {
+            "required": [
+              "discount_percent",
+              "margin_percent"
+            ],
+            "properties": {
+              "discount_percent": {
+                "type": "number"
+              },
+              "margin_percent": {
+                "type": "number"
+              }
+            }
+          },
+          "rules": [
+            {
+              "rule_id": "block_below_margin_floor",
+              "priority": 100,
+              "condition": {
+                "field": "margin_percent",
+                "operator": "lt",
+                "value": 15
+              },
+              "outcome": {
+                "decision": "no",
+                "verdict": "BLOCK",
+                "action": "reject_discount",
+                "reason_code": "MARGIN_FLOOR_BREACH"
+              }
+            },
+            {
+              "rule_id": "approve_standard_exception",
+              "priority": 50,
+              "condition": {
+                "all": [
+                  {
+                    "field": "discount_percent",
+                    "operator": "lte",
+                    "value": 15
+                  },
+                  {
+                    "field": "margin_percent",
+                    "operator": "gte",
+                    "value": 15
+                  }
+                ]
+              },
+              "outcome": {
+                "decision": "yes",
+                "verdict": "APPROVE",
+                "action": "approve_discount",
+                "reason_code": "STANDARD_EXCEPTION_ALLOWED"
+              }
+            }
+          ],
+          "default_outcome": {
+            "decision": "review",
+            "verdict": "REVIEW",
+            "action": "route_to_owner",
+            "reason_code": "NO_RULE_MATCHED"
+          }
+        },
+        "context": {
+          "inputs": {
+            "discount_percent": 10,
+            "margin_percent": 22
+          }
+        }
+      }
+    },
+    "stored_material": {
+      "evaluator_version": "decide_rulebook_v1",
+      "rulebook_snapshot": {
+        "schema_version": "rulebook_v1",
+        "rulebook_id": "pricing_exception",
+        "version": "2026-06-11",
+        "input_schema": {
+          "required": [
+            "discount_percent",
+            "margin_percent"
+          ],
+          "properties": {
+            "discount_percent": {
+              "type": "number"
+            },
+            "margin_percent": {
+              "type": "number"
+            }
+          }
+        },
+        "rules": [
+          {
+            "rule_id": "block_below_margin_floor",
+            "priority": 100,
+            "condition": {
+              "field": "margin_percent",
+              "operator": "lt",
+              "value": 15
+            },
+            "outcome": {
+              "decision": "no",
+              "verdict": "BLOCK",
+              "action": "reject_discount",
+              "reason_code": "MARGIN_FLOOR_BREACH"
+            }
+          },
+          {
+            "rule_id": "approve_standard_exception",
+            "priority": 50,
+            "condition": {
+              "all": [
+                {
+                  "field": "discount_percent",
+                  "operator": "lte",
+                  "value": 15
+                },
+                {
+                  "field": "margin_percent",
+                  "operator": "gte",
+                  "value": 15
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "APPROVE",
+              "action": "approve_discount",
+              "reason_code": "STANDARD_EXCEPTION_ALLOWED"
+            }
+          }
+        ],
+        "default_outcome": {
+          "decision": "review",
+          "verdict": "REVIEW",
+          "action": "route_to_owner",
+          "reason_code": "NO_RULE_MATCHED"
+        }
+      },
+      "canonical_inputs": {
+        "discount_percent": 10,
+        "margin_percent": 22
+      },
+      "trusted_adapter_invocation": null,
+      "trusted_adapter_dependency": null
+    }
+  },
+  "historical_record": {
+    "statusCode": 200,
+    "engine": "decide_rulebook_v1",
+    "evaluator_version": "decide_rulebook_v1",
+    "rulebook": {
+      "schema_version": "rulebook_v1",
+      "id": "pricing_exception",
+      "version": "2026-06-11",
+      "hash": "c986eb64d4d724d7a86436458d3d6502a97fea01ef1f7f37c015d94426fb56ee"
+    },
+    "input_hash": "7bf6d37013a2e6dbdd6133995dbb0cb196fadf93b46277d09874916e8b3e3e4e",
+    "rulebook_attestation": {
+      "schema_version": "rulebook_attestation_v1",
+      "bundle_hash": "e8a73060f40dc57e1e537c7e1f8eae4bb672f133b1f3a95684d283257f3e06fa"
+    },
+    "semantic_output": {
+      "status": "ok",
+      "verdict": "yes",
+      "application_verdict": "APPROVE",
+      "action": "approve_discount",
+      "reason_code": "STANDARD_EXCEPTION_ALLOWED",
+      "matched_rule_id": "approve_standard_exception"
+    }
+  }
+}

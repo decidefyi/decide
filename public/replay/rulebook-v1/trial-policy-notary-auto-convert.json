@@ -1,0 +1,426 @@
+{
+  "corpus_version": "rulebook_v1_golden_replay_v1",
+  "id": "trial_policy_notary_auto_convert",
+  "title": "Trial Policy Notary auto-convert approval",
+  "kind": "direct_policy_notary_rulebook",
+  "compatibility_policy": "compatibility_policy_v1",
+  "replay_contract": "historical_rulebook_replay_v1",
+  "recorded_at": "2026-06-11T00:00:00.000Z",
+  "notes": "Direct policy facts for the Trial MCP notary without a trusted adapter.",
+  "replay": {
+    "request": {
+      "method": "POST",
+      "path": "/api/decide",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "body": {
+        "mode": "rulebook",
+        "rulebook": {
+          "schema_version": "rulebook_v1",
+          "rulebook_id": "trial_policy_notary",
+          "version": "2026-06-11",
+          "input_schema": {
+            "required": [
+              "region_supported",
+              "plan_supported",
+              "vendor_supported",
+              "trial_available",
+              "auto_converts",
+              "trial_days",
+              "card_required",
+              "vendor",
+              "region",
+              "plan",
+              "policy_rules_version",
+              "policy_source_url",
+              "policy_source_notes"
+            ],
+            "properties": {
+              "region_supported": {
+                "type": "boolean"
+              },
+              "plan_supported": {
+                "type": "boolean"
+              },
+              "vendor_supported": {
+                "type": "boolean"
+              },
+              "trial_available": {
+                "type": "boolean"
+              },
+              "auto_converts": {
+                "type": "boolean"
+              },
+              "trial_days": {
+                "type": "integer"
+              },
+              "card_required": {
+                "type": "boolean"
+              },
+              "vendor": {
+                "type": "string"
+              },
+              "region": {
+                "type": "string"
+              },
+              "plan": {
+                "type": "string"
+              },
+              "policy_rules_version": {
+                "type": "string"
+              },
+              "policy_source_url": {
+                "type": "string"
+              },
+              "policy_source_notes": {
+                "type": "string"
+              }
+            }
+          },
+          "rules": [
+            {
+              "rule_id": "review_unsupported_region",
+              "priority": 500,
+              "condition": {
+                "field": "region_supported",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "UNKNOWN",
+                "action": "request_supported_region",
+                "reason_code": "NON_US_REGION"
+              }
+            },
+            {
+              "rule_id": "review_unsupported_plan",
+              "priority": 490,
+              "condition": {
+                "field": "plan_supported",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "UNKNOWN",
+                "action": "request_supported_plan",
+                "reason_code": "NON_INDIVIDUAL_PLAN"
+              }
+            },
+            {
+              "rule_id": "review_unsupported_vendor",
+              "priority": 480,
+              "condition": {
+                "field": "vendor_supported",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "UNKNOWN",
+                "action": "request_supported_vendor",
+                "reason_code": "UNSUPPORTED_VENDOR"
+              }
+            },
+            {
+              "rule_id": "deny_no_trial",
+              "priority": 300,
+              "condition": {
+                "field": "trial_available",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "no",
+                "verdict": "NO_TRIAL",
+                "action": "deny_trial_claim",
+                "reason_code": "TRIAL_NOT_AVAILABLE"
+              }
+            },
+            {
+              "rule_id": "allow_trial_without_auto_conversion",
+              "priority": 210,
+              "condition": {
+                "all": [
+                  {
+                    "field": "trial_available",
+                    "operator": "eq",
+                    "value": true
+                  },
+                  {
+                    "field": "auto_converts",
+                    "operator": "eq",
+                    "value": false
+                  }
+                ]
+              },
+              "outcome": {
+                "decision": "yes",
+                "verdict": "TRIAL_AVAILABLE",
+                "action": "approve_trial_without_auto_conversion",
+                "reason_code": "NO_AUTO_CONVERT"
+              }
+            },
+            {
+              "rule_id": "allow_trial_with_auto_conversion",
+              "priority": 200,
+              "condition": {
+                "field": "trial_available",
+                "operator": "eq",
+                "value": true
+              },
+              "outcome": {
+                "decision": "yes",
+                "verdict": "TRIAL_AVAILABLE",
+                "action": "approve_trial_with_auto_conversion",
+                "reason_code": "AUTO_CONVERTS"
+              }
+            }
+          ],
+          "default_outcome": {
+            "decision": "review",
+            "verdict": "UNKNOWN",
+            "action": "route_trial_policy_review",
+            "reason_code": "UNKNOWN_POLICY"
+          }
+        },
+        "context": {
+          "workflow": "trial_policy_notary",
+          "source_record_id": "golden_trial_adobe_auto_convert",
+          "requested_action": "trial_terms",
+          "inputs": {
+            "region_supported": true,
+            "plan_supported": true,
+            "vendor_supported": true,
+            "trial_available": true,
+            "auto_converts": true,
+            "trial_days": 7,
+            "card_required": true,
+            "vendor": "adobe",
+            "region": "US",
+            "plan": "individual",
+            "policy_rules_version": "2026-02-15",
+            "policy_source_url": "https://www.adobe.com/creativecloud/plans.html",
+            "policy_source_notes": "Trial offer is available and converts automatically unless canceled."
+          }
+        }
+      }
+    },
+    "stored_material": {
+      "evaluator_version": "decide_rulebook_v1",
+      "rulebook_snapshot": {
+        "schema_version": "rulebook_v1",
+        "rulebook_id": "trial_policy_notary",
+        "version": "2026-06-11",
+        "input_schema": {
+          "required": [
+            "region_supported",
+            "plan_supported",
+            "vendor_supported",
+            "trial_available",
+            "auto_converts",
+            "trial_days",
+            "card_required",
+            "vendor",
+            "region",
+            "plan",
+            "policy_rules_version",
+            "policy_source_url",
+            "policy_source_notes"
+          ],
+          "properties": {
+            "region_supported": {
+              "type": "boolean"
+            },
+            "plan_supported": {
+              "type": "boolean"
+            },
+            "vendor_supported": {
+              "type": "boolean"
+            },
+            "trial_available": {
+              "type": "boolean"
+            },
+            "auto_converts": {
+              "type": "boolean"
+            },
+            "trial_days": {
+              "type": "integer"
+            },
+            "card_required": {
+              "type": "boolean"
+            },
+            "vendor": {
+              "type": "string"
+            },
+            "region": {
+              "type": "string"
+            },
+            "plan": {
+              "type": "string"
+            },
+            "policy_rules_version": {
+              "type": "string"
+            },
+            "policy_source_url": {
+              "type": "string"
+            },
+            "policy_source_notes": {
+              "type": "string"
+            }
+          }
+        },
+        "rules": [
+          {
+            "rule_id": "review_unsupported_region",
+            "priority": 500,
+            "condition": {
+              "field": "region_supported",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "UNKNOWN",
+              "action": "request_supported_region",
+              "reason_code": "NON_US_REGION"
+            }
+          },
+          {
+            "rule_id": "review_unsupported_plan",
+            "priority": 490,
+            "condition": {
+              "field": "plan_supported",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "UNKNOWN",
+              "action": "request_supported_plan",
+              "reason_code": "NON_INDIVIDUAL_PLAN"
+            }
+          },
+          {
+            "rule_id": "review_unsupported_vendor",
+            "priority": 480,
+            "condition": {
+              "field": "vendor_supported",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "UNKNOWN",
+              "action": "request_supported_vendor",
+              "reason_code": "UNSUPPORTED_VENDOR"
+            }
+          },
+          {
+            "rule_id": "deny_no_trial",
+            "priority": 300,
+            "condition": {
+              "field": "trial_available",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "no",
+              "verdict": "NO_TRIAL",
+              "action": "deny_trial_claim",
+              "reason_code": "TRIAL_NOT_AVAILABLE"
+            }
+          },
+          {
+            "rule_id": "allow_trial_without_auto_conversion",
+            "priority": 210,
+            "condition": {
+              "all": [
+                {
+                  "field": "trial_available",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "auto_converts",
+                  "operator": "eq",
+                  "value": false
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "TRIAL_AVAILABLE",
+              "action": "approve_trial_without_auto_conversion",
+              "reason_code": "NO_AUTO_CONVERT"
+            }
+          },
+          {
+            "rule_id": "allow_trial_with_auto_conversion",
+            "priority": 200,
+            "condition": {
+              "field": "trial_available",
+              "operator": "eq",
+              "value": true
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "TRIAL_AVAILABLE",
+              "action": "approve_trial_with_auto_conversion",
+              "reason_code": "AUTO_CONVERTS"
+            }
+          }
+        ],
+        "default_outcome": {
+          "decision": "review",
+          "verdict": "UNKNOWN",
+          "action": "route_trial_policy_review",
+          "reason_code": "UNKNOWN_POLICY"
+        }
+      },
+      "canonical_inputs": {
+        "region_supported": true,
+        "plan_supported": true,
+        "vendor_supported": true,
+        "trial_available": true,
+        "auto_converts": true,
+        "trial_days": 7,
+        "card_required": true,
+        "vendor": "adobe",
+        "region": "US",
+        "plan": "individual",
+        "policy_rules_version": "2026-02-15",
+        "policy_source_url": "https://www.adobe.com/creativecloud/plans.html",
+        "policy_source_notes": "Trial offer is available and converts automatically unless canceled."
+      },
+      "trusted_adapter_invocation": null,
+      "trusted_adapter_dependency": null
+    }
+  },
+  "historical_record": {
+    "statusCode": 200,
+    "engine": "decide_rulebook_v1",
+    "evaluator_version": "decide_rulebook_v1",
+    "rulebook": {
+      "schema_version": "rulebook_v1",
+      "id": "trial_policy_notary",
+      "version": "2026-06-11",
+      "hash": "faa036de74aa54c13ad664854be2e1b421ffa1ce089001c34c3163d528d2eed0"
+    },
+    "input_hash": "70296146f02880bf12cbe26b3fa9581d38b803463a6486b9f0a3ff0e6c568dcd",
+    "rulebook_attestation": {
+      "schema_version": "rulebook_attestation_v1",
+      "bundle_hash": "f8f356a04ff863e60cdfc941d01e4461bfee5361959e1d21b620874d668f0d28"
+    },
+    "semantic_output": {
+      "status": "ok",
+      "verdict": "yes",
+      "application_verdict": "TRIAL_AVAILABLE",
+      "action": "approve_trial_with_auto_conversion",
+      "reason_code": "AUTO_CONVERTS",
+      "matched_rule_id": "allow_trial_with_auto_conversion"
+    }
+  }
+}

@@ -1,0 +1,362 @@
+{
+  "corpus_version": "rulebook_v1_golden_replay_v1",
+  "id": "solana_execution_gate_adapter_approve",
+  "title": "Solana execution gate adapter approval",
+  "kind": "trusted_adapter_rulebook",
+  "compatibility_policy": "compatibility_policy_v1",
+  "replay_contract": "historical_rulebook_replay_v1",
+  "recorded_at": "2026-06-11T00:00:00.000Z",
+  "notes": "Adapter-backed Krafthaus execution gate with pinned adapter dependency and emitted facts.",
+  "replay": {
+    "request": {
+      "method": "POST",
+      "path": "/api/decide",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "body": {
+        "mode": "rulebook",
+        "adapter": {
+          "adapter_id": "solana_execution_gate",
+          "version": "1.0.0",
+          "manifest_hash": "fd95907fb68ecc45be3ad9608410e2e3ea29a52b0e33b756086c21c6f520e967",
+          "input": {
+            "sol_amount": 48,
+            "risk_level": "medium",
+            "evidence_level": "strong",
+            "quorum_signed": true,
+            "budget_within_policy": true,
+            "recipient_verified": true
+          }
+        },
+        "rulebook": {
+          "schema_version": "rulebook_v1",
+          "rulebook_id": "solana_execution_gate",
+          "version": "2026-06-11",
+          "input_schema": {
+            "required": [
+              "decision_score",
+              "quorum_signed",
+              "budget_within_policy",
+              "recipient_verified"
+            ],
+            "properties": {
+              "decision_score": {
+                "type": "integer"
+              },
+              "quorum_signed": {
+                "type": "boolean"
+              },
+              "budget_within_policy": {
+                "type": "boolean"
+              },
+              "recipient_verified": {
+                "type": "boolean"
+              }
+            }
+          },
+          "rules": [
+            {
+              "rule_id": "block_unsafe_execution",
+              "priority": 300,
+              "condition": {
+                "any": [
+                  {
+                    "field": "recipient_verified",
+                    "operator": "eq",
+                    "value": false
+                  },
+                  {
+                    "field": "decision_score",
+                    "operator": "lt",
+                    "value": 50
+                  }
+                ]
+              },
+              "outcome": {
+                "decision": "no",
+                "verdict": "BLOCK",
+                "action": "block_execution",
+                "reason_code": "EXECUTION_GATE_BLOCKED"
+              }
+            },
+            {
+              "rule_id": "defer_incomplete_execution",
+              "priority": 200,
+              "condition": {
+                "any": [
+                  {
+                    "field": "decision_score",
+                    "operator": "lt",
+                    "value": 70
+                  },
+                  {
+                    "field": "quorum_signed",
+                    "operator": "eq",
+                    "value": false
+                  },
+                  {
+                    "field": "budget_within_policy",
+                    "operator": "eq",
+                    "value": false
+                  }
+                ]
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "DEFER",
+                "action": "defer_execution",
+                "reason_code": "EXECUTION_GATE_REVIEW_REQUIRED"
+              }
+            },
+            {
+              "rule_id": "approve_policy_compliant_execution",
+              "priority": 100,
+              "condition": {
+                "all": [
+                  {
+                    "field": "decision_score",
+                    "operator": "gte",
+                    "value": 70
+                  },
+                  {
+                    "field": "quorum_signed",
+                    "operator": "eq",
+                    "value": true
+                  },
+                  {
+                    "field": "budget_within_policy",
+                    "operator": "eq",
+                    "value": true
+                  },
+                  {
+                    "field": "recipient_verified",
+                    "operator": "eq",
+                    "value": true
+                  }
+                ]
+              },
+              "outcome": {
+                "decision": "yes",
+                "verdict": "APPROVE",
+                "action": "authorize_execution",
+                "reason_code": "EXECUTION_GATE_APPROVED"
+              }
+            }
+          ],
+          "default_outcome": {
+            "decision": "review",
+            "verdict": "DEFER",
+            "action": "defer_execution",
+            "reason_code": "EXECUTION_GATE_NO_RULE_MATCHED"
+          }
+        },
+        "context": {
+          "workflow": "solana_execution_gate",
+          "source_record_id": "helios_grant_48",
+          "requested_action": "treasury_payout"
+        }
+      }
+    },
+    "stored_material": {
+      "evaluator_version": "decide_rulebook_v1",
+      "rulebook_snapshot": {
+        "schema_version": "rulebook_v1",
+        "rulebook_id": "solana_execution_gate",
+        "version": "2026-06-11",
+        "input_schema": {
+          "required": [
+            "decision_score",
+            "quorum_signed",
+            "budget_within_policy",
+            "recipient_verified"
+          ],
+          "properties": {
+            "decision_score": {
+              "type": "integer"
+            },
+            "quorum_signed": {
+              "type": "boolean"
+            },
+            "budget_within_policy": {
+              "type": "boolean"
+            },
+            "recipient_verified": {
+              "type": "boolean"
+            }
+          }
+        },
+        "rules": [
+          {
+            "rule_id": "block_unsafe_execution",
+            "priority": 300,
+            "condition": {
+              "any": [
+                {
+                  "field": "recipient_verified",
+                  "operator": "eq",
+                  "value": false
+                },
+                {
+                  "field": "decision_score",
+                  "operator": "lt",
+                  "value": 50
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "no",
+              "verdict": "BLOCK",
+              "action": "block_execution",
+              "reason_code": "EXECUTION_GATE_BLOCKED"
+            }
+          },
+          {
+            "rule_id": "defer_incomplete_execution",
+            "priority": 200,
+            "condition": {
+              "any": [
+                {
+                  "field": "decision_score",
+                  "operator": "lt",
+                  "value": 70
+                },
+                {
+                  "field": "quorum_signed",
+                  "operator": "eq",
+                  "value": false
+                },
+                {
+                  "field": "budget_within_policy",
+                  "operator": "eq",
+                  "value": false
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "DEFER",
+              "action": "defer_execution",
+              "reason_code": "EXECUTION_GATE_REVIEW_REQUIRED"
+            }
+          },
+          {
+            "rule_id": "approve_policy_compliant_execution",
+            "priority": 100,
+            "condition": {
+              "all": [
+                {
+                  "field": "decision_score",
+                  "operator": "gte",
+                  "value": 70
+                },
+                {
+                  "field": "quorum_signed",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "budget_within_policy",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "recipient_verified",
+                  "operator": "eq",
+                  "value": true
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "APPROVE",
+              "action": "authorize_execution",
+              "reason_code": "EXECUTION_GATE_APPROVED"
+            }
+          }
+        ],
+        "default_outcome": {
+          "decision": "review",
+          "verdict": "DEFER",
+          "action": "defer_execution",
+          "reason_code": "EXECUTION_GATE_NO_RULE_MATCHED"
+        }
+      },
+      "canonical_inputs": null,
+      "trusted_adapter_invocation": {
+        "adapter_id": "solana_execution_gate",
+        "version": "1.0.0",
+        "manifest_hash": "fd95907fb68ecc45be3ad9608410e2e3ea29a52b0e33b756086c21c6f520e967",
+        "input": {
+          "sol_amount": 48,
+          "risk_level": "medium",
+          "evidence_level": "strong",
+          "quorum_signed": true,
+          "budget_within_policy": true,
+          "recipient_verified": true
+        }
+      },
+      "trusted_adapter_dependency": {
+        "manifest_version": "trusted_adapter_manifest_v1",
+        "adapter_id": "solana_execution_gate",
+        "version": "1.0.0",
+        "implementation_revision": "solana_execution_score_v1",
+        "implementation_hash": "8f59179307b0128e874dcd74a096600eff80dd1fb1cbd15148f8c88dea6327dc",
+        "manifest_hash": "fd95907fb68ecc45be3ad9608410e2e3ea29a52b0e33b756086c21c6f520e967",
+        "input_hash": "73e9e4b7963d476edbcdd572d3e7d1d8f4ae946756da47e655cb5e18c0387d0c",
+        "output_hash": "fae9fd4eadb525e1dd91babe8ba67f2237c78cc24ac82b1cbc1e55b7923e35c1",
+        "execution_isolation": "worker_thread_one_shot_v1",
+        "capability_enforcement": "ambient_capability_deny_v2",
+        "execution_timeout_ms": 1000
+      }
+    }
+  },
+  "historical_record": {
+    "statusCode": 200,
+    "engine": "decide_rulebook_v1",
+    "evaluator_version": "decide_rulebook_v1",
+    "rulebook": {
+      "schema_version": "rulebook_v1",
+      "id": "solana_execution_gate",
+      "version": "2026-06-11",
+      "hash": "c5965bfb2838318fb6dd324de403acf0273c6ae78dde3a266150721830925160"
+    },
+    "input_hash": "fae9fd4eadb525e1dd91babe8ba67f2237c78cc24ac82b1cbc1e55b7923e35c1",
+    "rulebook_attestation": {
+      "schema_version": "rulebook_attestation_v1",
+      "bundle_hash": "b7f3e2e5843ac2918eeaa2b36bf2eead0d0c5e39936c2cfbefcc0d32acc4e6b7"
+    },
+    "semantic_output": {
+      "status": "ok",
+      "verdict": "yes",
+      "application_verdict": "APPROVE",
+      "action": "authorize_execution",
+      "reason_code": "EXECUTION_GATE_APPROVED",
+      "matched_rule_id": "approve_policy_compliant_execution"
+    },
+    "trusted_adapter": {
+      "manifest_version": "trusted_adapter_manifest_v1",
+      "adapter_id": "solana_execution_gate",
+      "version": "1.0.0",
+      "implementation_revision": "solana_execution_score_v1",
+      "implementation_hash": "8f59179307b0128e874dcd74a096600eff80dd1fb1cbd15148f8c88dea6327dc",
+      "manifest_hash": "fd95907fb68ecc45be3ad9608410e2e3ea29a52b0e33b756086c21c6f520e967",
+      "input_hash": "73e9e4b7963d476edbcdd572d3e7d1d8f4ae946756da47e655cb5e18c0387d0c",
+      "output_hash": "fae9fd4eadb525e1dd91babe8ba67f2237c78cc24ac82b1cbc1e55b7923e35c1",
+      "execution_isolation": "worker_thread_one_shot_v1",
+      "capability_enforcement": "ambient_capability_deny_v2",
+      "execution_timeout_ms": 1000
+    },
+    "adapter_facts": {
+      "sol_amount": 48,
+      "risk_level": "medium",
+      "evidence_level": "strong",
+      "quorum_signed": true,
+      "budget_within_policy": true,
+      "recipient_verified": true,
+      "decision_score": 91,
+      "decision_edge_points": 34,
+      "confidence_pct": 94
+    }
+  }
+}

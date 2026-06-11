@@ -38,6 +38,10 @@ function loadPublicRulebookConformanceFixture(fileName) {
   return loadJsonFromRepo("public", "conformance", "rulebook-v1", fileName);
 }
 
+function loadPublicRulebookGoldenReplayFixture(fileName) {
+  return loadJsonFromRepo("public", "replay", "rulebook-v1", fileName);
+}
+
 function assertIsoTimestamp(value, label) {
   assert.equal(typeof value, "string", `${label}: expected string`);
   assert.ok(Number.isFinite(Date.parse(value)), `${label}: expected ISO timestamp`);
@@ -1094,18 +1098,176 @@ async function testRulebookV1PublicConformanceFixtures() {
   }
 }
 
+async function testRulebookV1GoldenReplayCorpus() {
+  const indexPath = join(__dirname, "..", "public", "replay", "rulebook-v1", "index.json");
+  assert.ok(existsSync(indexPath), "public Rulebook v1 golden replay corpus index is missing");
+  const index = loadPublicRulebookGoldenReplayFixture("index.json");
+  assert.equal(index.corpus_version, "rulebook_v1_golden_replay_v1", "golden replay corpus version mismatch");
+  assert.equal(index.schema_version, "rulebook_v1", "golden replay schema version mismatch");
+  assert.equal(index.compatibility_policy, "compatibility_policy_v1", "golden replay policy mismatch");
+  assert.equal(index.replay_contract, "historical_rulebook_replay_v1", "golden replay contract mismatch");
+  assert.deepEqual(
+    index.fixtures.map((fixture) => fixture.id),
+    [
+      "pricing_exception_direct_approve",
+      "solana_execution_gate_adapter_approve",
+      "refund_policy_notary_allow",
+      "trial_policy_notary_auto_convert",
+      "cancel_policy_notary_penalty",
+      "return_policy_notary_full_return",
+    ],
+    "golden replay corpus fixture set changed unexpectedly"
+  );
+
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("Rulebook v1 golden replay corpus must not call an LLM");
+  };
+
+  try {
+    for (const [fixtureIndex, fixtureRef] of index.fixtures.entries()) {
+      assert.ok(
+        fixtureRef.url.startsWith("https://api.decide.fyi/replay/rulebook-v1/"),
+        `${fixtureRef.id}: fixture URL must use API replay origin`
+      );
+      const fileName = fixtureRef.url.split("/").pop();
+      const fixture = loadPublicRulebookGoldenReplayFixture(fileName);
+      assert.equal(fixture.corpus_version, index.corpus_version, `${fixtureRef.id}: corpus version mismatch`);
+      assert.equal(fixture.id, fixtureRef.id, `${fixtureRef.id}: fixture id mismatch`);
+      assert.equal(fixture.compatibility_policy, index.compatibility_policy, `${fixtureRef.id}: policy mismatch`);
+      assert.equal(fixture.replay_contract, index.replay_contract, `${fixtureRef.id}: replay contract mismatch`);
+      assert.equal(fixture.replay?.request?.method, "POST", `${fixtureRef.id}: replay request method mismatch`);
+      assert.equal(fixture.replay?.request?.path, "/api/decide", `${fixtureRef.id}: replay request path mismatch`);
+      assert.equal(fixture.replay?.request?.body?.mode, "rulebook", `${fixtureRef.id}: replay request must use rulebook mode`);
+      assert.equal(
+        fixture.replay?.stored_material?.rulebook_snapshot?.rulebook_id,
+        fixture.replay?.request?.body?.rulebook?.rulebook_id,
+        `${fixtureRef.id}: stored rulebook snapshot must match replay request`
+      );
+      assert.equal(
+        fixture.replay?.stored_material?.evaluator_version,
+        "decide_rulebook_v1",
+        `${fixtureRef.id}: stored evaluator version mismatch`
+      );
+
+      const request = {
+        ...fixture.replay.request,
+        headers: {
+          ...(fixture.replay.request.headers || {}),
+          "x-forwarded-for": `10.254.0.${fixtureIndex + 1}`,
+        },
+      };
+      const first = await invokeJson(decideHandler, request);
+      assert.equal(first.statusCode, fixture.historical_record?.statusCode, `${fixtureRef.id}: status mismatch`);
+      assert.equal(first.json?.engine, fixture.historical_record?.engine, `${fixtureRef.id}: engine mismatch`);
+      assert.equal(
+        first.json?.evaluator_version,
+        fixture.historical_record?.evaluator_version,
+        `${fixtureRef.id}: evaluator version mismatch`
+      );
+      assert.deepEqual(
+        {
+          status: first.json?.status,
+          verdict: first.json?.verdict,
+          application_verdict: first.json?.application_verdict,
+          action: first.json?.action,
+          reason_code: first.json?.reason_code,
+          matched_rule_id: first.json?.matched_rule_id,
+        },
+        fixture.historical_record?.semantic_output,
+        `${fixtureRef.id}: semantic replay output mismatch`
+      );
+      assert.deepEqual(first.json?.rulebook, fixture.historical_record?.rulebook, `${fixtureRef.id}: rulebook lineage mismatch`);
+      assert.equal(first.json?.input_hash, fixture.historical_record?.input_hash, `${fixtureRef.id}: input hash mismatch`);
+      assert.equal(
+        first.json?.rulebook_attestation?.schema_version,
+        "rulebook_attestation_v1",
+        `${fixtureRef.id}: attestation schema mismatch`
+      );
+      assert.equal(
+        first.json?.rulebook_attestation?.bundle_hash,
+        fixture.historical_record?.rulebook_attestation?.bundle_hash,
+        `${fixtureRef.id}: attestation hash mismatch`
+      );
+      assert.deepEqual(
+        first.json?.rulebook_attestation?.bundle?.outcome,
+        fixture.historical_record?.semantic_output,
+        `${fixtureRef.id}: attestation outcome mismatch`
+      );
+      if (fixture.historical_record?.trusted_adapter) {
+        assert.deepEqual(
+          first.json?.trusted_adapter,
+          fixture.historical_record.trusted_adapter,
+          `${fixtureRef.id}: trusted adapter lineage mismatch`
+        );
+      }
+      if (fixture.historical_record?.adapter_facts) {
+        assert.deepEqual(
+          first.json?.adapter_facts,
+          fixture.historical_record.adapter_facts,
+          `${fixtureRef.id}: adapter facts mismatch`
+        );
+      }
+
+      const second = await invokeJson(decideHandler, request);
+      assert.deepEqual(
+        {
+          evaluator_version: second.json?.evaluator_version,
+          semantic_output: {
+            status: second.json?.status,
+            verdict: second.json?.verdict,
+            application_verdict: second.json?.application_verdict,
+            action: second.json?.action,
+            reason_code: second.json?.reason_code,
+            matched_rule_id: second.json?.matched_rule_id,
+          },
+          rulebook: second.json?.rulebook,
+          input_hash: second.json?.input_hash,
+          attestation_hash: second.json?.rulebook_attestation?.bundle_hash,
+          trusted_adapter: second.json?.trusted_adapter || null,
+          adapter_facts: second.json?.adapter_facts || null,
+        },
+        {
+          evaluator_version: fixture.historical_record?.evaluator_version,
+          semantic_output: fixture.historical_record?.semantic_output,
+          rulebook: fixture.historical_record?.rulebook,
+          input_hash: fixture.historical_record?.input_hash,
+          attestation_hash: fixture.historical_record?.rulebook_attestation?.bundle_hash,
+          trusted_adapter: fixture.historical_record?.trusted_adapter || null,
+          adapter_facts: fixture.historical_record?.adapter_facts || null,
+        },
+        `${fixtureRef.id}: repeated historical replay must reproduce the stored corpus record`
+      );
+    }
+    assert.equal(fetchCalled, false, "Rulebook v1 golden replay corpus unexpectedly called an LLM");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
 function testRulebookRuntimeArchitectureDoc() {
   const architecturePath = join(__dirname, "..", "docs", "RULEBOOK_RUNTIME_ARCHITECTURE.md");
   const rulebookDocPath = join(__dirname, "..", "docs", "RULEBOOK_V1.md");
   const compatibilityPolicyPath = join(__dirname, "..", "docs", "RULEBOOK_COMPATIBILITY_POLICY.md");
+  const migrationExamplesPath = join(__dirname, "..", "docs", "RULEBOOK_MIGRATION_EXAMPLES.md");
   const schemaPath = join(__dirname, "..", "public", "schemas", "rulebook-v1.schema.json");
   assert.ok(existsSync(architecturePath), "rulebook runtime architecture doc is missing");
   assert.ok(existsSync(rulebookDocPath), "rulebook contract doc is missing");
   assert.ok(existsSync(compatibilityPolicyPath), "rulebook compatibility policy doc is missing");
+  assert.ok(existsSync(migrationExamplesPath), "rulebook migration examples doc is missing");
   assert.ok(existsSync(schemaPath), "public Rulebook v1 JSON Schema artifact is missing");
   const architecture = readFileSync(architecturePath, "utf8");
   const rulebookDoc = readFileSync(rulebookDocPath, "utf8");
   const compatibilityPolicy = readFileSync(compatibilityPolicyPath, "utf8");
+  const migrationExamples = readFileSync(migrationExamplesPath, "utf8");
   const schema = loadJsonFromRepo("public", "schemas", "rulebook-v1.schema.json");
   const readme = readFileSync(join(__dirname, "..", "README.md"), "utf8");
   assert.ok(architecture.includes("Status: Accepted"), "runtime architecture doc must record accepted status");
@@ -1137,6 +1299,45 @@ function testRulebookRuntimeArchitectureDoc() {
     readme.includes("docs/RULEBOOK_COMPATIBILITY_POLICY.md"),
     "README must link the compatibility policy"
   );
+  assert.ok(
+    rulebookDoc.includes("RULEBOOK_MIGRATION_EXAMPLES.md"),
+    "rulebook contract doc must link migration examples"
+  );
+  assert.ok(
+    compatibilityPolicy.includes("RULEBOOK_MIGRATION_EXAMPLES.md"),
+    "compatibility policy must link migration examples"
+  );
+  assert.ok(
+    readme.includes("docs/RULEBOOK_MIGRATION_EXAMPLES.md"),
+    "README must link migration examples"
+  );
+  for (const requiredReplayMarker of [
+    "https://api.decide.fyi/replay/rulebook-v1/index.json",
+    "rulebook_v1_golden_replay_v1",
+    "historical_rulebook_replay_v1"
+  ]) {
+    assert.ok(rulebookDoc.includes(requiredReplayMarker), `rulebook contract doc missing replay marker: ${requiredReplayMarker}`);
+    assert.ok(
+      compatibilityPolicy.includes(requiredReplayMarker),
+      `compatibility policy missing replay marker: ${requiredReplayMarker}`
+    );
+  }
+  for (const requiredMigrationMarker of [
+    "Evaluator Migration Example",
+    "Adapter Migration Example",
+    "Rulebook Migration Example",
+    "golden replay corpus",
+    "rulebook_v1_golden_replay_v1",
+    "historical_rulebook_replay_v1",
+    "DECIDE_RULEBOOK_EVALUATOR_NEXT",
+    "solana_execution_gate@1.1.0",
+    "pricing_exception@2026-07-01"
+  ]) {
+    assert.ok(
+      migrationExamples.includes(requiredMigrationMarker),
+      `rulebook migration examples doc missing marker: ${requiredMigrationMarker}`
+    );
+  }
   for (const requiredCompatibilityMarker of [
     "Policy version: `compatibility_policy_v1`",
     "Historical replay never reinterprets stored records with the current evaluator or adapter",
@@ -2295,6 +2496,7 @@ async function main() {
     ["decide-trusted-adapter-rejects-executable-payload-fields", testDecideTrustedAdapterRejectsExecutablePayloadFields],
     ["decide-trusted-adapter-rejects-executable-input-fields", testDecideTrustedAdapterRejectsExecutableInputFields],
     ["rulebook-v1-public-conformance-fixtures", testRulebookV1PublicConformanceFixtures],
+    ["rulebook-v1-golden-replay-corpus", testRulebookV1GoldenReplayCorpus],
     ["rulebook-runtime-architecture-doc", testRulebookRuntimeArchitectureDoc],
     ["decide-model-fallback-order", testDecideModelFallbackOrder],
     ["decide-model-fallback-empty-text", testDecideModelFallbackOnEmptyText],
