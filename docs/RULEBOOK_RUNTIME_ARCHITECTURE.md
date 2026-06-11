@@ -107,8 +107,8 @@ Two Krafthaus application patterns now exercise this architecture:
 
 - Solana Execution Gate uses a registered trusted adapter to derive bounded
   execution facts before declarative evaluation.
-- Refund and Trial Policy MCP notaries supply normalized policy facts directly
-  to Rulebook v1 and require no trusted adapter.
+- Refund, Trial, and Cancel Policy MCP notaries supply normalized policy facts
+  directly to Rulebook v1 and require no trusted adapter.
 
 ## Future Changes
 

@@ -1197,12 +1197,16 @@ function testRulebookRuntimeArchitectureDoc() {
     "rulebook contract doc must document attestation key history"
   );
   assert.ok(
-    rulebookDoc.includes("Refund and Trial Policy MCP notaries"),
+    rulebookDoc.includes("Refund, Trial, and Cancel Policy MCP notaries"),
     "rulebook contract doc must identify the second materially different Krafthaus application"
   );
   assert.ok(
     rulebookDoc.includes("rules/trial-policy-notary-v1.json"),
     "rulebook contract doc must identify the trial direct-rulebook notary"
+  );
+  assert.ok(
+    rulebookDoc.includes("rules/cancel-policy-notary-v1.json"),
+    "rulebook contract doc must identify the cancel direct-rulebook notary"
   );
   assert.ok(
     readme.includes("DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON"),
@@ -1788,6 +1792,199 @@ async function testTrialPolicyRulebookRequiresSignedAttestation() {
   }
 }
 
+async function testCancelPolicyRulebookFixture() {
+  const result = await invokeJson(v1PolicyDispatcher, {
+    method: "POST",
+    url: "/api/v1/cancel/penalty",
+    query: { policy: "cancel", action: "penalty" },
+    headers: { "content-type": "application/json", "user-agent": "contract-test" },
+    body: { vendor: "adobe", region: "US", plan: "individual" },
+  });
+  assert.equal(result.statusCode, 200, "cancel policy status mismatch");
+  assert.equal(result.json?.verdict, "PENALTY", "cancel policy legacy verdict mismatch");
+  assert.equal(result.json?.code, "EARLY_TERMINATION_FEE", "cancel policy legacy reason code mismatch");
+  assertLineage(result.json, "cancel_policy_v1");
+  assert.equal(result.json?.rulebook_result?.engine, "decide_rulebook_v1", "cancel policy should use Rulebook v1");
+  assert.equal(
+    result.json?.rulebook_result?.rulebook?.id,
+    "cancel_policy_notary",
+    "cancel policy should use the cancel policy rulebook"
+  );
+  assert.equal(
+    result.json?.rulebook_result?.application_verdict,
+    "PENALTY",
+    "cancel policy Rulebook v1 application verdict mismatch"
+  );
+  assert.equal(
+    result.json?.rulebook_result?.reason_code,
+    "EARLY_TERMINATION_FEE",
+    "cancel policy Rulebook v1 reason code mismatch"
+  );
+  assert.equal(
+    result.json?.rulebook_result?.matched_rule_id,
+    "penalty_early_termination_fee",
+    "cancel policy Rulebook v1 matched rule mismatch"
+  );
+  assert.equal(result.json?.rulebook_result?.trusted_adapter, undefined, "cancel policy should not use a trusted adapter");
+  assertRulebookAttestation(result.json?.rulebook_result, "cancel policy Rulebook v1");
+}
+
+async function testCancelPolicyRulebookOutcomes() {
+  const cases = [
+    {
+      label: "free cancellation",
+      body: { vendor: "netflix", region: "US", plan: "individual" },
+      verdict: "FREE_CANCEL",
+      code: "NO_PENALTY",
+      matchedRuleId: "allow_free_cancel",
+    },
+    {
+      label: "early termination fee",
+      body: { vendor: "adobe", region: "US", plan: "individual" },
+      verdict: "PENALTY",
+      code: "EARLY_TERMINATION_FEE",
+      matchedRuleId: "penalty_early_termination_fee",
+    },
+    {
+      label: "unsupported vendor",
+      body: { vendor: "unknown_vendor", region: "US", plan: "individual" },
+      verdict: "UNKNOWN",
+      code: "UNSUPPORTED_VENDOR",
+      matchedRuleId: "review_unsupported_vendor",
+    },
+    {
+      label: "unsupported region",
+      body: { vendor: "adobe", region: "SE", plan: "individual" },
+      verdict: "UNKNOWN",
+      code: "NON_US_REGION",
+      matchedRuleId: "review_unsupported_region",
+    },
+  ];
+
+  for (const testCase of cases) {
+    const result = await invokeJson(v1PolicyDispatcher, {
+      method: "POST",
+      url: "/api/v1/cancel/penalty",
+      query: { policy: "cancel", action: "penalty" },
+      headers: { "content-type": "application/json", "user-agent": "contract-test" },
+      body: testCase.body,
+    });
+    assert.equal(result.statusCode, 200, `${testCase.label}: policy status mismatch`);
+    assert.equal(result.json?.verdict, testCase.verdict, `${testCase.label}: legacy verdict mismatch`);
+    assert.equal(result.json?.code, testCase.code, `${testCase.label}: legacy reason code mismatch`);
+    assert.equal(
+      result.json?.rulebook_result?.application_verdict,
+      testCase.verdict,
+      `${testCase.label}: Rulebook v1 application verdict mismatch`
+    );
+    assert.equal(
+      result.json?.rulebook_result?.reason_code,
+      testCase.code,
+      `${testCase.label}: Rulebook v1 reason code mismatch`
+    );
+    assert.equal(
+      result.json?.rulebook_result?.matched_rule_id,
+      testCase.matchedRuleId,
+      `${testCase.label}: Rulebook v1 matched rule mismatch`
+    );
+    assertRulebookAttestation(result.json?.rulebook_result, `${testCase.label} Rulebook v1`);
+  }
+}
+
+async function testCancelPolicyRulebookBindsEvidenceIdentity() {
+  const evaluate = async (vendor) =>
+    invokeJson(v1PolicyDispatcher, {
+      method: "POST",
+      url: "/api/v1/cancel/penalty",
+      query: { policy: "cancel", action: "penalty" },
+      headers: { "content-type": "application/json", "user-agent": "contract-test" },
+      body: { vendor, region: "US", plan: "individual" },
+    });
+
+  const netflix = await evaluate("netflix");
+  const hulu = await evaluate("hulu");
+  assert.equal(netflix.json?.policy, hulu.json?.policy, "evidence-binding comparison requires equal policy enum");
+  assert.equal(netflix.json?.notice_days, hulu.json?.notice_days, "evidence-binding comparison requires equal notice days");
+  assert.equal(
+    netflix.json?.rulebook_result?.rulebook?.hash,
+    hulu.json?.rulebook_result?.rulebook?.hash,
+    "cancel applications should share one declarative rulebook"
+  );
+  assert.notEqual(
+    netflix.json?.rulebook_result?.input_hash,
+    hulu.json?.rulebook_result?.input_hash,
+    "cancel rulebook input hash must bind vendor and policy-source identity"
+  );
+}
+
+async function testCancelPolicyRulebookSignsAttestation() {
+  const signing = generateSigningEnv("cancel-policy-contract-key");
+  const previousRequired = process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+  const previousPrivateKey = process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+  const previousKeyId = process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = "true";
+  process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = signing.privateKeyPem;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = signing.keyId;
+
+  try {
+    const result = await invokeJson(v1PolicyDispatcher, {
+      method: "POST",
+      url: "/api/v1/cancel/penalty",
+      query: { policy: "cancel", action: "penalty" },
+      headers: { "content-type": "application/json", "user-agent": "contract-test" },
+      body: { vendor: "adobe", region: "US", plan: "individual" },
+    });
+    const attestation = result.json?.rulebook_result?.rulebook_attestation;
+    assert.equal(result.statusCode, 200, "signed cancel policy status mismatch");
+    assert.equal(attestation?.signature?.status, "signed", "cancel policy attestation should be signed");
+    assert.equal(attestation?.signature?.key_id, signing.keyId, "cancel policy signing key id mismatch");
+    assert.equal(
+      verifySignature({
+        publicKeyPem: signing.publicKeyPem,
+        bundleHash: attestation?.bundle_hash,
+        signature: attestation?.signature?.signature,
+      }),
+      true,
+      "cancel policy attestation signature should verify"
+    );
+  } finally {
+    if (previousRequired === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = previousRequired;
+    if (previousPrivateKey === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = previousPrivateKey;
+    if (previousKeyId === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = previousKeyId;
+  }
+}
+
+async function testCancelPolicyRulebookRequiresSignedAttestation() {
+  const previousRequired = process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+  const previousPrivateKey = process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = "true";
+  process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = "";
+
+  try {
+    const result = await invokeJson(v1PolicyDispatcher, {
+      method: "POST",
+      url: "/api/v1/cancel/penalty",
+      query: { policy: "cancel", action: "penalty" },
+      headers: { "content-type": "application/json", "user-agent": "contract-test" },
+      body: { vendor: "adobe", region: "US", plan: "individual" },
+    });
+    assert.equal(result.statusCode, 503, "cancel policy must fail closed when a required signature is unavailable");
+    assert.equal(
+      result.json?.error,
+      "RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED",
+      "cancel policy required-signature error mismatch"
+    );
+  } finally {
+    if (previousRequired === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = previousRequired;
+    if (previousPrivateKey === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = previousPrivateKey;
+  }
+}
+
 async function testWorkflowFixture() {
   const fixture = loadFixture("workflow-zendesk-refund.json");
   const first = await invokeJson(zendeskWorkflowDispatcher, fixture.request);
@@ -1861,6 +2058,11 @@ async function main() {
     ["trial-policy-rulebook-binds-evidence-identity", testTrialPolicyRulebookBindsEvidenceIdentity],
     ["trial-policy-rulebook-signs-attestation", testTrialPolicyRulebookSignsAttestation],
     ["trial-policy-rulebook-requires-signed-attestation", testTrialPolicyRulebookRequiresSignedAttestation],
+    ["cancel-policy-rulebook", testCancelPolicyRulebookFixture],
+    ["cancel-policy-rulebook-outcomes", testCancelPolicyRulebookOutcomes],
+    ["cancel-policy-rulebook-binds-evidence-identity", testCancelPolicyRulebookBindsEvidenceIdentity],
+    ["cancel-policy-rulebook-signs-attestation", testCancelPolicyRulebookSignsAttestation],
+    ["cancel-policy-rulebook-requires-signed-attestation", testCancelPolicyRulebookRequiresSignedAttestation],
     ["workflow-zendesk-dispatch", testWorkflowFixture],
     ["ucp-vendor-enum-consistency", testUcpVendorEnumConsistency],
   ];

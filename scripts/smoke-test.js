@@ -111,7 +111,12 @@ async function main() {
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
-      expect(typeof json.verdict === "string", "expected verdict");
+      expect(json.verdict === "PENALTY", "expected PENALTY");
+      expect(json.code === "EARLY_TERMINATION_FEE", "expected EARLY_TERMINATION_FEE");
+      expect(
+        json.rulebook_result?.engine === "decide_rulebook_v1",
+        "expected cancel Rulebook v1 result"
+      );
     }
   );
 
@@ -202,6 +207,32 @@ async function main() {
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
       expect(Array.isArray(json.result?.tools), "expected tools array");
+    }
+  );
+
+  await runCase(
+    "cancel MCP tools/call",
+    cancelMcp,
+    {
+      method: "POST",
+      headers: { "user-agent": "smoke-test" },
+      body: {
+        jsonrpc: "2.0",
+        id: 3,
+        method: "tools/call",
+        params: {
+          name: "cancellation_penalty",
+          arguments: { vendor: "adobe", region: "US", plan: "individual" },
+        },
+      },
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.result?.structuredContent?.verdict === "PENALTY", "expected structured PENALTY verdict");
+      expect(
+        json.result?.structuredContent?.rulebook_result?.engine === "decide_rulebook_v1",
+        "expected structured cancel Rulebook v1 result"
+      );
     }
   );
 

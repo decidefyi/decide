@@ -88,9 +88,10 @@ common ambient capabilities. The declarative rulebook remains the only binding
 verdict selector. See [`docs/TRUSTED_ADAPTERS_V1.md`](docs/TRUSTED_ADAPTERS_V1.md).
 
 The current reference applications prove both production patterns: Solana
-Execution Gate uses a trusted adapter before Rulebook v1, while the Refund and
-Trial Policy MCP notaries supply normalized facts directly to Rulebook v1 and
-expose the signed rulebook result through their stable REST and MCP surfaces.
+Execution Gate uses a trusted adapter before Rulebook v1, while the Refund,
+Trial, and Cancel Policy MCP notaries supply normalized facts directly to
+Rulebook v1 and expose the signed rulebook result through their stable REST and
+MCP surfaces.
 
 The legacy `single`, `multi`, and `runtime` modes are AI-assisted surfaces.
 They are not the production determinism boundary for loosely defined business

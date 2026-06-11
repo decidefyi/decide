@@ -190,8 +190,8 @@ until all of the following are true:
 2. At least one existing Krafthaus application has migrated to an explicit
    rulebook. The Solana Execution Gate now satisfies this condition.
 3. A second materially different application reuses the same runtime contract.
-   The Refund and Trial Policy MCP notaries now satisfy this condition with
-   direct declarative Rulebook v1 evaluation and no trusted adapter.
+   The Refund, Trial, and Cancel Policy MCP notaries now satisfy this condition
+   with direct declarative Rulebook v1 evaluation and no trusted adapter.
 4. Public copy distinguishes deterministic evaluation from AI assistance.
 5. Replay tests prove that stored rulebooks and inputs reproduce the semantic
    result.
