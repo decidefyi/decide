@@ -60,12 +60,14 @@ Machine-readable schema: [`https://api.decide.fyi/schemas/rulebook-v1.schema.jso
 }
 ```
 
-`mode: "rulebook"` does not call an LLM. It validates and hashes the rulebook,
-evaluates bounded conditions, and returns normalized `yes`, `no`, or `review`
-alongside the application verdict, action, reason code, matched rule, and
-`evaluator_version`. Responses also include `input_hash`, a SHA-256 hash of the
-canonical inputs or adapter facts consumed by the declarative evaluator, plus a
-`rulebook_attestation_v1` bundle hash over the deterministic execution tuple.
+`mode: "rulebook"` does not call an LLM. It validates the request rulebook
+against the published JSON Schema, hashes the rulebook, evaluates bounded
+conditions, and returns `yes`, `no`, or `review` alongside the application
+verdict, action, reason code, matched rule, and `evaluator_version`. Responses
+also include `rulebook_contract` with the enforced schema URL/hash,
+`input_hash`, a SHA-256 hash of the canonical inputs or adapter facts consumed
+by the declarative evaluator, plus a `rulebook_attestation_v1` bundle hash over
+the deterministic execution tuple.
 Production deployments can sign that bundle hash with a
 `rulebook_attestation_signature_v1` Ed25519 envelope; verification keys are
 published at `/.well-known/rulebook-attestation-keys.json`. Set

@@ -55,14 +55,17 @@ production decision boundary.
 
 The engine enforces the boundary in two places:
 
-- Rulebook v1 validation rejects unknown fields at the rulebook, schema, rule,
-  condition, and outcome levels.
+- Rulebook v1 validates the request rulebook against the published JSON Schema,
+  then applies semantic checks for evaluator limits such as unique rule IDs.
 - Trusted adapter invocation validation accepts only `adapter_id`, `version`,
   `manifest_hash`, and bounded `input`.
 
 Executable-looking fields such as `code`, `source`, `script`, `function`,
 `handler`, `javascript`, `typescript`, and `wasm` are not contract fields. They
 are rejected as unknown fields rather than ignored.
+
+Successful and `needs_input` Rulebook v1 responses expose `rulebook_contract`
+with the enforced schema version, schema URL, schema hash, and evaluator version.
 
 ## Why
 

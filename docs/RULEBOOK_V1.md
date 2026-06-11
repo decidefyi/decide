@@ -282,10 +282,24 @@ function invocation.
 - stable lowercase IDs
 - unique rule IDs
 - priorities from `-1000` to `1000`
-- normalized decision restricted to `yes`, `no`, or `review`
+- `decision` values exactly restricted to lowercase `yes`, `no`, or `review`
 
 An invalid rulebook returns HTTP `422` with `RULEBOOK_INVALID` and structured
 field errors. It is never sent to an LLM as a fallback.
+
+The production path validates each request rulebook against the published JSON
+Schema before semantic evaluation. Successful and `needs_input` responses include
+`rulebook_contract` so downstream systems can record the exact contract that was
+enforced:
+
+```json
+{
+  "schema_version": "rulebook_v1",
+  "schema_url": "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
+  "schema_hash": "<sha256>",
+  "evaluator_version": "decide_rulebook_v1"
+}
+```
 
 ## Hashing And Lineage
 

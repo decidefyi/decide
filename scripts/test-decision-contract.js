@@ -383,6 +383,8 @@ async function testDecideRuntimeFixture() {
 
 async function testDecideRulebookFixture() {
   const fixture = loadFixture("decide-rulebook-v1.json");
+  const schemaText = readFileSync(join(__dirname, "..", "public", "schemas", "rulebook-v1.schema.json"), "utf8");
+  const schemaHash = sha256(schemaText);
   const originalFetch = global.fetch;
   const previousApiKey = process.env.GEMINI_API_KEY;
   const previousDecideApiKey = process.env.DECIDE_API_KEY;
@@ -406,6 +408,16 @@ async function testDecideRulebookFixture() {
     assert.equal(first.json?.matched_rule_id, fixture.expect.matched_rule_id, "rulebook matched rule mismatch");
     assert.equal(first.json?.engine, "decide_rulebook_v1", "rulebook engine mismatch");
     assert.equal(first.json?.rulebook?.schema_version, "rulebook_v1", "rulebook schema version mismatch");
+    assert.deepEqual(
+      first.json?.rulebook_contract,
+      {
+        schema_version: "rulebook_v1",
+        schema_url: "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
+        schema_hash: schemaHash,
+        evaluator_version: "decide_rulebook_v1",
+      },
+      "rulebook response must identify the enforced schema contract"
+    );
     assert.equal(first.json?.rulebook?.id, fixture.request.body.rulebook.rulebook_id, "rulebook id mismatch");
     assert.equal(first.json?.rulebook?.version, fixture.request.body.rulebook.version, "rulebook version mismatch");
     assert.equal(typeof first.json?.rulebook?.hash, "string", "rulebook hash missing");
@@ -445,6 +457,42 @@ async function testDecideRulebookFixture() {
   }
 }
 
+async function testDecideRulebookEnforcesPublishedSchema() {
+  const fixture = loadFixture("decide-rulebook-v1.json");
+  const request = JSON.parse(JSON.stringify(fixture.request));
+  request.body.rulebook.rules[0].outcome.decision = "NO";
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("schema-invalid rulebook must not call an LLM");
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, request);
+    assert.equal(result.statusCode, 422, "schema-invalid rulebook status mismatch");
+    assert.equal(result.json?.error, "RULEBOOK_INVALID", "schema-invalid rulebook error mismatch");
+    assert.ok(
+      result.json?.errors?.some(
+        (entry) =>
+          entry?.code === "schema_violation" &&
+          entry?.field === "rulebook.rules[0].outcome.decision" &&
+          String(entry?.message || "").includes("one of yes, no, review")
+      ),
+      "runtime must enforce the published Rulebook v1 schema enum without normalization"
+    );
+    assert.equal(fetchCalled, false, "schema-invalid rulebook unexpectedly called an LLM");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
 async function testDecideRulebookMissingInput() {
   const fixture = loadFixture("decide-rulebook-v1.json");
   const request = JSON.parse(JSON.stringify(fixture.request));
@@ -462,6 +510,11 @@ async function testDecideRulebookMissingInput() {
     assert.equal(result.json?.application_verdict, "NEEDS_INPUT", "missing rulebook application verdict mismatch");
     assert.equal(result.json?.action, "collect_required_input", "missing rulebook input action mismatch");
     assert.equal(result.json?.reason_code, "INPUT_SCHEMA_FAILED", "missing rulebook input reason mismatch");
+    assert.equal(
+      result.json?.rulebook_contract?.schema_url,
+      "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
+      "missing-input response must identify the enforced schema contract"
+    );
     assert.equal(typeof result.json?.input_hash, "string", "missing rulebook input hash missing");
     assert.match(result.json.input_hash, /^[a-f0-9]{64}$/, "missing rulebook input hash must be sha256 hex");
     assertRulebookAttestation(result.json, "missing rulebook input");
@@ -1587,6 +1640,14 @@ function testRulebookRuntimeArchitectureDoc() {
     "rulebook contract doc must link the public JSON Schema artifact"
   );
   assert.ok(
+    rulebookDoc.includes("rulebook_contract"),
+    "rulebook contract doc must document runtime schema contract metadata"
+  );
+  assert.ok(
+    architecture.includes("validates the request rulebook against the published JSON Schema"),
+    "runtime architecture doc must say the production path validates against the published schema"
+  );
+  assert.ok(
     architecture.includes("rulebook_attestation_v1"),
     "runtime architecture doc must mention the Rulebook v1 registry attestation"
   );
@@ -2691,6 +2752,7 @@ async function main() {
     ["decide-api-key", testDecideApiKeyFixture],
     ["decide-runtime", testDecideRuntimeFixture],
     ["decide-rulebook-v1", testDecideRulebookFixture],
+    ["decide-rulebook-enforces-published-schema", testDecideRulebookEnforcesPublishedSchema],
     ["decide-rulebook-missing-input", testDecideRulebookMissingInput],
     ["decide-rulebook-attestation-signing", testDecideRulebookAttestationSigning],
     ["decide-rulebook-requires-signed-attestation", testDecideRulebookRequiresSignedAttestation],
