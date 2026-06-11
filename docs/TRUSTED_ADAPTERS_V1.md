@@ -21,7 +21,7 @@ selects the outcome.
 {
   "adapter_id": "solana_execution_gate",
   "version": "1.0.0",
-  "manifest_hash": "372ef38145c68e7a23da626fbe6f33256f868d73d7dfcc04371587765d916623",
+  "manifest_hash": "fd95907fb68ecc45be3ad9608410e2e3ea29a52b0e33b756086c21c6f520e967",
   "input": {}
 }
 ```
@@ -57,7 +57,7 @@ execution-isolation, capability-enforcement, and timeout contract.
 - runtime capability violations return
   `TRUSTED_ADAPTER_CAPABILITY_DENIED` with the denied capability name
 - a registration-time source audit rejects direct references to denied ambient capabilities
-- the parent runtime enforces a 250 ms hard timeout and worker resource limits
+- the parent runtime enforces a 1000 ms hard timeout and worker resource limits
 - output must exactly match the registered schema
 - adapter exceptions fail closed
 - invalid output fails closed

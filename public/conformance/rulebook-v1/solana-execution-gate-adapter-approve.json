@@ -14,7 +14,7 @@
       "adapter": {
         "adapter_id": "solana_execution_gate",
         "version": "1.0.0",
-        "manifest_hash": "372ef38145c68e7a23da626fbe6f33256f868d73d7dfcc04371587765d916623",
+        "manifest_hash": "fd95907fb68ecc45be3ad9608410e2e3ea29a52b0e33b756086c21c6f520e967",
         "input": {
           "sol_amount": 48,
           "risk_level": "medium",

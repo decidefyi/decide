@@ -143,7 +143,11 @@ async function main() {
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
-      expect(typeof json.verdict === "string", "expected verdict");
+      expect(json.verdict === "TRIAL_AVAILABLE", "expected TRIAL_AVAILABLE");
+      expect(
+        json.rulebook_result?.engine === "decide_rulebook_v1",
+        "expected trial Rulebook v1 result"
+      );
     }
   );
 
@@ -242,6 +246,10 @@ async function main() {
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
       expect(Array.isArray(json.result?.content), "expected content array");
+      expect(
+        json.result?.structuredContent?.rulebook_result?.engine === "decide_rulebook_v1",
+        "expected structured trial Rulebook v1 result"
+      );
     }
   );
 

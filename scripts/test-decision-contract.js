@@ -801,7 +801,7 @@ async function testDecideTrustedAdapterFixture() {
       "ambient_capability_deny_v2",
       "adapter capability enforcement missing"
     );
-    assert.equal(first.json?.trusted_adapter?.execution_timeout_ms, 250, "adapter timeout attestation mismatch");
+    assert.equal(first.json?.trusted_adapter?.execution_timeout_ms, 1000, "adapter timeout attestation mismatch");
     assert.deepEqual(
       {
         verdict: second.json?.application_verdict,
@@ -1197,8 +1197,12 @@ function testRulebookRuntimeArchitectureDoc() {
     "rulebook contract doc must document attestation key history"
   );
   assert.ok(
-    rulebookDoc.includes("Refund Policy MCP notary"),
+    rulebookDoc.includes("Refund and Trial Policy MCP notaries"),
     "rulebook contract doc must identify the second materially different Krafthaus application"
+  );
+  assert.ok(
+    rulebookDoc.includes("rules/trial-policy-notary-v1.json"),
+    "rulebook contract doc must identify the trial direct-rulebook notary"
   );
   assert.ok(
     readme.includes("DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON"),
@@ -1591,6 +1595,199 @@ async function testRefundPolicyRulebookRequiresSignedAttestation() {
   }
 }
 
+async function testTrialPolicyRulebookFixture() {
+  const result = await invokeJson(v1PolicyDispatcher, {
+    method: "POST",
+    url: "/api/v1/trial/terms",
+    query: { policy: "trial", action: "terms" },
+    headers: { "content-type": "application/json", "user-agent": "contract-test" },
+    body: { vendor: "adobe", region: "US", plan: "individual" },
+  });
+  assert.equal(result.statusCode, 200, "trial policy status mismatch");
+  assert.equal(result.json?.verdict, "TRIAL_AVAILABLE", "trial policy legacy verdict mismatch");
+  assert.equal(result.json?.code, "AUTO_CONVERTS", "trial policy legacy reason code mismatch");
+  assertLineage(result.json, "trial_policy_v1");
+  assert.equal(result.json?.rulebook_result?.engine, "decide_rulebook_v1", "trial policy should use Rulebook v1");
+  assert.equal(
+    result.json?.rulebook_result?.rulebook?.id,
+    "trial_policy_notary",
+    "trial policy should use the trial policy rulebook"
+  );
+  assert.equal(
+    result.json?.rulebook_result?.application_verdict,
+    "TRIAL_AVAILABLE",
+    "trial policy Rulebook v1 application verdict mismatch"
+  );
+  assert.equal(
+    result.json?.rulebook_result?.reason_code,
+    "AUTO_CONVERTS",
+    "trial policy Rulebook v1 reason code mismatch"
+  );
+  assert.equal(
+    result.json?.rulebook_result?.matched_rule_id,
+    "allow_trial_with_auto_conversion",
+    "trial policy Rulebook v1 matched rule mismatch"
+  );
+  assert.equal(result.json?.rulebook_result?.trusted_adapter, undefined, "trial policy should not use a trusted adapter");
+  assertRulebookAttestation(result.json?.rulebook_result, "trial policy Rulebook v1");
+}
+
+async function testTrialPolicyRulebookOutcomes() {
+  const cases = [
+    {
+      label: "vendor without trial",
+      body: { vendor: "netflix", region: "US", plan: "individual" },
+      verdict: "NO_TRIAL",
+      code: "TRIAL_NOT_AVAILABLE",
+      matchedRuleId: "deny_no_trial",
+    },
+    {
+      label: "trial without auto conversion",
+      body: { vendor: "1password", region: "US", plan: "individual" },
+      verdict: "TRIAL_AVAILABLE",
+      code: "NO_AUTO_CONVERT",
+      matchedRuleId: "allow_trial_without_auto_conversion",
+    },
+    {
+      label: "unsupported vendor",
+      body: { vendor: "unknown_vendor", region: "US", plan: "individual" },
+      verdict: "UNKNOWN",
+      code: "UNSUPPORTED_VENDOR",
+      matchedRuleId: "review_unsupported_vendor",
+    },
+    {
+      label: "unsupported region",
+      body: { vendor: "adobe", region: "SE", plan: "individual" },
+      verdict: "UNKNOWN",
+      code: "NON_US_REGION",
+      matchedRuleId: "review_unsupported_region",
+    },
+  ];
+
+  for (const testCase of cases) {
+    const result = await invokeJson(v1PolicyDispatcher, {
+      method: "POST",
+      url: "/api/v1/trial/terms",
+      query: { policy: "trial", action: "terms" },
+      headers: { "content-type": "application/json", "user-agent": "contract-test" },
+      body: testCase.body,
+    });
+    assert.equal(result.statusCode, 200, `${testCase.label}: policy status mismatch`);
+    assert.equal(result.json?.verdict, testCase.verdict, `${testCase.label}: legacy verdict mismatch`);
+    assert.equal(result.json?.code, testCase.code, `${testCase.label}: legacy reason code mismatch`);
+    assert.equal(
+      result.json?.rulebook_result?.application_verdict,
+      testCase.verdict,
+      `${testCase.label}: Rulebook v1 application verdict mismatch`
+    );
+    assert.equal(
+      result.json?.rulebook_result?.reason_code,
+      testCase.code,
+      `${testCase.label}: Rulebook v1 reason code mismatch`
+    );
+    assert.equal(
+      result.json?.rulebook_result?.matched_rule_id,
+      testCase.matchedRuleId,
+      `${testCase.label}: Rulebook v1 matched rule mismatch`
+    );
+    assertRulebookAttestation(result.json?.rulebook_result, `${testCase.label} Rulebook v1`);
+  }
+}
+
+async function testTrialPolicyRulebookBindsEvidenceIdentity() {
+  const evaluate = async (vendor) =>
+    invokeJson(v1PolicyDispatcher, {
+      method: "POST",
+      url: "/api/v1/trial/terms",
+      query: { policy: "trial", action: "terms" },
+      headers: { "content-type": "application/json", "user-agent": "contract-test" },
+      body: { vendor, region: "US", plan: "individual" },
+    });
+
+  const adobe = await evaluate("adobe");
+  const crunchyroll = await evaluate("crunchyroll");
+  assert.equal(adobe.json?.trial_days, crunchyroll.json?.trial_days, "evidence-binding comparison requires equal trial days");
+  assert.equal(adobe.json?.auto_converts, crunchyroll.json?.auto_converts, "evidence-binding comparison requires equal auto conversion");
+  assert.equal(
+    adobe.json?.rulebook_result?.rulebook?.hash,
+    crunchyroll.json?.rulebook_result?.rulebook?.hash,
+    "trial applications should share one declarative rulebook"
+  );
+  assert.notEqual(
+    adobe.json?.rulebook_result?.input_hash,
+    crunchyroll.json?.rulebook_result?.input_hash,
+    "trial rulebook input hash must bind vendor and policy-source identity"
+  );
+}
+
+async function testTrialPolicyRulebookSignsAttestation() {
+  const signing = generateSigningEnv("trial-policy-contract-key");
+  const previousRequired = process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+  const previousPrivateKey = process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+  const previousKeyId = process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = "true";
+  process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = signing.privateKeyPem;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = signing.keyId;
+
+  try {
+    const result = await invokeJson(v1PolicyDispatcher, {
+      method: "POST",
+      url: "/api/v1/trial/terms",
+      query: { policy: "trial", action: "terms" },
+      headers: { "content-type": "application/json", "user-agent": "contract-test" },
+      body: { vendor: "adobe", region: "US", plan: "individual" },
+    });
+    const attestation = result.json?.rulebook_result?.rulebook_attestation;
+    assert.equal(result.statusCode, 200, "signed trial policy status mismatch");
+    assert.equal(attestation?.signature?.status, "signed", "trial policy attestation should be signed");
+    assert.equal(attestation?.signature?.key_id, signing.keyId, "trial policy signing key id mismatch");
+    assert.equal(
+      verifySignature({
+        publicKeyPem: signing.publicKeyPem,
+        bundleHash: attestation?.bundle_hash,
+        signature: attestation?.signature?.signature,
+      }),
+      true,
+      "trial policy attestation signature should verify"
+    );
+  } finally {
+    if (previousRequired === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = previousRequired;
+    if (previousPrivateKey === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = previousPrivateKey;
+    if (previousKeyId === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = previousKeyId;
+  }
+}
+
+async function testTrialPolicyRulebookRequiresSignedAttestation() {
+  const previousRequired = process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+  const previousPrivateKey = process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = "true";
+  process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = "";
+
+  try {
+    const result = await invokeJson(v1PolicyDispatcher, {
+      method: "POST",
+      url: "/api/v1/trial/terms",
+      query: { policy: "trial", action: "terms" },
+      headers: { "content-type": "application/json", "user-agent": "contract-test" },
+      body: { vendor: "adobe", region: "US", plan: "individual" },
+    });
+    assert.equal(result.statusCode, 503, "trial policy must fail closed when a required signature is unavailable");
+    assert.equal(
+      result.json?.error,
+      "RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED",
+      "trial policy required-signature error mismatch"
+    );
+  } finally {
+    if (previousRequired === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = previousRequired;
+    if (previousPrivateKey === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = previousPrivateKey;
+  }
+}
+
 async function testWorkflowFixture() {
   const fixture = loadFixture("workflow-zendesk-refund.json");
   const first = await invokeJson(zendeskWorkflowDispatcher, fixture.request);
@@ -1659,6 +1856,11 @@ async function main() {
     ["refund-policy-rulebook-binds-evidence-identity", testRefundPolicyRulebookBindsEvidenceIdentity],
     ["refund-policy-rulebook-signs-attestation", testRefundPolicyRulebookSignsAttestation],
     ["refund-policy-rulebook-requires-signed-attestation", testRefundPolicyRulebookRequiresSignedAttestation],
+    ["trial-policy-rulebook", testTrialPolicyRulebookFixture],
+    ["trial-policy-rulebook-outcomes", testTrialPolicyRulebookOutcomes],
+    ["trial-policy-rulebook-binds-evidence-identity", testTrialPolicyRulebookBindsEvidenceIdentity],
+    ["trial-policy-rulebook-signs-attestation", testTrialPolicyRulebookSignsAttestation],
+    ["trial-policy-rulebook-requires-signed-attestation", testTrialPolicyRulebookRequiresSignedAttestation],
     ["workflow-zendesk-dispatch", testWorkflowFixture],
     ["ucp-vendor-enum-consistency", testUcpVendorEnumConsistency],
   ];

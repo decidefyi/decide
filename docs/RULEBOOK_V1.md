@@ -150,7 +150,7 @@ of `context.inputs`:
   "adapter": {
     "adapter_id": "solana_execution_gate",
     "version": "1.0.0",
-    "manifest_hash": "372ef38145c68e7a23da626fbe6f33256f868d73d7dfcc04371587765d916623",
+    "manifest_hash": "fd95907fb68ecc45be3ad9608410e2e3ea29a52b0e33b756086c21c6f520e967",
     "input": {
       "sol_amount": 48,
       "risk_level": "medium",
@@ -392,12 +392,13 @@ The Solana Execution Gate is the adapter-backed reference application. Its
 reviewed first-party adapter derives bounded execution facts, then Rulebook v1
 selects the binding outcome.
 
-The Refund Policy MCP notary is the direct declarative reference application.
-Its existing deterministic policy-source lookup normalizes explicit facts, then
-Rulebook v1 selects `ALLOWED`, `DENIED`, or `UNKNOWN` without a trusted adapter.
-The inspectable application rulebook lives at
-`rules/refund-policy-notary-v1.json`.
-The stable REST response remains backward compatible and includes the complete
+The Refund and Trial Policy MCP notaries are the direct declarative reference
+applications. Their existing deterministic policy-source lookups normalize
+explicit facts, then Rulebook v1 selects the binding notary verdict without a
+trusted adapter. The inspectable application rulebooks live at
+`rules/refund-policy-notary-v1.json` and
+`rules/trial-policy-notary-v1.json`.
+The stable REST responses remain backward compatible and include the complete
 Rulebook v1 result and signed rulebook attestation under `rulebook_result`. MCP
 tool calls expose the same payload as structured content.
 
@@ -440,6 +441,6 @@ The public Decision Record layer now:
 
 ## Next Contract Work
 
-1. Migrate cancellation, return, and trial Policy MCP notaries to direct
+1. Migrate cancellation and return Policy MCP notaries to direct
    declarative Rulebook v1 evaluation.
 2. Define evaluator and adapter migration plus long-term compatibility policy.
