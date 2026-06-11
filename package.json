@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "generate:golden-replay": "node scripts/generate-golden-replay-corpus.js",
+    "rulebook:migration-dry-run": "node scripts/rulebook-migration-dry-run.js",
     "smoke": "node scripts/smoke-test.js",
     "smoke:customer-key": "node scripts/customer-key-smoke.js",
     "mcp:check": "bash scripts/mcp-check.sh",

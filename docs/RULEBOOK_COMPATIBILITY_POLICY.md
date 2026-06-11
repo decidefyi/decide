@@ -64,7 +64,8 @@ The evaluator migration gate is:
 
 1. update the migration note and expected impact
 2. run public conformance fixtures
-3. run the golden replay corpus
+3. run the golden replay corpus with
+   `npm run rulebook:migration-dry-run -- --json`
 4. run first-party application contract checks for Solana Execution Gate,
    Refund Notary, Trial Notary, Cancel Notary, and Return Notary
 5. verify registry attestation and replay metadata
@@ -143,13 +144,17 @@ changes:
 
 1. document the migration intent and compatibility class
 2. update or add conformance fixtures
-3. run the golden replay corpus
+3. run `npm run rulebook:migration-dry-run -- --json`
 4. run app-specific contract and smoke checks
 5. update public docs, schemas, SDK notes, and examples when the public surface
    changes
 6. verify registry, attestation, signature, and replay metadata
 7. deploy through explicit versioned references
 8. run production smoke checks against the affected surfaces
+
+For proposed versions, use `--candidate-rulebook <rulebook_id>=<path>`,
+`--candidate-adapter <adapter_id>@<version>=<manifest_hash>`, and
+`--candidate-evaluator-version <label>` before changing production routing.
 
 Use [Rulebook Migration Examples](RULEBOOK_MIGRATION_EXAMPLES.md) as the
 release-template reference for evaluator, adapter, and rulebook changes.

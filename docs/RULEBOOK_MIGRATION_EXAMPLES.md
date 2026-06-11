@@ -11,10 +11,17 @@ The replay gate for all examples is the golden replay corpus:
 - corpus: `https://api.decide.fyi/replay/rulebook-v1/index.json`
 - corpus version: `rulebook_v1_golden_replay_v1`
 - replay contract: `historical_rulebook_replay_v1`
+- local dry-run command: `npm run rulebook:migration-dry-run -- --json`
 
 Before a migration is shipped, the old corpus must still replay against its
 stored rulebook snapshots, evaluator versions, input material, adapter lineage,
 semantic outputs, hashes, and attestation bundle hashes.
+
+Baseline command:
+
+```bash
+npm run rulebook:migration-dry-run -- --json
+```
 
 ## Evaluator Migration Example
 
@@ -31,8 +38,8 @@ Migration flow:
 
 1. Keep existing production records bound to `decide_rulebook_v1`.
 2. Run the public conformance fixtures.
-3. Run the golden replay corpus at
-   `https://api.decide.fyi/replay/rulebook-v1/index.json`.
+3. Run the golden replay corpus:
+   `npm run rulebook:migration-dry-run -- --candidate-evaluator-version decide_rulebook_v1_1 --json`.
 4. If every corpus fixture reproduces the stored semantic output, rulebook hash,
    input hash, evaluator binding, and attestation bundle hash, the evaluator can
    be released as a candidate for new rulebook versions.
@@ -74,6 +81,12 @@ Migration flow:
 5. Add a new fixture for the `1.1.0` path before making it a production
    dependency.
 
+Dry-run the candidate dependency before routing any production rulebook to it:
+
+```bash
+npm run rulebook:migration-dry-run -- --fixture solana_execution_gate_adapter_approve --candidate-adapter solana_execution_gate@1.1.0=<manifest_hash> --json
+```
+
 Compatible example: adding an optional adapter output that no existing rulebook
 version consumes.
 
@@ -110,10 +123,15 @@ Migration flow:
 5. Route only new decisions to `pricing_exception@2026-07-01`; historical replay
    remains bound to the old snapshot.
 
+Dry-run the candidate rulebook before changing routing:
+
+```bash
+npm run rulebook:migration-dry-run -- --fixture pricing_exception_direct_approve --candidate-rulebook pricing_exception=rules/pricing-exception-2026-07-01.json --json
+```
+
 Compatible example: adding an optional input field that no existing rule
 consumes and that does not change outputs for existing inputs.
 
 Breaking example: changing `STANDARD_EXCEPTION_ALLOWED` to mean a different
 business action. That requires a new rulebook version and updated downstream
 docs/tests.
-

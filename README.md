@@ -93,6 +93,17 @@ Trial, Cancel, and Return Policy MCP notaries supply normalized facts directly
 to Rulebook v1 and expose the signed rulebook result through their stable REST
 and MCP surfaces.
 
+Before evaluator, adapter, or rulebook changes ship, run the local historical
+replay gate:
+
+```bash
+npm run rulebook:migration-dry-run -- --json
+```
+
+Use `--candidate-rulebook`, `--candidate-adapter`, and
+`--candidate-evaluator-version` to compare proposed migrations against the
+golden replay corpus before production routing changes.
+
 The legacy `single`, `multi`, and `runtime` modes are AI-assisted surfaces.
 They are not the production determinism boundary for loosely defined business
 judgment.

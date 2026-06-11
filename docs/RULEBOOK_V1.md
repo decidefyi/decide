@@ -412,11 +412,14 @@ The Rulebook v1 golden replay corpus is published at
 - corpus version: `rulebook_v1_golden_replay_v1`
 - replay contract: `historical_rulebook_replay_v1`
 - generator: `npm run generate:golden-replay`
+- migration dry-run: `npm run rulebook:migration-dry-run -- --json`
 
 Each fixture freezes the stored rulebook snapshot, evaluator version, direct
 input or trusted-adapter dependency, semantic output, rulebook hash, input hash,
 and attestation bundle hash. Compatibility changes must keep existing corpus
-fixtures replayable before they can ship.
+fixtures replayable before they can ship. Use `--candidate-rulebook`,
+`--candidate-adapter`, and `--candidate-evaluator-version` to test proposed
+versioned migrations before routing production traffic to them.
 
 ## Current Production Boundary
 

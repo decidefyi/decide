@@ -1253,6 +1253,106 @@ async function testRulebookV1GoldenReplayCorpus() {
   }
 }
 
+function testRulebookMigrationDryRunCli() {
+  const repoRoot = join(__dirname, "..");
+  const readme = readFileSync(join(repoRoot, "README.md"), "utf8");
+  const compatibilityPolicy = readFileSync(join(repoRoot, "docs", "RULEBOOK_COMPATIBILITY_POLICY.md"), "utf8");
+  const migrationExamples = readFileSync(join(repoRoot, "docs", "RULEBOOK_MIGRATION_EXAMPLES.md"), "utf8");
+  const command = "npm run rulebook:migration-dry-run";
+  assert.ok(readme.includes(command), "README must document the migration dry-run command");
+  assert.ok(compatibilityPolicy.includes(command), "compatibility policy must document the migration dry-run command");
+  assert.ok(migrationExamples.includes(command), "migration examples must document the migration dry-run command");
+
+  const env = {
+    ...process.env,
+    GEMINI_API_KEY: "",
+    DECIDE_API_KEY: "",
+  };
+  const baselineOutput = execFileSync(process.execPath, ["scripts/rulebook-migration-dry-run.js", "--json"], {
+    cwd: repoRoot,
+    encoding: "utf8",
+    env,
+  });
+  const baseline = JSON.parse(baselineOutput);
+  assert.equal(baseline.ok, true, "migration dry-run baseline should pass");
+  assert.equal(baseline.corpus_version, "rulebook_v1_golden_replay_v1", "dry-run corpus version mismatch");
+  assert.equal(baseline.replay_contract, "historical_rulebook_replay_v1", "dry-run replay contract mismatch");
+  assert.equal(baseline.fixtures_total, 6, "dry-run fixture count mismatch");
+  assert.equal(baseline.drift_count, 0, "baseline dry-run should have no drift");
+  assert.deepEqual(
+    baseline.results.map((entry) => entry.status),
+    ["pass", "pass", "pass", "pass", "pass", "pass"],
+    "baseline dry-run should pass every fixture"
+  );
+
+  let driftReport = null;
+  try {
+    execFileSync(
+      process.execPath,
+      [
+        "scripts/rulebook-migration-dry-run.js",
+        "--json",
+        "--fixture",
+        "pricing_exception_direct_approve",
+        "--candidate-evaluator-version",
+        "decide_rulebook_v1_1",
+        "--candidate-rulebook",
+        "pricing_exception=scripts/fixtures/decision-contract/pricing-exception-2026-07-01-rulebook.json",
+      ],
+      {
+        cwd: repoRoot,
+        encoding: "utf8",
+        env,
+        stdio: ["ignore", "pipe", "pipe"],
+      }
+    );
+  } catch (error) {
+    driftReport = JSON.parse(String(error.stdout || ""));
+    assert.equal(error.status, 1, "candidate drift dry-run should exit 1");
+  }
+  assert.ok(driftReport, "candidate drift dry-run should fail with a JSON report");
+  assert.equal(driftReport.ok, false, "candidate drift report should be marked not ok");
+  assert.equal(driftReport.candidate_evaluator_version, "decide_rulebook_v1_1", "candidate evaluator label mismatch");
+  assert.deepEqual(
+    driftReport.candidate_rulebooks,
+    ["pricing_exception"],
+    "candidate rulebook selector should be reported"
+  );
+  assert.equal(driftReport.fixtures_total, 1, "candidate dry-run should filter one fixture");
+  assert.equal(driftReport.drift_count, 1, "candidate dry-run should report one drift");
+  assert.equal(driftReport.results?.[0]?.id, "pricing_exception_direct_approve", "candidate drift fixture mismatch");
+  assert.equal(driftReport.results?.[0]?.status, "drift", "candidate result should be drift");
+  assert.ok(
+    driftReport.results?.[0]?.drifts?.some((entry) => entry.field === "rulebook"),
+    "candidate drift should include rulebook lineage drift"
+  );
+  assert.ok(
+    driftReport.results?.[0]?.drifts?.some((entry) => entry.field === "attestation_hash"),
+    "candidate drift should include attestation hash drift"
+  );
+
+  const allowedOutput = execFileSync(
+    process.execPath,
+    [
+      "scripts/rulebook-migration-dry-run.js",
+      "--json",
+      "--allow-drift",
+      "--fixture",
+      "pricing_exception_direct_approve",
+      "--candidate-rulebook",
+      "pricing_exception=scripts/fixtures/decision-contract/pricing-exception-2026-07-01-rulebook.json",
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env,
+    }
+  );
+  const allowed = JSON.parse(allowedOutput);
+  assert.equal(allowed.ok, false, "allow-drift should preserve not-ok report semantics");
+  assert.equal(allowed.drift_count, 1, "allow-drift should preserve drift count");
+}
+
 function testRulebookRuntimeArchitectureDoc() {
   const architecturePath = join(__dirname, "..", "docs", "RULEBOOK_RUNTIME_ARCHITECTURE.md");
   const rulebookDocPath = join(__dirname, "..", "docs", "RULEBOOK_V1.md");
@@ -2497,6 +2597,7 @@ async function main() {
     ["decide-trusted-adapter-rejects-executable-input-fields", testDecideTrustedAdapterRejectsExecutableInputFields],
     ["rulebook-v1-public-conformance-fixtures", testRulebookV1PublicConformanceFixtures],
     ["rulebook-v1-golden-replay-corpus", testRulebookV1GoldenReplayCorpus],
+    ["rulebook-migration-dry-run-cli", testRulebookMigrationDryRunCli],
     ["rulebook-runtime-architecture-doc", testRulebookRuntimeArchitectureDoc],
     ["decide-model-fallback-order", testDecideModelFallbackOrder],
     ["decide-model-fallback-empty-text", testDecideModelFallbackOnEmptyText],
