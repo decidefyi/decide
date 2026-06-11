@@ -161,6 +161,10 @@
     "action": "authorize_execution",
     "reason_code": "EXECUTION_GATE_APPROVED",
     "matched_rule_id": "approve_policy_compliant_execution",
+    "attestation": {
+      "schema_version": "rulebook_attestation_v1",
+      "bundle_hash_format": "sha256_hex"
+    },
     "adapter_facts": {
       "decision_score": 91,
       "decision_edge_points": 34,

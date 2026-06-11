@@ -2,6 +2,7 @@ import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders
 import { persistLog } from "../lib/log.js";
 import { buildSourceHash, withLineage } from "../lib/lineage.js";
 import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
+import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
 import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
 import { timingSafeEqual } from "node:crypto";
 
@@ -606,6 +607,7 @@ export default async function handler(req, res) {
             }
           : {}),
       };
+      result.rulebook_attestation = buildRulebookAttestation(result);
       sendDecisionJson(
         res,
         200,

@@ -22,6 +22,12 @@ The rulebook selects the binding application verdict, reason code, matched rule,
 and action. It is closed, canonicalized, hashed, registered by the public
 Decision Record layer, and replayed from an immutable snapshot.
 
+Successful Rulebook v1 evaluations include a `rulebook_attestation_v1` registry
+attestation: canonical engine, evaluator, rulebook hash, input hash, outcome,
+and trusted-adapter lineage, plus a SHA-256 `bundle_hash` over that material.
+This is the replay binding surface for downstream Decision Records. It is not
+yet a cryptographic signature.
+
 Customer-supplied executable rulebooks do not run inside Decide.
 
 Executable code is allowed only through registered first-party trusted adapters.
@@ -81,6 +87,10 @@ Worker-thread isolation is an execution guardrail, not an OS sandbox.
 If Decide later supports customer-authored executable policy logic, it must be
 introduced as a new architecture decision and a new versioned contract. It must
 not be added to Rulebook v1.
+
+If Decide later signs Rulebook v1 attestations, signing must cover the existing
+`rulebook_attestation.bundle_hash` and publish a verifier contract. The unsigned
+registry attestation remains the v1 canonical bundle format.
 
 See also:
 

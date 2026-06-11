@@ -3,7 +3,7 @@
   "schema_version": "rulebook_v1",
   "schema_url": "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
   "api_endpoint": "https://api.decide.fyi/api/decide",
-  "description": "Public Rulebook v1 conformance fixtures for deterministic direct-input, trusted-adapter, and fail-closed executable-payload cases.",
+  "description": "Public Rulebook v1 conformance fixtures for deterministic direct-input, trusted-adapter, registry-attested, and fail-closed executable-payload cases.",
   "fixtures": [
     {
       "id": "pricing_exception_direct_approve",

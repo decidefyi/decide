@@ -302,6 +302,18 @@ adapter facts actually consumed by the declarative rulebook. The raw inputs do
 not need to be returned for downstream systems to bind the Decision Record to
 the replay material.
 
+Each successful Rulebook v1 response also includes `rulebook_attestation`:
+
+- `schema_version`: `rulebook_attestation_v1`
+- `bundle`: canonical semantic execution material
+- `bundle_hash`: SHA-256 over canonical bundle JSON
+
+The bundle contains the engine, evaluator version, rulebook identity and hash,
+input hash, outcome fields, and trusted adapter attestation when present. It is
+not a cryptographic signature; it is the registry attestation that lets callers
+bind a Decision Record to the exact deterministic execution tuple without
+depending on mutable response formatting.
+
 The rulebook ID becomes `policy_id`, and its version becomes `policy_version`.
 The decidesite proxy then incorporates those values into Decision Record v1.
 
@@ -359,7 +371,7 @@ The public Decision Record layer now:
 
 ## Next Contract Work
 
-1. Add a signed rulebook bundle or registry attestation.
+1. Add cryptographic signing for `rulebook_attestation.bundle_hash`.
 2. Add stronger runtime enforcement for declared adapter capability denial.
 3. Migrate a second materially different Krafthaus application.
 4. Define evaluator and adapter migration plus long-term compatibility policy.

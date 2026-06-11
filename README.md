@@ -64,7 +64,8 @@ Machine-readable schema: [`https://api.decide.fyi/schemas/rulebook-v1.schema.jso
 evaluates bounded conditions, and returns normalized `yes`, `no`, or `review`
 alongside the application verdict, action, reason code, matched rule, and
 `evaluator_version`. Responses also include `input_hash`, a SHA-256 hash of the
-canonical inputs or adapter facts consumed by the declarative evaluator.
+canonical inputs or adapter facts consumed by the declarative evaluator, plus a
+`rulebook_attestation_v1` bundle hash over the deterministic execution tuple.
 
 At the public Decision Record boundary, successful evaluations are registered
 as immutable tenant-scoped snapshots. Historical replay restores the original
