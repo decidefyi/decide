@@ -3,6 +3,7 @@
 Status: Declarative runtime, trusted adapter contract, immutable registry, and historical replay implemented
 Schema version: `rulebook_v1`
 Effective: 2026-06-11
+JSON Schema: `https://api.decide.fyi/schemas/rulebook-v1.schema.json`
 
 ## Architecture Decision
 

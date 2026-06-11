@@ -536,8 +536,14 @@ async function testDecideTrustedAdapterRejectsExecutableInputFields() {
 
 function testRulebookRuntimeArchitectureDoc() {
   const architecturePath = join(__dirname, "..", "docs", "RULEBOOK_RUNTIME_ARCHITECTURE.md");
+  const rulebookDocPath = join(__dirname, "..", "docs", "RULEBOOK_V1.md");
+  const schemaPath = join(__dirname, "..", "public", "schemas", "rulebook-v1.schema.json");
   assert.ok(existsSync(architecturePath), "rulebook runtime architecture doc is missing");
+  assert.ok(existsSync(rulebookDocPath), "rulebook contract doc is missing");
+  assert.ok(existsSync(schemaPath), "public Rulebook v1 JSON Schema artifact is missing");
   const architecture = readFileSync(architecturePath, "utf8");
+  const rulebookDoc = readFileSync(rulebookDocPath, "utf8");
+  const schema = loadJsonFromRepo("public", "schemas", "rulebook-v1.schema.json");
   const readme = readFileSync(join(__dirname, "..", "README.md"), "utf8");
   assert.ok(architecture.includes("Status: Accepted"), "runtime architecture doc must record accepted status");
   assert.ok(
@@ -555,6 +561,24 @@ function testRulebookRuntimeArchitectureDoc() {
   assert.ok(
     readme.includes("docs/RULEBOOK_RUNTIME_ARCHITECTURE.md"),
     "README must link the runtime architecture decision"
+  );
+  assert.equal(schema.$id, "https://api.decide.fyi/schemas/rulebook-v1.schema.json", "schema id must use the API origin");
+  assert.equal(schema.properties?.schema_version?.const, "rulebook_v1", "schema must lock the Rulebook v1 version");
+  assert.equal(schema.additionalProperties, false, "schema root must be closed");
+  assert.equal(schema.$defs?.rule?.additionalProperties, false, "schema rule objects must be closed");
+  assert.equal(schema.$defs?.outcome?.additionalProperties, false, "schema outcomes must be closed");
+  assert.equal(
+    schema.$defs?.condition?.oneOf?.[3]?.properties?.operator?.enum?.includes("javascript"),
+    false,
+    "schema must not expose executable operators"
+  );
+  for (const field of ["code", "source", "script", "function", "handler", "javascript", "typescript", "wasm"]) {
+    assert.equal(schema.properties?.[field], undefined, `schema root must not expose executable field ${field}`);
+    assert.equal(schema.$defs?.rule?.properties?.[field], undefined, `schema rules must not expose executable field ${field}`);
+  }
+  assert.ok(
+    rulebookDoc.includes("https://api.decide.fyi/schemas/rulebook-v1.schema.json"),
+    "rulebook contract doc must link the public JSON Schema artifact"
   );
 }
 

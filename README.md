@@ -13,6 +13,7 @@
 Binding production verdicts should use a versioned declarative rulebook:
 
 Runtime architecture: see [`docs/RULEBOOK_RUNTIME_ARCHITECTURE.md`](docs/RULEBOOK_RUNTIME_ARCHITECTURE.md).
+Machine-readable schema: [`https://api.decide.fyi/schemas/rulebook-v1.schema.json`](https://api.decide.fyi/schemas/rulebook-v1.schema.json).
 
 ```json
 {
