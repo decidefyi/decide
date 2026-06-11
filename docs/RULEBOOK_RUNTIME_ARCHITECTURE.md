@@ -103,6 +103,13 @@ clock, Web Crypto randomness, network, and timer globals before invoking the
 adapter. Adapter attempts to use or replace those globals fail with
 `TRUSTED_ADAPTER_CAPABILITY_DENIED`.
 
+Two Krafthaus application patterns now exercise this architecture:
+
+- Solana Execution Gate uses a registered trusted adapter to derive bounded
+  execution facts before declarative evaluation.
+- Refund Policy MCP notary supplies normalized policy facts directly to
+  Rulebook v1 and requires no trusted adapter.
+
 ## Future Changes
 
 If Decide later supports customer-authored executable policy logic, it must be

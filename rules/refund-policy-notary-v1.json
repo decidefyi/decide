@@ -1,0 +1,100 @@
+{
+  "schema_version": "rulebook_v1",
+  "rulebook_id": "refund_policy_notary",
+  "version": "2026-06-11",
+  "input_schema": {
+    "required": [
+      "region_supported",
+      "plan_supported",
+      "vendor_supported",
+      "refunds_supported",
+      "within_window",
+      "days_since_purchase",
+      "window_days",
+      "vendor",
+      "region",
+      "plan",
+      "policy_rules_version",
+      "policy_source_url",
+      "policy_source_notes"
+    ],
+    "properties": {
+      "region_supported": { "type": "boolean" },
+      "plan_supported": { "type": "boolean" },
+      "vendor_supported": { "type": "boolean" },
+      "refunds_supported": { "type": "boolean" },
+      "within_window": { "type": "boolean" },
+      "days_since_purchase": { "type": "integer" },
+      "window_days": { "type": "integer" },
+      "vendor": { "type": "string" },
+      "region": { "type": "string" },
+      "plan": { "type": "string" },
+      "policy_rules_version": { "type": "string" },
+      "policy_source_url": { "type": "string" },
+      "policy_source_notes": { "type": "string" }
+    }
+  },
+  "rules": [
+    {
+      "rule_id": "review_unsupported_region",
+      "priority": 500,
+      "condition": { "field": "region_supported", "operator": "eq", "value": false },
+      "outcome": {
+        "decision": "review",
+        "verdict": "UNKNOWN",
+        "action": "request_supported_region",
+        "reason_code": "NON_US_REGION"
+      }
+    },
+    {
+      "rule_id": "review_unsupported_plan",
+      "priority": 490,
+      "condition": { "field": "plan_supported", "operator": "eq", "value": false },
+      "outcome": {
+        "decision": "review",
+        "verdict": "UNKNOWN",
+        "action": "request_supported_plan",
+        "reason_code": "NON_INDIVIDUAL_PLAN"
+      }
+    },
+    {
+      "rule_id": "review_unsupported_vendor",
+      "priority": 480,
+      "condition": { "field": "vendor_supported", "operator": "eq", "value": false },
+      "outcome": {
+        "decision": "review",
+        "verdict": "UNKNOWN",
+        "action": "request_supported_vendor",
+        "reason_code": "UNSUPPORTED_VENDOR"
+      }
+    },
+    {
+      "rule_id": "deny_vendor_without_refunds",
+      "priority": 300,
+      "condition": { "field": "refunds_supported", "operator": "eq", "value": false },
+      "outcome": {
+        "decision": "no",
+        "verdict": "DENIED",
+        "action": "deny_refund",
+        "reason_code": "NO_REFUNDS"
+      }
+    },
+    {
+      "rule_id": "allow_within_refund_window",
+      "priority": 200,
+      "condition": { "field": "within_window", "operator": "eq", "value": true },
+      "outcome": {
+        "decision": "yes",
+        "verdict": "ALLOWED",
+        "action": "approve_refund",
+        "reason_code": "WITHIN_WINDOW"
+      }
+    }
+  ],
+  "default_outcome": {
+    "decision": "no",
+    "verdict": "DENIED",
+    "action": "deny_refund",
+    "reason_code": "OUTSIDE_WINDOW"
+  }
+}

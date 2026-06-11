@@ -386,6 +386,21 @@ The public registry binds one rulebook ID/version to both an evaluator version
 and, when present, one trusted adapter dependency. Adapter drift requires an
 explicit rulebook or adapter version migration.
 
+## Reference Application Patterns
+
+The Solana Execution Gate is the adapter-backed reference application. Its
+reviewed first-party adapter derives bounded execution facts, then Rulebook v1
+selects the binding outcome.
+
+The Refund Policy MCP notary is the direct declarative reference application.
+Its existing deterministic policy-source lookup normalizes explicit facts, then
+Rulebook v1 selects `ALLOWED`, `DENIED`, or `UNKNOWN` without a trusted adapter.
+The inspectable application rulebook lives at
+`rules/refund-policy-notary-v1.json`.
+The stable REST response remains backward compatible and includes the complete
+Rulebook v1 result and signed rulebook attestation under `rulebook_result`. MCP
+tool calls expose the same payload as structured content.
+
 ## Current Production Boundary
 
 `mode: "rulebook"` is the deterministic production evaluation path.
@@ -425,5 +440,6 @@ The public Decision Record layer now:
 
 ## Next Contract Work
 
-1. Migrate a second materially different Krafthaus application.
+1. Migrate cancellation, return, and trial Policy MCP notaries to direct
+   declarative Rulebook v1 evaluation.
 2. Define evaluator and adapter migration plus long-term compatibility policy.

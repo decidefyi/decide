@@ -162,6 +162,32 @@ async function main() {
   );
 
   await runCase(
+    "refund MCP tools/call Rulebook v1 result",
+    refundMcp,
+    {
+      method: "POST",
+      headers: { "user-agent": "smoke-test" },
+      body: {
+        jsonrpc: "2.0",
+        id: 2,
+        method: "tools/call",
+        params: {
+          name: "refund_eligibility",
+          arguments: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+        },
+      },
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.result?.structuredContent?.verdict === "ALLOWED", "expected structured ALLOWED verdict");
+      expect(
+        json.result?.structuredContent?.rulebook_result?.engine === "decide_rulebook_v1",
+        "expected structured Rulebook v1 result"
+      );
+    }
+  );
+
+  await runCase(
     "cancel MCP tools/list",
     cancelMcp,
     {
