@@ -25,6 +25,10 @@ function loadJsonFromRepo(...segments) {
   return JSON.parse(readFileSync(join(__dirname, "..", ...segments), "utf8"));
 }
 
+function loadPublicRulebookConformanceFixture(fileName) {
+  return loadJsonFromRepo("public", "conformance", "rulebook-v1", fileName);
+}
+
 function assertIsoTimestamp(value, label) {
   assert.equal(typeof value, "string", `${label}: expected string`);
   assert.ok(Number.isFinite(Date.parse(value)), `${label}: expected ISO timestamp`);
@@ -534,6 +538,111 @@ async function testDecideTrustedAdapterRejectsExecutableInputFields() {
   }
 }
 
+async function testRulebookV1PublicConformanceFixtures() {
+  const indexPath = join(__dirname, "..", "public", "conformance", "rulebook-v1", "index.json");
+  assert.ok(existsSync(indexPath), "public Rulebook v1 conformance index is missing");
+  const schema = loadJsonFromRepo("public", "schemas", "rulebook-v1.schema.json");
+  const index = loadPublicRulebookConformanceFixture("index.json");
+  assert.equal(index.conformance_version, "rulebook_v1_conformance_v1", "conformance index version mismatch");
+  assert.equal(index.schema_url, schema.$id, "conformance index schema URL mismatch");
+  assert.deepEqual(
+    index.fixtures.map((fixture) => fixture.id),
+    [
+      "pricing_exception_direct_approve",
+      "solana_execution_gate_adapter_approve",
+      "executable_payload_rejected",
+    ],
+    "public Rulebook v1 conformance fixture set changed unexpectedly"
+  );
+
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("Rulebook v1 conformance fixtures must not call an LLM");
+  };
+
+  try {
+    for (const [fixtureIndex, fixtureRef] of index.fixtures.entries()) {
+      assert.ok(
+        fixtureRef.url.startsWith("https://api.decide.fyi/conformance/rulebook-v1/"),
+        `${fixtureRef.id}: fixture URL must use API origin`
+      );
+      const fileName = fixtureRef.url.split("/").pop();
+      const fixture = loadPublicRulebookConformanceFixture(fileName);
+      assert.equal(fixture.fixture_version, "rulebook_v1_conformance_v1", `${fixtureRef.id}: fixture version mismatch`);
+      assert.equal(fixture.id, fixtureRef.id, `${fixtureRef.id}: fixture id mismatch`);
+      assert.equal(fixture.schema_url, schema.$id, `${fixtureRef.id}: schema URL mismatch`);
+      assert.equal(fixture.request?.method, "POST", `${fixtureRef.id}: request method mismatch`);
+      assert.equal(fixture.request?.path, "/api/decide", `${fixtureRef.id}: request path mismatch`);
+      assert.equal(fixture.request?.body?.mode, "rulebook", `${fixtureRef.id}: fixture must use rulebook mode`);
+
+      const request = {
+        ...fixture.request,
+        headers: {
+          ...(fixture.request.headers || {}),
+          "x-forwarded-for": `10.255.0.${fixtureIndex + 1}`,
+        },
+      };
+      const first = await invokeJson(decideHandler, request);
+      assert.equal(first.statusCode, fixture.expect.statusCode, `${fixtureRef.id}: status mismatch`);
+
+      if (fixture.expect.ok === false) {
+        assert.equal(first.json?.error, fixture.expect.error, `${fixtureRef.id}: error mismatch`);
+        for (const field of fixture.expect.expected_unknown_fields || []) {
+          assertUnknownField(first.json?.errors, field, `${fixtureRef.id}: unknown field expectation`);
+        }
+        continue;
+      }
+
+      const second = await invokeJson(decideHandler, request);
+      assert.equal(first.json?.engine, "decide_rulebook_v1", `${fixtureRef.id}: engine mismatch`);
+      assert.equal(first.json?.rulebook?.schema_version, "rulebook_v1", `${fixtureRef.id}: rulebook schema mismatch`);
+      assert.equal(first.json?.verdict, fixture.expect.decision, `${fixtureRef.id}: decision mismatch`);
+      assert.equal(first.json?.application_verdict, fixture.expect.application_verdict, `${fixtureRef.id}: application verdict mismatch`);
+      assert.equal(first.json?.action, fixture.expect.action, `${fixtureRef.id}: action mismatch`);
+      assert.equal(first.json?.reason_code, fixture.expect.reason_code, `${fixtureRef.id}: reason code mismatch`);
+      assert.equal(first.json?.matched_rule_id, fixture.expect.matched_rule_id, `${fixtureRef.id}: matched rule mismatch`);
+      assert.equal(typeof first.json?.rulebook?.hash, "string", `${fixtureRef.id}: rulebook hash missing`);
+      assert.deepEqual(
+        {
+          verdict: second.json?.verdict,
+          application_verdict: second.json?.application_verdict,
+          action: second.json?.action,
+          reason_code: second.json?.reason_code,
+          matched_rule_id: second.json?.matched_rule_id,
+          rulebook_hash: second.json?.rulebook?.hash,
+          adapter_facts: second.json?.adapter_facts || null,
+        },
+        {
+          verdict: first.json?.verdict,
+          application_verdict: first.json?.application_verdict,
+          action: first.json?.action,
+          reason_code: first.json?.reason_code,
+          matched_rule_id: first.json?.matched_rule_id,
+          rulebook_hash: first.json?.rulebook?.hash,
+          adapter_facts: first.json?.adapter_facts || null,
+        },
+        `${fixtureRef.id}: repeated fixture run must reproduce semantic output`
+      );
+      if (fixture.expect.adapter_facts) {
+        for (const [field, expectedValue] of Object.entries(fixture.expect.adapter_facts)) {
+          assert.equal(first.json?.adapter_facts?.[field], expectedValue, `${fixtureRef.id}: adapter fact ${field} mismatch`);
+        }
+      }
+    }
+    assert.equal(fetchCalled, false, "Rulebook v1 conformance fixtures unexpectedly called an LLM");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
 function testRulebookRuntimeArchitectureDoc() {
   const architecturePath = join(__dirname, "..", "docs", "RULEBOOK_RUNTIME_ARCHITECTURE.md");
   const rulebookDocPath = join(__dirname, "..", "docs", "RULEBOOK_V1.md");
@@ -817,6 +926,7 @@ async function main() {
     ["decide-trusted-adapter-manifest-drift", testDecideTrustedAdapterRejectsManifestDrift],
     ["decide-trusted-adapter-rejects-executable-payload-fields", testDecideTrustedAdapterRejectsExecutablePayloadFields],
     ["decide-trusted-adapter-rejects-executable-input-fields", testDecideTrustedAdapterRejectsExecutableInputFields],
+    ["rulebook-v1-public-conformance-fixtures", testRulebookV1PublicConformanceFixtures],
     ["rulebook-runtime-architecture-doc", testRulebookRuntimeArchitectureDoc],
     ["decide-model-fallback-order", testDecideModelFallbackOrder],
     ["decide-model-fallback-empty-text", testDecideModelFallbackOnEmptyText],

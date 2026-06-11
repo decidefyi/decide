@@ -1,0 +1,27 @@
+{
+  "conformance_version": "rulebook_v1_conformance_v1",
+  "schema_version": "rulebook_v1",
+  "schema_url": "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
+  "api_endpoint": "https://api.decide.fyi/api/decide",
+  "description": "Public Rulebook v1 conformance fixtures for deterministic direct-input, trusted-adapter, and fail-closed executable-payload cases.",
+  "fixtures": [
+    {
+      "id": "pricing_exception_direct_approve",
+      "title": "Direct input pricing exception approval",
+      "kind": "direct_input_success",
+      "url": "https://api.decide.fyi/conformance/rulebook-v1/pricing-exception-direct-approve.json"
+    },
+    {
+      "id": "solana_execution_gate_adapter_approve",
+      "title": "Trusted adapter Solana execution gate approval",
+      "kind": "trusted_adapter_success",
+      "url": "https://api.decide.fyi/conformance/rulebook-v1/solana-execution-gate-adapter-approve.json"
+    },
+    {
+      "id": "executable_payload_rejected",
+      "title": "Executable-shaped rulebook payload rejection",
+      "kind": "fail_closed_rejection",
+      "url": "https://api.decide.fyi/conformance/rulebook-v1/executable-payload-rejected.json"
+    }
+  ]
+}

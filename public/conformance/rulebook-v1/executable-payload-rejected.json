@@ -1,0 +1,79 @@
+{
+  "fixture_version": "rulebook_v1_conformance_v1",
+  "id": "executable_payload_rejected",
+  "title": "Executable-shaped rulebook payload rejection",
+  "schema_url": "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
+  "request": {
+    "method": "POST",
+    "path": "/api/decide",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "mode": "rulebook",
+      "rulebook": {
+        "schema_version": "rulebook_v1",
+        "rulebook_id": "pricing_exception",
+        "version": "2026-06-11",
+        "code": "return { decision: 'yes' }",
+        "handler": "pricingException",
+        "input_schema": {
+          "required": [
+            "discount_percent",
+            "margin_percent"
+          ],
+          "properties": {
+            "discount_percent": {
+              "type": "number"
+            },
+            "margin_percent": {
+              "type": "number"
+            }
+          }
+        },
+        "rules": [
+          {
+            "rule_id": "approve_standard_exception",
+            "priority": 50,
+            "condition": {
+              "field": "discount_percent",
+              "operator": "lte",
+              "value": 15,
+              "function": "return process.env"
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "APPROVE",
+              "action": "approve_discount",
+              "reason_code": "STANDARD_EXCEPTION_ALLOWED"
+            }
+          }
+        ],
+        "default_outcome": {
+          "decision": "review",
+          "verdict": "REVIEW",
+          "action": "route_to_owner",
+          "reason_code": "NO_RULE_MATCHED",
+          "javascript": "return 'approve'"
+        }
+      },
+      "context": {
+        "inputs": {
+          "discount_percent": 10,
+          "margin_percent": 22
+        }
+      }
+    }
+  },
+  "expect": {
+    "ok": false,
+    "statusCode": 422,
+    "error": "RULEBOOK_INVALID",
+    "expected_unknown_fields": [
+      "rulebook.code",
+      "rulebook.handler",
+      "rulebook.rules[0].condition.function",
+      "rulebook.default_outcome.javascript"
+    ]
+  }
+}
