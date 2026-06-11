@@ -1197,8 +1197,8 @@ function testRulebookRuntimeArchitectureDoc() {
     "rulebook contract doc must document attestation key history"
   );
   assert.ok(
-    rulebookDoc.includes("Refund, Trial, and Cancel Policy MCP notaries"),
-    "rulebook contract doc must identify the second materially different Krafthaus application"
+    rulebookDoc.includes("Refund, Trial, Cancel, and Return Policy MCP notaries"),
+    "rulebook contract doc must identify the direct-rulebook Policy MCP notaries"
   );
   assert.ok(
     rulebookDoc.includes("rules/trial-policy-notary-v1.json"),
@@ -1207,6 +1207,10 @@ function testRulebookRuntimeArchitectureDoc() {
   assert.ok(
     rulebookDoc.includes("rules/cancel-policy-notary-v1.json"),
     "rulebook contract doc must identify the cancel direct-rulebook notary"
+  );
+  assert.ok(
+    rulebookDoc.includes("rules/return-policy-notary-v1.json"),
+    "rulebook contract doc must identify the return direct-rulebook notary"
   );
   assert.ok(
     readme.includes("DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON"),
@@ -1985,6 +1989,213 @@ async function testCancelPolicyRulebookRequiresSignedAttestation() {
   }
 }
 
+async function testReturnPolicyRulebookFixture() {
+  const result = await invokeJson(v1PolicyDispatcher, {
+    method: "POST",
+    url: "/api/v1/return/eligibility",
+    query: { policy: "return", action: "eligibility" },
+    headers: { "content-type": "application/json", "user-agent": "contract-test" },
+    body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+  });
+  assert.equal(result.statusCode, 200, "return policy status mismatch");
+  assert.equal(result.json?.verdict, "RETURNABLE", "return policy legacy verdict mismatch");
+  assert.equal(result.json?.code, "FULL_RETURN", "return policy legacy reason code mismatch");
+  assertLineage(result.json, "return_policy_v1");
+  assert.equal(result.json?.rulebook_result?.engine, "decide_rulebook_v1", "return policy should use Rulebook v1");
+  assert.equal(
+    result.json?.rulebook_result?.rulebook?.id,
+    "return_policy_notary",
+    "return policy should use the return policy rulebook"
+  );
+  assert.equal(
+    result.json?.rulebook_result?.application_verdict,
+    "RETURNABLE",
+    "return policy Rulebook v1 application verdict mismatch"
+  );
+  assert.equal(
+    result.json?.rulebook_result?.reason_code,
+    "FULL_RETURN",
+    "return policy Rulebook v1 reason code mismatch"
+  );
+  assert.equal(
+    result.json?.rulebook_result?.matched_rule_id,
+    "allow_full_return",
+    "return policy Rulebook v1 matched rule mismatch"
+  );
+  assert.equal(result.json?.rulebook_result?.trusted_adapter, undefined, "return policy should not use a trusted adapter");
+  assertRulebookAttestation(result.json?.rulebook_result, "return policy Rulebook v1");
+}
+
+async function testReturnPolicyRulebookOutcomes() {
+  const cases = [
+    {
+      label: "full return",
+      body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+      verdict: "RETURNABLE",
+      code: "FULL_RETURN",
+      matchedRuleId: "allow_full_return",
+    },
+    {
+      label: "prorated return",
+      body: { vendor: "playstation_plus", days_since_purchase: 5, region: "US", plan: "individual" },
+      verdict: "RETURNABLE",
+      code: "PRORATED_RETURN",
+      matchedRuleId: "allow_prorated_return",
+    },
+    {
+      label: "vendor without returns",
+      body: { vendor: "netflix", days_since_purchase: 1, region: "US", plan: "individual" },
+      verdict: "NON_RETURNABLE",
+      code: "NO_RETURNS",
+      matchedRuleId: "deny_no_returns",
+    },
+    {
+      label: "expired return window",
+      body: { vendor: "adobe", days_since_purchase: 30, region: "US", plan: "individual" },
+      verdict: "EXPIRED",
+      code: "OUTSIDE_WINDOW",
+      matchedRuleId: null,
+    },
+    {
+      label: "unsupported vendor",
+      body: { vendor: "unknown_vendor", days_since_purchase: 1, region: "US", plan: "individual" },
+      verdict: "UNKNOWN",
+      code: "UNSUPPORTED_VENDOR",
+      matchedRuleId: "review_unsupported_vendor",
+    },
+    {
+      label: "unsupported region",
+      body: { vendor: "adobe", days_since_purchase: 1, region: "SE", plan: "individual" },
+      verdict: "UNKNOWN",
+      code: "NON_US_REGION",
+      matchedRuleId: "review_unsupported_region",
+    },
+  ];
+
+  for (const testCase of cases) {
+    const result = await invokeJson(v1PolicyDispatcher, {
+      method: "POST",
+      url: "/api/v1/return/eligibility",
+      query: { policy: "return", action: "eligibility" },
+      headers: { "content-type": "application/json", "user-agent": "contract-test" },
+      body: testCase.body,
+    });
+    assert.equal(result.statusCode, 200, `${testCase.label}: policy status mismatch`);
+    assert.equal(result.json?.verdict, testCase.verdict, `${testCase.label}: legacy verdict mismatch`);
+    assert.equal(result.json?.code, testCase.code, `${testCase.label}: legacy reason code mismatch`);
+    assert.equal(
+      result.json?.rulebook_result?.application_verdict,
+      testCase.verdict,
+      `${testCase.label}: Rulebook v1 application verdict mismatch`
+    );
+    assert.equal(
+      result.json?.rulebook_result?.reason_code,
+      testCase.code,
+      `${testCase.label}: Rulebook v1 reason code mismatch`
+    );
+    assert.equal(
+      result.json?.rulebook_result?.matched_rule_id,
+      testCase.matchedRuleId,
+      `${testCase.label}: Rulebook v1 matched rule mismatch`
+    );
+    assertRulebookAttestation(result.json?.rulebook_result, `${testCase.label} Rulebook v1`);
+  }
+}
+
+async function testReturnPolicyRulebookBindsEvidenceIdentity() {
+  const evaluate = async (vendor) =>
+    invokeJson(v1PolicyDispatcher, {
+      method: "POST",
+      url: "/api/v1/return/eligibility",
+      query: { policy: "return", action: "eligibility" },
+      headers: { "content-type": "application/json", "user-agent": "contract-test" },
+      body: { vendor, days_since_purchase: 5, region: "US", plan: "individual" },
+    });
+
+  const adobe = await evaluate("adobe");
+  const apple = await evaluate("apple_app_store");
+  assert.equal(adobe.json?.return_window_days, apple.json?.return_window_days, "evidence-binding comparison requires equal return windows");
+  assert.equal(adobe.json?.return_type, apple.json?.return_type, "evidence-binding comparison requires equal return type");
+  assert.equal(
+    adobe.json?.rulebook_result?.rulebook?.hash,
+    apple.json?.rulebook_result?.rulebook?.hash,
+    "return applications should share one declarative rulebook"
+  );
+  assert.notEqual(
+    adobe.json?.rulebook_result?.input_hash,
+    apple.json?.rulebook_result?.input_hash,
+    "return rulebook input hash must bind vendor and policy-source identity"
+  );
+}
+
+async function testReturnPolicyRulebookSignsAttestation() {
+  const signing = generateSigningEnv("return-policy-contract-key");
+  const previousRequired = process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+  const previousPrivateKey = process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+  const previousKeyId = process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = "true";
+  process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = signing.privateKeyPem;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = signing.keyId;
+
+  try {
+    const result = await invokeJson(v1PolicyDispatcher, {
+      method: "POST",
+      url: "/api/v1/return/eligibility",
+      query: { policy: "return", action: "eligibility" },
+      headers: { "content-type": "application/json", "user-agent": "contract-test" },
+      body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+    });
+    const attestation = result.json?.rulebook_result?.rulebook_attestation;
+    assert.equal(result.statusCode, 200, "signed return policy status mismatch");
+    assert.equal(attestation?.signature?.status, "signed", "return policy attestation should be signed");
+    assert.equal(attestation?.signature?.key_id, signing.keyId, "return policy signing key id mismatch");
+    assert.equal(
+      verifySignature({
+        publicKeyPem: signing.publicKeyPem,
+        bundleHash: attestation?.bundle_hash,
+        signature: attestation?.signature?.signature,
+      }),
+      true,
+      "return policy attestation signature should verify"
+    );
+  } finally {
+    if (previousRequired === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = previousRequired;
+    if (previousPrivateKey === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = previousPrivateKey;
+    if (previousKeyId === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_KEY_ID = previousKeyId;
+  }
+}
+
+async function testReturnPolicyRulebookRequiresSignedAttestation() {
+  const previousRequired = process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+  const previousPrivateKey = process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+  process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = "true";
+  process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = "";
+
+  try {
+    const result = await invokeJson(v1PolicyDispatcher, {
+      method: "POST",
+      url: "/api/v1/return/eligibility",
+      query: { policy: "return", action: "eligibility" },
+      headers: { "content-type": "application/json", "user-agent": "contract-test" },
+      body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+    });
+    assert.equal(result.statusCode, 503, "return policy must fail closed when a required signature is unavailable");
+    assert.equal(
+      result.json?.error,
+      "RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED",
+      "return policy required-signature error mismatch"
+    );
+  } finally {
+    if (previousRequired === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_SIGNATURE_REQUIRED = previousRequired;
+    if (previousPrivateKey === undefined) delete process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM;
+    else process.env.DECIDE_RULEBOOK_ATTESTATION_PRIVATE_KEY_PEM = previousPrivateKey;
+  }
+}
+
 async function testWorkflowFixture() {
   const fixture = loadFixture("workflow-zendesk-refund.json");
   const first = await invokeJson(zendeskWorkflowDispatcher, fixture.request);
@@ -2063,6 +2274,11 @@ async function main() {
     ["cancel-policy-rulebook-binds-evidence-identity", testCancelPolicyRulebookBindsEvidenceIdentity],
     ["cancel-policy-rulebook-signs-attestation", testCancelPolicyRulebookSignsAttestation],
     ["cancel-policy-rulebook-requires-signed-attestation", testCancelPolicyRulebookRequiresSignedAttestation],
+    ["return-policy-rulebook", testReturnPolicyRulebookFixture],
+    ["return-policy-rulebook-outcomes", testReturnPolicyRulebookOutcomes],
+    ["return-policy-rulebook-binds-evidence-identity", testReturnPolicyRulebookBindsEvidenceIdentity],
+    ["return-policy-rulebook-signs-attestation", testReturnPolicyRulebookSignsAttestation],
+    ["return-policy-rulebook-requires-signed-attestation", testReturnPolicyRulebookRequiresSignedAttestation],
     ["workflow-zendesk-dispatch", testWorkflowFixture],
     ["ucp-vendor-enum-consistency", testUcpVendorEnumConsistency],
   ];

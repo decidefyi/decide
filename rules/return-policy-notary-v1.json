@@ -1,0 +1,146 @@
+{
+  "schema_version": "rulebook_v1",
+  "rulebook_id": "return_policy_notary",
+  "version": "2026-06-11",
+  "input_schema": {
+    "required": [
+      "region_supported",
+      "plan_supported",
+      "vendor_supported",
+      "return_supported",
+      "within_window",
+      "days_since_purchase",
+      "return_window_days",
+      "return_type",
+      "method",
+      "conditions",
+      "vendor",
+      "region",
+      "plan",
+      "policy_rules_version",
+      "policy_source_url",
+      "policy_source_notes"
+    ],
+    "properties": {
+      "region_supported": { "type": "boolean" },
+      "plan_supported": { "type": "boolean" },
+      "vendor_supported": { "type": "boolean" },
+      "return_supported": { "type": "boolean" },
+      "within_window": { "type": "boolean" },
+      "days_since_purchase": { "type": "integer" },
+      "return_window_days": { "type": "integer" },
+      "return_type": { "type": "string" },
+      "method": { "type": "string" },
+      "conditions": { "type": "string" },
+      "vendor": { "type": "string" },
+      "region": { "type": "string" },
+      "plan": { "type": "string" },
+      "policy_rules_version": { "type": "string" },
+      "policy_source_url": { "type": "string" },
+      "policy_source_notes": { "type": "string" }
+    }
+  },
+  "rules": [
+    {
+      "rule_id": "review_unsupported_region",
+      "priority": 500,
+      "condition": { "field": "region_supported", "operator": "eq", "value": false },
+      "outcome": {
+        "decision": "review",
+        "verdict": "UNKNOWN",
+        "action": "request_supported_region",
+        "reason_code": "NON_US_REGION"
+      }
+    },
+    {
+      "rule_id": "review_unsupported_plan",
+      "priority": 490,
+      "condition": { "field": "plan_supported", "operator": "eq", "value": false },
+      "outcome": {
+        "decision": "review",
+        "verdict": "UNKNOWN",
+        "action": "request_supported_plan",
+        "reason_code": "NON_INDIVIDUAL_PLAN"
+      }
+    },
+    {
+      "rule_id": "review_unsupported_vendor",
+      "priority": 480,
+      "condition": { "field": "vendor_supported", "operator": "eq", "value": false },
+      "outcome": {
+        "decision": "review",
+        "verdict": "UNKNOWN",
+        "action": "request_supported_vendor",
+        "reason_code": "UNSUPPORTED_VENDOR"
+      }
+    },
+    {
+      "rule_id": "deny_no_returns",
+      "priority": 300,
+      "condition": { "field": "return_supported", "operator": "eq", "value": false },
+      "outcome": {
+        "decision": "no",
+        "verdict": "NON_RETURNABLE",
+        "action": "deny_return",
+        "reason_code": "NO_RETURNS"
+      }
+    },
+    {
+      "rule_id": "allow_prorated_return",
+      "priority": 230,
+      "condition": {
+        "all": [
+          { "field": "return_supported", "operator": "eq", "value": true },
+          { "field": "within_window", "operator": "eq", "value": true },
+          { "field": "return_type", "operator": "eq", "value": "prorated" }
+        ]
+      },
+      "outcome": {
+        "decision": "yes",
+        "verdict": "RETURNABLE",
+        "action": "approve_prorated_return",
+        "reason_code": "PRORATED_RETURN"
+      }
+    },
+    {
+      "rule_id": "allow_credit_return",
+      "priority": 220,
+      "condition": {
+        "all": [
+          { "field": "return_supported", "operator": "eq", "value": true },
+          { "field": "within_window", "operator": "eq", "value": true },
+          { "field": "return_type", "operator": "eq", "value": "credit" }
+        ]
+      },
+      "outcome": {
+        "decision": "yes",
+        "verdict": "RETURNABLE",
+        "action": "approve_credit_return",
+        "reason_code": "CREDIT_RETURN"
+      }
+    },
+    {
+      "rule_id": "allow_full_return",
+      "priority": 210,
+      "condition": {
+        "all": [
+          { "field": "return_supported", "operator": "eq", "value": true },
+          { "field": "within_window", "operator": "eq", "value": true },
+          { "field": "return_type", "operator": "not_in", "value": ["prorated", "credit"] }
+        ]
+      },
+      "outcome": {
+        "decision": "yes",
+        "verdict": "RETURNABLE",
+        "action": "approve_full_return",
+        "reason_code": "FULL_RETURN"
+      }
+    }
+  ],
+  "default_outcome": {
+    "decision": "no",
+    "verdict": "EXPIRED",
+    "action": "deny_expired_return",
+    "reason_code": "OUTSIDE_WINDOW"
+  }
+}

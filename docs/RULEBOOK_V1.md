@@ -392,13 +392,14 @@ The Solana Execution Gate is the adapter-backed reference application. Its
 reviewed first-party adapter derives bounded execution facts, then Rulebook v1
 selects the binding outcome.
 
-The Refund, Trial, and Cancel Policy MCP notaries are the direct declarative
-reference applications. Their existing deterministic policy-source lookups
-normalize explicit facts, then Rulebook v1 selects the binding notary verdict
-without a trusted adapter. The inspectable application rulebooks live at
+The Refund, Trial, Cancel, and Return Policy MCP notaries are the direct
+declarative reference applications. Their existing deterministic policy-source
+lookups normalize explicit facts, then Rulebook v1 selects the binding notary
+verdict without a trusted adapter. The inspectable application rulebooks live at
 `rules/refund-policy-notary-v1.json`,
-`rules/trial-policy-notary-v1.json`, and
-`rules/cancel-policy-notary-v1.json`.
+`rules/trial-policy-notary-v1.json`,
+`rules/cancel-policy-notary-v1.json`, and
+`rules/return-policy-notary-v1.json`.
 The stable REST responses remain backward compatible and include the complete
 Rulebook v1 result and signed rulebook attestation under `rulebook_result`. MCP
 tool calls expose the same payload as structured content.
@@ -442,6 +443,4 @@ The public Decision Record layer now:
 
 ## Next Contract Work
 
-1. Migrate the return Policy MCP notary to direct declarative Rulebook v1
-   evaluation.
-2. Define evaluator and adapter migration plus long-term compatibility policy.
+1. Define evaluator and adapter migration plus long-term compatibility policy.
