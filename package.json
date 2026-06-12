@@ -8,6 +8,7 @@
     "generate:rulebook-runtime-manifest": "node scripts/generate-rulebook-runtime-manifest.js",
     "rulebook:migration-dry-run": "node scripts/rulebook-migration-dry-run.js",
     "smoke": "node scripts/smoke-test.js",
+    "smoke:rulebook-runtime": "node scripts/rulebook-runtime-production-smoke.js",
     "smoke:customer-key": "node scripts/customer-key-smoke.js",
     "mcp:check": "bash scripts/mcp-check.sh",
     "workflow:test": "node scripts/workflow-zendesk-refund-test.js",
