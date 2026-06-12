@@ -8,6 +8,16 @@ Date: 2026-06-11
 
 Rulebook v1 is the public production determinism contract for Decide.
 
+The production core is
+`hybrid_declarative_rulebook_with_trusted_adapters`. The runtime supports two
+binding modes:
+
+- `direct_declarative_rulebook`, where caller-supplied `context.inputs` feed the
+  declarative evaluator directly.
+- `trusted_adapter_facts_then_declarative_rulebook`, where a registered
+  first-party adapter emits bounded facts before Rulebook v1 selects the
+  verdict.
+
 Production calls that need deterministic, replayable verdicts use a limited
 declarative rule format:
 

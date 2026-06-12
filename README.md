@@ -16,6 +16,12 @@ Runtime architecture: see [`docs/RULEBOOK_RUNTIME_ARCHITECTURE.md`](docs/RULEBOO
 Machine-readable schema: [`https://api.decide.fyi/schemas/rulebook-v1.schema.json`](https://api.decide.fyi/schemas/rulebook-v1.schema.json).
 Active runtime manifest: [`https://api.decide.fyi/manifests/rulebook-runtime-v1.json`](https://api.decide.fyi/manifests/rulebook-runtime-v1.json).
 
+The production core is `hybrid_declarative_rulebook_with_trusted_adapters`:
+direct declarative rulebooks are supported, registered first-party trusted
+adapters may supply bounded facts, and customer executable rulebooks are
+rejected. In both supported binding modes, Rulebook v1 remains the only binding
+verdict selector.
+
 ```json
 {
   "mode": "rulebook",

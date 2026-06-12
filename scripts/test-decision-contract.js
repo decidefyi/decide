@@ -1708,6 +1708,10 @@ function testRulebookRuntimeArchitectureDoc() {
     "runtime architecture doc must name Rulebook v1 as the public deterministic core"
   );
   assert.ok(
+    architecture.includes("hybrid_declarative_rulebook_with_trusted_adapters"),
+    "runtime architecture doc must name the hybrid production core"
+  );
+  assert.ok(
     architecture.includes("Customer-supplied executable rulebooks do not run inside Decide"),
     "runtime architecture doc must reject customer executable rulebooks"
   );
@@ -2986,9 +2990,36 @@ function testRulebookRuntimeManifest() {
   assert.deepEqual(
     manifest.execution_model,
     {
+      production_core: "hybrid_declarative_rulebook_with_trusted_adapters",
       binding_verdict_selector: "declarative_rulebook",
       customer_supplied_code: "rejected",
       trusted_adapters: "registered_fact_producers",
+      binding_modes: [
+        {
+          mode: "direct_declarative_rulebook",
+          status: "supported",
+          request_material: ["rulebook", "context.inputs"],
+          fact_source: "caller_supplied_inputs",
+          verdict_authority: "declarative_rulebook",
+          customer_supplied_code: "rejected",
+        },
+        {
+          mode: "trusted_adapter_facts_then_declarative_rulebook",
+          status: "supported",
+          request_material: ["adapter", "rulebook"],
+          fact_source: "registered_first_party_adapter",
+          adapter_authority: "facts_only",
+          verdict_authority: "declarative_rulebook",
+          customer_supplied_code: "rejected",
+        },
+      ],
+      unsupported_modes: [
+        {
+          mode: "customer_executable_rulebook",
+          status: "rejected",
+          reason: "Rulebook v1 is closed declarative JSON; executable policy logic requires a future versioned contract.",
+        },
+      ],
     },
     "runtime manifest must publish the production execution boundary"
   );
@@ -3017,6 +3048,10 @@ function testRulebookRuntimeManifest() {
     "utf8"
   );
   assert.ok(readme.includes(manifestUrl), "README must publish the Rulebook runtime manifest URL");
+  assert.ok(
+    readme.includes("hybrid_declarative_rulebook_with_trusted_adapters"),
+    "README must name the production Rulebook runtime core"
+  );
   assert.equal(
     packageJson.scripts?.["generate:rulebook-runtime-manifest"],
     "node scripts/generate-rulebook-runtime-manifest.js",
