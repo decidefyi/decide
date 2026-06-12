@@ -1,0 +1,227 @@
+{
+  "request": {
+    "method": "POST",
+    "path": "/api/decide",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "mode": "rulebook",
+      "adapter": {
+        "adapter_id": "decision_memo_readiness",
+        "version": "1.0.0",
+        "manifest_hash": "resolved_by_test",
+        "input": {
+          "question": "Should Acme switch the Q3 self-serve pricing page to annual-first packaging?",
+          "owner": "Growth lead",
+          "kpi_metric": "Self-serve annual conversion rate",
+          "option_count": 3,
+          "constraint_count": 2,
+          "evidence_count": 3,
+          "has_baseline": true,
+          "has_target": true,
+          "has_run_window": true,
+          "blocker_count": 0,
+          "warning_count": 1
+        }
+      },
+      "rulebook": {
+        "schema_version": "rulebook_v1",
+        "rulebook_id": "decision_memo_readiness",
+        "version": "2026-06-12",
+        "input_schema": {
+          "required": [
+            "question_present",
+            "owner_present",
+            "kpi_present",
+            "option_count",
+            "constraint_count",
+            "evidence_count",
+            "has_target",
+            "has_run_window",
+            "blocker_count",
+            "readiness_score"
+          ],
+          "properties": {
+            "question_present": {
+              "type": "boolean"
+            },
+            "owner_present": {
+              "type": "boolean"
+            },
+            "kpi_present": {
+              "type": "boolean"
+            },
+            "option_count": {
+              "type": "integer"
+            },
+            "constraint_count": {
+              "type": "integer"
+            },
+            "evidence_count": {
+              "type": "integer"
+            },
+            "has_target": {
+              "type": "boolean"
+            },
+            "has_run_window": {
+              "type": "boolean"
+            },
+            "blocker_count": {
+              "type": "integer"
+            },
+            "readiness_score": {
+              "type": "integer"
+            }
+          }
+        },
+        "rules": [
+          {
+            "rule_id": "block_incomplete_memo_packet",
+            "priority": 300,
+            "condition": {
+              "any": [
+                {
+                  "field": "question_present",
+                  "operator": "eq",
+                  "value": false
+                },
+                {
+                  "field": "owner_present",
+                  "operator": "eq",
+                  "value": false
+                },
+                {
+                  "field": "kpi_present",
+                  "operator": "eq",
+                  "value": false
+                },
+                {
+                  "field": "option_count",
+                  "operator": "lt",
+                  "value": 2
+                },
+                {
+                  "field": "constraint_count",
+                  "operator": "lt",
+                  "value": 1
+                },
+                {
+                  "field": "blocker_count",
+                  "operator": "gt",
+                  "value": 0
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "no",
+              "verdict": "BLOCKED",
+              "action": "block_memo_analysis",
+              "reason_code": "MEMO_PACKET_BLOCKED"
+            }
+          },
+          {
+            "rule_id": "request_missing_memo_inputs",
+            "priority": 200,
+            "condition": {
+              "any": [
+                {
+                  "field": "readiness_score",
+                  "operator": "lt",
+                  "value": 82
+                },
+                {
+                  "field": "evidence_count",
+                  "operator": "lt",
+                  "value": 1
+                },
+                {
+                  "field": "has_target",
+                  "operator": "eq",
+                  "value": false
+                },
+                {
+                  "field": "has_run_window",
+                  "operator": "eq",
+                  "value": false
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "NEEDS_INPUT",
+              "action": "request_missing_packet_fields",
+              "reason_code": "MEMO_NEEDS_INPUT"
+            }
+          },
+          {
+            "rule_id": "allow_advisory_memo_analysis",
+            "priority": 100,
+            "condition": {
+              "all": [
+                {
+                  "field": "readiness_score",
+                  "operator": "gte",
+                  "value": 82
+                },
+                {
+                  "field": "option_count",
+                  "operator": "gte",
+                  "value": 2
+                },
+                {
+                  "field": "evidence_count",
+                  "operator": "gte",
+                  "value": 1
+                },
+                {
+                  "field": "has_target",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "has_run_window",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "blocker_count",
+                  "operator": "eq",
+                  "value": 0
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "RUN_READY",
+              "action": "run_advisory_memo_analysis",
+              "reason_code": "MEMO_READY"
+            }
+          }
+        ],
+        "default_outcome": {
+          "decision": "review",
+          "verdict": "NEEDS_INPUT",
+          "action": "request_missing_packet_fields",
+          "reason_code": "MEMO_NO_RULE_MATCHED"
+        }
+      },
+      "context": {
+        "workflow": "decision_memo_readiness",
+        "source_record_id": "dpk_contract_ready",
+        "requested_action": "advisory_memo_analysis"
+      }
+    }
+  },
+  "expect": {
+    "statusCode": 200,
+    "decision": "yes",
+    "application_verdict": "RUN_READY",
+    "action": "run_advisory_memo_analysis",
+    "reason_code": "MEMO_READY",
+    "matched_rule_id": "allow_advisory_memo_analysis",
+    "readiness_score": 100,
+    "readiness_band": "run_ready",
+    "missing_count": 0
+  }
+}

@@ -402,9 +402,9 @@ explicit rulebook or adapter version migration.
 
 ## Reference Application Patterns
 
-The Solana Execution Gate is the adapter-backed reference application. Its
-reviewed first-party adapter derives bounded execution facts, then Rulebook v1
-selects the binding outcome.
+The Solana Execution Gate and Decision Memo Readiness Gate are adapter-backed
+reference applications. Their reviewed first-party adapters derive bounded
+workflow facts, then Rulebook v1 selects the binding outcome.
 
 The Refund, Trial, Cancel, and Return Policy MCP notaries are the direct
 declarative reference applications. Their existing deterministic policy-source

@@ -91,12 +91,18 @@ replay with the stored adapter attestation and immutable rulebook snapshot.
 
 See [Rulebook Compatibility Policy](RULEBOOK_COMPATIBILITY_POLICY.md).
 
-## First Production Application
+## Registered V1 Adapters
 
 `solana_execution_gate@1.0.0` normalizes bounded Solana treasury facts for the
 Krafthaus Solana Execution Gate. The browser does not score or select a verdict.
 It sends validated inputs to Krafthaus, which calls Decide server-side with the
 pinned adapter and Rulebook v1.
+
+`decision_memo_readiness@1.0.0` normalizes bounded Krafthaus decision memo packet
+readiness facts before the advisory memo run. The adapter reports packet
+completeness facts such as question, owner, KPI, option count, constraints,
+evidence, packet blockers, and readiness score. Rulebook v1 still selects the
+binding `RUN_READY`, `NEEDS_INPUT`, or `BLOCKED` outcome.
 
 ## Honest Boundary
 

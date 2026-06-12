@@ -110,6 +110,8 @@ Two Krafthaus application patterns now exercise this architecture:
 
 - Solana Execution Gate uses a registered trusted adapter to derive bounded
   execution facts before declarative evaluation.
+- Decision Memo Readiness Gate uses a registered trusted adapter to derive
+  bounded packet completeness facts before advisory memo analysis can run.
 - Refund, Trial, Cancel, and Return Policy MCP notaries supply normalized
   policy facts directly to Rulebook v1 and require no trusted adapter.
 

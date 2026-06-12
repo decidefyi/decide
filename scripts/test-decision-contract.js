@@ -887,6 +887,144 @@ async function testDecideTrustedAdapterFixture() {
   }
 }
 
+async function testDecideDecisionMemoReadinessAdapterFixture() {
+  const fixture = loadFixture("decide-decision-memo-readiness-adapter-v1.json");
+  const manifest = getTrustedAdapterManifest("decision_memo_readiness", "1.0.0");
+  assert.equal(manifest?.adapter_id, "decision_memo_readiness", "decision memo adapter manifest missing");
+  assert.equal(manifest?.version, "1.0.0", "decision memo adapter version mismatch");
+  fixture.request.body.adapter.manifest_hash = manifest.manifest_hash;
+  fixture.request.headers = {
+    ...(fixture.request.headers || {}),
+    "x-forwarded-for": "10.253.0.1",
+  };
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("decision memo readiness gate must not call a network dependency");
+  };
+
+  try {
+    const first = await invokeJson(decideHandler, fixture.request);
+    const second = await invokeJson(decideHandler, fixture.request);
+    assert.equal(first.statusCode, fixture.expect.statusCode, "decision memo readiness status mismatch");
+    assert.equal(first.json?.verdict, fixture.expect.decision, "decision memo readiness decision mismatch");
+    assert.equal(
+      first.json?.application_verdict,
+      fixture.expect.application_verdict,
+      "decision memo readiness verdict mismatch"
+    );
+    assert.equal(first.json?.action, fixture.expect.action, "decision memo readiness action mismatch");
+    assert.equal(first.json?.reason_code, fixture.expect.reason_code, "decision memo readiness reason mismatch");
+    assert.equal(first.json?.matched_rule_id, fixture.expect.matched_rule_id, "decision memo readiness matched rule mismatch");
+    assert.equal(
+      first.json?.adapter_facts?.readiness_score,
+      fixture.expect.readiness_score,
+      "decision memo readiness score mismatch"
+    );
+    assert.equal(
+      first.json?.adapter_facts?.readiness_band,
+      fixture.expect.readiness_band,
+      "decision memo readiness band mismatch"
+    );
+    assert.equal(
+      first.json?.adapter_facts?.missing_count,
+      fixture.expect.missing_count,
+      "decision memo readiness missing count mismatch"
+    );
+    assert.equal(first.json?.trusted_adapter?.adapter_id, "decision_memo_readiness", "decision memo adapter id missing");
+    assert.equal(first.json?.trusted_adapter?.version, "1.0.0", "decision memo adapter version missing");
+    assert.equal(
+      first.json?.trusted_adapter?.implementation_hash,
+      manifest.implementation_hash,
+      "decision memo adapter implementation hash mismatch"
+    );
+    assert.equal(
+      first.json?.trusted_adapter?.manifest_hash,
+      manifest.manifest_hash,
+      "decision memo adapter manifest hash mismatch"
+    );
+    assert.equal(
+      first.json?.input_hash,
+      first.json?.trusted_adapter?.output_hash,
+      "decision memo rulebook input hash should bind adapter facts"
+    );
+    assertRulebookAttestation(first.json, "decision memo readiness rulebook");
+    assert.deepEqual(
+      {
+        verdict: second.json?.application_verdict,
+        score: second.json?.adapter_facts?.readiness_score,
+        band: second.json?.adapter_facts?.readiness_band,
+        rulebook_input_hash: second.json?.input_hash,
+        attestation_hash: second.json?.rulebook_attestation?.bundle_hash,
+        input_hash: second.json?.trusted_adapter?.input_hash,
+        output_hash: second.json?.trusted_adapter?.output_hash,
+      },
+      {
+        verdict: first.json?.application_verdict,
+        score: first.json?.adapter_facts?.readiness_score,
+        band: first.json?.adapter_facts?.readiness_band,
+        rulebook_input_hash: first.json?.input_hash,
+        attestation_hash: first.json?.rulebook_attestation?.bundle_hash,
+        input_hash: first.json?.trusted_adapter?.input_hash,
+        output_hash: first.json?.trusted_adapter?.output_hash,
+      },
+      "same decision memo adapter, input, and rulebook must reproduce the same semantic facts"
+    );
+
+    const blockedRequest = JSON.parse(JSON.stringify(fixture.request));
+    blockedRequest.headers["x-forwarded-for"] = "10.253.0.2";
+    blockedRequest.body.adapter.input.owner = "";
+    blockedRequest.body.adapter.input.option_count = 1;
+    blockedRequest.body.adapter.input.blocker_count = 1;
+    const blocked = await invokeJson(decideHandler, blockedRequest);
+    assert.equal(blocked.statusCode, 200, "blocked decision memo readiness status mismatch");
+    assert.equal(blocked.json?.application_verdict, "BLOCKED", "blocked decision memo readiness verdict mismatch");
+    assert.equal(blocked.json?.verdict, "no", "blocked decision memo readiness decision mismatch");
+    assert.equal(blocked.json?.action, "block_memo_analysis", "blocked decision memo readiness action mismatch");
+    assert.equal(blocked.json?.reason_code, "MEMO_PACKET_BLOCKED", "blocked decision memo readiness reason mismatch");
+    assert.equal(
+      blocked.json?.matched_rule_id,
+      "block_incomplete_memo_packet",
+      "blocked decision memo readiness rule mismatch"
+    );
+
+    const needsInputRequest = JSON.parse(JSON.stringify(fixture.request));
+    needsInputRequest.headers["x-forwarded-for"] = "10.253.0.3";
+    needsInputRequest.body.adapter.input.evidence_count = 0;
+    needsInputRequest.body.adapter.input.has_target = false;
+    const needsInput = await invokeJson(decideHandler, needsInputRequest);
+    assert.equal(needsInput.statusCode, 200, "needs-input decision memo readiness status mismatch");
+    assert.equal(
+      needsInput.json?.application_verdict,
+      "NEEDS_INPUT",
+      "needs-input decision memo readiness verdict mismatch"
+    );
+    assert.equal(needsInput.json?.verdict, "review", "needs-input decision memo readiness decision mismatch");
+    assert.equal(
+      needsInput.json?.action,
+      "request_missing_packet_fields",
+      "needs-input decision memo readiness action mismatch"
+    );
+    assert.equal(needsInput.json?.reason_code, "MEMO_NEEDS_INPUT", "needs-input decision memo readiness reason mismatch");
+    assert.equal(
+      needsInput.json?.matched_rule_id,
+      "request_missing_memo_inputs",
+      "needs-input decision memo readiness rule mismatch"
+    );
+
+    assert.equal(fetchCalled, false, "decision memo readiness unexpectedly called a network dependency");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
 function testTrustedAdapterCapabilityAudit() {
   const denied = auditTrustedAdapterImplementation(function forbiddenAdapter() {
     return { observed_at: Date.now(), random: Math.random(), secret: process.env.SECRET };
@@ -2907,6 +3045,7 @@ async function main() {
     ["decide-rulebook-rejects-executable-operator", testDecideRulebookRejectsExecutableOperator],
     ["decide-rulebook-rejects-executable-payload-fields", testDecideRulebookRejectsExecutablePayloadFields],
     ["decide-trusted-adapter-v1", testDecideTrustedAdapterFixture],
+    ["decide-decision-memo-readiness-adapter-v1", testDecideDecisionMemoReadinessAdapterFixture],
     ["trusted-adapter-capability-audit", testTrustedAdapterCapabilityAudit],
     ["trusted-adapter-capability-runtime-enforcement", testTrustedAdapterCapabilityRuntimeEnforcement],
     ["trusted-adapter-cold-start-isolation", testTrustedAdapterColdStartIsolation],
