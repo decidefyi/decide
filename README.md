@@ -125,6 +125,19 @@ The manifest schema is published at
 `https://api.decide.fyi/schemas/rulebook-migration-v1.schema.json`, and the dry
 run validates manifests against that closed schema before replay.
 
+After production routing or runtime-contract changes ship, run the production
+runtime smoke:
+
+```bash
+npm run smoke:rulebook-runtime
+```
+
+This hits `https://api.decide.fyi` from outside the runtime and verifies the
+published `hybrid_declarative_rulebook_with_trusted_adapters` manifest, closed
+Rulebook v1 schema, attestation key endpoint, direct declarative evaluation,
+and executable-rulebook rejection. GitHub Actions also runs this as the
+scheduled/manual **Rulebook Runtime Production Smoke** workflow.
+
 The legacy `single`, `multi`, and `runtime` modes are AI-assisted surfaces.
 They are not the production determinism boundary for loosely defined business
 judgment.

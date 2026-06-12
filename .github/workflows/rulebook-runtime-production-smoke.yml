@@ -1,0 +1,27 @@
+name: Rulebook Runtime Production Smoke
+
+on:
+  schedule:
+    - cron: "17 */12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rulebook-runtime-production-smoke
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify production Rulebook runtime boundary
+        run: npm run smoke:rulebook-runtime
