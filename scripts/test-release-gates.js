@@ -17,6 +17,11 @@ assert.match(workflow, /schedule:/, "runtime smoke workflow must run on a schedu
 assert.match(workflow, /npm run smoke:rulebook-runtime/, "runtime smoke workflow must run the production smoke command");
 assert.match(workflow, /contents:\s*read/, "runtime smoke workflow should use read-only repository permissions");
 assert.doesNotMatch(workflow, /secrets\./, "runtime smoke workflow must not depend on repository secrets by default");
+assert.match(
+  workflow,
+  /FORCE_JAVASCRIPT_ACTIONS_TO_NODE24:\s*true/,
+  "runtime smoke workflow should opt JavaScript actions into Node 24"
+);
 
 const readme = read("README.md");
 assert.match(
