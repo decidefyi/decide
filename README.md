@@ -15,6 +15,7 @@ Binding production verdicts should use a versioned declarative rulebook:
 Runtime architecture: see [`docs/RULEBOOK_RUNTIME_ARCHITECTURE.md`](docs/RULEBOOK_RUNTIME_ARCHITECTURE.md).
 Machine-readable schema: [`https://api.decide.fyi/schemas/rulebook-v1.schema.json`](https://api.decide.fyi/schemas/rulebook-v1.schema.json).
 Active runtime manifest: [`https://api.decide.fyi/manifests/rulebook-runtime-v1.json`](https://api.decide.fyi/manifests/rulebook-runtime-v1.json).
+Downstream application binding: [`decide_application_binding_v1`](docs/APPLICATION_BINDING_V1.md).
 
 The production core is `hybrid_declarative_rulebook_with_trusted_adapters`:
 direct declarative rulebooks are supported, registered first-party trusted
@@ -145,6 +146,7 @@ judgment.
 Architecture:
 
 - [Ecosystem constitution](docs/ECOSYSTEM_CONSTITUTION.md)
+- [Application binding contract](docs/APPLICATION_BINDING_V1.md)
 - [Rulebook v1 contract](docs/RULEBOOK_V1.md)
 - [Rulebook compatibility policy](docs/RULEBOOK_COMPATIBILITY_POLICY.md)
 - [Rulebook migration examples](docs/RULEBOOK_MIGRATION_EXAMPLES.md)

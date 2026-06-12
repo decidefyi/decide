@@ -3092,8 +3092,41 @@ function testRulebookRuntimeManifest() {
     },
     "runtime manifest replay reference mismatch"
   );
+  assert.deepEqual(
+    manifest.application_binding,
+    {
+      contract_version: "decide_application_binding_v1",
+      applies_to: "krafthaus_workflow_applications",
+      must_bind_before_action: true,
+      accepted_fact_sources: ["context.inputs", "adapter_facts"],
+      required_decision_material: [
+        "rulebook_contract",
+        "runtime_binding",
+        "verdict",
+        "application_verdict",
+        "action",
+        "reason_code",
+        "matched_rule_id",
+        "rulebook.hash",
+        "input_hash",
+        "rulebook_attestation.bundle_hash",
+      ],
+      replay_reference: "https://api.decide.fyi/replay/rulebook-v1/index.json",
+      conformance_reference: "https://api.decide.fyi/conformance/rulebook-v1/index.json",
+      prohibited_claims: [
+        "llm_output_is_binding_production_verdict",
+        "customer_executable_code_runs_as_rulebook_v1",
+        "action_executes_before_decision_material_is_captured",
+      ],
+    },
+    "runtime manifest must publish downstream application binding requirements"
+  );
 
   const readme = readFileSync(join(__dirname, "..", "README.md"), "utf8");
+  const applicationBindingDoc = readFileSync(
+    join(__dirname, "..", "docs", "APPLICATION_BINDING_V1.md"),
+    "utf8"
+  );
   const packageJson = loadJsonFromRepo("package.json");
   const contractWorkflow = readFileSync(
     join(__dirname, "..", ".github", "workflows", "contract-policy-tests.yml"),
@@ -3103,6 +3136,19 @@ function testRulebookRuntimeManifest() {
   assert.ok(
     readme.includes("hybrid_declarative_rulebook_with_trusted_adapters"),
     "README must name the production Rulebook runtime core"
+  );
+  assert.ok(readme.includes("decide_application_binding_v1"), "README must publish the application binding contract");
+  assert.ok(
+    applicationBindingDoc.includes("decide_application_binding_v1"),
+    "application binding doc must define the contract version"
+  );
+  assert.ok(
+    applicationBindingDoc.includes("rulebook_attestation.bundle_hash"),
+    "application binding doc must require attestation bundle hash capture"
+  );
+  assert.ok(
+    applicationBindingDoc.includes("llm_output_is_binding_production_verdict"),
+    "application binding doc must reject LLM-only production verdict claims"
   );
   assert.equal(
     packageJson.scripts?.["generate:rulebook-runtime-manifest"],
