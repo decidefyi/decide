@@ -183,6 +183,24 @@ function assertRuntimeBinding(payload, expectedMode, label) {
   );
 }
 
+function assertAdvisoryDecisionContract(payload, expectedMode, label) {
+  assert.deepEqual(
+    payload?.decision_contract,
+    {
+      schema_version: "decide_decision_contract_v1",
+      mode: expectedMode,
+      authority: "advisory_only",
+      production_verdict: false,
+      binding_verdict_selector: "rulebook_v1",
+      binding_runtime_manifest_url: "https://api.decide.fyi/manifests/rulebook-runtime-v1.json",
+      prohibited_claim: "llm_output_is_binding_production_verdict",
+    },
+    `${label}: advisory decision contract mismatch`
+  );
+  assert.equal(payload?.rulebook_contract, undefined, `${label}: advisory response must not expose rulebook contract`);
+  assert.equal(payload?.runtime_binding, undefined, `${label}: advisory response must not expose runtime binding`);
+}
+
 function generateSigningEnv(keyId = "contract-test-rulebook-key") {
   const { privateKey, publicKey } = generateKeyPairSync("ed25519");
   return {
@@ -263,7 +281,57 @@ async function testDecideSingleFixture() {
     assert.equal(result.json?.c, fixture.expect.c, "decide c mismatch");
     assert.equal(result.json?.v, fixture.expect.v, "decide v mismatch");
     assert.equal(typeof result.json?.request_id, "string", "decide request_id missing");
+    assertAdvisoryDecisionContract(result.json, "single", "decide");
     assertLineage(result.json, "decide");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+async function testDecideMultiAdvisoryContract() {
+  const request = {
+    method: "POST",
+    url: "/api/decide",
+    headers: {
+      "content-type": "application/json",
+      "user-agent": "contract-test-multi",
+    },
+    body: {
+      mode: "multi",
+      stem: "Which implementation path should we take?",
+      options: ["Declarative rulebook", "Customer executable code", "LLM-only judgement"],
+    },
+  };
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "";
+  global.fetch = async () => ({
+    ok: true,
+    async json() {
+      return {
+        candidates: [
+          {
+            content: {
+              parts: [{ text: JSON.stringify({ scores: [9.1, 2.4, 1.8], reason: "bounded rulebooks are replayable" }) }],
+            },
+          },
+        ],
+      };
+    },
+  });
+
+  try {
+    const result = await invokeJson(decideHandler, request);
+    assert.equal(result.statusCode, 200, "decide multi status mismatch");
+    assert.equal(result.json?.c, "ok", "decide multi c mismatch");
+    assert.equal(result.json?.v, "ok", "decide multi v mismatch");
+    assert.equal(result.json?.winner_index, 0, "decide multi winner mismatch");
+    assertAdvisoryDecisionContract(result.json, "multi", "decide multi");
+    assertLineage(result.json, "decide_multi");
   } finally {
     global.fetch = originalFetch;
     process.env.GEMINI_API_KEY = previousApiKey;
@@ -364,6 +432,7 @@ async function testDecideRuntimeFixture() {
     assert.equal(result.json?.engine, "decide", "decide runtime engine mismatch");
     assert.equal(result.json?.c, "ok", "decide runtime c mismatch");
     assert.equal(result.json?.v, "ok", "decide runtime v mismatch");
+    assertAdvisoryDecisionContract(result.json, "runtime", "decide runtime");
 
     const recommended = result.json?.decision?.recommended_option;
     const options = fixture.request.body.context.options;
@@ -1781,16 +1850,19 @@ function testRulebookRuntimeArchitectureDoc() {
   const rulebookDocPath = join(__dirname, "..", "docs", "RULEBOOK_V1.md");
   const compatibilityPolicyPath = join(__dirname, "..", "docs", "RULEBOOK_COMPATIBILITY_POLICY.md");
   const migrationExamplesPath = join(__dirname, "..", "docs", "RULEBOOK_MIGRATION_EXAMPLES.md");
+  const applicationBindingPath = join(__dirname, "..", "docs", "APPLICATION_BINDING_V1.md");
   const schemaPath = join(__dirname, "..", "public", "schemas", "rulebook-v1.schema.json");
   assert.ok(existsSync(architecturePath), "rulebook runtime architecture doc is missing");
   assert.ok(existsSync(rulebookDocPath), "rulebook contract doc is missing");
   assert.ok(existsSync(compatibilityPolicyPath), "rulebook compatibility policy doc is missing");
   assert.ok(existsSync(migrationExamplesPath), "rulebook migration examples doc is missing");
+  assert.ok(existsSync(applicationBindingPath), "application binding doc is missing");
   assert.ok(existsSync(schemaPath), "public Rulebook v1 JSON Schema artifact is missing");
   const architecture = readFileSync(architecturePath, "utf8");
   const rulebookDoc = readFileSync(rulebookDocPath, "utf8");
   const compatibilityPolicy = readFileSync(compatibilityPolicyPath, "utf8");
   const migrationExamples = readFileSync(migrationExamplesPath, "utf8");
+  const applicationBinding = readFileSync(applicationBindingPath, "utf8");
   const schema = loadJsonFromRepo("public", "schemas", "rulebook-v1.schema.json");
   const readme = readFileSync(join(__dirname, "..", "README.md"), "utf8");
   assert.ok(architecture.includes("Status: Accepted"), "runtime architecture doc must record accepted status");
@@ -1819,6 +1891,14 @@ function testRulebookRuntimeArchitectureDoc() {
     "rulebook contract doc must document runtime binding metadata"
   );
   assert.ok(readme.includes("runtime_binding"), "README must document runtime binding metadata");
+  assert.ok(architecture.includes("decision_contract"), "runtime architecture doc must document advisory decision contract");
+  assert.ok(readme.includes("decision_contract"), "README must document advisory decision contract");
+  assert.ok(
+    applicationBinding.includes("decision_contract") &&
+      applicationBinding.includes("advisory_only") &&
+      applicationBinding.includes("production_verdict: false"),
+    "application binding doc must explain advisory-only non-rulebook responses"
+  );
   assert.ok(
     readme.includes("docs/RULEBOOK_RUNTIME_ARCHITECTURE.md"),
     "README must link the runtime architecture decision"
@@ -3214,6 +3294,7 @@ function testRulebookRuntimeManifest() {
 async function main() {
   const tests = [
     ["decide-single", testDecideSingleFixture],
+    ["decide-multi-advisory-contract", testDecideMultiAdvisoryContract],
     ["decide-api-key", testDecideApiKeyFixture],
     ["decide-runtime", testDecideRuntimeFixture],
     ["decide-rulebook-v1", testDecideRulebookFixture],

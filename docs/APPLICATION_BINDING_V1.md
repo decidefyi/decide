@@ -30,6 +30,12 @@ The rulebook remains the only binding verdict selector. Trusted adapters produce
 facts only. LLMs may help draft, extract, summarize, or explain, but
 `llm_output_is_binding_production_verdict` is a prohibited claim.
 
+Non-rulebook `/api/decide` responses from legacy `single`, `multi`, and
+`runtime` modes include `decision_contract` with `authority: "advisory_only"`
+and `production_verdict: false`. Those responses can support exploration or
+drafting, but they do not satisfy this binding contract because they do not
+include `rulebook_contract`, `runtime_binding`, or a Rulebook attestation.
+
 ## Required Decision Material
 
 Before execution handoff, the application must capture the following response

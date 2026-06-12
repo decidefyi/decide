@@ -80,6 +80,13 @@ version. They also expose `runtime_binding` with the production core, binding
 mode, verdict authority, adapter authority when present, and rejected
 customer-code stance.
 
+Legacy `single`, `multi`, and `runtime` responses expose `decision_contract`
+instead of `rulebook_contract` or `runtime_binding`. That contract marks them as
+`authority: "advisory_only"` with `production_verdict: false` and points binding
+callers to Rulebook v1. The field exists to keep AI-assisted exploration
+available without letting LLM output masquerade as the deterministic production
+boundary.
+
 ## Why
 
 Decide's credibility depends on deterministic behavior that customers can

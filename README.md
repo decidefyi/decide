@@ -85,6 +85,13 @@ closed instead of returning unsigned Rulebook decisions. Publish retired public
 verification keys with `DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON` so older
 Decision Records remain verifiable after rotation.
 
+Legacy `single`, `multi`, and `runtime` requests remain available for
+AI-assisted exploration, but they are not binding production verdicts. Those
+responses include `decision_contract` with `authority: "advisory_only"` and
+`production_verdict: false`; callers that need deterministic execution must use
+`mode: "rulebook"` and capture `rulebook_contract`, `runtime_binding`, and the
+Rulebook attestation material.
+
 At the public Decision Record boundary, successful evaluations are registered
 as immutable tenant-scoped snapshots. Historical replay restores the original
 canonical input and stored rulebook snapshot rather than trusting a caller

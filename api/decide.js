@@ -4,6 +4,7 @@ import { buildSourceHash, withLineage } from "../lib/lineage.js";
 import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
 import {
   RULEBOOK_DIRECT_BINDING_MODE,
+  RULEBOOK_RUNTIME_MANIFEST_URL,
   RULEBOOK_TRUSTED_ADAPTER_BINDING_MODE,
 } from "../lib/rulebook-runtime-contract.js";
 import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
@@ -412,17 +413,33 @@ function readTrustedProxyContext(req) {
 function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
   res.statusCode = statusCode;
   res.setHeader("Content-Type", "application/json");
+  const mode = String(lineageInput.mode || "single");
   const policyVersion = String(lineageInput.policyVersion || DECIDE_POLICY_VERSION);
   const sourceHash =
     String(lineageInput.sourceHash || "") ||
     buildSourceHash({
       policy: policyVersion,
-      mode: lineageInput.mode || "single",
+      mode,
       question: lineageInput.question || "",
       stem: lineageInput.stem || "",
       options: Array.isArray(lineageInput.options) ? lineageInput.options : [],
     });
-  res.end(JSON.stringify(withLineage(payload, {
+  const responsePayload =
+    mode === "rulebook" || payload?.rulebook_contract || payload?.runtime_binding
+      ? payload
+      : {
+          ...payload,
+          decision_contract: {
+            schema_version: "decide_decision_contract_v1",
+            mode,
+            authority: "advisory_only",
+            production_verdict: false,
+            binding_verdict_selector: "rulebook_v1",
+            binding_runtime_manifest_url: RULEBOOK_RUNTIME_MANIFEST_URL,
+            prohibited_claim: "llm_output_is_binding_production_verdict",
+          },
+        };
+  res.end(JSON.stringify(withLineage(responsePayload, {
     policyVersion,
     sourceHash,
   })));
