@@ -21,6 +21,7 @@ import { buildRulebookRuntimeManifest } from "../lib/rulebook-runtime-contract.j
 import {
   auditTrustedAdapterImplementation,
   getTrustedAdapterManifest,
+  getTrustedAdapterVersionLock,
 } from "../lib/trusted-adapters.js";
 import { invokeJson } from "./test-helpers/http-harness.js";
 
@@ -1051,6 +1052,53 @@ async function testDecideDecisionMemoReadinessAdapterFixture() {
     global.fetch = originalFetch;
     process.env.GEMINI_API_KEY = previousApiKey;
     process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+function testTrustedAdapterVersionLocks() {
+  assert.equal(
+    typeof getTrustedAdapterVersionLock,
+    "function",
+    "trusted adapter runtime must expose version locks"
+  );
+  const expectedLocks = [
+    {
+      adapterId: "solana_execution_gate",
+      version: "1.0.0",
+      implementationHash: "8f59179307b0128e874dcd74a096600eff80dd1fb1cbd15148f8c88dea6327dc",
+      manifestHash: "fd95907fb68ecc45be3ad9608410e2e3ea29a52b0e33b756086c21c6f520e967",
+    },
+    {
+      adapterId: "decision_memo_readiness",
+      version: "1.0.0",
+      implementationHash: "1ecd415f9bd91bd1561a0ca0438af567e40b18081b954608b8cf643d4ec1d47f",
+      manifestHash: "4613daa3efede7f0c155b59998e91773073f4124ba8d5f62b4ed64835c1f8256",
+    },
+  ];
+
+  for (const expected of expectedLocks) {
+    const manifest = getTrustedAdapterManifest(expected.adapterId, expected.version);
+    const lock = getTrustedAdapterVersionLock(expected.adapterId, expected.version);
+    assert.deepEqual(
+      lock,
+      {
+        adapter_id: expected.adapterId,
+        version: expected.version,
+        implementation_hash: expected.implementationHash,
+        manifest_hash: expected.manifestHash,
+      },
+      `${expected.adapterId}@${expected.version} version lock mismatch`
+    );
+    assert.equal(
+      manifest.implementation_hash,
+      expected.implementationHash,
+      `${expected.adapterId}@${expected.version} implementation hash drifted without an adapter version bump`
+    );
+    assert.equal(
+      manifest.manifest_hash,
+      expected.manifestHash,
+      `${expected.adapterId}@${expected.version} manifest hash drifted without an adapter version bump`
+    );
   }
 }
 
@@ -3179,6 +3227,7 @@ async function main() {
     ["decide-rulebook-rejects-executable-payload-fields", testDecideRulebookRejectsExecutablePayloadFields],
     ["decide-trusted-adapter-v1", testDecideTrustedAdapterFixture],
     ["decide-decision-memo-readiness-adapter-v1", testDecideDecisionMemoReadinessAdapterFixture],
+    ["trusted-adapter-version-locks", testTrustedAdapterVersionLocks],
     ["trusted-adapter-capability-audit", testTrustedAdapterCapabilityAudit],
     ["trusted-adapter-capability-runtime-enforcement", testTrustedAdapterCapabilityRuntimeEnforcement],
     ["trusted-adapter-cold-start-isolation", testTrustedAdapterColdStartIsolation],
