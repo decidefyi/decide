@@ -15,6 +15,8 @@ const workflow = read(runtimeSmokeWorkflowPath);
 assert.match(workflow, /workflow_dispatch:/, "runtime smoke workflow must be manually runnable");
 assert.match(workflow, /schedule:/, "runtime smoke workflow must run on a schedule");
 assert.match(workflow, /npm run smoke:rulebook-runtime/, "runtime smoke workflow must run the production smoke command");
+assert.match(workflow, /uses:\s*actions\/checkout@v6/, "runtime smoke workflow should use checkout v6");
+assert.match(workflow, /uses:\s*actions\/setup-node@v6/, "runtime smoke workflow should use setup-node v6");
 assert.match(workflow, /contents:\s*read/, "runtime smoke workflow should use read-only repository permissions");
 assert.doesNotMatch(workflow, /secrets\./, "runtime smoke workflow must not depend on repository secrets by default");
 assert.match(
