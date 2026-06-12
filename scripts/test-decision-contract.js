@@ -1989,6 +1989,49 @@ async function testPolicyV1Fixture() {
   );
   assert.equal(result.json?.rulebook_result?.trusted_adapter, undefined, "refund policy should not use a trusted adapter");
   assertRulebookAttestation(result.json?.rulebook_result, "refund policy Rulebook v1");
+  assert.equal(
+    result.json?.decision_record_material,
+    undefined,
+    "legacy policy responses must not expose internal Decision Record material"
+  );
+}
+
+async function testPolicyDecisionRecordMaterialFixture() {
+  const fixture = loadFixture("policy-refund-v1.json");
+  const result = await invokeJson(v1PolicyDispatcher, {
+    ...fixture.request,
+    headers: {
+      ...(fixture.request.headers || {}),
+      "x-decide-policy-record": "1",
+    },
+  });
+
+  assert.equal(result.statusCode, 200, "policy Decision Record material status mismatch");
+  assert.equal(
+    result.json?.decision_record_material?.schema_version,
+    "direct_rulebook_decision_material_v1",
+    "policy Decision Record material schema mismatch"
+  );
+  assert.equal(
+    result.json?.decision_record_material?.request?.mode,
+    "rulebook",
+    "policy Decision Record material must replay through rulebook mode"
+  );
+  assert.equal(
+    result.json?.decision_record_material?.request?.rulebook?.rulebook_id,
+    "refund_policy_notary",
+    "policy Decision Record material rulebook mismatch"
+  );
+  assert.equal(
+    result.json?.decision_record_material?.request?.context?.inputs?.vendor,
+    "adobe",
+    "policy Decision Record material must preserve normalized facts"
+  );
+  assert.equal(
+    sha256(canonicalJson(result.json?.decision_record_material?.request?.context?.inputs || {})),
+    result.json?.rulebook_result?.input_hash,
+    "policy Decision Record material facts must match the evaluated input hash"
+  );
 }
 
 async function testRefundPolicyRulebookOutcomes() {
@@ -2879,6 +2922,7 @@ async function main() {
     ["decide-model-fallback-empty-text", testDecideModelFallbackOnEmptyText],
     ["decide-extended-fallback-order", testDecideExtendedFallbackOrder],
     ["policy-v1-dispatch", testPolicyV1Fixture],
+    ["policy-decision-record-material", testPolicyDecisionRecordMaterialFixture],
     ["refund-policy-rulebook-outcomes", testRefundPolicyRulebookOutcomes],
     ["refund-policy-rulebook-binds-evidence-identity", testRefundPolicyRulebookBindsEvidenceIdentity],
     ["refund-policy-rulebook-signs-attestation", testRefundPolicyRulebookSignsAttestation],
