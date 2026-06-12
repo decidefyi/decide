@@ -75,7 +75,10 @@ Executable-looking fields such as `code`, `source`, `script`, `function`,
 are rejected as unknown fields rather than ignored.
 
 Successful and `needs_input` Rulebook v1 responses expose `rulebook_contract`
-with the enforced schema version, schema URL, schema hash, and evaluator version.
+with the enforced schema version, schema URL, schema hash, and evaluator
+version. They also expose `runtime_binding` with the production core, binding
+mode, verdict authority, adapter authority when present, and rejected
+customer-code stance.
 
 ## Why
 

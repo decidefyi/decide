@@ -381,10 +381,16 @@
       "version": "2026-06-11",
       "hash": "9f82769c757cac3fe9f2a8e2e54cef2f2b1f0b4e20d1ce8234ff676944bd60f4"
     },
+    "runtime_binding": {
+      "production_core": "hybrid_declarative_rulebook_with_trusted_adapters",
+      "binding_mode": "direct_declarative_rulebook",
+      "verdict_authority": "declarative_rulebook",
+      "customer_supplied_code": "rejected"
+    },
     "input_hash": "ca6365f74f87070cca0661fd310f8daefe64b9380200c76e8f4f1bc1c3ae4cfe",
     "rulebook_attestation": {
       "schema_version": "rulebook_attestation_v1",
-      "bundle_hash": "ab13331890184126744d6f7fd22f4aa02a4a7a60c66fc8377bcace34ba7c196e"
+      "bundle_hash": "2df0080c1dbed7ee4165a0f97a1570cab4540c73804daac5fa67a0fb64dba72c"
     },
     "semantic_output": {
       "status": "ok",

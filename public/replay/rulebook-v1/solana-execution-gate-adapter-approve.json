@@ -321,10 +321,17 @@
       "version": "2026-06-11",
       "hash": "c5965bfb2838318fb6dd324de403acf0273c6ae78dde3a266150721830925160"
     },
+    "runtime_binding": {
+      "production_core": "hybrid_declarative_rulebook_with_trusted_adapters",
+      "binding_mode": "trusted_adapter_facts_then_declarative_rulebook",
+      "verdict_authority": "declarative_rulebook",
+      "adapter_authority": "facts_only",
+      "customer_supplied_code": "rejected"
+    },
     "input_hash": "fae9fd4eadb525e1dd91babe8ba67f2237c78cc24ac82b1cbc1e55b7923e35c1",
     "rulebook_attestation": {
       "schema_version": "rulebook_attestation_v1",
-      "bundle_hash": "b7f3e2e5843ac2918eeaa2b36bf2eead0d0c5e39936c2cfbefcc0d32acc4e6b7"
+      "bundle_hash": "e39a111130ce190e51f03ea2e4ece1097a7da6747c800326ff9f822c43629f57"
     },
     "semantic_output": {
       "status": "ok",

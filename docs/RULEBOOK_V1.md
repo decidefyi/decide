@@ -301,6 +301,12 @@ enforced:
 }
 ```
 
+They also include `runtime_binding`, which records the active production core,
+binding mode, verdict authority, adapter authority when present, and
+`customer_supplied_code: "rejected"`. The current binding modes are
+`direct_declarative_rulebook` and
+`trusted_adapter_facts_then_declarative_rulebook`.
+
 ## Hashing And Lineage
 
 The runtime computes a SHA-256 hash over canonical rulebook JSON.
@@ -325,9 +331,9 @@ Each successful Rulebook v1 response also includes `rulebook_attestation`:
   is configured
 
 The bundle contains the engine, evaluator version, rulebook identity and hash,
-input hash, outcome fields, and trusted adapter attestation when present. The
-bundle hash lets callers bind a Decision Record to the exact deterministic
-execution tuple without depending on mutable response formatting.
+input hash, runtime binding, outcome fields, and trusted adapter attestation
+when present. The bundle hash lets callers bind a Decision Record to the exact
+deterministic execution tuple without depending on mutable response formatting.
 
 The signature envelope uses schema version
 `rulebook_attestation_signature_v1`, algorithm `Ed25519`, and

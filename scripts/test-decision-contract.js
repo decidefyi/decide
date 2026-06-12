@@ -116,6 +116,11 @@ function assertRulebookAttestation(payload, label) {
     },
     `${label}: attestation outcome mismatch`
   );
+  assert.deepEqual(
+    attestation?.bundle?.runtime_binding,
+    payload?.runtime_binding,
+    `${label}: attestation runtime binding mismatch`
+  );
 
   if (payload?.trusted_adapter) {
     assert.deepEqual(
@@ -159,6 +164,22 @@ function assertRulebookAttestation(payload, label) {
   } else {
     assert.equal(signature.signature, null, `${label}: unsigned attestation signature should be null`);
   }
+}
+
+function assertRuntimeBinding(payload, expectedMode, label) {
+  assert.deepEqual(
+    payload?.runtime_binding,
+    {
+      production_core: "hybrid_declarative_rulebook_with_trusted_adapters",
+      binding_mode: expectedMode,
+      verdict_authority: "declarative_rulebook",
+      ...(expectedMode === "trusted_adapter_facts_then_declarative_rulebook"
+        ? { adapter_authority: "facts_only" }
+        : {}),
+      customer_supplied_code: "rejected",
+    },
+    `${label}: runtime binding mismatch`
+  );
 }
 
 function generateSigningEnv(keyId = "contract-test-rulebook-key") {
@@ -419,6 +440,7 @@ async function testDecideRulebookFixture() {
       },
       "rulebook response must identify the enforced schema contract"
     );
+    assertRuntimeBinding(first.json, "direct_declarative_rulebook", "rulebook");
     assert.equal(first.json?.rulebook?.id, fixture.request.body.rulebook.rulebook_id, "rulebook id mismatch");
     assert.equal(first.json?.rulebook?.version, fixture.request.body.rulebook.version, "rulebook version mismatch");
     assert.equal(typeof first.json?.rulebook?.hash, "string", "rulebook hash missing");
@@ -518,6 +540,7 @@ async function testDecideRulebookMissingInput() {
     );
     assert.equal(typeof result.json?.input_hash, "string", "missing rulebook input hash missing");
     assert.match(result.json.input_hash, /^[a-f0-9]{64}$/, "missing rulebook input hash must be sha256 hex");
+    assertRuntimeBinding(result.json, "direct_declarative_rulebook", "missing rulebook input");
     assertRulebookAttestation(result.json, "missing rulebook input");
     assert.deepEqual(result.json?.missing_fields, ["margin_percent"], "missing rulebook fields mismatch");
     assert.equal(result.json?.matched_rule_id, null, "missing input must not match a rule");
@@ -848,6 +871,7 @@ async function testDecideTrustedAdapterFixture() {
       first.json?.trusted_adapter?.output_hash,
       "adapter-backed rulebook input hash should bind adapter facts"
     );
+    assertRuntimeBinding(first.json, "trusted_adapter_facts_then_declarative_rulebook", "trusted adapter rulebook");
     assertRulebookAttestation(first.json, "trusted adapter rulebook");
     assert.equal(
       first.json?.trusted_adapter?.execution_isolation,
@@ -952,6 +976,11 @@ async function testDecideDecisionMemoReadinessAdapterFixture() {
       first.json?.input_hash,
       first.json?.trusted_adapter?.output_hash,
       "decision memo rulebook input hash should bind adapter facts"
+    );
+    assertRuntimeBinding(
+      first.json,
+      "trusted_adapter_facts_then_declarative_rulebook",
+      "decision memo readiness rulebook"
     );
     assertRulebookAttestation(first.json, "decision memo readiness rulebook");
     assert.deepEqual(
@@ -1252,6 +1281,13 @@ async function testRulebookV1PublicConformanceFixtures() {
       assert.equal(first.json?.action, fixture.expect.action, `${fixtureRef.id}: action mismatch`);
       assert.equal(first.json?.reason_code, fixture.expect.reason_code, `${fixtureRef.id}: reason code mismatch`);
       assert.equal(first.json?.matched_rule_id, fixture.expect.matched_rule_id, `${fixtureRef.id}: matched rule mismatch`);
+      assertRuntimeBinding(
+        first.json,
+        fixture.request?.body?.adapter
+          ? "trusted_adapter_facts_then_declarative_rulebook"
+          : "direct_declarative_rulebook",
+        `${fixtureRef.id}: conformance fixture`
+      );
       assert.equal(typeof first.json?.rulebook?.hash, "string", `${fixtureRef.id}: rulebook hash missing`);
       assert.equal(typeof first.json?.input_hash, "string", `${fixtureRef.id}: input hash missing`);
       assert.match(first.json.input_hash, /^[a-f0-9]{64}$/, `${fixtureRef.id}: input hash must be sha256 hex`);
@@ -1406,6 +1442,11 @@ async function testRulebookV1GoldenReplayCorpus() {
         `${fixtureRef.id}: semantic replay output mismatch`
       );
       assert.deepEqual(first.json?.rulebook, fixture.historical_record?.rulebook, `${fixtureRef.id}: rulebook lineage mismatch`);
+      assert.deepEqual(
+        first.json?.runtime_binding,
+        fixture.historical_record?.runtime_binding,
+        `${fixtureRef.id}: runtime binding mismatch`
+      );
       assert.equal(first.json?.input_hash, fixture.historical_record?.input_hash, `${fixtureRef.id}: input hash mismatch`);
       assert.equal(
         first.json?.rulebook_attestation?.schema_version,
@@ -1450,6 +1491,7 @@ async function testRulebookV1GoldenReplayCorpus() {
             matched_rule_id: second.json?.matched_rule_id,
           },
           rulebook: second.json?.rulebook,
+          runtime_binding: second.json?.runtime_binding,
           input_hash: second.json?.input_hash,
           attestation_hash: second.json?.rulebook_attestation?.bundle_hash,
           trusted_adapter: second.json?.trusted_adapter || null,
@@ -1459,6 +1501,7 @@ async function testRulebookV1GoldenReplayCorpus() {
           evaluator_version: fixture.historical_record?.evaluator_version,
           semantic_output: fixture.historical_record?.semantic_output,
           rulebook: fixture.historical_record?.rulebook,
+          runtime_binding: fixture.historical_record?.runtime_binding,
           input_hash: fixture.historical_record?.input_hash,
           attestation_hash: fixture.historical_record?.rulebook_attestation?.bundle_hash,
           trusted_adapter: fixture.historical_record?.trusted_adapter || null,
@@ -1719,6 +1762,15 @@ function testRulebookRuntimeArchitectureDoc() {
     architecture.includes("Trusted adapters may emit facts, but they do not select the binding verdict"),
     "runtime architecture doc must keep trusted adapters out of verdict selection"
   );
+  assert.ok(
+    architecture.includes("runtime_binding"),
+    "runtime architecture doc must document runtime binding metadata"
+  );
+  assert.ok(
+    rulebookDoc.includes("runtime_binding"),
+    "rulebook contract doc must document runtime binding metadata"
+  );
+  assert.ok(readme.includes("runtime_binding"), "README must document runtime binding metadata");
   assert.ok(
     readme.includes("docs/RULEBOOK_RUNTIME_ARCHITECTURE.md"),
     "README must link the runtime architecture decision"

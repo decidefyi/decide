@@ -2,6 +2,10 @@ import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders
 import { persistLog } from "../lib/log.js";
 import { buildSourceHash, withLineage } from "../lib/lineage.js";
 import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
+import {
+  RULEBOOK_DIRECT_BINDING_MODE,
+  RULEBOOK_TRUSTED_ADAPTER_BINDING_MODE,
+} from "../lib/rulebook-runtime-contract.js";
 import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
 import { isRulebookAttestationSignatureRequired } from "../lib/rulebook-attestation-signing.js";
 import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
@@ -571,6 +575,7 @@ export default async function handler(req, res) {
       const evaluation = evaluateRulebookV1({
         rulebook: body.rulebook,
         inputs: runtimeInputs,
+        bindingMode: trustedAdapter ? RULEBOOK_TRUSTED_ADAPTER_BINDING_MODE : RULEBOOK_DIRECT_BINDING_MODE,
       });
       if (!evaluation.ok) {
         sendDecisionJson(

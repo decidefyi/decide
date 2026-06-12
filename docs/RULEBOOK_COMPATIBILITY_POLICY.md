@@ -127,6 +127,7 @@ new versioned API, MCP tool, SDK, or response contract. Stable fields include:
 - `policy_hash`
 - `source_hash`
 - `input_hash`
+- `runtime_binding`
 - `rulebook`
 - `evaluator_version`
 - `rulebook_registry`

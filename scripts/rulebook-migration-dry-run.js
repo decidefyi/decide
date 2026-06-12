@@ -6,6 +6,10 @@ import { fileURLToPath } from "node:url";
 
 import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
 import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
+import {
+  RULEBOOK_DIRECT_BINDING_MODE,
+  RULEBOOK_TRUSTED_ADAPTER_BINDING_MODE,
+} from "../lib/rulebook-runtime-contract.js";
 import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -514,6 +518,7 @@ async function evaluateReplayRequest(request, options) {
   const evaluation = evaluateRulebookV1({
     rulebook: body.rulebook,
     inputs: runtimeInputs,
+    bindingMode: trustedAdapter ? RULEBOOK_TRUSTED_ADAPTER_BINDING_MODE : RULEBOOK_DIRECT_BINDING_MODE,
   });
   if (!evaluation.ok) {
     throw new Error(`${evaluation.error}: ${evaluation.message || "rulebook evaluation failed"}`);
@@ -554,6 +559,7 @@ function actualHistoricalRecord(evaluation) {
     evaluator_version: result.evaluator_version,
     semantic_output: semanticOutput(result),
     rulebook: result.rulebook,
+    runtime_binding: result.runtime_binding,
     input_hash: result.input_hash,
     attestation_hash: result.rulebook_attestation?.bundle_hash,
     trusted_adapter: result.trusted_adapter || null,
@@ -568,6 +574,7 @@ function expectedHistoricalRecord(record) {
     evaluator_version: record?.evaluator_version,
     semantic_output: record?.semantic_output,
     rulebook: record?.rulebook,
+    runtime_binding: record?.runtime_binding,
     input_hash: record?.input_hash,
     attestation_hash: record?.rulebook_attestation?.bundle_hash,
     trusted_adapter: record?.trusted_adapter || null,
@@ -586,6 +593,7 @@ function compareHistoricalRecord(expected, actual) {
     "evaluator_version",
     "semantic_output",
     "rulebook",
+    "runtime_binding",
     "input_hash",
     "attestation_hash",
     "trusted_adapter",
