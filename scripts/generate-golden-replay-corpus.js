@@ -165,6 +165,13 @@ const fixtureSpecs = [
     notes: "Adapter-backed Krafthaus execution gate with pinned adapter dependency and emitted facts.",
   },
   {
+    id: "krafthaus_workflow_readiness_adapter_bind",
+    title: "Krafthaus workflow readiness binding",
+    kind: "trusted_adapter_rulebook",
+    request: conformanceRequest("krafthaus-workflow-readiness-adapter-bind.json"),
+    notes: "Adapter-backed Krafthaus workflow application binding with pinned adapter dependency and emitted facts.",
+  },
+  {
     id: "refund_policy_notary_allow",
     title: "Refund Policy Notary approval",
     kind: "direct_policy_notary_rulebook",

@@ -126,12 +126,15 @@ clock, Web Crypto randomness, network, and timer globals before invoking the
 adapter. Adapter attempts to use or replace those globals fail with
 `TRUSTED_ADAPTER_CAPABILITY_DENIED`.
 
-Two Krafthaus application patterns now exercise this architecture:
+Three Krafthaus application patterns now exercise this architecture:
 
 - Solana Execution Gate uses a registered trusted adapter to derive bounded
   execution facts before declarative evaluation.
 - Decision Memo Readiness Gate uses a registered trusted adapter to derive
   bounded packet completeness facts before advisory memo analysis can run.
+- Krafthaus Workflow Readiness Binding uses a registered trusted adapter to
+  derive bounded workflow readiness facts before a workflow application binds an
+  action path.
 - Refund, Trial, Cancel, and Return Policy MCP notaries supply normalized
   policy facts directly to Rulebook v1 and require no trusted adapter.
 

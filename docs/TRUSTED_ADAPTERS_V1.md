@@ -104,6 +104,13 @@ completeness facts such as question, owner, KPI, option count, constraints,
 evidence, packet blockers, and readiness score. Rulebook v1 still selects the
 binding `RUN_READY`, `NEEDS_INPUT`, or `BLOCKED` outcome.
 
+`krafthaus_workflow_readiness@1.0.0` normalizes bounded Krafthaus workflow
+readiness facts before a workflow application binds an action path. The adapter
+reports ownership, recurrence, evidence depth, integration touchpoints,
+automation boundary, rollback path, exception paths, handoff risk, workflow
+score, and bind readiness. Rulebook v1 still selects the binding `BIND_READY`,
+`ROUTE_REVIEW`, or `BLOCKED` outcome.
+
 ## Honest Boundary
 
 Trusted adapters are reviewed code bundled with Decide, not untrusted plugins

@@ -106,10 +106,10 @@ common ambient capabilities. The declarative rulebook remains the only binding
 verdict selector. See [`docs/TRUSTED_ADAPTERS_V1.md`](docs/TRUSTED_ADAPTERS_V1.md).
 
 The current reference applications prove both production patterns: Solana
-Execution Gate and the Decision Memo Readiness Gate use trusted adapters before
-Rulebook v1, while the Refund, Trial, Cancel, and Return Policy MCP notaries
-supply normalized facts directly to Rulebook v1 and expose the signed rulebook
-result through their stable REST and MCP surfaces.
+Execution Gate, Decision Memo Readiness Gate, and Krafthaus Workflow Readiness Binding
+use trusted adapters before Rulebook v1, while the Refund, Trial, Cancel, and
+Return Policy MCP notaries supply normalized facts directly to Rulebook v1 and
+expose the signed rulebook result through their stable REST and MCP surfaces.
 
 Before evaluator, adapter, or rulebook changes ship, run the local historical
 replay gate:

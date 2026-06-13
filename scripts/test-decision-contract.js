@@ -1124,6 +1124,155 @@ async function testDecideDecisionMemoReadinessAdapterFixture() {
   }
 }
 
+async function testDecideKrafthausWorkflowReadinessAdapterFixture() {
+  const fixture = loadFixture("decide-krafthaus-workflow-readiness-adapter-v1.json");
+  const manifest = getTrustedAdapterManifest("krafthaus_workflow_readiness", "1.0.0");
+  assert.equal(manifest?.adapter_id, "krafthaus_workflow_readiness", "Krafthaus workflow adapter manifest missing");
+  assert.equal(manifest?.version, "1.0.0", "Krafthaus workflow adapter version mismatch");
+  fixture.request.body.adapter.manifest_hash = manifest.manifest_hash;
+  fixture.request.headers = {
+    ...(fixture.request.headers || {}),
+    "x-forwarded-for": "10.253.1.1",
+  };
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("Krafthaus workflow readiness gate must not call a network dependency");
+  };
+
+  try {
+    const first = await invokeJson(decideHandler, fixture.request);
+    const second = await invokeJson(decideHandler, fixture.request);
+    assert.equal(first.statusCode, fixture.expect.statusCode, "Krafthaus workflow readiness status mismatch");
+    assert.equal(first.json?.verdict, fixture.expect.decision, "Krafthaus workflow readiness decision mismatch");
+    assert.equal(
+      first.json?.application_verdict,
+      fixture.expect.application_verdict,
+      "Krafthaus workflow readiness verdict mismatch"
+    );
+    assert.equal(first.json?.action, fixture.expect.action, "Krafthaus workflow readiness action mismatch");
+    assert.equal(first.json?.reason_code, fixture.expect.reason_code, "Krafthaus workflow readiness reason mismatch");
+    assert.equal(
+      first.json?.matched_rule_id,
+      fixture.expect.matched_rule_id,
+      "Krafthaus workflow readiness matched rule mismatch"
+    );
+    assert.equal(
+      first.json?.adapter_facts?.workflow_score,
+      fixture.expect.workflow_score,
+      "Krafthaus workflow readiness score mismatch"
+    );
+    assert.equal(
+      first.json?.adapter_facts?.workflow_band,
+      fixture.expect.workflow_band,
+      "Krafthaus workflow readiness band mismatch"
+    );
+    assert.equal(
+      first.json?.adapter_facts?.handoff_risk,
+      fixture.expect.handoff_risk,
+      "Krafthaus workflow readiness handoff risk mismatch"
+    );
+    assert.equal(
+      first.json?.adapter_facts?.ready_to_bind,
+      fixture.expect.ready_to_bind,
+      "Krafthaus workflow readiness bind flag mismatch"
+    );
+    assert.equal(
+      first.json?.trusted_adapter?.adapter_id,
+      "krafthaus_workflow_readiness",
+      "Krafthaus workflow adapter id missing"
+    );
+    assert.equal(first.json?.trusted_adapter?.version, "1.0.0", "Krafthaus workflow adapter version missing");
+    assert.equal(
+      first.json?.trusted_adapter?.implementation_hash,
+      manifest.implementation_hash,
+      "Krafthaus workflow adapter implementation hash mismatch"
+    );
+    assert.equal(
+      first.json?.trusted_adapter?.manifest_hash,
+      manifest.manifest_hash,
+      "Krafthaus workflow adapter manifest hash mismatch"
+    );
+    assert.equal(
+      first.json?.input_hash,
+      first.json?.trusted_adapter?.output_hash,
+      "Krafthaus workflow rulebook input hash should bind adapter facts"
+    );
+    assertRuntimeBinding(
+      first.json,
+      "trusted_adapter_facts_then_declarative_rulebook",
+      "Krafthaus workflow readiness rulebook"
+    );
+    assertRulebookAttestation(first.json, "Krafthaus workflow readiness rulebook");
+    assert.deepEqual(
+      {
+        verdict: second.json?.application_verdict,
+        score: second.json?.adapter_facts?.workflow_score,
+        band: second.json?.adapter_facts?.workflow_band,
+        rulebook_input_hash: second.json?.input_hash,
+        attestation_hash: second.json?.rulebook_attestation?.bundle_hash,
+        input_hash: second.json?.trusted_adapter?.input_hash,
+        output_hash: second.json?.trusted_adapter?.output_hash,
+      },
+      {
+        verdict: first.json?.application_verdict,
+        score: first.json?.adapter_facts?.workflow_score,
+        band: first.json?.adapter_facts?.workflow_band,
+        rulebook_input_hash: first.json?.input_hash,
+        attestation_hash: first.json?.rulebook_attestation?.bundle_hash,
+        input_hash: first.json?.trusted_adapter?.input_hash,
+        output_hash: first.json?.trusted_adapter?.output_hash,
+      },
+      "same Krafthaus workflow adapter, input, and rulebook must reproduce the same semantic facts"
+    );
+
+    const routeRequest = JSON.parse(JSON.stringify(fixture.request));
+    routeRequest.headers["x-forwarded-for"] = "10.253.1.2";
+    routeRequest.body.adapter.input.automation_boundary_defined = false;
+    routeRequest.body.adapter.input.integration_touchpoints = 2;
+    routeRequest.body.adapter.input.exception_paths = 2;
+    const route = await invokeJson(decideHandler, routeRequest);
+    assert.equal(route.statusCode, 200, "route Krafthaus workflow readiness status mismatch");
+    assert.equal(route.json?.application_verdict, "ROUTE_REVIEW", "route Krafthaus workflow readiness verdict mismatch");
+    assert.equal(route.json?.verdict, "review", "route Krafthaus workflow readiness decision mismatch");
+    assert.equal(route.json?.action, "route_workflow_design_review", "route Krafthaus workflow readiness action mismatch");
+    assert.equal(route.json?.reason_code, "WORKFLOW_REVIEW_REQUIRED", "route Krafthaus workflow readiness reason mismatch");
+    assert.equal(
+      route.json?.matched_rule_id,
+      "route_workflow_for_design_review",
+      "route Krafthaus workflow readiness rule mismatch"
+    );
+
+    const blockedRequest = JSON.parse(JSON.stringify(fixture.request));
+    blockedRequest.headers["x-forwarded-for"] = "10.253.1.3";
+    blockedRequest.body.adapter.input.owner_present = false;
+    blockedRequest.body.adapter.input.evidence_sources = 0;
+    blockedRequest.body.adapter.input.exception_paths = 5;
+    const blocked = await invokeJson(decideHandler, blockedRequest);
+    assert.equal(blocked.statusCode, 200, "blocked Krafthaus workflow readiness status mismatch");
+    assert.equal(blocked.json?.application_verdict, "BLOCKED", "blocked Krafthaus workflow readiness verdict mismatch");
+    assert.equal(blocked.json?.verdict, "no", "blocked Krafthaus workflow readiness decision mismatch");
+    assert.equal(blocked.json?.action, "block_workflow_binding", "blocked Krafthaus workflow readiness action mismatch");
+    assert.equal(blocked.json?.reason_code, "WORKFLOW_BINDING_BLOCKED", "blocked Krafthaus workflow readiness reason mismatch");
+    assert.equal(
+      blocked.json?.matched_rule_id,
+      "block_unowned_or_unsafe_workflow",
+      "blocked Krafthaus workflow readiness rule mismatch"
+    );
+
+    assert.equal(fetchCalled, false, "Krafthaus workflow readiness unexpectedly called a network dependency");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
 function testTrustedAdapterVersionLocks() {
   assert.equal(
     typeof getTrustedAdapterVersionLock,
@@ -1142,6 +1291,12 @@ function testTrustedAdapterVersionLocks() {
       version: "1.0.0",
       implementationHash: "1ecd415f9bd91bd1561a0ca0438af567e40b18081b954608b8cf643d4ec1d47f",
       manifestHash: "4613daa3efede7f0c155b59998e91773073f4124ba8d5f62b4ed64835c1f8256",
+    },
+    {
+      adapterId: "krafthaus_workflow_readiness",
+      version: "1.0.0",
+      implementationHash: "37afe50da879b918c3ca7a558a5c066b8d9025b73685e7c0c6d916de66092440",
+      manifestHash: "fbdced2047dc68944b5d620586ebd8ae1b1166b1448cbaa68490fadb00f69d9b",
     },
   ];
 
@@ -1311,6 +1466,7 @@ async function testRulebookV1PublicConformanceFixtures() {
     [
       "pricing_exception_direct_approve",
       "solana_execution_gate_adapter_approve",
+      "krafthaus_workflow_readiness_adapter_bind",
       "executable_payload_rejected",
     ],
     "public Rulebook v1 conformance fixture set changed unexpectedly"
@@ -1486,6 +1642,7 @@ async function testRulebookV1GoldenReplayCorpus() {
     [
       "pricing_exception_direct_approve",
       "solana_execution_gate_adapter_approve",
+      "krafthaus_workflow_readiness_adapter_bind",
       "refund_policy_notary_allow",
       "trial_policy_notary_auto_convert",
       "cancel_policy_notary_penalty",
@@ -1684,11 +1841,11 @@ function testRulebookMigrationDryRunCli() {
   assert.equal(baseline.ok, true, "migration dry-run baseline should pass");
   assert.equal(baseline.corpus_version, "rulebook_v1_golden_replay_v1", "dry-run corpus version mismatch");
   assert.equal(baseline.replay_contract, "historical_rulebook_replay_v1", "dry-run replay contract mismatch");
-  assert.equal(baseline.fixtures_total, 6, "dry-run fixture count mismatch");
+  assert.equal(baseline.fixtures_total, 7, "dry-run fixture count mismatch");
   assert.equal(baseline.drift_count, 0, "baseline dry-run should have no drift");
   assert.deepEqual(
     baseline.results.map((entry) => entry.status),
-    ["pass", "pass", "pass", "pass", "pass", "pass"],
+    Array.from({ length: baseline.fixtures_total }, () => "pass"),
     "baseline dry-run should pass every fixture"
   );
 
@@ -1851,6 +2008,7 @@ function testRulebookRuntimeArchitectureDoc() {
   const compatibilityPolicyPath = join(__dirname, "..", "docs", "RULEBOOK_COMPATIBILITY_POLICY.md");
   const migrationExamplesPath = join(__dirname, "..", "docs", "RULEBOOK_MIGRATION_EXAMPLES.md");
   const applicationBindingPath = join(__dirname, "..", "docs", "APPLICATION_BINDING_V1.md");
+  const trustedAdaptersPath = join(__dirname, "..", "docs", "TRUSTED_ADAPTERS_V1.md");
   const runtimeSmokePath = join(__dirname, "..", "scripts", "rulebook-runtime-production-smoke.js");
   const schemaPath = join(__dirname, "..", "public", "schemas", "rulebook-v1.schema.json");
   assert.ok(existsSync(architecturePath), "rulebook runtime architecture doc is missing");
@@ -1858,6 +2016,7 @@ function testRulebookRuntimeArchitectureDoc() {
   assert.ok(existsSync(compatibilityPolicyPath), "rulebook compatibility policy doc is missing");
   assert.ok(existsSync(migrationExamplesPath), "rulebook migration examples doc is missing");
   assert.ok(existsSync(applicationBindingPath), "application binding doc is missing");
+  assert.ok(existsSync(trustedAdaptersPath), "trusted adapters doc is missing");
   assert.ok(existsSync(runtimeSmokePath), "rulebook runtime production smoke script is missing");
   assert.ok(existsSync(schemaPath), "public Rulebook v1 JSON Schema artifact is missing");
   const architecture = readFileSync(architecturePath, "utf8");
@@ -1865,6 +2024,7 @@ function testRulebookRuntimeArchitectureDoc() {
   const compatibilityPolicy = readFileSync(compatibilityPolicyPath, "utf8");
   const migrationExamples = readFileSync(migrationExamplesPath, "utf8");
   const applicationBinding = readFileSync(applicationBindingPath, "utf8");
+  const trustedAdaptersDoc = readFileSync(trustedAdaptersPath, "utf8");
   const runtimeSmoke = readFileSync(runtimeSmokePath, "utf8");
   const schema = loadJsonFromRepo("public", "schemas", "rulebook-v1.schema.json");
   const readme = readFileSync(join(__dirname, "..", "README.md"), "utf8");
@@ -1888,6 +2048,22 @@ function testRulebookRuntimeArchitectureDoc() {
   assert.ok(
     architecture.includes("runtime_binding"),
     "runtime architecture doc must document runtime binding metadata"
+  );
+  assert.ok(
+    architecture.includes("Krafthaus Workflow Readiness Binding"),
+    "runtime architecture doc must name the broader Krafthaus workflow binding example"
+  );
+  assert.ok(
+    rulebookDoc.includes("Krafthaus Workflow Readiness Binding"),
+    "rulebook contract doc must name the broader Krafthaus workflow binding example"
+  );
+  assert.ok(
+    trustedAdaptersDoc.includes("krafthaus_workflow_readiness@1.0.0"),
+    "trusted adapters doc must document the Krafthaus workflow readiness adapter"
+  );
+  assert.ok(
+    readme.includes("Krafthaus Workflow Readiness Binding"),
+    "README must name the broader Krafthaus workflow binding example"
   );
   assert.ok(
     rulebookDoc.includes("runtime_binding"),
@@ -3334,6 +3510,7 @@ async function main() {
     ["decide-rulebook-rejects-executable-payload-fields", testDecideRulebookRejectsExecutablePayloadFields],
     ["decide-trusted-adapter-v1", testDecideTrustedAdapterFixture],
     ["decide-decision-memo-readiness-adapter-v1", testDecideDecisionMemoReadinessAdapterFixture],
+    ["decide-krafthaus-workflow-readiness-adapter-v1", testDecideKrafthausWorkflowReadinessAdapterFixture],
     ["trusted-adapter-version-locks", testTrustedAdapterVersionLocks],
     ["trusted-adapter-capability-audit", testTrustedAdapterCapabilityAudit],
     ["trusted-adapter-capability-runtime-enforcement", testTrustedAdapterCapabilityRuntimeEnforcement],

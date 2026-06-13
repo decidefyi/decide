@@ -19,6 +19,12 @@
       "url": "https://api.decide.fyi/replay/rulebook-v1/solana-execution-gate-adapter-approve.json"
     },
     {
+      "id": "krafthaus_workflow_readiness_adapter_bind",
+      "title": "Krafthaus workflow readiness binding",
+      "kind": "trusted_adapter_rulebook",
+      "url": "https://api.decide.fyi/replay/rulebook-v1/krafthaus-workflow-readiness-adapter-bind.json"
+    },
+    {
       "id": "refund_policy_notary_allow",
       "title": "Refund Policy Notary approval",
       "kind": "direct_policy_notary_rulebook",

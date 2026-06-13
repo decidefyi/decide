@@ -18,6 +18,12 @@
       "url": "https://api.decide.fyi/conformance/rulebook-v1/solana-execution-gate-adapter-approve.json"
     },
     {
+      "id": "krafthaus_workflow_readiness_adapter_bind",
+      "title": "Trusted adapter Krafthaus workflow readiness binding",
+      "kind": "trusted_adapter_success",
+      "url": "https://api.decide.fyi/conformance/rulebook-v1/krafthaus-workflow-readiness-adapter-bind.json"
+    },
+    {
       "id": "executable_payload_rejected",
       "title": "Executable-shaped rulebook payload rejection",
       "kind": "fail_closed_rejection",
