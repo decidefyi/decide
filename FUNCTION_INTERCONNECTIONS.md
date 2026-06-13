@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-05-30 14:10:40 CEST
+Generated: 2026-06-13 03:57:05 CEST
 
 ## Scope
 
@@ -25,35 +25,35 @@ api/cancel-mcp.js:38:export default createMcpHandler({
 api/compliance-export.js:18:export default async function complianceExportHandler(req, res) {
 api/compliance-export.js:3:function sendJson(res, statusCode, payload) {
 api/compliance-export.js:9:function readFormat(req) {
-api/decide.js:100:function readGeminiText(data) {
-api/decide.js:106:function sanitizeScore(n) {
-api/decide.js:113:function sanitizeUnitScore(n) {
-api/decide.js:125:function normalizeRisk(value, fallback = "medium") {
-api/decide.js:131:function normalizeRuntimeCitations(citations) {
-api/decide.js:164:function summarizeInputEvidenceValue(value) {
-api/decide.js:175:function buildInputEvidenceSummary(inputs = {}) {
-api/decide.js:182:function buildRuntimeFallbackEvidence(payload = {}, context = {}) {
-api/decide.js:20:function rid() {
-api/decide.js:248:function normalizeHeaderValue(value) {
-api/decide.js:24:function normalize(s = "") {
-api/decide.js:253:function readHeader(req, name = "") {
-api/decide.js:264:function readApiToken(req) {
-api/decide.js:276:function resolveGeminiModelLadder() {
-api/decide.js:285:function shouldRetryGeminiModel(statusCode, payload) {
-api/decide.js:28:function wantsAdvice(q) {
-api/decide.js:293:async function requestGeminiGenerateContent({ apiKey, prompt, generationConfig, request_id }) {
-api/decide.js:32:function isFinanceAdvice(q) {
-api/decide.js:363:function safeEqualToken(left, right) {
-api/decide.js:373:function parseFlag(value) {
-api/decide.js:378:function readTrustedProxyContext(req) {
-api/decide.js:38:function isMedicalAdvice(q) {
-api/decide.js:404:function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
-api/decide.js:420:export default async function handler(req, res) {
-api/decide.js:44:function isLegalAdvice(q) {
-api/decide.js:50:function parseMultiQuestion(raw = "") {
-api/decide.js:69:function asObject(value, fallback = {}) {
-api/decide.js:73:function toStringArray(value, maxLength = 8) {
-api/decide.js:81:function extractJson(text = "") {
+api/decide.js:109:function readGeminiText(data) {
+api/decide.js:115:function sanitizeScore(n) {
+api/decide.js:122:function sanitizeUnitScore(n) {
+api/decide.js:134:function normalizeRisk(value, fallback = "medium") {
+api/decide.js:140:function normalizeRuntimeCitations(citations) {
+api/decide.js:173:function summarizeInputEvidenceValue(value) {
+api/decide.js:184:function buildInputEvidenceSummary(inputs = {}) {
+api/decide.js:191:function buildRuntimeFallbackEvidence(payload = {}, context = {}) {
+api/decide.js:257:function normalizeHeaderValue(value) {
+api/decide.js:262:function readHeader(req, name = "") {
+api/decide.js:273:function readApiToken(req) {
+api/decide.js:285:function resolveGeminiModelLadder() {
+api/decide.js:294:function shouldRetryGeminiModel(statusCode, payload) {
+api/decide.js:29:function rid() {
+api/decide.js:302:async function requestGeminiGenerateContent({ apiKey, prompt, generationConfig, request_id }) {
+api/decide.js:33:function normalize(s = "") {
+api/decide.js:372:function safeEqualToken(left, right) {
+api/decide.js:37:function wantsAdvice(q) {
+api/decide.js:382:function parseFlag(value) {
+api/decide.js:387:function readTrustedProxyContext(req) {
+api/decide.js:413:function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
+api/decide.js:41:function isFinanceAdvice(q) {
+api/decide.js:448:export default async function handler(req, res) {
+api/decide.js:47:function isMedicalAdvice(q) {
+api/decide.js:53:function isLegalAdvice(q) {
+api/decide.js:59:function parseMultiQuestion(raw = "") {
+api/decide.js:78:function asObject(value, fallback = {}) {
+api/decide.js:82:function toStringArray(value, maxLength = 8) {
+api/decide.js:90:function extractJson(text = "") {
 api/health.js:12:function inferServiceFromHost(host) {
 api/health.js:3:function normalizeHost(req) {
 api/health.js:51:export default function handler(req, res) {
@@ -101,6 +101,8 @@ api/policy-fetch-hook.js:85:function isHostAllowed(hostname, allowlist) {
 api/policy-fetch-hook.js:92:function toJinaMirrorUrl(url) {
 api/return-mcp.js:39:function formatTextMessage(payload) {
 api/return-mcp.js:43:export default createMcpHandler({
+api/rulebook-attestation-keys.js:13:export default async function handler(req, res) {
+api/rulebook-attestation-keys.js:6:function sendJson(res, statusCode, payload) {
 api/track.js:113:export default async function handler(req, res) {
 api/track.js:34:function send(res, status, payload) {
 api/track.js:40:async function readJson(req) {
@@ -122,11 +124,13 @@ api/v1/workflows/zendesk/[workflow].js:21:function readWorkflowParam(req) {
 api/v1/workflows/zendesk/[workflow].js:30:function json(res, statusCode, payload) {
 api/v1/workflows/zendesk/[workflow].js:36:export default async function zendeskWorkflowDispatcher(req, res) {
 client/refund-auditor.js:28:async function checkRefundEligibility(vendor, daysSincePurchase) {
-lib/cancel-compute.js:164:export function getSupportedVendors() {
-lib/cancel-compute.js:171:export function getRulesVersion() {
-lib/cancel-compute.js:22:function withSource(result, vendor) {
-lib/cancel-compute.js:37:export function validateInput({ vendor, region, plan }) {
-lib/cancel-compute.js:73:export function compute({ vendor, region, plan }) {
+lib/cancel-compute.js:188:export function getSupportedVendors() {
+lib/cancel-compute.js:195:export function getRulesVersion() {
+lib/cancel-compute.js:23:function withSource(result, vendor) {
+lib/cancel-compute.js:34:function withRulebook(result, vendor, rulebookResult) {
+lib/cancel-compute.js:45:export function validateInput({ vendor, region, plan }) {
+lib/cancel-compute.js:81:export function compute({ vendor, region, plan }) {
+lib/cancel-rulebook.js:12:export function evaluateCancelPolicyRulebook(inputs) {
 lib/compliance-export.js:109:function escapeCsv(value) {
 lib/compliance-export.js:115:function toCsv(rows) {
 lib/compliance-export.js:119:export function buildComplianceSnapshot(now = new Date()) {
@@ -137,6 +141,15 @@ lib/compliance-export.js:63:function asText(value) {
 lib/compliance-export.js:67:function normalizeSource(entry) {
 lib/compliance-export.js:80:function normalizeCandidate(entry) {
 lib/compliance-export.js:94:function loadPolicySet(config) {
+lib/json-schema-subset.js:18:function valuesEqual(left, right) {
+lib/json-schema-subset.js:1:function isPlainObject(value) {
+lib/json-schema-subset.js:22:function resolveLocalSchemaRef(rootSchema, ref) {
+lib/json-schema-subset.js:33:function valueType(value) {
+lib/json-schema-subset.js:41:function schemaTypeMatches(value, expectedType) {
+lib/json-schema-subset.js:50:function error(path, message) {
+lib/json-schema-subset.js:58:export function validateJsonSchemaSubset(value, schema, options = {}) {
+lib/json-schema-subset.js:5:function hasOwn(source, key) {
+lib/json-schema-subset.js:9:function canonicalJson(value) {
 lib/lineage.js:15:export function buildSourceHash(payload) {
 lib/lineage.js:20:export function withLineage(payload, { policyVersion = "unknown", sourceHash = "unknown", evaluatedAt } = {}) {
 lib/lineage.js:3:function toIso(value = new Date()) {
@@ -157,6 +170,9 @@ lib/metrics-store.js:18:export function recordClientEvent(eventName, ts = Date.n
 lib/metrics-store.js:33:export function recordVendorRequest(vendorName, ts = Date.now()) {
 lib/metrics-store.js:46:export function getMetricsSnapshot() {
 lib/metrics-store.js:5:function getStore() {
+lib/policy-decision-material.js:12:export function attachPolicyDecisionMaterial(result, { rulebook, inputs } = {}) {
+lib/policy-decision-material.js:36:export function exposePolicyDecisionMaterial(req, payload) {
+lib/policy-decision-material.js:3:function readHeader(req, name) {
 lib/policy-supabase.js:107:export async function supabaseUpsertRows(config, tableName, rows = [], onConflictColumns = []) {
 lib/policy-supabase.js:13:export function getPolicySupabaseConfig(env = process.env) {
 lib/policy-supabase.js:1:function toFlag(value, fallback = false) {
@@ -169,33 +185,37 @@ lib/rate-limit.js:11:export function createRateLimiter(requests, window) {
 lib/rate-limit.js:16:  return function checkRateLimit(identifier) {
 lib/rate-limit.js:74:export function getClientIp(req) {
 lib/rate-limit.js:86:export function sendRateLimitError(res, result, request_id) {
-lib/refund-compute.js:107:export function compute({ vendor, days_since_purchase, region, plan }) {
-lib/refund-compute.js:186:export function getSupportedVendors() {
-lib/refund-compute.js:193:export function getRulesVersion() {
-lib/refund-compute.js:22:function withSource(result, vendor) {
-lib/refund-compute.js:37:export function validateInput({ vendor, days_since_purchase, region, plan }) {
-lib/return-compute.js:106:export function compute({ vendor, days_since_purchase, region, plan }) {
-lib/return-compute.js:198:export function getSupportedVendors() {
-lib/return-compute.js:205:export function getRulesVersion() {
-lib/return-compute.js:22:function withSource(result, vendor) {
-lib/return-compute.js:37:export function validateInput({ vendor, days_since_purchase, region, plan }) {
-lib/routes/v1/policies/cancel-penalty.js:17:function rid() {
-lib/routes/v1/policies/cancel-penalty.js:21:async function readJson(req) {
-lib/routes/v1/policies/cancel-penalty.js:32:export default async function handler(req, res) {
-lib/routes/v1/policies/cancel-penalty.js:7:function json(res, statusCode, payload) {
-lib/routes/v1/policies/refund-eligibility.js:18:function rid() {
-lib/routes/v1/policies/refund-eligibility.js:23:function isProbablyYou(req) {
-lib/routes/v1/policies/refund-eligibility.js:28:async function readJson(req) {
-lib/routes/v1/policies/refund-eligibility.js:39:export default async function handler(req, res) {
-lib/routes/v1/policies/refund-eligibility.js:8:function json(res, statusCode, payload) {
-lib/routes/v1/policies/return-eligibility.js:17:function rid() {
-lib/routes/v1/policies/return-eligibility.js:21:async function readJson(req) {
-lib/routes/v1/policies/return-eligibility.js:32:export default async function handler(req, res) {
-lib/routes/v1/policies/return-eligibility.js:7:function json(res, statusCode, payload) {
-lib/routes/v1/policies/trial-terms.js:17:function rid() {
-lib/routes/v1/policies/trial-terms.js:21:async function readJson(req) {
-lib/routes/v1/policies/trial-terms.js:32:export default async function handler(req, res) {
-lib/routes/v1/policies/trial-terms.js:7:function json(res, statusCode, payload) {
+lib/refund-compute.js:115:export function compute({ vendor, days_since_purchase, region, plan }) {
+lib/refund-compute.js:207:export function getSupportedVendors() {
+lib/refund-compute.js:214:export function getRulesVersion() {
+lib/refund-compute.js:23:function withSource(result, vendor) {
+lib/refund-compute.js:34:function withRulebook(result, vendor, rulebookResult) {
+lib/refund-compute.js:45:export function validateInput({ vendor, days_since_purchase, region, plan }) {
+lib/refund-rulebook.js:12:export function evaluateRefundPolicyRulebook(inputs) {
+lib/return-compute.js:114:export function compute({ vendor, days_since_purchase, region, plan }) {
+lib/return-compute.js:225:export function getSupportedVendors() {
+lib/return-compute.js:232:export function getRulesVersion() {
+lib/return-compute.js:23:function withSource(result, vendor) {
+lib/return-compute.js:34:function withRulebook(result, vendor, rulebookResult) {
+lib/return-compute.js:45:export function validateInput({ vendor, days_since_purchase, region, plan }) {
+lib/return-rulebook.js:12:export function evaluateReturnPolicyRulebook(inputs) {
+lib/routes/v1/policies/cancel-penalty.js:18:function rid() {
+lib/routes/v1/policies/cancel-penalty.js:22:async function readJson(req) {
+lib/routes/v1/policies/cancel-penalty.js:33:export default async function handler(req, res) {
+lib/routes/v1/policies/cancel-penalty.js:8:function json(res, statusCode, payload) {
+lib/routes/v1/policies/refund-eligibility.js:19:function rid() {
+lib/routes/v1/policies/refund-eligibility.js:24:function isProbablyYou(req) {
+lib/routes/v1/policies/refund-eligibility.js:29:async function readJson(req) {
+lib/routes/v1/policies/refund-eligibility.js:40:export default async function handler(req, res) {
+lib/routes/v1/policies/refund-eligibility.js:9:function json(res, statusCode, payload) {
+lib/routes/v1/policies/return-eligibility.js:18:function rid() {
+lib/routes/v1/policies/return-eligibility.js:22:async function readJson(req) {
+lib/routes/v1/policies/return-eligibility.js:33:export default async function handler(req, res) {
+lib/routes/v1/policies/return-eligibility.js:8:function json(res, statusCode, payload) {
+lib/routes/v1/policies/trial-terms.js:18:function rid() {
+lib/routes/v1/policies/trial-terms.js:22:async function readJson(req) {
+lib/routes/v1/policies/trial-terms.js:33:export default async function handler(req, res) {
+lib/routes/v1/policies/trial-terms.js:8:function json(res, statusCode, payload) {
 lib/routes/v1/workflows/zendesk/cancel.js:32:export default createZendeskWorkflowHandler({
 lib/routes/v1/workflows/zendesk/cancel.js:4:function buildAction({ decisionClass, policy }) {
 lib/routes/v1/workflows/zendesk/refund.js:28:export default createZendeskWorkflowHandler({
@@ -220,11 +240,78 @@ lib/routes/v1/workflows/zendesk/workflow-common.js:58:function buildIdempotencyK
 lib/routes/v1/workflows/zendesk/workflow-common.js:70:function createReq({
 lib/routes/v1/workflows/zendesk/workflow-common.js:7:function rid() {
 lib/routes/v1/workflows/zendesk/workflow-common.js:93:function createRes() {
-lib/trial-compute.js:142:export function getSupportedVendors() {
-lib/trial-compute.js:149:export function getRulesVersion() {
-lib/trial-compute.js:22:function withSource(result, vendor) {
-lib/trial-compute.js:37:export function validateInput({ vendor, region, plan }) {
-lib/trial-compute.js:73:export function compute({ vendor, region, plan }) {
+lib/rulebook-attestation-signing.js:123:function resolveKeyHistory(env = process.env) {
+lib/rulebook-attestation-signing.js:153:export function isRulebookAttestationSignatureRequired(env = process.env) {
+lib/rulebook-attestation-signing.js:159:export function signRulebookAttestationBundleHash(bundleHash, env = process.env) {
+lib/rulebook-attestation-signing.js:19:function isPlainObject(value) {
+lib/rulebook-attestation-signing.js:200:export function getRulebookAttestationSigningKeys(env = process.env) {
+lib/rulebook-attestation-signing.js:23:function normalizePem(value) {
+lib/rulebook-attestation-signing.js:257:export function verifyRulebookAttestationSignature({ bundleHash, signature, publicKeyPem } = {}) {
+lib/rulebook-attestation-signing.js:27:function base64url(value) {
+lib/rulebook-attestation-signing.js:31:function fromBase64url(value) {
+lib/rulebook-attestation-signing.js:35:function resolveSigningKey(env = process.env) {
+lib/rulebook-attestation-signing.js:67:function normalizeOptionalTimestamp(value, field, index) {
+lib/rulebook-attestation-signing.js:76:function normalizeHistoryKey(entry, index) {
+lib/rulebook-attestation.js:10:function canonicalJson(value) {
+lib/rulebook-attestation.js:19:function sha256(value) {
+lib/rulebook-attestation.js:23:function normalizeTrustedAdapter(attestation) {
+lib/rulebook-attestation.js:40:function normalizeRuntimeBinding(binding) {
+lib/rulebook-attestation.js:54:export function buildRulebookAttestation(result = {}) {
+lib/rulebook-attestation.js:6:function isPlainObject(value) {
+lib/rulebook-runtime-contract.js:12:function readJson(filePath) {
+lib/rulebook-runtime-contract.js:16:function sha256(value) {
+lib/rulebook-runtime-contract.js:42:function buildRulebookRuntimeBinding({ bindingMode = RULEBOOK_DIRECT_BINDING_MODE } = {}) {
+lib/rulebook-runtime-contract.js:61:function buildRulebookRuntimeManifest() {
+lib/rulebook-v1.js:104:function validateCondition(condition, path, errors, state, depth = 0) {
+lib/rulebook-v1.js:173:function validateRulebook(rulebook) {
+lib/rulebook-v1.js:22:function isPlainObject(value) {
+lib/rulebook-v1.js:251:function rulebookContract() {
+lib/rulebook-v1.js:255:function compareScalar(left, right, operator) {
+lib/rulebook-v1.js:26:function canonicalJson(value) {
+lib/rulebook-v1.js:273:function evaluateCondition(condition, inputs) {
+lib/rulebook-v1.js:300:function normalizeOutcome(outcome) {
+lib/rulebook-v1.js:309:function validateInputs(rulebook, inputs) {
+lib/rulebook-v1.js:323:export function evaluateRulebookV1({ rulebook, inputs, bindingMode } = {}) {
+lib/rulebook-v1.js:35:function sha256(value) {
+lib/rulebook-v1.js:39:function hasOwn(source, key) {
+lib/rulebook-v1.js:43:function validateAllowedKeys(source, allowedKeys, path, errors) {
+lib/rulebook-v1.js:57:function getFieldValue(inputs, path) {
+lib/rulebook-v1.js:69:function valueTypeMatches(value, type) {
+lib/rulebook-v1.js:80:function validateOutcome(outcome, path, errors) {
+lib/trial-compute.js:167:export function getSupportedVendors() {
+lib/trial-compute.js:174:export function getRulesVersion() {
+lib/trial-compute.js:23:function withSource(result, vendor) {
+lib/trial-compute.js:34:function withRulebook(result, vendor, rulebookResult) {
+lib/trial-compute.js:45:export function validateInput({ vendor, region, plan }) {
+lib/trial-compute.js:81:export function compute({ vendor, region, plan }) {
+lib/trial-rulebook.js:12:export function evaluateTrialPolicyRulebook(inputs) {
+lib/trusted-adapter-capabilities.js:30:function capabilityDeniedError(name) {
+lib/trusted-adapter-capabilities.js:37:function deniedCapability(name) {
+lib/trusted-adapter-capabilities.js:43:function installDeniedValue(name, capability) {
+lib/trusted-adapter-capabilities.js:53:function installDeniedAccess(name, capability) {
+lib/trusted-adapter-capabilities.js:63:export function auditTrustedAdapterImplementation(implementation) {
+lib/trusted-adapter-capabilities.js:74:export function installDeniedAmbientCapabilities() {
+lib/trusted-adapter-definitions.js:10:function boundedInteger(value, min, max) {
+lib/trusted-adapter-definitions.js:16:function presentText(value, minLength) {
+lib/trusted-adapter-definitions.js:20:function solanaExecutionGateV1(input) {
+lib/trusted-adapter-definitions.js:271:export function getRegisteredTrustedAdapter(adapterId, version) {
+lib/trusted-adapter-definitions.js:275:export function getTrustedAdapterVersionLock(adapterId, version) {
+lib/trusted-adapter-definitions.js:48:function decisionMemoReadinessV1(input) {
+lib/trusted-adapter-isolation.js:23:    const finish = (result) => {
+lib/trusted-adapter-isolation.js:8:export function executeTrustedAdapterIsolated({
+lib/trusted-adapter-worker.js:6:function deepFreeze(value) {
+lib/trusted-adapters.js:145:function validateAdapterOutput(manifest, output) {
+lib/trusted-adapters.js:199:function deepFreeze(value) {
+lib/trusted-adapters.js:19:function isPlainObject(value) {
+lib/trusted-adapters.js:206:export function getTrustedAdapterManifest(adapterId, version) {
+lib/trusted-adapters.js:210:export async function executeTrustedAdapter(invocation) {
+lib/trusted-adapters.js:23:function canonicalJson(value) {
+lib/trusted-adapters.js:32:function sha256(value) {
+lib/trusted-adapters.js:36:function validateAllowedKeys(source, allowed, path, errors) {
+lib/trusted-adapters.js:50:function materializedManifest(entry) {
+lib/trusted-adapters.js:58:function publicManifest(entry) {
+lib/trusted-adapters.js:69:function assertTrustedAdapterVersionLock(manifest) {
+lib/trusted-adapters.js:93:function validateAdapterInput(manifest, input) {
 scripts/check-policies.js:1007:function writeWeeklyTriageReports(rows, generatedAtUtc) {
 scripts/check-policies.js:1032:  const delta = (key) => {
 scripts/check-policies.js:1076:function readNdjson(filePath) {
@@ -412,6 +499,13 @@ scripts/customer-key-smoke.js:36:function parseArgs(argv) {
 scripts/customer-key-smoke.js:67:function normalizeBaseUrl(value) {
 scripts/customer-key-smoke.js:77:function redactKey(key) {
 scripts/customer-key-smoke.js:83:async function postJson(url, { key, question, timeoutMs }) {
+scripts/generate-golden-replay-corpus.js:101:async function buildFixture({ id, title, kind, request, notes }) {
+scripts/generate-golden-replay-corpus.js:26:function loadJson(...segments) {
+scripts/generate-golden-replay-corpus.js:30:function clone(value) {
+scripts/generate-golden-replay-corpus.js:34:function writeJson(fileName, value) {
+scripts/generate-golden-replay-corpus.js:38:function conformanceRequest(fileName) {
+scripts/generate-golden-replay-corpus.js:42:function rulebookRequest({ rulebookFile, workflow, sourceRecordId, requestedAction, inputs }) {
+scripts/generate-golden-replay-corpus.js:62:async function evaluateRequest(request) {
 scripts/generate-outbound-domain-inventory.mjs:103:function inferTags(host, ownSuffixes) {
 scripts/generate-outbound-domain-inventory.mjs:141:function riskTier(tags, contexts) {
 scripts/generate-outbound-domain-inventory.mjs:172:function isCriticalDomain(tags) {
@@ -438,6 +532,48 @@ scripts/lib/policy-feed-reliability.js:56:export function buildAlertSignature(en
 scripts/lib/policy-feed-reliability.js:76:export function isLowSignalAlert(entry, { lowSignalThreshold = DEFAULT_LOW_SIGNAL_THRESHOLD } = {}) {
 scripts/lib/policy-feed-reliability.js:7:function toNonNegativeInt(value, fallback = 0) {
 scripts/lib/policy-feed-reliability.js:86:function dedupeAlerts(alerts) {
+scripts/rulebook-migration-dry-run.js:161:function validateMigrationManifestSchema(manifest) {
+scripts/rulebook-migration-dry-run.js:171:function usage() {
+scripts/rulebook-migration-dry-run.js:187:function takeValue(args, index, flag) {
+scripts/rulebook-migration-dry-run.js:195:function parseCandidateRulebook(value) {
+scripts/rulebook-migration-dry-run.js:206:function parseCandidateAdapter(value) {
+scripts/rulebook-migration-dry-run.js:221:function parseArgs(argv) {
+scripts/rulebook-migration-dry-run.js:24:function isPlainObject(value) {
+scripts/rulebook-migration-dry-run.js:275:function uniquePush(list, value) {
+scripts/rulebook-migration-dry-run.js:279:function pathRelativeToRepo(path) {
+scripts/rulebook-migration-dry-run.js:283:function validateMigrationManifest(manifest, manifestPath) {
+scripts/rulebook-migration-dry-run.js:28:function clone(value) {
+scripts/rulebook-migration-dry-run.js:32:function canonicalJson(value) {
+scripts/rulebook-migration-dry-run.js:406:function applyMigrationManifest(options) {
+scripts/rulebook-migration-dry-run.js:41:function loadJson(path) {
+scripts/rulebook-migration-dry-run.js:45:function resolveFromRepo(path) {
+scripts/rulebook-migration-dry-run.js:473:async function evaluateReplayRequest(request, options) {
+scripts/rulebook-migration-dry-run.js:49:function resolveLocalSchemaRef(rootSchema, ref) {
+scripts/rulebook-migration-dry-run.js:543:function semanticOutput(result) {
+scripts/rulebook-migration-dry-run.js:554:function actualHistoricalRecord(evaluation) {
+scripts/rulebook-migration-dry-run.js:570:function expectedHistoricalRecord(record) {
+scripts/rulebook-migration-dry-run.js:585:function valuesEqual(left, right) {
+scripts/rulebook-migration-dry-run.js:589:function compareHistoricalRecord(expected, actual) {
+scripts/rulebook-migration-dry-run.js:60:function valueType(value) {
+scripts/rulebook-migration-dry-run.js:615:function fileNameFromFixtureRef(fixtureRef) {
+scripts/rulebook-migration-dry-run.js:624:function classifyDrifts(results, manifest) {
+scripts/rulebook-migration-dry-run.js:650:function migrationIsApproved(migration) {
+scripts/rulebook-migration-dry-run.js:660:async function runDryRun(options) {
+scripts/rulebook-migration-dry-run.js:68:function schemaTypeMatches(value, expectedType) {
+scripts/rulebook-migration-dry-run.js:77:function validateJsonSchemaSubset(value, schema, rootSchema = schema, path = "migration") {
+scripts/rulebook-migration-dry-run.js:790:function printText(report) {
+scripts/rulebook-migration-dry-run.js:803:async function main() {
+scripts/rulebook-runtime-production-smoke.js:116:function assertRuntimeBinding(payload, expectedMode, label) {
+scripts/rulebook-runtime-production-smoke.js:126:function assertUnknownField(errors, expectedField, label) {
+scripts/rulebook-runtime-production-smoke.js:134:function assertAdvisoryDecisionContract(payload, expectedMode, label) {
+scripts/rulebook-runtime-production-smoke.js:158:async function main() {
+scripts/rulebook-runtime-production-smoke.js:18:function usage() {
+scripts/rulebook-runtime-production-smoke.js:35:function parseArgs(argv) {
+scripts/rulebook-runtime-production-smoke.js:64:function normalizeBaseUrl(value) {
+scripts/rulebook-runtime-production-smoke.js:74:function loadFixture(fileName) {
+scripts/rulebook-runtime-production-smoke.js:78:function loadRepoJson(...segments) {
+scripts/rulebook-runtime-production-smoke.js:82:function expect(condition, message) {
+scripts/rulebook-runtime-production-smoke.js:86:async function requestJson({ baseUrl, path, method = "GET", body, apiKey, timeoutMs }) {
 scripts/site-bridge-regression.js:13:function assert(condition, message) {
 scripts/site-bridge-regression.js:17:function pass(message) {
 scripts/site-bridge-regression.js:9:function read(relativePath) {
@@ -482,20 +618,81 @@ scripts/test-check-policies.js:66:function testImmediateBlockAllowsZendesk404AsA
 scripts/test-check-policies.js:79:function testTransientFailureDoesNotImmediateBlock() {
 scripts/test-check-policies.js:91:function testPlain403StillImmediateBlocks() {
 scripts/test-check-policies.js:98:function testLegacyPendingModelDefaults() {
-scripts/test-decision-contract.js:117:async function testDecideRuntimeFixture() {
-scripts/test-decision-contract.js:16:function loadFixture(fileName) {
-scripts/test-decision-contract.js:206:async function testDecideModelFallbackOrder() {
-scripts/test-decision-contract.js:20:function loadJsonFromRepo(...segments) {
-scripts/test-decision-contract.js:24:function assertIsoTimestamp(value, label) {
-scripts/test-decision-contract.js:260:async function testDecideModelFallbackOnEmptyText() {
-scripts/test-decision-contract.js:29:function assertLineage(payload, label) {
-scripts/test-decision-contract.js:318:async function testDecideExtendedFallbackOrder() {
-scripts/test-decision-contract.js:37:async function testDecideSingleFixture() {
-scripts/test-decision-contract.js:380:async function testPolicyV1Fixture() {
-scripts/test-decision-contract.js:389:async function testWorkflowFixture() {
-scripts/test-decision-contract.js:406:async function testUcpVendorEnumConsistency() {
-scripts/test-decision-contract.js:427:async function main() {
-scripts/test-decision-contract.js:73:async function testDecideApiKeyFixture() {
+scripts/test-decision-contract.js:1127:function testTrustedAdapterVersionLocks() {
+scripts/test-decision-contract.js:1174:function testTrustedAdapterCapabilityAudit() {
+scripts/test-decision-contract.js:1175:  const denied = auditTrustedAdapterImplementation(function forbiddenAdapter() {
+scripts/test-decision-contract.js:1186:async function testTrustedAdapterCapabilityRuntimeEnforcement() {
+scripts/test-decision-contract.js:1196:function testTrustedAdapterColdStartIsolation() {
+scripts/test-decision-contract.js:1224:async function testDecideTrustedAdapterRejectsManifestDrift() {
+scripts/test-decision-contract.js:1246:async function testDecideTrustedAdapterRejectsExecutablePayloadFields() {
+scripts/test-decision-contract.js:1278:async function testDecideTrustedAdapterRejectsExecutableInputFields() {
+scripts/test-decision-contract.js:1302:async function testRulebookV1PublicConformanceFixtures() {
+scripts/test-decision-contract.js:1476:async function testRulebookV1GoldenReplayCorpus() {
+scripts/test-decision-contract.js:1638:function testRulebookMigrationDryRunCli() {
+scripts/test-decision-contract.js:170:function assertRuntimeBinding(payload, expectedMode, label) {
+scripts/test-decision-contract.js:1848:function testRulebookRuntimeArchitectureDoc() {
+scripts/test-decision-contract.js:186:function assertAdvisoryDecisionContract(payload, expectedMode, label) {
+scripts/test-decision-contract.js:204:function generateSigningEnv(keyId = "contract-test-rulebook-key") {
+scripts/test-decision-contract.js:2122:async function testDecideModelFallbackOrder() {
+scripts/test-decision-contract.js:213:function runTrustedAdapterCapabilityRuntimeProbe() {
+scripts/test-decision-contract.js:2176:async function testDecideModelFallbackOnEmptyText() {
+scripts/test-decision-contract.js:221:      const probe = (name, operation) => {
+scripts/test-decision-contract.js:2234:async function testDecideExtendedFallbackOrder() {
+scripts/test-decision-contract.js:2296:async function testPolicyV1Fixture() {
+scripts/test-decision-contract.js:2328:async function testPolicyDecisionRecordMaterialFixture() {
+scripts/test-decision-contract.js:2366:async function testRefundPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:2428:async function testRefundPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:2429:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:2453:async function testRefundPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:2493:async function testRefundPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:2521:async function testTrialPolicyRulebookFixture() {
+scripts/test-decision-contract.js:2558:async function testTrialPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:256:async function testDecideSingleFixture() {
+scripts/test-decision-contract.js:2620:async function testTrialPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:2621:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:2646:async function testTrialPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:2686:async function testTrialPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:2714:async function testCancelPolicyRulebookFixture() {
+scripts/test-decision-contract.js:2751:async function testCancelPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:2813:async function testCancelPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:2814:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:2839:async function testCancelPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:2879:async function testCancelPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:2907:async function testReturnPolicyRulebookFixture() {
+scripts/test-decision-contract.js:293:async function testDecideMultiAdvisoryContract() {
+scripts/test-decision-contract.js:2944:async function testReturnPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:3020:async function testReturnPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:3021:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:3046:async function testReturnPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:3086:async function testReturnPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:3114:async function testWorkflowFixture() {
+scripts/test-decision-contract.js:3131:async function testUcpVendorEnumConsistency() {
+scripts/test-decision-contract.js:3152:function testRulebookRuntimeManifest() {
+scripts/test-decision-contract.js:31:function loadFixture(fileName) {
+scripts/test-decision-contract.js:3320:async function main() {
+scripts/test-decision-contract.js:342:async function testDecideApiKeyFixture() {
+scripts/test-decision-contract.js:35:function loadJsonFromRepo(...segments) {
+scripts/test-decision-contract.js:386:async function testDecideRuntimeFixture() {
+scripts/test-decision-contract.js:39:function loadPublicRulebookConformanceFixture(fileName) {
+scripts/test-decision-contract.js:43:function loadPublicRulebookGoldenReplayFixture(fileName) {
+scripts/test-decision-contract.js:476:async function testDecideRulebookFixture() {
+scripts/test-decision-contract.js:47:function assertIsoTimestamp(value, label) {
+scripts/test-decision-contract.js:52:function assertLineage(payload, label) {
+scripts/test-decision-contract.js:553:async function testDecideRulebookEnforcesPublishedSchema() {
+scripts/test-decision-contract.js:589:async function testDecideRulebookMissingInput() {
+scripts/test-decision-contract.js:60:function assertUnknownField(errors, expectedField, label) {
+scripts/test-decision-contract.js:623:async function testDecideRulebookAttestationSigning() {
+scripts/test-decision-contract.js:682:async function testDecideRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:68:function canonicalJson(value) {
+scripts/test-decision-contract.js:725:async function testRulebookAttestationPublishesKeyHistory() {
+scripts/test-decision-contract.js:77:function sha256(value) {
+scripts/test-decision-contract.js:780:async function testRulebookAttestationRejectsInvalidKeyHistory() {
+scripts/test-decision-contract.js:81:function verifySignature({ publicKeyPem, bundleHash, signature }) {
+scripts/test-decision-contract.js:824:async function testDecideRulebookRejectsExecutableOperator() {
+scripts/test-decision-contract.js:862:async function testDecideRulebookRejectsExecutablePayloadFields() {
+scripts/test-decision-contract.js:896:async function testDecideTrustedAdapterFixture() {
+scripts/test-decision-contract.js:90:function assertRulebookAttestation(payload, label) {
+scripts/test-decision-contract.js:984:async function testDecideDecisionMemoReadinessAdapterFixture() {
 scripts/test-helpers/http-harness.js:1:export function createReq({
 scripts/test-helpers/http-harness.js:24:export function createRes() {
 scripts/test-helpers/http-harness.js:38:export async function invokeJson(handler, reqOptions = {}) {
@@ -509,6 +706,7 @@ scripts/test-policy-feed.js:13:function loadFixture(fileName) {
 scripts/test-policy-feed.js:17:function runFixture(fileName) {
 scripts/test-policy-feed.js:36:function testIdempotentDuplicateSuppression() {
 scripts/test-policy-feed.js:58:function main() {
+scripts/test-release-gates.js:8:function read(path) {
 scripts/verify-policy-alerts-bridge.js:121:async function fetchJson(url) {
 scripts/verify-policy-alerts-bridge.js:141:async function main() {
 scripts/verify-policy-alerts-bridge.js:16:function sleep(ms) {
@@ -532,10 +730,15 @@ scripts/workflow-zendesk-refund-test.js:61:async function main() {
 api/cancel-mcp.js:1:import { compute, getSupportedVendors } from "../lib/cancel-compute.js";
 api/cancel-mcp.js:2:import { createMcpHandler } from "../lib/mcp-handler.js";
 api/compliance-export.js:1:import { buildComplianceSnapshot, snapshotToCsv } from "../lib/compliance-export.js";
+api/decide.js:10:import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
+api/decide.js:11:import { isRulebookAttestationSignatureRequired } from "../lib/rulebook-attestation-signing.js";
+api/decide.js:12:import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
+api/decide.js:13:import { timingSafeEqual } from "node:crypto";
 api/decide.js:1:import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../lib/rate-limit.js";
 api/decide.js:2:import { persistLog } from "../lib/log.js";
 api/decide.js:3:import { buildSourceHash, withLineage } from "../lib/lineage.js";
-api/decide.js:4:import { timingSafeEqual } from "node:crypto";
+api/decide.js:4:import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
+api/decide.js:5:import {
 api/mcp.js:1:import { compute, getSupportedVendors } from "../lib/refund-compute.js";
 api/mcp.js:2:import { createMcpHandler } from "../lib/mcp-handler.js";
 api/metrics.js:1:import { getMetricsSnapshot } from "../lib/metrics-store.js";
@@ -548,6 +751,7 @@ api/policy-alerts.js:4:import { getPolicySupabaseConfig, supabaseRestRequest } f
 api/policy-fetch-hook.js:1:import { timingSafeEqual } from "node:crypto";
 api/return-mcp.js:1:import { compute, getSupportedVendors } from "../lib/return-compute.js";
 api/return-mcp.js:2:import { createMcpHandler } from "../lib/mcp-handler.js";
+api/rulebook-attestation-keys.js:1:import {
 api/track.js:1:import { createRateLimiter, getClientIp, addRateLimitHeaders } from "../lib/rate-limit.js";
 api/track.js:2:import { persistLog } from "../lib/log.js";
 api/track.js:3:import { recordClientEvent, recordVendorRequest } from "../lib/metrics-store.js";
@@ -568,6 +772,12 @@ lib/cancel-compute.js:1:import { readFileSync } from "node:fs";
 lib/cancel-compute.js:2:import { fileURLToPath } from "node:url";
 lib/cancel-compute.js:3:import { dirname, join } from "node:path";
 lib/cancel-compute.js:4:import { buildSourceHash, withLineage } from "./lineage.js";
+lib/cancel-compute.js:5:import { evaluateCancelPolicyRulebook } from "./cancel-rulebook.js";
+lib/cancel-rulebook.js:1:import { readFileSync } from "node:fs";
+lib/cancel-rulebook.js:3:import { buildRulebookAttestation } from "./rulebook-attestation.js";
+lib/cancel-rulebook.js:4:import { isRulebookAttestationSignatureRequired } from "./rulebook-attestation-signing.js";
+lib/cancel-rulebook.js:5:import { evaluateRulebookV1 } from "./rulebook-v1.js";
+lib/cancel-rulebook.js:6:import { attachPolicyDecisionMaterial } from "./policy-decision-material.js";
 lib/compliance-export.js:1:import { existsSync, readFileSync } from "node:fs";
 lib/compliance-export.js:2:import { dirname, join } from "node:path";
 lib/compliance-export.js:3:import { fileURLToPath } from "node:url";
@@ -578,22 +788,38 @@ lib/refund-compute.js:1:import { readFileSync } from "node:fs";
 lib/refund-compute.js:2:import { fileURLToPath } from "node:url";
 lib/refund-compute.js:3:import { dirname, join } from "node:path";
 lib/refund-compute.js:4:import { buildSourceHash, withLineage } from "./lineage.js";
+lib/refund-compute.js:5:import { evaluateRefundPolicyRulebook } from "./refund-rulebook.js";
+lib/refund-rulebook.js:1:import { readFileSync } from "node:fs";
+lib/refund-rulebook.js:3:import { buildRulebookAttestation } from "./rulebook-attestation.js";
+lib/refund-rulebook.js:4:import { isRulebookAttestationSignatureRequired } from "./rulebook-attestation-signing.js";
+lib/refund-rulebook.js:5:import { evaluateRulebookV1 } from "./rulebook-v1.js";
+lib/refund-rulebook.js:6:import { attachPolicyDecisionMaterial } from "./policy-decision-material.js";
 lib/return-compute.js:1:import { readFileSync } from "node:fs";
 lib/return-compute.js:2:import { fileURLToPath } from "node:url";
 lib/return-compute.js:3:import { dirname, join } from "node:path";
 lib/return-compute.js:4:import { buildSourceHash, withLineage } from "./lineage.js";
+lib/return-compute.js:5:import { evaluateReturnPolicyRulebook } from "./return-rulebook.js";
+lib/return-rulebook.js:1:import { readFileSync } from "node:fs";
+lib/return-rulebook.js:3:import { buildRulebookAttestation } from "./rulebook-attestation.js";
+lib/return-rulebook.js:4:import { isRulebookAttestationSignatureRequired } from "./rulebook-attestation-signing.js";
+lib/return-rulebook.js:5:import { evaluateRulebookV1 } from "./rulebook-v1.js";
+lib/return-rulebook.js:6:import { attachPolicyDecisionMaterial } from "./policy-decision-material.js";
 lib/routes/v1/policies/cancel-penalty.js:1:import { compute, getRulesVersion } from "../../../cancel-compute.js";
 lib/routes/v1/policies/cancel-penalty.js:2:import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../../../rate-limit.js";
 lib/routes/v1/policies/cancel-penalty.js:3:import { persistLog } from "../../../log.js";
+lib/routes/v1/policies/cancel-penalty.js:4:import { exposePolicyDecisionMaterial } from "../../../policy-decision-material.js";
 lib/routes/v1/policies/refund-eligibility.js:1:import { compute, getRulesVersion } from "../../../refund-compute.js";
 lib/routes/v1/policies/refund-eligibility.js:2:import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../../../rate-limit.js";
 lib/routes/v1/policies/refund-eligibility.js:3:import { persistLog } from "../../../log.js";
+lib/routes/v1/policies/refund-eligibility.js:4:import { exposePolicyDecisionMaterial } from "../../../policy-decision-material.js";
 lib/routes/v1/policies/return-eligibility.js:1:import { compute, getRulesVersion } from "../../../return-compute.js";
 lib/routes/v1/policies/return-eligibility.js:2:import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../../../rate-limit.js";
 lib/routes/v1/policies/return-eligibility.js:3:import { persistLog } from "../../../log.js";
+lib/routes/v1/policies/return-eligibility.js:4:import { exposePolicyDecisionMaterial } from "../../../policy-decision-material.js";
 lib/routes/v1/policies/trial-terms.js:1:import { compute, getRulesVersion } from "../../../trial-compute.js";
 lib/routes/v1/policies/trial-terms.js:2:import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../../../rate-limit.js";
 lib/routes/v1/policies/trial-terms.js:3:import { persistLog } from "../../../log.js";
+lib/routes/v1/policies/trial-terms.js:4:import { exposePolicyDecisionMaterial } from "../../../policy-decision-material.js";
 lib/routes/v1/workflows/zendesk/cancel.js:1:import cancelPenaltyHandler from "../../policies/cancel-penalty.js";
 lib/routes/v1/workflows/zendesk/cancel.js:2:import { createZendeskWorkflowHandler } from "./workflow-common.js";
 lib/routes/v1/workflows/zendesk/refund.js:1:import refundEligibilityHandler from "../../policies/refund-eligibility.js";
@@ -605,19 +831,67 @@ lib/routes/v1/workflows/zendesk/trial.js:2:import { createZendeskWorkflowHandler
 lib/routes/v1/workflows/zendesk/workflow-common.js:1:import decideHandler from "../../../../../api/decide.js";
 lib/routes/v1/workflows/zendesk/workflow-common.js:2:import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../../../../rate-limit.js";
 lib/routes/v1/workflows/zendesk/workflow-common.js:3:import { persistLog } from "../../../../log.js";
+lib/rulebook-attestation-signing.js:1:import {
+lib/rulebook-attestation.js:1:import { createHash } from "node:crypto";
+lib/rulebook-attestation.js:2:import { signRulebookAttestationBundleHash } from "./rulebook-attestation-signing.js";
+lib/rulebook-runtime-contract.js:1:import { createHash } from "node:crypto";
+lib/rulebook-runtime-contract.js:2:import { readFileSync } from "node:fs";
+lib/rulebook-runtime-contract.js:3:import { dirname, join } from "node:path";
+lib/rulebook-runtime-contract.js:4:import { fileURLToPath } from "node:url";
+lib/rulebook-v1.js:1:import { createHash } from "node:crypto";
+lib/rulebook-v1.js:3:import { validateJsonSchemaSubset } from "./json-schema-subset.js";
+lib/rulebook-v1.js:4:import {
 lib/trial-compute.js:1:import { readFileSync } from "node:fs";
 lib/trial-compute.js:2:import { fileURLToPath } from "node:url";
 lib/trial-compute.js:3:import { dirname, join } from "node:path";
 lib/trial-compute.js:4:import { buildSourceHash, withLineage } from "./lineage.js";
+lib/trial-compute.js:5:import { evaluateTrialPolicyRulebook } from "./trial-rulebook.js";
+lib/trial-rulebook.js:1:import { readFileSync } from "node:fs";
+lib/trial-rulebook.js:3:import { buildRulebookAttestation } from "./rulebook-attestation.js";
+lib/trial-rulebook.js:4:import { isRulebookAttestationSignatureRequired } from "./rulebook-attestation-signing.js";
+lib/trial-rulebook.js:5:import { evaluateRulebookV1 } from "./rulebook-v1.js";
+lib/trial-rulebook.js:6:import { attachPolicyDecisionMaterial } from "./policy-decision-material.js";
+lib/trusted-adapter-definitions.js:1:import {
+lib/trusted-adapter-isolation.js:1:import { Worker } from "node:worker_threads";
+lib/trusted-adapter-isolation.js:3:import {
+lib/trusted-adapter-worker.js:1:import { parentPort, workerData } from "node:worker_threads";
+lib/trusted-adapter-worker.js:3:import { installDeniedAmbientCapabilities } from "./trusted-adapter-capabilities.js";
+lib/trusted-adapter-worker.js:4:import { getRegisteredTrustedAdapter } from "./trusted-adapter-definitions.js";
+lib/trusted-adapters.js:13:import { executeTrustedAdapterIsolated } from "./trusted-adapter-isolation.js";
+lib/trusted-adapters.js:1:import { createHash } from "node:crypto";
+lib/trusted-adapters.js:2:import {
+lib/trusted-adapters.js:8:import {
 scripts/check-policies.js:13:import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 scripts/check-policies.js:14:import { createHash } from "node:crypto";
 scripts/check-policies.js:15:import { fileURLToPath, pathToFileURL } from "node:url";
 scripts/check-policies.js:16:import { dirname, join } from "node:path";
 scripts/check-policies.js:17:import { buildAlertSignature } from "./lib/policy-feed-reliability.js";
 scripts/check-policies.js:18:import { getPolicySupabaseConfig, supabaseRestRequest, supabaseUpsertRows } from "../lib/policy-supabase.js";
+scripts/generate-golden-replay-corpus.js:10:import {
+scripts/generate-golden-replay-corpus.js:14:import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
+scripts/generate-golden-replay-corpus.js:3:import assert from "node:assert/strict";
+scripts/generate-golden-replay-corpus.js:4:import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+scripts/generate-golden-replay-corpus.js:5:import { dirname, join } from "node:path";
+scripts/generate-golden-replay-corpus.js:6:import { fileURLToPath } from "node:url";
+scripts/generate-golden-replay-corpus.js:8:import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
+scripts/generate-golden-replay-corpus.js:9:import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
 scripts/generate-outbound-domain-inventory.mjs:3:import fs from 'node:fs';
 scripts/generate-outbound-domain-inventory.mjs:4:import path from 'node:path';
+scripts/generate-rulebook-runtime-manifest.js:3:import { mkdirSync, writeFileSync } from "node:fs";
+scripts/generate-rulebook-runtime-manifest.js:4:import { dirname, join } from "node:path";
+scripts/generate-rulebook-runtime-manifest.js:5:import { fileURLToPath } from "node:url";
+scripts/generate-rulebook-runtime-manifest.js:7:import { buildRulebookRuntimeManifest } from "../lib/rulebook-runtime-contract.js";
 scripts/lib/policy-feed-reliability.js:1:import { createHash } from "node:crypto";
+scripts/rulebook-migration-dry-run.js:13:import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
+scripts/rulebook-migration-dry-run.js:3:import { readFileSync } from "node:fs";
+scripts/rulebook-migration-dry-run.js:4:import { dirname, isAbsolute, join, resolve } from "node:path";
+scripts/rulebook-migration-dry-run.js:5:import { fileURLToPath } from "node:url";
+scripts/rulebook-migration-dry-run.js:7:import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
+scripts/rulebook-migration-dry-run.js:8:import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
+scripts/rulebook-migration-dry-run.js:9:import {
+scripts/rulebook-runtime-production-smoke.js:3:import { readFileSync } from "node:fs";
+scripts/rulebook-runtime-production-smoke.js:4:import { dirname, join } from "node:path";
+scripts/rulebook-runtime-production-smoke.js:5:import { fileURLToPath } from "node:url";
 scripts/site-bridge-regression.js:3:import fs from "node:fs";
 scripts/site-bridge-regression.js:4:import path from "node:path";
 scripts/site-bridge-regression.js:5:import { fileURLToPath } from "node:url";
@@ -633,14 +907,20 @@ scripts/smoke-test.js:8:import metrics from "../api/metrics.js";
 scripts/smoke-test.js:9:import complianceExport from "../api/compliance-export.js";
 scripts/test-check-policies.js:3:import assert from "node:assert/strict";
 scripts/test-check-policies.js:5:import {
-scripts/test-decision-contract.js:10:import zendeskWorkflowDispatcher from "../api/v1/workflows/zendesk/[workflow].js";
-scripts/test-decision-contract.js:11:import { invokeJson } from "./test-helpers/http-harness.js";
+scripts/test-decision-contract.js:11:import { existsSync, readFileSync } from "node:fs";
+scripts/test-decision-contract.js:12:import { dirname, join } from "node:path";
+scripts/test-decision-contract.js:13:import { fileURLToPath } from "node:url";
+scripts/test-decision-contract.js:14:import { Worker } from "node:worker_threads";
+scripts/test-decision-contract.js:16:import decideHandler from "../api/decide.js";
+scripts/test-decision-contract.js:17:import rulebookAttestationKeysHandler from "../api/rulebook-attestation-keys.js";
+scripts/test-decision-contract.js:18:import v1PolicyDispatcher from "../api/v1/[policy]/[action].js";
+scripts/test-decision-contract.js:19:import zendeskWorkflowDispatcher from "../api/v1/workflows/zendesk/[workflow].js";
+scripts/test-decision-contract.js:20:import { buildRulebookRuntimeManifest } from "../lib/rulebook-runtime-contract.js";
+scripts/test-decision-contract.js:21:import {
+scripts/test-decision-contract.js:26:import { invokeJson } from "./test-helpers/http-harness.js";
 scripts/test-decision-contract.js:3:import assert from "node:assert/strict";
-scripts/test-decision-contract.js:4:import { readFileSync } from "node:fs";
-scripts/test-decision-contract.js:5:import { dirname, join } from "node:path";
-scripts/test-decision-contract.js:6:import { fileURLToPath } from "node:url";
-scripts/test-decision-contract.js:8:import decideHandler from "../api/decide.js";
-scripts/test-decision-contract.js:9:import v1PolicyDispatcher from "../api/v1/[policy]/[action].js";
+scripts/test-decision-contract.js:4:import { execFileSync } from "node:child_process";
+scripts/test-decision-contract.js:5:import {
 scripts/test-policy-alerts-api.js:3:import assert from "node:assert/strict";
 scripts/test-policy-alerts-api.js:5:import handler from "../api/policy-alerts.js";
 scripts/test-policy-feed.js:3:import assert from "node:assert/strict";
@@ -648,6 +928,8 @@ scripts/test-policy-feed.js:4:import { readFileSync } from "node:fs";
 scripts/test-policy-feed.js:5:import { dirname, join } from "node:path";
 scripts/test-policy-feed.js:6:import { fileURLToPath } from "node:url";
 scripts/test-policy-feed.js:8:import { mergePolicyAlertFeed } from "./lib/policy-feed-reliability.js";
+scripts/test-release-gates.js:3:import assert from "node:assert/strict";
+scripts/test-release-gates.js:4:import { existsSync, readFileSync } from "node:fs";
 scripts/workflow-zendesk-refund-test.js:1:import zendeskWorkflowRoute from "../api/v1/workflows/zendesk/[workflow].js";
 ```
 

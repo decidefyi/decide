@@ -16,6 +16,7 @@ permissions:
   pull-requests: write
 
 env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   POLICY_CHECK_PUBLIC_ISSUES_ENABLED: ${{ vars.POLICY_CHECK_PUBLIC_ISSUES_ENABLED || '0' }}
 
 jobs:
@@ -23,11 +24,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: "20"
+          node-version: "24"
 
       - name: Restore latest policy baseline from aggregation branch
         run: |
