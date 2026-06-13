@@ -1906,6 +1906,11 @@ async function testKrafthausWorkflowBindingExample() {
     },
     "Krafthaus workflow example must embed the executable conformance request"
   );
+  assert.equal(
+    example.decide_request.body.binding_mode,
+    "trusted_adapter_facts_then_declarative_rulebook",
+    "Krafthaus workflow example must declare the trusted-adapter binding mode explicitly"
+  );
 
   for (const requiredMaterial of [
     "rulebook_contract",
