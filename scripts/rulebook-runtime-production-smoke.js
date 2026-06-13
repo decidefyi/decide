@@ -13,6 +13,8 @@ const DEFAULT_TIMEOUT_MS = 20000;
 const EXPECTED_CORE = "hybrid_declarative_rulebook_with_trusted_adapters";
 const DIRECT_BINDING = "direct_declarative_rulebook";
 const TRUSTED_ADAPTER_BINDING = "trusted_adapter_facts_then_declarative_rulebook";
+const KRAFTHAUS_WORKFLOW_FIXTURE_ID = "krafthaus_workflow_readiness_adapter_bind";
+const KRAFTHAUS_WORKFLOW_FIXTURE_FILE = "krafthaus-workflow-readiness-adapter-bind.json";
 const EXECUTABLE_FIELD_ROOTS = ["code", "source", "script", "function", "handler", "javascript", "typescript", "wasm"];
 
 function usage() {
@@ -155,6 +157,81 @@ function assertAdvisoryDecisionContract(payload, expectedMode, label) {
   expect(payload?.runtime_binding === undefined, `${label}: advisory response exposed runtime binding`);
 }
 
+async function assertKrafthausWorkflowReadinessBinding({ baseUrl, apiKey, timeoutMs, allowUnsigned }) {
+  const conformanceIndex = await requestJson({
+    baseUrl,
+    path: "/conformance/rulebook-v1/index.json",
+    apiKey,
+    timeoutMs,
+  });
+  expect(conformanceIndex.response.status === 200, `Krafthaus workflow conformance index: expected 200, got ${conformanceIndex.response.status}`);
+  expect(
+    conformanceIndex.json?.fixtures?.some((fixture) => fixture?.id === KRAFTHAUS_WORKFLOW_FIXTURE_ID),
+    "Krafthaus workflow conformance index: fixture missing"
+  );
+
+  const fixture = await requestJson({
+    baseUrl,
+    path: `/conformance/rulebook-v1/${KRAFTHAUS_WORKFLOW_FIXTURE_FILE}`,
+    apiKey,
+    timeoutMs,
+  });
+  expect(fixture.response.status === 200, `Krafthaus workflow fixture: expected 200, got ${fixture.response.status}`);
+  expect(fixture.json?.id === KRAFTHAUS_WORKFLOW_FIXTURE_ID, "Krafthaus workflow fixture: id mismatch");
+  expect(fixture.json?.request?.path === "/api/decide", "Krafthaus workflow fixture: request path mismatch");
+  expect(fixture.json?.request?.body?.adapter?.adapter_id === "krafthaus_workflow_readiness", "Krafthaus workflow fixture: adapter id mismatch");
+
+  const decision = await requestJson({
+    baseUrl,
+    path: fixture.json.request.path,
+    method: fixture.json.request.method,
+    body: fixture.json.request.body,
+    apiKey,
+    timeoutMs,
+  });
+  expect(decision.response.status === fixture.json.expect.statusCode, `Krafthaus workflow decision: expected ${fixture.json.expect.statusCode}, got ${decision.response.status}`);
+  expect(decision.json?.verdict === fixture.json.expect.decision, "Krafthaus workflow decision: decision mismatch");
+  expect(decision.json?.application_verdict === fixture.json.expect.application_verdict, "Krafthaus workflow decision: application verdict mismatch");
+  expect(decision.json?.action === fixture.json.expect.action, "Krafthaus workflow decision: action mismatch");
+  expect(decision.json?.reason_code === fixture.json.expect.reason_code, "Krafthaus workflow decision: reason code mismatch");
+  expect(decision.json?.matched_rule_id === fixture.json.expect.matched_rule_id, "Krafthaus workflow decision: matched rule mismatch");
+  expect(decision.json?.trusted_adapter?.adapter_id === "krafthaus_workflow_readiness", "Krafthaus workflow decision: adapter id mismatch");
+  expect(decision.json?.trusted_adapter?.manifest_hash === fixture.json.request.body.adapter.manifest_hash, "Krafthaus workflow decision: manifest hash mismatch");
+  assertRuntimeBinding(decision.json, TRUSTED_ADAPTER_BINDING, "Krafthaus workflow decision");
+  for (const [field, expectedValue] of Object.entries(fixture.json.expect.adapter_facts || {})) {
+    expect(decision.json?.adapter_facts?.[field] === expectedValue, `Krafthaus workflow decision: adapter fact mismatch for ${field}`);
+  }
+  expect(decision.json?.rulebook_attestation?.schema_version === "rulebook_attestation_v1", "Krafthaus workflow decision: attestation missing");
+  if (!allowUnsigned) {
+    expect(decision.json?.rulebook_attestation?.signature?.status === "signed", "Krafthaus workflow decision: attestation must be signed");
+  }
+
+  const replayIndex = await requestJson({
+    baseUrl,
+    path: "/replay/rulebook-v1/index.json",
+    apiKey,
+    timeoutMs,
+  });
+  expect(replayIndex.response.status === 200, `Krafthaus workflow replay index: expected 200, got ${replayIndex.response.status}`);
+  expect(
+    replayIndex.json?.fixtures?.some((entry) => entry?.id === KRAFTHAUS_WORKFLOW_FIXTURE_ID),
+    "Krafthaus workflow replay index: fixture missing"
+  );
+
+  const replay = await requestJson({
+    baseUrl,
+    path: `/replay/rulebook-v1/${KRAFTHAUS_WORKFLOW_FIXTURE_FILE}`,
+    apiKey,
+    timeoutMs,
+  });
+  expect(replay.response.status === 200, `Krafthaus workflow replay fixture: expected 200, got ${replay.response.status}`);
+  expect(replay.json?.id === KRAFTHAUS_WORKFLOW_FIXTURE_ID, "Krafthaus workflow replay fixture: id mismatch");
+  expect(
+    replay.json?.historical_record?.semantic_output?.application_verdict === fixture.json.expect.application_verdict,
+    "Krafthaus workflow replay fixture: historical verdict mismatch"
+  );
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) {
@@ -256,6 +333,9 @@ async function main() {
   }
   console.log("PASS executable rulebook rejection");
 
+  await assertKrafthausWorkflowReadinessBinding({ baseUrl, apiKey, timeoutMs, allowUnsigned: args.allowUnsigned });
+  console.log("PASS Krafthaus workflow readiness binding");
+
   const advisoryDecision = await requestJson({
     baseUrl,
     path: "/api/decide",
@@ -277,6 +357,7 @@ async function main() {
   console.log(`production_core=${EXPECTED_CORE}`);
   console.log(`direct_binding=${DIRECT_BINDING}`);
   console.log(`trusted_adapter_binding=${TRUSTED_ADAPTER_BINDING}`);
+  console.log(`krafthaus_workflow_fixture=${KRAFTHAUS_WORKFLOW_FIXTURE_ID}`);
 }
 
 main().catch((error) => {

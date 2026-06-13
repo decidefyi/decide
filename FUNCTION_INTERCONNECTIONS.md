@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-06-13 04:07:22 CEST
+Generated: 2026-06-13 04:12:50 CEST
 
 ## Scope
 
@@ -564,17 +564,18 @@ scripts/rulebook-migration-dry-run.js:68:function schemaTypeMatches(value, expec
 scripts/rulebook-migration-dry-run.js:77:function validateJsonSchemaSubset(value, schema, rootSchema = schema, path = "migration") {
 scripts/rulebook-migration-dry-run.js:790:function printText(report) {
 scripts/rulebook-migration-dry-run.js:803:async function main() {
-scripts/rulebook-runtime-production-smoke.js:116:function assertRuntimeBinding(payload, expectedMode, label) {
-scripts/rulebook-runtime-production-smoke.js:126:function assertUnknownField(errors, expectedField, label) {
-scripts/rulebook-runtime-production-smoke.js:134:function assertAdvisoryDecisionContract(payload, expectedMode, label) {
-scripts/rulebook-runtime-production-smoke.js:158:async function main() {
-scripts/rulebook-runtime-production-smoke.js:18:function usage() {
-scripts/rulebook-runtime-production-smoke.js:35:function parseArgs(argv) {
-scripts/rulebook-runtime-production-smoke.js:64:function normalizeBaseUrl(value) {
-scripts/rulebook-runtime-production-smoke.js:74:function loadFixture(fileName) {
-scripts/rulebook-runtime-production-smoke.js:78:function loadRepoJson(...segments) {
-scripts/rulebook-runtime-production-smoke.js:82:function expect(condition, message) {
-scripts/rulebook-runtime-production-smoke.js:86:async function requestJson({ baseUrl, path, method = "GET", body, apiKey, timeoutMs }) {
+scripts/rulebook-runtime-production-smoke.js:118:function assertRuntimeBinding(payload, expectedMode, label) {
+scripts/rulebook-runtime-production-smoke.js:128:function assertUnknownField(errors, expectedField, label) {
+scripts/rulebook-runtime-production-smoke.js:136:function assertAdvisoryDecisionContract(payload, expectedMode, label) {
+scripts/rulebook-runtime-production-smoke.js:160:async function assertKrafthausWorkflowReadinessBinding({ baseUrl, apiKey, timeoutMs, allowUnsigned }) {
+scripts/rulebook-runtime-production-smoke.js:20:function usage() {
+scripts/rulebook-runtime-production-smoke.js:235:async function main() {
+scripts/rulebook-runtime-production-smoke.js:37:function parseArgs(argv) {
+scripts/rulebook-runtime-production-smoke.js:66:function normalizeBaseUrl(value) {
+scripts/rulebook-runtime-production-smoke.js:76:function loadFixture(fileName) {
+scripts/rulebook-runtime-production-smoke.js:80:function loadRepoJson(...segments) {
+scripts/rulebook-runtime-production-smoke.js:84:function expect(condition, message) {
+scripts/rulebook-runtime-production-smoke.js:88:async function requestJson({ baseUrl, path, method = "GET", body, apiKey, timeoutMs }) {
 scripts/site-bridge-regression.js:13:function assert(condition, message) {
 scripts/site-bridge-regression.js:17:function pass(message) {
 scripts/site-bridge-regression.js:9:function read(relativePath) {
@@ -637,42 +638,42 @@ scripts/test-decision-contract.js:2005:function testRulebookRuntimeArchitectureD
 scripts/test-decision-contract.js:204:function generateSigningEnv(keyId = "contract-test-rulebook-key") {
 scripts/test-decision-contract.js:213:function runTrustedAdapterCapabilityRuntimeProbe() {
 scripts/test-decision-contract.js:221:      const probe = (name, operation) => {
-scripts/test-decision-contract.js:2298:async function testDecideModelFallbackOrder() {
-scripts/test-decision-contract.js:2352:async function testDecideModelFallbackOnEmptyText() {
-scripts/test-decision-contract.js:2410:async function testDecideExtendedFallbackOrder() {
-scripts/test-decision-contract.js:2472:async function testPolicyV1Fixture() {
-scripts/test-decision-contract.js:2504:async function testPolicyDecisionRecordMaterialFixture() {
-scripts/test-decision-contract.js:2542:async function testRefundPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:2310:async function testDecideModelFallbackOrder() {
+scripts/test-decision-contract.js:2364:async function testDecideModelFallbackOnEmptyText() {
+scripts/test-decision-contract.js:2422:async function testDecideExtendedFallbackOrder() {
+scripts/test-decision-contract.js:2484:async function testPolicyV1Fixture() {
+scripts/test-decision-contract.js:2516:async function testPolicyDecisionRecordMaterialFixture() {
+scripts/test-decision-contract.js:2554:async function testRefundPolicyRulebookOutcomes() {
 scripts/test-decision-contract.js:256:async function testDecideSingleFixture() {
-scripts/test-decision-contract.js:2604:async function testRefundPolicyRulebookBindsEvidenceIdentity() {
-scripts/test-decision-contract.js:2605:  const evaluate = async (vendor) =>
-scripts/test-decision-contract.js:2629:async function testRefundPolicyRulebookSignsAttestation() {
-scripts/test-decision-contract.js:2669:async function testRefundPolicyRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:2697:async function testTrialPolicyRulebookFixture() {
-scripts/test-decision-contract.js:2734:async function testTrialPolicyRulebookOutcomes() {
-scripts/test-decision-contract.js:2796:async function testTrialPolicyRulebookBindsEvidenceIdentity() {
-scripts/test-decision-contract.js:2797:  const evaluate = async (vendor) =>
-scripts/test-decision-contract.js:2822:async function testTrialPolicyRulebookSignsAttestation() {
-scripts/test-decision-contract.js:2862:async function testTrialPolicyRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:2890:async function testCancelPolicyRulebookFixture() {
-scripts/test-decision-contract.js:2927:async function testCancelPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:2616:async function testRefundPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:2617:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:2641:async function testRefundPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:2681:async function testRefundPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:2709:async function testTrialPolicyRulebookFixture() {
+scripts/test-decision-contract.js:2746:async function testTrialPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:2808:async function testTrialPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:2809:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:2834:async function testTrialPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:2874:async function testTrialPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:2902:async function testCancelPolicyRulebookFixture() {
+scripts/test-decision-contract.js:2939:async function testCancelPolicyRulebookOutcomes() {
 scripts/test-decision-contract.js:293:async function testDecideMultiAdvisoryContract() {
-scripts/test-decision-contract.js:2989:async function testCancelPolicyRulebookBindsEvidenceIdentity() {
-scripts/test-decision-contract.js:2990:  const evaluate = async (vendor) =>
-scripts/test-decision-contract.js:3015:async function testCancelPolicyRulebookSignsAttestation() {
-scripts/test-decision-contract.js:3055:async function testCancelPolicyRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:3083:async function testReturnPolicyRulebookFixture() {
-scripts/test-decision-contract.js:3120:async function testReturnPolicyRulebookOutcomes() {
-scripts/test-decision-contract.js:3196:async function testReturnPolicyRulebookBindsEvidenceIdentity() {
-scripts/test-decision-contract.js:3197:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:3001:async function testCancelPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:3002:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:3027:async function testCancelPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:3067:async function testCancelPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:3095:async function testReturnPolicyRulebookFixture() {
+scripts/test-decision-contract.js:3132:async function testReturnPolicyRulebookOutcomes() {
 scripts/test-decision-contract.js:31:function loadFixture(fileName) {
-scripts/test-decision-contract.js:3222:async function testReturnPolicyRulebookSignsAttestation() {
-scripts/test-decision-contract.js:3262:async function testReturnPolicyRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:3290:async function testWorkflowFixture() {
-scripts/test-decision-contract.js:3307:async function testUcpVendorEnumConsistency() {
-scripts/test-decision-contract.js:3328:function testRulebookRuntimeManifest() {
+scripts/test-decision-contract.js:3208:async function testReturnPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:3209:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:3234:async function testReturnPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:3274:async function testReturnPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:3302:async function testWorkflowFixture() {
+scripts/test-decision-contract.js:3319:async function testUcpVendorEnumConsistency() {
+scripts/test-decision-contract.js:3340:function testRulebookRuntimeManifest() {
 scripts/test-decision-contract.js:342:async function testDecideApiKeyFixture() {
-scripts/test-decision-contract.js:3496:async function main() {
+scripts/test-decision-contract.js:3508:async function main() {
 scripts/test-decision-contract.js:35:function loadJsonFromRepo(...segments) {
 scripts/test-decision-contract.js:386:async function testDecideRuntimeFixture() {
 scripts/test-decision-contract.js:39:function loadPublicRulebookConformanceFixture(fileName) {

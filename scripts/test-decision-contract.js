@@ -2083,6 +2083,18 @@ function testRulebookRuntimeArchitectureDoc() {
   assert.ok(runtimeSmoke.includes("advisory_only"), "production smoke must verify advisory authority");
   assert.ok(runtimeSmoke.includes("production_verdict"), "production smoke must verify advisory production verdict flag");
   assert.ok(
+    runtimeSmoke.includes("assertKrafthausWorkflowReadinessBinding"),
+    "production smoke must verify Krafthaus workflow readiness binding"
+  );
+  assert.ok(
+    runtimeSmoke.includes("krafthaus-workflow-readiness-adapter-bind.json"),
+    "production smoke must load the Krafthaus workflow readiness conformance fixture"
+  );
+  assert.ok(
+    runtimeSmoke.includes("krafthaus_workflow_readiness_adapter_bind"),
+    "production smoke must name the Krafthaus workflow readiness fixture id"
+  );
+  assert.ok(
     readme.includes("docs/RULEBOOK_RUNTIME_ARCHITECTURE.md"),
     "README must link the runtime architecture decision"
   );
