@@ -5,6 +5,7 @@ import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
 import {
   RULEBOOK_DIRECT_BINDING_MODE,
   RULEBOOK_RUNTIME_MANIFEST_URL,
+  RULEBOOK_SUPPORTED_BINDING_MODES,
   RULEBOOK_TRUSTED_ADAPTER_BINDING_MODE,
 } from "../lib/rulebook-runtime-contract.js";
 import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
@@ -384,10 +385,7 @@ function parseFlag(value) {
   return normalized === "1" || normalized === "true" || normalized === "yes" || normalized === "on";
 }
 
-const SUPPORTED_RULEBOOK_BINDING_MODES = new Set([
-  RULEBOOK_DIRECT_BINDING_MODE,
-  RULEBOOK_TRUSTED_ADAPTER_BINDING_MODE,
-]);
+const SUPPORTED_RULEBOOK_BINDING_MODES = new Set(RULEBOOK_SUPPORTED_BINDING_MODES);
 
 function readTrustedProxyContext(req) {
   const expectedProxyToken = String(process.env.DECIDE_PROXY_SHARED_TOKEN || "").trim();

@@ -18,6 +18,7 @@ import rulebookAttestationKeysHandler from "../api/rulebook-attestation-keys.js"
 import v1PolicyDispatcher from "../api/v1/[policy]/[action].js";
 import zendeskWorkflowDispatcher from "../api/v1/workflows/zendesk/[workflow].js";
 import { buildRulebookRuntimeManifest } from "../lib/rulebook-runtime-contract.js";
+import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
 import {
   auditTrustedAdapterImplementation,
   getTrustedAdapterManifest,
@@ -966,10 +967,37 @@ async function testDecideRulebookRejectsBindingModeShapeConflict() {
   }
 }
 
+function testRulebookCoreRejectsUnsupportedBindingMode() {
+  const fixture = loadFixture("decide-rulebook-v1.json");
+  const evaluation = evaluateRulebookV1({
+    rulebook: fixture.request.body.rulebook,
+    inputs: fixture.request.body.context.inputs,
+    bindingMode: "customer_executable_rulebook",
+  });
+
+  assert.equal(evaluation.ok, false, "Rulebook core must reject unsupported binding modes");
+  assert.equal(evaluation.statusCode, 422, "unsupported core binding mode status mismatch");
+  assert.equal(
+    evaluation.error,
+    "RULEBOOK_BINDING_MODE_UNSUPPORTED",
+    "unsupported core binding mode error mismatch"
+  );
+  assert.equal(
+    evaluation.binding_mode,
+    "customer_executable_rulebook",
+    "unsupported core binding mode echo mismatch"
+  );
+}
+
 async function testDecideTrustedAdapterFixture() {
   const fixture = loadFixture("decide-trusted-adapter-v1.json");
   const manifest = getTrustedAdapterManifest("solana_execution_gate", "1.0.0");
   fixture.request.body.adapter.manifest_hash = manifest.manifest_hash;
+  assert.equal(
+    fixture.request.body.binding_mode,
+    "trusted_adapter_facts_then_declarative_rulebook",
+    "trusted adapter fixture must declare the trusted-adapter binding mode"
+  );
   const originalFetch = global.fetch;
   const previousApiKey = process.env.GEMINI_API_KEY;
   const previousDecideApiKey = process.env.DECIDE_API_KEY;
@@ -1060,6 +1088,11 @@ async function testDecideDecisionMemoReadinessAdapterFixture() {
   assert.equal(manifest?.adapter_id, "decision_memo_readiness", "decision memo adapter manifest missing");
   assert.equal(manifest?.version, "1.0.0", "decision memo adapter version mismatch");
   fixture.request.body.adapter.manifest_hash = manifest.manifest_hash;
+  assert.equal(
+    fixture.request.body.binding_mode,
+    "trusted_adapter_facts_then_declarative_rulebook",
+    "decision memo readiness fixture must declare the trusted-adapter binding mode"
+  );
   fixture.request.headers = {
     ...(fixture.request.headers || {}),
     "x-forwarded-for": "10.253.0.1",
@@ -1203,6 +1236,11 @@ async function testDecideKrafthausWorkflowReadinessAdapterFixture() {
   assert.equal(manifest?.adapter_id, "krafthaus_workflow_readiness", "Krafthaus workflow adapter manifest missing");
   assert.equal(manifest?.version, "1.0.0", "Krafthaus workflow adapter version mismatch");
   fixture.request.body.adapter.manifest_hash = manifest.manifest_hash;
+  assert.equal(
+    fixture.request.body.binding_mode,
+    "trusted_adapter_facts_then_declarative_rulebook",
+    "Krafthaus workflow readiness fixture must declare the trusted-adapter binding mode"
+  );
   fixture.request.headers = {
     ...(fixture.request.headers || {}),
     "x-forwarded-for": "10.253.1.1",
@@ -1571,6 +1609,13 @@ async function testRulebookV1PublicConformanceFixtures() {
       assert.equal(fixture.request?.method, "POST", `${fixtureRef.id}: request method mismatch`);
       assert.equal(fixture.request?.path, "/api/decide", `${fixtureRef.id}: request path mismatch`);
       assert.equal(fixture.request?.body?.mode, "rulebook", `${fixtureRef.id}: fixture must use rulebook mode`);
+      if (fixture.request?.body?.adapter) {
+        assert.equal(
+          fixture.request.body.binding_mode,
+          "trusted_adapter_facts_then_declarative_rulebook",
+          `${fixtureRef.id}: adapter-backed fixture must declare binding mode`
+        );
+      }
 
       const request = {
         ...fixture.request,
@@ -1751,6 +1796,13 @@ async function testRulebookV1GoldenReplayCorpus() {
       assert.equal(fixture.replay?.request?.method, "POST", `${fixtureRef.id}: replay request method mismatch`);
       assert.equal(fixture.replay?.request?.path, "/api/decide", `${fixtureRef.id}: replay request path mismatch`);
       assert.equal(fixture.replay?.request?.body?.mode, "rulebook", `${fixtureRef.id}: replay request must use rulebook mode`);
+      if (fixture.replay?.request?.body?.adapter) {
+        assert.equal(
+          fixture.replay.request.body.binding_mode,
+          "trusted_adapter_facts_then_declarative_rulebook",
+          `${fixtureRef.id}: adapter-backed replay must declare binding mode`
+        );
+      }
       assert.equal(
         fixture.replay?.stored_material?.rulebook_snapshot?.rulebook_id,
         fixture.replay?.request?.body?.rulebook?.rulebook_id,
@@ -3739,6 +3791,7 @@ async function main() {
     ["decide-rulebook-rejects-executable-payload-fields", testDecideRulebookRejectsExecutablePayloadFields],
     ["decide-rulebook-rejects-unsupported-binding-mode", testDecideRulebookRejectsUnsupportedBindingMode],
     ["decide-rulebook-rejects-binding-mode-shape-conflict", testDecideRulebookRejectsBindingModeShapeConflict],
+    ["rulebook-core-rejects-unsupported-binding-mode", testRulebookCoreRejectsUnsupportedBindingMode],
     ["decide-trusted-adapter-v1", testDecideTrustedAdapterFixture],
     ["decide-decision-memo-readiness-adapter-v1", testDecideDecisionMemoReadinessAdapterFixture],
     ["decide-krafthaus-workflow-readiness-adapter-v1", testDecideKrafthausWorkflowReadinessAdapterFixture],

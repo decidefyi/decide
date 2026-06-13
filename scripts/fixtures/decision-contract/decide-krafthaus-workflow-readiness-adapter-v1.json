@@ -7,6 +7,7 @@
     },
     "body": {
       "mode": "rulebook",
+      "binding_mode": "trusted_adapter_facts_then_declarative_rulebook",
       "adapter": {
         "adapter_id": "krafthaus_workflow_readiness",
         "version": "1.0.0",
