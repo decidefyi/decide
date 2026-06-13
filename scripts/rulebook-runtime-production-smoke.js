@@ -131,6 +131,30 @@ function assertUnknownField(errors, expectedField, label) {
   );
 }
 
+function assertAdvisoryDecisionContract(payload, expectedMode, label) {
+  expect(
+    payload?.decision_contract?.schema_version === "decide_decision_contract_v1",
+    `${label}: decision contract schema mismatch`
+  );
+  expect(payload?.decision_contract?.mode === expectedMode, `${label}: decision contract mode mismatch`);
+  expect(payload?.decision_contract?.authority === "advisory_only", `${label}: advisory authority mismatch`);
+  expect(payload?.decision_contract?.production_verdict === false, `${label}: production verdict flag mismatch`);
+  expect(
+    payload?.decision_contract?.binding_verdict_selector === "rulebook_v1",
+    `${label}: binding verdict selector mismatch`
+  );
+  expect(
+    payload?.decision_contract?.binding_runtime_manifest_url === "https://api.decide.fyi/manifests/rulebook-runtime-v1.json",
+    `${label}: binding manifest URL mismatch`
+  );
+  expect(
+    payload?.decision_contract?.prohibited_claim === "llm_output_is_binding_production_verdict",
+    `${label}: prohibited claim mismatch`
+  );
+  expect(payload?.rulebook_contract === undefined, `${label}: advisory response exposed rulebook contract`);
+  expect(payload?.runtime_binding === undefined, `${label}: advisory response exposed runtime binding`);
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) {
@@ -231,6 +255,22 @@ async function main() {
     assertUnknownField(rejectedExecutable.json?.errors, field, "executable rejection");
   }
   console.log("PASS executable rulebook rejection");
+
+  const advisoryDecision = await requestJson({
+    baseUrl,
+    path: "/api/decide",
+    method: "POST",
+    body: {
+      mode: "multi",
+      stem: "Which boundary should be binding?",
+      options: ["Rulebook v1", "LLM-only judgment", "Customer executable code"],
+    },
+    apiKey,
+    timeoutMs,
+  });
+  expect(advisoryDecision.response.status === 200, `advisory contract: expected 200, got ${advisoryDecision.response.status}`);
+  assertAdvisoryDecisionContract(advisoryDecision.json, "multi", "advisory contract");
+  console.log("PASS advisory decision contract");
 
   console.log("PASS rulebook runtime production smoke");
   console.log(`base_url=${baseUrl}`);

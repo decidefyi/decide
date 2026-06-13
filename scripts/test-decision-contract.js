@@ -1851,18 +1851,21 @@ function testRulebookRuntimeArchitectureDoc() {
   const compatibilityPolicyPath = join(__dirname, "..", "docs", "RULEBOOK_COMPATIBILITY_POLICY.md");
   const migrationExamplesPath = join(__dirname, "..", "docs", "RULEBOOK_MIGRATION_EXAMPLES.md");
   const applicationBindingPath = join(__dirname, "..", "docs", "APPLICATION_BINDING_V1.md");
+  const runtimeSmokePath = join(__dirname, "..", "scripts", "rulebook-runtime-production-smoke.js");
   const schemaPath = join(__dirname, "..", "public", "schemas", "rulebook-v1.schema.json");
   assert.ok(existsSync(architecturePath), "rulebook runtime architecture doc is missing");
   assert.ok(existsSync(rulebookDocPath), "rulebook contract doc is missing");
   assert.ok(existsSync(compatibilityPolicyPath), "rulebook compatibility policy doc is missing");
   assert.ok(existsSync(migrationExamplesPath), "rulebook migration examples doc is missing");
   assert.ok(existsSync(applicationBindingPath), "application binding doc is missing");
+  assert.ok(existsSync(runtimeSmokePath), "rulebook runtime production smoke script is missing");
   assert.ok(existsSync(schemaPath), "public Rulebook v1 JSON Schema artifact is missing");
   const architecture = readFileSync(architecturePath, "utf8");
   const rulebookDoc = readFileSync(rulebookDocPath, "utf8");
   const compatibilityPolicy = readFileSync(compatibilityPolicyPath, "utf8");
   const migrationExamples = readFileSync(migrationExamplesPath, "utf8");
   const applicationBinding = readFileSync(applicationBindingPath, "utf8");
+  const runtimeSmoke = readFileSync(runtimeSmokePath, "utf8");
   const schema = loadJsonFromRepo("public", "schemas", "rulebook-v1.schema.json");
   const readme = readFileSync(join(__dirname, "..", "README.md"), "utf8");
   assert.ok(architecture.includes("Status: Accepted"), "runtime architecture doc must record accepted status");
@@ -1899,6 +1902,10 @@ function testRulebookRuntimeArchitectureDoc() {
       applicationBinding.includes("production_verdict: false"),
     "application binding doc must explain advisory-only non-rulebook responses"
   );
+  assert.ok(runtimeSmoke.includes("assertAdvisoryDecisionContract"), "production smoke must verify advisory decision contract");
+  assert.ok(runtimeSmoke.includes("decision_contract"), "production smoke must inspect advisory decision contract");
+  assert.ok(runtimeSmoke.includes("advisory_only"), "production smoke must verify advisory authority");
+  assert.ok(runtimeSmoke.includes("production_verdict"), "production smoke must verify advisory production verdict flag");
   assert.ok(
     readme.includes("docs/RULEBOOK_RUNTIME_ARCHITECTURE.md"),
     "README must link the runtime architecture decision"
