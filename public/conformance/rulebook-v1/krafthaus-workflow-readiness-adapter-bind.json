@@ -200,6 +200,13 @@
     "action": "bind_workflow_application",
     "reason_code": "WORKFLOW_BINDING_READY",
     "matched_rule_id": "bind_ready_workflow_application",
+    "runtime_binding": {
+      "production_core": "hybrid_declarative_rulebook_with_trusted_adapters",
+      "binding_mode": "trusted_adapter_facts_then_declarative_rulebook",
+      "verdict_authority": "declarative_rulebook",
+      "adapter_authority": "facts_only",
+      "customer_supplied_code": "rejected"
+    },
     "rulebook_contract": {
       "schema_url": "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
       "schema_hash_format": "sha256_hex",

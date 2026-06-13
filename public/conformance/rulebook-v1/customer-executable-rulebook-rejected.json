@@ -75,6 +75,10 @@
     "ok": false,
     "statusCode": 422,
     "error": "RULEBOOK_BINDING_MODE_UNSUPPORTED",
-    "binding_mode": "customer_executable_rulebook"
+    "binding_mode": "customer_executable_rulebook",
+    "supported_binding_modes": [
+      "direct_declarative_rulebook",
+      "trusted_adapter_facts_then_declarative_rulebook"
+    ]
   }
 }

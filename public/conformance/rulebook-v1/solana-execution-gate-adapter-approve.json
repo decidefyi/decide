@@ -162,6 +162,13 @@
     "action": "authorize_execution",
     "reason_code": "EXECUTION_GATE_APPROVED",
     "matched_rule_id": "approve_policy_compliant_execution",
+    "runtime_binding": {
+      "production_core": "hybrid_declarative_rulebook_with_trusted_adapters",
+      "binding_mode": "trusted_adapter_facts_then_declarative_rulebook",
+      "verdict_authority": "declarative_rulebook",
+      "adapter_authority": "facts_only",
+      "customer_supplied_code": "rejected"
+    },
     "rulebook_contract": {
       "schema_url": "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
       "schema_hash_format": "sha256_hex",

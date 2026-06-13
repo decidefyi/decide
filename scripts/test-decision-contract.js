@@ -1573,6 +1573,16 @@ async function testRulebookV1PublicConformanceFixtures() {
   assert.equal(index.conformance_version, "rulebook_v1_conformance_v1", "conformance index version mismatch");
   assert.equal(index.schema_url, schema.$id, "conformance index schema URL mismatch");
   assert.deepEqual(
+    index.supported_binding_modes,
+    ["direct_declarative_rulebook", "trusted_adapter_facts_then_declarative_rulebook"],
+    "conformance index supported binding modes mismatch"
+  );
+  assert.deepEqual(
+    index.unsupported_binding_modes,
+    ["customer_executable_rulebook"],
+    "conformance index unsupported binding modes mismatch"
+  );
+  assert.deepEqual(
     index.fixtures.map((fixture) => fixture.id),
     [
       "pricing_exception_direct_approve",
@@ -1609,6 +1619,22 @@ async function testRulebookV1PublicConformanceFixtures() {
       assert.equal(fixture.request?.method, "POST", `${fixtureRef.id}: request method mismatch`);
       assert.equal(fixture.request?.path, "/api/decide", `${fixtureRef.id}: request path mismatch`);
       assert.equal(fixture.request?.body?.mode, "rulebook", `${fixtureRef.id}: fixture must use rulebook mode`);
+      if (fixture.expect.ok !== false) {
+        assert.ok(
+          fixture.expect.runtime_binding?.binding_mode,
+          `${fixtureRef.id}: successful fixture must declare expected runtime binding`
+        );
+        assert.equal(
+          fixture.request?.body?.binding_mode,
+          fixture.expect.runtime_binding.binding_mode,
+          `${fixtureRef.id}: successful fixture request must declare canonical binding mode`
+        );
+        assert.equal(
+          fixture.expect.runtime_binding?.customer_supplied_code,
+          "rejected",
+          `${fixtureRef.id}: successful fixture must declare customer code rejection`
+        );
+      }
       if (fixture.request?.body?.adapter) {
         assert.equal(
           fixture.request.body.binding_mode,
@@ -1629,6 +1655,19 @@ async function testRulebookV1PublicConformanceFixtures() {
 
       if (fixture.expect.ok === false) {
         assert.equal(first.json?.error, fixture.expect.error, `${fixtureRef.id}: error mismatch`);
+        if (fixture.expect.error === "RULEBOOK_BINDING_MODE_UNSUPPORTED") {
+          assert.deepEqual(
+            fixture.expect.supported_binding_modes,
+            ["direct_declarative_rulebook", "trusted_adapter_facts_then_declarative_rulebook"],
+            `${fixtureRef.id}: unsupported binding fixture must declare supported modes`
+          );
+          assert.equal(first.json?.binding_mode, fixture.expect.binding_mode, `${fixtureRef.id}: binding mode mismatch`);
+          assert.deepEqual(
+            first.json?.supported_binding_modes,
+            fixture.expect.supported_binding_modes,
+            `${fixtureRef.id}: supported binding modes mismatch`
+          );
+        }
         for (const field of fixture.expect.expected_unknown_fields || []) {
           assertUnknownField(first.json?.errors, field, `${fixtureRef.id}: unknown field expectation`);
         }
@@ -1675,10 +1714,13 @@ async function testRulebookV1PublicConformanceFixtures() {
       assert.equal(first.json?.matched_rule_id, fixture.expect.matched_rule_id, `${fixtureRef.id}: matched rule mismatch`);
       assertRuntimeBinding(
         first.json,
-        fixture.request?.body?.adapter
-          ? "trusted_adapter_facts_then_declarative_rulebook"
-          : "direct_declarative_rulebook",
+        fixture.expect.runtime_binding.binding_mode,
         `${fixtureRef.id}: conformance fixture`
+      );
+      assert.deepEqual(
+        first.json?.runtime_binding,
+        fixture.expect.runtime_binding,
+        `${fixtureRef.id}: fixture runtime binding expectation mismatch`
       );
       assert.equal(typeof first.json?.rulebook?.hash, "string", `${fixtureRef.id}: rulebook hash missing`);
       assert.equal(typeof first.json?.input_hash, "string", `${fixtureRef.id}: input hash missing`);

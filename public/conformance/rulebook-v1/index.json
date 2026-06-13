@@ -3,6 +3,13 @@
   "schema_version": "rulebook_v1",
   "schema_url": "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
   "api_endpoint": "https://api.decide.fyi/api/decide",
+  "supported_binding_modes": [
+    "direct_declarative_rulebook",
+    "trusted_adapter_facts_then_declarative_rulebook"
+  ],
+  "unsupported_binding_modes": [
+    "customer_executable_rulebook"
+  ],
   "description": "Public Rulebook v1 conformance fixtures for deterministic direct-input, trusted-adapter, runtime schema contract, registry-attested, signed-when-configured, fail-closed executable-payload cases, and explicit unsupported binding-mode rejection.",
   "fixtures": [
     {

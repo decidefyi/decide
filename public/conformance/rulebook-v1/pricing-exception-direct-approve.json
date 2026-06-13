@@ -11,6 +11,7 @@
     },
     "body": {
       "mode": "rulebook",
+      "binding_mode": "direct_declarative_rulebook",
       "rulebook": {
         "schema_version": "rulebook_v1",
         "rulebook_id": "pricing_exception",
@@ -93,6 +94,12 @@
     "action": "approve_discount",
     "reason_code": "STANDARD_EXCEPTION_ALLOWED",
     "matched_rule_id": "approve_standard_exception",
+    "runtime_binding": {
+      "production_core": "hybrid_declarative_rulebook_with_trusted_adapters",
+      "binding_mode": "direct_declarative_rulebook",
+      "verdict_authority": "declarative_rulebook",
+      "customer_supplied_code": "rejected"
+    },
     "rulebook_contract": {
       "schema_url": "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
       "schema_hash_format": "sha256_hex",
