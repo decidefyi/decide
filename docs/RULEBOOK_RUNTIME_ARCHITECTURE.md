@@ -74,6 +74,13 @@ Executable-looking fields such as `code`, `source`, `script`, `function`,
 `handler`, `javascript`, `typescript`, and `wasm` are not contract fields. They
 are rejected as unknown fields rather than ignored.
 
+Requests that explicitly ask for `binding_mode: "customer_executable_rulebook"`
+fail closed with `RULEBOOK_BINDING_MODE_UNSUPPORTED`. Rulebook v1 does not
+silently reinterpret that request as a direct declarative rulebook call.
+Supported binding modes must also match request material; for example,
+`trusted_adapter_facts_then_declarative_rulebook` requires an `adapter` request
+and otherwise returns `RULEBOOK_BINDING_MODE_CONFLICT`.
+
 Successful and `needs_input` Rulebook v1 responses expose `rulebook_contract`
 with the enforced schema version, schema URL, schema hash, and evaluator
 version. They also expose `runtime_binding` with the production core, binding

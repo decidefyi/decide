@@ -893,6 +893,79 @@ async function testDecideRulebookRejectsExecutablePayloadFields() {
   }
 }
 
+async function testDecideRulebookRejectsUnsupportedBindingMode() {
+  const fixture = loadFixture("decide-rulebook-v1.json");
+  const request = JSON.parse(JSON.stringify(fixture.request));
+  request.body.binding_mode = "customer_executable_rulebook";
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("unsupported rulebook binding mode must not call an LLM");
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, { ...request, remoteAddress: "127.0.0.41" });
+    assert.equal(result.statusCode, 422, "unsupported rulebook binding mode status mismatch");
+    assert.equal(
+      result.json?.error,
+      "RULEBOOK_BINDING_MODE_UNSUPPORTED",
+      "unsupported rulebook binding mode error mismatch"
+    );
+    assert.equal(result.json?.binding_mode, "customer_executable_rulebook", "unsupported binding mode echo mismatch");
+    assert.equal(fetchCalled, false, "unsupported rulebook binding mode unexpectedly called an LLM");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
+async function testDecideRulebookRejectsBindingModeShapeConflict() {
+  const fixture = loadFixture("decide-rulebook-v1.json");
+  const request = JSON.parse(JSON.stringify(fixture.request));
+  request.body.binding_mode = "trusted_adapter_facts_then_declarative_rulebook";
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("conflicting rulebook binding mode must not call an LLM");
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, { ...request, remoteAddress: "127.0.0.42" });
+    assert.equal(result.statusCode, 422, "conflicting rulebook binding mode status mismatch");
+    assert.equal(
+      result.json?.error,
+      "RULEBOOK_BINDING_MODE_CONFLICT",
+      "conflicting rulebook binding mode error mismatch"
+    );
+    assert.equal(
+      result.json?.binding_mode,
+      "trusted_adapter_facts_then_declarative_rulebook",
+      "conflicting requested binding mode echo mismatch"
+    );
+    assert.equal(
+      result.json?.inferred_binding_mode,
+      "direct_declarative_rulebook",
+      "conflicting inferred binding mode mismatch"
+    );
+    assert.equal(fetchCalled, false, "conflicting rulebook binding mode unexpectedly called an LLM");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
 async function testDecideTrustedAdapterFixture() {
   const fixture = loadFixture("decide-trusted-adapter-v1.json");
   const manifest = getTrustedAdapterManifest("solana_execution_gate", "1.0.0");
@@ -1468,6 +1541,7 @@ async function testRulebookV1PublicConformanceFixtures() {
       "solana_execution_gate_adapter_approve",
       "krafthaus_workflow_readiness_adapter_bind",
       "executable_payload_rejected",
+      "customer_executable_rulebook_rejected",
     ],
     "public Rulebook v1 conformance fixture set changed unexpectedly"
   );
@@ -2172,6 +2246,10 @@ function testRulebookRuntimeArchitectureDoc() {
     "runtime architecture doc must reject customer executable rulebooks"
   );
   assert.ok(
+    architecture.includes("RULEBOOK_BINDING_MODE_UNSUPPORTED"),
+    "runtime architecture doc must document explicit unsupported binding mode rejection"
+  );
+  assert.ok(
     architecture.includes("Trusted adapters may emit facts, but they do not select the binding verdict"),
     "runtime architecture doc must keep trusted adapters out of verdict selection"
   );
@@ -2198,6 +2276,10 @@ function testRulebookRuntimeArchitectureDoc() {
   assert.ok(
     rulebookDoc.includes("runtime_binding"),
     "rulebook contract doc must document runtime binding metadata"
+  );
+  assert.ok(
+    rulebookDoc.includes("RULEBOOK_BINDING_MODE_UNSUPPORTED"),
+    "rulebook contract doc must document explicit unsupported binding mode rejection"
   );
   assert.ok(readme.includes("runtime_binding"), "README must document runtime binding metadata");
   assert.ok(architecture.includes("decision_contract"), "runtime architecture doc must document advisory decision contract");
@@ -3650,6 +3732,8 @@ async function main() {
     ["rulebook-attestation-rejects-invalid-key-history", testRulebookAttestationRejectsInvalidKeyHistory],
     ["decide-rulebook-rejects-executable-operator", testDecideRulebookRejectsExecutableOperator],
     ["decide-rulebook-rejects-executable-payload-fields", testDecideRulebookRejectsExecutablePayloadFields],
+    ["decide-rulebook-rejects-unsupported-binding-mode", testDecideRulebookRejectsUnsupportedBindingMode],
+    ["decide-rulebook-rejects-binding-mode-shape-conflict", testDecideRulebookRejectsBindingModeShapeConflict],
     ["decide-trusted-adapter-v1", testDecideTrustedAdapterFixture],
     ["decide-decision-memo-readiness-adapter-v1", testDecideDecisionMemoReadinessAdapterFixture],
     ["decide-krafthaus-workflow-readiness-adapter-v1", testDecideKrafthausWorkflowReadinessAdapterFixture],

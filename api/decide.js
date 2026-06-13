@@ -384,6 +384,11 @@ function parseFlag(value) {
   return normalized === "1" || normalized === "true" || normalized === "yes" || normalized === "on";
 }
 
+const SUPPORTED_RULEBOOK_BINDING_MODES = new Set([
+  RULEBOOK_DIRECT_BINDING_MODE,
+  RULEBOOK_TRUSTED_ADAPTER_BINDING_MODE,
+]);
+
 function readTrustedProxyContext(req) {
   const expectedProxyToken = String(process.env.DECIDE_PROXY_SHARED_TOKEN || "").trim();
   const providedProxyToken = readHeader(req, "x-decide-proxy-token");
@@ -536,6 +541,44 @@ export default async function handler(req, res) {
     const rulebookRequested = mode === "rulebook" || body.rulebook?.schema_version === "rulebook_v1";
 
     if (rulebookRequested) {
+      const requestedBindingMode = String(body.binding_mode || "").trim().toLowerCase();
+      if (requestedBindingMode && !SUPPORTED_RULEBOOK_BINDING_MODES.has(requestedBindingMode)) {
+        sendDecisionJson(
+          res,
+          422,
+          {
+            c: "unclear",
+            v: "unsupported_rulebook_binding_mode",
+            request_id,
+            error: "RULEBOOK_BINDING_MODE_UNSUPPORTED",
+            message: "Rulebook v1 supports only declared declarative binding modes.",
+            binding_mode: requestedBindingMode,
+            supported_binding_modes: [...SUPPORTED_RULEBOOK_BINDING_MODES],
+          },
+          { mode: "rulebook" }
+        );
+        return;
+      }
+      const inferredBindingMode =
+        body.adapter !== undefined ? RULEBOOK_TRUSTED_ADAPTER_BINDING_MODE : RULEBOOK_DIRECT_BINDING_MODE;
+      if (requestedBindingMode && requestedBindingMode !== inferredBindingMode) {
+        sendDecisionJson(
+          res,
+          422,
+          {
+            c: "unclear",
+            v: "rulebook_binding_mode_conflict",
+            request_id,
+            error: "RULEBOOK_BINDING_MODE_CONFLICT",
+            message: "Requested Rulebook v1 binding mode does not match the request material.",
+            binding_mode: requestedBindingMode,
+            inferred_binding_mode: inferredBindingMode,
+          },
+          { mode: "rulebook" }
+        );
+        return;
+      }
+
       let trustedAdapter = null;
       if (body.adapter !== undefined) {
         if (Object.keys(runtimeInputs).length > 0) {

@@ -3,7 +3,7 @@
   "schema_version": "rulebook_v1",
   "schema_url": "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
   "api_endpoint": "https://api.decide.fyi/api/decide",
-  "description": "Public Rulebook v1 conformance fixtures for deterministic direct-input, trusted-adapter, runtime schema contract, registry-attested, signed-when-configured, and fail-closed executable-payload cases.",
+  "description": "Public Rulebook v1 conformance fixtures for deterministic direct-input, trusted-adapter, runtime schema contract, registry-attested, signed-when-configured, fail-closed executable-payload cases, and explicit unsupported binding-mode rejection.",
   "fixtures": [
     {
       "id": "pricing_exception_direct_approve",
@@ -28,6 +28,12 @@
       "title": "Executable-shaped rulebook payload rejection",
       "kind": "fail_closed_rejection",
       "url": "https://api.decide.fyi/conformance/rulebook-v1/executable-payload-rejected.json"
+    },
+    {
+      "id": "customer_executable_rulebook_rejected",
+      "title": "Customer executable rulebook mode rejection",
+      "kind": "fail_closed_rejection",
+      "url": "https://api.decide.fyi/conformance/rulebook-v1/customer-executable-rulebook-rejected.json"
     }
   ]
 }

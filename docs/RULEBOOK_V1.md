@@ -287,6 +287,13 @@ function invocation.
 An invalid rulebook returns HTTP `422` with `RULEBOOK_INVALID` and structured
 field errors. It is never sent to an LLM as a fallback.
 
+An explicit unsupported runtime request such as
+`binding_mode: "customer_executable_rulebook"` returns HTTP `422` with
+`RULEBOOK_BINDING_MODE_UNSUPPORTED`. The API does not ignore that field or
+reinterpret it as `direct_declarative_rulebook`.
+Supported `binding_mode` values must match the request material; a trusted
+adapter binding mode without `adapter` returns `RULEBOOK_BINDING_MODE_CONFLICT`.
+
 The production path validates each request rulebook against the published JSON
 Schema before semantic evaluation. Successful and `needs_input` responses include
 `rulebook_contract` so downstream systems can record the exact contract that was
