@@ -3296,6 +3296,16 @@ function testRulebookRuntimeManifest() {
       `contract workflow must run when ${contractPath} changes`
     );
   }
+  assert.ok(
+    contractWorkflow.includes("FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true"),
+    "contract workflow must force JavaScript actions onto Node 24"
+  );
+  assert.ok(contractWorkflow.includes("actions/checkout@v6"), "contract workflow must use checkout@v6");
+  assert.ok(contractWorkflow.includes("actions/setup-node@v6"), "contract workflow must use setup-node@v6");
+  assert.ok(contractWorkflow.includes('node-version: "24"'), "contract workflow must run tests on Node 24");
+  assert.equal(contractWorkflow.includes("actions/checkout@v4"), false, "contract workflow must not use checkout@v4");
+  assert.equal(contractWorkflow.includes("actions/setup-node@v4"), false, "contract workflow must not use setup-node@v4");
+  assert.equal(contractWorkflow.includes('node-version: "20"'), false, "contract workflow must not pin Node 20");
 }
 
 async function main() {
