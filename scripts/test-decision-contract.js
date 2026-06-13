@@ -1792,6 +1792,136 @@ async function testRulebookV1GoldenReplayCorpus() {
   }
 }
 
+async function testKrafthausWorkflowBindingExample() {
+  const exampleDocPath = join(__dirname, "..", "docs", "KRAFTHAUS_WORKFLOW_BINDING_EXAMPLE.md");
+  const exampleJsonPath = join(__dirname, "..", "public", "examples", "krafthaus-workflow-binding-v1.json");
+  assert.ok(existsSync(exampleDocPath), "Krafthaus workflow binding example doc is missing");
+  assert.ok(existsSync(exampleJsonPath), "public Krafthaus workflow binding JSON example is missing");
+
+  const doc = readFileSync(exampleDocPath, "utf8");
+  const applicationBindingDoc = readFileSync(join(__dirname, "..", "docs", "APPLICATION_BINDING_V1.md"), "utf8");
+  const example = loadJsonFromRepo("public", "examples", "krafthaus-workflow-binding-v1.json");
+  const conformance = loadPublicRulebookConformanceFixture("krafthaus-workflow-readiness-adapter-bind.json");
+  assert.equal(
+    example.example_version,
+    "krafthaus_workflow_binding_example_v1",
+    "Krafthaus workflow example version mismatch"
+  );
+  assert.equal(example.id, "krafthaus_workflow_readiness_binding_v1", "Krafthaus workflow example id mismatch");
+  assert.equal(
+    example.runtime_manifest_url,
+    "https://api.decide.fyi/manifests/rulebook-runtime-v1.json",
+    "Krafthaus workflow example manifest URL mismatch"
+  );
+  assert.equal(
+    example.conformance_fixture_url,
+    "https://api.decide.fyi/conformance/rulebook-v1/krafthaus-workflow-readiness-adapter-bind.json",
+    "Krafthaus workflow example conformance URL mismatch"
+  );
+  assert.equal(
+    example.replay_fixture_url,
+    "https://api.decide.fyi/replay/rulebook-v1/krafthaus-workflow-readiness-adapter-bind.json",
+    "Krafthaus workflow example replay URL mismatch"
+  );
+  assert.deepEqual(
+    example.decide_request,
+    {
+      method: conformance.request.method,
+      path: conformance.request.path,
+      body: conformance.request.body,
+    },
+    "Krafthaus workflow example must embed the executable conformance request"
+  );
+
+  for (const requiredMaterial of [
+    "rulebook_contract",
+    "runtime_binding",
+    "verdict",
+    "application_verdict",
+    "action",
+    "reason_code",
+    "matched_rule_id",
+    "rulebook.hash",
+    "input_hash",
+    "rulebook_attestation.bundle_hash",
+  ]) {
+    assert.ok(
+      example.bind_before_action?.required_decision_material?.includes(requiredMaterial),
+      `Krafthaus workflow example missing required material: ${requiredMaterial}`
+    );
+  }
+  assert.ok(
+    example.prohibited_claims?.includes("llm_output_is_binding_production_verdict"),
+    "Krafthaus workflow example must reject LLM-only binding claims"
+  );
+
+  for (const docMarker of [
+    "https://api.decide.fyi/examples/krafthaus-workflow-binding-v1.json",
+    "Krafthaus Workflow Readiness Binding",
+    "bind_workflow_application",
+    "rulebook_attestation.bundle_hash",
+    "llm_output_is_binding_production_verdict",
+    "await fetch",
+  ]) {
+    assert.ok(doc.includes(docMarker), `Krafthaus workflow binding doc missing marker: ${docMarker}`);
+  }
+  assert.ok(
+    applicationBindingDoc.includes("https://api.decide.fyi/examples/krafthaus-workflow-binding-v1.json"),
+    "application binding doc must link the public Krafthaus workflow example"
+  );
+  assert.ok(
+    applicationBindingDoc.includes("KRAFTHAUS_WORKFLOW_BINDING_EXAMPLE.md"),
+    "application binding doc must link the Krafthaus workflow example notes"
+  );
+
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("Krafthaus workflow binding example must not call an LLM");
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, {
+      method: example.decide_request.method,
+      path: example.decide_request.path,
+      headers: {
+        "content-type": "application/json",
+        "x-forwarded-for": "10.252.0.1",
+      },
+      body: example.decide_request.body,
+    });
+    assert.equal(result.statusCode, 200, "Krafthaus workflow example status mismatch");
+    assert.equal(result.json?.application_verdict, example.expected_response.application_verdict, "Krafthaus workflow example verdict mismatch");
+    assert.equal(result.json?.action, example.expected_response.action, "Krafthaus workflow example action mismatch");
+    assert.equal(result.json?.reason_code, example.expected_response.reason_code, "Krafthaus workflow example reason mismatch");
+    assert.equal(result.json?.matched_rule_id, example.expected_response.matched_rule_id, "Krafthaus workflow example rule mismatch");
+    assert.equal(
+      result.json?.trusted_adapter?.adapter_id,
+      example.expected_response.trusted_adapter.adapter_id,
+      "Krafthaus workflow example adapter mismatch"
+    );
+    assertRuntimeBinding(
+      result.json,
+      example.expected_response.runtime_binding.binding_mode,
+      "Krafthaus workflow example"
+    );
+    for (const [field, expectedValue] of Object.entries(example.expected_response.adapter_facts || {})) {
+      assert.equal(result.json?.adapter_facts?.[field], expectedValue, `Krafthaus workflow example adapter fact mismatch: ${field}`);
+    }
+    assertRulebookAttestation(result.json, "Krafthaus workflow example");
+    assert.equal(fetchCalled, false, "Krafthaus workflow binding example unexpectedly called an LLM");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
 function testRulebookMigrationDryRunCli() {
   const repoRoot = join(__dirname, "..");
   const migrationManifestSchemaUrl = "https://api.decide.fyi/schemas/rulebook-migration-v1.schema.json";
@@ -3532,6 +3662,7 @@ async function main() {
     ["decide-trusted-adapter-rejects-executable-input-fields", testDecideTrustedAdapterRejectsExecutableInputFields],
     ["rulebook-v1-public-conformance-fixtures", testRulebookV1PublicConformanceFixtures],
     ["rulebook-v1-golden-replay-corpus", testRulebookV1GoldenReplayCorpus],
+    ["krafthaus-workflow-binding-example", testKrafthausWorkflowBindingExample],
     ["rulebook-migration-dry-run-cli", testRulebookMigrationDryRunCli],
     ["rulebook-runtime-architecture-doc", testRulebookRuntimeArchitectureDoc],
     ["rulebook-runtime-manifest", testRulebookRuntimeManifest],

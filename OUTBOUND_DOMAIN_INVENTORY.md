@@ -1,6 +1,6 @@
 # Outbound Domain Inventory (Exhaustive)
 
-Generated: 2026-06-13T02:12:51.102Z
+Generated: 2026-06-13T02:18:15.951Z
 
 Repository: `decide`
 
@@ -10,8 +10,8 @@ Lockfiles and binary image assets are excluded to reduce noise.
 
 ## 1) Snapshot
 
-- Total URL occurrences scanned: **2345**
-- Valid URL occurrences parsed: **2339**
+- Total URL occurrences scanned: **2359**
+- Valid URL occurrences parsed: **2353**
 - Invalid/truncated URL occurrences: **6**
 - Unique hosts: **203**
 - Critical integration hosts: **13**
@@ -31,9 +31,9 @@ Lockfiles and binary image assets are excluded to reduce noise.
 
 | Host | URL occurrences | Files | Risk tier | Tag(s) |
 | --- | ---: | ---: | --- | --- |
+| api.decide.fyi | 86 | 22 | T2-first-party-surface | first_party |
 | github.com | 80 | 10 | T1-platform-control | github, third_party |
 | www.amazon.com | 79 | 21 | T3-content-static | third_party |
-| api.decide.fyi | 72 | 20 | T2-first-party-surface | first_party |
 | support.apple.com | 60 | 16 | T3-content-static | third_party |
 | support.google.com | 41 | 17 | T3-content-static | third_party |
 | help.crunchyroll.com | 30 | 15 | T3-content-static | third_party |
@@ -83,7 +83,7 @@ These are domains tagged as runtime/ops critical (`vercel`, `github`, `stripe`, 
 | 1password.com | 9 | 8 | config_or_data, data_source | T3-content-static | third_party | public/rules/trial-policy-sources.json:5, rules/cancel-policy-sources.json:10, rules/policy-sources.json:10 |
 | accounts.decide.fyi | 1 | 1 | config_or_data | T1-auth-billing | clerk, first_party | vercel.json:34 |
 | api.axiom.co | 3 | 2 | other | T1-observability | axiom, third_party | lib/log.js:9, lib/metrics-axiom.js:65, lib/metrics-axiom.js:70 |
-| api.decide.fyi | 72 | 20 | config_or_data, docs_content, other | T2-first-party-surface | first_party | README.md:16, README.md:16, README.md:17 |
+| api.decide.fyi | 86 | 22 | config_or_data, docs_content, other | T2-first-party-surface | first_party | README.md:16, README.md:16, README.md:17 |
 | bitwarden.com | 20 | 20 | config_or_data, data_source | T3-content-static | third_party | public/rules/cancel-policy-sources.json:12, public/rules/policy-sources.json:34, public/rules/return-policy-sources.json:12 |
 | bumble.com | 17 | 17 | config_or_data, data_source | T3-content-static | third_party | public/rules/cancel-policy-sources.json:13, public/rules/policy-sources.json:38, public/rules/return-policy-sources.json:13 |
 | cancel.decide.fyi | 11 | 6 | config_or_data, docs_content, frontend, other | T2-first-party-surface | first_party | README.md:174, README.md:188, README.md:204 |

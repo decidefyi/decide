@@ -1,0 +1,245 @@
+{
+  "example_version": "krafthaus_workflow_binding_example_v1",
+  "id": "krafthaus_workflow_readiness_binding_v1",
+  "title": "Krafthaus Workflow Readiness Binding",
+  "purpose": "Executable request example for binding a Krafthaus workflow application action to Decide before handoff.",
+  "runtime_manifest_url": "https://api.decide.fyi/manifests/rulebook-runtime-v1.json",
+  "conformance_fixture_url": "https://api.decide.fyi/conformance/rulebook-v1/krafthaus-workflow-readiness-adapter-bind.json",
+  "replay_fixture_url": "https://api.decide.fyi/replay/rulebook-v1/krafthaus-workflow-readiness-adapter-bind.json",
+  "decide_request": {
+    "method": "POST",
+    "path": "/api/decide",
+    "body": {
+      "mode": "rulebook",
+      "adapter": {
+        "adapter_id": "krafthaus_workflow_readiness",
+        "version": "1.0.0",
+        "manifest_hash": "fbdced2047dc68944b5d620586ebd8ae1b1166b1448cbaa68490fadb00f69d9b",
+        "input": {
+          "owner_present": true,
+          "repeat_frequency": "daily",
+          "evidence_sources": 4,
+          "integration_touchpoints": 1,
+          "automation_boundary_defined": true,
+          "rollback_path_defined": true,
+          "exception_paths": 1,
+          "action_risk": "medium",
+          "value_at_stake": "high"
+        }
+      },
+      "rulebook": {
+        "schema_version": "rulebook_v1",
+        "rulebook_id": "krafthaus_workflow_readiness",
+        "version": "2026-06-13",
+        "input_schema": {
+          "required": [
+            "owner_present",
+            "recurring_workflow",
+            "evidence_sources",
+            "automation_boundary_defined",
+            "rollback_path_defined",
+            "workflow_score",
+            "workflow_band",
+            "handoff_risk",
+            "ready_to_bind"
+          ],
+          "properties": {
+            "owner_present": {
+              "type": "boolean"
+            },
+            "recurring_workflow": {
+              "type": "boolean"
+            },
+            "evidence_sources": {
+              "type": "integer"
+            },
+            "automation_boundary_defined": {
+              "type": "boolean"
+            },
+            "rollback_path_defined": {
+              "type": "boolean"
+            },
+            "workflow_score": {
+              "type": "integer"
+            },
+            "workflow_band": {
+              "type": "string"
+            },
+            "handoff_risk": {
+              "type": "string"
+            },
+            "ready_to_bind": {
+              "type": "boolean"
+            }
+          }
+        },
+        "rules": [
+          {
+            "rule_id": "block_unowned_or_unsafe_workflow",
+            "priority": 300,
+            "condition": {
+              "any": [
+                {
+                  "field": "owner_present",
+                  "operator": "eq",
+                  "value": false
+                },
+                {
+                  "field": "evidence_sources",
+                  "operator": "lt",
+                  "value": 1
+                },
+                {
+                  "field": "handoff_risk",
+                  "operator": "eq",
+                  "value": "high"
+                },
+                {
+                  "field": "workflow_score",
+                  "operator": "lt",
+                  "value": 45
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "no",
+              "verdict": "BLOCKED",
+              "action": "block_workflow_binding",
+              "reason_code": "WORKFLOW_BINDING_BLOCKED"
+            }
+          },
+          {
+            "rule_id": "route_workflow_for_design_review",
+            "priority": 200,
+            "condition": {
+              "any": [
+                {
+                  "field": "ready_to_bind",
+                  "operator": "eq",
+                  "value": false
+                },
+                {
+                  "field": "automation_boundary_defined",
+                  "operator": "eq",
+                  "value": false
+                },
+                {
+                  "field": "rollback_path_defined",
+                  "operator": "eq",
+                  "value": false
+                },
+                {
+                  "field": "workflow_score",
+                  "operator": "lt",
+                  "value": 78
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "ROUTE_REVIEW",
+              "action": "route_workflow_design_review",
+              "reason_code": "WORKFLOW_REVIEW_REQUIRED"
+            }
+          },
+          {
+            "rule_id": "bind_ready_workflow_application",
+            "priority": 100,
+            "condition": {
+              "all": [
+                {
+                  "field": "ready_to_bind",
+                  "operator": "eq",
+                  "value": true
+                },
+                {
+                  "field": "workflow_band",
+                  "operator": "eq",
+                  "value": "bind_ready"
+                },
+                {
+                  "field": "workflow_score",
+                  "operator": "gte",
+                  "value": 78
+                },
+                {
+                  "field": "owner_present",
+                  "operator": "eq",
+                  "value": true
+                }
+              ]
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "BIND_READY",
+              "action": "bind_workflow_application",
+              "reason_code": "WORKFLOW_BINDING_READY"
+            }
+          }
+        ],
+        "default_outcome": {
+          "decision": "review",
+          "verdict": "ROUTE_REVIEW",
+          "action": "route_workflow_design_review",
+          "reason_code": "WORKFLOW_NO_RULE_MATCHED"
+        }
+      },
+      "context": {
+        "workflow": "krafthaus_workflow_readiness",
+        "source_record_id": "khaus_customer_onboarding_handoff",
+        "requested_action": "bind_workflow_application"
+      }
+    }
+  },
+  "bind_before_action": {
+    "governed_action": "bind_workflow_application",
+    "rule": "Capture the required decision material before a Krafthaus workflow application executes or hands off the governed action.",
+    "required_decision_material": [
+      "rulebook_contract",
+      "runtime_binding",
+      "verdict",
+      "application_verdict",
+      "action",
+      "reason_code",
+      "matched_rule_id",
+      "rulebook.hash",
+      "input_hash",
+      "rulebook_attestation.bundle_hash"
+    ]
+  },
+  "expected_response": {
+    "verdict": "yes",
+    "application_verdict": "BIND_READY",
+    "action": "bind_workflow_application",
+    "reason_code": "WORKFLOW_BINDING_READY",
+    "matched_rule_id": "bind_ready_workflow_application",
+    "runtime_binding": {
+      "production_core": "hybrid_declarative_rulebook_with_trusted_adapters",
+      "binding_mode": "trusted_adapter_facts_then_declarative_rulebook",
+      "verdict_authority": "declarative_rulebook",
+      "adapter_authority": "facts_only",
+      "customer_supplied_code": "rejected"
+    },
+    "trusted_adapter": {
+      "adapter_id": "krafthaus_workflow_readiness",
+      "version": "1.0.0",
+      "manifest_hash": "fbdced2047dc68944b5d620586ebd8ae1b1166b1448cbaa68490fadb00f69d9b"
+    },
+    "adapter_facts": {
+      "workflow_score": 80,
+      "workflow_band": "bind_ready",
+      "handoff_risk": "medium",
+      "ready_to_bind": true
+    }
+  },
+  "handoff_policy": {
+    "BIND_READY": "The application may continue with bind_workflow_application after recording required decision material.",
+    "ROUTE_REVIEW": "The application should route the workflow design for human or operator review.",
+    "BLOCKED": "The application must not bind the workflow action until ownership, evidence, or safety inputs are fixed."
+  },
+  "prohibited_claims": [
+    "llm_output_is_binding_production_verdict",
+    "customer_executable_code_runs_as_rulebook_v1",
+    "action_executes_before_decision_material_is_captured"
+  ]
+}

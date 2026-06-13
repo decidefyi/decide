@@ -79,6 +79,12 @@ Conformance fixtures:
 Golden replay corpus:
 `https://api.decide.fyi/replay/rulebook-v1/index.json`
 
+Krafthaus workflow binding example:
+`https://api.decide.fyi/examples/krafthaus-workflow-binding-v1.json`
+
+Implementation notes:
+[`KRAFTHAUS_WORKFLOW_BINDING_EXAMPLE.md`](KRAFTHAUS_WORKFLOW_BINDING_EXAMPLE.md)
+
 If a Krafthaus application cannot point to the runtime manifest, conformance
 fixtures, and replay corpus for its binding mode, it should be described as
 AI-assisted or exploratory, not as a deterministic production Decide verdict.
