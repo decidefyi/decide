@@ -1,12 +1,12 @@
 # decide.fyi Decision API
 
-> Deterministic Decision API engine powering stable MCP notary remotes, decision memo packets, execution gates, and future workflow applications
+> Deterministic Decision API engine powering workflow applications, stable MCP notary remotes, decision memo packets, and execution gates
 
 [![Version](https://img.shields.io/badge/version-1.2.1-blue.svg)](https://decide.fyi)
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
 [![Vendors](https://img.shields.io/badge/vendors-100-orange.svg)](https://decide.fyi)
 
-**Positioning:** Decide is the API engine and compatibility surface. Policy MCP Notaries, decision memo packets, execution gates, and future workflow applications are proof surfaces that reuse the same verdict, request ID, and evidence contract.
+**Positioning:** Decide is the API engine and compatibility surface. Krafthaus workflow apps, Policy MCP Notaries, decision memo packets, and execution gates are application surfaces that reuse the same verdict, request ID, and evidence contract.
 
 ## Production Determinism Boundary
 

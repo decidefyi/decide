@@ -25,7 +25,7 @@ const customerRunbook = read("docs/FIRST_CUSTOMER_RUNBOOK.md");
 const customerSmoke = read("scripts/customer-key-smoke.js");
 
 assert(html.includes("decide.fyi is the Decision API engine"), "home page should position Decide as API engine");
-assert(html.includes("Reference applications show the same contract powering policy MCPs"), "home page should show proof applications");
+assert(html.includes("Reference applications show the same contract powering workflow apps, policy MCPs"), "home page should show proof applications");
 assert(html.includes("Applications prove the primitive"), "home page should frame applications as proof");
 assert(!html.includes("Krafthaus"), "home page should stay Decide-only");
 assert(!html.includes("krafthaus"), "home page should not mention external product brand");
