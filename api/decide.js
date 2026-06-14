@@ -170,6 +170,26 @@ function normalizeRuntimeCitations(citations) {
 
 const SENSITIVE_INPUT_KEY_PATTERN =
   /(api[_-]?key|token|secret|password|passphrase|authorization|cookie|session|email|phone|ssn|credit|card|iban|address|bearer)/i;
+const RULEBOOK_OUTPUT_MATERIAL_FIELDS = Object.freeze([
+  "runtime_binding",
+  "trusted_adapter",
+  "adapter_facts",
+  "rulebook_attestation",
+  "rulebook_contract",
+  "input_hash",
+  "decision_id",
+  "record_hash",
+  "receipt_hash",
+  "verify_url",
+  "replay_url",
+  "engine",
+  "evaluator_version",
+  "verdict",
+  "application_verdict",
+  "action",
+  "reason_code",
+  "matched_rule_id",
+]);
 
 function summarizeInputEvidenceValue(value) {
   if (value == null) return "null";
@@ -281,6 +301,13 @@ function readApiToken(req) {
   if (parts.length !== 2) return "";
   if (parts[0].toLowerCase() !== "bearer") return "";
   return parts[1].trim();
+}
+
+function findCallerSuppliedRulebookOutputFields(body = {}) {
+  const source = asObject(body);
+  return RULEBOOK_OUTPUT_MATERIAL_FIELDS.filter((field) =>
+    Object.prototype.hasOwnProperty.call(source, field)
+  );
 }
 
 function resolveGeminiModelLadder() {
@@ -539,6 +566,24 @@ export default async function handler(req, res) {
     const rulebookRequested = mode === "rulebook" || body.rulebook?.schema_version === "rulebook_v1";
 
     if (rulebookRequested) {
+      const callerSuppliedOutputFields = findCallerSuppliedRulebookOutputFields(body);
+      if (callerSuppliedOutputFields.length) {
+        sendDecisionJson(
+          res,
+          422,
+          {
+            c: "unclear",
+            v: "rulebook_output_material_forbidden",
+            request_id,
+            error: "RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN",
+            message: "Rulebook requests cannot supply Decide-generated Decision Record material.",
+            forbidden_fields: callerSuppliedOutputFields,
+          },
+          { mode: "rulebook" }
+        );
+        return;
+      }
+
       const requestedBindingMode = String(body.binding_mode || "").trim().toLowerCase();
       if (requestedBindingMode && !SUPPORTED_RULEBOOK_BINDING_MODES.has(requestedBindingMode)) {
         sendDecisionJson(

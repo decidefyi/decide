@@ -244,6 +244,7 @@ async function main() {
   const apiKey = String(args.apiKey || "").trim();
   const validFixture = loadFixture("decide-rulebook-v1.json");
   const executableFixture = loadRepoJson("public", "conformance", "rulebook-v1", "executable-payload-rejected.json");
+  const outputMaterialFixture = loadRepoJson("public", "conformance", "rulebook-v1", "caller-output-material-rejected.json");
 
   const health = await requestJson({ baseUrl, path: "/api/health", apiKey, timeoutMs });
   expect(health.response.status === 200, `health: expected 200, got ${health.response.status}`);
@@ -332,6 +333,26 @@ async function main() {
     assertUnknownField(rejectedExecutable.json?.errors, field, "executable rejection");
   }
   console.log("PASS executable rulebook rejection");
+
+  const rejectedOutputMaterial = await requestJson({
+    baseUrl,
+    path: outputMaterialFixture.request.path,
+    method: outputMaterialFixture.request.method,
+    body: outputMaterialFixture.request.body,
+    apiKey,
+    timeoutMs,
+  });
+  expect(
+    rejectedOutputMaterial.response.status === outputMaterialFixture.expect.statusCode,
+    `output material rejection: expected ${outputMaterialFixture.expect.statusCode}, got ${rejectedOutputMaterial.response.status}`
+  );
+  expect(rejectedOutputMaterial.json?.error === outputMaterialFixture.expect.error, "output material rejection: error mismatch");
+  expect(
+    JSON.stringify(rejectedOutputMaterial.json?.forbidden_fields || []) ===
+      JSON.stringify(outputMaterialFixture.expect.forbidden_fields),
+    "output material rejection: forbidden fields mismatch"
+  );
+  console.log("PASS caller-supplied output material rejection");
 
   await assertKrafthausWorkflowReadinessBinding({ baseUrl, apiKey, timeoutMs, allowUnsigned: args.allowUnsigned });
   console.log("PASS Krafthaus workflow readiness binding");

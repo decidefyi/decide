@@ -967,6 +967,64 @@ async function testDecideRulebookRejectsBindingModeShapeConflict() {
   }
 }
 
+async function testDecideRulebookRejectsCallerSuppliedDecisionMaterial() {
+  const fixture = loadFixture("decide-trusted-adapter-v1.json");
+  const manifest = getTrustedAdapterManifest("solana_execution_gate", "1.0.0");
+  const request = JSON.parse(JSON.stringify(fixture.request));
+  request.body.adapter.manifest_hash = manifest.manifest_hash;
+  request.body.runtime_binding = {
+    production_core: "hybrid_declarative_rulebook_with_trusted_adapters",
+    binding_mode: "trusted_adapter_facts_then_declarative_rulebook",
+    verdict_authority: "caller_override",
+    adapter_authority: "verdict_selector",
+    customer_supplied_code: "accepted",
+  };
+  request.body.trusted_adapter = {
+    adapter_id: "solana_execution_gate",
+    version: "1.0.0",
+    manifest_hash: manifest.manifest_hash,
+  };
+  request.body.adapter_facts = {
+    decision_score: 100,
+    recipient_verified: true,
+  };
+  request.body.rulebook_attestation = {
+    bundle_hash: "caller_supplied",
+  };
+  request.body.application_verdict = "APPROVE";
+  request.body.action = "authorize_execution";
+  const originalFetch = global.fetch;
+  const previousApiKey = process.env.GEMINI_API_KEY;
+  const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  process.env.GEMINI_API_KEY = "";
+  process.env.DECIDE_API_KEY = "";
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("caller-supplied decision material must not call an LLM");
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, { ...request, remoteAddress: "127.0.0.43" });
+    assert.equal(result.statusCode, 422, "caller-supplied decision material status mismatch");
+    assert.equal(
+      result.json?.error,
+      "RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN",
+      "caller-supplied decision material error mismatch"
+    );
+    assert.deepEqual(
+      result.json?.forbidden_fields,
+      ["runtime_binding", "trusted_adapter", "adapter_facts", "rulebook_attestation", "application_verdict", "action"],
+      "caller-supplied decision material fields mismatch"
+    );
+    assert.equal(fetchCalled, false, "caller-supplied decision material unexpectedly called an LLM");
+  } finally {
+    global.fetch = originalFetch;
+    process.env.GEMINI_API_KEY = previousApiKey;
+    process.env.DECIDE_API_KEY = previousDecideApiKey;
+  }
+}
+
 function testRulebookCoreRejectsUnsupportedBindingMode() {
   const fixture = loadFixture("decide-rulebook-v1.json");
   const evaluation = evaluateRulebookV1({
@@ -1589,6 +1647,7 @@ async function testRulebookV1PublicConformanceFixtures() {
       "solana_execution_gate_adapter_approve",
       "krafthaus_workflow_readiness_adapter_bind",
       "executable_payload_rejected",
+      "caller_output_material_rejected",
       "customer_executable_rulebook_rejected",
     ],
     "public Rulebook v1 conformance fixture set changed unexpectedly"
@@ -1670,6 +1729,13 @@ async function testRulebookV1PublicConformanceFixtures() {
         }
         for (const field of fixture.expect.expected_unknown_fields || []) {
           assertUnknownField(first.json?.errors, field, `${fixtureRef.id}: unknown field expectation`);
+        }
+        if (fixture.expect.error === "RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN") {
+          assert.deepEqual(
+            first.json?.forbidden_fields,
+            fixture.expect.forbidden_fields,
+            `${fixtureRef.id}: forbidden output material mismatch`
+          );
         }
         continue;
       }
@@ -2349,6 +2415,14 @@ function testRulebookRuntimeArchitectureDoc() {
     "runtime architecture doc must document explicit unsupported binding mode rejection"
   );
   assert.ok(
+    architecture.includes("RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN"),
+    "runtime architecture doc must document caller-supplied output material rejection"
+  );
+  assert.ok(
+    applicationBinding.includes("RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN"),
+    "application binding doc must document caller-supplied output material rejection"
+  );
+  assert.ok(
     architecture.includes("Trusted adapters may emit facts, but they do not select the binding verdict"),
     "runtime architecture doc must keep trusted adapters out of verdict selection"
   );
@@ -2404,6 +2478,10 @@ function testRulebookRuntimeArchitectureDoc() {
   assert.ok(
     runtimeSmoke.includes("krafthaus_workflow_readiness_adapter_bind"),
     "production smoke must name the Krafthaus workflow readiness fixture id"
+  );
+  assert.ok(
+    runtimeSmoke.includes("caller-output-material-rejected.json"),
+    "production smoke must verify caller-supplied output material rejection"
   );
   assert.ok(
     readme.includes("docs/RULEBOOK_RUNTIME_ARCHITECTURE.md"),
@@ -3833,6 +3911,7 @@ async function main() {
     ["decide-rulebook-rejects-executable-payload-fields", testDecideRulebookRejectsExecutablePayloadFields],
     ["decide-rulebook-rejects-unsupported-binding-mode", testDecideRulebookRejectsUnsupportedBindingMode],
     ["decide-rulebook-rejects-binding-mode-shape-conflict", testDecideRulebookRejectsBindingModeShapeConflict],
+    ["decide-rulebook-rejects-caller-supplied-decision-material", testDecideRulebookRejectsCallerSuppliedDecisionMaterial],
     ["rulebook-core-rejects-unsupported-binding-mode", testRulebookCoreRejectsUnsupportedBindingMode],
     ["decide-trusted-adapter-v1", testDecideTrustedAdapterFixture],
     ["decide-decision-memo-readiness-adapter-v1", testDecideDecisionMemoReadinessAdapterFixture],
