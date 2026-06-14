@@ -4,6 +4,7 @@ import { buildSourceHash, withLineage } from "../lib/lineage.js";
 import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
 import {
   RULEBOOK_DIRECT_BINDING_MODE,
+  RULEBOOK_OUTPUT_MATERIAL_FIELDS,
   RULEBOOK_RUNTIME_MANIFEST_URL,
   RULEBOOK_SUPPORTED_BINDING_MODES,
   RULEBOOK_TRUSTED_ADAPTER_BINDING_MODE,
@@ -170,27 +171,6 @@ function normalizeRuntimeCitations(citations) {
 
 const SENSITIVE_INPUT_KEY_PATTERN =
   /(api[_-]?key|token|secret|password|passphrase|authorization|cookie|session|email|phone|ssn|credit|card|iban|address|bearer)/i;
-const RULEBOOK_OUTPUT_MATERIAL_FIELDS = Object.freeze([
-  "runtime_binding",
-  "trusted_adapter",
-  "adapter_facts",
-  "rulebook_attestation",
-  "rulebook_contract",
-  "input_hash",
-  "decision_id",
-  "record_hash",
-  "receipt_hash",
-  "verify_url",
-  "replay_url",
-  "engine",
-  "evaluator_version",
-  "verdict",
-  "application_verdict",
-  "action",
-  "reason_code",
-  "matched_rule_id",
-]);
-
 function summarizeInputEvidenceValue(value) {
   if (value == null) return "null";
   if (typeof value === "number") return Number.isFinite(value) ? String(Number(value.toFixed(4))) : "number";
@@ -681,16 +661,21 @@ export default async function handler(req, res) {
         bindingMode: trustedAdapter ? RULEBOOK_TRUSTED_ADAPTER_BINDING_MODE : RULEBOOK_DIRECT_BINDING_MODE,
       });
       if (!evaluation.ok) {
+        const errorVerdict =
+          evaluation.error === "RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN"
+            ? "rulebook_output_material_forbidden"
+            : "invalid_rulebook";
         sendDecisionJson(
           res,
           evaluation.statusCode || 422,
           {
             c: "unclear",
-            v: "invalid_rulebook",
+            v: errorVerdict,
             request_id,
             error: evaluation.error,
             message: evaluation.message,
             errors: evaluation.errors,
+            forbidden_fields: evaluation.forbidden_fields,
           },
           { mode: "rulebook" }
         );

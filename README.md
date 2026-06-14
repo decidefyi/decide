@@ -85,6 +85,12 @@ closed instead of returning unsigned Rulebook decisions. Publish retired public
 verification keys with `DECIDE_RULEBOOK_ATTESTATION_KEY_HISTORY_JSON` so older
 Decision Records remain verifiable after rotation.
 
+Rulebook requests cannot preload Decide-generated Decision Record material.
+Fields such as `runtime_binding`, `trusted_adapter`, `adapter_facts`,
+`rulebook_attestation`, `application_verdict`, and `action` are response-only at
+the request body, `context.inputs`, and adapter-facts boundaries; attempts return
+`RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN`.
+
 Legacy `single`, `multi`, and `runtime` requests remain available for
 AI-assisted exploration, but they are not binding production verdicts. Those
 responses include `decision_contract` with `authority: "advisory_only"` and

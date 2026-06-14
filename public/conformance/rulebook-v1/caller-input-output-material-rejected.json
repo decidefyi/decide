@@ -1,0 +1,92 @@
+{
+  "fixture_version": "rulebook_v1_conformance_v1",
+  "id": "caller_input_output_material_rejected",
+  "title": "Caller-supplied Decision Record material rejection inside input facts",
+  "schema_url": "https://api.decide.fyi/schemas/rulebook-v1.schema.json",
+  "request": {
+    "method": "POST",
+    "path": "/api/decide",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "mode": "rulebook",
+      "binding_mode": "direct_declarative_rulebook",
+      "rulebook": {
+        "schema_version": "rulebook_v1",
+        "rulebook_id": "pricing_exception",
+        "version": "2026-06-11",
+        "input_schema": {
+          "required": [
+            "discount_percent",
+            "margin_percent"
+          ],
+          "properties": {
+            "discount_percent": {
+              "type": "number"
+            },
+            "margin_percent": {
+              "type": "number"
+            }
+          }
+        },
+        "rules": [
+          {
+            "rule_id": "approve_standard_exception",
+            "priority": 50,
+            "condition": {
+              "field": "discount_percent",
+              "operator": "lte",
+              "value": 15
+            },
+            "outcome": {
+              "decision": "yes",
+              "verdict": "APPROVE",
+              "action": "approve_discount",
+              "reason_code": "STANDARD_EXCEPTION_ALLOWED"
+            }
+          }
+        ],
+        "default_outcome": {
+          "decision": "review",
+          "verdict": "REVIEW",
+          "action": "route_to_owner",
+          "reason_code": "NO_RULE_MATCHED"
+        }
+      },
+      "context": {
+        "inputs": {
+          "discount_percent": 10,
+          "margin_percent": 22,
+          "runtime_binding": {
+            "production_core": "hybrid_declarative_rulebook_with_trusted_adapters",
+            "binding_mode": "direct_declarative_rulebook",
+            "verdict_authority": "caller_override"
+          },
+          "audit": {
+            "rulebook_attestation": {
+              "bundle_hash": "caller_supplied"
+            }
+          },
+          "nested": {
+            "decision": {
+              "application_verdict": "APPROVE",
+              "action": "approve_discount"
+            }
+          }
+        }
+      }
+    }
+  },
+  "expect": {
+    "ok": false,
+    "statusCode": 422,
+    "error": "RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN",
+    "forbidden_fields": [
+      "context.inputs.audit.rulebook_attestation",
+      "context.inputs.nested.decision.action",
+      "context.inputs.nested.decision.application_verdict",
+      "context.inputs.runtime_binding"
+    ]
+  }
+}

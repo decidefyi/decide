@@ -83,10 +83,11 @@ and otherwise returns `RULEBOOK_BINDING_MODE_CONFLICT`.
 
 Rulebook requests also fail closed when callers provide output-only Decision
 Record material such as `runtime_binding`, `trusted_adapter`, `adapter_facts`,
-`rulebook_attestation`, `application_verdict`, or `action`. Decide generates
-that material after validation and evaluation; accepting it on input would blur
-the production authority boundary. These requests return
-`RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN`.
+`rulebook_attestation`, `application_verdict`, or `action`. The same policy is
+enforced inside `context.inputs` and trusted-adapter facts, so a caller cannot
+hide response material inside nested fact objects. Decide generates that material
+after validation and evaluation; accepting it on input would blur the production
+authority boundary. These requests return `RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN`.
 
 Successful and `needs_input` Rulebook v1 responses expose `rulebook_contract`
 with the enforced schema version, schema URL, schema hash, and evaluator

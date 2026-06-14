@@ -294,6 +294,13 @@ reinterpret it as `direct_declarative_rulebook`.
 Supported `binding_mode` values must match the request material; a trusted
 adapter binding mode without `adapter` returns `RULEBOOK_BINDING_MODE_CONFLICT`.
 
+Rulebook v1 rejects caller-supplied response-only Decision Record material before
+semantic evaluation. Fields such as `runtime_binding`, `trusted_adapter`,
+`adapter_facts`, `rulebook_attestation`, `application_verdict`, and `action`
+cannot be supplied at the request boundary, inside `context.inputs`, or through
+adapter facts. These attempts return HTTP `422` with
+`RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN`.
+
 The production path validates each request rulebook against the published JSON
 Schema before semantic evaluation. Successful and `needs_input` responses include
 `rulebook_contract` so downstream systems can record the exact contract that was

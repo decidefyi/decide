@@ -12,6 +12,35 @@
     "binding_verdict_selector": "declarative_rulebook",
     "customer_supplied_code": "rejected",
     "trusted_adapters": "registered_fact_producers",
+    "response_only_material_policy": {
+      "status": "rejected_on_request",
+      "applies_to": [
+        "request_body",
+        "context.inputs",
+        "adapter_facts"
+      ],
+      "fields": [
+        "runtime_binding",
+        "trusted_adapter",
+        "adapter_facts",
+        "rulebook_attestation",
+        "rulebook_contract",
+        "input_hash",
+        "decision_id",
+        "record_hash",
+        "receipt_hash",
+        "verify_url",
+        "replay_url",
+        "engine",
+        "evaluator_version",
+        "verdict",
+        "application_verdict",
+        "action",
+        "reason_code",
+        "matched_rule_id"
+      ],
+      "error": "RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN"
+    },
     "binding_modes": [
       {
         "mode": "direct_declarative_rulebook",

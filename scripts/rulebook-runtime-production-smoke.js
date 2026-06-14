@@ -245,6 +245,12 @@ async function main() {
   const validFixture = loadFixture("decide-rulebook-v1.json");
   const executableFixture = loadRepoJson("public", "conformance", "rulebook-v1", "executable-payload-rejected.json");
   const outputMaterialFixture = loadRepoJson("public", "conformance", "rulebook-v1", "caller-output-material-rejected.json");
+  const inputOutputMaterialFixture = loadRepoJson(
+    "public",
+    "conformance",
+    "rulebook-v1",
+    "caller-input-output-material-rejected.json"
+  );
 
   const health = await requestJson({ baseUrl, path: "/api/health", apiKey, timeoutMs });
   expect(health.response.status === 200, `health: expected 200, got ${health.response.status}`);
@@ -257,6 +263,22 @@ async function main() {
   expect(manifest.json?.execution_model?.production_core === EXPECTED_CORE, "manifest: production core mismatch");
   expect(manifest.json?.execution_model?.binding_verdict_selector === "declarative_rulebook", "manifest: verdict selector mismatch");
   expect(manifest.json?.execution_model?.customer_supplied_code === "rejected", "manifest: customer code stance mismatch");
+  expect(
+    manifest.json?.execution_model?.response_only_material_policy?.status === "rejected_on_request",
+    "manifest: response-only material policy missing"
+  );
+  expect(
+    manifest.json?.execution_model?.response_only_material_policy?.error === "RULEBOOK_OUTPUT_MATERIAL_FORBIDDEN",
+    "manifest: response-only material policy error mismatch"
+  );
+  expect(
+    manifest.json?.execution_model?.response_only_material_policy?.fields?.includes("runtime_binding"),
+    "manifest: runtime_binding must be response-only"
+  );
+  expect(
+    manifest.json?.execution_model?.response_only_material_policy?.fields?.includes("application_verdict"),
+    "manifest: application_verdict must be response-only"
+  );
   expect(
     manifest.json?.execution_model?.binding_modes?.some((entry) => entry?.mode === DIRECT_BINDING && entry?.status === "supported"),
     "manifest: direct declarative binding missing"
@@ -353,6 +375,29 @@ async function main() {
     "output material rejection: forbidden fields mismatch"
   );
   console.log("PASS caller-supplied output material rejection");
+
+  const rejectedInputOutputMaterial = await requestJson({
+    baseUrl,
+    path: inputOutputMaterialFixture.request.path,
+    method: inputOutputMaterialFixture.request.method,
+    body: inputOutputMaterialFixture.request.body,
+    apiKey,
+    timeoutMs,
+  });
+  expect(
+    rejectedInputOutputMaterial.response.status === inputOutputMaterialFixture.expect.statusCode,
+    `input output material rejection: expected ${inputOutputMaterialFixture.expect.statusCode}, got ${rejectedInputOutputMaterial.response.status}`
+  );
+  expect(
+    rejectedInputOutputMaterial.json?.error === inputOutputMaterialFixture.expect.error,
+    "input output material rejection: error mismatch"
+  );
+  expect(
+    JSON.stringify(rejectedInputOutputMaterial.json?.forbidden_fields || []) ===
+      JSON.stringify(inputOutputMaterialFixture.expect.forbidden_fields),
+    "input output material rejection: forbidden fields mismatch"
+  );
+  console.log("PASS caller-supplied input output material rejection");
 
   await assertKrafthausWorkflowReadinessBinding({ baseUrl, apiKey, timeoutMs, allowUnsigned: args.allowUnsigned });
   console.log("PASS Krafthaus workflow readiness binding");

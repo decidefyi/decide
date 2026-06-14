@@ -10,7 +10,7 @@
   "unsupported_binding_modes": [
     "customer_executable_rulebook"
   ],
-  "description": "Public Rulebook v1 conformance fixtures for deterministic direct-input, trusted-adapter, runtime schema contract, registry-attested, signed-when-configured, fail-closed executable-payload cases, caller-supplied output-material rejection, and explicit unsupported binding-mode rejection.",
+  "description": "Public Rulebook v1 conformance fixtures for deterministic direct-input, trusted-adapter, runtime schema contract, registry-attested, signed-when-configured, fail-closed executable-payload cases, caller-supplied output-material rejection at the request and input-fact boundaries, and explicit unsupported binding-mode rejection.",
   "fixtures": [
     {
       "id": "pricing_exception_direct_approve",
@@ -41,6 +41,12 @@
       "title": "Caller-supplied Decision Record material rejection",
       "kind": "fail_closed_rejection",
       "url": "https://api.decide.fyi/conformance/rulebook-v1/caller-output-material-rejected.json"
+    },
+    {
+      "id": "caller_input_output_material_rejected",
+      "title": "Caller-supplied Decision Record material rejection inside input facts",
+      "kind": "fail_closed_rejection",
+      "url": "https://api.decide.fyi/conformance/rulebook-v1/caller-input-output-material-rejected.json"
     },
     {
       "id": "customer_executable_rulebook_rejected",
