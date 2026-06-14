@@ -244,6 +244,12 @@ async function main() {
   const apiKey = String(args.apiKey || "").trim();
   const validFixture = loadFixture("decide-rulebook-v1.json");
   const executableFixture = loadRepoJson("public", "conformance", "rulebook-v1", "executable-payload-rejected.json");
+  const unsupportedBindingModeFixture = loadRepoJson(
+    "public",
+    "conformance",
+    "rulebook-v1",
+    "customer-executable-rulebook-rejected.json"
+  );
   const outputMaterialFixture = loadRepoJson("public", "conformance", "rulebook-v1", "caller-output-material-rejected.json");
   const inputOutputMaterialFixture = loadRepoJson(
     "public",
@@ -355,6 +361,33 @@ async function main() {
     assertUnknownField(rejectedExecutable.json?.errors, field, "executable rejection");
   }
   console.log("PASS executable rulebook rejection");
+
+  const rejectedUnsupportedBindingMode = await requestJson({
+    baseUrl,
+    path: unsupportedBindingModeFixture.request.path,
+    method: unsupportedBindingModeFixture.request.method,
+    body: unsupportedBindingModeFixture.request.body,
+    apiKey,
+    timeoutMs,
+  });
+  expect(
+    rejectedUnsupportedBindingMode.response.status === unsupportedBindingModeFixture.expect.statusCode,
+    `customer executable binding rejection: expected ${unsupportedBindingModeFixture.expect.statusCode}, got ${rejectedUnsupportedBindingMode.response.status}`
+  );
+  expect(
+    rejectedUnsupportedBindingMode.json?.error === unsupportedBindingModeFixture.expect.error,
+    "customer executable binding rejection: error mismatch"
+  );
+  expect(
+    rejectedUnsupportedBindingMode.json?.binding_mode === unsupportedBindingModeFixture.expect.binding_mode,
+    "customer executable binding rejection: binding mode mismatch"
+  );
+  expect(
+    JSON.stringify(rejectedUnsupportedBindingMode.json?.supported_binding_modes || []) ===
+      JSON.stringify(unsupportedBindingModeFixture.expect.supported_binding_modes),
+    "customer executable binding rejection: supported binding modes mismatch"
+  );
+  console.log("PASS customer executable binding mode rejection");
 
   const rejectedOutputMaterial = await requestJson({
     baseUrl,
