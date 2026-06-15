@@ -19,6 +19,8 @@ import v1PolicyDispatcher from "../api/v1/[policy]/[action].js";
 import zendeskWorkflowDispatcher from "../api/v1/workflows/zendesk/[workflow].js";
 import {
   RULEBOOK_OUTPUT_MATERIAL_FIELDS,
+  buildAdvisoryDecisionContract,
+  buildAdvisoryResponseContractManifest,
   buildRulebookRuntimeManifest,
 } from "../lib/rulebook-runtime-contract.js";
 import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
@@ -190,15 +192,7 @@ function assertRuntimeBinding(payload, expectedMode, label) {
 function assertAdvisoryDecisionContract(payload, expectedMode, label) {
   assert.deepEqual(
     payload?.decision_contract,
-    {
-      schema_version: "decide_decision_contract_v1",
-      mode: expectedMode,
-      authority: "advisory_only",
-      production_verdict: false,
-      binding_verdict_selector: "rulebook_v1",
-      binding_runtime_manifest_url: "https://api.decide.fyi/manifests/rulebook-runtime-v1.json",
-      prohibited_claim: "llm_output_is_binding_production_verdict",
-    },
+    buildAdvisoryDecisionContract({ mode: expectedMode }),
     `${label}: advisory decision contract mismatch`
   );
   assert.equal(payload?.rulebook_contract, undefined, `${label}: advisory response must not expose rulebook contract`);
@@ -2525,8 +2519,14 @@ function testRulebookRuntimeArchitectureDoc() {
   );
   assert.ok(runtimeSmoke.includes("assertAdvisoryDecisionContract"), "production smoke must verify advisory decision contract");
   assert.ok(runtimeSmoke.includes("decision_contract"), "production smoke must inspect advisory decision contract");
-  assert.ok(runtimeSmoke.includes("advisory_only"), "production smoke must verify advisory authority");
-  assert.ok(runtimeSmoke.includes("production_verdict"), "production smoke must verify advisory production verdict flag");
+  assert.ok(
+    runtimeSmoke.includes("buildAdvisoryDecisionContract"),
+    "production smoke must verify the shared advisory contract helper"
+  );
+  assert.ok(
+    runtimeSmoke.includes("sameJson(payload?.decision_contract, buildAdvisoryDecisionContract"),
+    "production smoke must compare advisory responses against the full shared contract"
+  );
   assert.ok(
     runtimeSmoke.includes("assertKrafthausWorkflowReadinessBinding"),
     "production smoke must verify Krafthaus workflow readiness binding"
@@ -3854,6 +3854,11 @@ function testRulebookRuntimeManifest() {
     "runtime manifest must publish the production execution boundary"
   );
   assert.deepEqual(
+    manifest.advisory_response_contract,
+    buildAdvisoryResponseContractManifest(),
+    "runtime manifest must publish the advisory response boundary"
+  );
+  assert.deepEqual(
     manifest.conformance,
     {
       index_url: "https://api.decide.fyi/conformance/rulebook-v1/index.json",
@@ -3924,8 +3929,16 @@ function testRulebookRuntimeManifest() {
   );
   assert.ok(readme.includes("decide_application_binding_v1"), "README must publish the application binding contract");
   assert.ok(
+    readme.includes("production_binding_required"),
+    "README must document advisory responses requiring Rulebook binding for production"
+  );
+  assert.ok(
     applicationBindingDoc.includes("decide_application_binding_v1"),
     "application binding doc must define the contract version"
+  );
+  assert.ok(
+    applicationBindingDoc.includes("production_binding_required"),
+    "application binding doc must document advisory responses requiring production binding"
   );
   assert.ok(
     applicationBindingDoc.includes("rulebook_attestation.bundle_hash"),

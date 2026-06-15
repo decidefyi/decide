@@ -16,6 +16,7 @@
       },
       "body": {
         "mode": "rulebook",
+        "binding_mode": "direct_declarative_rulebook",
         "rulebook": {
           "schema_version": "rulebook_v1",
           "rulebook_id": "pricing_exception",

@@ -74,6 +74,30 @@
       }
     ]
   },
+  "advisory_response_contract": {
+    "schema_version": "decide_decision_contract_v1",
+    "authority": "advisory_only",
+    "production_verdict": false,
+    "production_binding_required": true,
+    "binding_verdict_selector": "rulebook_v1",
+    "binding_runtime_manifest_url": "https://api.decide.fyi/manifests/rulebook-runtime-v1.json",
+    "supported_production_binding_modes": [
+      "direct_declarative_rulebook",
+      "trusted_adapter_facts_then_declarative_rulebook"
+    ],
+    "binding_response_material_required": [
+      "rulebook_contract",
+      "runtime_binding",
+      "rulebook_attestation"
+    ],
+    "customer_executable_rulebooks": "rejected",
+    "prohibited_claim": "llm_output_is_binding_production_verdict",
+    "applies_to_modes": [
+      "single",
+      "multi",
+      "runtime"
+    ]
+  },
   "conformance": {
     "index_url": "https://api.decide.fyi/conformance/rulebook-v1/index.json",
     "version": "rulebook_v1_conformance_v1"

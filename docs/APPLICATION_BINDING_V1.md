@@ -32,9 +32,12 @@ facts only. LLMs may help draft, extract, summarize, or explain, but
 
 Non-rulebook `/api/decide` responses from legacy `single`, `multi`, and
 `runtime` modes include `decision_contract` with `authority: "advisory_only"`
-and `production_verdict: false`. Those responses can support exploration or
-drafting, but they do not satisfy this binding contract because they do not
-include `rulebook_contract`, `runtime_binding`, or a Rulebook attestation.
+and `production_verdict: false`. They also set
+`production_binding_required: true`, publish the supported production binding
+modes, and list the response material required before a production handoff.
+Those responses can support exploration or drafting, but they do not satisfy
+this binding contract because they do not include `rulebook_contract`,
+`runtime_binding`, or a Rulebook attestation.
 
 ## Required Decision Material
 

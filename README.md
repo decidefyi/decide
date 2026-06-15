@@ -94,9 +94,10 @@ the request body, `context.inputs`, and adapter-facts boundaries; attempts retur
 Legacy `single`, `multi`, and `runtime` requests remain available for
 AI-assisted exploration, but they are not binding production verdicts. Those
 responses include `decision_contract` with `authority: "advisory_only"` and
-`production_verdict: false`; callers that need deterministic execution must use
-`mode: "rulebook"` and capture `rulebook_contract`, `runtime_binding`, and the
-Rulebook attestation material.
+`production_verdict: false`, plus `production_binding_required: true` and the
+supported production binding modes; callers that need deterministic execution
+must use `mode: "rulebook"` and capture `rulebook_contract`, `runtime_binding`,
+and the Rulebook attestation material.
 
 At the public Decision Record boundary, successful evaluations are registered
 as immutable tenant-scoped snapshots. Historical replay restores the original

@@ -97,10 +97,11 @@ customer-code stance.
 
 Legacy `single`, `multi`, and `runtime` responses expose `decision_contract`
 instead of `rulebook_contract` or `runtime_binding`. That contract marks them as
-`authority: "advisory_only"` with `production_verdict: false` and points binding
-callers to Rulebook v1. The field exists to keep AI-assisted exploration
-available without letting LLM output masquerade as the deterministic production
-boundary.
+`authority: "advisory_only"` with `production_verdict: false`, sets
+`production_binding_required: true`, publishes the supported production binding
+modes, and points binding callers to Rulebook v1. The field exists to keep
+AI-assisted exploration available without letting LLM output masquerade as the
+deterministic production boundary.
 
 ## Why
 

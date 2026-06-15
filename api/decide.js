@@ -5,9 +5,9 @@ import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
 import {
   RULEBOOK_DIRECT_BINDING_MODE,
   RULEBOOK_OUTPUT_MATERIAL_FIELDS,
-  RULEBOOK_RUNTIME_MANIFEST_URL,
   RULEBOOK_SUPPORTED_BINDING_MODES,
   RULEBOOK_TRUSTED_ADAPTER_BINDING_MODE,
+  buildAdvisoryDecisionContract,
 } from "../lib/rulebook-runtime-contract.js";
 import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
 import { isRulebookAttestationSignatureRequired } from "../lib/rulebook-attestation-signing.js";
@@ -439,15 +439,7 @@ function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
       ? payload
       : {
           ...payload,
-          decision_contract: {
-            schema_version: "decide_decision_contract_v1",
-            mode,
-            authority: "advisory_only",
-            production_verdict: false,
-            binding_verdict_selector: "rulebook_v1",
-            binding_runtime_manifest_url: RULEBOOK_RUNTIME_MANIFEST_URL,
-            prohibited_claim: "llm_output_is_binding_production_verdict",
-          },
+          decision_contract: buildAdvisoryDecisionContract({ mode }),
         };
   res.end(JSON.stringify(withLineage(responsePayload, {
     policyVersion,

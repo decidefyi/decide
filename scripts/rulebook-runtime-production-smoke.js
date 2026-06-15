@@ -4,6 +4,8 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { buildAdvisoryDecisionContract } from "../lib/rulebook-runtime-contract.js";
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, "..");
 const FIXTURE_DIR = join(__dirname, "fixtures", "decision-contract");
@@ -85,6 +87,10 @@ function expect(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function sameJson(left, right) {
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
 async function requestJson({ baseUrl, path, method = "GET", body, apiKey, timeoutMs }) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -135,23 +141,8 @@ function assertUnknownField(errors, expectedField, label) {
 
 function assertAdvisoryDecisionContract(payload, expectedMode, label) {
   expect(
-    payload?.decision_contract?.schema_version === "decide_decision_contract_v1",
-    `${label}: decision contract schema mismatch`
-  );
-  expect(payload?.decision_contract?.mode === expectedMode, `${label}: decision contract mode mismatch`);
-  expect(payload?.decision_contract?.authority === "advisory_only", `${label}: advisory authority mismatch`);
-  expect(payload?.decision_contract?.production_verdict === false, `${label}: production verdict flag mismatch`);
-  expect(
-    payload?.decision_contract?.binding_verdict_selector === "rulebook_v1",
-    `${label}: binding verdict selector mismatch`
-  );
-  expect(
-    payload?.decision_contract?.binding_runtime_manifest_url === "https://api.decide.fyi/manifests/rulebook-runtime-v1.json",
-    `${label}: binding manifest URL mismatch`
-  );
-  expect(
-    payload?.decision_contract?.prohibited_claim === "llm_output_is_binding_production_verdict",
-    `${label}: prohibited claim mismatch`
+    sameJson(payload?.decision_contract, buildAdvisoryDecisionContract({ mode: expectedMode })),
+    `${label}: advisory decision contract mismatch`
   );
   expect(payload?.rulebook_contract === undefined, `${label}: advisory response exposed rulebook contract`);
   expect(payload?.runtime_binding === undefined, `${label}: advisory response exposed runtime binding`);
