@@ -20,6 +20,9 @@ decision=yes
 decision_record_version=decision_record_v1
 decision_id=...
 request_id=...
+application_verdict=APPROVE
+binding_mode=direct_declarative_rulebook
+reason_code=CUSTOMER_KEY_SMOKE_ALLOWED
 policy_version=...
 source_hash=...
 record_hash=...
@@ -49,16 +52,20 @@ export DECIDE_API_KEY='<customer-key>'
 curl -sS -X POST https://www.decide.fyi/api/decide \
   -H "Authorization: Bearer $DECIDE_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"mode":"single","response_view":"full","question":"Should this support workflow use one deterministic API verdict for routing?"}'
+  -d '{"mode":"rulebook","rulebook":{"schema_version":"rulebook_v1","rulebook_id":"customer_key_smoke","version":"2026-06-19","input_schema":{"required":["route_score"],"properties":{"route_score":{"type":"number"}}},"rules":[{"rule_id":"approve_customer_key_smoke","priority":100,"condition":{"field":"route_score","operator":"gte","value":70},"outcome":{"decision":"yes","verdict":"APPROVE","action":"allow_test_handoff","reason_code":"CUSTOMER_KEY_SMOKE_ALLOWED"}}],"default_outcome":{"decision":"review","verdict":"REVIEW","action":"route_to_operator","reason_code":"CUSTOMER_KEY_SMOKE_REVIEW"}},"context":{"inputs":{"route_score":91}}}'
 ```
+
+This is a Rulebook v1 production smoke, not the legacy `single` advisory path.
 
 The response should include:
 
 - `decision_record_version`: `decision_record_v1`
 - `decision_id`: stable Decision Record handle
 - `request_id`: support/debug handle
-- `verdict` / `c`: `yes` or `no` for a successful single-decision smoke
-- `v`: stable verdict string
+- `verdict` / `c`: `yes` for the successful Rulebook v1 smoke
+- `application_verdict`: `APPROVE`
+- `runtime_binding.binding_mode`: `direct_declarative_rulebook`
+- `rulebook_contract`, `input_hash`, and `rulebook_attestation`: production binding material
 - `record_hash` and `verify_url`: public verification fields
 - `policy_version` and `source_hash`: replay/audit fields
 
@@ -76,7 +83,7 @@ curl -sS -X POST https://refund.decide.fyi/api/v1/refund/eligibility \
 
 - `401`: key not provisioned, copied incorrectly, or pointed at the wrong environment.
 - `429`: customer is hitting rate limit or the smoke was repeated too quickly.
-- `c="unclear"` with `v="try again"`: auth/transport worked, but model/provider path is degraded; check runtime logs and model fallback attempts.
+- `c="unclear"` with a Rulebook validation error: auth/transport worked, but the production rulebook path rejected the request; check the response `error` and `errors` fields.
 - Missing `decision_record_version`, `decision_id`, `request_id`, `policy_version`, `source_hash`, `record_hash`, or `verify_url`: response contract regression; do not hand off until fixed.
 
 ## Handoff checklist

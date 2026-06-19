@@ -10,7 +10,7 @@
     />
     <meta
       name="description"
-      content="decide.fyi is the deterministic Decision API engine. Reference applications include workflow apps, policy MCPs, decision memo packets, and execution gates."
+      content="decide.fyi is the deterministic Decision API engine. Binding production verdicts use Rulebook v1, trusted adapter facts, and replayable Decision Record material."
     />
     <title>decide.fyi Decision API Engine</title>
     <style>
@@ -260,27 +260,35 @@
 
       <h1 id="main-title">decide.fyi is the Decision API engine.</h1>
       <p class="lead" id="main-lead">
-        Stable runtime endpoints for deterministic system and agent decisions. Reference applications show the same contract powering workflow apps, policy MCPs, decision memo packets, and execution gates.
+        Binding production verdicts use Rulebook v1: declarative rules, optional trusted adapter facts, and replayable Decision Record material. Legacy LLM-assisted modes are advisory only.
       </p>
 
       <div class="engine-grid" id="engine-grid">
         <article class="card is-primary">
-          <h2>Core runtime</h2>
-          <p>Use Decide when your system needs deterministic verdicts, request IDs, and repeatable decision logic.</p>
+          <h2>Production boundary</h2>
+          <p>Use Decide before governed software acts: the rulebook selects the verdict, adapter facts stay facts-only, and the response carries the record material.</p>
           <div class="kv">
-            <div class="k">REST</div>
-            <div><code>POST /api/v1/{policy}/{action}</code></div>
+            <div class="k">API</div>
+            <div><code>POST /api/decide</code> with <code>mode: "rulebook"</code></div>
+            <div class="k">Core</div>
+            <div><code>hybrid_declarative_rulebook_with_trusted_adapters</code></div>
             <div class="k">Output</div>
-            <div><code>ALLOWED | DENIED | UNKNOWN</code> or policy-specific verdicts</div>
+            <div><code>rulebook_contract</code>, <code>runtime_binding</code>, attestation, and replayable evidence</div>
             <div class="k">Role</div>
-            <div>Infrastructure layer, not the human-facing product suite.</div>
+            <div>Infrastructure layer, not the human-facing workflow product.</div>
           </div>
           <span class="k-pill">Engine stays here</span>
         </article>
 
         <article class="card">
-          <h2>Reference applications</h2>
-          <p>Workflow apps, policy MCPs, decision memo packets, and execution gates prove the same narrow contract: deterministic verdict, request ID, replayable evidence.</p>
+          <h2>Application proof</h2>
+          <p>Reference applications show the same contract powering workflow apps, policy MCPs, decision memo packets, and execution gates.</p>
+          <div class="kv">
+            <div class="k">Advisory</div>
+            <div><code>single</code>, <code>multi</code>, and <code>runtime</code> return <code>decision_contract.authority = "advisory_only"</code></div>
+            <div class="k">Binding</div>
+            <div>Production handoffs require Rulebook v1 response material.</div>
+          </div>
           <span class="k-pill">Applications prove the primitive</span>
         </article>
       </div>
@@ -335,7 +343,7 @@
       <div class="bridge-note" id="bridge-note">
         <strong>Compatibility promise</strong>
         <p>
-          Existing MCP registry links, GitHub notary lists, and client configs can keep using Decide URLs. Applications can build policy MCPs, memo packets, and execution gates on the same contract.
+          Existing MCP registry links, GitHub notary lists, and client configs can keep using Decide URLs. Applications can build policy MCPs, workflow apps, memo packets, and execution gates on the same Rulebook-backed contract.
         </p>
       </div>
 
