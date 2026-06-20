@@ -11,6 +11,7 @@
     "smoke:rulebook-runtime": "node scripts/rulebook-runtime-production-smoke.js",
     "smoke:customer-key": "node scripts/customer-key-smoke.js",
     "mcp:check": "bash scripts/mcp-check.sh",
+    "mcp:check:local": "bash scripts/mcp-check-local.sh",
     "workflow:test": "node scripts/workflow-zendesk-refund-test.js",
     "test:release-gates": "node scripts/test-release-gates.js",
     "test:site-bridge": "node scripts/site-bridge-regression.js",

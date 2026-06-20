@@ -237,8 +237,11 @@ In a separate terminal:
 # Handler-level smoke checks (no running server required)
 npm run smoke
 
-# MCP endpoint checks (requires vercel dev running on localhost:3000)
+# MCP endpoint checks (requires a running server)
 npm run mcp:check
+
+# Self-contained local MCP check; starts/stops vercel dev on localhost:3000
+npm run mcp:check:local
 
 # End-to-end workflow fixture (example -> result)
 npm run workflow:test
