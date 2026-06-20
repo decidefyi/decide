@@ -988,6 +988,10 @@ async function testDecideRulebookRejectsCallerSuppliedDecisionMaterial() {
   request.body.rulebook_attestation = {
     bundle_hash: "caller_supplied",
   };
+  request.body.decision_contract = {
+    authority: "production_verdict",
+    production_verdict: true,
+  };
   request.body.application_verdict = "APPROVE";
   request.body.action = "authorize_execution";
   const originalFetch = global.fetch;
@@ -1011,7 +1015,15 @@ async function testDecideRulebookRejectsCallerSuppliedDecisionMaterial() {
     );
     assert.deepEqual(
       result.json?.forbidden_fields,
-      ["runtime_binding", "trusted_adapter", "adapter_facts", "rulebook_attestation", "application_verdict", "action"],
+      [
+        "runtime_binding",
+        "trusted_adapter",
+        "adapter_facts",
+        "rulebook_attestation",
+        "decision_contract",
+        "application_verdict",
+        "action",
+      ],
       "caller-supplied decision material fields mismatch"
     );
     assert.equal(fetchCalled, false, "caller-supplied decision material unexpectedly called an LLM");
@@ -1037,6 +1049,10 @@ async function testDecideRulebookRejectsCallerSuppliedDecisionMaterialInInputs()
   };
   request.body.context.inputs.nested = {
     decision: {
+      decision_contract: {
+        authority: "production_verdict",
+        production_verdict: true,
+      },
       application_verdict: "APPROVE",
       action: "approve_discount",
     },
@@ -1066,6 +1082,7 @@ async function testDecideRulebookRejectsCallerSuppliedDecisionMaterialInInputs()
         "context.inputs.audit.rulebook_attestation",
         "context.inputs.nested.decision.action",
         "context.inputs.nested.decision.application_verdict",
+        "context.inputs.nested.decision.decision_contract",
         "context.inputs.runtime_binding",
       ],
       "caller-supplied input decision material fields mismatch"

@@ -70,6 +70,10 @@
           },
           "nested": {
             "decision": {
+              "decision_contract": {
+                "authority": "production_verdict",
+                "production_verdict": true
+              },
               "application_verdict": "APPROVE",
               "action": "approve_discount"
             }
@@ -86,6 +90,7 @@
       "context.inputs.audit.rulebook_attestation",
       "context.inputs.nested.decision.action",
       "context.inputs.nested.decision.application_verdict",
+      "context.inputs.nested.decision.decision_contract",
       "context.inputs.runtime_binding"
     ]
   }

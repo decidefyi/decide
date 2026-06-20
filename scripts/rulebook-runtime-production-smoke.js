@@ -277,6 +277,10 @@ async function main() {
     "manifest: application_verdict must be response-only"
   );
   expect(
+    manifest.json?.execution_model?.response_only_material_policy?.fields?.includes("decision_contract"),
+    "manifest: decision_contract must be response-only"
+  );
+  expect(
     manifest.json?.execution_model?.binding_modes?.some((entry) => entry?.mode === DIRECT_BINDING && entry?.status === "supported"),
     "manifest: direct declarative binding missing"
   );

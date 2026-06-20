@@ -25,6 +25,10 @@
       "rulebook_attestation": {
         "bundle_hash": "caller_supplied"
       },
+      "decision_contract": {
+        "authority": "production_verdict",
+        "production_verdict": true
+      },
       "application_verdict": "APPROVE",
       "action": "approve_discount",
       "rulebook": {
@@ -85,6 +89,7 @@
       "runtime_binding",
       "adapter_facts",
       "rulebook_attestation",
+      "decision_contract",
       "application_verdict",
       "action"
     ]
