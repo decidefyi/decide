@@ -1,10 +1,10 @@
 # Policy Weekly Triage
 
 Current week: 2026-W27
-Generated UTC: 2026-07-01T09:44:28Z
+Generated UTC: 2026-07-01T14:21:14Z
 
 ## Current Snapshot
-- Pending total: 4
+- Pending total: 2
 - Fetch blocked total: 0
 - Fetch failed total: 0
 - Confirmed changed total: 0
@@ -13,13 +13,13 @@ Generated UTC: 2026-07-01T09:44:28Z
 - Fallback signal actionable total: 0
 
 ## Week-over-Week Delta vs 2026-W10
-- Pending delta: -4
+- Pending delta: -6
 - Fetch blocked delta: 0
 - Confirmed changed delta: 0
 - Volatile pending delta: 1
 
 ## Weekly History (most recent first)
-- 2026-W27: pending=4, blocked=0, confirmed=0, volatile=1, fallback_actionable=0
+- 2026-W27: pending=2, blocked=0, confirmed=0, volatile=1, fallback_actionable=0
 - 2026-W10: pending=8, blocked=0, confirmed=0, volatile=0, fallback_actionable=0
 
 Tracking source files:
