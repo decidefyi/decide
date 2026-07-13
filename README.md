@@ -147,12 +147,14 @@ runtime smoke:
 npm run smoke:rulebook-runtime
 ```
 
-This hits `https://api.decide.fyi` from outside the runtime and verifies the
-published `hybrid_declarative_rulebook_with_trusted_adapters` manifest, closed
-Rulebook v1 schema, attestation key endpoint, direct declarative evaluation,
-executable-rulebook rejection, and advisory-only contract metadata on legacy
-AI-assisted responses. GitHub Actions also runs this as the scheduled/manual
-**Rulebook Runtime Production Smoke** workflow.
+This hits `https://api.decide.fyi` from outside the runtime and always verifies
+the published `hybrid_declarative_rulebook_with_trusted_adapters` manifest,
+closed Rulebook v1 schema, attestation key endpoint, and protected Decision API
+edge. Supply `DECIDE_RULEBOOK_RUNTIME_SMOKE_API_KEY` to also exercise live
+declarative evaluation, rejection behavior, and advisory-only legacy metadata.
+GitHub Actions runs the public boundary checks as the scheduled/manual
+**Rulebook Runtime Production Smoke** workflow and runs the authenticated checks
+when its optional smoke credential is configured.
 
 The legacy `single`, `multi`, and `runtime` modes are AI-assisted surfaces.
 They are not the production determinism boundary for loosely defined business
@@ -519,16 +521,18 @@ Policies are sourced from official vendor documentation and terms of service.
 - Initial release with REST API and MCP server
 - Support for 9 vendors
 
-## Free API (Default: No Auth)
+## Public Policy APIs And Protected Decision API
 
 All 4 policy servers are free to use. No authentication. No API keys.
 
-`/api/decide` is public by default, and can be protected by setting `DECIDE_API_KEY` in server env vars.
+`/api/decide` requires a trusted proxy or API credential in production. Local and preview deployments can opt into the same boundary with `DECIDE_API_AUTH_REQUIRED=1`; configuring `DECIDE_API_KEY` or `DECIDE_PROXY_SHARED_TOKEN` also enables it.
 
 If you run `decide` behind the `decidesite` proxy with dynamic customer keys, also set:
 
 - `DECIDE_PROXY_SHARED_TOKEN`: shared secret required in `x-decide-proxy-token` header for trusted proxy calls.
-- `DECIDE_API_KEY`: backend internal key that the trusted proxy forwards upstream (recommended to keep backend private).
+- `DECIDE_API_KEY`: optional direct backend credential for trusted server-side callers.
+- `DECIDE_GEMINI_TIMEOUT_MS`: total Gemini model-ladder deadline (defaults to 15 seconds).
+- `DECIDE_GEMINI_ATTEMPT_TIMEOUT_MS`: per-model attempt deadline (defaults to 5 seconds, bounded by the total deadline).
 
 Rate limit: 100 requests/minute per IP.
 

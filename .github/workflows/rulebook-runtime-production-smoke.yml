@@ -27,4 +27,6 @@ jobs:
           node-version: "24"
 
       - name: Verify production Rulebook runtime boundary
+        env:
+          DECIDE_RULEBOOK_RUNTIME_SMOKE_API_KEY: ${{ secrets.DECIDE_RULEBOOK_RUNTIME_SMOKE_API_KEY }}
         run: npm run smoke:rulebook-runtime

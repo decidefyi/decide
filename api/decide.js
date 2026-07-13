@@ -292,6 +292,12 @@ function shouldRetryGeminiModel(statusCode, payload) {
   return /(quota|rate limit|resource exhausted|temporarily unavailable|unavailable|overloaded|not found|deprecated|unsupported)/.test(message);
 }
 
+function boundedTimeoutMs(value, fallback, min = 10, max = 30000) {
+  const parsed = Number.parseInt(String(value || ""), 10);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.min(Math.max(parsed, min), max);
+}
+
 async function requestGeminiGenerateContent({
   apiKey,
   prompt,
@@ -303,9 +309,25 @@ async function requestGeminiGenerateContent({
   let lastStatus = 0;
   let lastData = null;
   let lastError = null;
+  const totalTimeoutMs = boundedTimeoutMs(process.env.DECIDE_GEMINI_TIMEOUT_MS, 15000);
+  const attemptTimeoutMs = boundedTimeoutMs(
+    process.env.DECIDE_GEMINI_ATTEMPT_TIMEOUT_MS,
+    Math.min(5000, totalTimeoutMs),
+    10,
+    totalTimeoutMs
+  );
+  const deadlineAt = Date.now() + totalTimeoutMs;
 
   for (const model of resolveGeminiModelLadder({ profile: modelProfile })) {
+    const remainingMs = deadlineAt - Date.now();
+    if (remainingMs <= 0) break;
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+    const controller = new AbortController();
+    let attemptTimedOut = false;
+    const timer = setTimeout(() => {
+      attemptTimedOut = true;
+      controller.abort();
+    }, Math.min(attemptTimeoutMs, remainingMs));
     try {
       const startedAt = Date.now();
       const apiRes = await fetch(url, {
@@ -318,6 +340,7 @@ async function requestGeminiGenerateContent({
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig,
         }),
+        signal: controller.signal,
       });
       const data = await apiRes.json();
       const attempt = { model, status: apiRes.status, latency_ms: Date.now() - startedAt };
@@ -342,8 +365,14 @@ async function requestGeminiGenerateContent({
         break;
       }
     } catch (error) {
-      lastError = error;
-      attempts.push({ model, status: 0, error: String(error?.message || error) });
+      lastError = attemptTimedOut ? new Error("Gemini request timed out") : error;
+      attempts.push({
+        model,
+        status: 0,
+        error: attemptTimedOut ? "GEMINI_REQUEST_TIMEOUT" : String(error?.message || error),
+      });
+    } finally {
+      clearTimeout(timer);
     }
   }
 
@@ -381,6 +410,14 @@ function safeEqualToken(left, right) {
 function parseFlag(value) {
   const normalized = String(value || "").trim().toLowerCase();
   return normalized === "1" || normalized === "true" || normalized === "yes" || normalized === "on";
+}
+
+function shouldRequireDecisionApiAuth(env = process.env) {
+  const hasConfiguredEdgeCredential = Boolean(
+    String(env.DECIDE_API_KEY || "").trim() || String(env.DECIDE_PROXY_SHARED_TOKEN || "").trim()
+  );
+  const productionDeployment = String(env.VERCEL_ENV || "").trim().toLowerCase() === "production";
+  return hasConfiguredEdgeCredential || productionDeployment || parseFlag(env.DECIDE_API_AUTH_REQUIRED);
 }
 
 const SUPPORTED_RULEBOOK_BINDING_MODES = new Set(RULEBOOK_SUPPORTED_BINDING_MODES);
@@ -462,9 +499,9 @@ export default async function handler(req, res) {
 
   const clientIp = proxyContext.clientIp || getClientIp(req);
   const decideApiKey = String(process.env.DECIDE_API_KEY || "").trim();
-  if (decideApiKey && !proxyContext.trusted) {
+  if (shouldRequireDecisionApiAuth(process.env) && !proxyContext.trusted) {
     const providedApiToken = readApiToken(req);
-    if (!safeEqualToken(providedApiToken, decideApiKey)) {
+    if (!decideApiKey || !safeEqualToken(providedApiToken, decideApiKey)) {
       res.setHeader("WWW-Authenticate", 'Bearer realm="decide-api"');
       sendDecisionJson(
         res,

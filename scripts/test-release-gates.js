@@ -18,7 +18,11 @@ assert.match(workflow, /npm run smoke:rulebook-runtime/, "runtime smoke workflow
 assert.match(workflow, /uses:\s*actions\/checkout@v6/, "runtime smoke workflow should use checkout v6");
 assert.match(workflow, /uses:\s*actions\/setup-node@v6/, "runtime smoke workflow should use setup-node v6");
 assert.match(workflow, /contents:\s*read/, "runtime smoke workflow should use read-only repository permissions");
-assert.doesNotMatch(workflow, /secrets\./, "runtime smoke workflow must not depend on repository secrets by default");
+assert.match(
+  workflow,
+  /DECIDE_RULEBOOK_RUNTIME_SMOKE_API_KEY:\s*\$\{\{ secrets\.DECIDE_RULEBOOK_RUNTIME_SMOKE_API_KEY \}\}/,
+  "runtime smoke workflow should accept the optional authenticated smoke credential"
+);
 assert.match(
   workflow,
   /FORCE_JAVASCRIPT_ACTIONS_TO_NODE24:\s*true/,

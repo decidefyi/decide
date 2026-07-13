@@ -25,14 +25,14 @@ function usage() {
 
 Options:
   --base-url <url>       Target origin. Default: ${DEFAULT_BASE_URL}
-  --api-key <key>        Optional Decide API key if the target requires auth.
+  --api-key <key>        Optional Decide API key for full runtime checks.
   --timeout-ms <number>  Request timeout. Default: ${DEFAULT_TIMEOUT_MS}
   --allow-unsigned       Do not require signed Rulebook attestations.
   --help                 Show this help.
 
 Env:
   DECIDE_RULEBOOK_RUNTIME_SMOKE_BASE_URL   Alternate target origin.
-  DECIDE_RULEBOOK_RUNTIME_SMOKE_API_KEY    Optional API key.
+  DECIDE_RULEBOOK_RUNTIME_SMOKE_API_KEY    Optional API key for full runtime checks.
 `);
 }
 
@@ -318,6 +318,24 @@ async function main() {
   }
   console.log("PASS attestation keys");
 
+  if (!apiKey) {
+    const protectedEdge = await requestJson({
+      baseUrl,
+      path: "/api/decide",
+      method: "POST",
+      body: validFixture.request.body,
+      timeoutMs,
+    });
+    expect(protectedEdge.response.status === 401, `protected edge: expected 401, got ${protectedEdge.response.status}`);
+    expect(protectedEdge.json?.error === "DECIDE_API_UNAUTHORIZED", "protected edge: auth error mismatch");
+    console.log("PASS protected Decision API edge");
+    console.log("SKIP authenticated runtime checks (no smoke API key configured)");
+    console.log("PASS rulebook runtime production boundary smoke");
+    console.log(`base_url=${baseUrl}`);
+    console.log("smoke_mode=public_boundary");
+    return;
+  }
+
   const validRulebook = await requestJson({
     baseUrl,
     path: "/api/decide",
@@ -448,6 +466,7 @@ async function main() {
 
   console.log("PASS rulebook runtime production smoke");
   console.log(`base_url=${baseUrl}`);
+  console.log("smoke_mode=authenticated_runtime");
   console.log(`production_core=${EXPECTED_CORE}`);
   console.log(`direct_binding=${DIRECT_BINDING}`);
   console.log(`trusted_adapter_binding=${TRUSTED_ADAPTER_BINDING}`);

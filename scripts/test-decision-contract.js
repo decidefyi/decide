@@ -381,6 +381,55 @@ async function testDecideApiKeyFixture() {
   }
 }
 
+async function testDecideProductionRequiresTrustedEdge() {
+  const fixture = loadFixture("decide-single.json");
+  const originalFetch = global.fetch;
+  const envKeys = [
+    "GEMINI_API_KEY",
+    "DECIDE_API_KEY",
+    "DECIDE_PROXY_SHARED_TOKEN",
+    "DECIDE_API_AUTH_REQUIRED",
+    "VERCEL_ENV",
+  ];
+  const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
+  process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_PROXY_SHARED_TOKEN = "trusted-proxy-token";
+  delete process.env.DECIDE_API_AUTH_REQUIRED;
+  process.env.VERCEL_ENV = "production";
+  global.fetch = async () => ({
+    ok: true,
+    async json() {
+      return {
+        candidates: [{ content: { parts: [{ text: "yes" }] } }],
+      };
+    },
+  });
+
+  try {
+    const direct = await invokeJson(decideHandler, fixture.request);
+    assert.equal(direct.statusCode, 401, "production direct decide request must require a trusted edge");
+    assert.equal(direct.json?.error, "DECIDE_API_UNAUTHORIZED", "production direct auth error mismatch");
+
+    const proxied = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: {
+        ...(fixture.request.headers || {}),
+        "x-decide-proxy-token": "trusted-proxy-token",
+        "x-decide-rate-limit-bypass": "1",
+      },
+    });
+    assert.equal(proxied.statusCode, 200, "trusted proxy request should reach the decision runtime");
+    assert.equal(proxied.json?.c, "yes", "trusted proxy decision mismatch");
+  } finally {
+    global.fetch = originalFetch;
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
+  }
+}
+
 async function testDecideRuntimeFixture() {
   const fixture = loadFixture("decide-runtime.json");
   const sensitiveInputValue = "sk_live_should_not_echo";
@@ -2893,6 +2942,64 @@ async function testDecideModelFallbackOnEmptyText() {
   }
 }
 
+async function testDecideGeminiDeadline() {
+  const fixture = loadFixture("decide-single.json");
+  const originalFetch = global.fetch;
+  const envKeys = [
+    "GEMINI_API_KEY",
+    "DECIDE_API_KEY",
+    "DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER",
+    "DECIDE_GEMINI_TIMEOUT_MS",
+    "DECIDE_GEMINI_ATTEMPT_TIMEOUT_MS",
+  ];
+  const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
+  let signalSeen = false;
+  let signalAborted = false;
+  process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = "gemini-3.1-flash-lite";
+  process.env.DECIDE_GEMINI_TIMEOUT_MS = "30";
+  process.env.DECIDE_GEMINI_ATTEMPT_TIMEOUT_MS = "20";
+  global.fetch = async (_url, options = {}) =>
+    new Promise((_resolve, reject) => {
+      signalSeen = Boolean(options.signal);
+      const fallback = setTimeout(() => reject(new Error("Gemini wait exceeded without abort")), 100);
+      options.signal?.addEventListener(
+        "abort",
+        () => {
+          clearTimeout(fallback);
+          signalAborted = true;
+          const error = new Error("Gemini request aborted");
+          error.name = "AbortError";
+          reject(error);
+        },
+        { once: true }
+      );
+    });
+
+  try {
+    const startedAt = Date.now();
+    const result = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: {
+        ...(fixture.request.headers || {}),
+        "x-forwarded-for": "127.0.0.77",
+      },
+    });
+    assert.equal(result.statusCode, 200, "advisory timeout should return a bounded unclear result");
+    assert.equal(result.json?.c, "unclear", "advisory timeout should fail closed to unclear");
+    assert.equal(signalSeen, true, "Gemini requests must receive an abort signal");
+    assert.equal(signalAborted, true, "Gemini requests must abort at the configured deadline");
+    assert.ok(Date.now() - startedAt < 90, "Gemini deadline should complete before the fallback wait");
+  } finally {
+    global.fetch = originalFetch;
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
+  }
+}
+
 async function testDecideExtendedFallbackOrder() {
   const fixture = loadFixture("decide-single.json");
   const originalFetch = global.fetch;
@@ -3774,19 +3881,31 @@ async function testReturnPolicyRulebookRequiresSignedAttestation() {
 
 async function testWorkflowFixture() {
   const fixture = loadFixture("workflow-zendesk-refund.json");
-  const first = await invokeJson(zendeskWorkflowDispatcher, fixture.request);
-  assert.equal(first.statusCode, fixture.expect.statusCode, "workflow status mismatch");
-  assert.equal(first.json?.ok, fixture.expect.ok, "workflow ok mismatch");
-  assert.equal(first.json?.flow, fixture.expect.flow, "workflow flow mismatch");
-  assert.equal(first.json?.decision?.c, fixture.expect.decision, "workflow decision mismatch");
-  assert.equal(first.json?.action?.type, fixture.expect.action, "workflow action mismatch");
-  assert.equal(first.json?.policy?.verdict, fixture.expect.policy_verdict, "workflow policy verdict mismatch");
-  assertLineage(first.json, "workflow");
-  assertLineage(first.json?.policy || {}, "workflow.policy");
+  const previousProxyToken = process.env.DECIDE_PROXY_SHARED_TOKEN;
+  const previousVercelEnv = process.env.VERCEL_ENV;
+  process.env.DECIDE_PROXY_SHARED_TOKEN = "workflow-shared-proxy-token";
+  process.env.VERCEL_ENV = "production";
 
-  const second = await invokeJson(zendeskWorkflowDispatcher, fixture.request);
-  assert.equal(second.statusCode, fixture.expect.statusCode, "workflow replay status mismatch");
-  assert.equal(second.json?.idempotent_replay, true, "workflow idempotent replay expected");
+  try {
+    const first = await invokeJson(zendeskWorkflowDispatcher, fixture.request);
+    assert.equal(first.statusCode, fixture.expect.statusCode, "workflow status mismatch");
+    assert.equal(first.json?.ok, fixture.expect.ok, "workflow ok mismatch");
+    assert.equal(first.json?.flow, fixture.expect.flow, "workflow flow mismatch");
+    assert.equal(first.json?.decision?.c, fixture.expect.decision, "workflow decision mismatch");
+    assert.equal(first.json?.action?.type, fixture.expect.action, "workflow action mismatch");
+    assert.equal(first.json?.policy?.verdict, fixture.expect.policy_verdict, "workflow policy verdict mismatch");
+    assertLineage(first.json, "workflow");
+    assertLineage(first.json?.policy || {}, "workflow.policy");
+
+    const second = await invokeJson(zendeskWorkflowDispatcher, fixture.request);
+    assert.equal(second.statusCode, fixture.expect.statusCode, "workflow replay status mismatch");
+    assert.equal(second.json?.idempotent_replay, true, "workflow idempotent replay expected");
+  } finally {
+    if (previousProxyToken === undefined) delete process.env.DECIDE_PROXY_SHARED_TOKEN;
+    else process.env.DECIDE_PROXY_SHARED_TOKEN = previousProxyToken;
+    if (previousVercelEnv === undefined) delete process.env.VERCEL_ENV;
+    else process.env.VERCEL_ENV = previousVercelEnv;
+  }
 }
 
 async function testUcpVendorEnumConsistency() {
@@ -4002,6 +4121,7 @@ async function main() {
     ["decide-single", testDecideSingleFixture],
     ["decide-multi-advisory-contract", testDecideMultiAdvisoryContract],
     ["decide-api-key", testDecideApiKeyFixture],
+    ["decide-production-requires-trusted-edge", testDecideProductionRequiresTrustedEdge],
     ["decide-runtime", testDecideRuntimeFixture],
     ["decide-rulebook-v1", testDecideRulebookFixture],
     ["decide-rulebook-enforces-published-schema", testDecideRulebookEnforcesPublishedSchema],
@@ -4035,6 +4155,7 @@ async function main() {
     ["rulebook-runtime-manifest", testRulebookRuntimeManifest],
     ["decide-model-fallback-order", testDecideModelFallbackOrder],
     ["decide-model-fallback-empty-text", testDecideModelFallbackOnEmptyText],
+    ["decide-gemini-deadline", testDecideGeminiDeadline],
     ["decide-extended-fallback-order", testDecideExtendedFallbackOrder],
     ["policy-v1-dispatch", testPolicyV1Fixture],
     ["policy-decision-record-material", testPolicyDecisionRecordMaterialFixture],
