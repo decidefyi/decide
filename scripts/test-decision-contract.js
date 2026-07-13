@@ -2778,8 +2778,10 @@ async function testDecideModelFallbackOrder() {
   const originalFetch = global.fetch;
   const previousApiKey = process.env.GEMINI_API_KEY;
   const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  const previousLowLatencyLadder = process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER;
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = "";
   const urls = [];
   global.fetch = async (url) => {
     urls.push(String(url));
@@ -2818,12 +2820,14 @@ async function testDecideModelFallbackOrder() {
     assert.equal(result.statusCode, 200, "decide fallback order status mismatch");
     assert.equal(result.json?.c, "yes", "decide fallback order verdict mismatch");
     assert.equal(urls.length, 2, "expected second model attempt after first-model failure");
-    assert.match(urls[0], /models\/gemini-3\.1-pro-preview:generateContent/, "first attempt should use gemini-3.1-pro-preview");
-    assert.match(urls[1], /models\/gemini-2\.5-pro:generateContent/, "second attempt should use gemini-2.5-pro");
+    assert.match(urls[0], /models\/gemini-3\.1-flash-lite:generateContent/, "first attempt should use gemini-3.1-flash-lite");
+    assert.match(urls[1], /models\/gemini-3\.5-flash:generateContent/, "second attempt should use gemini-3.5-flash");
   } finally {
     global.fetch = originalFetch;
     process.env.GEMINI_API_KEY = previousApiKey;
     process.env.DECIDE_API_KEY = previousDecideApiKey;
+    if (previousLowLatencyLadder === undefined) delete process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER;
+    else process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = previousLowLatencyLadder;
   }
 }
 
@@ -2832,8 +2836,10 @@ async function testDecideModelFallbackOnEmptyText() {
   const originalFetch = global.fetch;
   const previousApiKey = process.env.GEMINI_API_KEY;
   const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  const previousLowLatencyLadder = process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER;
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = "";
   const urls = [];
   global.fetch = async (url) => {
     urls.push(String(url));
@@ -2876,12 +2882,14 @@ async function testDecideModelFallbackOnEmptyText() {
     assert.equal(result.statusCode, 200, "decide empty-text fallback status mismatch");
     assert.equal(result.json?.c, "yes", "decide empty-text fallback verdict mismatch");
     assert.equal(urls.length, 2, "expected second model attempt after empty first response");
-    assert.match(urls[0], /models\/gemini-3\.1-pro-preview:generateContent/, "first attempt should use gemini-3.1-pro-preview");
-    assert.match(urls[1], /models\/gemini-2\.5-pro:generateContent/, "second attempt should use gemini-2.5-pro");
+    assert.match(urls[0], /models\/gemini-3\.1-flash-lite:generateContent/, "first attempt should use gemini-3.1-flash-lite");
+    assert.match(urls[1], /models\/gemini-3\.5-flash:generateContent/, "second attempt should use gemini-3.5-flash");
   } finally {
     global.fetch = originalFetch;
     process.env.GEMINI_API_KEY = previousApiKey;
     process.env.DECIDE_API_KEY = previousDecideApiKey;
+    if (previousLowLatencyLadder === undefined) delete process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER;
+    else process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = previousLowLatencyLadder;
   }
 }
 
@@ -2890,13 +2898,15 @@ async function testDecideExtendedFallbackOrder() {
   const originalFetch = global.fetch;
   const previousApiKey = process.env.GEMINI_API_KEY;
   const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  const previousLowLatencyLadder = process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER;
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = "";
   const urls = [];
 
   global.fetch = async (url) => {
     urls.push(String(url));
-    if (urls.length < 5) {
+    if (urls.length < 4) {
       return {
         ok: false,
         status: 404,
@@ -2930,20 +2940,17 @@ async function testDecideExtendedFallbackOrder() {
     const result = await invokeJson(decideHandler, fixture.request);
     assert.equal(result.statusCode, 200, "decide extended fallback order status mismatch");
     assert.equal(result.json?.c, "yes", "decide extended fallback order verdict mismatch");
-    assert.equal(urls.length, 5, "expected success on the fifth model attempt");
-    assert.match(urls[0], /models\/gemini-3\.1-pro-preview:generateContent/, "rung 1 should use gemini-3.1-pro-preview");
-    assert.match(urls[1], /models\/gemini-2\.5-pro:generateContent/, "rung 2 should use gemini-2.5-pro");
-    assert.match(urls[2], /models\/gemini-3-flash-preview:generateContent/, "rung 3 should use gemini-3-flash-preview");
-    assert.match(
-      urls[3],
-      /models\/gemini-3\.1-flash-lite-preview:generateContent/,
-      "rung 4 should use gemini-3.1-flash-lite-preview"
-    );
-    assert.match(urls[4], /models\/gemini-2\.5-flash:generateContent/, "rung 5 should use gemini-2.5-flash");
+    assert.equal(urls.length, 4, "expected success on the fourth low-latency model attempt");
+    assert.match(urls[0], /models\/gemini-3\.1-flash-lite:generateContent/, "rung 1 should use gemini-3.1-flash-lite");
+    assert.match(urls[1], /models\/gemini-3\.5-flash:generateContent/, "rung 2 should use gemini-3.5-flash");
+    assert.match(urls[2], /models\/gemini-2\.5-flash-lite:generateContent/, "rung 3 should use gemini-2.5-flash-lite");
+    assert.match(urls[3], /models\/gemini-2\.5-flash:generateContent/, "rung 4 should use gemini-2.5-flash");
   } finally {
     global.fetch = originalFetch;
     process.env.GEMINI_API_KEY = previousApiKey;
     process.env.DECIDE_API_KEY = previousDecideApiKey;
+    if (previousLowLatencyLadder === undefined) delete process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER;
+    else process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = previousLowLatencyLadder;
   }
 }
 

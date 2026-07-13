@@ -13,6 +13,7 @@
     "mcp:check": "bash scripts/mcp-check.sh",
     "mcp:check:local": "bash scripts/mcp-check-local.sh",
     "workflow:test": "node scripts/workflow-zendesk-refund-test.js",
+    "test:gemini-routing": "node scripts/test-gemini-model-routing.js",
     "test:release-gates": "node scripts/test-release-gates.js",
     "test:site-bridge": "node scripts/site-bridge-regression.js",
     "test:policy-check": "node scripts/test-check-policies.js",

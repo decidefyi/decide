@@ -12,21 +12,15 @@ import {
 import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
 import { isRulebookAttestationSignatureRequired } from "../lib/rulebook-attestation-signing.js";
 import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
+import {
+  resolveGeminiModelLadder,
+  resolveGeminiModelProfile,
+} from "../lib/gemini-model-routing.js";
 import { timingSafeEqual } from "node:crypto";
 
 // Rate limiter: 20 requests per minute per IP
 const rateLimiter = createRateLimiter(20, 60000);
 const DECIDE_POLICY_VERSION = "decide_classifier_v1";
-const DEFAULT_GEMINI_MODEL_LADDER = [
-  "gemini-3.1-pro-preview",
-  "gemini-2.5-pro",
-  "gemini-3-flash-preview",
-  "gemini-3.1-flash-lite-preview",
-  "gemini-2.5-flash",
-  "gemini-2.5-flash-lite",
-  "gemini-2.0-flash",
-  "gemini-2.0-flash-lite",
-];
 
 function rid() {
   return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
@@ -290,15 +284,6 @@ function findCallerSuppliedRulebookOutputFields(body = {}) {
   );
 }
 
-function resolveGeminiModelLadder() {
-  const configured = String(process.env.DECIDE_GEMINI_MODEL_LADDER || "")
-    .split(",")
-    .map((entry) => String(entry || "").trim())
-    .filter(Boolean);
-  const source = configured.length ? configured : DEFAULT_GEMINI_MODEL_LADDER;
-  return [...new Set(source)];
-}
-
 function shouldRetryGeminiModel(statusCode, payload) {
   if ([400, 401].includes(Number(statusCode))) return false;
   if ([403, 404, 408, 409, 429, 500, 502, 503, 504].includes(Number(statusCode))) return true;
@@ -307,13 +292,19 @@ function shouldRetryGeminiModel(statusCode, payload) {
   return /(quota|rate limit|resource exhausted|temporarily unavailable|unavailable|overloaded|not found|deprecated|unsupported)/.test(message);
 }
 
-async function requestGeminiGenerateContent({ apiKey, prompt, generationConfig, request_id }) {
+async function requestGeminiGenerateContent({
+  apiKey,
+  prompt,
+  generationConfig,
+  request_id,
+  modelProfile = "quality",
+}) {
   const attempts = [];
   let lastStatus = 0;
   let lastData = null;
   let lastError = null;
 
-  for (const model of resolveGeminiModelLadder()) {
+  for (const model of resolveGeminiModelLadder({ profile: modelProfile })) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
     try {
       const startedAt = Date.now();
@@ -992,6 +983,7 @@ Rules:
         prompt,
         generationConfig: { temperature: 0, maxOutputTokens: 220 },
         request_id,
+        modelProfile: resolveGeminiModelProfile("multi"),
       });
       const data = multiResult.data;
       if (!multiResult.ok) {
@@ -1087,6 +1079,7 @@ Output exactly one of: yes, no`;
       prompt,
       generationConfig: { temperature: 0.7, maxOutputTokens: 10 },
       request_id,
+      modelProfile: resolveGeminiModelProfile("single"),
     });
     const data = singleResult.data;
     if (!singleResult.ok) {
