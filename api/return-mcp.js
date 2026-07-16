@@ -12,7 +12,7 @@ export const TOOL = {
   name: "return_eligibility",
   title: "Check return eligibility",
   description:
-    "Check if a US consumer subscription purchase can be returned. Returns RETURNABLE, EXPIRED, or NON_RETURNABLE with return type (full_refund, prorated, credit) and method.",
+    "Evaluate whether a US consumer subscription purchase can be reversed under versioned source-backed rules. Returns UNKNOWN when required conditions are absent or manual review is required.",
   inputSchema: {
     type: "object",
     additionalProperties: false,

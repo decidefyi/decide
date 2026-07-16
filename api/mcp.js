@@ -12,7 +12,7 @@ export const TOOL = {
   name: "refund_eligibility",
   title: "Check refund eligibility",
   description:
-    "Check if a US consumer subscription purchase is eligible for a refund. Returns ALLOWED, DENIED, or UNKNOWN based on the vendor's refund policy window.",
+    "Evaluate a US consumer subscription refund against versioned source-backed rules. Returns UNKNOWN when required conditions are absent or the vendor requires approval or manual policy review.",
   inputSchema: {
     type: "object",
     additionalProperties: false,

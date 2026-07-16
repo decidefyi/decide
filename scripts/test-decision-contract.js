@@ -2021,6 +2021,16 @@ async function testRulebookV1GoldenReplayCorpus() {
       assert.equal(fixture.id, fixtureRef.id, `${fixtureRef.id}: fixture id mismatch`);
       assert.equal(fixture.compatibility_policy, index.compatibility_policy, `${fixtureRef.id}: policy mismatch`);
       assert.equal(fixture.replay_contract, index.replay_contract, `${fixtureRef.id}: replay contract mismatch`);
+      assert.equal(
+        fixture.historical_record?.semantic_output?.status,
+        "ok",
+        `${fixtureRef.id}: golden replay must contain a completed decision`
+      );
+      assert.notEqual(
+        fixture.historical_record?.semantic_output?.reason_code,
+        "INPUT_SCHEMA_FAILED",
+        `${fixtureRef.id}: golden replay must not preserve an input-schema failure`
+      );
       assert.equal(fixture.replay?.request?.method, "POST", `${fixtureRef.id}: replay request method mismatch`);
       assert.equal(fixture.replay?.request?.path, "/api/decide", `${fixtureRef.id}: replay request path mismatch`);
       assert.equal(fixture.replay?.request?.body?.mode, "rulebook", `${fixtureRef.id}: replay request must use rulebook mode`);
@@ -3142,7 +3152,13 @@ async function testRefundPolicyRulebookOutcomes() {
     },
     {
       label: "outside refund window",
-      body: { vendor: "adobe", days_since_purchase: 15, region: "US", plan: "individual" },
+      body: {
+        vendor: "adobe",
+        days_since_purchase: 15,
+        region: "US",
+        plan: "individual",
+        qualifying_conditions_met: true,
+      },
       verdict: "DENIED",
       code: "OUTSIDE_WINDOW",
       matchedRuleId: null,
@@ -3203,17 +3219,17 @@ async function testRefundPolicyRulebookBindsEvidenceIdentity() {
       body: { vendor, days_since_purchase: 5, region: "US", plan: "individual" },
     });
 
-  const adobe = await evaluate("adobe");
-  const apple = await evaluate("apple_app_store");
-  assert.equal(adobe.json?.window_days, apple.json?.window_days, "evidence-binding comparison requires equal windows");
+  const netflix = await evaluate("netflix");
+  const hulu = await evaluate("hulu");
+  assert.equal(netflix.json?.window_days, hulu.json?.window_days, "evidence-binding comparison requires equal windows");
   assert.equal(
-    adobe.json?.rulebook_result?.rulebook?.hash,
-    apple.json?.rulebook_result?.rulebook?.hash,
+    netflix.json?.rulebook_result?.rulebook?.hash,
+    hulu.json?.rulebook_result?.rulebook?.hash,
     "refund applications should share one declarative rulebook"
   );
   assert.notEqual(
-    adobe.json?.rulebook_result?.input_hash,
-    apple.json?.rulebook_result?.input_hash,
+    netflix.json?.rulebook_result?.input_hash,
+    hulu.json?.rulebook_result?.input_hash,
     "rulebook input hash must bind vendor and policy-source identity"
   );
 }
@@ -3233,7 +3249,13 @@ async function testRefundPolicyRulebookSignsAttestation() {
       url: "/api/v1/refund/eligibility",
       query: { policy: "refund", action: "eligibility" },
       headers: { "content-type": "application/json", "user-agent": "contract-test" },
-      body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+      body: {
+        vendor: "adobe",
+        days_since_purchase: 5,
+        region: "US",
+        plan: "individual",
+        qualifying_conditions_met: true,
+      },
     });
     const attestation = result.json?.rulebook_result?.rulebook_attestation;
     assert.equal(result.statusCode, 200, "signed refund policy status mismatch");
@@ -3270,7 +3292,13 @@ async function testRefundPolicyRulebookRequiresSignedAttestation() {
       url: "/api/v1/refund/eligibility",
       query: { policy: "refund", action: "eligibility" },
       headers: { "content-type": "application/json", "user-agent": "contract-test" },
-      body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+      body: {
+        vendor: "adobe",
+        days_since_purchase: 5,
+        region: "US",
+        plan: "individual",
+        qualifying_conditions_met: true,
+      },
     });
     assert.equal(result.statusCode, 503, "refund policy must fail closed when a required signature is unavailable");
     assert.equal(
@@ -3292,7 +3320,15 @@ async function testTrialPolicyRulebookFixture() {
     url: "/api/v1/trial/terms",
     query: { policy: "trial", action: "terms" },
     headers: { "content-type": "application/json", "user-agent": "contract-test" },
-    body: { vendor: "adobe", region: "US", plan: "individual" },
+    body: {
+      vendor: "adobe",
+      region: "US",
+      plan: "individual",
+      offer_confirmed: true,
+      observed_trial_days: 7,
+      observed_card_required: true,
+      observed_auto_converts: true,
+    },
   });
   assert.equal(result.statusCode, 200, "trial policy status mismatch");
   assert.equal(result.json?.verdict, "TRIAL_AVAILABLE", "trial policy legacy verdict mismatch");
@@ -3327,14 +3363,22 @@ async function testTrialPolicyRulebookOutcomes() {
   const cases = [
     {
       label: "vendor without trial",
-      body: { vendor: "netflix", region: "US", plan: "individual" },
+      body: { vendor: "netflix", region: "US", plan: "individual", offer_confirmed: false },
       verdict: "NO_TRIAL",
       code: "TRIAL_NOT_AVAILABLE",
       matchedRuleId: "deny_no_trial",
     },
     {
       label: "trial without auto conversion",
-      body: { vendor: "1password", region: "US", plan: "individual" },
+      body: {
+        vendor: "1password",
+        region: "US",
+        plan: "individual",
+        offer_confirmed: true,
+        observed_trial_days: 14,
+        observed_card_required: false,
+        observed_auto_converts: false,
+      },
       verdict: "TRIAL_AVAILABLE",
       code: "NO_AUTO_CONVERT",
       matchedRuleId: "allow_trial_without_auto_conversion",
@@ -3392,7 +3436,15 @@ async function testTrialPolicyRulebookBindsEvidenceIdentity() {
       url: "/api/v1/trial/terms",
       query: { policy: "trial", action: "terms" },
       headers: { "content-type": "application/json", "user-agent": "contract-test" },
-      body: { vendor, region: "US", plan: "individual" },
+      body: {
+        vendor,
+        region: "US",
+        plan: "individual",
+        offer_confirmed: true,
+        observed_trial_days: 7,
+        observed_card_required: true,
+        observed_auto_converts: true,
+      },
     });
 
   const adobe = await evaluate("adobe");
@@ -3426,7 +3478,15 @@ async function testTrialPolicyRulebookSignsAttestation() {
       url: "/api/v1/trial/terms",
       query: { policy: "trial", action: "terms" },
       headers: { "content-type": "application/json", "user-agent": "contract-test" },
-      body: { vendor: "adobe", region: "US", plan: "individual" },
+      body: {
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        offer_confirmed: true,
+        observed_trial_days: 7,
+        observed_card_required: true,
+        observed_auto_converts: true,
+      },
     });
     const attestation = result.json?.rulebook_result?.rulebook_attestation;
     assert.equal(result.statusCode, 200, "signed trial policy status mismatch");
@@ -3463,7 +3523,15 @@ async function testTrialPolicyRulebookRequiresSignedAttestation() {
       url: "/api/v1/trial/terms",
       query: { policy: "trial", action: "terms" },
       headers: { "content-type": "application/json", "user-agent": "contract-test" },
-      body: { vendor: "adobe", region: "US", plan: "individual" },
+      body: {
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        offer_confirmed: true,
+        observed_trial_days: 7,
+        observed_card_required: true,
+        observed_auto_converts: true,
+      },
     });
     assert.equal(result.statusCode, 503, "trial policy must fail closed when a required signature is unavailable");
     assert.equal(
@@ -3485,7 +3553,7 @@ async function testCancelPolicyRulebookFixture() {
     url: "/api/v1/cancel/penalty",
     query: { policy: "cancel", action: "penalty" },
     headers: { "content-type": "application/json", "user-agent": "contract-test" },
-    body: { vendor: "adobe", region: "US", plan: "individual" },
+    body: { vendor: "adobe", region: "US", plan: "individual", billing_cadence: "annual" },
   });
   assert.equal(result.statusCode, 200, "cancel policy status mismatch");
   assert.equal(result.json?.verdict, "PENALTY", "cancel policy legacy verdict mismatch");
@@ -3527,7 +3595,7 @@ async function testCancelPolicyRulebookOutcomes() {
     },
     {
       label: "early termination fee",
-      body: { vendor: "adobe", region: "US", plan: "individual" },
+      body: { vendor: "adobe", region: "US", plan: "individual", billing_cadence: "annual" },
       verdict: "PENALTY",
       code: "EARLY_TERMINATION_FEE",
       matchedRuleId: "penalty_early_termination_fee",
@@ -3619,7 +3687,7 @@ async function testCancelPolicyRulebookSignsAttestation() {
       url: "/api/v1/cancel/penalty",
       query: { policy: "cancel", action: "penalty" },
       headers: { "content-type": "application/json", "user-agent": "contract-test" },
-      body: { vendor: "adobe", region: "US", plan: "individual" },
+      body: { vendor: "adobe", region: "US", plan: "individual", billing_cadence: "annual" },
     });
     const attestation = result.json?.rulebook_result?.rulebook_attestation;
     assert.equal(result.statusCode, 200, "signed cancel policy status mismatch");
@@ -3656,7 +3724,7 @@ async function testCancelPolicyRulebookRequiresSignedAttestation() {
       url: "/api/v1/cancel/penalty",
       query: { policy: "cancel", action: "penalty" },
       headers: { "content-type": "application/json", "user-agent": "contract-test" },
-      body: { vendor: "adobe", region: "US", plan: "individual" },
+      body: { vendor: "adobe", region: "US", plan: "individual", billing_cadence: "annual" },
     });
     assert.equal(result.statusCode, 503, "cancel policy must fail closed when a required signature is unavailable");
     assert.equal(
@@ -3678,7 +3746,13 @@ async function testReturnPolicyRulebookFixture() {
     url: "/api/v1/return/eligibility",
     query: { policy: "return", action: "eligibility" },
     headers: { "content-type": "application/json", "user-agent": "contract-test" },
-    body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+    body: {
+      vendor: "adobe",
+      days_since_purchase: 5,
+      region: "US",
+      plan: "individual",
+      qualifying_conditions_met: true,
+    },
   });
   assert.equal(result.statusCode, 200, "return policy status mismatch");
   assert.equal(result.json?.verdict, "RETURNABLE", "return policy legacy verdict mismatch");
@@ -3713,17 +3787,23 @@ async function testReturnPolicyRulebookOutcomes() {
   const cases = [
     {
       label: "full return",
-      body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+      body: {
+        vendor: "adobe",
+        days_since_purchase: 5,
+        region: "US",
+        plan: "individual",
+        qualifying_conditions_met: true,
+      },
       verdict: "RETURNABLE",
       code: "FULL_RETURN",
       matchedRuleId: "allow_full_return",
     },
     {
-      label: "prorated return",
+      label: "approval-based return",
       body: { vendor: "playstation_plus", days_since_purchase: 5, region: "US", plan: "individual" },
-      verdict: "RETURNABLE",
-      code: "PRORATED_RETURN",
-      matchedRuleId: "allow_prorated_return",
+      verdict: "UNKNOWN",
+      code: "MISSING_REQUIRED_CONTEXT",
+      matchedRuleId: "review_missing_context",
     },
     {
       label: "vendor without returns",
@@ -3734,7 +3814,13 @@ async function testReturnPolicyRulebookOutcomes() {
     },
     {
       label: "expired return window",
-      body: { vendor: "adobe", days_since_purchase: 30, region: "US", plan: "individual" },
+      body: {
+        vendor: "adobe",
+        days_since_purchase: 30,
+        region: "US",
+        plan: "individual",
+        qualifying_conditions_met: true,
+      },
       verdict: "EXPIRED",
       code: "OUTSIDE_WINDOW",
       matchedRuleId: null,
@@ -3795,18 +3881,18 @@ async function testReturnPolicyRulebookBindsEvidenceIdentity() {
       body: { vendor, days_since_purchase: 5, region: "US", plan: "individual" },
     });
 
-  const adobe = await evaluate("adobe");
-  const apple = await evaluate("apple_app_store");
-  assert.equal(adobe.json?.return_window_days, apple.json?.return_window_days, "evidence-binding comparison requires equal return windows");
-  assert.equal(adobe.json?.return_type, apple.json?.return_type, "evidence-binding comparison requires equal return type");
+  const netflix = await evaluate("netflix");
+  const hulu = await evaluate("hulu");
+  assert.equal(netflix.json?.return_window_days, hulu.json?.return_window_days, "evidence-binding comparison requires equal return windows");
+  assert.equal(netflix.json?.return_type, hulu.json?.return_type, "evidence-binding comparison requires equal return type");
   assert.equal(
-    adobe.json?.rulebook_result?.rulebook?.hash,
-    apple.json?.rulebook_result?.rulebook?.hash,
+    netflix.json?.rulebook_result?.rulebook?.hash,
+    hulu.json?.rulebook_result?.rulebook?.hash,
     "return applications should share one declarative rulebook"
   );
   assert.notEqual(
-    adobe.json?.rulebook_result?.input_hash,
-    apple.json?.rulebook_result?.input_hash,
+    netflix.json?.rulebook_result?.input_hash,
+    hulu.json?.rulebook_result?.input_hash,
     "return rulebook input hash must bind vendor and policy-source identity"
   );
 }
@@ -3826,7 +3912,13 @@ async function testReturnPolicyRulebookSignsAttestation() {
       url: "/api/v1/return/eligibility",
       query: { policy: "return", action: "eligibility" },
       headers: { "content-type": "application/json", "user-agent": "contract-test" },
-      body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+      body: {
+        vendor: "adobe",
+        days_since_purchase: 5,
+        region: "US",
+        plan: "individual",
+        qualifying_conditions_met: true,
+      },
     });
     const attestation = result.json?.rulebook_result?.rulebook_attestation;
     assert.equal(result.statusCode, 200, "signed return policy status mismatch");
@@ -3863,7 +3955,13 @@ async function testReturnPolicyRulebookRequiresSignedAttestation() {
       url: "/api/v1/return/eligibility",
       query: { policy: "return", action: "eligibility" },
       headers: { "content-type": "application/json", "user-agent": "contract-test" },
-      body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+      body: {
+        vendor: "adobe",
+        days_since_purchase: 5,
+        region: "US",
+        plan: "individual",
+        qualifying_conditions_met: true,
+      },
     });
     assert.equal(result.statusCode, 503, "return policy must fail closed when a required signature is unavailable");
     assert.equal(

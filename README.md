@@ -185,7 +185,7 @@ Architecture:
 | **Return Notary** | [return.decide.fyi](https://return.decide.fyi) | `return_eligibility` | RETURNABLE / EXPIRED / NON_RETURNABLE / UNKNOWN |
 | **Trial Notary** | [trial.decide.fyi](https://trial.decide.fyi) | `trial_terms` | TRIAL_AVAILABLE / NO_TRIAL / UNKNOWN |
 
-All servers: 100 vendors, US region, individual plans, stateless, no auth, 100 req/min. Runtime contracts and reference evidence stay here.
+All servers: 100 vendor identifiers, US region, individual plans, stateless, no auth, 100 req/min. Results fail closed to `UNKNOWN` when the available facts cannot support an automated verdict.
 
 ## Quick Start
 
@@ -221,23 +221,25 @@ same tool names and response contracts as the canonical suite:
 # Refund eligibility
 curl -X POST https://refund.decide.fyi/api/v1/refund/eligibility \
   -H "Content-Type: application/json" \
-  -d '{"vendor":"adobe","days_since_purchase":12,"region":"US","plan":"individual"}'
+  -d '{"vendor":"adobe","days_since_purchase":12,"region":"US","plan":"individual","qualifying_conditions_met":true}'
 
 # Cancellation penalty
 curl -X POST https://cancel.decide.fyi/api/v1/cancel/penalty \
   -H "Content-Type: application/json" \
-  -d '{"vendor":"adobe","region":"US","plan":"individual"}'
+  -d '{"vendor":"adobe","region":"US","plan":"individual","billing_cadence":"annual"}'
 
 # Return eligibility
 curl -X POST https://return.decide.fyi/api/v1/return/eligibility \
   -H "Content-Type: application/json" \
-  -d '{"vendor":"adobe","days_since_purchase":12,"region":"US","plan":"individual"}'
+  -d '{"vendor":"adobe","days_since_purchase":12,"region":"US","plan":"individual","qualifying_conditions_met":true}'
 
 # Trial terms
 curl -X POST https://trial.decide.fyi/api/v1/trial/terms \
   -H "Content-Type: application/json" \
-  -d '{"vendor":"adobe","region":"US","plan":"individual"}'
+  -d '{"vendor":"adobe","region":"US","plan":"individual","offer_confirmed":true,"observed_trial_days":7,"observed_card_required":true,"observed_auto_converts":true}'
 ```
+
+Only set evidence fields from facts you have actually verified. A time window alone is not proof that source-specific conditions are satisfied. Approval-dependent policies stay `UNKNOWN` even when a caller sets `qualifying_conditions_met`; trial results require a live offer observation.
 
 ### Local Dev Checks
 
@@ -293,11 +295,12 @@ Use workflow endpoints when you want one request to return:
   "vendor": "adobe",
   "region": "US",
   "plan": "individual",
-  "days_since_purchase": 5
+  "days_since_purchase": 5,
+  "qualifying_conditions_met": true
 }
 ```
 
-For `refund` and `return`, include `days_since_purchase`.
+For `refund` and `return`, include `days_since_purchase` and source-specific condition evidence when requested. Cancellation may require `billing_cadence`. Trial automation requires `offer_confirmed` plus the observed duration, card requirement, and auto-conversion status. The workflow escalates instead of approving when required context is absent.
 
 ### Deterministic test mode
 
@@ -332,15 +335,15 @@ Set `decision_override` to bypass model classification during fixtures and CI:
 **Endpoint:** `POST https://refund.decide.fyi/api/v1/refund/eligibility`
 **MCP Tool:** `refund_eligibility`
 
-Checks if a subscription purchase is within the vendor's refund window.
+Evaluates a refund only when the versioned rule and supplied source-specific facts support automation.
 
-**Input:** `vendor`, `days_since_purchase`, `region`, `plan`
+**Input:** `vendor`, `days_since_purchase`, `region`, `plan`, and conditionally `qualifying_conditions_met`
 
 ```json
-{"refundable":true,"verdict":"ALLOWED","code":"WITHIN_WINDOW","message":"Refund is allowed. Purchase is 12 day(s) old, within 14 day window.","vendor":"adobe","window_days":14}
+{"refundable":true,"verdict":"ALLOWED","code":"WITHIN_WINDOW","message":"Refund is allowed. Purchase is 12 day(s) old, within 14 day window.","vendor":"adobe","window_days":14,"qualifying_conditions_met":true,"automation_safe":true}
 ```
 
-**Codes:** `WITHIN_WINDOW`, `OUTSIDE_WINDOW`, `NO_REFUNDS`, `UNSUPPORTED_VENDOR`
+**Codes:** `WITHIN_WINDOW`, `OUTSIDE_WINDOW`, `NO_REFUNDS`, `MISSING_REQUIRED_CONTEXT`, `UNSUPPORTED_VENDOR`
 
 ## Cancel Notary
 
@@ -349,120 +352,70 @@ Checks if a subscription purchase is within the vendor's refund window.
 
 Checks cancellation penalties — early termination fees, contract locks, or free cancellation.
 
-**Input:** `vendor`, `region`, `plan`
+**Input:** `vendor`, `region`, `plan`, and conditionally `billing_cadence`
 
 ```json
-{"verdict":"PENALTY","code":"EARLY_TERMINATION_FEE","message":"adobe charges an early termination fee: 50% of remaining months on annual plan.","vendor":"adobe","policy":"etf"}
+{"verdict":"PENALTY","code":"EARLY_TERMINATION_FEE","message":"adobe charges an early termination fee: 50% of remaining months on annual plan.","vendor":"adobe","policy":"etf","billing_cadence":"annual","automation_safe":true}
 ```
 
-**Codes:** `NO_PENALTY`, `EARLY_TERMINATION_FEE`, `CONTRACT_LOCKED`, `UNSUPPORTED_VENDOR`
+**Codes:** `NO_PENALTY`, `EARLY_TERMINATION_FEE`, `CONTRACT_LOCKED`, `MISSING_REQUIRED_CONTEXT`, `UNSUPPORTED_VENDOR`
 
 ## Return Notary
 
 **Endpoint:** `POST https://return.decide.fyi/api/v1/return/eligibility`
 **MCP Tool:** `return_eligibility`
 
-Checks if a subscription purchase can be returned/reversed, with return type and method.
+Evaluates whether a subscription purchase can be reversed when the versioned rule and supplied source-specific facts support automation.
 
-**Input:** `vendor`, `days_since_purchase`, `region`, `plan`
+**Input:** `vendor`, `days_since_purchase`, `region`, `plan`, and conditionally `qualifying_conditions_met`
 
 ```json
-{"returnable":true,"verdict":"RETURNABLE","code":"FULL_RETURN","message":"Return is available. Purchase is 5 day(s) old, within 14-day window.","vendor":"adobe","return_type":"full_refund","method":"self_service"}
+{"returnable":true,"verdict":"RETURNABLE","code":"FULL_RETURN","message":"Return is available. Purchase is 5 day(s) old, within 14-day window.","vendor":"adobe","return_type":"full_refund","method":"self_service","qualifying_conditions_met":true,"automation_safe":true}
 ```
 
-**Codes:** `FULL_RETURN`, `PRORATED_RETURN`, `CREDIT_RETURN`, `OUTSIDE_WINDOW`, `NO_RETURNS`, `UNSUPPORTED_VENDOR`
+**Codes:** `FULL_RETURN`, `PRORATED_RETURN`, `CREDIT_RETURN`, `OUTSIDE_WINDOW`, `NO_RETURNS`, `MISSING_REQUIRED_CONTEXT`, `UNSUPPORTED_VENDOR`
 
 ## Trial Notary
 
 **Endpoint:** `POST https://trial.decide.fyi/api/v1/trial/terms`
 **MCP Tool:** `trial_terms`
 
-Checks free trial availability, length, card requirement, and auto-conversion status.
+Evaluates availability and terms from a live offer observation. It does not publish static trial availability.
 
-**Input:** `vendor`, `region`, `plan`
+**Input:** `vendor`, `region`, `plan`, `offer_confirmed`; when confirmed, also `observed_trial_days`, `observed_card_required`, `observed_auto_converts`
 
 ```json
-{"verdict":"TRIAL_AVAILABLE","code":"AUTO_CONVERTS","message":"adobe offers a 7-day free trial. Credit card required. Auto-converts to paid plan.","vendor":"adobe","trial_days":7,"card_required":true,"auto_converts":true}
+{"verdict":"TRIAL_AVAILABLE","code":"AUTO_CONVERTS","message":"A live 7-day adobe trial offer was confirmed. Credit card required. Auto-converts to paid plan.","vendor":"adobe","trial_days":7,"card_required":true,"auto_converts":true,"offer_confirmed":true,"automation_safe":true}
 ```
 
-**Codes:** `AUTO_CONVERTS`, `NO_AUTO_CONVERT`, `TRIAL_NOT_AVAILABLE`, `UNSUPPORTED_VENDOR`
+**Codes:** `AUTO_CONVERTS`, `NO_AUTO_CONVERT`, `TRIAL_NOT_AVAILABLE`, `MISSING_REQUIRED_CONTEXT`, `UNSUPPORTED_VENDOR`
 
 ---
 
-## Supported Vendors (100)
+## Supported Vendor Registry (100)
 
-| Vendor | Identifier | Refund | Cancel | Return | Trial |
-|--------|-----------|--------|--------|--------|-------|
-| 1Password | `1password` | No refunds | Free | No return | 14d |
-| Adobe | `adobe` | 14d | ETF | 14d full | 7d |
-| Amazon Prime | `amazon_prime` | 3d | Free | 3d full | 30d |
-| Apple App Store | `apple_app_store` | 14d | Free | 14d full | - |
-| Apple Music | `apple_music` | No refunds | Free | No return | 30d |
-| Apple TV+ | `apple_tv_plus` | No refunds | Free | No return | 7d |
-| Audible | `audible` | No refunds | Free | No return | 30d |
-| Bitwarden | `bitwarden` | 30d | Free | 30d full | 7d |
-| Bumble | `bumble` | No refunds | Free | No return | 7d |
-| Calm | `calm` | 30d | Free | 30d full | 7d |
-| Canva | `canva` | No refunds | Free | No return | 30d |
-| ChatGPT Plus | `chatgpt_plus` | No refunds | Free | No return | - |
-| Claude Pro | `claude_pro` | No refunds | Free | No return | - |
-| Coursera Plus | `coursera_plus` | 14d | Free | 14d full | 7d |
-| Crunchyroll | `crunchyroll` | No refunds | Free | No return | 7d |
-| Deezer | `deezer` | No refunds | Free | No return | 30d |
-| Disney+ | `disney_plus` | No refunds | Free | No return | - |
-| DoorDash DashPass | `doordash_dashpass` | No refunds | Free | No return | 30d |
-| Dropbox (US) | `dropbox_us` | No refunds | Free | No return | 30d |
-| Duolingo | `duolingo` | No refunds | Free | No return | 14d |
-| Evernote | `evernote` | 20d | Free | 20d full | 14d |
-| ExpressVPN | `expressvpn` | 30d | Free | 30d full | 7d |
-| Figma | `figma` | No refunds | Free | No return | 30d |
-| Fubo TV | `fubo_tv` | No refunds | Free | No return | 7d |
-| GitHub Pro | `github_pro` | No refunds | Free | No return | - |
-| Google Play | `google_play` | 2d | Free | 2d full | - |
-| Grammarly | `grammarly` | No refunds | Free | No return | 7d |
-| Headspace | `headspace` | No refunds | Free | No return | 7d |
-| HelloFresh | `hellofresh` | No refunds | Free (5d notice) | No return | - |
-| Hinge | `hinge` | No refunds | Free | No return | 7d |
-| Hulu | `hulu` | No refunds | Free | No return | 30d |
-| iCloud+ | `icloud_plus` | 14d | Free | 14d full | - |
-| Instacart+ | `instacart_plus` | 5d | Free | 5d full | 14d |
-| LinkedIn Premium | `linkedin_premium` | 7d | Free | 7d full | 30d |
-| MasterClass | `masterclass` | 30d | Free | 30d full | - |
-| Max (HBO) | `max` | No refunds | Free | No return | - |
-| Microsoft 365 | `microsoft_365` | 30d | Free | 30d full | 30d |
-| Midjourney | `midjourney` | No refunds | Free | No return | - |
-| Netflix | `netflix` | No refunds | Free | No return | - |
-| Nintendo Switch Online | `nintendo_switch_online` | No refunds | Free | No return | 7d |
-| Noom | `noom` | 14d | Free | 14d full | 7d |
-| NordVPN | `nordvpn` | 30d | Free | 30d full | 7d |
-| Notion | `notion` | 3d | Free | 3d full | - |
-| Paramount+ | `paramount_plus` | No refunds | Free | No return | 7d |
-| Peacock | `peacock` | No refunds | Free | No return | 7d |
-| Peloton | `peloton` | No refunds | Free | No return | 30d |
-| PlayStation Plus | `playstation_plus` | 14d | Free | 14d prorated | 14d |
-| Scribd | `scribd` | 30d | Free | 30d full | 30d |
-| Shutterstock | `shutterstock` | No refunds | ETF | No return | 30d |
-| Slack | `slack` | No refunds | Free | Credit | 90d |
-| Sling TV | `sling_tv` | No refunds | Free | No return | - |
-| Spotify | `spotify` | No refunds | Free | No return | 30d |
-| Squarespace | `squarespace` | 14d | Free | 14d full | 14d |
-| Strava | `strava` | 14d | Free | 14d full | 30d |
-| Surfshark | `surfshark` | 30d | Free | 30d full | 7d |
-| Tidal | `tidal` | No refunds | Free | No return | 30d |
-| Tinder | `tinder` | No refunds | Free | No return | - |
-| Todoist | `todoist` | 30d | Free | 30d full | 30d |
-| Twitch | `twitch` | No refunds | Free | No return | - |
-| Walmart+ | `walmart_plus` | No refunds | Free | No return | 30d |
-| Wix | `wix` | 14d | Free | 14d full | 14d |
-| Xbox Game Pass | `xbox_game_pass` | 30d | Free | 30d full | 14d |
-| YouTube Premium | `youtube_premium` | No refunds | Free | No return | 30d |
-| Zoom | `zoom` | No refunds | Free | No return | - |
+The versioned JSON registries are the canonical vendor catalog. A compact Markdown
+table is intentionally not duplicated here because policy windows, channels, and
+approval branches can change independently. Contract tests require the same 100
+identifiers in every rule and source registry.
+
+| Family | Rules | Official-source registry | Automation classification |
+|--------|-------|--------------------------|---------------------------|
+| Refund | [`v1_us_individual.json`](rules/v1_us_individual.json) | [`policy-sources.json`](rules/policy-sources.json) | `deterministic`, `conditional`, `review_only` |
+| Cancellation | [`v1_us_individual_cancel.json`](rules/v1_us_individual_cancel.json) | [`cancel-policy-sources.json`](rules/cancel-policy-sources.json) | `deterministic`, `conditional`, `review_only` |
+| Return/reversal | [`v1_us_individual_return.json`](rules/v1_us_individual_return.json) | [`return-policy-sources.json`](rules/return-policy-sources.json) | `deterministic`, `conditional`, `review_only` |
+| Trial | [`v1_us_individual_trial.json`](rules/v1_us_individual_trial.json) | [`trial-policy-sources.json`](rules/trial-policy-sources.json) | `observed` live-offer mode |
+
+- `deterministic`: the standard policy is categorical for the supported US individual-plan scope.
+- `conditional`: automation requires an explicit caller assertion that the source-specific conditions were verified.
+- `review_only`: the policy depends on approval, channel, commitment, exceptions, or source language that is not categorical enough to automate.
+- `observed`: the current account or promotion must expose a live offer before trial terms can be returned.
 
 **Scope:** US region, individual plans only.
 
 ## Data Freshness
 
-Each policy family has deterministic rules and source metadata for 100 vendors.
+Each policy family has versioned rules and source metadata for 100 vendor identifiers.
 The source tracker monitors official vendor documentation and terms of service;
 it does not automatically promote page text into a verdict.
 
@@ -487,7 +440,8 @@ it does not automatically promote page text into a verdict.
 - **US Only** — Currently only supports US region
 - **Individual Plans Only** — Business/enterprise plans not yet supported
 - **Calendar Days** — Windows are based on calendar days, not business days
-- **Static Rules** — Does not account for promotional offers or special circumstances
+- **Fail-closed branches** — Approval-dependent, channel-dependent, ambiguous, or incomplete cases return `UNKNOWN` for review
+- **Live trial evidence** — Trial availability and terms must be observed for the account or promotion being evaluated
 
 ## Changelog
 
@@ -509,6 +463,8 @@ it does not automatically promote page text into a verdict.
 
 **Changed:**
 - Landing pages now position Decide as the Decision API engine and frame Policy MCP Notaries as one reference application.
+- Policy Notaries now use explicit `deterministic`, `conditional`, `review_only`, and live-offer modes; incomplete or approval-dependent requests fail closed.
+- Monitoring timestamps no longer mutate policy lineage hashes, and golden replay generation rejects incomplete decisions.
 
 ### v1.2.1 (2026-02-08)
 

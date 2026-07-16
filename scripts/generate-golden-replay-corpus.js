@@ -20,11 +20,43 @@ const outDir = join(repoRoot, "public", "replay", "rulebook-v1");
 const CORPUS_VERSION = "rulebook_v1_golden_replay_v1";
 const REPLAY_CONTRACT = "historical_rulebook_replay_v1";
 const COMPATIBILITY_POLICY = "compatibility_policy_v1";
-const RECORDED_AT = "2026-06-11T00:00:00.000Z";
+const RECORDED_AT = "2026-07-16T00:00:00.000Z";
 const API_REPLAY_ORIGIN = "https://api.decide.fyi/replay/rulebook-v1";
 
 function loadJson(...segments) {
   return JSON.parse(readFileSync(join(repoRoot, ...segments), "utf8"));
+}
+
+const POLICY_DATASETS = {
+  refund: {
+    rules: loadJson("rules", "v1_us_individual.json"),
+    sources: loadJson("rules", "policy-sources.json"),
+  },
+  cancel: {
+    rules: loadJson("rules", "v1_us_individual_cancel.json"),
+    sources: loadJson("rules", "cancel-policy-sources.json"),
+  },
+  return: {
+    rules: loadJson("rules", "v1_us_individual_return.json"),
+    sources: loadJson("rules", "return-policy-sources.json"),
+  },
+  trial: {
+    rules: loadJson("rules", "v1_us_individual_trial.json"),
+    sources: loadJson("rules", "trial-policy-sources.json"),
+  },
+};
+
+function policyFixtureMetadata(policyType, vendor, evidenceNote = "") {
+  const dataset = POLICY_DATASETS[policyType];
+  const source = dataset?.sources?.vendors?.[vendor];
+  assert.ok(dataset?.rules?.rules_version, `${policyType}: canonical rules version is missing`);
+  assert.ok(source?.url, `${policyType}/${vendor}: canonical policy source is missing`);
+
+  return {
+    policy_rules_version: dataset.rules.rules_version,
+    policy_source_url: source.url,
+    policy_source_notes: [source.notes, evidenceNote].filter(Boolean).join(" "),
+  };
 }
 
 function clone(value) {
@@ -101,6 +133,7 @@ async function evaluateRequest(request) {
 async function buildFixture({ id, title, kind, request, notes }) {
   const evaluation = await evaluateRequest(request);
   const result = evaluation.result;
+  assert.equal(result.status, "ok", `${id}: golden replay must contain a completed decision`);
   const fileName = `${id.replaceAll("_", "-")}.json`;
   return {
     fileName,
@@ -184,6 +217,9 @@ const fixtureSpecs = [
         region_supported: true,
         plan_supported: true,
         vendor_supported: true,
+        context_complete: true,
+        missing_context: "",
+        qualifying_conditions_met: true,
         refunds_supported: true,
         within_window: true,
         days_since_purchase: 5,
@@ -191,9 +227,11 @@ const fixtureSpecs = [
         vendor: "adobe",
         region: "US",
         plan: "individual",
-        policy_rules_version: "2026-02-15",
-        policy_source_url: "https://www.adobe.com/legal/subscription-terms.html",
-        policy_source_notes: "14-day refund window for individual subscription purchases.",
+        ...policyFixtureMetadata(
+          "refund",
+          "adobe",
+          "Fixture evidence confirms the source-specific qualifying conditions for this purchase."
+        ),
       },
     }),
     notes: "Direct policy facts for the Refund MCP notary without a trusted adapter.",
@@ -211,6 +249,10 @@ const fixtureSpecs = [
         region_supported: true,
         plan_supported: true,
         vendor_supported: true,
+        context_complete: true,
+        missing_context: "",
+        offer_confirmed: true,
+        observed_trial_days: 7,
         trial_available: true,
         auto_converts: true,
         trial_days: 7,
@@ -218,9 +260,11 @@ const fixtureSpecs = [
         vendor: "adobe",
         region: "US",
         plan: "individual",
-        policy_rules_version: "2026-02-15",
-        policy_source_url: "https://www.adobe.com/creativecloud/plans.html",
-        policy_source_notes: "Trial offer is available and converts automatically unless canceled.",
+        ...policyFixtureMetadata(
+          "trial",
+          "adobe",
+          "Fixture evidence records a live 7-day offer that requires a card and auto-converts."
+        ),
       },
     }),
     notes: "Direct policy facts for the Trial MCP notary without a trusted adapter.",
@@ -238,15 +282,16 @@ const fixtureSpecs = [
         region_supported: true,
         plan_supported: true,
         vendor_supported: true,
+        context_complete: true,
+        missing_context: "",
+        billing_cadence: "annual",
         policy: "etf",
         notice_days: 0,
         penalty: "early_termination_fee",
         vendor: "adobe",
         region: "US",
         plan: "individual",
-        policy_rules_version: "2026-02-15",
-        policy_source_url: "https://www.adobe.com/legal/subscription-terms.html",
-        policy_source_notes: "Annual plan cancellation can trigger an early termination fee.",
+        ...policyFixtureMetadata("cancel", "adobe", "Fixture evidence confirms annual billing cadence."),
       },
     }),
     notes: "Direct policy facts for the Cancel MCP notary without a trusted adapter.",
@@ -264,6 +309,9 @@ const fixtureSpecs = [
         region_supported: true,
         plan_supported: true,
         vendor_supported: true,
+        context_complete: true,
+        missing_context: "",
+        qualifying_conditions_met: true,
         return_supported: true,
         within_window: true,
         days_since_purchase: 12,
@@ -274,9 +322,11 @@ const fixtureSpecs = [
         vendor: "adobe",
         region: "US",
         plan: "individual",
-        policy_rules_version: "2026-02-15",
-        policy_source_url: "https://www.adobe.com/legal/subscription-terms.html",
-        policy_source_notes: "14-day return window for full refund.",
+        ...policyFixtureMetadata(
+          "return",
+          "adobe",
+          "Fixture evidence confirms the source-specific qualifying conditions for this return."
+        ),
       },
     }),
     notes: "Direct policy facts for the Return MCP notary without a trusted adapter.",

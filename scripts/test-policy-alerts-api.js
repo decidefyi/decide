@@ -2,7 +2,10 @@
 
 import assert from "node:assert/strict";
 
-import handler, { applyPolicyEventReviews } from "../api/policy-alerts.js";
+import handler, {
+  applyPolicyEventReviews,
+  attachPolicyEventDetails,
+} from "../api/policy-alerts.js";
 
 function createResponseRecorder() {
   const headers = new Map();
@@ -99,9 +102,54 @@ function testAppliesRecordedPolicyEventReviews() {
   assert.equal(alerts[0].sample_details[0].rulebook_version_after, "2026-07-15");
 }
 
+function testBackfillsMissingPolicyEventDetails() {
+  const alerts = attachPolicyEventDetails(
+    [{
+      date_utc: "2026-07-15",
+      changed_count: 2,
+      sample_details: [],
+    }],
+    [
+      {
+        event_id: "refund:adobe:hash-123",
+        date_utc: "2026-07-15",
+        emitted_at_utc: "2026-07-15T15:00:00Z",
+        policy: "refund",
+        vendor: "adobe",
+        source_url: "https://example.com/adobe",
+        semantic_diff_summary: "Refund language changed.",
+        review_status: "rulebook_updated",
+        rulebook_updated: true,
+        rulebook_version_after: "2026-07-16",
+      },
+      {
+        event_id: "trial:grammarly:hash-456",
+        date_utc: "2026-07-15",
+        emitted_at_utc: "2026-07-15T14:00:00Z",
+        policy: "trial",
+        vendor: "grammarly",
+        source_url: "https://example.com/grammarly",
+        semantic_diff_summary: "Trial offer changed.",
+      },
+    ]
+  );
+
+  assert.equal(alerts[0].sample_details.length, 2);
+  assert.deepEqual(
+    alerts[0].sample_details.map((detail) => detail.event_id),
+    ["refund:adobe:hash-123", "trial:grammarly:hash-456"]
+  );
+  assert.equal(alerts[0].sample_details[0].review_status, "rulebook_updated");
+  assert.equal(alerts[0].sample_details[0].rulebook_updated, true);
+  assert.equal(alerts[0].sample_details[1].review_status, "unreviewed");
+  assert.equal(alerts[0].sample_details[1].rulebook_updated, false);
+}
+
 async function main() {
   testAppliesRecordedPolicyEventReviews();
   console.log("PASS policy-alerts-api applies recorded event reviews");
+  testBackfillsMissingPolicyEventDetails();
+  console.log("PASS policy-alerts-api backfills missing event details");
 
   process.env.POLICY_SUPABASE_SYNC_ENABLED = "0";
   process.env.POLICY_ALERTS_ALLOW_FILE_FALLBACK = "1";
@@ -162,7 +210,7 @@ async function main() {
   console.log("PASS policy-alerts-api-no-fallback-guard");
   process.env.POLICY_ALERTS_ALLOW_FILE_FALLBACK = "1";
 
-  console.log("Policy alerts API tests passed: 7/7");
+  console.log("Policy alerts API tests passed: 8/8");
 }
 
 main().catch((error) => {

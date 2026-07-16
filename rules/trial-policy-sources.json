@@ -1,6 +1,6 @@
 {
   "description": "Source URLs for each vendor's free trial terms. Used by the daily policy-check action to detect changes.",
-  "last_checked": "2026-02-02",
+  "last_checked": "2026-07-16",
   "vendors": {
     "1password": {
       "url": "https://1password.com/sign-up",
@@ -61,7 +61,7 @@
     },
     "bitwarden": {
       "url": "https://bitwarden.com/pricing/",
-      "notes": "7-day premium trial"
+      "notes": "No universal individual Premium trial is represented; organization or family offers must be confirmed live."
     },
     "bumble": {
       "url": "https://bumble.com/en-us/the-buzz/bumble-premium",
@@ -211,8 +211,8 @@
       ]
     },
     "grammarly": {
-      "url": "https://www.grammarly.com/plans",
-      "notes": "7-day Premium trial",
+      "url": "https://support.grammarly.com/hc/en-us/articles/360033548272-Does-Grammarly-offer-a-trial",
+      "notes": "Grammarly trial offers are periodic and only apply when a live account offer is shown.",
       "backup_urls": [
         "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
         "https://www.grammarly.com/plans"
@@ -329,7 +329,7 @@
     },
     "peacock": {
       "url": "https://www.peacocktv.com/plans",
-      "notes": "7-day Premium trial",
+      "notes": "No universal standing trial is represented; confirm any live promotional offer before acting.",
       "backup_urls": [
         "https://www.peacocktv.com/plans",
         "https://www.peacocktv.com/help"
@@ -340,8 +340,8 @@
       "notes": "30-day App trial"
     },
     "playstation_plus": {
-      "url": "https://store.playstation.com/en-us/category/ps-plus",
-      "notes": "14-day trial"
+      "url": "https://www.playstation.com/en-us/legal/ps-plus-usage-terms-temp/",
+      "notes": "A Plus trial is available only when offered and eligibility can vary by account and region."
     },
     "proton": {
       "url": "https://proton.me/pricing",
@@ -372,8 +372,8 @@
       ]
     },
     "slack": {
-      "url": "https://slack.com/pricing",
-      "notes": "90-day Pro trial for teams"
+      "url": "https://slack.com/help/articles/202878523-Try-a-paid-Slack-plan-for-free",
+      "notes": "Paid-plan trial availability and end date vary; confirm the live workspace trial before acting."
     },
     "sling_tv": {
       "url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
@@ -597,6 +597,7 @@
       "notes": "No paid plan trial; free Basic plan"
     }
   },
-  "last_verified_utc": "2026-03-02T06:59:03Z",
-  "hash_profile": "focus-v1"
+  "last_verified_utc": "2026-07-16T10:50:53Z",
+  "hash_profile": "focus-v1",
+  "verification_scope": "Reviewed automation modes against the tracked US individual-plan source notes after a 100/100 live source-fetch run; approval, channel, commitment, promotional, and non-categorical source branches now fail closed."
 }

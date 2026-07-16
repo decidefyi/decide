@@ -1,106 +1,743 @@
 {
-  "rules_version": "2026-02-15",
-  "scope": { "region": "US", "plan": "individual" },
+  "rules_version": "2026-07-16",
+  "scope": {
+    "region": "US",
+    "plan": "individual"
+  },
   "vendors": {
-    "1password": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; case-by-case exceptions at discretion" },
-    "adobe": { "return_window_days": 14, "return_type": "full_refund", "method": "self_service", "conditions": "Cancel within 14 days of purchase for full refund" },
-    "amazon_music_unlimited": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription; no physical return process." },
-    "amazon_prime": { "return_window_days": 3, "return_type": "full_refund", "method": "self_service", "conditions": "Full refund within 3 days if no Prime benefits used" },
-    "apple_app_store": { "return_window_days": 14, "return_type": "full_refund", "method": "app_store", "conditions": "Request via Report a Problem within 14 days" },
-    "apple_arcade": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription; no physical return process." },
-    "apple_music": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "All sales final per Apple Media Services terms" },
-    "apple_tv_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "All sales final per Apple Media Services terms" },
-    "audible": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Membership fees non-refundable; individual audiobook returns handled separately" },
-    "bitwarden": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "Contact support within 30 days of subscription creation" },
-    "bumble": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; no prorated refunds" },
-    "calm": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "Yearly premium purchased via calm.com; within 30 days" },
-    "canva": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "No refunds per terms of use" },
-    "chatgpt_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; 14-day window for accidental purchases only" },
-    "claude_pro": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable except as required by law" },
-    "coursera_plus": { "return_window_days": 14, "return_type": "full_refund", "method": "self_service", "conditions": "Annual plan refundable within 14 days" },
-    "crunchyroll": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; digital memberships excluded from returns" },
-    "deezer": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable in US; 14-day window if service completely unused" },
-    "discord_nitro": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription; no physical return process." },
-    "disney_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "No refunds; access continues until end of billing cycle" },
-    "doordash_dashpass": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; benefits continue until end of billing cycle" },
-    "dropbox_us": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "No refunds per terms; files retained 90 days after downgrade" },
-    "duolingo": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "All payments non-refundable" },
-    "espn_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription; no physical return process." },
-    "evernote": { "return_window_days": 20, "return_type": "full_refund", "method": "contact_support", "conditions": "20-day window for monthly; 60-day window for annual subscriptions" },
-    "expressvpn": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "30-day money-back guarantee; first purchase only" },
-    "figma": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; exceptions only for price changes or service discontinuation" },
-    "fubo_tv": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; no partial month refunds" },
-    "github_pro": { "return_window_days": 0, "return_type": "none", "method": "contact_support", "conditions": "No standard return policy; case-by-case via support" },
-    "google_one": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital membership; no physical return process." },
-    "google_play": { "return_window_days": 2, "return_type": "full_refund", "method": "app_store", "conditions": "Request via Google Play within 48 hours of purchase" },
-    "grammarly": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable unless required by law" },
-    "headspace": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; case-by-case exceptions via email" },
-    "hellofresh": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; case-by-case for quality or delivery issues only" },
-    "hinge": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable in US; 3-day right-to-cancel in some states" },
-    "hulu": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "No refunds for partial months" },
-    "icloud_plus": { "return_window_days": 14, "return_type": "full_refund", "method": "app_store", "conditions": "Request via Apple Report a Problem within 14 days" },
-    "instacart_plus": { "return_window_days": 5, "return_type": "full_refund", "method": "self_service", "conditions": "Annual plan refundable within 5 days if no orders placed" },
-    "kindle_unlimited": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription; no physical return process." },
-    "linkedin_premium": { "return_window_days": 7, "return_type": "full_refund", "method": "self_service", "conditions": "Refundable within 7 days if premium features unused" },
-    "masterclass": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "30-day satisfaction guarantee; first-time direct purchases only" },
-    "max": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "No refunds" },
-    "microsoft_365": { "return_window_days": 30, "return_type": "full_refund", "method": "self_service", "conditions": "Full refund within 30 days; prorated refund possible after" },
-    "midjourney": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Refund only if under 20 GPU minutes used lifetime; effectively non-returnable" },
-    "netflix": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "No refunds; account saved for 10 months after cancellation" },
-    "nintendo_switch_online": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "All payments final and non-refundable" },
-    "noom": { "return_window_days": 14, "return_type": "full_refund", "method": "contact_support", "conditions": "14-day window from first charge; renewals non-refundable" },
-    "nordvpn": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "30-day money-back guarantee; first purchase only" },
-    "notion": { "return_window_days": 3, "return_type": "full_refund", "method": "contact_support", "conditions": "3-day refund window from purchase" },
-    "paramount_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "No refunds" },
-    "peacock": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable at Peacock's discretion" },
-    "peloton": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; no prorated refunds" },
-    "playstation_plus": { "return_window_days": 14, "return_type": "prorated", "method": "self_service", "conditions": "14-day cancellation window; pro-rated refund minus value of services used" },
-    "proton": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription; no physical return process." },
-    "ring_protect": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital service plan; no physical return process." },
-    "scribd": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "30-day window if subscription unused" },
-    "shutterstock": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; early termination fee on annual plans" },
-    "slack": { "return_window_days": 0, "return_type": "credit", "method": "self_service", "conditions": "No cash refund; Fair Billing Policy provides prorated credit for unused time" },
-    "sling_tv": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; no partial month refunds" },
-    "spotify": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "No refunds; reverts to free tier on cancellation" },
-    "squarespace": { "return_window_days": 14, "return_type": "full_refund", "method": "contact_support", "conditions": "14-day money-back guarantee for new annual website plans; first payment only" },
-    "strava": { "return_window_days": 14, "return_type": "full_refund", "method": "contact_support", "conditions": "14-day full refund from date of purchase" },
-    "surfshark": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "30-day money-back guarantee; initial purchase only" },
-    "tidal": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "No refunds in US" },
-    "tinder": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable in US; 14-day window EU only" },
-    "todoist": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "30-day refund window for yearly plans; monthly non-refundable" },
-    "twitch": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; exceptions at Twitch's discretion" },
-    "uber_one": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital membership; no physical return process." },
-    "walmart_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Non-refundable; benefits continue until end of billing cycle" },
-    "wix": { "return_window_days": 14, "return_type": "full_refund", "method": "self_service", "conditions": "14-day money-back guarantee for new Premium/Studio plans" },
-    "xbox_game_pass": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "30-day refund window from initial purchase" },
-    "youtube_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "No refunds for current billing period" },
-    "youtube_tv": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription; no physical return process." },
-    "dashlane": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "30-day money-back guarantee for new direct subscriptions." },
-    "lastpass": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "Refunds may be available within 30 days for new paid subscriptions." },
-    "keeper": { "return_window_days": 30, "return_type": "full_refund", "method": "contact_support", "conditions": "Refunds may be requested within 30 days of purchase." },
-    "fitbit_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription refunds depend on the purchase channel and platform policies." },
-    "myfitnesspal_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable except where required by law." },
-    "weightwatchers": { "return_window_days": 14, "return_type": "full_refund", "method": "contact_support", "conditions": "Refund availability depends on selected plan and commitment terms." },
-    "siriusxm": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription fees are generally non-refundable after billing." },
-    "patreon": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Membership payments are generally non-refundable and creator-specific." },
-    "roblox_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
-    "ea_play": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
-    "ubisoft_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
-    "nfl_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription fees are generally non-refundable after billing." },
-    "mlb_tv": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription fees are generally non-refundable after billing." },
-    "new_york_times": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
-    "wall_street_journal": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
-    "washington_post": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
-    "substack": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Paid subscriptions are generally non-refundable unless required by law." },
-    "snapchat_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
-    "x_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
-    "reddit_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
-    "telegram_premium": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Digital subscription charges are generally non-refundable after billing." },
-    "soundcloud_go": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
-    "discovery_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
-    "starz": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
-    "britbox": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
-    "amc_plus": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "Subscription charges are generally non-refundable after billing." },
-    "zoom": { "return_window_days": 0, "return_type": "none", "method": "n/a", "conditions": "All subscription fees non-refundable" }
+    "1password": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; case-by-case exceptions at discretion",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "adobe": {
+      "return_window_days": 14,
+      "return_type": "full_refund",
+      "method": "self_service",
+      "conditions": "Cancel within 14 days of purchase for full refund",
+      "decision_mode": "conditional"
+    },
+    "amazon_music_unlimited": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription; no physical return process.",
+      "decision_mode": "review_only"
+    },
+    "amazon_prime": {
+      "return_window_days": 3,
+      "return_type": "full_refund",
+      "method": "self_service",
+      "conditions": "Full refund within 3 days if no Prime benefits used",
+      "decision_mode": "conditional"
+    },
+    "apple_app_store": {
+      "return_window_days": 14,
+      "return_type": "full_refund",
+      "method": "app_store",
+      "conditions": "Request via Report a Problem within 14 days",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "apple_arcade": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription; no physical return process.",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "apple_music": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "All sales final per Apple Media Services terms",
+      "decision_mode": "review_only"
+    },
+    "apple_tv_plus": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "All sales final per Apple Media Services terms",
+      "decision_mode": "review_only"
+    },
+    "audible": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Membership fees non-refundable; individual audiobook returns handled separately",
+      "decision_mode": "deterministic"
+    },
+    "bitwarden": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "Contact support within 30 days of subscription creation",
+      "decision_mode": "conditional"
+    },
+    "bumble": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; no prorated refunds",
+      "decision_mode": "deterministic"
+    },
+    "calm": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "Yearly premium purchased via calm.com; within 30 days",
+      "decision_mode": "conditional"
+    },
+    "canva": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "No refunds per terms of use",
+      "decision_mode": "deterministic"
+    },
+    "chatgpt_plus": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; 14-day window for accidental purchases only",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "claude_pro": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable except as required by law",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "coursera_plus": {
+      "return_window_days": 14,
+      "return_type": "full_refund",
+      "method": "self_service",
+      "conditions": "Annual plan refundable within 14 days",
+      "decision_mode": "conditional"
+    },
+    "crunchyroll": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; digital memberships excluded from returns",
+      "decision_mode": "deterministic"
+    },
+    "deezer": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable in US; 14-day window if service completely unused",
+      "decision_mode": "conditional",
+      "conditional_return_window_days": 14,
+      "conditional_return_type": "full_refund",
+      "conditional_method": "contact_support"
+    },
+    "discord_nitro": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription; no physical return process.",
+      "decision_mode": "review_only"
+    },
+    "disney_plus": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "No refunds; access continues until end of billing cycle",
+      "decision_mode": "deterministic"
+    },
+    "doordash_dashpass": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; benefits continue until end of billing cycle",
+      "decision_mode": "deterministic"
+    },
+    "dropbox_us": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "No refunds per terms; files retained 90 days after downgrade",
+      "decision_mode": "deterministic"
+    },
+    "duolingo": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "All payments non-refundable",
+      "decision_mode": "deterministic"
+    },
+    "espn_plus": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription; no physical return process.",
+      "decision_mode": "review_only"
+    },
+    "evernote": {
+      "return_window_days": 20,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "20-day window for monthly; 60-day window for annual subscriptions",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "expressvpn": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "30-day money-back guarantee; first purchase only",
+      "decision_mode": "conditional"
+    },
+    "figma": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; exceptions only for price changes or service discontinuation",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "fubo_tv": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; no partial month refunds",
+      "decision_mode": "deterministic"
+    },
+    "github_pro": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "contact_support",
+      "conditions": "No standard return policy; case-by-case via support",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "google_one": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital membership; no physical return process.",
+      "decision_mode": "review_only"
+    },
+    "google_play": {
+      "return_window_days": 2,
+      "return_type": "full_refund",
+      "method": "app_store",
+      "conditions": "Request via Google Play within 48 hours of purchase",
+      "decision_mode": "review_only"
+    },
+    "grammarly": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable unless required by law",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "headspace": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; case-by-case exceptions via email",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "hellofresh": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; case-by-case for quality or delivery issues only",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "hinge": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable in US; 3-day right-to-cancel in some states",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "hulu": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "No refunds for partial months",
+      "decision_mode": "deterministic"
+    },
+    "icloud_plus": {
+      "return_window_days": 14,
+      "return_type": "full_refund",
+      "method": "app_store",
+      "conditions": "Request via Apple Report a Problem within 14 days",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "instacart_plus": {
+      "return_window_days": 5,
+      "return_type": "full_refund",
+      "method": "self_service",
+      "conditions": "Annual plan refundable within 5 days if no orders placed",
+      "decision_mode": "conditional"
+    },
+    "kindle_unlimited": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription; no physical return process.",
+      "decision_mode": "review_only"
+    },
+    "linkedin_premium": {
+      "return_window_days": 7,
+      "return_type": "full_refund",
+      "method": "self_service",
+      "conditions": "Refundable within 7 days if premium features unused",
+      "decision_mode": "conditional"
+    },
+    "masterclass": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "30-day satisfaction guarantee; first-time direct purchases only",
+      "decision_mode": "conditional"
+    },
+    "max": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "No refunds",
+      "decision_mode": "deterministic"
+    },
+    "microsoft_365": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "self_service",
+      "conditions": "Full refund within 30 days; prorated refund possible after",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "midjourney": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Refund only if under 20 GPU minutes used lifetime; effectively non-returnable",
+      "decision_mode": "conditional",
+      "condition_only": true,
+      "conditional_return_window_days": 0,
+      "conditional_return_type": "full_refund",
+      "conditional_method": "contact_support"
+    },
+    "netflix": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "No refunds; account saved for 10 months after cancellation",
+      "decision_mode": "deterministic"
+    },
+    "nintendo_switch_online": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "All payments final and non-refundable",
+      "decision_mode": "deterministic"
+    },
+    "noom": {
+      "return_window_days": 14,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "14-day window from first charge; renewals non-refundable",
+      "decision_mode": "conditional"
+    },
+    "nordvpn": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "30-day money-back guarantee; first purchase only",
+      "decision_mode": "conditional"
+    },
+    "notion": {
+      "return_window_days": 3,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "3-day refund window from purchase",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "paramount_plus": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "No refunds",
+      "decision_mode": "deterministic"
+    },
+    "peacock": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable at Peacock's discretion",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "peloton": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; no prorated refunds",
+      "decision_mode": "deterministic"
+    },
+    "playstation_plus": {
+      "return_window_days": 14,
+      "return_type": "prorated",
+      "method": "self_service",
+      "conditions": "14-day cancellation window; pro-rated refund minus value of services used",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "proton": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription; no physical return process.",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "ring_protect": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital service plan; no physical return process.",
+      "decision_mode": "review_only"
+    },
+    "scribd": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "30-day window if subscription unused",
+      "decision_mode": "conditional"
+    },
+    "shutterstock": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; early termination fee on annual plans",
+      "decision_mode": "deterministic"
+    },
+    "slack": {
+      "return_window_days": 0,
+      "return_type": "credit",
+      "method": "self_service",
+      "conditions": "No cash refund; Fair Billing Policy provides prorated credit for unused time",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "sling_tv": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; no partial month refunds",
+      "decision_mode": "deterministic"
+    },
+    "spotify": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "No refunds; reverts to free tier on cancellation",
+      "decision_mode": "deterministic"
+    },
+    "squarespace": {
+      "return_window_days": 14,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "14-day money-back guarantee for new annual website plans; first payment only",
+      "decision_mode": "conditional"
+    },
+    "strava": {
+      "return_window_days": 14,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "14-day full refund from date of purchase",
+      "decision_mode": "review_only"
+    },
+    "surfshark": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "30-day money-back guarantee; initial purchase only",
+      "decision_mode": "conditional"
+    },
+    "tidal": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "No refunds in US",
+      "decision_mode": "deterministic"
+    },
+    "tinder": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable in US; 14-day window EU only",
+      "decision_mode": "deterministic"
+    },
+    "todoist": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "30-day refund window for yearly plans; monthly non-refundable",
+      "decision_mode": "conditional"
+    },
+    "twitch": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; exceptions at Twitch's discretion",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "uber_one": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital membership; no physical return process.",
+      "decision_mode": "review_only"
+    },
+    "walmart_plus": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Non-refundable; benefits continue until end of billing cycle",
+      "decision_mode": "deterministic"
+    },
+    "wix": {
+      "return_window_days": 14,
+      "return_type": "full_refund",
+      "method": "self_service",
+      "conditions": "14-day money-back guarantee for new Premium/Studio plans",
+      "decision_mode": "conditional"
+    },
+    "xbox_game_pass": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "30-day refund window from initial purchase",
+      "decision_mode": "review_only"
+    },
+    "youtube_premium": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "No refunds for current billing period",
+      "decision_mode": "review_only"
+    },
+    "youtube_tv": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription; no physical return process.",
+      "decision_mode": "review_only"
+    },
+    "dashlane": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "30-day money-back guarantee for new direct subscriptions.",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "lastpass": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "Refunds may be available within 30 days for new paid subscriptions.",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "keeper": {
+      "return_window_days": 30,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "Refunds may be requested within 30 days of purchase.",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "fitbit_premium": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription refunds depend on the purchase channel and platform policies.",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "myfitnesspal_premium": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription charges are generally non-refundable except where required by law.",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "weightwatchers": {
+      "return_window_days": 14,
+      "return_type": "full_refund",
+      "method": "contact_support",
+      "conditions": "Refund availability depends on selected plan and commitment terms.",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "siriusxm": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription fees are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "patreon": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Membership payments are generally non-refundable and creator-specific.",
+      "decision_mode": "review_only"
+    },
+    "roblox_premium": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "ea_play": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "ubisoft_plus": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "nfl_plus": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription fees are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "mlb_tv": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription fees are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "new_york_times": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "wall_street_journal": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "washington_post": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "substack": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Paid subscriptions are generally non-refundable unless required by law.",
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "snapchat_plus": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "x_premium": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "reddit_premium": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "telegram_premium": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Digital subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "soundcloud_go": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "discovery_plus": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "starz": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "britbox": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "amc_plus": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "Subscription charges are generally non-refundable after billing.",
+      "decision_mode": "review_only"
+    },
+    "zoom": {
+      "return_window_days": 0,
+      "return_type": "none",
+      "method": "n/a",
+      "conditions": "All subscription fees non-refundable",
+      "decision_mode": "deterministic"
+    }
   }
 }

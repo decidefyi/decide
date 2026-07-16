@@ -5,7 +5,7 @@
   "kind": "direct_policy_notary_rulebook",
   "compatibility_policy": "compatibility_policy_v1",
   "replay_contract": "historical_rulebook_replay_v1",
-  "recorded_at": "2026-06-11T00:00:00.000Z",
+  "recorded_at": "2026-07-16T00:00:00.000Z",
   "notes": "Direct policy facts for the Return MCP notary without a trusted adapter.",
   "replay": {
     "request": {
@@ -19,12 +19,15 @@
         "rulebook": {
           "schema_version": "rulebook_v1",
           "rulebook_id": "return_policy_notary",
-          "version": "2026-06-11",
+          "version": "2026-07-15",
           "input_schema": {
             "required": [
               "region_supported",
               "plan_supported",
               "vendor_supported",
+              "context_complete",
+              "missing_context",
+              "qualifying_conditions_met",
               "return_supported",
               "within_window",
               "days_since_purchase",
@@ -47,6 +50,15 @@
                 "type": "boolean"
               },
               "vendor_supported": {
+                "type": "boolean"
+              },
+              "context_complete": {
+                "type": "boolean"
+              },
+              "missing_context": {
+                "type": "string"
+              },
+              "qualifying_conditions_met": {
                 "type": "boolean"
               },
               "return_supported": {
@@ -134,6 +146,21 @@
                 "verdict": "UNKNOWN",
                 "action": "request_supported_vendor",
                 "reason_code": "UNSUPPORTED_VENDOR"
+              }
+            },
+            {
+              "rule_id": "review_missing_context",
+              "priority": 470,
+              "condition": {
+                "field": "context_complete",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "UNKNOWN",
+                "action": "request_required_policy_context",
+                "reason_code": "MISSING_REQUIRED_CONTEXT"
               }
             },
             {
@@ -257,6 +284,9 @@
             "region_supported": true,
             "plan_supported": true,
             "vendor_supported": true,
+            "context_complete": true,
+            "missing_context": "",
+            "qualifying_conditions_met": true,
             "return_supported": true,
             "within_window": true,
             "days_since_purchase": 12,
@@ -267,9 +297,9 @@
             "vendor": "adobe",
             "region": "US",
             "plan": "individual",
-            "policy_rules_version": "2026-02-15",
+            "policy_rules_version": "2026-07-16",
             "policy_source_url": "https://www.adobe.com/legal/subscription-terms.html",
-            "policy_source_notes": "14-day return window for full refund."
+            "policy_source_notes": "14-day return window for full refund Fixture evidence confirms the source-specific qualifying conditions for this return."
           }
         }
       }
@@ -279,12 +309,15 @@
       "rulebook_snapshot": {
         "schema_version": "rulebook_v1",
         "rulebook_id": "return_policy_notary",
-        "version": "2026-06-11",
+        "version": "2026-07-15",
         "input_schema": {
           "required": [
             "region_supported",
             "plan_supported",
             "vendor_supported",
+            "context_complete",
+            "missing_context",
+            "qualifying_conditions_met",
             "return_supported",
             "within_window",
             "days_since_purchase",
@@ -307,6 +340,15 @@
               "type": "boolean"
             },
             "vendor_supported": {
+              "type": "boolean"
+            },
+            "context_complete": {
+              "type": "boolean"
+            },
+            "missing_context": {
+              "type": "string"
+            },
+            "qualifying_conditions_met": {
               "type": "boolean"
             },
             "return_supported": {
@@ -394,6 +436,21 @@
               "verdict": "UNKNOWN",
               "action": "request_supported_vendor",
               "reason_code": "UNSUPPORTED_VENDOR"
+            }
+          },
+          {
+            "rule_id": "review_missing_context",
+            "priority": 470,
+            "condition": {
+              "field": "context_complete",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "UNKNOWN",
+              "action": "request_required_policy_context",
+              "reason_code": "MISSING_REQUIRED_CONTEXT"
             }
           },
           {
@@ -513,6 +570,9 @@
         "region_supported": true,
         "plan_supported": true,
         "vendor_supported": true,
+        "context_complete": true,
+        "missing_context": "",
+        "qualifying_conditions_met": true,
         "return_supported": true,
         "within_window": true,
         "days_since_purchase": 12,
@@ -523,9 +583,9 @@
         "vendor": "adobe",
         "region": "US",
         "plan": "individual",
-        "policy_rules_version": "2026-02-15",
+        "policy_rules_version": "2026-07-16",
         "policy_source_url": "https://www.adobe.com/legal/subscription-terms.html",
-        "policy_source_notes": "14-day return window for full refund."
+        "policy_source_notes": "14-day return window for full refund Fixture evidence confirms the source-specific qualifying conditions for this return."
       },
       "trusted_adapter_invocation": null,
       "trusted_adapter_dependency": null
@@ -538,8 +598,8 @@
     "rulebook": {
       "schema_version": "rulebook_v1",
       "id": "return_policy_notary",
-      "version": "2026-06-11",
-      "hash": "7cedef0f3d69a57d131f4014f85d4f57c08609a6e1f0795b9b83a3cc9cdb7365"
+      "version": "2026-07-15",
+      "hash": "ae0edf66f9aadffcca365fc1ca9b675eb457b0a63d87036f8c0e722ca05511fc"
     },
     "runtime_binding": {
       "production_core": "hybrid_declarative_rulebook_with_trusted_adapters",
@@ -547,10 +607,10 @@
       "verdict_authority": "declarative_rulebook",
       "customer_supplied_code": "rejected"
     },
-    "input_hash": "862e8eea2897e4e1ffd85c7bcb53ac99d280f0f0883d4784891dfc67ade5fc68",
+    "input_hash": "f285427864da81d2a2c38ab939192fa89947970696ddd327dc84b74e6f591a47",
     "rulebook_attestation": {
       "schema_version": "rulebook_attestation_v1",
-      "bundle_hash": "ed60ea63f4d8d5e6958f368f18158be68c97031fa17709baf2f07a6909acb0eb"
+      "bundle_hash": "f81d06dff053392b4a19e2767fa7dc6b3ac5ff4f06b059e7e91e739192fcacf0"
     },
     "semantic_output": {
       "status": "ok",

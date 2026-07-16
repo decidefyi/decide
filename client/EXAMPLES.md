@@ -15,7 +15,8 @@ curl -X POST https://refund.decide.fyi/api/v1/refund/eligibility \
     "vendor": "adobe",
     "days_since_purchase": 12,
     "region": "US",
-    "plan": "individual"
+    "plan": "individual",
+    "qualifying_conditions_met": true
   }'
 ```
 
@@ -26,10 +27,12 @@ curl -X POST https://refund.decide.fyi/api/v1/refund/eligibility \
   "verdict": "ALLOWED",
   "code": "WITHIN_WINDOW",
   "message": "Refund is allowed. Purchase is 12 day(s) old, within 14 day window.",
-  "rules_version": "2026-02-01",
+  "rules_version": "2026-07-16",
   "vendor": "adobe",
   "window_days": 14,
-  "days_since_purchase": 12
+  "days_since_purchase": 12,
+  "qualifying_conditions_met": true,
+  "automation_safe": true
 }
 ```
 
@@ -49,7 +52,8 @@ const result = await fetch("https://refund.decide.fyi/api/v1/refund/eligibility"
     vendor: "adobe",
     days_since_purchase: 12,
     region: "US",
-    plan: "individual"
+    plan: "individual",
+    qualifying_conditions_met: true
   })
 }).then(r => r.json());
 
@@ -65,7 +69,8 @@ result = requests.post("https://refund.decide.fyi/api/v1/refund/eligibility", js
     "vendor": "adobe",
     "days_since_purchase": 12,
     "region": "US",
-    "plan": "individual"
+    "plan": "individual",
+    "qualifying_conditions_met": True
 }).json()
 
 print(result["verdict"])  # "ALLOWED" | "DENIED" | "UNKNOWN"
@@ -84,7 +89,7 @@ If you want standalone command-line tools:
 curl -O https://raw.githubusercontent.com/decidefyi/decide/main/client/refund-auditor.js
 
 # Run it (requires Node.js 18+)
-node refund-auditor.js adobe 12
+node refund-auditor.js adobe 12 true
 ```
 
 **Output:**
@@ -92,7 +97,7 @@ node refund-auditor.js adobe 12
 ✅ ALLOWED
    Refund is allowed. Purchase is 12 day(s) old, within 14 day window.
    Window: 14 days
-   Rules version: 2026-02-01
+   Rules version: 2026-07-16
 ```
 
 ### Python (One Command)
@@ -148,26 +153,13 @@ Now you can ask Claude:
 "Check if I can get a refund for my Adobe subscription I bought 10 days ago"
 ```
 
-Claude will call the `refund_eligibility` tool automatically.
+Claude will call the `refund_eligibility` tool automatically. If the policy needs source-specific facts or vendor approval, the tool returns `UNKNOWN` with `required_context` instead of inventing an answer.
 
 ---
 
 ## Supported Vendors (100)
 
-See the full vendor table in the [README](../README.md#supported-vendors-100). A few highlights:
-
-| Vendor | ID | Refund Window |
-|--------|-----|---------------|
-| Adobe | `adobe` | 14 days |
-| Amazon Prime | `amazon_prime` | 3 days |
-| Apple App Store | `apple_app_store` | 14 days |
-| ExpressVPN | `expressvpn` | 30 days |
-| Google Play | `google_play` | 2 days |
-| Microsoft 365 | `microsoft_365` | 30 days |
-| Netflix | `netflix` | No refunds |
-| Spotify | `spotify` | No refunds |
-
-...and 92 more. Vendor list updates daily via automated policy checks.
+Use the versioned [refund rules](../rules/v1_us_individual.json) and [official-source registry](../rules/policy-sources.json) as the canonical catalog. Each vendor is explicitly classified as `deterministic`, `conditional`, or `review_only`. The monitor detects source changes; only reviewed repository changes alter runtime rules.
 
 ---
 
@@ -179,6 +171,8 @@ Every response includes:
 - `rules_version` - Data version for tracking
 - `refundable` - Boolean (null if UNKNOWN)
 - `code` - Machine-readable status code
+- `required_context` - Facts or manual review needed when the verdict is `UNKNOWN`
+- `automation_safe` - Whether the returned verdict is safe for the supported automation scope
 
 **Example response:**
 ```json
@@ -187,10 +181,12 @@ Every response includes:
   "verdict": "ALLOWED",
   "code": "WITHIN_WINDOW",
   "message": "Refund is allowed. Purchase is 12 day(s) old, within 14 day window.",
-  "rules_version": "2026-02-01",
+  "rules_version": "2026-07-16",
   "vendor": "adobe",
   "window_days": 14,
-  "days_since_purchase": 12
+  "days_since_purchase": 12,
+  "qualifying_conditions_met": true,
+  "automation_safe": true
 }
 ```
 
@@ -200,6 +196,6 @@ Every response includes:
 
 - **Deterministic** - Same input always returns same output
 - **Stateless** - No accounts, no API keys (rate limit: 100 req/min per IP)
-- **Fast** - ~50ms response time globally
-- **Authoritative** - Single source of truth for refund policies
+- **Auditable** - Versioned rules, official-source metadata, and policy lineage fields
+- **Fail-closed** - Missing facts and approval-dependent policies return `UNKNOWN`
 - **Agent-Ready** - MCP + REST, works in any agent framework

@@ -1,106 +1,438 @@
 {
-  "rules_version": "2026-02-15",
-  "scope": { "region": "US", "plan": "individual" },
+  "rules_version": "2026-07-16",
+  "scope": {
+    "region": "US",
+    "plan": "individual"
+  },
   "vendors": {
-    "1password": { "window_days": 0 },
-    "adobe": { "window_days": 14 },
-    "amazon_music_unlimited": { "window_days": 0 },
-    "amazon_prime": { "window_days": 3 },
-    "apple_app_store": { "window_days": 14 },
-    "apple_arcade": { "window_days": 14 },
-    "apple_music": { "window_days": 0 },
-    "apple_tv_plus": { "window_days": 0 },
-    "audible": { "window_days": 0 },
-    "bitwarden": { "window_days": 30 },
-    "bumble": { "window_days": 0 },
-    "calm": { "window_days": 30 },
-    "canva": { "window_days": 0 },
-    "chatgpt_plus": { "window_days": 0 },
-    "claude_pro": { "window_days": 0 },
-    "coursera_plus": { "window_days": 14 },
-    "crunchyroll": { "window_days": 0 },
-    "deezer": { "window_days": 0 },
-    "discord_nitro": { "window_days": 0 },
-    "disney_plus": { "window_days": 0 },
-    "doordash_dashpass": { "window_days": 0 },
-    "dropbox_us": { "window_days": 0 },
-    "duolingo": { "window_days": 0 },
-    "espn_plus": { "window_days": 0 },
-    "evernote": { "window_days": 20 },
-    "expressvpn": { "window_days": 30 },
-    "figma": { "window_days": 0 },
-    "fubo_tv": { "window_days": 0 },
-    "github_pro": { "window_days": 0 },
-    "google_one": { "window_days": 0 },
-    "google_play": { "window_days": 2 },
-    "grammarly": { "window_days": 0 },
-    "headspace": { "window_days": 0 },
-    "hellofresh": { "window_days": 0 },
-    "hinge": { "window_days": 0 },
-    "hulu": { "window_days": 0 },
-    "icloud_plus": { "window_days": 14 },
-    "instacart_plus": { "window_days": 5 },
-    "kindle_unlimited": { "window_days": 0 },
-    "linkedin_premium": { "window_days": 7 },
-    "masterclass": { "window_days": 30 },
-    "max": { "window_days": 0 },
-    "microsoft_365": { "window_days": 30 },
-    "midjourney": { "window_days": 0 },
-    "netflix": { "window_days": 0 },
-    "nintendo_switch_online": { "window_days": 0 },
-    "noom": { "window_days": 14 },
-    "nordvpn": { "window_days": 30 },
-    "notion": { "window_days": 3 },
-    "paramount_plus": { "window_days": 0 },
-    "peacock": { "window_days": 0 },
-    "peloton": { "window_days": 0 },
-    "playstation_plus": { "window_days": 14 },
-    "proton": { "window_days": 30 },
-    "ring_protect": { "window_days": 0 },
-    "scribd": { "window_days": 30 },
-    "shutterstock": { "window_days": 0 },
-    "slack": { "window_days": 0 },
-    "sling_tv": { "window_days": 0 },
-    "spotify": { "window_days": 0 },
-    "squarespace": { "window_days": 14 },
-    "strava": { "window_days": 14 },
-    "surfshark": { "window_days": 30 },
-    "tidal": { "window_days": 0 },
-    "tinder": { "window_days": 0 },
-    "todoist": { "window_days": 30 },
-    "twitch": { "window_days": 0 },
-    "uber_one": { "window_days": 0 },
-    "walmart_plus": { "window_days": 0 },
-    "wix": { "window_days": 14 },
-    "xbox_game_pass": { "window_days": 30 },
-    "youtube_premium": { "window_days": 0 },
-    "youtube_tv": { "window_days": 0 },
-    "dashlane": { "window_days": 30 },
-    "lastpass": { "window_days": 30 },
-    "keeper": { "window_days": 30 },
-    "fitbit_premium": { "window_days": 0 },
-    "myfitnesspal_premium": { "window_days": 0 },
-    "weightwatchers": { "window_days": 14 },
-    "siriusxm": { "window_days": 0 },
-    "patreon": { "window_days": 0 },
-    "roblox_premium": { "window_days": 0 },
-    "ea_play": { "window_days": 0 },
-    "ubisoft_plus": { "window_days": 0 },
-    "nfl_plus": { "window_days": 0 },
-    "mlb_tv": { "window_days": 0 },
-    "new_york_times": { "window_days": 0 },
-    "wall_street_journal": { "window_days": 0 },
-    "washington_post": { "window_days": 0 },
-    "substack": { "window_days": 0 },
-    "snapchat_plus": { "window_days": 0 },
-    "x_premium": { "window_days": 0 },
-    "reddit_premium": { "window_days": 0 },
-    "telegram_premium": { "window_days": 0 },
-    "soundcloud_go": { "window_days": 0 },
-    "discovery_plus": { "window_days": 0 },
-    "starz": { "window_days": 0 },
-    "britbox": { "window_days": 0 },
-    "amc_plus": { "window_days": 0 },
-    "zoom": { "window_days": 0 }
+    "1password": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "adobe": {
+      "window_days": 14,
+      "decision_mode": "conditional"
+    },
+    "amazon_music_unlimited": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "amazon_prime": {
+      "window_days": 3,
+      "decision_mode": "conditional"
+    },
+    "apple_app_store": {
+      "window_days": 14,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "apple_arcade": {
+      "window_days": 14,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "apple_music": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "apple_tv_plus": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "audible": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "bitwarden": {
+      "window_days": 30,
+      "decision_mode": "conditional"
+    },
+    "bumble": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "calm": {
+      "window_days": 30,
+      "decision_mode": "conditional"
+    },
+    "canva": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "chatgpt_plus": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "claude_pro": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "coursera_plus": {
+      "window_days": 14,
+      "decision_mode": "conditional"
+    },
+    "crunchyroll": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "deezer": {
+      "window_days": 0,
+      "decision_mode": "conditional",
+      "conditional_window_days": 14
+    },
+    "discord_nitro": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "disney_plus": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "doordash_dashpass": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "dropbox_us": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "duolingo": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "espn_plus": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "evernote": {
+      "window_days": 20,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "expressvpn": {
+      "window_days": 30,
+      "decision_mode": "conditional"
+    },
+    "figma": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "fubo_tv": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "github_pro": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "google_one": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "google_play": {
+      "window_days": 2,
+      "decision_mode": "review_only"
+    },
+    "grammarly": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "headspace": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "hellofresh": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "hinge": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "hulu": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "icloud_plus": {
+      "window_days": 14,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "instacart_plus": {
+      "window_days": 5,
+      "decision_mode": "conditional"
+    },
+    "kindle_unlimited": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "linkedin_premium": {
+      "window_days": 7,
+      "decision_mode": "conditional"
+    },
+    "masterclass": {
+      "window_days": 30,
+      "decision_mode": "conditional"
+    },
+    "max": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "microsoft_365": {
+      "window_days": 30,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "midjourney": {
+      "window_days": 0,
+      "decision_mode": "conditional",
+      "condition_only": true
+    },
+    "netflix": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "nintendo_switch_online": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "noom": {
+      "window_days": 14,
+      "decision_mode": "conditional"
+    },
+    "nordvpn": {
+      "window_days": 30,
+      "decision_mode": "conditional"
+    },
+    "notion": {
+      "window_days": 3,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "paramount_plus": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "peacock": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "peloton": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "playstation_plus": {
+      "window_days": 14,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "proton": {
+      "window_days": 30,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "ring_protect": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "scribd": {
+      "window_days": 30,
+      "decision_mode": "conditional"
+    },
+    "shutterstock": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "slack": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "sling_tv": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "spotify": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "squarespace": {
+      "window_days": 14,
+      "decision_mode": "conditional"
+    },
+    "strava": {
+      "window_days": 14,
+      "decision_mode": "review_only"
+    },
+    "surfshark": {
+      "window_days": 30,
+      "decision_mode": "conditional"
+    },
+    "tidal": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "tinder": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "todoist": {
+      "window_days": 30,
+      "decision_mode": "conditional"
+    },
+    "twitch": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "uber_one": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "walmart_plus": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    },
+    "wix": {
+      "window_days": 14,
+      "decision_mode": "conditional"
+    },
+    "xbox_game_pass": {
+      "window_days": 30,
+      "decision_mode": "review_only"
+    },
+    "youtube_premium": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "youtube_tv": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "dashlane": {
+      "window_days": 30,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "lastpass": {
+      "window_days": 30,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "keeper": {
+      "window_days": 30,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "fitbit_premium": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "myfitnesspal_premium": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "weightwatchers": {
+      "window_days": 14,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "siriusxm": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "patreon": {
+      "window_days": 0,
+      "decision_mode": "review_only",
+      "review_reason": "Policy requires a channel, approval, jurisdiction, timing, or plan branch not represented by the current input contract."
+    },
+    "roblox_premium": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "ea_play": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "ubisoft_plus": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "nfl_plus": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "mlb_tv": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "new_york_times": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "wall_street_journal": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "washington_post": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "substack": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "snapchat_plus": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "x_premium": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "reddit_premium": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "telegram_premium": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "soundcloud_go": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "discovery_plus": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "starz": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "britbox": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "amc_plus": {
+      "window_days": 0,
+      "decision_mode": "review_only"
+    },
+    "zoom": {
+      "window_days": 0,
+      "decision_mode": "deterministic"
+    }
   }
 }

@@ -5,7 +5,7 @@
   "kind": "direct_policy_notary_rulebook",
   "compatibility_policy": "compatibility_policy_v1",
   "replay_contract": "historical_rulebook_replay_v1",
-  "recorded_at": "2026-06-11T00:00:00.000Z",
+  "recorded_at": "2026-07-16T00:00:00.000Z",
   "notes": "Direct policy facts for the Trial MCP notary without a trusted adapter.",
   "replay": {
     "request": {
@@ -19,12 +19,16 @@
         "rulebook": {
           "schema_version": "rulebook_v1",
           "rulebook_id": "trial_policy_notary",
-          "version": "2026-06-11",
+          "version": "2026-07-15",
           "input_schema": {
             "required": [
               "region_supported",
               "plan_supported",
               "vendor_supported",
+              "context_complete",
+              "missing_context",
+              "offer_confirmed",
+              "observed_trial_days",
               "trial_available",
               "auto_converts",
               "trial_days",
@@ -45,6 +49,18 @@
               },
               "vendor_supported": {
                 "type": "boolean"
+              },
+              "context_complete": {
+                "type": "boolean"
+              },
+              "missing_context": {
+                "type": "string"
+              },
+              "offer_confirmed": {
+                "type": "boolean"
+              },
+              "observed_trial_days": {
+                "type": "integer"
               },
               "trial_available": {
                 "type": "boolean"
@@ -125,6 +141,21 @@
               }
             },
             {
+              "rule_id": "review_missing_context",
+              "priority": 470,
+              "condition": {
+                "field": "context_complete",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "UNKNOWN",
+                "action": "request_required_policy_context",
+                "reason_code": "MISSING_REQUIRED_CONTEXT"
+              }
+            },
+            {
               "rule_id": "deny_no_trial",
               "priority": 300,
               "condition": {
@@ -194,6 +225,10 @@
             "region_supported": true,
             "plan_supported": true,
             "vendor_supported": true,
+            "context_complete": true,
+            "missing_context": "",
+            "offer_confirmed": true,
+            "observed_trial_days": 7,
             "trial_available": true,
             "auto_converts": true,
             "trial_days": 7,
@@ -201,9 +236,9 @@
             "vendor": "adobe",
             "region": "US",
             "plan": "individual",
-            "policy_rules_version": "2026-02-15",
+            "policy_rules_version": "2026-07-16",
             "policy_source_url": "https://www.adobe.com/creativecloud/plans.html",
-            "policy_source_notes": "Trial offer is available and converts automatically unless canceled."
+            "policy_source_notes": "7-day Creative Cloud trial; card required Fixture evidence records a live 7-day offer that requires a card and auto-converts."
           }
         }
       }
@@ -213,12 +248,16 @@
       "rulebook_snapshot": {
         "schema_version": "rulebook_v1",
         "rulebook_id": "trial_policy_notary",
-        "version": "2026-06-11",
+        "version": "2026-07-15",
         "input_schema": {
           "required": [
             "region_supported",
             "plan_supported",
             "vendor_supported",
+            "context_complete",
+            "missing_context",
+            "offer_confirmed",
+            "observed_trial_days",
             "trial_available",
             "auto_converts",
             "trial_days",
@@ -239,6 +278,18 @@
             },
             "vendor_supported": {
               "type": "boolean"
+            },
+            "context_complete": {
+              "type": "boolean"
+            },
+            "missing_context": {
+              "type": "string"
+            },
+            "offer_confirmed": {
+              "type": "boolean"
+            },
+            "observed_trial_days": {
+              "type": "integer"
             },
             "trial_available": {
               "type": "boolean"
@@ -319,6 +370,21 @@
             }
           },
           {
+            "rule_id": "review_missing_context",
+            "priority": 470,
+            "condition": {
+              "field": "context_complete",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "UNKNOWN",
+              "action": "request_required_policy_context",
+              "reason_code": "MISSING_REQUIRED_CONTEXT"
+            }
+          },
+          {
             "rule_id": "deny_no_trial",
             "priority": 300,
             "condition": {
@@ -384,6 +450,10 @@
         "region_supported": true,
         "plan_supported": true,
         "vendor_supported": true,
+        "context_complete": true,
+        "missing_context": "",
+        "offer_confirmed": true,
+        "observed_trial_days": 7,
         "trial_available": true,
         "auto_converts": true,
         "trial_days": 7,
@@ -391,9 +461,9 @@
         "vendor": "adobe",
         "region": "US",
         "plan": "individual",
-        "policy_rules_version": "2026-02-15",
+        "policy_rules_version": "2026-07-16",
         "policy_source_url": "https://www.adobe.com/creativecloud/plans.html",
-        "policy_source_notes": "Trial offer is available and converts automatically unless canceled."
+        "policy_source_notes": "7-day Creative Cloud trial; card required Fixture evidence records a live 7-day offer that requires a card and auto-converts."
       },
       "trusted_adapter_invocation": null,
       "trusted_adapter_dependency": null
@@ -406,8 +476,8 @@
     "rulebook": {
       "schema_version": "rulebook_v1",
       "id": "trial_policy_notary",
-      "version": "2026-06-11",
-      "hash": "faa036de74aa54c13ad664854be2e1b421ffa1ce089001c34c3163d528d2eed0"
+      "version": "2026-07-15",
+      "hash": "0c3986255296fc9f91c320dafe46132cfa17e2fa42371024c8228d0b2781965d"
     },
     "runtime_binding": {
       "production_core": "hybrid_declarative_rulebook_with_trusted_adapters",
@@ -415,10 +485,10 @@
       "verdict_authority": "declarative_rulebook",
       "customer_supplied_code": "rejected"
     },
-    "input_hash": "70296146f02880bf12cbe26b3fa9581d38b803463a6486b9f0a3ff0e6c568dcd",
+    "input_hash": "20a873d580dfe4e8ad5e85a7b3058c14d07697e54c0ec6a27847ca6a05ae8e7d",
     "rulebook_attestation": {
       "schema_version": "rulebook_attestation_v1",
-      "bundle_hash": "18ed14f6a01c84af37f5c9ed11ad7fde35dafa153ece59baed0544c6279f71fc"
+      "bundle_hash": "2c207ecdb3747b77cf230bdf137979f7e8fbe22c57e987ca2698ea39b3f92d6a"
     },
     "semantic_output": {
       "status": "ok",

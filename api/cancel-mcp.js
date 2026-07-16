@@ -12,7 +12,7 @@ export const TOOL = {
   name: "cancellation_penalty",
   title: "Check cancellation penalty",
   description:
-    "Check if cancelling a US consumer subscription will incur a penalty or fee. Returns FREE_CANCEL, PENALTY, or LOCKED.",
+    "Evaluate whether cancelling a US consumer subscription incurs a penalty or lock. Returns UNKNOWN when billing cadence is required or the policy needs manual review.",
   inputSchema: {
     type: "object",
     additionalProperties: false,

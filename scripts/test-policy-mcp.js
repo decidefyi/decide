@@ -6,10 +6,13 @@ import { MCP_TOOL_CONFIG as refundTool } from "../api/mcp.js";
 import { MCP_TOOL_CONFIG as cancelTool } from "../api/cancel-mcp.js";
 import { MCP_TOOL_CONFIG as returnTool } from "../api/return-mcp.js";
 import { MCP_TOOL_CONFIG as trialTool } from "../api/trial-mcp.js";
+import refundEligibilityHandler from "../lib/routes/v1/policies/refund-eligibility.js";
+import trialTermsHandler from "../lib/routes/v1/policies/trial-terms.js";
 import {
   buildPolicyMcpServerCard,
   buildPolicyRegistryServer,
 } from "../lib/policy-mcp-metadata.js";
+import { buildPolicySourceHash } from "../lib/lineage.js";
 import { validateJsonSchema } from "../lib/json-schema-lite.js";
 import middleware from "../middleware.js";
 import { invokeJson } from "./test-helpers/http-harness.js";
@@ -144,7 +147,7 @@ async function testRoutesVariableTrialOfferToReview() {
   assert.equal(response.json?.result?.structuredContent?.code, "MISSING_REQUIRED_CONTEXT");
   assert.deepEqual(
     response.json?.result?.structuredContent?.required_context,
-    ["offer_confirmed", "observed_trial_days"]
+    ["offer_confirmed", "observed_trial_days", "observed_card_required", "observed_auto_converts"]
   );
 
   const confirmed = await invokeJson(policyMcp, {
@@ -162,6 +165,8 @@ async function testRoutesVariableTrialOfferToReview() {
           plan: "individual",
           offer_confirmed: true,
           observed_trial_days: 14,
+          observed_card_required: true,
+          observed_auto_converts: true,
         },
       },
     },
@@ -169,6 +174,51 @@ async function testRoutesVariableTrialOfferToReview() {
 
   assert.equal(confirmed.json?.result?.structuredContent?.verdict, "TRIAL_AVAILABLE");
   assert.equal(confirmed.json?.result?.structuredContent?.trial_days, 14);
+}
+
+async function testRoutesDynamicTrialsToReview() {
+  const response = await invokeJson(policyMcp, {
+    method: "POST",
+    headers: { "user-agent": "policy-mcp-test" },
+    body: {
+      jsonrpc: "2.0",
+      id: 261,
+      method: "tools/call",
+      params: {
+        name: "trial_terms",
+        arguments: { vendor: "grammarly", region: "US", plan: "individual" },
+      },
+    },
+  });
+
+  assert.equal(response.statusCode, 200);
+  assert.equal(response.json?.result?.structuredContent?.verdict, "UNKNOWN");
+  assert.equal(response.json?.result?.structuredContent?.code, "MISSING_REQUIRED_CONTEXT");
+
+  const observed = await invokeJson(policyMcp, {
+    method: "POST",
+    headers: { "user-agent": "policy-mcp-test" },
+    body: {
+      jsonrpc: "2.0",
+      id: 262,
+      method: "tools/call",
+      params: {
+        name: "trial_terms",
+        arguments: {
+          vendor: "grammarly",
+          region: "US",
+          plan: "individual",
+          offer_confirmed: true,
+          observed_trial_days: 7,
+          observed_card_required: true,
+          observed_auto_converts: true,
+        },
+      },
+    },
+  });
+
+  assert.equal(observed.json?.result?.structuredContent?.verdict, "TRIAL_AVAILABLE");
+  assert.equal(observed.json?.result?.structuredContent?.trial_days, 7);
 }
 
 async function testRoutesConditionalRefundToReview() {
@@ -221,6 +271,156 @@ async function testRoutesConditionalRefundToReview() {
     });
     assert.equal(qualified.json?.result?.structuredContent?.verdict, expectedVerdict);
   }
+}
+
+async function testKeepsApprovalBasedRefundsInManualReview() {
+  const approvalBasedVendors = [
+    "apple_app_store",
+    "google_play",
+    "youtube_premium",
+    "strava",
+    "xbox_game_pass",
+  ];
+
+  for (const vendor of approvalBasedVendors) {
+    for (const qualifyingConditionsMet of [undefined, true]) {
+      const response = await invokeJson(policyMcp, {
+        method: "POST",
+        headers: { "user-agent": "policy-mcp-test" },
+        body: {
+          jsonrpc: "2.0",
+          id: `${vendor}-refund-${qualifyingConditionsMet}`,
+          method: "tools/call",
+          params: {
+            name: "refund_eligibility",
+            arguments: {
+              vendor,
+              days_since_purchase: 5,
+              region: "US",
+              plan: "individual",
+              ...(qualifyingConditionsMet === undefined
+                ? {}
+                : { qualifying_conditions_met: true }),
+            },
+          },
+        },
+      });
+
+      assert.equal(response.statusCode, 200);
+      assert.equal(response.json?.result?.structuredContent?.verdict, "UNKNOWN");
+      assert.equal(response.json?.result?.structuredContent?.code, "MISSING_REQUIRED_CONTEXT");
+      assert.deepEqual(
+        response.json?.result?.structuredContent?.required_context,
+        ["manual_policy_review"]
+      );
+    }
+  }
+}
+
+async function testPublicPolicyRoutesFailClosed() {
+  const refund = await invokeJson(refundEligibilityHandler, {
+    method: "POST",
+    headers: { "user-agent": "policy-rest-test" },
+    body: {
+      vendor: "expressvpn",
+      days_since_purchase: 5,
+      region: "US",
+      plan: "individual",
+    },
+  });
+  assert.equal(refund.statusCode, 200);
+  assert.equal(refund.json?.verdict, "UNKNOWN");
+  assert.equal(refund.json?.code, "MISSING_REQUIRED_CONTEXT");
+
+  const trial = await invokeJson(trialTermsHandler, {
+    method: "POST",
+    headers: { "user-agent": "policy-rest-test" },
+    body: { vendor: "grammarly", region: "US", plan: "individual" },
+  });
+  assert.equal(trial.statusCode, 200);
+  assert.equal(trial.json?.verdict, "UNKNOWN");
+  assert.equal(trial.json?.code, "MISSING_REQUIRED_CONTEXT");
+}
+
+function testPolicyAutomationModesAreExplicit() {
+  const refundRules = readJson("../rules/v1_us_individual.json");
+  const refundSources = readJson("../rules/policy-sources.json");
+  const cancelRules = readJson("../rules/v1_us_individual_cancel.json");
+  const cancelSources = readJson("../rules/cancel-policy-sources.json");
+  const returnRules = readJson("../rules/v1_us_individual_return.json");
+  const returnSources = readJson("../rules/return-policy-sources.json");
+  const trialRules = readJson("../rules/v1_us_individual_trial.json");
+  const trialSources = readJson("../rules/trial-policy-sources.json");
+  const decisionModes = new Set(["deterministic", "conditional", "review_only"]);
+  const offerModes = new Set(["fixed", "observed", "none"]);
+  const ambiguousDenialSource = /\b(generally|typically|can vary|depend(?:s|ing)?|guidance|billing behavior|billing conditions|terms page|customer agreement|subscription details|management and cancellation|physical return process)\b/i;
+  const categoricalDenialSource = /\bno refunds?\b|\bnon-refundable\b|\ball sales final\b|\bno returns?\b/i;
+
+  for (const [policy, rulebook, sourcebook] of [
+    ["refund", refundRules, refundSources],
+    ["cancel", cancelRules, cancelSources],
+    ["return", returnRules, returnSources],
+    ["trial", trialRules, trialSources],
+  ]) {
+    assert.deepEqual(
+      Object.keys(sourcebook.vendors || {}).sort(),
+      Object.keys(rulebook.vendors || {}).sort(),
+      `${policy} rules and source evidence must cover the same vendors`
+    );
+    for (const [vendor, source] of Object.entries(sourcebook.vendors || {})) {
+      assert.match(source.url || "", /^https:\/\//, `${policy}/${vendor} needs an HTTPS primary source`);
+      assert.ok(String(source.notes || "").trim(), `${policy}/${vendor} needs source notes`);
+    }
+  }
+
+  for (const [vendor, rule] of Object.entries(refundRules.vendors)) {
+    assert.ok(decisionModes.has(rule.decision_mode), `${vendor} refund decision_mode must be explicit`);
+    if (rule.decision_mode === "deterministic" && rule.window_days === 0) {
+      const notes = refundSources.vendors?.[vendor]?.notes || "";
+      assert.doesNotMatch(notes, ambiguousDenialSource, `${vendor} ambiguous refund source must fail closed`);
+      assert.match(notes, categoricalDenialSource, `${vendor} deterministic refund denial needs categorical source notes`);
+    }
+  }
+  for (const [vendor, rule] of Object.entries(cancelRules.vendors)) {
+    assert.ok(decisionModes.has(rule.decision_mode), `${vendor} cancel decision_mode must be explicit`);
+  }
+  for (const [vendor, rule] of Object.entries(returnRules.vendors)) {
+    assert.ok(decisionModes.has(rule.decision_mode), `${vendor} return decision_mode must be explicit`);
+    if (rule.decision_mode === "deterministic" && rule.return_window_days === 0) {
+      const notes = returnSources.vendors?.[vendor]?.notes || "";
+      assert.doesNotMatch(notes, ambiguousDenialSource, `${vendor} ambiguous return source must fail closed`);
+      assert.match(notes, categoricalDenialSource, `${vendor} deterministic return denial needs categorical source notes`);
+    }
+  }
+  for (const [vendor, rule] of Object.entries(trialRules.vendors)) {
+    assert.ok(offerModes.has(rule.offer_mode), `${vendor} trial offer_mode must be explicit`);
+    if (rule.offer_mode === "observed") {
+      assert.equal(rule.trial_available, false, `${vendor} observed trial must not publish static availability`);
+      assert.equal(rule.trial_days, 0, `${vendor} observed trial must not publish a static duration`);
+    }
+  }
+}
+
+function testPolicySourceHashTracksReviewedPolicyNotMonitorTime() {
+  const base = {
+    policy: "refund",
+    policyVersion: "2026-07-16",
+    rules: { adobe: { window_days: 14, decision_mode: "conditional" } },
+    sources: { adobe: { url: "https://example.com/refunds", notes: "14-day window" } },
+    lastVerifiedUtc: "2026-07-16T10:50:53Z",
+    verificationScope: "Official source reviewed.",
+    lastChecked: "2026-07-16",
+  };
+
+  const initial = buildPolicySourceHash(base);
+  const afterMonitorOnly = buildPolicySourceHash({ ...base, lastChecked: "2026-07-17" });
+  const afterSourceRevision = buildPolicySourceHash({
+    ...base,
+    sources: { adobe: { ...base.sources.adobe, notes: "Updated reviewed source note" } },
+  });
+
+  assert.equal(afterMonitorOnly, initial, "monitor timestamps must not change policy lineage");
+  assert.notEqual(afterSourceRevision, initial, "reviewed source changes must change policy lineage");
 }
 
 async function testRoutesConditionalReturnToReview() {
@@ -279,7 +479,13 @@ async function testCallsEveryPolicyTool() {
   const cases = [
     {
       name: "refund_eligibility",
-      arguments: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+      arguments: {
+        vendor: "adobe",
+        days_since_purchase: 5,
+        region: "US",
+        plan: "individual",
+        qualifying_conditions_met: true,
+      },
       verdict: "ALLOWED",
     },
     {
@@ -289,12 +495,26 @@ async function testCallsEveryPolicyTool() {
     },
     {
       name: "return_eligibility",
-      arguments: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+      arguments: {
+        vendor: "adobe",
+        days_since_purchase: 5,
+        region: "US",
+        plan: "individual",
+        qualifying_conditions_met: true,
+      },
       verdict: "RETURNABLE",
     },
     {
       name: "trial_terms",
-      arguments: { vendor: "adobe", region: "US", plan: "individual" },
+      arguments: {
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        offer_confirmed: true,
+        observed_trial_days: 7,
+        observed_card_required: true,
+        observed_auto_converts: true,
+      },
       verdict: "TRIAL_AVAILABLE",
     },
   ];
@@ -555,10 +775,20 @@ await testRoutesAmbiguousCancellationContextToReview();
 console.log("PASS policy MCP routes ambiguous cancellation context to review");
 await testRoutesVariableTrialOfferToReview();
 console.log("PASS policy MCP routes variable trial offers to review");
+await testRoutesDynamicTrialsToReview();
+console.log("PASS policy MCP routes dynamic trial offers to review");
 await testRoutesConditionalRefundToReview();
 console.log("PASS policy MCP routes conditional refunds to review");
+await testKeepsApprovalBasedRefundsInManualReview();
+console.log("PASS policy MCP keeps approval-based refunds in manual review");
 await testRoutesConditionalReturnToReview();
 console.log("PASS policy MCP routes conditional returns to review");
+await testPublicPolicyRoutesFailClosed();
+console.log("PASS public policy routes fail closed like MCP");
+testPolicyAutomationModesAreExplicit();
+console.log("PASS policy automation modes are explicit in every vendor rule");
+testPolicySourceHashTracksReviewedPolicyNotMonitorTime();
+console.log("PASS policy source hash tracks reviewed policy, not monitor time");
 await testCallsEveryPolicyTool();
 console.log("PASS policy MCP dispatches every listed tool");
 await testLabelsSourceAndRuleFreshnessPrecisely();

@@ -17,6 +17,7 @@
       "days_since_purchase": 5,
       "region": "US",
       "plan": "individual",
+      "qualifying_conditions_met": true,
       "decision_override": "yes",
       "idempotency_key": "fixture-refund-zd-1001"
     }

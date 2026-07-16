@@ -67,6 +67,76 @@ function normalizeSampleDetails(value) {
   }));
 }
 
+function eventDateUtc(event = {}) {
+  const explicit = normalizeDateOnly(event?.date_utc);
+  if (explicit) return explicit;
+  const emitted = String(event?.emitted_at_utc || "").trim();
+  return /^\d{4}-\d{2}-\d{2}/.test(emitted) ? emitted.slice(0, 10) : "";
+}
+
+function toSampleDetailFromEvent(event = {}) {
+  const policy = String(event?.policy || "").trim();
+  const vendor = String(event?.vendor || "").trim();
+  return {
+    event_id: String(event?.event_id || "").trim(),
+    key: policy && vendor ? `${policy}:${vendor}` : "",
+    policy,
+    vendor,
+    source_url: String(event?.source_url || "").trim(),
+    semantic_diff_summary: String(event?.semantic_diff_summary || "").trim(),
+    emitted_at_utc: String(event?.emitted_at_utc || "").trim(),
+    run_url: String(event?.run_url || "").trim(),
+    review_status: String(event?.review_status || "unreviewed"),
+    reviewed_at_utc: String(event?.reviewed_at_utc || ""),
+    reviewed_by: String(event?.reviewed_by || ""),
+    review_note: String(event?.review_note || ""),
+    rulebook_updated: event?.rulebook_updated === true,
+    rulebook_version_after: String(event?.rulebook_version_after || ""),
+  };
+}
+
+export function attachPolicyEventDetails(alerts = [], policyEvents = []) {
+  const eventsByDate = new Map();
+  for (const event of policyEvents) {
+    const dateUtc = eventDateUtc(event);
+    if (!dateUtc) continue;
+    const entries = eventsByDate.get(dateUtc) || [];
+    entries.push(event);
+    eventsByDate.set(dateUtc, entries);
+  }
+
+  return alerts.map((alert) => {
+    const existingDetails = normalizeSampleDetails(alert?.sample_details);
+    if (existingDetails.length > 0 || toNumber(alert?.changed_count, 0) <= 0) {
+      return { ...alert, sample_details: existingDetails };
+    }
+
+    const dateUtc = normalizeDateOnly(alert?.date_utc);
+    const sortedEvents = [...(eventsByDate.get(dateUtc) || [])]
+      .sort((left, right) => String(right?.emitted_at_utc || "").localeCompare(String(left?.emitted_at_utc || "")));
+    const deduped = new Map();
+    for (const event of sortedEvents) {
+      const policy = String(event?.policy || "").trim();
+      const vendor = String(event?.vendor || "").trim();
+      const eventId = String(event?.event_id || "").trim();
+      const key = policy && vendor ? `${policy}:${vendor}` : eventId;
+      if (!key || deduped.has(key)) continue;
+      deduped.set(key, event);
+    }
+    const sampleDetails = normalizeSampleDetails(
+      [...deduped.values()].slice(0, 20).map((event) => toSampleDetailFromEvent(event))
+    );
+
+    return {
+      ...alert,
+      sample_details: sampleDetails,
+      changed_sample: Array.isArray(alert?.changed_sample) && alert.changed_sample.length > 0
+        ? alert.changed_sample
+        : sampleDetails.map((detail) => detail.key).filter(Boolean),
+    };
+  });
+}
+
 export function applyPolicyEventReviews(alerts = [], eventReviews = []) {
   const reviewsById = new Map(
     eventReviews
@@ -356,11 +426,38 @@ async function loadAlertsFromSupabase({
 
   const rows = Array.isArray(result.data) ? result.data : [];
   const alerts = rows.map((row) => toAlertObjectFromDailyRow(row));
-  const eventIds = [...new Set(alerts.flatMap((alert) =>
+  const changedDates = [...new Set(alerts
+    .filter((alert) => toNumber(alert?.changed_count, 0) > 0)
+    .map((alert) => normalizeDateOnly(alert?.date_utc))
+    .filter(Boolean))]
+    .sort();
+  let hydratedAlerts = alerts;
+  let policyEvents = [];
+  if (changedDates.length > 0) {
+    const events = await supabaseRestRequest(supabaseConfig, {
+      method: "GET",
+      path: "/rest/v1/policy_events",
+      params: {
+        select: "event_id,date_utc,emitted_at_utc,policy,vendor,source_url,semantic_diff_summary,run_url,review_status,reviewed_at_utc,reviewed_by,review_note,rulebook_updated,rulebook_version_after",
+        and: `(date_utc.gte.${changedDates[0]},date_utc.lte.${changedDates[changedDates.length - 1]})`,
+        order: "emitted_at_utc.desc",
+        limit: "2000",
+      },
+    });
+    if (events.ok && Array.isArray(events.data)) {
+      const includedDates = new Set(changedDates);
+      policyEvents = events.data.filter((event) => includedDates.has(eventDateUtc(event)));
+      hydratedAlerts = attachPolicyEventDetails(alerts, policyEvents);
+    }
+  }
+
+  const eventIds = [...new Set(hydratedAlerts.flatMap((alert) =>
     alert.sample_details.map((detail) => String(detail?.event_id || "").trim()).filter(Boolean)
   ))];
-  let reviewedAlerts = alerts;
-  if (eventIds.length > 0) {
+  let reviewedAlerts = policyEvents.length > 0
+    ? applyPolicyEventReviews(hydratedAlerts, policyEvents)
+    : hydratedAlerts;
+  if (eventIds.length > 0 && policyEvents.length === 0) {
     const eventIdFilter = eventIds
       .map((eventId) => `"${eventId.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`)
       .join(",");
@@ -373,7 +470,7 @@ async function loadAlertsFromSupabase({
       },
     });
     if (reviews.ok && Array.isArray(reviews.data)) {
-      reviewedAlerts = applyPolicyEventReviews(alerts, reviews.data);
+      reviewedAlerts = applyPolicyEventReviews(hydratedAlerts, reviews.data);
     }
   }
   return {

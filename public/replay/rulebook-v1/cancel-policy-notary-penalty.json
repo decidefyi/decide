@@ -5,7 +5,7 @@
   "kind": "direct_policy_notary_rulebook",
   "compatibility_policy": "compatibility_policy_v1",
   "replay_contract": "historical_rulebook_replay_v1",
-  "recorded_at": "2026-06-11T00:00:00.000Z",
+  "recorded_at": "2026-07-16T00:00:00.000Z",
   "notes": "Direct policy facts for the Cancel MCP notary without a trusted adapter.",
   "replay": {
     "request": {
@@ -19,12 +19,15 @@
         "rulebook": {
           "schema_version": "rulebook_v1",
           "rulebook_id": "cancel_policy_notary",
-          "version": "2026-06-11",
+          "version": "2026-07-15",
           "input_schema": {
             "required": [
               "region_supported",
               "plan_supported",
               "vendor_supported",
+              "context_complete",
+              "missing_context",
+              "billing_cadence",
               "policy",
               "notice_days",
               "penalty",
@@ -44,6 +47,15 @@
               },
               "vendor_supported": {
                 "type": "boolean"
+              },
+              "context_complete": {
+                "type": "boolean"
+              },
+              "missing_context": {
+                "type": "string"
+              },
+              "billing_cadence": {
+                "type": "string"
               },
               "policy": {
                 "type": "string"
@@ -121,6 +133,21 @@
               }
             },
             {
+              "rule_id": "review_missing_context",
+              "priority": 470,
+              "condition": {
+                "field": "context_complete",
+                "operator": "eq",
+                "value": false
+              },
+              "outcome": {
+                "decision": "review",
+                "verdict": "UNKNOWN",
+                "action": "request_required_policy_context",
+                "reason_code": "MISSING_REQUIRED_CONTEXT"
+              }
+            },
+            {
               "rule_id": "allow_free_cancel",
               "priority": 300,
               "condition": {
@@ -181,15 +208,18 @@
             "region_supported": true,
             "plan_supported": true,
             "vendor_supported": true,
+            "context_complete": true,
+            "missing_context": "",
+            "billing_cadence": "annual",
             "policy": "etf",
             "notice_days": 0,
             "penalty": "early_termination_fee",
             "vendor": "adobe",
             "region": "US",
             "plan": "individual",
-            "policy_rules_version": "2026-02-15",
+            "policy_rules_version": "2026-07-16",
             "policy_source_url": "https://www.adobe.com/legal/subscription-terms.html",
-            "policy_source_notes": "Annual plan cancellation can trigger an early termination fee."
+            "policy_source_notes": "Annual plan: 50% ETF; monthly: cancel anytime Fixture evidence confirms annual billing cadence."
           }
         }
       }
@@ -199,12 +229,15 @@
       "rulebook_snapshot": {
         "schema_version": "rulebook_v1",
         "rulebook_id": "cancel_policy_notary",
-        "version": "2026-06-11",
+        "version": "2026-07-15",
         "input_schema": {
           "required": [
             "region_supported",
             "plan_supported",
             "vendor_supported",
+            "context_complete",
+            "missing_context",
+            "billing_cadence",
             "policy",
             "notice_days",
             "penalty",
@@ -224,6 +257,15 @@
             },
             "vendor_supported": {
               "type": "boolean"
+            },
+            "context_complete": {
+              "type": "boolean"
+            },
+            "missing_context": {
+              "type": "string"
+            },
+            "billing_cadence": {
+              "type": "string"
             },
             "policy": {
               "type": "string"
@@ -301,6 +343,21 @@
             }
           },
           {
+            "rule_id": "review_missing_context",
+            "priority": 470,
+            "condition": {
+              "field": "context_complete",
+              "operator": "eq",
+              "value": false
+            },
+            "outcome": {
+              "decision": "review",
+              "verdict": "UNKNOWN",
+              "action": "request_required_policy_context",
+              "reason_code": "MISSING_REQUIRED_CONTEXT"
+            }
+          },
+          {
             "rule_id": "allow_free_cancel",
             "priority": 300,
             "condition": {
@@ -357,15 +414,18 @@
         "region_supported": true,
         "plan_supported": true,
         "vendor_supported": true,
+        "context_complete": true,
+        "missing_context": "",
+        "billing_cadence": "annual",
         "policy": "etf",
         "notice_days": 0,
         "penalty": "early_termination_fee",
         "vendor": "adobe",
         "region": "US",
         "plan": "individual",
-        "policy_rules_version": "2026-02-15",
+        "policy_rules_version": "2026-07-16",
         "policy_source_url": "https://www.adobe.com/legal/subscription-terms.html",
-        "policy_source_notes": "Annual plan cancellation can trigger an early termination fee."
+        "policy_source_notes": "Annual plan: 50% ETF; monthly: cancel anytime Fixture evidence confirms annual billing cadence."
       },
       "trusted_adapter_invocation": null,
       "trusted_adapter_dependency": null
@@ -378,8 +438,8 @@
     "rulebook": {
       "schema_version": "rulebook_v1",
       "id": "cancel_policy_notary",
-      "version": "2026-06-11",
-      "hash": "9f82769c757cac3fe9f2a8e2e54cef2f2b1f0b4e20d1ce8234ff676944bd60f4"
+      "version": "2026-07-15",
+      "hash": "9f857d4cd5214b7091b7b5a72c463644ffaabeb95b65d9a98a2691b74f2df783"
     },
     "runtime_binding": {
       "production_core": "hybrid_declarative_rulebook_with_trusted_adapters",
@@ -387,10 +447,10 @@
       "verdict_authority": "declarative_rulebook",
       "customer_supplied_code": "rejected"
     },
-    "input_hash": "ca6365f74f87070cca0661fd310f8daefe64b9380200c76e8f4f1bc1c3ae4cfe",
+    "input_hash": "891f6f2d82bf55fed1930f8a7249b7f557df55bc5f1817fc0a8720588a60afa1",
     "rulebook_attestation": {
       "schema_version": "rulebook_attestation_v1",
-      "bundle_hash": "2df0080c1dbed7ee4165a0f97a1570cab4540c73804daac5fa67a0fb64dba72c"
+      "bundle_hash": "8c4b29879410fe1a670b1eab69eb74bd0ecbb1ea942efd53c44118339f788e96"
     },
     "semantic_output": {
       "status": "ok",

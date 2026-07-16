@@ -3,6 +3,7 @@
 import assert from "node:assert/strict";
 
 import {
+  applyMonitorSourceCheckMetadata,
   buildChangeKey,
   buildDailyAlertFromEvents,
   classifyFetchFailureBlock,
@@ -23,6 +24,24 @@ import {
   semanticSignaturesStable,
   toZendeskHelpCenterApiTarget,
 } from "./check-policies.js";
+
+function testMonitorCheckDoesNotClaimHumanVerification() {
+  const sources = {
+    last_checked: "2026-02-01",
+    last_verified_utc: "2026-03-02T06:47:25Z",
+    hash_profile: "old-profile",
+  };
+  const result = applyMonitorSourceCheckMetadata(sources, {
+    successfulChecks: 100,
+    checkedAtUtc: "2026-07-16T10:00:00Z",
+    hashProfile: "policy-source-v2",
+  });
+
+  assert.equal(result.updated, true);
+  assert.equal(result.sources.last_checked, "2026-07-16");
+  assert.equal(result.sources.last_verified_utc, "2026-03-02T06:47:25Z");
+  assert.equal(result.sources.hash_profile, "policy-source-v2");
+}
 
 function envInt(name, fallback) {
   const parsed = Number.parseInt(process.env[name] || String(fallback), 10);
@@ -497,6 +516,8 @@ function testEvaluateVendorSourceMigrationSkipsStableOrMissingSources() {
 }
 
 function main() {
+  testMonitorCheckDoesNotClaimHumanVerification();
+  console.log("PASS check-policies machine checks preserve human verification time");
   testImmediateBlockOnCloudflareAnd403();
   console.log("PASS check-policies immediate block on anti-bot");
 
@@ -593,7 +614,7 @@ function main() {
   testEvaluateVendorSourceMigrationSkipsStableOrMissingSources();
   console.log("PASS check-policies source migration stable/missing");
 
-  console.log("Check-policies tests passed: 30/30");
+  console.log("Check-policies tests passed: 31/31");
 }
 
 try {

@@ -5,7 +5,7 @@
   "kind": "direct_rulebook",
   "compatibility_policy": "compatibility_policy_v1",
   "replay_contract": "historical_rulebook_replay_v1",
-  "recorded_at": "2026-06-11T00:00:00.000Z",
+  "recorded_at": "2026-07-16T00:00:00.000Z",
   "notes": "Baseline direct Rulebook v1 decision before CRM or billing state changes.",
   "replay": {
     "request": {

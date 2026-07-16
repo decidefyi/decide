@@ -76,8 +76,10 @@ If they want to see support-policy proof without a production Decision API key:
 ```bash
 curl -sS -X POST https://refund.decide.fyi/api/v1/refund/eligibility \
   -H "Content-Type: application/json" \
-  -d '{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual"}'
+  -d '{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual","qualifying_conditions_met":true}'
 ```
+
+Only set `qualifying_conditions_met=true` after verifying the source-specific purchase facts. Approval-dependent policies return `UNKNOWN` and require review even when this flag is present.
 
 ## Triage
 

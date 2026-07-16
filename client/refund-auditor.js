@@ -6,13 +6,12 @@
  * Returns: ALLOWED, DENIED, or UNKNOWN
  *
  * USAGE:
- *   node refund-auditor.js <vendor> <days_since_purchase>
+ *   node refund-auditor.js <vendor> <days_since_purchase> [conditions_met]
  *
  * EXAMPLES:
- *   node refund-auditor.js adobe 12          # Within 14-day window -> ALLOWED
- *   node refund-auditor.js spotify 1         # No refunds -> DENIED
- *   node refund-auditor.js microsoft_365 25  # Within 30-day window -> ALLOWED
- *   node refund-auditor.js notion 5          # Outside 3-day window -> DENIED
+ *   node refund-auditor.js adobe 12 true     # Verified conditions + window -> ALLOWED
+ *   node refund-auditor.js spotify 1         # Categorical no-refund policy -> DENIED
+ *   node refund-auditor.js apple_music 5     # Approval-dependent policy -> UNKNOWN
  *
  * SUPPORTED VENDORS (100):
  *   See https://refund.decide.fyi or README.md for the full list.
@@ -25,7 +24,7 @@
 
 const ENDPOINT = process.env.REFUND_BASE || "https://refund.decide.fyi";
 
-async function checkRefundEligibility(vendor, daysSincePurchase) {
+async function checkRefundEligibility(vendor, daysSincePurchase, qualifyingConditionsMet) {
   const response = await fetch(`${ENDPOINT}/api/v1/refund/eligibility`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -33,7 +32,10 @@ async function checkRefundEligibility(vendor, daysSincePurchase) {
       vendor,
       days_since_purchase: daysSincePurchase,
       region: "US",
-      plan: "individual"
+      plan: "individual",
+      ...(qualifyingConditionsMet === undefined
+        ? {}
+        : { qualifying_conditions_met: qualifyingConditionsMet })
     })
   });
 
@@ -43,16 +45,25 @@ async function checkRefundEligibility(vendor, daysSincePurchase) {
 // Parse CLI arguments
 const vendor = process.argv[2];
 const days = parseInt(process.argv[3], 10);
+const rawConditionsMet = process.argv[4];
+const qualifyingConditionsMet = rawConditionsMet === undefined
+  ? undefined
+  : rawConditionsMet === "true"
+    ? true
+    : rawConditionsMet === "false"
+      ? false
+      : null;
 
 // Validate input
-if (!vendor || isNaN(days)) {
-  console.error("❌ Usage: node refund-auditor.js <vendor> <days_since_purchase>");
-  console.error("   Example: node refund-auditor.js adobe 12");
+if (!vendor || isNaN(days) || qualifyingConditionsMet === null) {
+  console.error("Usage: node refund-auditor.js <vendor> <days_since_purchase> [conditions_met]");
+  console.error("Example: node refund-auditor.js adobe 12 true");
+  console.error("Only pass true after verifying the vendor-specific conditions in the source policy.");
   process.exit(1);
 }
 
 // Execute check
-checkRefundEligibility(vendor, days)
+checkRefundEligibility(vendor, days, qualifyingConditionsMet)
   .then(result => {
     // Pretty print result
     const icon = result.verdict === "ALLOWED" ? "✅" :
@@ -63,6 +74,9 @@ checkRefundEligibility(vendor, days)
 
     if (result.window_days !== undefined) {
       console.log(`   Window: ${result.window_days} days`);
+    }
+    if (Array.isArray(result.required_context)) {
+      console.log(`   Required context: ${result.required_context.join(", ")}`);
     }
     console.log(`   Rules version: ${result.rules_version}\n`);
   })

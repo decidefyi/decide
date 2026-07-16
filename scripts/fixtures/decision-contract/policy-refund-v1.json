@@ -15,7 +15,8 @@
       "vendor": "adobe",
       "days_since_purchase": 5,
       "region": "US",
-      "plan": "individual"
+      "plan": "individual",
+      "qualifying_conditions_met": true
     }
   },
   "expect": {

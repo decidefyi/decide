@@ -73,6 +73,7 @@ async function main() {
         region: "US",
         plan: "individual",
         days_since_purchase: 5,
+        qualifying_conditions_met: true,
         idempotency_key: "ZD-9001:refund:adobe:5:US:individual",
         decision_override: "yes",
       },
@@ -93,6 +94,39 @@ async function main() {
   );
 
   await runCase(
+    "review-only refund => policy owner escalation",
+    zendeskWorkflowRoute,
+    {
+      method: "POST",
+      headers: { "user-agent": "workflow-test", "content-type": "application/json" },
+      body: {
+        ticket_id: "ZD-9001-REVIEW",
+        workflow_type: "refund",
+        question: "Should this Apple App Store refund request proceed under policy?",
+        vendor: "apple_app_store",
+        region: "US",
+        plan: "individual",
+        days_since_purchase: 5,
+        qualifying_conditions_met: true,
+        idempotency_key: "ZD-9001-REVIEW:refund:apple_app_store:5:US:individual",
+        decision_override: "yes",
+      },
+      url: "/api/v1/workflows/zendesk/refund",
+      query: { workflow: "refund" },
+    },
+    ({ statusCode, json }) => {
+      expect(statusCode === 200, "expected 200");
+      expect(json.ok === true, "expected ok=true");
+      expect(json.decision?.c === "yes", "expected decision yes");
+      expect(json.policy?.verdict === "UNKNOWN", "expected policy UNKNOWN");
+      expect(json.policy?.code === "MISSING_REQUIRED_CONTEXT", "expected fail-closed policy code");
+      expect(json.policy?.required_context?.includes("manual_policy_review"), "expected manual review context");
+      expect(json.action?.type === "escalate_policy_owner", "expected policy owner escalation");
+      expect(json.action.zendesk_tags.includes("refund_unknown"), "expected refund_unknown tag");
+    }
+  );
+
+  await runCase(
     "cancel workflow => penalty escalation",
     zendeskWorkflowRoute,
     {
@@ -105,6 +139,7 @@ async function main() {
         vendor: "adobe",
         region: "US",
         plan: "individual",
+        billing_cadence: "annual",
         idempotency_key: "ZD-9002:cancel:adobe::US:individual",
         decision_override: "yes",
       },
@@ -135,6 +170,7 @@ async function main() {
         region: "US",
         plan: "individual",
         days_since_purchase: 5,
+        qualifying_conditions_met: true,
         idempotency_key: "ZD-9003:return:adobe:5:US:individual",
         decision_override: "yes",
       },
@@ -164,6 +200,10 @@ async function main() {
         vendor: "adobe",
         region: "US",
         plan: "individual",
+        offer_confirmed: true,
+        observed_trial_days: 7,
+        observed_card_required: true,
+        observed_auto_converts: true,
         idempotency_key: "ZD-9004:trial:adobe::US:individual",
         decision_override: "yes",
       },
@@ -194,6 +234,7 @@ async function main() {
         region: "US",
         plan: "individual",
         days_since_purchase: 5,
+        qualifying_conditions_met: true,
         idempotency_key: "ZD-9001:refund:adobe:5:US:individual",
         decision_override: "yes",
       },

@@ -12,7 +12,7 @@ export const TOOL = {
   name: "trial_terms",
   title: "Check trial terms",
   description:
-    "Check free trial availability and terms for a US consumer subscription. Returns TRIAL_AVAILABLE or NO_TRIAL with trial length, card requirement, and auto-conversion status.",
+    "Evaluate a live US consumer subscription trial offer. Supply observed availability, duration, card, and auto-conversion facts; the tool returns UNKNOWN instead of inferring current offers from static data.",
   inputSchema: {
     type: "object",
     additionalProperties: false,
@@ -41,6 +41,14 @@ export const TOOL = {
         minimum: 0,
         maximum: 365,
         description: "Trial duration shown by the confirmed live offer. Required when offer_confirmed is true for a variable offer.",
+      },
+      observed_card_required: {
+        type: "boolean",
+        description: "Whether the confirmed live offer requires a payment card.",
+      },
+      observed_auto_converts: {
+        type: "boolean",
+        description: "Whether the confirmed live offer converts to a paid subscription after the trial.",
       },
     },
     required: ["vendor", "region", "plan"],

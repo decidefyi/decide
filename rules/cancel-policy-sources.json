@@ -1,6 +1,6 @@
 {
   "description": "Source URLs for each vendor's cancellation policy. Used by the daily policy-check action to detect changes.",
-  "last_checked": "2026-02-02",
+  "last_checked": "2026-07-16",
   "vendors": {
     "1password": {
       "url": "https://support.1password.com/cancel-subscription/",
@@ -686,6 +686,7 @@
       "notes": "Cancel anytime; annual plans non-refundable"
     }
   },
-  "last_verified_utc": "2026-03-02T06:53:13Z",
-  "hash_profile": "focus-v1"
+  "last_verified_utc": "2026-07-16T10:50:53Z",
+  "hash_profile": "focus-v1",
+  "verification_scope": "Reviewed automation modes against the tracked US individual-plan source notes after a 100/100 live source-fetch run; approval, channel, commitment, promotional, and non-categorical source branches now fail closed."
 }

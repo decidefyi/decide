@@ -3,7 +3,7 @@
     "name": "policy.decide.fyi",
     "title": "Decide Policy Notaries",
     "version": "1.3.0",
-    "description": "Refund, cancellation, return, and trial policy checks for 100 US subscription vendors.",
+    "description": "Fail-closed refund, cancellation, return, and live-trial policy checks for 100 US subscription vendors.",
     "websiteUrl": "https://policy.decide.fyi"
   },
   "authentication": {
@@ -14,7 +14,7 @@
     {
       "name": "refund_eligibility",
       "title": "Check refund eligibility",
-      "description": "Check if a US consumer subscription purchase is eligible for a refund. Returns ALLOWED, DENIED, or UNKNOWN based on the vendor's refund policy window.",
+      "description": "Evaluate a US consumer subscription refund against versioned source-backed rules. Returns UNKNOWN when required conditions are absent or the vendor requires approval or manual policy review.",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
@@ -237,7 +237,7 @@
     {
       "name": "cancellation_penalty",
       "title": "Check cancellation penalty",
-      "description": "Check if cancelling a US consumer subscription will incur a penalty or fee. Returns FREE_CANCEL, PENALTY, or LOCKED.",
+      "description": "Evaluate whether cancelling a US consumer subscription incurs a penalty or lock. Returns UNKNOWN when billing cadence is required or the policy needs manual review.",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
@@ -462,7 +462,7 @@
     {
       "name": "return_eligibility",
       "title": "Check return eligibility",
-      "description": "Check if a US consumer subscription purchase can be returned. Returns RETURNABLE, EXPIRED, or NON_RETURNABLE with return type (full_refund, prorated, credit) and method.",
+      "description": "Evaluate whether a US consumer subscription purchase can be reversed under versioned source-backed rules. Returns UNKNOWN when required conditions are absent or manual review is required.",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
@@ -692,7 +692,7 @@
     {
       "name": "trial_terms",
       "title": "Check trial terms",
-      "description": "Check free trial availability and terms for a US consumer subscription. Returns TRIAL_AVAILABLE or NO_TRIAL with trial length, card requirement, and auto-conversion status.",
+      "description": "Evaluate a live US consumer subscription trial offer. Supply observed availability, duration, card, and auto-conversion facts; the tool returns UNKNOWN instead of inferring current offers from static data.",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
@@ -826,6 +826,14 @@
             "minimum": 0,
             "maximum": 365,
             "description": "Trial duration shown by the confirmed live offer. Required when offer_confirmed is true for a variable offer."
+          },
+          "observed_card_required": {
+            "type": "boolean",
+            "description": "Whether the confirmed live offer requires a payment card."
+          },
+          "observed_auto_converts": {
+            "type": "boolean",
+            "description": "Whether the confirmed live offer converts to a paid subscription after the trial."
           }
         },
         "required": [

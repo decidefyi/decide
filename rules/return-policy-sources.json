@@ -1,6 +1,6 @@
 {
   "description": "Source URLs for each vendor's return/reversal policy. Used by the daily policy-check action to detect changes.",
-  "last_checked": "2026-02-02",
+  "last_checked": "2026-07-16",
   "vendors": {
     "1password": {
       "url": "https://support.1password.com/refund-policy/",
@@ -33,11 +33,11 @@
     },
     "apple_app_store": {
       "url": "https://support.apple.com/en-us/118223",
-      "notes": "14-day return via Report a Problem"
+      "notes": "Apple reviews refund requests for eligible purchases; there is no universal US approval window safe for automatic eligibility decisions."
     },
     "apple_arcade": {
-      "url": "https://www.apple.com/apple-arcade/",
-      "notes": "Digital subscription; no physical return process.",
+      "url": "https://support.apple.com/en-us/118223",
+      "notes": "Apple reviews refund requests for eligible purchases; Arcade eligibility depends on the purchase and Apple approval.",
       "backup_urls": [
         "https://www.apple.com/legal/internet-services/itunes/us/terms.html",
         "https://support.apple.com/en-us/118428"
@@ -45,11 +45,11 @@
     },
     "apple_music": {
       "url": "https://support.apple.com/en-us/118223",
-      "notes": "All sales final"
+      "notes": "Apple accepts refund requests for subscriptions, but eligibility varies and Apple must approve the request."
     },
     "apple_tv_plus": {
       "url": "https://support.apple.com/en-us/118223",
-      "notes": "All sales final"
+      "notes": "Apple accepts refund requests for subscriptions, but eligibility varies and Apple must approve the request."
     },
     "audible": {
       "url": "https://www.audible.com/legal/conditions-of-use",
@@ -68,8 +68,8 @@
       "notes": "Non-refundable"
     },
     "calm": {
-      "url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "notes": "30-day return for yearly premium via calm.com",
+      "url": "https://support.calm.com/hc/en-us/articles/360008240974-Calm-App-Refund-Policy-How-to-Get-Your-Money-Back",
+      "notes": "The 30-day guarantee applies to eligible first-time annual Calm.com purchases; app-store and renewal cases follow different paths.",
       "backup_urls": [
         "https://support.calm.com/hc/en-us",
         "https://www.calm.com/terms"
@@ -207,8 +207,8 @@
       ]
     },
     "google_play": {
-      "url": "https://support.google.com/googleplay/answer/2479637",
-      "notes": "48-hour return window",
+      "url": "https://support.google.com/googleplay/answer/15574908?hl=en",
+      "notes": "Within 48 hours a purchase may be eligible depending on its details; approval is not guaranteed and later requests follow the developer's policy.",
       "confirm_runs": 3
     },
     "grammarly": {
@@ -249,7 +249,7 @@
     },
     "icloud_plus": {
       "url": "https://support.apple.com/en-us/118223",
-      "notes": "14-day return via Apple Report a Problem"
+      "notes": "Apple reviews refund requests for eligible purchases; iCloud+ eligibility is not represented by a universal automatic window."
     },
     "instacart_plus": {
       "url": "https://www.instacart.com/help/section/360007797952/4408784716820",
@@ -272,8 +272,8 @@
       "notes": "7-day return if unused"
     },
     "masterclass": {
-      "url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "notes": "30-day guarantee first purchase",
+      "url": "https://www.masterclass.com/help-center/masterclass/answers/what-is-your-30-day-satisfaction-guarantee--id--7RGbse64Rhyb35P39wYrBw",
+      "notes": "The 30-day guarantee applies to eligible first-time direct purchases, not renewals or third-party purchases.",
       "backup_urls": [
         "https://www.masterclass.com/legal/terms",
         "https://www.masterclass.com/"
@@ -285,8 +285,8 @@
       "notes": "No returns"
     },
     "microsoft_365": {
-      "url": "https://support.microsoft.com/en-us/account-billing/returning-items-you-bought-from-microsoft-for-exchange-or-refund-81629012-aa4f-f48b-2394-8596f415072b",
-      "notes": "30-day return window",
+      "url": "https://support.microsoft.com/en-us/account-billing/subscriptions/microsoft-subscription-refund-policy",
+      "notes": "Refund eligibility depends on purchase channel, subscription type, timing, and country or region.",
       "backup_urls": [
         "https://www.microsoft.com/en-us/microsoft-365/try",
         "https://support.microsoft.com/en-us/account-billing"
@@ -321,8 +321,8 @@
       ]
     },
     "notion": {
-      "url": "https://www.notion.so/pricing",
-      "notes": "3-day return window"
+      "url": "https://www.notion.com/en-gb/help/refunds",
+      "notes": "Direct monthly plans use a 3-day window and direct annual plans a 30-day window; App Store purchases are handled by Apple."
     },
     "paramount_plus": {
       "url": "https://help.paramountplus.com/s/article/PD-What-s-the-refund-policy-for-Paramount",
@@ -341,8 +341,8 @@
       "notes": "Non-refundable"
     },
     "playstation_plus": {
-      "url": "https://www.playstation.com/en-us/legal/playstation-store-cancellation-policy/",
-      "notes": "14-day prorated return"
+      "url": "https://www.playstation.com/en-us/legal/ps-plus-usage-terms/",
+      "notes": "US Plus terms generally stop future payments rather than refund prior payments; exceptions and applicable-law branches require review."
     },
     "proton": {
       "url": "https://proton.me/pricing",
@@ -390,8 +390,8 @@
       "notes": "14-day return for new annual plans"
     },
     "strava": {
-      "url": "https://www.strava.com/legal/terms",
-      "notes": "14-day return"
+      "url": "https://support.strava.com/en-us/articles/15401936-how-to-cancel-your-subscription",
+      "notes": "A direct web purchase may be eligible within 14 days; app-store purchases and support approval follow separate paths."
     },
     "surfshark": {
       "url": "https://support.surfshark.com/hc/en-us/articles/360003103653-What-is-Surfshark-s-refund-policy",
@@ -439,11 +439,11 @@
     },
     "xbox_game_pass": {
       "url": "https://support.xbox.com/en-US/help/subscriptions-billing/manage-subscriptions/cancel-recurring-billing-or-subscription",
-      "notes": "30-day return from initial purchase"
+      "notes": "Refund eligibility is resolved through the account flow and can depend on timing, product, region, and purchase channel."
     },
     "youtube_premium": {
-      "url": "https://support.google.com/youtube/answer/12014038",
-      "notes": "No returns"
+      "url": "https://support.google.com/youtube/answer/12014038?hl=en",
+      "notes": "Standard cancellation does not refund the current period, but defective features, billing channel, and support approval create separate refund branches."
     },
     "youtube_tv": {
       "url": "https://tv.youtube.com/",
@@ -619,6 +619,7 @@
       "notes": "Non-refundable"
     }
   },
-  "last_verified_utc": "2026-03-02T06:55:39Z",
-  "hash_profile": "focus-v1"
+  "last_verified_utc": "2026-07-16T10:50:53Z",
+  "hash_profile": "focus-v1",
+  "verification_scope": "Reviewed automation modes against the tracked US individual-plan source notes after a 100/100 live source-fetch run; approval, channel, commitment, promotional, and non-categorical source branches now fail closed."
 }

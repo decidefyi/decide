@@ -90,7 +90,13 @@ async function main() {
       headers: { "user-agent": "smoke-test" },
       url: "/api/v1/refund/eligibility",
       query: { policy: "refund", action: "eligibility" },
-      body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+      body: {
+        vendor: "adobe",
+        days_since_purchase: 5,
+        region: "US",
+        plan: "individual",
+        qualifying_conditions_met: true,
+      },
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
@@ -107,7 +113,7 @@ async function main() {
       headers: { "user-agent": "smoke-test" },
       url: "/api/v1/cancel/penalty",
       query: { policy: "cancel", action: "penalty" },
-      body: { vendor: "adobe", region: "US", plan: "individual" },
+      body: { vendor: "adobe", region: "US", plan: "individual", billing_cadence: "annual" },
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
@@ -128,7 +134,13 @@ async function main() {
       headers: { "user-agent": "smoke-test" },
       url: "/api/v1/return/eligibility",
       query: { policy: "return", action: "eligibility" },
-      body: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+      body: {
+        vendor: "adobe",
+        days_since_purchase: 5,
+        region: "US",
+        plan: "individual",
+        qualifying_conditions_met: true,
+      },
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
@@ -149,7 +161,15 @@ async function main() {
       headers: { "user-agent": "smoke-test" },
       url: "/api/v1/trial/terms",
       query: { policy: "trial", action: "terms" },
-      body: { vendor: "adobe", region: "US", plan: "individual" },
+      body: {
+        vendor: "adobe",
+        region: "US",
+        plan: "individual",
+        offer_confirmed: true,
+        observed_trial_days: 7,
+        observed_card_required: true,
+        observed_auto_converts: true,
+      },
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
@@ -187,7 +207,13 @@ async function main() {
         method: "tools/call",
         params: {
           name: "refund_eligibility",
-          arguments: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+          arguments: {
+            vendor: "adobe",
+            days_since_purchase: 5,
+            region: "US",
+            plan: "individual",
+            qualifying_conditions_met: true,
+          },
         },
       },
     },
@@ -258,7 +284,13 @@ async function main() {
         method: "tools/call",
         params: {
           name: "return_eligibility",
-          arguments: { vendor: "adobe", days_since_purchase: 5, region: "US", plan: "individual" },
+          arguments: {
+            vendor: "adobe",
+            days_since_purchase: 5,
+            region: "US",
+            plan: "individual",
+            qualifying_conditions_met: true,
+          },
         },
       },
     },
@@ -284,7 +316,15 @@ async function main() {
         method: "tools/call",
         params: {
           name: "trial_terms",
-          arguments: { vendor: "adobe", region: "US", plan: "individual" },
+          arguments: {
+            vendor: "adobe",
+            region: "US",
+            plan: "individual",
+            offer_confirmed: true,
+            observed_trial_days: 7,
+            observed_card_required: true,
+            observed_auto_converts: true,
+          },
         },
       },
     },
@@ -313,6 +353,7 @@ async function main() {
         region: "US",
         plan: "individual",
         days_since_purchase: 5,
+        qualifying_conditions_met: true,
         question: "Should this Adobe refund request proceed under policy?",
         decision_override: "yes",
         idempotency_key: "ZD-SMOKE-1:refund:adobe:5:US:individual",
@@ -341,6 +382,7 @@ async function main() {
         vendor: "adobe",
         region: "US",
         plan: "individual",
+        billing_cadence: "annual",
         question: "Should this Adobe cancellation request proceed under policy?",
         decision_override: "yes",
         idempotency_key: "ZD-SMOKE-2:cancel:adobe::US:individual",
@@ -370,6 +412,7 @@ async function main() {
         region: "US",
         plan: "individual",
         days_since_purchase: 5,
+        qualifying_conditions_met: true,
         question: "Should this Adobe return request proceed under policy?",
         decision_override: "yes",
         idempotency_key: "ZD-SMOKE-3:return:adobe:5:US:individual",
@@ -398,6 +441,10 @@ async function main() {
         vendor: "adobe",
         region: "US",
         plan: "individual",
+        offer_confirmed: true,
+        observed_trial_days: 7,
+        observed_card_required: true,
+        observed_auto_converts: true,
         question: "Should this Adobe trial request proceed under policy?",
         decision_override: "yes",
         idempotency_key: "ZD-SMOKE-4:trial:adobe::US:individual",

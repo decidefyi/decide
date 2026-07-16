@@ -424,6 +424,23 @@ function utcIsoTimestamp(date = new Date()) {
   return date.toISOString().replace(/\.\d{3}Z$/, "Z");
 }
 
+export function applyMonitorSourceCheckMetadata(
+  sources = {},
+  { successfulChecks = 0, checkedAtUtc = utcIsoTimestamp(), hashProfile = HASH_PROFILE_ID } = {}
+) {
+  const nextSources = { ...(sources && typeof sources === "object" ? sources : {}) };
+  if (!Number.isFinite(successfulChecks) || successfulChecks <= 0) {
+    return { updated: false, sources: nextSources };
+  }
+  const checkedAt = new Date(String(checkedAtUtc || ""));
+  if (Number.isNaN(checkedAt.getTime())) {
+    return { updated: false, sources: nextSources };
+  }
+  nextSources.last_checked = checkedAt.toISOString().slice(0, 10);
+  nextSources.hash_profile = String(hashProfile || HASH_PROFILE_ID);
+  return { updated: true, sources: nextSources };
+}
+
 function parseDateOnlyToUtc(value = "") {
   const raw = String(value || "").trim();
   if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return null;
@@ -4930,15 +4947,19 @@ async function checkPolicySet({
   }
   const blockedRetryQueueVendors = Object.keys(newBlockedRetryQueue).sort((a, b) => a.localeCompare(b));
 
-  const verifiedAtUtc = utcIsoTimestamp();
+  const checkedAtUtc = utcIsoTimestamp();
   if (vendors.length > 0 && successfulChecks === 0) {
-    console.log(`::warning::No successful checks for ${name}; preserving existing last_verified_utc.`);
+    console.log(`::warning::No successful checks for ${name}; preserving existing source-check metadata.`);
   } else if (successfulChecks > 0) {
-    sources.last_verified_utc = verifiedAtUtc;
-    sources.hash_profile = HASH_PROFILE_ID;
-    const updatedLastVerified = updateJsonStringField(sourcesPath, "last_verified_utc", verifiedAtUtc);
-    const updatedHashProfile = updateJsonStringField(sourcesPath, "hash_profile", HASH_PROFILE_ID);
-    if (!updatedLastVerified || !updatedHashProfile) {
+    const monitorMetadata = applyMonitorSourceCheckMetadata(sources, {
+      successfulChecks,
+      checkedAtUtc,
+      hashProfile: HASH_PROFILE_ID,
+    });
+    Object.assign(sources, monitorMetadata.sources);
+    const updatedLastChecked = updateJsonStringField(sourcesPath, "last_checked", sources.last_checked);
+    const updatedHashProfile = updateJsonStringField(sourcesPath, "hash_profile", sources.hash_profile);
+    if (!updatedLastChecked || !updatedHashProfile) {
       writeFileSync(sourcesPath, JSON.stringify(sources, null, 2) + "\n");
     }
   }

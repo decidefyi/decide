@@ -38,19 +38,24 @@ for tool_name in refund_eligibility cancellation_penalty return_eligibility tria
   assert_contains "policy MCP tools/list" "$policy_tools" "\"name\":\"${tool_name}\""
 done
 
-policy_call="$(post_json "/api/policy-mcp" '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"return_eligibility","arguments":{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual"}}}')"
+policy_call="$(post_json "/api/policy-mcp" '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"return_eligibility","arguments":{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual","qualifying_conditions_met":true}}}')"
 assert_jsonrpc_success "policy MCP" "$policy_call"
+assert_contains "policy MCP verdict" "$policy_call" '"verdict":"RETURNABLE"'
 
-refund="$(post_json "/api/mcp" '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"refund_eligibility","arguments":{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual"}}}')"
+refund="$(post_json "/api/mcp" '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"refund_eligibility","arguments":{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual","qualifying_conditions_met":true}}}')"
 assert_jsonrpc_success "refund MCP" "$refund"
+assert_contains "refund MCP verdict" "$refund" '"verdict":"ALLOWED"'
 
 cancel="$(post_json "/api/cancel-mcp" '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"cancellation_penalty","arguments":{"vendor":"adobe","region":"US","plan":"individual","billing_cadence":"annual"}}}')"
 assert_jsonrpc_success "cancel MCP" "$cancel"
+assert_contains "cancel MCP verdict" "$cancel" '"verdict":"PENALTY"'
 
-returns="$(post_json "/api/return-mcp" '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"return_eligibility","arguments":{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual"}}}')"
+returns="$(post_json "/api/return-mcp" '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"return_eligibility","arguments":{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual","qualifying_conditions_met":true}}}')"
 assert_jsonrpc_success "return MCP" "$returns"
+assert_contains "return MCP verdict" "$returns" '"verdict":"RETURNABLE"'
 
-trial="$(post_json "/api/trial-mcp" '{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"trial_terms","arguments":{"vendor":"adobe","region":"US","plan":"individual"}}}')"
+trial="$(post_json "/api/trial-mcp" '{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"trial_terms","arguments":{"vendor":"adobe","region":"US","plan":"individual","offer_confirmed":true,"observed_trial_days":7,"observed_card_required":true,"observed_auto_converts":true}}}')"
 assert_jsonrpc_success "trial MCP" "$trial"
+assert_contains "trial MCP verdict" "$trial" '"verdict":"TRIAL_AVAILABLE"'
 
 echo "All MCP checks passed."

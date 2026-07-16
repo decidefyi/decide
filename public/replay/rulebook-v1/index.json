@@ -3,7 +3,7 @@
   "schema_version": "rulebook_v1",
   "compatibility_policy": "compatibility_policy_v1",
   "replay_contract": "historical_rulebook_replay_v1",
-  "recorded_at": "2026-06-11T00:00:00.000Z",
+  "recorded_at": "2026-07-16T00:00:00.000Z",
   "description": "Golden Rulebook v1 historical replay corpus. Each fixture freezes a stored rulebook snapshot, evaluator version, input or trusted-adapter dependency, semantic output, rulebook hash, input hash, and attestation bundle hash.",
   "fixtures": [
     {
