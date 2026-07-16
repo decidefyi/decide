@@ -691,6 +691,10 @@ function testPublishesCanonicalDiscoveryMetadata() {
   const ucp = readJson("../public/.well-known/ucp.json");
 
   assert.deepEqual(registryServer, buildPolicyRegistryServer());
+  assert.ok(
+    registryServer.description.length <= 100,
+    "Official MCP Registry descriptions must not exceed 100 characters"
+  );
   assert.deepEqual(
     serverCard,
     buildPolicyMcpServerCard([refundTool, cancelTool, returnTool, trialTool].map((entry) => entry.tool))

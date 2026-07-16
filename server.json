@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.decidefyi/policy-notaries",
   "title": "Decide Policy Notaries",
-  "description": "Fail-closed refund, cancellation, return, and live-trial policy checks for 100 US subscription vendors.",
+  "description": "Fail-closed refund, cancellation, return, and trial checks for 100 US subscription vendors.",
   "repository": {
     "url": "https://github.com/decidefyi/decide",
     "source": "github"
