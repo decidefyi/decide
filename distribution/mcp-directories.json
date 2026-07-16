@@ -1,6 +1,6 @@
 {
   "schema_version": "mcp_distribution_inventory_v1",
-  "reviewed_on_utc": "2026-07-16",
+  "reviewed_on_utc": "2026-07-17",
   "canonical_product": {
     "name": "Decide Policy Notaries",
     "registry_name": "io.github.decidefyi/policy-notaries",
@@ -82,12 +82,12 @@
       "id": "glama_github_catalog",
       "tier": 2,
       "authority": "github_crawler_and_gateway",
-      "status": "auto_discovered_pending_recrawl",
+      "status": "active_auto_discovered",
       "identity": "decidefyi/decide",
       "url": "https://glama.ai/mcp/servers/decidefyi/decide",
-      "observed_on_utc": "2026-07-16",
-      "observed_evidence": "The catalog recognizes all four policy tools, but its cached install copy still predates the repository's canonical four-tool one-click configuration.",
-      "next_action": "Allow the GitHub crawler to ingest the current README; if the install copy remains stale after the next crawl, claim ownership or manually sync the server.",
+      "observed_on_utc": "2026-07-17",
+      "observed_evidence": "The live catalog exposes Decide Policy Notaries, the canonical policy.decide.fyi MCP URL, all four policy tools, and the canonical one-click install configuration.",
+      "next_action": "No manual sync is needed. Monitor after material repository or canonical endpoint changes; claim ownership only if a future crawl remains stale.",
       "update_policy": "Prefer repository and official-registry refreshes over manually maintaining duplicate descriptions."
     },
     {

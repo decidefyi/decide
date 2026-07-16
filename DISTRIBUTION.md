@@ -46,9 +46,9 @@ and action when a submission, rescan, or registry release completes.
 - **awesome-mcp-servers:** correction PR #1830 is open, mergeable, and passing
   the required Glama check. It describes the canonical suite under Support &
   Service Management; do not open a duplicate submission.
-- **Repo crawlers:** Glama recognizes all four policy tools. Its cached install
-  copy still predates the canonical four-tool one-click configuration and should
-  update on the next repository crawl.
+- **Glama:** the live catalog recognizes all four policy tools and now mirrors
+  the canonical `policy.decide.fyi` one-click configuration. No manual sync is
+  currently needed.
 
 ## Release Sequence
 
@@ -62,9 +62,9 @@ and action when a submission, rescan, or registry release completes.
    canonical URL. Let Smithery scan the live endpoint and generated server card.
 5. Update the existing Refund Smithery description to point to the four-tool
    suite while preserving Refund compatibility and usage history.
-6. Re-run Glama's Claim ownership or manual Sync Server flow for the
-   `decidefyi/decide` organization repository, then verify the canonical
-   four-tool install copy.
+6. Completed: verify Glama's `decidefyi/decide` catalog page exposes the
+   canonical four-tool install configuration. Claim ownership or manually sync
+   only if a future material repository change does not recrawl.
 7. In progress: merge awesome-mcp-servers PR #1830, which describes all four
    tools and moves the entry to Support & Service Management.
 8. Let PulseMCP and other registry aggregators ingest the Official MCP Registry
