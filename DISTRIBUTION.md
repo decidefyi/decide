@@ -39,9 +39,10 @@ and action when a submission, rescan, or registry release completes.
 - **Official MCP Registry:** the active legacy record is
   `io.github.ndkasndakn/refund-decide@1.0.0`. Registry versions are immutable and
   cannot currently be unpublished.
-- **Canonical Registry identity:** publish `server.json` as
-  `io.github.decidefyi/policy-notaries@1.3.0` after the endpoint passes production
-  MCP checks.
+- **Canonical Registry identity:**
+  `io.github.decidefyi/policy-notaries@1.3.0` is active and points to the
+  canonical four-tool remote. Publish another immutable version only for a
+  material endpoint or tool-contract change.
 - **awesome-mcp-servers:** PR #1678 was merged. Its current entry is stale,
   Refund-only, and categorized under Finance & Fintech.
 - **Repo crawlers:** Glama and other GitHub-indexed directories already discover
@@ -49,12 +50,12 @@ and action when a submission, rescan, or registry release completes.
 
 ## Release Sequence
 
-1. Deploy `policy.decide.fyi/api/mcp` and verify `initialize`, `tools/list`, and
-   all four `tools/call` paths from outside Vercel.
+1. Completed: deploy `policy.decide.fyi/api/mcp` and verify `initialize`,
+   `tools/list`, and all four `tools/call` paths from outside Vercel.
 2. Confirm the Smithery Refund release type and upstream URL. Do not replace or
    delete the existing qualified name.
-3. Publish `io.github.decidefyi/policy-notaries@1.3.0` to the Official MCP
-   Registry from the `decidefyi` organization identity.
+3. Completed: publish `io.github.decidefyi/policy-notaries@1.3.0` to the
+   Official MCP Registry from the `decidefyi` organization identity.
 4. Publish a new Smithery server named **Decide Policy Notaries** from the
    canonical URL. Let Smithery scan the live endpoint and generated server card.
 5. Update the existing Refund Smithery description to point to the four-tool

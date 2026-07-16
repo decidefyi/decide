@@ -673,8 +673,13 @@
       "notes": "BritBox cancellation instructions and renewal behavior."
     },
     "amc_plus": {
-      "url": "https://support.amcplus.com/en/support/solutions/articles/11000126475-how-do-i-cancel-my-amc-subscription",
-      "notes": "AMC+ cancellation instructions and renewal behavior."
+      "url": "https://www.amcplus.com/faqs",
+      "notes": "Direct AMC+ subscriptions can be cancelled from the account Subscription page; subscriptions bought through another provider must be cancelled with that provider.",
+      "backup_urls": [
+        "https://support.amcplus.com/kb/guide/en/how-do-i-cancel-amc-iIPM4dreK2/Steps/3763651",
+        "https://support.amcplus.com/kb/en/membership-and-billing-416425"
+      ],
+      "last_verified_utc": "2026-07-16T08:48:44Z"
     },
     "zoom": {
       "url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0060842",
