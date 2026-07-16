@@ -4,19 +4,44 @@
   "vendors": {
     "1password": {
       "url": "https://support.1password.com/refund-policy/",
-      "notes": "Non-refundable; case-by-case exceptions at discretion"
+      "notes": "Non-refundable; case-by-case exceptions at discretion",
+      "backup_urls": [
+        "https://support.1password.com/billing/",
+        "https://1password.com/legal/"
+      ]
     },
     "adobe": {
       "url": "https://www.adobe.com/legal/subscription-terms.html",
       "notes": "14-day refund window for annual/monthly plans"
     },
+    "amazon_music_unlimited": {
+      "url": "https://www.amazon.com/music/unlimited",
+      "notes": "Digital subscription charges are generally non-refundable after billing.",
+      "backup_urls": [
+        "https://www.amazon.com/gp/help/customer/display.html?nodeId=201380010",
+        "https://www.amazon.com/music/unlimited"
+      ]
+    },
     "amazon_prime": {
       "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G2B9L3YR7LR8J4XP",
-      "notes": "Full refund within 3 days if no benefits used"
+      "notes": "Full refund within 3 days if no benefits used",
+      "backup_urls": [
+        "https://www.amazon.com/amazonprime",
+        "https://www.amazon.com/gp/help/customer/display.html?nodeId=G34LFXNSFP2S7HPC"
+      ],
+      "confirm_runs": 3
     },
     "apple_app_store": {
       "url": "https://support.apple.com/en-us/118223",
       "notes": "14-day refund request window"
+    },
+    "apple_arcade": {
+      "url": "https://www.apple.com/apple-arcade/",
+      "notes": "Purchases through Apple may allow refund requests in supported regions/time windows.",
+      "backup_urls": [
+        "https://www.apple.com/legal/internet-services/itunes/us/terms.html",
+        "https://support.apple.com/en-us/118428"
+      ]
     },
     "apple_music": {
       "url": "https://support.apple.com/en-us/118223",
@@ -28,7 +53,11 @@
     },
     "audible": {
       "url": "https://www.audible.com/legal/conditions-of-use",
-      "notes": "Membership fees non-refundable"
+      "notes": "Membership fees non-refundable",
+      "backup_urls": [
+        "https://www.audible.com/legal/conditions-of-use",
+        "https://help.audible.com/s/topic/0TO4N0000004kQZWAY/membership"
+      ]
     },
     "bitwarden": {
       "url": "https://bitwarden.com/help/cancel-a-subscription/",
@@ -40,19 +69,35 @@
     },
     "calm": {
       "url": "https://support.calm.com/hc/en-us/articles/360008240974-Receiving-a-Refund",
-      "notes": "30-day refund window for yearly premium via calm.com"
+      "notes": "30-day refund window for yearly premium via calm.com",
+      "backup_urls": [
+        "https://support.calm.com/hc/en-us",
+        "https://www.calm.com/terms"
+      ]
     },
     "canva": {
       "url": "https://www.canva.com/policies/terms-of-use/",
-      "notes": "No refunds"
+      "notes": "No refunds",
+      "backup_urls": [
+        "https://www.canva.com/policies/terms-of-use/",
+        "https://www.canva.com/help/"
+      ]
     },
     "chatgpt_plus": {
       "url": "https://help.openai.com/en/articles/7232895-how-do-i-request-a-refund-for-my-chatgpt-subscription",
-      "notes": "Non-refundable; 14-day window for accidental purchases only"
+      "notes": "Non-refundable; 14-day window for accidental purchases only",
+      "backup_urls": [
+        "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus",
+        "https://openai.com/chatgpt/pricing/"
+      ]
     },
     "claude_pro": {
       "url": "https://support.claude.com/en/articles/12386328-requesting-a-refund-for-a-paid-claude-plan",
-      "notes": "Non-refundable except as required by law"
+      "notes": "Non-refundable except as required by law",
+      "backup_urls": [
+        "https://support.anthropic.com/en/articles/9579605-how-do-i-cancel-my-plan",
+        "https://www.anthropic.com/pricing"
+      ]
     },
     "coursera_plus": {
       "url": "https://www.coursera.support/s/article/208280266-Refund-policies",
@@ -60,15 +105,42 @@
     },
     "crunchyroll": {
       "url": "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies",
-      "notes": "Non-refundable; digital memberships excluded from returns"
+      "notes": "Non-refundable; digital memberships excluded from returns",
+      "fetch_lanes": [
+        "zendesk_api",
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://help.crunchyroll.com/hc/en-us/articles/4963792118804-How-do-I-cancel-my-Premium-subscription",
+        "https://help.crunchyroll.com/hc/en-us/sections/21770446775956-Policies"
+      ]
     },
     "deezer": {
       "url": "https://www.deezer.com/legal/cgu",
       "notes": "Non-refundable in US; 14-day window if service unused"
     },
+    "discord_nitro": {
+      "url": "https://discord.com/nitro",
+      "notes": "Nitro purchases are generally non-refundable except where required by law.",
+      "backup_urls": [
+        "https://discord.com/terms",
+        "https://discord.com/nitro"
+      ]
+    },
     "disney_plus": {
-      "url": "https://help.disneyplus.com/article/disneyplus-refund",
-      "notes": "No refunds; access continues until end of billing cycle"
+      "url": "https://www.disneyplus.com/legal/subscriber-agreement",
+      "notes": "No refunds; access continues until end of billing cycle",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://help.disneyplus.com/article/disneyplus-refund",
+        "https://help.disneyplus.com/article/disneyplus-cancel-subscription"
+      ]
     },
     "doordash_dashpass": {
       "url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
@@ -76,19 +148,39 @@
     },
     "dropbox_us": {
       "url": "https://www.dropbox.com/terms",
-      "notes": "No refunds"
+      "notes": "No refunds",
+      "backup_urls": [
+        "https://www.dropbox.com/plans",
+        "https://www.dropbox.com/terms"
+      ]
     },
     "duolingo": {
       "url": "https://www.duolingo.com/help/how-do-I-request-a-refund",
       "notes": "All payments non-refundable"
     },
+    "espn_plus": {
+      "url": "https://www.espn.com/espnplus/",
+      "notes": "ESPN+ charges are generally non-refundable after billing.",
+      "backup_urls": [
+        "https://www.espn.com/subscribe/espnplus/",
+        "https://www.disneyplus.com/legal/subscriber-agreement"
+      ]
+    },
     "evernote": {
       "url": "https://help.evernote.com/hc/en-us/articles/115010561808-Evernote-Refund-Policy",
-      "notes": "20-day window for monthly, 60-day for annual subscriptions"
+      "notes": "20-day window for monthly, 60-day for annual subscriptions",
+      "backup_urls": [
+        "https://evernote.com/compare-plans",
+        "https://evernote.com/legal/terms-of-service"
+      ]
     },
     "expressvpn": {
       "url": "https://www.expressvpn.com/support/manage-account/what-is-expressvpns-refund-policy/",
-      "notes": "30-day money-back guarantee for first-time users"
+      "notes": "30-day money-back guarantee for first-time users",
+      "backup_urls": [
+        "https://www.expressvpn.com/support/manage-account/cancel-subscription/",
+        "https://www.expressvpn.com/support/manage-account/what-is-expressvpns-refund-policy/"
+      ]
     },
     "figma": {
       "url": "https://www.figma.com/legal/renewal-and-cancellation/",
@@ -96,31 +188,60 @@
     },
     "fubo_tv": {
       "url": "https://support.fubo.tv/hc/en-us/articles/360004457571-What-Is-Fubo-s-Cancellation-Policy",
-      "notes": "Non-refundable; no partial month refunds"
+      "notes": "Non-refundable; no partial month refunds",
+      "backup_urls": [
+        "https://www.fubo.tv/welcome",
+        "https://support.fubo.tv/hc/en-us"
+      ]
     },
     "github_pro": {
       "url": "https://docs.github.com/en/billing/managing-the-plan-for-your-github-account/downgrading-your-accounts-plan",
       "notes": "No standard refund policy; case-by-case via support"
     },
+    "google_one": {
+      "url": "https://one.google.com/about/plans",
+      "notes": "Google subscriptions are generally non-refundable unless required by law.",
+      "backup_urls": [
+        "https://one.google.com/terms-of-service",
+        "https://support.google.com/googleone/"
+      ]
+    },
     "google_play": {
       "url": "https://support.google.com/googleplay/answer/2479637",
-      "notes": "48-hour refund window"
+      "notes": "48-hour refund window",
+      "confirm_runs": 3
     },
     "grammarly": {
       "url": "https://support.grammarly.com/hc/en-us/articles/360049189071-Can-I-get-a-refund",
-      "notes": "Non-refundable unless required by law"
+      "notes": "Non-refundable unless required by law",
+      "backup_urls": [
+        "https://support.grammarly.com/hc/en-us/articles/115000090191-How-do-I-cancel-my-Grammarly-subscription",
+        "https://www.grammarly.com/plans"
+      ]
     },
     "headspace": {
       "url": "https://help.headspace.com/hc/en-us/articles/19796788352411-What-is-the-refund-policy",
-      "notes": "Non-refundable; case-by-case exceptions via email"
+      "notes": "Non-refundable; case-by-case exceptions via email",
+      "backup_urls": [
+        "https://help.headspace.com/hc/en-us/articles/19796799989019-How-to-cancel-a-Headspace-subscription",
+        "https://www.headspace.com/subscriptions"
+      ]
     },
     "hellofresh": {
       "url": "https://hellofreshusa.zendesk.com/hc/en-us/sections/360006738874-Charges-Refunds",
-      "notes": "Non-refundable; case-by-case for quality/delivery issues only"
+      "notes": "Non-refundable; case-by-case for quality/delivery issues only",
+      "backup_urls": [
+        "https://www.hellofresh.com/plans",
+        "https://www.hellofresh.com/about/faq"
+      ]
     },
     "hinge": {
       "url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
-      "notes": "Non-refundable in US; 3-day right-to-cancel in some states"
+      "notes": "Non-refundable in US; 3-day right-to-cancel in some states",
+      "backup_urls": [
+        "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
+        "https://help.hinge.co/hc/en-us"
+      ]
     },
     "hulu": {
       "url": "https://www.hulu.com/subscriber_agreement",
@@ -132,7 +253,19 @@
     },
     "instacart_plus": {
       "url": "https://www.instacart.com/help/section/360007797952/4408784716820",
-      "notes": "5-day refund window for annual plans if no orders placed"
+      "notes": "5-day refund window for annual plans if no orders placed",
+      "backup_urls": [
+        "https://www.instacart.com/store/instacart-plus",
+        "https://www.instacart.com/help"
+      ]
+    },
+    "kindle_unlimited": {
+      "url": "https://www.amazon.com/kindle-dbs/hz/subscribe/ku",
+      "notes": "Membership charges are generally non-refundable after billing.",
+      "backup_urls": [
+        "https://www.amazon.com/gp/help/customer/display.html?nodeId=201014950",
+        "https://www.amazon.com/kindle-dbs/hz/subscribe/ku"
+      ]
     },
     "linkedin_premium": {
       "url": "https://www.linkedin.com/legal/l/refund-policy",
@@ -140,7 +273,12 @@
     },
     "masterclass": {
       "url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
-      "notes": "30-day satisfaction guarantee for first-time direct purchases"
+      "notes": "30-day satisfaction guarantee for first-time direct purchases",
+      "backup_urls": [
+        "https://www.masterclass.com/legal/terms",
+        "https://www.masterclass.com/"
+      ],
+      "confirm_runs": 3
     },
     "max": {
       "url": "https://help.hbomax.com/US/Answer/Detail/000002522",
@@ -148,11 +286,19 @@
     },
     "microsoft_365": {
       "url": "https://support.microsoft.com/en-us/account-billing/returning-items-you-bought-from-microsoft-for-exchange-or-refund-81629012-aa4f-f48b-2394-8596f415072b",
-      "notes": "30-day refund window"
+      "notes": "30-day refund window",
+      "backup_urls": [
+        "https://www.microsoft.com/en-us/microsoft-365/try",
+        "https://support.microsoft.com/en-us/account-billing"
+      ]
     },
     "midjourney": {
       "url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
-      "notes": "Refund only if <20 GPU minutes used lifetime; effectively non-refundable"
+      "notes": "Refund only if <20 GPU minutes used lifetime; effectively non-refundable",
+      "backup_urls": [
+        "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
+        "https://www.midjourney.com/home"
+      ]
     },
     "netflix": {
       "url": "https://help.netflix.com/en/node/22",
@@ -168,7 +314,11 @@
     },
     "nordvpn": {
       "url": "https://support.nordvpn.com/hc/en-us/articles/19476991311121-What-is-your-refund-policy",
-      "notes": "30-day money-back guarantee for first purchase"
+      "notes": "30-day money-back guarantee for first purchase",
+      "backup_urls": [
+        "https://nordvpn.com/pricing/",
+        "https://support.nordvpn.com/hc/en-us"
+      ]
     },
     "notion": {
       "url": "https://www.notion.so/pricing",
@@ -180,7 +330,11 @@
     },
     "peacock": {
       "url": "https://www.peacocktv.com/help/article/what-is-peacock-s-refund-policy",
-      "notes": "Non-refundable at Peacock's discretion"
+      "notes": "Non-refundable at Peacock's discretion",
+      "backup_urls": [
+        "https://www.peacocktv.com/plans",
+        "https://www.peacocktv.com/help"
+      ]
     },
     "peloton": {
       "url": "https://www.onepeloton.com/membership-terms",
@@ -190,13 +344,33 @@
       "url": "https://www.playstation.com/en-us/legal/playstation-store-cancellation-policy/",
       "notes": "14-day cancellation window, pro-rated refund"
     },
+    "proton": {
+      "url": "https://proton.me/pricing",
+      "notes": "30-day money-back guarantee is commonly advertised for new paid plans.",
+      "backup_urls": [
+        "https://proton.me/legal/terms",
+        "https://proton.me/support"
+      ]
+    },
+    "ring_protect": {
+      "url": "https://ring.com/protect-plans",
+      "notes": "Ring Protect charges are generally non-refundable once billed.",
+      "backup_urls": [
+        "https://ring.com/terms",
+        "https://ring.com/support"
+      ]
+    },
     "scribd": {
       "url": "https://support.scribd.com/hc/en-us/articles/210133986-Refunds",
       "notes": "30-day refund window if subscription unused"
     },
     "shutterstock": {
       "url": "https://www.shutterstock.com/help/en/articles/10594851-can-i-get-a-refund-if-i-cancel-my-plan",
-      "notes": "Non-refundable; 50% early termination fee on annual plans"
+      "notes": "Non-refundable; 50% early termination fee on annual plans",
+      "backup_urls": [
+        "https://www.shutterstock.com/pricing",
+        "https://www.shutterstock.com/legal/terms-and-conditions"
+      ]
     },
     "slack": {
       "url": "https://slack.com/help/articles/218915077-Slacks-Fair-Billing-Policy",
@@ -204,7 +378,8 @@
     },
     "sling_tv": {
       "url": "https://www.sling.com/help/en/account-questions/account-changes/pause-cancel-subscription",
-      "notes": "Non-refundable; no partial month refunds"
+      "notes": "Non-refundable; no partial month refunds",
+      "confirm_runs": 3
     },
     "spotify": {
       "url": "https://www.spotify.com/us/legal/end-user-agreement/",
@@ -224,11 +399,19 @@
     },
     "tidal": {
       "url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
-      "notes": "No refunds in US"
+      "notes": "No refunds in US",
+      "backup_urls": [
+        "https://tidal.com/pricing",
+        "https://support.tidal.com/hc/en-us"
+      ]
     },
     "tinder": {
       "url": "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests",
-      "notes": "Non-refundable in US; 14-day window EU only"
+      "notes": "Non-refundable in US; 14-day window EU only",
+      "backup_urls": [
+        "https://www.help.tinder.com/hc/en-us/articles/115003365946-How-do-I-cancel-my-subscription",
+        "https://www.help.tinder.com/hc/en-us/articles/115003521343-Refund-Requests"
+      ]
     },
     "todoist": {
       "url": "https://www.todoist.com/help/articles/request-a-refund-P1PoqD3J",
@@ -237,6 +420,14 @@
     "twitch": {
       "url": "https://www.twitch.tv/p/en/legal/terms-of-sale/",
       "notes": "Non-refundable; exceptions at Twitch's discretion"
+    },
+    "uber_one": {
+      "url": "https://www.uber.com/us/en/u/uber-one/",
+      "notes": "Membership charges are generally non-refundable once billed.",
+      "backup_urls": [
+        "https://www.uber.com/legal/en/",
+        "https://www.uber.com/legal/en/document/?name=general-terms-of-use&country=united-states&lang=en"
+      ]
     },
     "walmart_plus": {
       "url": "https://www.walmart.com/help/article/walmart-terms-of-use/de696dfa1dd4423bb1005668dd19b845",
@@ -254,9 +445,180 @@
       "url": "https://support.google.com/youtube/answer/12014038",
       "notes": "No refunds for current billing period"
     },
+    "youtube_tv": {
+      "url": "https://tv.youtube.com/",
+      "notes": "Generally non-refundable after billing; see YouTube TV terms/support for exceptions.",
+      "backup_urls": [
+        "https://www.youtube.com/t/terms_paidservice",
+        "https://support.google.com/youtubetv/"
+      ]
+    },
+    "dashlane": {
+      "url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
+      "notes": "Dashlane subscription management and billing guidance.",
+      "backup_urls": [
+        "https://support.dashlane.com/hc/en-us",
+        "https://www.dashlane.com/pricing"
+      ]
+    },
+    "lastpass": {
+      "url": "https://www.lastpass.com/legal-center/terms-of-service",
+      "notes": "Refund terms depend on plan and purchase channel."
+    },
+    "keeper": {
+      "url": "https://www.keepersecurity.com/terms.html",
+      "notes": "Refund requests are handled per Keeper billing terms."
+    },
+    "fitbit_premium": {
+      "url": "https://www.fitbit.com/global/us/legal/terms-of-service",
+      "notes": "Refund handling can vary by purchase channel (Fitbit, Apple, Google Play)."
+    },
+    "myfitnesspal_premium": {
+      "url": "https://support.myfitnesspal.com/hc/en-us/articles/360032625371-How-do-I-cancel-my-Premium-subscription-renewal",
+      "notes": "Subscription refunds are generally limited and depend on purchase channel.",
+      "fetch_lanes": [
+        "zendesk_api",
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://support.myfitnesspal.com/hc/en-us/sections/360006006792-MYFITNESSPAL-PREMIUM",
+        "https://www.myfitnesspal.com/terms-of-use"
+      ]
+    },
+    "weightwatchers": {
+      "url": "https://www.weightwatchers.com/us/terms-and-conditions",
+      "notes": "Refund eligibility depends on selected plan and commitment."
+    },
+    "siriusxm": {
+      "url": "https://www.siriusxm.com/customeragreement/",
+      "notes": "Customer agreement and billing terms for SiriusXM subscriptions.",
+      "backup_urls": [
+        "https://www.siriusxm.com/help/manage-or-cancel-service/",
+        "https://www.siriusxm.com/help/manage-or-cancel-your-subscription"
+      ]
+    },
+    "patreon": {
+      "url": "https://www.patreon.com/policy/legal",
+      "notes": "Membership payments are generally non-refundable unless required by law."
+    },
+    "roblox_premium": {
+      "url": "https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use",
+      "notes": "Digital subscription charges are generally non-refundable."
+    },
+    "ea_play": {
+      "url": "https://www.ea.com/legal/user-agreement",
+      "notes": "EA Play subscriptions are generally non-refundable after billing."
+    },
+    "ubisoft_plus": {
+      "url": "https://legal.ubi.com/termsofuse/en-US",
+      "notes": "Ubisoft+ subscriptions are generally non-refundable after billing."
+    },
+    "nfl_plus": {
+      "url": "https://www.nfl.com/legal/subscriptions_terms",
+      "notes": "NFL+ subscriptions are generally non-refundable after billing."
+    },
+    "mlb_tv": {
+      "url": "https://www.mlb.com/official-information/terms-of-use",
+      "notes": "MLB terms of use and paid product billing conditions.",
+      "backup_urls": [
+        "https://www.mlb.com/live-stream-games/help-center",
+        "https://www.mlb.com/live-stream-games/subscribe"
+      ]
+    },
+    "new_york_times": {
+      "url": "https://www.nytimes.com/subscription/terms-of-sale",
+      "notes": "Subscription billing and refund terms for NYT digital products."
+    },
+    "wall_street_journal": {
+      "url": "https://customercenter.wsj.com/help/article?topic=Policies&title=Cancellation%20%26%20Refund%20Policy",
+      "notes": "WSJ cancellation and refund policy guidance.",
+      "backup_urls": [
+        "https://customercenter.wsj.com/contact",
+        "https://secure.wsj-asia.com/subscription1/supplementary2.html"
+      ]
+    },
+    "washington_post": {
+      "url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
+      "notes": "Washington Post subscription management and cancellation guidance.",
+      "backup_urls": [
+        "https://helpcenter.washingtonpost.com/hc/en-us",
+        "https://www.washingtonpost.com/subscribe/"
+      ]
+    },
+    "substack": {
+      "url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "notes": "Substack subscription management and cancellation guidance.",
+      "backup_urls": [
+        "https://substack.com/going-paid",
+        "https://substack.com"
+      ],
+      "confirm_runs": 3
+    },
+    "snapchat_plus": {
+      "url": "https://www.snap.com/terms",
+      "notes": "Snap subscription terms and billing conditions."
+    },
+    "x_premium": {
+      "url": "https://legal.x.com/purchaser-terms.html",
+      "notes": "X Premium subscription details and billing behavior.",
+      "fetch_lanes": [
+        "direct",
+        "mirror",
+        "browser_hook"
+      ],
+      "backup_urls": [
+        "https://help.x.com/en/using-x/x-premium"
+      ]
+    },
+    "reddit_premium": {
+      "url": "https://www.reddit.com/premium",
+      "notes": "Reddit Premium plan and billing details.",
+      "backup_urls": [
+        "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
+        "https://www.redditinc.com/policies/user-agreement"
+      ]
+    },
+    "telegram_premium": {
+      "url": "https://telegram.org/tos",
+      "notes": "Telegram terms page covering subscription terms and billing behavior."
+    },
+    "soundcloud_go": {
+      "url": "https://help.soundcloud.com/hc/en-us/articles/115003566468-Canceling-your-SoundCloud-Go-subscription",
+      "notes": "SoundCloud Go subscription management and cancellation guidance.",
+      "backup_urls": [
+        "https://help.soundcloud.com/hc/en-us",
+        "https://soundcloud.com/go"
+      ],
+      "confirm_runs": 3
+    },
+    "discovery_plus": {
+      "url": "https://www.discoveryplus.com/terms",
+      "notes": "Discovery+ subscription terms and billing behavior."
+    },
+    "starz": {
+      "url": "https://www.starz.com/us/en/termsofuse",
+      "notes": "STARZ subscription terms and billing behavior.",
+      "backup_urls": [
+        "https://www.starz.com/us/en/legal/terms-of-use",
+        "https://www.starz.com/us/en/help"
+      ],
+      "confirm_runs": 3
+    },
+    "britbox": {
+      "url": "https://www.britbox.com/us/terms-and-conditions",
+      "notes": "BritBox subscription terms and billing behavior."
+    },
+    "amc_plus": {
+      "url": "https://www.amcplus.com/terms",
+      "notes": "AMC+ subscription terms and billing behavior."
+    },
     "zoom": {
       "url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066687",
       "notes": "All subscription fees non-refundable"
     }
-  }
+  },
+  "last_verified_utc": "2026-03-02T06:47:25Z",
+  "hash_profile": "focus-v1"
 }

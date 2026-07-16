@@ -10,6 +10,7 @@ on:
       - "docs/**"
       - "lib/**"
       - "public/**"
+      - "rules/*-policy-sources.json"
       - "scripts/**"
       - "README.md"
       - "middleware.js"
@@ -22,6 +23,7 @@ on:
       - "docs/**"
       - "lib/**"
       - "public/**"
+      - "rules/*-policy-sources.json"
       - "scripts/**"
       - "README.md"
       - "middleware.js"
@@ -48,6 +50,9 @@ jobs:
 
       - name: Run policy feed reliability tests
         run: npm run test:policy-feed
+
+      - name: Verify published policy source mirrors
+        run: npm run test:public-policy-sources
 
       - name: Run policy alerts API contract tests
         run: npm run test:policy-alerts-api

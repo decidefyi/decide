@@ -7,6 +7,8 @@
     "generate:golden-replay": "node scripts/generate-golden-replay-corpus.js",
     "generate:policy-mcp-metadata": "node scripts/generate-policy-mcp-metadata.js",
     "generate:rulebook-runtime-manifest": "node scripts/generate-rulebook-runtime-manifest.js",
+    "sync:public-policy-sources": "node scripts/sync-public-policy-sources.js",
+    "test:public-policy-sources": "node scripts/test-public-policy-sources.js",
     "rulebook:migration-dry-run": "node scripts/rulebook-migration-dry-run.js",
     "smoke": "node scripts/smoke-test.js",
     "smoke:rulebook-runtime": "node scripts/rulebook-runtime-production-smoke.js",
