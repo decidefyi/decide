@@ -33,9 +33,13 @@ and action when a submission, rescan, or registry release completes.
 
 ## Current External State
 
-- **Smithery:** `refund-decide/notary` is the only Decide listing with retained
-  usage history. Preserve that qualified name and describe it as the Refund-only
-  compatibility endpoint after the canonical suite is live.
+- **Smithery canonical suite:** `decidefyi/policy-notaries` is live at
+  `https://smithery.ai/servers/decidefyi/policy-notaries`. Its external release
+  points to `https://policy.decide.fyi/api/mcp`; Smithery discovered the
+  well-known server card and verified the exact four-tool suite.
+- **Smithery Refund compatibility:** `refund-decide/notary` retains its usage
+  history. Preserve that qualified name and describe it as the Refund-only
+  compatibility endpoint when its descriptive metadata next changes.
 - **Official MCP Registry:** the active legacy record is
   `io.github.ndkasndakn/refund-decide@1.0.0`. Registry versions are immutable and
   cannot currently be unpublished.
@@ -58,8 +62,9 @@ and action when a submission, rescan, or registry release completes.
    delete the existing qualified name.
 3. Completed: publish `io.github.decidefyi/policy-notaries@1.3.1` to the
    Official MCP Registry from the `decidefyi` organization identity.
-4. Publish a new Smithery server named **Decide Policy Notaries** from the
-   canonical URL. Let Smithery scan the live endpoint and generated server card.
+4. Completed: publish **Decide Policy Notaries** at
+   `decidefyi/policy-notaries` from the canonical URL. Smithery scanned the
+   live endpoint and server card, discovering the exact four-tool suite.
 5. Update the existing Refund Smithery description to point to the four-tool
    suite while preserving Refund compatibility and usage history.
 6. Completed: verify Glama's `decidefyi/decide` catalog page exposes the

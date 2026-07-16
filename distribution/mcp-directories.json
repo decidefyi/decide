@@ -58,12 +58,12 @@
       "id": "smithery_canonical",
       "tier": 1,
       "authority": "client_integrated_catalog",
-      "status": "pending_account_authorization",
-      "identity": "Decide Policy Notaries",
-      "url": "https://smithery.ai/docs/build",
-      "observed_on_utc": "2026-07-16",
-      "observed_evidence": "Production endpoint and server card are ready; Smithery CLI publication is blocked only on owner account authorization.",
-      "next_action": "Authorize the Smithery CLI, publish the canonical Streamable HTTP URL, verify all four tools, and preserve the separate refund compatibility listing.",
+      "status": "active",
+      "identity": "decidefyi/policy-notaries",
+      "url": "https://smithery.ai/servers/decidefyi/policy-notaries",
+      "observed_on_utc": "2026-07-17",
+      "observed_evidence": "Smithery external release 33a7b61a-dd15-431e-8a78-ec095d8fc13d deployed successfully from https://policy.decide.fyi/api/mcp. The release scan read .well-known/mcp/server-card.json and verified all four policy tools.",
+      "next_action": "Monitor installs and tools/call activity on the canonical suite. Preserve the separate refund compatibility listing and update its description when Smithery metadata editing is available.",
       "update_policy": "Publish a new release for endpoint or tool-contract changes; edit descriptive metadata for positioning changes."
     },
     {
