@@ -1,9 +1,19 @@
 {
   "name": "decide.fyi",
-  "version": "1.2.1",
-  "description": "Deterministic subscription decision notaries for US consumers. Four stateless MCP servers: refund, cancel, return, trial.",
+  "version": "1.3.0",
+  "description": "Deterministic subscription policy notaries for US consumers. One canonical four-tool MCP server with stable specialist compatibility endpoints.",
   "url": "https://decide.fyi",
   "services": [
+    {
+      "name": "Decide Policy Notaries",
+      "mcp_url": "https://policy.decide.fyi/api/mcp",
+      "capabilities": [
+        "dev.ucp.notary.refund",
+        "dev.ucp.notary.cancel",
+        "dev.ucp.notary.return",
+        "dev.ucp.notary.trial"
+      ]
+    },
     {
       "name": "RefundDecide Notary",
       "endpoint": "https://refund.decide.fyi/api/v1/refund/eligibility",

@@ -1,0 +1,116 @@
+{
+  "schema_version": "mcp_distribution_inventory_v1",
+  "reviewed_on_utc": "2026-07-15",
+  "canonical_product": {
+    "name": "Decide Policy Notaries",
+    "registry_name": "io.github.decidefyi/policy-notaries",
+    "version": "1.3.0",
+    "endpoint": "https://policy.decide.fyi/api/mcp",
+    "tools": [
+      "refund_eligibility",
+      "cancellation_penalty",
+      "return_eligibility",
+      "trial_terms"
+    ]
+  },
+  "principles": [
+    "One canonical four-tool listing concentrates installs, trust, usage, and maintenance.",
+    "Specialist endpoints remain compatibility surfaces, not four separate acquisition products.",
+    "Primary registries and client-integrated catalogs receive direct ownership; scraper mirrors refresh from canonical metadata.",
+    "Directory counters measure discovery activity, not customers or revenue."
+  ],
+  "directories": [
+    {
+      "id": "official_mcp_registry_canonical",
+      "tier": 1,
+      "authority": "primary_registry",
+      "status": "pending_publish",
+      "identity": "io.github.decidefyi/policy-notaries@1.3.0",
+      "url": "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.decidefyi%2Fpolicy-notaries",
+      "next_action": "Publish only after the current four-tool metadata is deployed and the live distribution audit passes.",
+      "update_policy": "Registry versions are immutable. Publish a new server.json version when canonical public metadata, tool contract, or remote endpoint changes; do not resubmit unchanged releases."
+    },
+    {
+      "id": "official_mcp_registry_legacy_refund",
+      "tier": 1,
+      "authority": "legacy_primary_registry",
+      "status": "active_legacy",
+      "identity": "io.github.ndkasndakn/refund-decide@1.0.0",
+      "url": "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.ndkasndakn%2Frefund-decide",
+      "next_action": "Preserve for compatibility; point new discovery work to the canonical suite.",
+      "update_policy": "Do not attempt to replace or unpublish the immutable legacy record."
+    },
+    {
+      "id": "smithery_refund_legacy",
+      "tier": 1,
+      "authority": "client_integrated_catalog",
+      "status": "active_legacy_with_usage",
+      "identity": "refund-decide/notary",
+      "url": "https://smithery.ai/servers/refund-decide/notary",
+      "observed_on_utc": "2026-07-15",
+      "observed_evidence": "Approximately 1.1k tool calls, 99.94% uptime, and a 64/100 listing score.",
+      "next_action": "Retain the qualified name and usage history; update its description to identify it as the refund-only compatibility endpoint after canonical launch.",
+      "update_policy": "Deploy a new Smithery release when the endpoint URL, connection configuration, or published tool contract changes."
+    },
+    {
+      "id": "smithery_canonical",
+      "tier": 1,
+      "authority": "client_integrated_catalog",
+      "status": "pending_submission",
+      "identity": "Decide Policy Notaries",
+      "url": "https://smithery.ai/docs/build",
+      "next_action": "Publish the canonical Streamable HTTP URL after production deployment and preserve the separate refund compatibility listing.",
+      "update_policy": "Publish a new release for endpoint or tool-contract changes; edit descriptive metadata for positioning changes."
+    },
+    {
+      "id": "awesome_mcp_servers",
+      "tier": 1,
+      "authority": "curated_github_list",
+      "status": "active_stale_description",
+      "identity": "RefundDecide entry",
+      "url": "https://github.com/punkpeye/awesome-mcp-servers",
+      "next_action": "Submit one correction PR after canonical publication: describe all four tools and use the Support and Service Management category.",
+      "update_policy": "Update only for material product identity, endpoint, or tool-set changes."
+    },
+    {
+      "id": "glama_github_catalog",
+      "tier": 2,
+      "authority": "github_crawler_and_gateway",
+      "status": "auto_discovered",
+      "identity": "decidefyi/decide",
+      "url": "https://glama.ai/mcp/servers/decidefyi/decide",
+      "next_action": "After deployment, re-run Glama Claim ownership or manually Sync Server for the decidefyi organization repository; then confirm the canonical four-tool install copy, annotations, and output schemas.",
+      "update_policy": "Prefer repository and official-registry refreshes over manually maintaining duplicate descriptions."
+    },
+    {
+      "id": "pulsemcp",
+      "tier": 2,
+      "authority": "registry_aggregator",
+      "status": "awaiting_official_registry_ingestion",
+      "identity": "canonical official-registry record",
+      "url": "https://www.pulsemcp.com/servers",
+      "next_action": "Let PulseMCP ingest the canonical Official MCP Registry record; submit manually only if it remains absent after the registry release is indexed.",
+      "update_policy": "No routine resubmission; monitor downstream registry ingestion."
+    },
+    {
+      "id": "mcp_so",
+      "tier": 2,
+      "authority": "manual_directory",
+      "status": "candidate_after_canonical_launch",
+      "identity": "Decide Policy Notaries",
+      "url": "https://mcp.so/",
+      "next_action": "Submit the one canonical suite after Official Registry and Smithery are live, then measure referral or install activity before maintaining it as Tier 1.",
+      "update_policy": "Refresh only for a material endpoint or tool-set change."
+    },
+    {
+      "id": "derived_mirrors",
+      "tier": 3,
+      "authority": "scraper_mirrors",
+      "status": "monitor_only",
+      "identity": "MCPList, aibase, EnterpriseDNA, and similar mirrors",
+      "url": "",
+      "next_action": "Do not chase every mirror. Correct harmful claims or a high-traffic stale page only after primary metadata is canonical.",
+      "update_policy": "Rely on primary registry, Smithery, README, and well-known metadata refreshes."
+    }
+  ]
+}

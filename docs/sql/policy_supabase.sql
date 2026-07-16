@@ -18,6 +18,12 @@ create table if not exists public.policy_events (
   run_attempt text,
   commit_sha text,
   run_url text,
+  review_status text not null default 'unreviewed',
+  reviewed_at_utc timestamptz,
+  reviewed_by text,
+  review_note text,
+  rulebook_updated boolean not null default false,
+  rulebook_version_after text,
   raw jsonb not null default '{}'::jsonb,
   updated_at_utc timestamptz not null default timezone('utc', now())
 );
@@ -25,6 +31,29 @@ create table if not exists public.policy_events (
 create index if not exists idx_policy_events_date_utc on public.policy_events (date_utc desc);
 create index if not exists idx_policy_events_policy_vendor on public.policy_events (policy, vendor);
 create index if not exists idx_policy_events_emitted_at on public.policy_events (emitted_at_utc desc);
+
+alter table public.policy_events
+  add column if not exists review_status text not null default 'unreviewed',
+  add column if not exists reviewed_at_utc timestamptz,
+  add column if not exists reviewed_by text,
+  add column if not exists review_note text,
+  add column if not exists rulebook_updated boolean not null default false,
+  add column if not exists rulebook_version_after text;
+
+create index if not exists idx_policy_events_review_status on public.policy_events (review_status, emitted_at_utc desc);
+
+-- Events recorded before the human review workflow launched remain audit
+-- evidence, but they are not presented as a newly actionable review queue.
+update public.policy_events
+set
+  review_status = 'historical_unreviewed',
+  review_note = coalesce(
+    review_note,
+    'Recorded before human policy review tracking launched; retained for audit and not treated as adjudicated.'
+  ),
+  updated_at_utc = timezone('utc', now())
+where review_status = 'unreviewed'
+  and emitted_at_utc < timestamptz '2026-07-15T17:30:04Z';
 
 create table if not exists public.policy_daily_alerts (
   date_utc date primary key,
@@ -36,6 +65,7 @@ create table if not exists public.policy_daily_alerts (
   repeated_count int not null default 0,
   by_policy jsonb not null default '{}'::jsonb,
   changed_sample jsonb not null default '[]'::jsonb,
+  sample_details jsonb not null default '[]'::jsonb,
   pending_count int not null default 0,
   volatile_pending_count int not null default 0,
   escalation_count int not null default 0,
@@ -59,6 +89,9 @@ create table if not exists public.policy_daily_alerts (
   raw jsonb not null default '{}'::jsonb,
   updated_at_utc timestamptz not null default timezone('utc', now())
 );
+
+alter table public.policy_daily_alerts
+  add column if not exists sample_details jsonb not null default '[]'::jsonb;
 
 create index if not exists idx_policy_daily_alerts_generated_at on public.policy_daily_alerts (generated_at_utc desc);
 create index if not exists idx_policy_daily_alerts_strict on public.policy_daily_alerts (strict_eligible, date_utc desc);

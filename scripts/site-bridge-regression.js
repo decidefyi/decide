@@ -37,6 +37,18 @@ assert(html.includes("This Decide URL remains the stable MCP and REST runtime"),
 assert(html.includes("policy-check reference applications"), "notary subdomain copy should frame reference applications");
 pass("notary subdomain runtime copy is present");
 
+const canonicalEndpoint = "https://policy.decide.fyi/api/mcp";
+assert(html.includes(canonicalEndpoint), "public bridge page should lead with the canonical policy MCP endpoint");
+assert(
+  server.remotes.length === 1 && server.remotes[0]?.url === canonicalEndpoint,
+  "server.json should publish one canonical policy MCP remote",
+);
+assert(readme.includes(canonicalEndpoint), "README should lead MCP installation with the canonical endpoint");
+assert(
+  readme.includes("Specialist compatibility configuration"),
+  "README should preserve an explicit specialist compatibility configuration",
+);
+
 for (const endpoint of [
   "https://refund.decide.fyi/api/mcp",
   "https://cancel.decide.fyi/api/mcp",
@@ -44,12 +56,8 @@ for (const endpoint of [
   "https://trial.decide.fyi/api/mcp",
 ]) {
   assert(html.includes(endpoint), `public bridge page should preserve endpoint ${endpoint}`);
-  assert(
-    server.remotes.some((remote) => remote.url === endpoint),
-    `server.json should preserve remote ${endpoint}`,
-  );
 }
-pass("MCP remotes remain stable in page and server.json");
+pass("canonical MCP install and specialist compatibility remotes are separated");
 
 assert(!html.includes("Deterministic decision infrastructure: REST endpoints for systems, plus MCP notaries for agents."), "old mixed product positioning should be removed");
 assert(!html.includes("Stable runtime endpoints for deterministic system and agent decisions."), "old broad runtime positioning should be removed");

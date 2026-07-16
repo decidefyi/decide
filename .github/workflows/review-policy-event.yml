@@ -1,0 +1,65 @@
+name: Review policy event
+
+on:
+  workflow_dispatch:
+    inputs:
+      event_id:
+        description: Stable policy event ID from the review packet or alerts API
+        required: true
+        type: string
+      review_status:
+        description: Human review outcome
+        required: true
+        type: choice
+        options:
+          - needs_followup
+          - reviewed_no_rule_change
+          - rulebook_updated
+          - dismissed_false_signal
+      reviewed_by:
+        description: Reviewer name or email
+        required: true
+        type: string
+      review_note:
+        description: Evidence-based rationale
+        required: true
+        type: string
+      rulebook_version:
+        description: Required only when the rulebook was updated
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Validate and record review
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || vars.SUPABASE_URL || '' }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || vars.SUPABASE_SERVICE_ROLE_KEY || '' }}
+          EVENT_ID: ${{ inputs.event_id }}
+          REVIEW_STATUS: ${{ inputs.review_status }}
+          REVIEWED_BY: ${{ inputs.reviewed_by }}
+          REVIEW_NOTE: ${{ inputs.review_note }}
+          RULEBOOK_VERSION: ${{ inputs.rulebook_version }}
+        run: |
+          args=(
+            --event-id "$EVENT_ID"
+            --status "$REVIEW_STATUS"
+            --reviewed-by "$REVIEWED_BY"
+            --note "$REVIEW_NOTE"
+          )
+          if [ -n "$RULEBOOK_VERSION" ]; then
+            args+=(--rulebook-version "$RULEBOOK_VERSION")
+          fi
+          node scripts/review-policy-event.js "${args[@]}" --apply

@@ -114,7 +114,7 @@ jobs:
           echo "$output"
 
           if [ "$status" -ne 0 ]; then
-            echo "::warning::Policy checker exited with code $status (non-blocking)."
+            echo "::error::Policy checker exited with code $status. Evidence will be preserved before the job fails."
           fi
 
           extract_output_value() {
@@ -219,7 +219,8 @@ jobs:
           if [ -z "$fallback_probe_count" ]; then fallback_probe_count=0; fi
           if [ -z "$fallback_signal_count" ]; then fallback_signal_count=0; fi
           if [ -z "$fallback_signal_actionable_count" ]; then fallback_signal_actionable_count=0; fi
-          if [ -z "$fetch_health_status" ]; then fetch_health_status=healthy; fi
+          if [ "$status" -ne 0 ]; then fetch_health_status=failed; fi
+          if [ -z "$fetch_health_status" ]; then fetch_health_status=unknown; fi
           if [ -z "$tier1_total" ]; then tier1_total=0; fi
           if [ -z "$tier1_fetched" ]; then tier1_fetched=0; fi
           if [ -z "$tier1_failed" ]; then tier1_failed=0; fi
@@ -321,6 +322,7 @@ jobs:
           echo "fallback_signal_actionable_by_policy=$fallback_signal_actionable_by_policy" >> "$GITHUB_OUTPUT"
           echo "fallback_signal_actionable_sample=$fallback_signal_actionable_sample" >> "$GITHUB_OUTPUT"
           echo "fetch_health_status=$fetch_health_status" >> "$GITHUB_OUTPUT"
+          echo "checker_status=$status" >> "$GITHUB_OUTPUT"
           echo "tier1_total=$tier1_total" >> "$GITHUB_OUTPUT"
           echo "tier1_fetched=$tier1_fetched" >> "$GITHUB_OUTPUT"
           echo "tier1_failed=$tier1_failed" >> "$GITHUB_OUTPUT"
@@ -360,6 +362,7 @@ jobs:
       - name: Summarize policy health
         env:
           POLICY_CHECK_PUBLIC_ISSUES_ENABLED: ${{ env.POLICY_CHECK_PUBLIC_ISSUES_ENABLED }}
+          CHECKER_STATUS: ${{ steps.check.outputs.checker_status }}
           ACTUAL_CHANGED_COUNT: ${{ steps.check.outputs.actual_changed_count }}
           PENDING_COUNT: ${{ steps.check.outputs.pending_count }}
           LEGACY_PENDING_COUNT: ${{ steps.check.outputs.legacy_pending_count }}
@@ -432,6 +435,7 @@ jobs:
           supabase_daily_alert_upserted="${SUPABASE_DAILY_ALERT_UPSERTED_COUNT:-0}"
           supabase_state_synced="${SUPABASE_STATE_SYNCED_COUNT:-0}"
           issue_mode="${POLICY_CHECK_PUBLIC_ISSUES_ENABLED:-0}"
+          checker_status="${CHECKER_STATUS:-unknown}"
 
           if [ "$fetch_health" != "healthy" ] || [ "$fetch_blocked" -gt 0 ]; then
             echo "::warning::Policy fetch health=${fetch_health}; failures=${fetch_failures}; fetch_blocked_pending=${fetch_blocked}."
@@ -443,6 +447,7 @@ jobs:
           {
             echo "## Policy health"
             echo
+            echo "- Checker process status: ${checker_status}"
             echo "- Confirmed changes: ${changed}"
             echo "- Active pending candidates: ${pending}"
             echo "- Legacy pending carried: ${legacy_pending}"
@@ -500,7 +505,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verify public policy alerts bridge
-        if: steps.check.outputs.supabase_sync_enabled == '1' && steps.check.outputs.supabase_sync_ok == '1'
+        if: steps.check.outputs.checker_status == '0' && steps.check.outputs.supabase_sync_enabled == '1' && steps.check.outputs.supabase_sync_ok == '1'
         continue-on-error: ${{ (vars.POLICY_ALERTS_BRIDGE_ENFORCE || '0') != '1' }}
         env:
           POLICY_ALERTS_BRIDGE_URL: ${{ vars.POLICY_ALERTS_BRIDGE_URL || 'https://www.decide.fyi/api/policy-alerts' }}
@@ -518,15 +523,71 @@ jobs:
           export POLICY_ALERTS_BRIDGE_EXPECT_DATE="$(date -u +%F)"
           npm run verify:policy-alerts-bridge
 
+      - name: Audit curated rule freshness
+        if: always()
+        env:
+          POLICY_RULE_MAX_VERIFIED_AGE_DAYS: ${{ vars.POLICY_RULE_MAX_VERIFIED_AGE_DAYS || '90' }}
+        run: |
+          node scripts/audit-policy-freshness.js \
+            --max-age-days "$POLICY_RULE_MAX_VERIFIED_AGE_DAYS" \
+            > /tmp/policy-rule-freshness.json
+          node - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          const fs = require('fs');
+          const report = JSON.parse(fs.readFileSync('/tmp/policy-rule-freshness.json', 'utf8'));
+          console.log('## Curated rule freshness');
+          console.log(`- Status: ${report.status}`);
+          console.log(`- Stale policy families: ${report.stale_policy_count}/${report.policy_count}`);
+          console.log('- Daily source monitoring does not mutate deterministic rulebooks.');
+          for (const policy of report.policies) {
+            console.log(`- ${policy.policy}: ${policy.status}; version=${policy.rules_version}; verified_age_days=${policy.verified_age_days ?? 'unknown'}`);
+          }
+          NODE
+
+      - name: Verify canonical policy alerts API
+        if: steps.check.outputs.checker_status == '0' && steps.check.outputs.supabase_sync_enabled == '1' && steps.check.outputs.supabase_sync_ok == '1'
+        env:
+          POLICY_ALERTS_BRIDGE_URL: https://api.decide.fyi/api/policy-alerts
+          POLICY_ALERTS_BRIDGE_STATE: all
+          POLICY_ALERTS_BRIDGE_LIMIT: 10
+          POLICY_ALERTS_BRIDGE_RETRIES: ${{ vars.POLICY_ALERTS_BRIDGE_RETRIES || '6' }}
+          POLICY_ALERTS_BRIDGE_DELAY_MS: ${{ vars.POLICY_ALERTS_BRIDGE_DELAY_MS || '15000' }}
+          POLICY_ALERTS_BRIDGE_EXPECT_SCHEMA_VERSION: policy_alerts_v2
+          POLICY_ALERTS_BRIDGE_EXPECT_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          POLICY_ALERTS_BRIDGE_REQUIRE_SUPABASE: 1
+          POLICY_ALERTS_BRIDGE_REQUIRE_LIVE_RUN: 1
+          POLICY_ALERTS_BRIDGE_ALLOW_FILE_FALLBACK: 0
+          POLICY_ALERTS_BRIDGE_MIN_ALERTS: 1
+        run: |
+          export POLICY_ALERTS_BRIDGE_EXPECT_DATE="$(date -u +%F)"
+          npm run verify:policy-alerts-bridge
+
+      - name: Preserve policy review packet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-review-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            rules/policy-alert-feed.json
+            rules/policy-alert-review-feed.json
+            rules/policy-events.ndjson
+            rules/policy-status-report.json
+            rules/policy-status-report.md
+            rules/policy-weekly-triage.json
+            rules/policy-weekly-triage.md
+            /tmp/policy-rule-freshness.json
+
       - name: Commit policy artifacts to aggregation branch
         id: commit_artifacts
+        if: steps.check.outputs.checker_status == '0'
         env:
           SUPABASE_SYNC_OK: ${{ steps.check.outputs.supabase_sync_ok }}
           SUPABASE_SYNC_ENABLED: ${{ steps.check.outputs.supabase_sync_enabled }}
           SUPABASE_STATE_SYNC_ENABLED: ${{ steps.check.outputs.supabase_state_sync_enabled }}
           POLICY_SUPABASE_SUPPRESS_GIT_STATE: ${{ steps.check.outputs.policy_supabase_suppress_git_state }}
         run: |
-          set +e
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           publish_files=(
@@ -627,12 +688,7 @@ jobs:
 
           git fetch origin "${base_branch}"
           git fetch origin "${artifact_branch}" || true
-
-          if git show-ref --verify --quiet "refs/remotes/origin/${artifact_branch}"; then
-            git checkout -f -B "${artifact_branch}" "origin/${artifact_branch}"
-          else
-            git checkout -f -B "${artifact_branch}" "origin/${base_branch}"
-          fi
+          git checkout -f -B "${artifact_branch}" "origin/${base_branch}"
 
           for f in "${existing[@]}"; do
             mkdir -p "$(dirname "$f")"
@@ -657,30 +713,14 @@ jobs:
           git add -A rules
 
           if git diff --cached --quiet; then
-            echo "No policy artifact changes to commit."
+            echo "No policy artifact changes to commit; aligning the generated branch with ${base_branch}."
+            git push --force-with-lease origin "${artifact_branch}"
             echo "artifact_updated=0" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           git commit -m "chore(policy): refresh policy artifacts [skip ci]"
-          push_status=1
-          for attempt in 1 2 3; do
-            if git push origin "${artifact_branch}"; then
-              push_status=0
-              break
-            fi
-            if [ "$attempt" -lt 3 ]; then
-              echo "::warning::Push attempt ${attempt} to ${artifact_branch} failed; retrying."
-              git fetch origin "${artifact_branch}" || true
-              git rebase "origin/${artifact_branch}" || git rebase --abort || true
-              sleep "${attempt}"
-            fi
-          done
-          if [ "$push_status" -ne 0 ]; then
-            echo "::warning::Push to ${artifact_branch} failed; skipping PR update."
-            echo "artifact_updated=0" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
+          git push --force-with-lease origin "${artifact_branch}"
 
           echo "artifact_updated=1" >> "$GITHUB_OUTPUT"
           echo "artifact_branch=${artifact_branch}" >> "$GITHUB_OUTPUT"
@@ -719,13 +759,14 @@ jobs:
               const repo = context.repo.repo;
               const head = `${owner}:${process.env.ARTIFACT_BRANCH}`;
               const base = process.env.ARTIFACT_BASE || 'main';
-              const title = 'chore(policy): aggregate policy artifact refresh';
+              const title = 'chore(policy): review generated policy evidence';
               const body = [
                 '## Summary',
-                '- Aggregate policy hash/source/coverage updates into a PR branch (no direct commit to main).',
+                '- Review the latest generated policy hash, source, semantic, coverage, and alert evidence.',
                 '',
                 '## Why',
-                '- Reduce commit noise on `main` while preserving scheduled policy refresh behavior.',
+                '- Keep the approval diff current with `main` instead of accumulating conflicts across scheduled runs.',
+                '- Keep monitored page changes separate from deterministic notary decisions; this PR does not alter a notary rule automatically.',
                 '',
                 '## Scope',
                 `- Changed count: ${process.env.ACTUAL_CHANGED_COUNT || '0'}`,
@@ -742,14 +783,17 @@ jobs:
                 `- Fallback metadata signals actionable: ${process.env.FALLBACK_SIGNAL_ACTIONABLE_COUNT || '0'}`,
                 process.env.FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY ? `- Fallback metadata actionable by policy: ${process.env.FALLBACK_SIGNAL_ACTIONABLE_BY_POLICY}` : '',
                 '',
-                '## Test Evidence',
-                '- Generated by scheduled `Daily Policy Check` run.',
+                '## Review evidence',
+                `- Workflow run and downloadable review packet: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                '- Public review feed: https://www.decide.fyi/resources/policy-alerts',
+                '- JSON review contract: https://www.decide.fyi/api/policy-alerts?state=all&limit=10',
+                '- Source URLs and semantic summaries are recorded in `rules/policy-alert-feed.json` and `rules/policy-events.ndjson`.',
                 '',
                 '## Risk',
-                '- Low; this only changes delivery mechanism (branch + PR) for generated artifacts.',
+                '- Review required. Merging accepts the generated monitoring baseline; it does not promote policy text into a deterministic verdict.',
                 '',
                 '## Rollback',
-                '- Close this PR and delete the aggregation branch.',
+                '- Close this PR. The next scheduled run rebuilds the generated branch from current `main`.',
               ].join('\n');
 
               const existing = await github.rest.pulls.list({
@@ -1398,3 +1442,11 @@ jobs:
           fi
 
           echo "Tier-1 gate passed."
+
+      - name: Fail workflow when policy checker crashes
+        if: always() && steps.check.outputs.checker_status != '0'
+        env:
+          CHECKER_STATUS: ${{ steps.check.outputs.checker_status }}
+        run: |
+          echo "::error::Policy checker process failed with status ${CHECKER_STATUS:-unknown}. Review the preserved policy-review artifact."
+          exit 1

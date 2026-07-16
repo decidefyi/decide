@@ -227,7 +227,12 @@ async function main() {
         method: "tools/call",
         params: {
           name: "cancellation_penalty",
-          arguments: { vendor: "adobe", region: "US", plan: "individual" },
+          arguments: {
+            vendor: "adobe",
+            region: "US",
+            plan: "individual",
+            billing_cadence: "annual",
+          },
         },
       },
     },

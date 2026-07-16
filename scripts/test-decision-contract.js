@@ -4065,6 +4065,7 @@ function testRulebookRuntimeManifest() {
     ])
   );
   const contractWorkflow = workflowFiles.get("contract workflow");
+  const dailyPolicyWorkflow = workflowFiles.get("daily policy check workflow");
   assert.ok(readme.includes(manifestUrl), "README must publish the Rulebook runtime manifest URL");
   assert.ok(
     readme.includes("hybrid_declarative_rulebook_with_trusted_adapters"),
@@ -4114,6 +4115,35 @@ function testRulebookRuntimeManifest() {
     assert.equal(workflow.includes("actions/setup-node@v4"), false, `${label} must not use setup-node@v4`);
     assert.equal(workflow.includes('node-version: "20"'), false, `${label} must not pin Node 20`);
   }
+  assert.ok(
+    dailyPolicyWorkflow.includes('echo "checker_status=$status" >> "$GITHUB_OUTPUT"'),
+    "daily policy workflow must publish the policy checker process status"
+  );
+  assert.ok(
+    dailyPolicyWorkflow.includes("fetch_health_status=failed"),
+    "daily policy workflow must never translate a crashed checker into healthy fetch status"
+  );
+  assert.ok(
+    dailyPolicyWorkflow.includes("Fail workflow when policy checker crashes"),
+    "daily policy workflow must fail after preserving crash evidence"
+  );
+  assert.ok(
+    dailyPolicyWorkflow.includes('git checkout -f -B "${artifact_branch}" "origin/${base_branch}"'),
+    "policy review branch must be rebuilt from the current base branch"
+  );
+  assert.ok(
+    dailyPolicyWorkflow.includes('git push --force-with-lease origin "${artifact_branch}"'),
+    "policy review branch refresh must use a lease-protected push"
+  );
+  assert.ok(
+    dailyPolicyWorkflow.includes("actions/upload-artifact@v4"),
+    "daily policy workflow must preserve a per-run review packet"
+  );
+  assert.ok(
+    dailyPolicyWorkflow.includes("Verify canonical policy alerts API") &&
+      dailyPolicyWorkflow.includes("https://api.decide.fyi/api/policy-alerts"),
+    "daily policy workflow must enforce the canonical policy alerts API bridge"
+  );
 }
 
 async function main() {

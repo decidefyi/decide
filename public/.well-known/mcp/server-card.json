@@ -1,14 +1,921 @@
 {
-  "name": "decide.fyi",
-  "version": "1.2.1",
-  "description": "Stable Decide API remotes for Krafthaus Policy MCP Notaries. Stateless.",
-  "transports": [
-    { "type": "streamable-http", "url": "https://refund.decide.fyi/api/mcp" },
-    { "type": "streamable-http", "url": "https://cancel.decide.fyi/api/mcp" },
-    { "type": "streamable-http", "url": "https://return.decide.fyi/api/mcp" },
-    { "type": "streamable-http", "url": "https://trial.decide.fyi/api/mcp" }
+  "serverInfo": {
+    "name": "policy.decide.fyi",
+    "title": "Decide Policy Notaries",
+    "version": "1.3.0",
+    "description": "Refund, cancellation, return, and trial policy checks for 100 US subscription vendors.",
+    "websiteUrl": "https://policy.decide.fyi"
+  },
+  "authentication": {
+    "required": false,
+    "schemes": []
+  },
+  "tools": [
+    {
+      "name": "refund_eligibility",
+      "title": "Check refund eligibility",
+      "description": "Check if a US consumer subscription purchase is eligible for a refund. Returns ALLOWED, DENIED, or UNKNOWN based on the vendor's refund policy window.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "vendor": {
+            "type": "string",
+            "enum": [
+              "1password",
+              "adobe",
+              "amazon_music_unlimited",
+              "amazon_prime",
+              "amc_plus",
+              "apple_app_store",
+              "apple_arcade",
+              "apple_music",
+              "apple_tv_plus",
+              "audible",
+              "bitwarden",
+              "britbox",
+              "bumble",
+              "calm",
+              "canva",
+              "chatgpt_plus",
+              "claude_pro",
+              "coursera_plus",
+              "crunchyroll",
+              "dashlane",
+              "deezer",
+              "discord_nitro",
+              "discovery_plus",
+              "disney_plus",
+              "doordash_dashpass",
+              "dropbox_us",
+              "duolingo",
+              "ea_play",
+              "espn_plus",
+              "evernote",
+              "expressvpn",
+              "figma",
+              "fitbit_premium",
+              "fubo_tv",
+              "github_pro",
+              "google_one",
+              "google_play",
+              "grammarly",
+              "headspace",
+              "hellofresh",
+              "hinge",
+              "hulu",
+              "icloud_plus",
+              "instacart_plus",
+              "keeper",
+              "kindle_unlimited",
+              "lastpass",
+              "linkedin_premium",
+              "masterclass",
+              "max",
+              "microsoft_365",
+              "midjourney",
+              "mlb_tv",
+              "myfitnesspal_premium",
+              "netflix",
+              "new_york_times",
+              "nfl_plus",
+              "nintendo_switch_online",
+              "noom",
+              "nordvpn",
+              "notion",
+              "paramount_plus",
+              "patreon",
+              "peacock",
+              "peloton",
+              "playstation_plus",
+              "proton",
+              "reddit_premium",
+              "ring_protect",
+              "roblox_premium",
+              "scribd",
+              "shutterstock",
+              "siriusxm",
+              "slack",
+              "sling_tv",
+              "snapchat_plus",
+              "soundcloud_go",
+              "spotify",
+              "squarespace",
+              "starz",
+              "strava",
+              "substack",
+              "surfshark",
+              "telegram_premium",
+              "tidal",
+              "tinder",
+              "todoist",
+              "twitch",
+              "uber_one",
+              "ubisoft_plus",
+              "wall_street_journal",
+              "walmart_plus",
+              "washington_post",
+              "weightwatchers",
+              "wix",
+              "x_premium",
+              "xbox_game_pass",
+              "youtube_premium",
+              "youtube_tv",
+              "zoom"
+            ],
+            "description": "Vendor identifier (lowercase, underscore-separated)."
+          },
+          "days_since_purchase": {
+            "type": "number",
+            "description": "Number of days since the subscription was purchased.",
+            "minimum": 0
+          },
+          "region": {
+            "type": "string",
+            "enum": [
+              "US"
+            ],
+            "description": "Region code. Currently only 'US' is supported."
+          },
+          "plan": {
+            "type": "string",
+            "enum": [
+              "individual"
+            ],
+            "description": "Plan type. Currently only 'individual' plans are supported."
+          },
+          "qualifying_conditions_met": {
+            "type": "boolean",
+            "description": "Required when the vendor policy has source-specific conditions such as first purchase, unused benefits, or an eligible annual plan."
+          }
+        },
+        "required": [
+          "vendor",
+          "days_since_purchase",
+          "region",
+          "plan"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "ALLOWED",
+              "DENIED",
+              "UNKNOWN"
+            ]
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "vendor": {
+            "type": "string"
+          },
+          "rules_version": {
+            "type": "string"
+          },
+          "policy_version": {
+            "type": "string"
+          },
+          "policy_source_url": {
+            "type": "string"
+          },
+          "policy_source_notes": {
+            "type": "string"
+          },
+          "policy_last_checked": {
+            "type": "string"
+          },
+          "policy_last_verified_utc": {
+            "type": "string"
+          },
+          "source_hash": {
+            "type": "string"
+          },
+          "evaluated_at": {
+            "type": "string"
+          },
+          "required_context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rulebook_result": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "refundable": {
+            "type": "boolean"
+          },
+          "window_days": {
+            "type": "number"
+          },
+          "days_since_purchase": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "verdict",
+          "code",
+          "message"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "cancellation_penalty",
+      "title": "Check cancellation penalty",
+      "description": "Check if cancelling a US consumer subscription will incur a penalty or fee. Returns FREE_CANCEL, PENALTY, or LOCKED.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "vendor": {
+            "type": "string",
+            "enum": [
+              "1password",
+              "adobe",
+              "amazon_music_unlimited",
+              "amazon_prime",
+              "amc_plus",
+              "apple_app_store",
+              "apple_arcade",
+              "apple_music",
+              "apple_tv_plus",
+              "audible",
+              "bitwarden",
+              "britbox",
+              "bumble",
+              "calm",
+              "canva",
+              "chatgpt_plus",
+              "claude_pro",
+              "coursera_plus",
+              "crunchyroll",
+              "dashlane",
+              "deezer",
+              "discord_nitro",
+              "discovery_plus",
+              "disney_plus",
+              "doordash_dashpass",
+              "dropbox_us",
+              "duolingo",
+              "ea_play",
+              "espn_plus",
+              "evernote",
+              "expressvpn",
+              "figma",
+              "fitbit_premium",
+              "fubo_tv",
+              "github_pro",
+              "google_one",
+              "google_play",
+              "grammarly",
+              "headspace",
+              "hellofresh",
+              "hinge",
+              "hulu",
+              "icloud_plus",
+              "instacart_plus",
+              "keeper",
+              "kindle_unlimited",
+              "lastpass",
+              "linkedin_premium",
+              "masterclass",
+              "max",
+              "microsoft_365",
+              "midjourney",
+              "mlb_tv",
+              "myfitnesspal_premium",
+              "netflix",
+              "new_york_times",
+              "nfl_plus",
+              "nintendo_switch_online",
+              "noom",
+              "nordvpn",
+              "notion",
+              "paramount_plus",
+              "patreon",
+              "peacock",
+              "peloton",
+              "playstation_plus",
+              "proton",
+              "reddit_premium",
+              "ring_protect",
+              "roblox_premium",
+              "scribd",
+              "shutterstock",
+              "siriusxm",
+              "slack",
+              "sling_tv",
+              "snapchat_plus",
+              "soundcloud_go",
+              "spotify",
+              "squarespace",
+              "starz",
+              "strava",
+              "substack",
+              "surfshark",
+              "telegram_premium",
+              "tidal",
+              "tinder",
+              "todoist",
+              "twitch",
+              "uber_one",
+              "ubisoft_plus",
+              "wall_street_journal",
+              "walmart_plus",
+              "washington_post",
+              "weightwatchers",
+              "wix",
+              "x_premium",
+              "xbox_game_pass",
+              "youtube_premium",
+              "youtube_tv",
+              "zoom"
+            ],
+            "description": "Vendor identifier (lowercase, underscore-separated)."
+          },
+          "region": {
+            "type": "string",
+            "enum": [
+              "US"
+            ],
+            "description": "Region code. Currently only 'US' is supported."
+          },
+          "plan": {
+            "type": "string",
+            "enum": [
+              "individual"
+            ],
+            "description": "Plan type. Currently only 'individual' plans are supported."
+          },
+          "billing_cadence": {
+            "type": "string",
+            "enum": [
+              "monthly",
+              "annual"
+            ],
+            "description": "Required when the vendor applies different cancellation terms to monthly and annual plans."
+          }
+        },
+        "required": [
+          "vendor",
+          "region",
+          "plan"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "FREE_CANCEL",
+              "PENALTY",
+              "LOCKED",
+              "UNKNOWN"
+            ]
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "vendor": {
+            "type": "string"
+          },
+          "rules_version": {
+            "type": "string"
+          },
+          "policy_version": {
+            "type": "string"
+          },
+          "policy_source_url": {
+            "type": "string"
+          },
+          "policy_source_notes": {
+            "type": "string"
+          },
+          "policy_last_checked": {
+            "type": "string"
+          },
+          "policy_last_verified_utc": {
+            "type": "string"
+          },
+          "source_hash": {
+            "type": "string"
+          },
+          "evaluated_at": {
+            "type": "string"
+          },
+          "required_context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rulebook_result": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "policy": {
+            "type": "string"
+          },
+          "penalty": {
+            "type": "string"
+          },
+          "notice_days": {
+            "type": "number"
+          },
+          "billing_cadence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "verdict",
+          "code",
+          "message"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "return_eligibility",
+      "title": "Check return eligibility",
+      "description": "Check if a US consumer subscription purchase can be returned. Returns RETURNABLE, EXPIRED, or NON_RETURNABLE with return type (full_refund, prorated, credit) and method.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "vendor": {
+            "type": "string",
+            "enum": [
+              "1password",
+              "adobe",
+              "amazon_music_unlimited",
+              "amazon_prime",
+              "amc_plus",
+              "apple_app_store",
+              "apple_arcade",
+              "apple_music",
+              "apple_tv_plus",
+              "audible",
+              "bitwarden",
+              "britbox",
+              "bumble",
+              "calm",
+              "canva",
+              "chatgpt_plus",
+              "claude_pro",
+              "coursera_plus",
+              "crunchyroll",
+              "dashlane",
+              "deezer",
+              "discord_nitro",
+              "discovery_plus",
+              "disney_plus",
+              "doordash_dashpass",
+              "dropbox_us",
+              "duolingo",
+              "ea_play",
+              "espn_plus",
+              "evernote",
+              "expressvpn",
+              "figma",
+              "fitbit_premium",
+              "fubo_tv",
+              "github_pro",
+              "google_one",
+              "google_play",
+              "grammarly",
+              "headspace",
+              "hellofresh",
+              "hinge",
+              "hulu",
+              "icloud_plus",
+              "instacart_plus",
+              "keeper",
+              "kindle_unlimited",
+              "lastpass",
+              "linkedin_premium",
+              "masterclass",
+              "max",
+              "microsoft_365",
+              "midjourney",
+              "mlb_tv",
+              "myfitnesspal_premium",
+              "netflix",
+              "new_york_times",
+              "nfl_plus",
+              "nintendo_switch_online",
+              "noom",
+              "nordvpn",
+              "notion",
+              "paramount_plus",
+              "patreon",
+              "peacock",
+              "peloton",
+              "playstation_plus",
+              "proton",
+              "reddit_premium",
+              "ring_protect",
+              "roblox_premium",
+              "scribd",
+              "shutterstock",
+              "siriusxm",
+              "slack",
+              "sling_tv",
+              "snapchat_plus",
+              "soundcloud_go",
+              "spotify",
+              "squarespace",
+              "starz",
+              "strava",
+              "substack",
+              "surfshark",
+              "telegram_premium",
+              "tidal",
+              "tinder",
+              "todoist",
+              "twitch",
+              "uber_one",
+              "ubisoft_plus",
+              "wall_street_journal",
+              "walmart_plus",
+              "washington_post",
+              "weightwatchers",
+              "wix",
+              "x_premium",
+              "xbox_game_pass",
+              "youtube_premium",
+              "youtube_tv",
+              "zoom"
+            ],
+            "description": "Vendor identifier (lowercase, underscore-separated)."
+          },
+          "days_since_purchase": {
+            "type": "number",
+            "description": "Number of days since the subscription was purchased.",
+            "minimum": 0
+          },
+          "region": {
+            "type": "string",
+            "enum": [
+              "US"
+            ],
+            "description": "Region code. Currently only 'US' is supported."
+          },
+          "plan": {
+            "type": "string",
+            "enum": [
+              "individual"
+            ],
+            "description": "Plan type. Currently only 'individual' plans are supported."
+          },
+          "qualifying_conditions_met": {
+            "type": "boolean",
+            "description": "Required when the vendor policy has source-specific conditions such as first purchase, unused benefits, or an eligible annual plan."
+          }
+        },
+        "required": [
+          "vendor",
+          "days_since_purchase",
+          "region",
+          "plan"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "RETURNABLE",
+              "EXPIRED",
+              "NON_RETURNABLE",
+              "UNKNOWN"
+            ]
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "vendor": {
+            "type": "string"
+          },
+          "rules_version": {
+            "type": "string"
+          },
+          "policy_version": {
+            "type": "string"
+          },
+          "policy_source_url": {
+            "type": "string"
+          },
+          "policy_source_notes": {
+            "type": "string"
+          },
+          "policy_last_checked": {
+            "type": "string"
+          },
+          "policy_last_verified_utc": {
+            "type": "string"
+          },
+          "source_hash": {
+            "type": "string"
+          },
+          "evaluated_at": {
+            "type": "string"
+          },
+          "required_context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rulebook_result": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "returnable": {
+            "type": "boolean"
+          },
+          "return_window_days": {
+            "type": "number"
+          },
+          "return_type": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "days_since_purchase": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "verdict",
+          "code",
+          "message"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "trial_terms",
+      "title": "Check trial terms",
+      "description": "Check free trial availability and terms for a US consumer subscription. Returns TRIAL_AVAILABLE or NO_TRIAL with trial length, card requirement, and auto-conversion status.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "vendor": {
+            "type": "string",
+            "enum": [
+              "1password",
+              "adobe",
+              "amazon_music_unlimited",
+              "amazon_prime",
+              "amc_plus",
+              "apple_app_store",
+              "apple_arcade",
+              "apple_music",
+              "apple_tv_plus",
+              "audible",
+              "bitwarden",
+              "britbox",
+              "bumble",
+              "calm",
+              "canva",
+              "chatgpt_plus",
+              "claude_pro",
+              "coursera_plus",
+              "crunchyroll",
+              "dashlane",
+              "deezer",
+              "discord_nitro",
+              "discovery_plus",
+              "disney_plus",
+              "doordash_dashpass",
+              "dropbox_us",
+              "duolingo",
+              "ea_play",
+              "espn_plus",
+              "evernote",
+              "expressvpn",
+              "figma",
+              "fitbit_premium",
+              "fubo_tv",
+              "github_pro",
+              "google_one",
+              "google_play",
+              "grammarly",
+              "headspace",
+              "hellofresh",
+              "hinge",
+              "hulu",
+              "icloud_plus",
+              "instacart_plus",
+              "keeper",
+              "kindle_unlimited",
+              "lastpass",
+              "linkedin_premium",
+              "masterclass",
+              "max",
+              "microsoft_365",
+              "midjourney",
+              "mlb_tv",
+              "myfitnesspal_premium",
+              "netflix",
+              "new_york_times",
+              "nfl_plus",
+              "nintendo_switch_online",
+              "noom",
+              "nordvpn",
+              "notion",
+              "paramount_plus",
+              "patreon",
+              "peacock",
+              "peloton",
+              "playstation_plus",
+              "proton",
+              "reddit_premium",
+              "ring_protect",
+              "roblox_premium",
+              "scribd",
+              "shutterstock",
+              "siriusxm",
+              "slack",
+              "sling_tv",
+              "snapchat_plus",
+              "soundcloud_go",
+              "spotify",
+              "squarespace",
+              "starz",
+              "strava",
+              "substack",
+              "surfshark",
+              "telegram_premium",
+              "tidal",
+              "tinder",
+              "todoist",
+              "twitch",
+              "uber_one",
+              "ubisoft_plus",
+              "wall_street_journal",
+              "walmart_plus",
+              "washington_post",
+              "weightwatchers",
+              "wix",
+              "x_premium",
+              "xbox_game_pass",
+              "youtube_premium",
+              "youtube_tv",
+              "zoom"
+            ],
+            "description": "Vendor identifier (lowercase, underscore-separated)."
+          },
+          "region": {
+            "type": "string",
+            "enum": [
+              "US"
+            ],
+            "description": "Region code. Currently only 'US' is supported."
+          },
+          "plan": {
+            "type": "string",
+            "enum": [
+              "individual"
+            ],
+            "description": "Plan type. Currently only 'individual' plans are supported."
+          },
+          "offer_confirmed": {
+            "type": "boolean",
+            "description": "For account- or promotion-specific trials, whether a live offer has been confirmed for this account."
+          },
+          "observed_trial_days": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 365,
+            "description": "Trial duration shown by the confirmed live offer. Required when offer_confirmed is true for a variable offer."
+          }
+        },
+        "required": [
+          "vendor",
+          "region",
+          "plan"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "TRIAL_AVAILABLE",
+              "NO_TRIAL",
+              "UNKNOWN"
+            ]
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "vendor": {
+            "type": "string"
+          },
+          "rules_version": {
+            "type": "string"
+          },
+          "policy_version": {
+            "type": "string"
+          },
+          "policy_source_url": {
+            "type": "string"
+          },
+          "policy_source_notes": {
+            "type": "string"
+          },
+          "policy_last_checked": {
+            "type": "string"
+          },
+          "policy_last_verified_utc": {
+            "type": "string"
+          },
+          "source_hash": {
+            "type": "string"
+          },
+          "evaluated_at": {
+            "type": "string"
+          },
+          "required_context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rulebook_result": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "trial_available": {
+            "type": "boolean"
+          },
+          "trial_days": {
+            "type": "integer"
+          },
+          "card_required": {
+            "type": "boolean"
+          },
+          "auto_converts": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "verdict",
+          "code",
+          "message"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    }
   ],
-  "capabilities": {
-    "tools": true
-  }
+  "resources": [],
+  "prompts": []
 }

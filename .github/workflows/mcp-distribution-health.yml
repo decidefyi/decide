@@ -1,0 +1,47 @@
+name: MCP distribution health
+
+on:
+  schedule:
+    - cron: "15 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Test distribution evaluator
+        run: npm run test:mcp-distribution
+
+      - name: Check live endpoint and Official MCP Registry
+        run: node scripts/check-mcp-distribution.js --strict > mcp-distribution-health.json
+
+      - name: Summarize
+        run: |
+          node - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          const fs = require('fs');
+          const report = JSON.parse(fs.readFileSync('mcp-distribution-health.json', 'utf8'));
+          console.log('## MCP distribution health');
+          console.log(`- Status: ${report.status}`);
+          console.log(`- Canonical: ${report.canonical_name}@${report.canonical_version}`);
+          console.log(`- Critical failures: ${report.critical_failures.join(', ') || 'none'}`);
+          console.log(`- Warnings: ${report.warnings.join(', ') || 'none'}`);
+          console.log(`- Actions: ${report.actions.join(', ') || 'none'}`);
+          NODE
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mcp-distribution-health-${{ github.run_id }}
+          path: mcp-distribution-health.json
+          if-no-files-found: warn
+          retention-days: 30

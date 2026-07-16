@@ -2,7 +2,7 @@
 
 import assert from "node:assert/strict";
 
-import handler from "../api/policy-alerts.js";
+import handler, { applyPolicyEventReviews } from "../api/policy-alerts.js";
 
 function createResponseRecorder() {
   const headers = new Map();
@@ -65,9 +65,44 @@ function assertAlertShapeIfPresent(result) {
   assert.equal(typeof first.status, "string", "status should be string");
   assert.equal(typeof first.state, "string", "state should be string");
   assert.equal(typeof first.run_url, "string", "run_url should be string");
+  assert.ok(Array.isArray(first.sample_details), "sample_details should be an array");
+  assert.equal(typeof first.rulebook_status, "string", "rulebook_status should be explicit");
+  assert.equal(typeof first.decision_rule_impact, "string", "decision_rule_impact should be explicit");
+  for (const detail of first.sample_details) {
+    assert.equal(typeof detail.review_status, "string", "sample review_status should be explicit");
+    assert.equal(typeof detail.rulebook_updated, "boolean", "sample rulebook_updated should be boolean");
+  }
+}
+
+function testAppliesRecordedPolicyEventReviews() {
+  const alerts = applyPolicyEventReviews(
+    [{
+      sample_details: [{
+        event_id: "refund:adobe:hash-123",
+        review_status: "unreviewed",
+        rulebook_updated: false,
+      }],
+    }],
+    [{
+      event_id: "refund:adobe:hash-123",
+      review_status: "rulebook_updated",
+      reviewed_at_utc: "2026-07-15T15:00:00Z",
+      reviewed_by: "ops@example.com",
+      review_note: "Updated verified refund window.",
+      rulebook_updated: true,
+      rulebook_version_after: "2026-07-15",
+    }]
+  );
+
+  assert.equal(alerts[0].sample_details[0].review_status, "rulebook_updated");
+  assert.equal(alerts[0].sample_details[0].rulebook_updated, true);
+  assert.equal(alerts[0].sample_details[0].rulebook_version_after, "2026-07-15");
 }
 
 async function main() {
+  testAppliesRecordedPolicyEventReviews();
+  console.log("PASS policy-alerts-api applies recorded event reviews");
+
   process.env.POLICY_SUPABASE_SYNC_ENABLED = "0";
   process.env.POLICY_ALERTS_ALLOW_FILE_FALLBACK = "1";
 
@@ -127,7 +162,7 @@ async function main() {
   console.log("PASS policy-alerts-api-no-fallback-guard");
   process.env.POLICY_ALERTS_ALLOW_FILE_FALLBACK = "1";
 
-  console.log("Policy alerts API tests passed: 6/6");
+  console.log("Policy alerts API tests passed: 7/7");
 }
 
 main().catch((error) => {

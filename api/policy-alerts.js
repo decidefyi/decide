@@ -58,6 +58,46 @@ function toNumber(value, fallback = 0) {
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
+function normalizeSampleDetails(value) {
+  if (!Array.isArray(value)) return [];
+  return value.map((entry) => ({
+    ...(entry && typeof entry === "object" ? entry : {}),
+    review_status: String(entry?.review_status || "unreviewed"),
+    rulebook_updated: entry?.rulebook_updated === true,
+  }));
+}
+
+export function applyPolicyEventReviews(alerts = [], eventReviews = []) {
+  const reviewsById = new Map(
+    eventReviews
+      .filter((entry) => String(entry?.event_id || "").trim())
+      .map((entry) => [String(entry.event_id).trim(), entry])
+  );
+
+  return alerts.map((alert) => ({
+    ...alert,
+    sample_details: normalizeSampleDetails(alert?.sample_details).map((detail) => {
+      const review = reviewsById.get(String(detail?.event_id || "").trim());
+      if (!review) return detail;
+      return {
+        ...detail,
+        review_status: String(review.review_status || detail.review_status || "unreviewed"),
+        reviewed_at_utc: String(review.reviewed_at_utc || ""),
+        reviewed_by: String(review.reviewed_by || ""),
+        review_note: String(review.review_note || ""),
+        rulebook_updated: review.rulebook_updated === true,
+        rulebook_version_after: String(review.rulebook_version_after || ""),
+      };
+    }),
+  }));
+}
+
+function resolveRulebookStatus(value, changedCount) {
+  const explicit = String(value || "").trim();
+  if (explicit) return explicit;
+  return changedCount > 0 ? "unchanged_pending_human_review" : "unchanged_no_confirmed_change";
+}
+
 function resolveStatusAndState({ status = "", state = "", strictEligible = true } = {}) {
   const normalizedStatus = String(status || "").trim().toLowerCase();
   const normalizedState = String(state || "").trim().toLowerCase();
@@ -103,17 +143,21 @@ function toAlertObjectFromDailyRow(row = {}) {
     state: row?.state || raw?.state || "",
     strictEligible,
   });
+  const changedCount = toNumber(row?.changed_count ?? raw?.changed_count, 0);
 
   return {
     ...raw,
     date_utc: String(row?.date_utc || raw?.date_utc || "").trim(),
     generated_at_utc: String(row?.generated_at_utc || raw?.generated_at_utc || "").trim(),
-    changed_count: toNumber(row?.changed_count ?? raw?.changed_count, 0),
+    changed_count: changedCount,
     dedupe_changed_count: toNumber(row?.dedupe_changed_count ?? raw?.dedupe_changed_count, 0),
     reported_changed_count: toNumber(row?.reported_changed_count ?? raw?.reported_changed_count, 0),
     repeated_count: toNumber(row?.repeated_count ?? raw?.repeated_count, 0),
     by_policy: row?.by_policy && typeof row.by_policy === "object" ? row.by_policy : raw?.by_policy || {},
     changed_sample: Array.isArray(row?.changed_sample) ? row.changed_sample : Array.isArray(raw?.changed_sample) ? raw.changed_sample : [],
+    sample_details: normalizeSampleDetails(Array.isArray(row?.sample_details) ? row.sample_details : raw?.sample_details),
+    rulebook_status: resolveRulebookStatus(row?.rulebook_status || raw?.rulebook_status, changedCount),
+    decision_rule_impact: String(row?.decision_rule_impact || raw?.decision_rule_impact || "not_auto_applied"),
     pending_count: toNumber(row?.pending_count ?? raw?.pending_count, 0),
     volatile_pending_count: toNumber(row?.volatile_pending_count ?? raw?.volatile_pending_count, 0),
     escalation_count: toNumber(row?.escalation_count ?? raw?.escalation_count, 0),
@@ -152,14 +196,15 @@ function toAlertObjectFromFeedEntry(entry = {}, fallbackStatus = "confirmed") {
     state: entry?.state || "",
     strictEligible: fallbackStatus === "review" ? false : strictEligible,
   });
+  const changedCount = toNumber(entry?.changed_count, 0);
 
   return {
     ...entry,
     date_utc: String(entry?.date_utc || "").trim(),
     generated_at_utc: String(entry?.generated_at_utc || "").trim(),
-    changed_count: toNumber(entry?.changed_count, 0),
-    dedupe_changed_count: toNumber(entry?.dedupe_changed_count, toNumber(entry?.changed_count, 0)),
-    reported_changed_count: toNumber(entry?.reported_changed_count, toNumber(entry?.changed_count, 0)),
+    changed_count: changedCount,
+    dedupe_changed_count: toNumber(entry?.dedupe_changed_count, changedCount),
+    reported_changed_count: toNumber(entry?.reported_changed_count, changedCount),
     repeated_count: toNumber(entry?.repeated_count, 0),
     pending_count: toNumber(entry?.pending_count, 0),
     volatile_pending_count: toNumber(entry?.volatile_pending_count, 0),
@@ -173,6 +218,9 @@ function toAlertObjectFromFeedEntry(entry = {}, fallbackStatus = "confirmed") {
     source_migration_reset_count: toNumber(entry?.source_migration_reset_count, 0),
     by_policy: entry?.by_policy && typeof entry.by_policy === "object" ? entry.by_policy : {},
     changed_sample: Array.isArray(entry?.changed_sample) ? entry.changed_sample : [],
+    sample_details: normalizeSampleDetails(entry?.sample_details),
+    rulebook_status: resolveRulebookStatus(entry?.rulebook_status, changedCount),
+    decision_rule_impact: String(entry?.decision_rule_impact || "not_auto_applied"),
     strict_eligible: fallbackStatus === "review" ? false : strictEligible,
     signal_confidence: String(entry?.signal_confidence || "manual-review"),
     signal_confidence_reason: String(entry?.signal_confidence_reason || ""),
@@ -308,9 +356,29 @@ async function loadAlertsFromSupabase({
 
   const rows = Array.isArray(result.data) ? result.data : [];
   const alerts = rows.map((row) => toAlertObjectFromDailyRow(row));
+  const eventIds = [...new Set(alerts.flatMap((alert) =>
+    alert.sample_details.map((detail) => String(detail?.event_id || "").trim()).filter(Boolean)
+  ))];
+  let reviewedAlerts = alerts;
+  if (eventIds.length > 0) {
+    const eventIdFilter = eventIds
+      .map((eventId) => `"${eventId.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`)
+      .join(",");
+    const reviews = await supabaseRestRequest(supabaseConfig, {
+      method: "GET",
+      path: "/rest/v1/policy_events",
+      params: {
+        select: "event_id,review_status,reviewed_at_utc,reviewed_by,review_note,rulebook_updated,rulebook_version_after",
+        event_id: `in.(${eventIdFilter})`,
+      },
+    });
+    if (reviews.ok && Array.isArray(reviews.data)) {
+      reviewedAlerts = applyPolicyEventReviews(alerts, reviews.data);
+    }
+  }
   return {
     ok: true,
-    alerts: filterByIncludeZero(alerts, includeZero),
+    alerts: filterByIncludeZero(reviewedAlerts, includeZero),
     error: "",
   };
 }

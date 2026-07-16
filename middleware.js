@@ -8,6 +8,12 @@ export default async function middleware(request) {
     return;
   }
 
+  // policy.decide.fyi/api/mcp -> /api/policy-mcp
+  if (host.startsWith("policy.") && pathname === "/api/mcp") {
+    const dest = new URL("/api/policy-mcp", url.origin);
+    return fetch(dest, request);
+  }
+
   // cancel.decide.fyi/api/mcp → /api/cancel-mcp
   if (host.startsWith("cancel.") && pathname === "/api/mcp") {
     const dest = new URL("/api/cancel-mcp", url.origin);

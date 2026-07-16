@@ -33,10 +33,18 @@ assert_jsonrpc_success() {
 
 echo "Checking MCP endpoints at ${BASE_URL}..."
 
+policy_tools="$(post_json "/api/policy-mcp" '{"jsonrpc":"2.0","id":0,"method":"tools/list","params":{}}')"
+for tool_name in refund_eligibility cancellation_penalty return_eligibility trial_terms; do
+  assert_contains "policy MCP tools/list" "$policy_tools" "\"name\":\"${tool_name}\""
+done
+
+policy_call="$(post_json "/api/policy-mcp" '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"return_eligibility","arguments":{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual"}}}')"
+assert_jsonrpc_success "policy MCP" "$policy_call"
+
 refund="$(post_json "/api/mcp" '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"refund_eligibility","arguments":{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual"}}}')"
 assert_jsonrpc_success "refund MCP" "$refund"
 
-cancel="$(post_json "/api/cancel-mcp" '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"cancellation_penalty","arguments":{"vendor":"adobe","region":"US","plan":"individual"}}}')"
+cancel="$(post_json "/api/cancel-mcp" '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"cancellation_penalty","arguments":{"vendor":"adobe","region":"US","plan":"individual","billing_cadence":"annual"}}}')"
 assert_jsonrpc_success "cancel MCP" "$cancel"
 
 returns="$(post_json "/api/return-mcp" '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"return_eligibility","arguments":{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual"}}}')"

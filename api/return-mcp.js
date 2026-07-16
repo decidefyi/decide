@@ -1,10 +1,16 @@
 import { compute, getSupportedVendors } from "../lib/return-compute.js";
 import { createMcpHandler } from "../lib/mcp-handler.js";
+import {
+  buildPolicyMcpOutputSchema,
+  POLICY_MCP_READ_ONLY_ANNOTATIONS,
+  POLICY_MCP_VERSION,
+} from "../lib/policy-mcp-metadata.js";
 
 const supportedVendors = getSupportedVendors();
 
-const TOOL = {
+export const TOOL = {
   name: "return_eligibility",
+  title: "Check return eligibility",
   description:
     "Check if a US consumer subscription purchase can be returned. Returns RETURNABLE, EXPIRED, or NON_RETURNABLE with return type (full_refund, prorated, credit) and method.",
   inputSchema: {
@@ -31,38 +37,44 @@ const TOOL = {
         enum: ["individual"],
         description: "Plan type. Currently only 'individual' plans are supported.",
       },
+      qualifying_conditions_met: {
+        type: "boolean",
+        description: "Required when the vendor policy has source-specific conditions such as first purchase, unused benefits, or an eligible annual plan.",
+      },
     },
     required: ["vendor", "days_since_purchase", "region", "plan"],
   },
+  outputSchema: buildPolicyMcpOutputSchema(["RETURNABLE", "EXPIRED", "NON_RETURNABLE", "UNKNOWN"], {
+    returnable: { type: "boolean" },
+    return_window_days: { type: "number" },
+    return_type: { type: "string" },
+    method: { type: "string" },
+    days_since_purchase: { type: "number" },
+  }),
+  annotations: { ...POLICY_MCP_READ_ONLY_ANNOTATIONS },
 };
 
 function formatTextMessage(payload) {
-  return `Return Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\nReturn Type: ${payload.return_type || "N/A"}\nMethod: ${payload.method || "N/A"}\n${payload.message || ""}\nSource: ${payload.policy_source_url || "N/A"}\nSource Notes: ${payload.policy_source_notes || "N/A"}\nPolicy Updated: ${payload.policy_last_checked || "N/A"}\nLast Verified (UTC): ${payload.policy_last_verified_utc || "Pending first verification"}`;
+  return `Return Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\nReturn Type: ${payload.return_type || "N/A"}\nMethod: ${payload.method || "N/A"}\n${payload.message || ""}\nSource: ${payload.policy_source_url || "N/A"}\nSource Notes: ${payload.policy_source_notes || "N/A"}\nSource Last Checked: ${payload.policy_last_checked || "N/A"}\nLast Verified (UTC): ${payload.policy_last_verified_utc || "Pending first verification"}`;
 }
 
-export default createMcpHandler({
-  compute,
+export const MCP_TOOL_CONFIG = {
+  compute: (args) => compute(args, { requireCompleteContext: true }),
   tool: TOOL,
+  formatTextMessage,
+};
+
+export default createMcpHandler({
+  ...MCP_TOOL_CONFIG,
   documentationUrl: "https://return.decide.fyi",
   serverInfo: {
     name: "return.decide.fyi",
     title: "ReturnDecide Notary",
-    version: "1.2.1",
+    version: POLICY_MCP_VERSION,
     description: "Deterministic return eligibility checker (stateless).",
     websiteUrl: "https://return.decide.fyi",
   },
   instructions: "Call tools/list, then tools/call with return_eligibility.",
   logPrefix: "Return MCP Request",
   logEventName: "return_mcp_request",
-  formatTextMessage,
-  buildCallLog: ({ method, clientIp, args, payload }) => ({
-    method,
-    ip: clientIp,
-    vendor: args.vendor,
-    days_since_purchase: args.days_since_purchase,
-    region: args.region,
-    plan: args.plan,
-    verdict: payload.verdict,
-    code: payload.code,
-  }),
 });

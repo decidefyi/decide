@@ -1,0 +1,96 @@
+name: Publish canonical MCP registry version
+
+on:
+  push:
+    tags:
+      - "policy-mcp-v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact immutable server.json version to publish
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Confirm immutable version
+        env:
+          REQUESTED_VERSION: ${{ inputs.version }}
+        run: |
+          manifest_version=$(node -p "require('./server.json').version")
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            requested_version="${GITHUB_REF_NAME#policy-mcp-v}"
+          else
+            requested_version="$REQUESTED_VERSION"
+          fi
+          if [ "$requested_version" != "$manifest_version" ]; then
+            echo "Requested version $requested_version does not match server.json version $manifest_version."
+            exit 1
+          fi
+
+      - name: Verify canonical MCP release
+        run: |
+          npm run test:policy-mcp
+          npm run test:mcp-distribution
+          npm run generate:policy-mcp-metadata
+          git diff --exit-code -- server.json public/.well-known/mcp/server-card.json
+
+      - name: Verify production is ready for publication
+        run: |
+          node scripts/check-mcp-distribution.js --strict > mcp-distribution-health.json
+          node - <<'NODE'
+          const fs = require('fs');
+          const report = JSON.parse(fs.readFileSync('mcp-distribution-health.json', 'utf8'));
+          if (report.warnings.includes('live_tool_metadata_outdated')) {
+            throw new Error('Production tool metadata is older than the release; deploy before publishing.');
+          }
+          NODE
+
+      - name: Install mcp-publisher
+        run: |
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" \
+            | tar xz mcp-publisher
+          ./mcp-publisher validate server.json
+
+      - name: Authenticate with GitHub OIDC
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish immutable registry version
+        run: ./mcp-publisher publish
+
+      - name: Verify published record
+        run: |
+          node - <<'NODE'
+          (async () => {
+            const manifest = require('./server.json');
+            const endpoint = new URL('https://registry.modelcontextprotocol.io/v0.1/servers');
+            endpoint.searchParams.set('search', manifest.name);
+            for (let attempt = 1; attempt <= 6; attempt += 1) {
+              const response = await fetch(endpoint);
+              const payload = await response.json();
+              const found = (payload.servers || []).some((entry) => {
+                const server = entry.server || entry;
+                return server.name === manifest.name && server.version === manifest.version;
+              });
+              if (found) return;
+              if (attempt < 6) await new Promise((resolve) => setTimeout(resolve, 10000));
+            }
+            throw new Error(`Registry did not expose ${manifest.name}@${manifest.version} after publication.`);
+          })().catch((error) => {
+            console.error(error?.stack || error?.message || String(error));
+            process.exit(1);
+          });
+          NODE

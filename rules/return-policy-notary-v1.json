@@ -1,12 +1,15 @@
 {
   "schema_version": "rulebook_v1",
   "rulebook_id": "return_policy_notary",
-  "version": "2026-06-11",
+  "version": "2026-07-15",
   "input_schema": {
     "required": [
       "region_supported",
       "plan_supported",
       "vendor_supported",
+      "context_complete",
+      "missing_context",
+      "qualifying_conditions_met",
       "return_supported",
       "within_window",
       "days_since_purchase",
@@ -25,6 +28,9 @@
       "region_supported": { "type": "boolean" },
       "plan_supported": { "type": "boolean" },
       "vendor_supported": { "type": "boolean" },
+      "context_complete": { "type": "boolean" },
+      "missing_context": { "type": "string" },
+      "qualifying_conditions_met": { "type": "boolean" },
       "return_supported": { "type": "boolean" },
       "within_window": { "type": "boolean" },
       "days_since_purchase": { "type": "integer" },
@@ -72,6 +78,17 @@
         "verdict": "UNKNOWN",
         "action": "request_supported_vendor",
         "reason_code": "UNSUPPORTED_VENDOR"
+      }
+    },
+    {
+      "rule_id": "review_missing_context",
+      "priority": 470,
+      "condition": { "field": "context_complete", "operator": "eq", "value": false },
+      "outcome": {
+        "decision": "review",
+        "verdict": "UNKNOWN",
+        "action": "request_required_policy_context",
+        "reason_code": "MISSING_REQUIRED_CONTEXT"
       }
     },
     {

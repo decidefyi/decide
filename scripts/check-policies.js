@@ -276,7 +276,7 @@ const SOURCE_VOLATILITY_RULES = {
     escalationFlipThresholdDelta: 2,
   },
 };
-const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v1";
+const HASH_PROFILE_ID = process.env.POLICY_CHECK_HASH_PROFILE || "focus-v3";
 export const LEGACY_PENDING_MODEL_ID = "legacy-v1";
 export const PENDING_MODEL_ID = process.env.POLICY_CHECK_PENDING_MODEL || "signal-v2";
 const POLICY_ALERT_FEED_PATH = join(__dirname, "..", "rules", "policy-alert-feed.json");
@@ -466,6 +466,7 @@ function buildZeroChangeContinuityAlert(dateUtc = "") {
     by_policy: zeroByPolicy,
     dedupe_by_policy: zeroByPolicy,
     changed_sample: [],
+    sample_details: [],
     dedupe_changed_sample: [],
     pending_count: 0,
     pending_by_policy: zeroByPolicy,
@@ -743,7 +744,7 @@ function buildDailyPolicyCountsFromEvents(dayEvents = []) {
   return counts;
 }
 
-function buildDailyAlertFromEvents(entry = {}, eventLogEntries = []) {
+export function buildDailyAlertFromEvents(entry = {}, eventLogEntries = []) {
   const dateUtc = String(entry.date_utc || "").trim() || toDateUtcPrefix(entry.generated_at_utc || "");
   const sortedDayEvents = [...(eventLogEntries || [])]
     .filter((event) => toDateUtcPrefix(event?.emitted_at_utc || "") === dateUtc)
@@ -762,6 +763,18 @@ function buildDailyAlertFromEvents(entry = {}, eventLogEntries = []) {
 
   const dedupedEntries = [...dedupedByKey.entries()];
   const dedupeChangedSample = dedupedEntries.slice(0, 20).map(([key]) => key);
+  const sampleDetails = dedupedEntries.slice(0, 20).map(([key, event]) => ({
+    event_id: String(event?.event_id || "").trim(),
+    key,
+    policy: String(event?.policy || "").trim(),
+    vendor: String(event?.vendor || "").trim(),
+    source_url: String(event?.source_url || "").trim(),
+    semantic_diff_summary: String(event?.semantic_diff_summary || "").trim(),
+    emitted_at_utc: String(event?.emitted_at_utc || "").trim(),
+    run_url: String(event?.run_url || "").trim(),
+    review_status: "unreviewed",
+    rulebook_updated: false,
+  }));
   const dedupeByPolicy = buildDailyPolicyCountsFromEvents(dedupedEntries.map(([, event]) => event));
   const dedupeChangedCount = dedupedEntries.length;
   const repeatedCount = Math.max(0, sortedDayEvents.length - dedupeChangedCount);
@@ -781,7 +794,10 @@ function buildDailyAlertFromEvents(entry = {}, eventLogEntries = []) {
     by_policy: dedupeByPolicy,
     dedupe_by_policy: dedupeByPolicy,
     changed_sample: dedupeChangedSample,
+    sample_details: sampleDetails,
     dedupe_changed_sample: dedupeChangedSample,
+    rulebook_status: "unchanged_pending_human_review",
+    decision_rule_impact: "not_auto_applied",
     source: "check-policies.js",
   };
 }
@@ -1245,6 +1261,7 @@ function buildSupabaseDailyAlertRow(entry = {}, strictEligible = false) {
     repeated_count: Number(entry?.repeated_count || 0),
     by_policy: entry?.by_policy && typeof entry.by_policy === "object" ? entry.by_policy : {},
     changed_sample: Array.isArray(entry?.changed_sample) ? entry.changed_sample.slice(0, 50) : [],
+    sample_details: Array.isArray(entry?.sample_details) ? entry.sample_details.slice(0, 50) : [],
     pending_count: Number(entry?.pending_count || 0),
     volatile_pending_count: Number(entry?.volatile_pending_count || 0),
     escalation_count: Number(entry?.escalation_count || 0),
@@ -2125,30 +2142,51 @@ function extractDurationTokens(text, anchors = [], tokenPrefix = "window_days") 
   if (!text) return output;
   const anchorPattern = anchors
     .filter((anchor) => typeof anchor === "string" && anchor.trim())
-    .map((anchor) => escapeRegexLiteral(anchor.trim()))
+    .map((anchor) => {
+      const normalizedAnchor = anchor.trim();
+      const flexibleAnchor = normalizedAnchor
+        .split(/\s+/)
+        .map((part) => escapeRegexLiteral(part))
+        .join("[-\\s]+");
+      return normalizedAnchor.includes(" ") ? flexibleAnchor : `${flexibleAnchor}(?:s|ed|ing|able)?`;
+    })
     .join("|");
-  const anchorRegex = anchorPattern ? new RegExp(`\\b(?:${anchorPattern})\\b`, "i") : null;
-  const durationRegex = /(\d{1,3})\s*(day|days|week|weeks|month|months|year|years)\b/gi;
-  let match;
-  while ((match = durationRegex.exec(text)) !== null) {
-    const value = Number.parseInt(match[1], 10);
-    if (!Number.isFinite(value) || value <= 0) continue;
-    const unit = String(match[2] || "").toLowerCase();
+  if (!anchorPattern) return output;
+
+  const normalizedText = String(text).replace(
+    /\blast updated\s*:?\s*\d{1,3}\s*(?:days?|weeks?|months?|years?)\s+ago\b/gi,
+    ""
+  );
+  const durationPattern = "(\\d{1,3})\\s*[- ]?\\s*(day|days|week|weeks|month|months|year|years)\\b";
+  const patterns = [
+    new RegExp(`${durationPattern}[^.!?;\\n]{0,24}\\b(?:${anchorPattern})\\b`, "gi"),
+    new RegExp(`\\b(?:${anchorPattern})\\b[^.!?;\\n]{0,40}\\b(?:within|for|lasts?|lasting|period\\s+(?:is|of)|window\\s+(?:is|of))\\s+${durationPattern}`, "gi"),
+    new RegExp(`\\b(?:within|for)\\s+${durationPattern}[^.!?;\\n]{0,40}\\b(?:${anchorPattern})\\b`, "gi"),
+  ];
+
+  const addDuration = (rawValue, rawUnit) => {
+    const value = Number.parseInt(rawValue, 10);
+    if (!Number.isFinite(value) || value <= 0) return;
+    const unit = String(rawUnit || "").toLowerCase();
     let days = value;
     if (unit.startsWith("week")) days = value * 7;
     if (unit.startsWith("month")) days = value * 30;
     if (unit.startsWith("year")) days = value * 365;
-    if (days <= 0 || days > 366) continue;
-    const contextStart = Math.max(0, match.index - 80);
-    const contextEnd = Math.min(text.length, durationRegex.lastIndex + 80);
-    const context = text.slice(contextStart, contextEnd);
-    if (anchorRegex && !anchorRegex.test(context)) continue;
+    if (days <= 0 || days > 366) return;
     output.add(`${tokenPrefix}:${days}`);
+  };
+
+  for (const pattern of patterns) {
+    let match;
+    while ((match = pattern.exec(normalizedText)) !== null) {
+      const durationOffset = match.length - 2;
+      addDuration(match[durationOffset], match[durationOffset + 1]);
+    }
   }
   return output;
 }
 
-function extractSemanticTokens(text, policyType = "default") {
+export function extractSemanticTokens(text, policyType = "default") {
   const normalizedText = String(text || "").toLowerCase();
   const tokens = new Set();
   if (!normalizedText.trim()) return [];
@@ -2157,43 +2195,41 @@ function extractSemanticTokens(text, policyType = "default") {
     if (regex.test(normalizedText)) tokens.add(token);
   };
 
-  // Cross-policy structural tokens.
-  addIfMatch("billing:auto_renew", /\b(auto[-\s]?renew|renews?\s+automatically|automatic renewal)\b/i);
-  addIfMatch("restriction:no_refund_or_final_sale", /\b(no refunds?|non[-\s]?refundable|final sale|all sales final)\b/i);
-  addIfMatch("risk:chargeback_or_dispute", /\b(chargeback|dispute)\b/i);
-  addIfMatch("flow:support_request", /\b(contact support|support request|submit (a )?(request|ticket)|reach out to support)\b/i);
-  addIfMatch("billing:prorated", /\b(pro[-\s]?rated|prorated|pro rata)\b/i);
-
   if (policyType === "refund") {
+    addIfMatch("restriction:no_refund_or_final_sale", /\b(no refunds?|non[-\s]?refundable|final sale|all sales final)\b/i);
+    addIfMatch("risk:chargeback_or_dispute", /\b(chargeback|dispute)\b/i);
+    addIfMatch("billing:prorated", /\b(pro[-\s]?rated|prorated|pro rata)\b/i);
     addIfMatch("refund:allowed_language", /\b(refunds?\s+(are|is)\s+(available|eligible)|eligible for refunds?|money[-\s]?back)\b/i);
     addIfMatch("refund:partial_allowed", /\b(partial refunds?|pro[-\s]?rated refunds?)\b/i);
     addIfMatch("refund:store_credit_only", /\b(store credit|account credit|credits? only)\b/i);
     for (const token of extractDurationTokens(
       normalizedText,
-      ["refund", "money back", "chargeback", "dispute", "purchase", "billing"],
+      ["refund", "money back"],
       "refund_window_days"
     )) {
       tokens.add(token);
     }
   } else if (policyType === "cancel") {
+    addIfMatch("billing:auto_renew", /\b(auto[-\s]?renew|renews?\s+automatically|automatic renewal)\b/i);
     addIfMatch("cancel:anytime", /\b(cancel any ?time|cancel at any time|can cancel anytime)\b/i);
     addIfMatch("cancel:non_cancellable", /\b(cannot cancel|can't cancel|non[-\s]?cancellable|no cancellation)\b/i);
     addIfMatch("cancel:fee_or_penalty", /\b(cancellation fee|cancel(?:lation)? penalty|early termination fee|termination fee|penalty fee)\b/i);
     addIfMatch("cancel:effective_end_of_term", /\b(end of (the )?(current )?(billing|subscription) period)\b/i);
     for (const token of extractDurationTokens(
       normalizedText,
-      ["cancel", "cancellation", "terminate", "termination", "renew", "billing"],
+      ["cancel", "cancellation", "terminate", "termination"],
       "cancel_window_days"
     )) {
       tokens.add(token);
     }
   } else if (policyType === "return") {
+    addIfMatch("billing:prorated", /\b(pro[-\s]?rated|prorated|pro rata)\b/i);
     addIfMatch("return:restocking_fee", /\b(restocking fee)\b/i);
     addIfMatch("return:shipping_costs", /\b(return shipping|shipping costs?|shipping fee)\b/i);
     addIfMatch("return:condition_unopened_or_unused", /\b(unopened|unused|original packaging|in original condition)\b/i);
     for (const token of extractDurationTokens(
       normalizedText,
-      ["return", "returned", "exchange", "item", "product", "delivery"],
+      ["return", "returned", "exchange"],
       "return_window_days"
     )) {
       tokens.add(token);
@@ -2204,7 +2240,7 @@ function extractSemanticTokens(text, policyType = "default") {
     addIfMatch("trial:cancel_before_end", /\b(cancel before .*trial (ends?|end)|before trial ends?\s*,?\s*cancel)\b/i);
     for (const token of extractDurationTokens(
       normalizedText,
-      ["trial", "free trial", "introductory", "promo", "promotion"],
+      ["trial", "free trial"],
       "trial_window_days"
     )) {
       tokens.add(token);

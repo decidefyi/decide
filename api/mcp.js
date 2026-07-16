@@ -1,10 +1,16 @@
 import { compute, getSupportedVendors } from "../lib/refund-compute.js";
 import { createMcpHandler } from "../lib/mcp-handler.js";
+import {
+  buildPolicyMcpOutputSchema,
+  POLICY_MCP_READ_ONLY_ANNOTATIONS,
+  POLICY_MCP_VERSION,
+} from "../lib/policy-mcp-metadata.js";
 
 const supportedVendors = getSupportedVendors();
 
-const TOOL = {
+export const TOOL = {
   name: "refund_eligibility",
+  title: "Check refund eligibility",
   description:
     "Check if a US consumer subscription purchase is eligible for a refund. Returns ALLOWED, DENIED, or UNKNOWN based on the vendor's refund policy window.",
   inputSchema: {
@@ -31,38 +37,42 @@ const TOOL = {
         enum: ["individual"],
         description: "Plan type. Currently only 'individual' plans are supported.",
       },
+      qualifying_conditions_met: {
+        type: "boolean",
+        description: "Required when the vendor policy has source-specific conditions such as first purchase, unused benefits, or an eligible annual plan.",
+      },
     },
     required: ["vendor", "days_since_purchase", "region", "plan"],
   },
+  outputSchema: buildPolicyMcpOutputSchema(["ALLOWED", "DENIED", "UNKNOWN"], {
+    refundable: { type: "boolean" },
+    window_days: { type: "number" },
+    days_since_purchase: { type: "number" },
+  }),
+  annotations: { ...POLICY_MCP_READ_ONLY_ANNOTATIONS },
 };
 
 function formatTextMessage(payload) {
-  return `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}\nSource: ${payload.policy_source_url || "N/A"}\nSource Notes: ${payload.policy_source_notes || "N/A"}\nPolicy Updated: ${payload.policy_last_checked || "N/A"}\nLast Verified (UTC): ${payload.policy_last_verified_utc || "Pending first verification"}`;
+  return `Refund Eligibility: ${payload.verdict}\n\nVendor: ${payload.vendor || "N/A"}\nCode: ${payload.code}\n${payload.message || ""}\nSource: ${payload.policy_source_url || "N/A"}\nSource Notes: ${payload.policy_source_notes || "N/A"}\nSource Last Checked: ${payload.policy_last_checked || "N/A"}\nLast Verified (UTC): ${payload.policy_last_verified_utc || "Pending first verification"}`;
 }
 
-export default createMcpHandler({
-  compute,
+export const MCP_TOOL_CONFIG = {
+  compute: (args) => compute(args, { requireCompleteContext: true }),
   tool: TOOL,
+  formatTextMessage,
+};
+
+export default createMcpHandler({
+  ...MCP_TOOL_CONFIG,
   documentationUrl: "https://refund.decide.fyi",
   serverInfo: {
     name: "refund.decide.fyi",
     title: "RefundDecide Notary",
-    version: "1.2.1",
+    version: POLICY_MCP_VERSION,
     description: "Deterministic refund eligibility notary (stateless).",
     websiteUrl: "https://refund.decide.fyi",
   },
   instructions: "Call tools/list, then tools/call with refund_eligibility.",
   logPrefix: "MCP Request",
   logEventName: "mcp_request",
-  formatTextMessage,
-  buildCallLog: ({ method, clientIp, args, payload }) => ({
-    method,
-    ip: clientIp,
-    vendor: args.vendor,
-    days_since_purchase: args.days_since_purchase,
-    region: args.region,
-    plan: args.plan,
-    verdict: payload.verdict,
-    code: payload.code,
-  }),
 });

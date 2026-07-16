@@ -4,11 +4,13 @@ import assert from "node:assert/strict";
 
 import {
   buildChangeKey,
+  buildDailyAlertFromEvents,
   classifyFetchFailureBlock,
   countSignalWindowChangeFlips,
   evaluateFallbackSignalTransition,
   evaluateVendorSourceMigration,
   evaluateSignalWindow,
+  extractSemanticTokens,
   getCandidatePendingModelId,
   getCrossRunWindowRequiredForCandidate,
   getVolatileFlipThresholdForVendor,
@@ -168,6 +170,91 @@ function testSemanticSignaturesStableRejectsMixedOrDifferentTokens() {
     false,
     "different semantic signatures should not be stable"
   );
+}
+
+function testReturnSignalsIgnoreCancellationOnlyLanguage() {
+  assert.deepEqual(
+    extractSemanticTokens(
+      "Your subscription renews automatically every 14 days. Contact support to cancel.",
+      "return"
+    ),
+    [],
+    "return tracking must not classify renewal or cancellation language as a return-policy signal"
+  );
+}
+
+function testRefundWindowsRequireDirectPolicyLanguage() {
+  const linkedInTokens = extractSemanticTokens(
+    "Last updated: 1 week ago. Refund Request. Premium subscriptions are refundable within 7 days of the charge.",
+    "refund"
+  );
+  assert.deepEqual(
+    linkedInTokens.filter((token) => token.startsWith("refund_window_days:")),
+    ["refund_window_days:7"],
+    "relative page metadata must not become a refund window"
+  );
+
+  const adobeTokens = extractSemanticTokens(
+    "Annual plans are priced over 360 days. You receive a full refund when you cancel within 14 days of purchase.",
+    "refund"
+  );
+  assert.deepEqual(
+    adobeTokens.filter((token) => token.startsWith("refund_window_days:")),
+    ["refund_window_days:14"],
+    "unrelated plan durations must not become refund windows"
+  );
+
+  const wixTokens = extractSemanticTokens(
+    "The 14-day money-back guarantee applies to eligible plans. Approved refunds may take 45 business days, and verification can take 72 hours.",
+    "refund"
+  );
+  assert.deepEqual(
+    wixTokens.filter((token) => token.startsWith("refund_window_days:")),
+    ["refund_window_days:14"],
+    "processing times must not become eligibility windows"
+  );
+}
+
+function testTrialWindowsRequireDirectPolicyLanguage() {
+  const tokens = extractSemanticTokens(
+    "Start a 30-day free trial. Billing begins after the trial ends. Last updated 2 weeks ago.",
+    "trial"
+  );
+  assert.deepEqual(
+    tokens.filter((token) => token.startsWith("trial_window_days:")),
+    ["trial_window_days:30"],
+    "trial duration should be extracted without dynamic page metadata"
+  );
+}
+
+function testDailyAlertsPreserveReviewEvidence() {
+  const alert = buildDailyAlertFromEvents(
+    { date_utc: "2026-07-15", generated_at_utc: "2026-07-15T12:00:00Z" },
+    [{
+      event_id: "refund:expressvpn:hash-123",
+      emitted_at_utc: "2026-07-15T11:00:00Z",
+      policy: "refund",
+      vendor: "expressvpn",
+      source_url: "https://example.com/refund-policy",
+      semantic_diff_summary: "+refund_window_days:30",
+      run_url: "https://github.com/example/actions/runs/1",
+    }]
+  );
+
+  assert.deepEqual(alert.sample_details, [{
+    event_id: "refund:expressvpn:hash-123",
+    key: "refund:expressvpn",
+    policy: "refund",
+    vendor: "expressvpn",
+    source_url: "https://example.com/refund-policy",
+    semantic_diff_summary: "+refund_window_days:30",
+    emitted_at_utc: "2026-07-15T11:00:00Z",
+    run_url: "https://github.com/example/actions/runs/1",
+    review_status: "unreviewed",
+    rulebook_updated: false,
+  }]);
+  assert.equal(alert.rulebook_status, "unchanged_pending_human_review");
+  assert.equal(alert.decision_rule_impact, "not_auto_applied");
 }
 
 function testBuildChangeKeyPrefersSemanticSignature() {
@@ -446,6 +533,18 @@ function main() {
   testSemanticSignaturesStableRejectsMixedOrDifferentTokens();
   console.log("PASS check-policies semantic stability rejects mismatches");
 
+  testReturnSignalsIgnoreCancellationOnlyLanguage();
+  console.log("PASS check-policies return signals ignore cancellation-only language");
+
+  testRefundWindowsRequireDirectPolicyLanguage();
+  console.log("PASS check-policies refund windows require direct policy language");
+
+  testTrialWindowsRequireDirectPolicyLanguage();
+  console.log("PASS check-policies trial windows require direct policy language");
+
+  testDailyAlertsPreserveReviewEvidence();
+  console.log("PASS check-policies daily alerts preserve review evidence");
+
   testBuildChangeKeyPrefersSemanticSignature();
   console.log("PASS check-policies change key prefers semantic signature");
 
@@ -494,7 +593,7 @@ function main() {
   testEvaluateVendorSourceMigrationSkipsStableOrMissingSources();
   console.log("PASS check-policies source migration stable/missing");
 
-  console.log("Check-policies tests passed: 28/28");
+  console.log("Check-policies tests passed: 30/30");
 }
 
 try {

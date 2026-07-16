@@ -140,6 +140,10 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .notary-suite {
+        grid-column: 1 / -1;
+      }
+
       .card {
         border: 1px solid var(--border);
         border-radius: 18px;
@@ -295,6 +299,17 @@
 
       <p class="section-label" id="notary-section-label">Stable notary remotes</p>
       <div class="notary-grid" id="notary-grid">
+        <article class="card is-primary notary-suite" data-notary="policy">
+          <h3>Policy Notaries</h3>
+          <p>One canonical MCP connection for refund, cancellation, return, and trial policy checks.</p>
+          <div class="kv">
+            <div class="k">MCP</div>
+            <div><a href="https://policy.decide.fyi/api/mcp">policy.decide.fyi/api/mcp</a></div>
+            <div class="k">Tools</div>
+            <div><code>refund_eligibility</code>, <code>cancellation_penalty</code>, <code>return_eligibility</code>, <code>trial_terms</code></div>
+          </div>
+        </article>
+
         <article class="card" data-notary="refund">
           <h3>Refund Notary</h3>
           <p>Stable runtime endpoint for policy-check reference applications.</p>
@@ -357,11 +372,12 @@
     <script>
       (() => {
         const host = window.location.hostname.toLowerCase();
-        const notaries = ["refund", "cancel", "return", "trial"];
+        const notaries = ["policy", "refund", "cancel", "return", "trial"];
         const notary = notaries.find((name) => host === `${name}.decide.fyi` || host.startsWith(`${name}.`));
         if (!notary) return;
 
         const labels = {
+          policy: "Policy",
           refund: "Refund",
           cancel: "Cancel",
           return: "Return",

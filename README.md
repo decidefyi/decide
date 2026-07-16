@@ -2,7 +2,7 @@
 
 > Deterministic Decision API engine powering workflow applications, stable MCP notary remotes, decision memo packets, and execution gates
 
-[![Version](https://img.shields.io/badge/version-1.2.1-blue.svg)](https://decide.fyi)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://decide.fyi)
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
 [![Vendors](https://img.shields.io/badge/vendors-100-orange.svg)](https://decide.fyi)
 
@@ -171,14 +171,15 @@ Architecture:
 
 ## One-Click Install
 
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.png)](cursor://anysphere.cursor-deeplink/mcp/install?name=refund-decide&config=eyJ1cmwiOiAiaHR0cHM6Ly9yZWZ1bmQuZGVjaWRlLmZ5aS9hcGkvbWNwIn0=) [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=refund-decide&config=%7B%22type%22%3A%20%22http%22%2C%20%22url%22%3A%20%22https%3A//refund.decide.fyi/api/mcp%22%7D) [![Add to Claude](https://fastmcp.me/badges/claude_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to ChatGPT](https://fastmcp.me/badges/chatgpt_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to Codex](https://fastmcp.me/badges/codex_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to Gemini](https://fastmcp.me/badges/gemini_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients)
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.png)](cursor://anysphere.cursor-deeplink/mcp/install?name=decide-policy-notaries&config=eyJ1cmwiOiJodHRwczovL3BvbGljeS5kZWNpZGUuZnlpL2FwaS9tY3AifQ==) [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=decide-policy-notaries&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fpolicy.decide.fyi%2Fapi%2Fmcp%22%7D) [![Add to Claude](https://fastmcp.me/badges/claude_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to ChatGPT](https://fastmcp.me/badges/chatgpt_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to Codex](https://fastmcp.me/badges/codex_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to Gemini](https://fastmcp.me/badges/gemini_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients)
 
-> Buttons install the **Refund Notary** server. To add all 4 servers, use the [JSON config below](#connect-via-mcp-claude-desktop--windsurf--other-clients).
+> Buttons install the canonical four-tool **Decide Policy Notaries** server. Existing specialist endpoints remain supported for compatibility.
 
 ## Stable MCP Remotes
 
 | Server | Domain | Tool | Verdicts |
 |--------|--------|------|----------|
+| **Policy Notaries** | [policy.decide.fyi](https://policy.decide.fyi) | All 4 tools below | Policy-specific verdicts |
 | **Refund Notary** | [refund.decide.fyi](https://refund.decide.fyi) | `refund_eligibility` | ALLOWED / DENIED / UNKNOWN |
 | **Cancel Notary** | [cancel.decide.fyi](https://cancel.decide.fyi) | `cancellation_penalty` | FREE_CANCEL / PENALTY / LOCKED / UNKNOWN |
 | **Return Notary** | [return.decide.fyi](https://return.decide.fyi) | `return_eligibility` | RETURNABLE / EXPIRED / NON_RETURNABLE / UNKNOWN |
@@ -193,10 +194,23 @@ All servers: 100 vendors, US region, individual plans, stateless, no auth, 100 r
 ```json
 {
   "mcpServers": {
+    "decide-policy-notaries": { "url": "https://policy.decide.fyi/api/mcp" }
+  }
+}
+```
+
+#### Specialist compatibility configuration
+
+Existing installations can keep using the specialist remotes. They expose the
+same tool names and response contracts as the canonical suite:
+
+```json
+{
+  "mcpServers": {
     "refund-decide": { "url": "https://refund.decide.fyi/api/mcp" },
     "cancel-decide": { "url": "https://cancel.decide.fyi/api/mcp" },
     "return-decide": { "url": "https://return.decide.fyi/api/mcp" },
-    "trial-decide":  { "url": "https://trial.decide.fyi/api/mcp" }
+    "trial-decide": { "url": "https://trial.decide.fyi/api/mcp" }
   }
 }
 ```
@@ -448,19 +462,22 @@ Checks free trial availability, length, card requirement, and auto-conversion st
 
 ## Data Freshness
 
-Policies are sourced from official vendor documentation and terms of service.
+Each policy family has deterministic rules and source metadata for 100 vendors.
+The source tracker monitors official vendor documentation and terms of service;
+it does not automatically promote page text into a verdict.
 
-- **Daily automated checks** — GitHub Action runs at 08:00 UTC, hashing vendor policy pages across all 4 services (refund, cancel, return, trial). If a page changes, an issue is opened for review.
-- **Policy source URLs tracked** — Each service has its own sources file in `rules/` linking to official policy pages.
+- **Six-hour source checks** — The `Daily Policy Check` workflow runs every six hours across refund, cancellation, return, and trial sources. Material signals enter a human review queue.
+- **Human-verification freshness** — `npm run audit:policy-freshness` reports the age of the last reviewed source set independently from tracker uptime.
+- **Policy source URLs tracked** — Each policy family has its own sources file in `rules/` linking to official policy pages.
 - **Compliance export** — `GET /api/compliance-export` returns a CSV snapshot of tracked sources, hashes, and pending candidate changes (`?format=json` for machine-readable output).
 - **Versioned rules** — Each rules file includes a `rules_version` field for staleness detection.
 
 ## Architecture
 
-- **Stateless** — No database, no sessions, no side effects
+- **Stateless verdict runtime** — Policy calls do not create sessions or mutate policy rules
 - **Deterministic** — Same input always produces same output
 - **Versioned Rules** — Rules files include version for tracking changes
-- **Daily Monitoring** — GitHub Action checks all vendor policy pages daily
+- **Scheduled Monitoring** — GitHub Action checks all vendor policy pages every six hours
 - **Serverless** — Runs on Vercel serverless functions
 - **Zero Dependencies** — Core compute logic has no external dependencies
 - **Hostname Routing** — Vercel middleware routes subdomains to correct MCP endpoints
@@ -473,6 +490,16 @@ Policies are sourced from official vendor documentation and terms of service.
 - **Static Rules** — Does not account for promotional offers or special circumstances
 
 ## Changelog
+
+### v1.3.0 (2026-07-15)
+
+**Added:**
+- Canonical `policy.decide.fyi/api/mcp` server exposing all four Policy Notary tools through one connection.
+- Generated Official Registry metadata and Smithery server-card metadata sourced from the live tool definitions.
+
+**Changed:**
+- One-click install links now install the four-tool Policy Notaries server.
+- Specialist Refund, Cancel, Return, and Trial MCP URLs remain stable compatibility surfaces.
 
 ### Unreleased
 

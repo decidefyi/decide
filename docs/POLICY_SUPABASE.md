@@ -35,6 +35,7 @@ When enabled:
 
 - `scripts/check-policies.js` hydrates local state from `policy_state_artifacts` before checks.
 - It upserts daily events into `policy_events`.
+- Human review is stored on the stable `policy_events.event_id`; tracker upserts do not promote policy text into rulebooks.
 - It upserts daily rollup into `policy_daily_alerts`.
 - It enforces daily date continuity for recent history (`POLICY_ALERT_CONTINUITY_LOOKBACK_DAYS`, default `120`):
   - if a UTC date is missing, a zero-change continuity row is backfilled.
@@ -67,11 +68,30 @@ Response contract:
 - top-level `schema_version=policy_alerts_v2`
 - top-level `source` is a string (`supabase` or `file_fallback`)
 - top-level `state`, `limit`, `alerts[]`
-- each alert should include normalized `date_utc`, `changed_count`, `pending_count`, `state`, `status`, `run_url`
+- each alert should include normalized `date_utc`, `changed_count`, `pending_count`, `state`, `status`, `run_url`, `rulebook_status`, `decision_rule_impact`, and `sample_details[]`
+- each new sample detail includes `event_id`, `review_status`, and `rulebook_updated`; the API overlays recorded Supabase review decisions onto daily rollups
+
+## 5) Review a policy event
+
+Preview an update locally:
+
+```bash
+npm run review:policy-event -- \
+  --event-id 'refund:vendor:confirmed_hash' \
+  --status reviewed_no_rule_change \
+  --reviewed-by 'operator@example.com' \
+  --note 'Verified the source; deterministic rule is unchanged.'
+```
+
+Add `--apply` only after reviewing the preview and loading `SUPABASE_URL` and
+`SUPABASE_SERVICE_ROLE_KEY`. The repository also provides the manual **Review
+policy event** GitHub workflow, which uses the same validator with repository
+secrets. `rulebook_updated` requires `--rulebook-version` and should only be
+recorded after the corresponding reviewed rule change is deployed.
 
 Workflow bridge guard:
 
-- `Daily Policy Check` now runs `npm run verify:policy-alerts-bridge` after a healthy Supabase sync.
-- This guard verifies the live public API contract and confirms the current workflow run is visible in `/api/policy-alerts`.
-- By default this guard is warning-only (`POLICY_ALERTS_BRIDGE_ENFORCE=0`).
-- Set repo variable `POLICY_ALERTS_BRIDGE_ENFORCE=1` to make bridge failures block the workflow.
+- `Daily Policy Check` runs `npm run verify:policy-alerts-bridge` against both `www.decide.fyi` and canonical `api.decide.fyi` after a healthy Supabase sync.
+- Both guards verify the live API contract and confirm the current workflow run is visible in `/api/policy-alerts`.
+- The website bridge is warning-only by default (`POLICY_ALERTS_BRIDGE_ENFORCE=0`); set `POLICY_ALERTS_BRIDGE_ENFORCE=1` to make it blocking.
+- The canonical API guard is always blocking after a healthy sync so production configuration drift cannot silently disable the feed.
