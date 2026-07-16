@@ -43,10 +43,12 @@ and action when a submission, rescan, or registry release completes.
   `io.github.decidefyi/policy-notaries@1.3.0` is active and points to the
   canonical four-tool remote. Publish another immutable version only for a
   material endpoint or tool-contract change.
-- **awesome-mcp-servers:** PR #1678 was merged. Its current entry is stale,
-  Refund-only, and categorized under Finance & Fintech.
-- **Repo crawlers:** Glama and other GitHub-indexed directories already discover
-  all four specialist tools from the current README.
+- **awesome-mcp-servers:** correction PR #1830 is open, mergeable, and passing
+  the required Glama check. It describes the canonical suite under Support &
+  Service Management; do not open a duplicate submission.
+- **Repo crawlers:** Glama recognizes all four policy tools. Its cached install
+  copy still predates the canonical four-tool one-click configuration and should
+  update on the next repository crawl.
 
 ## Release Sequence
 
@@ -63,8 +65,8 @@ and action when a submission, rescan, or registry release completes.
 6. Re-run Glama's Claim ownership or manual Sync Server flow for the
    `decidefyi/decide` organization repository, then verify the canonical
    four-tool install copy.
-7. Update the existing awesome-mcp-servers entry to describe all four tools and
-   move it to Support & Service Management.
+7. In progress: merge awesome-mcp-servers PR #1830, which describes all four
+   tools and moves the entry to Support & Service Management.
 8. Let PulseMCP and other registry aggregators ingest the Official MCP Registry
    record. Submit manually only if the canonical entry remains absent after an
    indexing window.
