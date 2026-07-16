@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
 import {
   applyMonitorSourceCheckMetadata,
   buildChangeKey,
   buildDailyAlertFromEvents,
+  checkPolicySet,
   classifyFetchFailureBlock,
   countSignalWindowChangeFlips,
   evaluateFallbackSignalTransition,
@@ -25,6 +29,14 @@ import {
   toZendeskHelpCenterApiTarget,
 } from "./check-policies.js";
 
+function writeJson(path, value) {
+  writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function readJson(path) {
+  return JSON.parse(readFileSync(path, "utf8"));
+}
+
 function testMonitorCheckDoesNotClaimHumanVerification() {
   const sources = {
     last_checked: "2026-02-01",
@@ -41,6 +53,44 @@ function testMonitorCheckDoesNotClaimHumanVerification() {
   assert.equal(result.sources.last_checked, "2026-07-16");
   assert.equal(result.sources.last_verified_utc, "2026-03-02T06:47:25Z");
   assert.equal(result.sources.hash_profile, "policy-source-v2");
+}
+
+async function testPolicySetWritesMonitorArtifactTimestamps() {
+  const fixtureDir = mkdtempSync(join(tmpdir(), "decide-policy-check-"));
+  const paths = {
+    sourcesPath: join(fixtureDir, "sources.json"),
+    hashesPath: join(fixtureDir, "hashes.json"),
+    candidatesPath: join(fixtureDir, "candidates.json"),
+    coveragePath: join(fixtureDir, "coverage.json"),
+    semanticPath: join(fixtureDir, "semantic.json"),
+    baselinePath: join(fixtureDir, "baseline.json"),
+    dailyFingerprintPath: join(fixtureDir, "daily.json"),
+    blockedRetryPath: join(fixtureDir, "blocked.json"),
+  };
+  writeJson(paths.sourcesPath, {
+    hash_profile: "focus-v3",
+    last_verified_utc: "2026-07-15T08:00:00Z",
+    vendors: {},
+  });
+
+  const result = await checkPolicySet({
+    name: "fixture",
+    ...paths,
+    rulesFile: "fixture-rules.json",
+  });
+  assert.equal(result.totalChecks, 0);
+
+  const artifactPaths = [
+    paths.semanticPath,
+    paths.coveragePath,
+    paths.baselinePath,
+    paths.dailyFingerprintPath,
+    paths.blockedRetryPath,
+  ];
+  const timestamps = artifactPaths.map((path) => readJson(path).updated_utc);
+  assert.equal(new Set(timestamps).size, 1, "state artifacts should share one monitor timestamp");
+  assert.match(timestamps[0], /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+  assert.equal(readJson(paths.sourcesPath).last_verified_utc, "2026-07-15T08:00:00Z");
 }
 
 function envInt(name, fallback) {
@@ -515,9 +565,11 @@ function testEvaluateVendorSourceMigrationSkipsStableOrMissingSources() {
   assert.equal(noPrior.reason, "no_prior_source", "missing prior source should emit no_prior_source reason");
 }
 
-function main() {
+async function main() {
   testMonitorCheckDoesNotClaimHumanVerification();
   console.log("PASS check-policies machine checks preserve human verification time");
+  await testPolicySetWritesMonitorArtifactTimestamps();
+  console.log("PASS check-policies state artifacts use monitor timestamp");
   testImmediateBlockOnCloudflareAnd403();
   console.log("PASS check-policies immediate block on anti-bot");
 
@@ -614,11 +666,11 @@ function main() {
   testEvaluateVendorSourceMigrationSkipsStableOrMissingSources();
   console.log("PASS check-policies source migration stable/missing");
 
-  console.log("Check-policies tests passed: 31/31");
+  console.log("Check-policies tests passed: 32/32");
 }
 
 try {
-  main();
+  await main();
 } catch (error) {
   console.error(error?.stack || error?.message || String(error));
   process.exitCode = 1;

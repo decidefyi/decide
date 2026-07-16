@@ -51,6 +51,9 @@ jobs:
       - name: Run policy feed reliability tests
         run: npm run test:policy-feed
 
+      - name: Run policy checker reliability tests
+        run: npm run test:policy-check
+
       - name: Verify published policy source mirrors
         run: npm run test:public-policy-sources
 

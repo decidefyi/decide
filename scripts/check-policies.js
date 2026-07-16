@@ -3442,7 +3442,7 @@ async function fetchWithFallback(vendorConfig, context = {}) {
   };
 }
 
-async function checkPolicySet({
+export async function checkPolicySet({
   name,
   sourcesPath,
   hashesPath,
@@ -4988,7 +4988,7 @@ async function checkPolicySet({
     semanticPath,
     JSON.stringify(
       {
-        updated_utc: verifiedAtUtc,
+        updated_utc: checkedAtUtc,
         policy: name,
         hash_profile: HASH_PROFILE_ID,
         vendors: newSemanticProfiles,
@@ -5001,7 +5001,7 @@ async function checkPolicySet({
     coveragePath,
     JSON.stringify(
       {
-        updated_utc: verifiedAtUtc,
+        updated_utc: checkedAtUtc,
         policy: name,
         vendors: coverageVendors,
       },
@@ -5018,7 +5018,7 @@ async function checkPolicySet({
     baselinePath,
     JSON.stringify(
       {
-        updated_utc: verifiedAtUtc,
+        updated_utc: checkedAtUtc,
         policy: name,
         hash_profile: HASH_PROFILE_ID,
         vendors: sortedConfirmedBaselineVendors,
@@ -5037,7 +5037,7 @@ async function checkPolicySet({
     JSON.stringify(
       {
         schema_version: 1,
-        updated_utc: verifiedAtUtc,
+        updated_utc: checkedAtUtc,
         date_utc: runDateUtc,
         policy: name,
         hash_profile: HASH_PROFILE_ID,
@@ -5057,7 +5057,7 @@ async function checkPolicySet({
     JSON.stringify(
       {
         schema_version: 1,
-        updated_utc: verifiedAtUtc,
+        updated_utc: checkedAtUtc,
         date_utc: runDateUtc,
         policy: name,
         vendors: sortedBlockedRetryVendors,
