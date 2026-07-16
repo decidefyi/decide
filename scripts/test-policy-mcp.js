@@ -688,6 +688,7 @@ function testPublishesCanonicalDiscoveryMetadata() {
   const registryServer = readJson("../server.json");
   const serverCard = readJson("../public/.well-known/mcp/server-card.json");
   const agentCard = readJson("../public/.well-known/agent-card.json");
+  const ucp = readJson("../public/.well-known/ucp.json");
 
   assert.deepEqual(registryServer, buildPolicyRegistryServer());
   assert.deepEqual(
@@ -710,6 +711,20 @@ function testPublishesCanonicalDiscoveryMetadata() {
       "trial_terms",
     ]
   );
+
+  const ucpServices = new Map((ucp.services || []).map((service) => [service.tool_name, service]));
+  for (const { tool } of [refundTool, cancelTool, returnTool, trialTool]) {
+    const service = ucpServices.get(tool.name);
+    assert.ok(service, `${tool.name} must be published in UCP discovery`);
+    const required = new Set(tool.inputSchema?.required || []);
+    const expectedInputs = Object.fromEntries(
+      Object.entries(tool.inputSchema?.properties || {}).map(([name, schema]) => [
+        name,
+        { ...schema, required: required.has(name) },
+      ])
+    );
+    assert.deepEqual(service.inputs, expectedInputs, `${tool.name} UCP inputs must match the MCP schema`);
+  }
 }
 
 async function testPublishesOnePolicyMcpVersion() {
@@ -738,7 +753,7 @@ async function testPublishesOnePolicyMcpVersion() {
       ucp.version,
       initialized.json?.result?.serverInfo?.version,
     ]),
-    new Set(["1.3.0"])
+    new Set(["1.3.1"])
   );
 }
 

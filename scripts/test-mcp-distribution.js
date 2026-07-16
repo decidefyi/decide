@@ -26,11 +26,11 @@ function baseInput() {
   return {
     manifest: {
       name: "io.github.decidefyi/policy-notaries",
-      version: "1.3.0",
+      version: "1.3.1",
       remotes: [{ type: "streamable-http", url: "https://policy.decide.fyi/api/mcp" }],
     },
     serverCard: { tools: toolNames.map((name) => tool(name)) },
-    initializeResult: { result: { serverInfo: { version: "1.3.0" } } },
+    initializeResult: { result: { serverInfo: { version: "1.3.1" } } },
     toolsListResult: { result: { tools: toolNames.map((name) => tool(name)) } },
     registryPayload: { servers: [] },
     now: new Date("2026-07-15T16:00:00Z"),

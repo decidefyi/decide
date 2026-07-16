@@ -4,7 +4,7 @@
   "canonical_product": {
     "name": "Decide Policy Notaries",
     "registry_name": "io.github.decidefyi/policy-notaries",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "endpoint": "https://policy.decide.fyi/api/mcp",
     "tools": [
       "refund_eligibility",
@@ -25,11 +25,11 @@
       "tier": 1,
       "authority": "primary_registry",
       "status": "active",
-      "identity": "io.github.decidefyi/policy-notaries@1.3.0",
+      "identity": "io.github.decidefyi/policy-notaries@1.3.1",
       "url": "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.decidefyi%2Fpolicy-notaries",
       "observed_on_utc": "2026-07-16",
-      "observed_evidence": "Official Registry publication workflow completed successfully and the strict live distribution audit found version 1.3.0 with all four canonical tools.",
-      "next_action": "Monitor the immutable 1.3.0 record; publish a new version only for a material endpoint or tool-contract change.",
+      "observed_evidence": "Official Registry publication workflow completed successfully and the strict live distribution audit found version 1.3.1 with all four canonical tools.",
+      "next_action": "Monitor the immutable 1.3.1 record; publish a new version only for a material endpoint or tool-contract change.",
       "update_policy": "Registry versions are immutable. Publish a new server.json version when canonical public metadata, tool contract, or remote endpoint changes; do not resubmit unchanged releases."
     },
     {

@@ -2,7 +2,7 @@
 
 > Deterministic Decision API engine powering workflow applications, stable MCP notary remotes, decision memo packets, and execution gates
 
-[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://decide.fyi)
+[![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://decide.fyi)
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
 [![Vendors](https://img.shields.io/badge/vendors-100-orange.svg)](https://decide.fyi)
 
@@ -445,6 +445,13 @@ it does not automatically promote page text into a verdict.
 
 ## Changelog
 
+### v1.3.1 (2026-07-16)
+
+**Changed:**
+- Policy Notaries now use explicit `deterministic`, `conditional`, `review_only`, and live-offer modes; incomplete or approval-dependent requests fail closed.
+- Monitoring timestamps no longer mutate policy lineage hashes, and golden replay generation rejects incomplete decisions.
+- Canonical MCP metadata now describes the fail-closed contract and observed trial evidence fields.
+
 ### v1.3.0 (2026-07-15)
 
 **Added:**
@@ -463,8 +470,6 @@ it does not automatically promote page text into a verdict.
 
 **Changed:**
 - Landing pages now position Decide as the Decision API engine and frame Policy MCP Notaries as one reference application.
-- Policy Notaries now use explicit `deterministic`, `conditional`, `review_only`, and live-offer modes; incomplete or approval-dependent requests fail closed.
-- Monitoring timestamps no longer mutate policy lineage hashes, and golden replay generation rejects incomplete decisions.
 
 ### v1.2.1 (2026-02-08)
 

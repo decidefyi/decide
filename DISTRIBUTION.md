@@ -1,8 +1,8 @@
 # Policy MCP Distribution
 
 The canonical distribution unit is **Decide Policy Notaries**: one MCP server
-with four deterministic tools for refund, cancellation, return, and trial policy
-checks.
+with four fail-closed tools for refund, cancellation, return, and live-trial
+policy checks.
 
 Canonical endpoint:
 
@@ -40,7 +40,7 @@ and action when a submission, rescan, or registry release completes.
   `io.github.ndkasndakn/refund-decide@1.0.0`. Registry versions are immutable and
   cannot currently be unpublished.
 - **Canonical Registry identity:**
-  `io.github.decidefyi/policy-notaries@1.3.0` is active and points to the
+  `io.github.decidefyi/policy-notaries@1.3.1` is active and points to the
   canonical four-tool remote. Publish another immutable version only for a
   material endpoint or tool-contract change.
 - **awesome-mcp-servers:** correction PR #1830 is open, mergeable, and passing
@@ -56,7 +56,7 @@ and action when a submission, rescan, or registry release completes.
    `tools/list`, and all four `tools/call` paths from outside Vercel.
 2. Confirm the Smithery Refund release type and upstream URL. Do not replace or
    delete the existing qualified name.
-3. Completed: publish `io.github.decidefyi/policy-notaries@1.3.0` to the
+3. Completed: publish `io.github.decidefyi/policy-notaries@1.3.1` to the
    Official MCP Registry from the `decidefyi` organization identity.
 4. Publish a new Smithery server named **Decide Policy Notaries** from the
    canonical URL. Let Smithery scan the live endpoint and generated server card.

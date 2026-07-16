@@ -1,7 +1,7 @@
 {
   "name": "decide.fyi",
-  "version": "1.3.0",
-  "description": "Deterministic subscription policy notaries for US consumers. One canonical four-tool MCP server with stable specialist compatibility endpoints.",
+  "version": "1.3.1",
+  "description": "Fail-closed subscription policy notaries for US consumers. One canonical four-tool MCP server with stable specialist compatibility endpoints.",
   "url": "https://decide.fyi",
   "services": [
     {
@@ -18,25 +18,33 @@
       "name": "RefundDecide Notary",
       "endpoint": "https://refund.decide.fyi/api/v1/refund/eligibility",
       "mcp_url": "https://refund.decide.fyi/api/mcp",
-      "capabilities": ["dev.ucp.notary.refund"]
+      "capabilities": [
+        "dev.ucp.notary.refund"
+      ]
     },
     {
       "name": "CancelDecide Notary",
       "endpoint": "https://cancel.decide.fyi/api/v1/cancel/penalty",
       "mcp_url": "https://cancel.decide.fyi/api/mcp",
-      "capabilities": ["dev.ucp.notary.cancel"]
+      "capabilities": [
+        "dev.ucp.notary.cancel"
+      ]
     },
     {
       "name": "ReturnDecide Notary",
       "endpoint": "https://return.decide.fyi/api/v1/return/eligibility",
       "mcp_url": "https://return.decide.fyi/api/mcp",
-      "capabilities": ["dev.ucp.notary.return"]
+      "capabilities": [
+        "dev.ucp.notary.return"
+      ]
     },
     {
       "name": "TrialDecide Notary",
       "endpoint": "https://trial.decide.fyi/api/v1/trial/terms",
       "mcp_url": "https://trial.decide.fyi/api/mcp",
-      "capabilities": ["dev.ucp.notary.trial"]
+      "capabilities": [
+        "dev.ucp.notary.trial"
+      ]
     }
   ],
   "execution": {

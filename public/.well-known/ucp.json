@@ -1,7 +1,7 @@
 {
   "name": "decide.fyi",
-  "version": "1.3.0",
-  "description": "Deterministic subscription decision notaries for US consumers.",
+  "version": "1.3.1",
+  "description": "Fail-closed subscription policy notaries for US consumers.",
   "services": [
     {
       "name": "refund.decide.fyi",
@@ -15,7 +15,6 @@
       "inputs": {
         "vendor": {
           "type": "string",
-          "required": true,
           "enum": [
             "1password",
             "adobe",
@@ -117,26 +116,36 @@
             "youtube_premium",
             "youtube_tv",
             "zoom"
-          ]
+          ],
+          "description": "Vendor identifier (lowercase, underscore-separated).",
+          "required": true
         },
         "days_since_purchase": {
           "type": "number",
-          "required": true,
-          "minimum": 0
+          "description": "Number of days since the subscription was purchased.",
+          "minimum": 0,
+          "required": true
         },
         "region": {
           "type": "string",
-          "required": true,
           "enum": [
             "US"
-          ]
+          ],
+          "description": "Region code. Currently only 'US' is supported.",
+          "required": true
         },
         "plan": {
           "type": "string",
-          "required": true,
           "enum": [
             "individual"
-          ]
+          ],
+          "description": "Plan type. Currently only 'individual' plans are supported.",
+          "required": true
+        },
+        "qualifying_conditions_met": {
+          "type": "boolean",
+          "description": "Required when the vendor policy has source-specific conditions such as first purchase, unused benefits, or an eligible annual plan.",
+          "required": false
         }
       },
       "outputs": {
@@ -159,7 +168,6 @@
       "inputs": {
         "vendor": {
           "type": "string",
-          "required": true,
           "enum": [
             "1password",
             "adobe",
@@ -261,21 +269,34 @@
             "youtube_premium",
             "youtube_tv",
             "zoom"
-          ]
+          ],
+          "description": "Vendor identifier (lowercase, underscore-separated).",
+          "required": true
         },
         "region": {
           "type": "string",
-          "required": true,
           "enum": [
             "US"
-          ]
+          ],
+          "description": "Region code. Currently only 'US' is supported.",
+          "required": true
         },
         "plan": {
           "type": "string",
-          "required": true,
           "enum": [
             "individual"
-          ]
+          ],
+          "description": "Plan type. Currently only 'individual' plans are supported.",
+          "required": true
+        },
+        "billing_cadence": {
+          "type": "string",
+          "enum": [
+            "monthly",
+            "annual"
+          ],
+          "description": "Required when the vendor applies different cancellation terms to monthly and annual plans.",
+          "required": false
         }
       },
       "outputs": {
@@ -299,7 +320,6 @@
       "inputs": {
         "vendor": {
           "type": "string",
-          "required": true,
           "enum": [
             "1password",
             "adobe",
@@ -401,26 +421,36 @@
             "youtube_premium",
             "youtube_tv",
             "zoom"
-          ]
+          ],
+          "description": "Vendor identifier (lowercase, underscore-separated).",
+          "required": true
         },
         "days_since_purchase": {
           "type": "number",
-          "required": true,
-          "minimum": 0
+          "description": "Number of days since the subscription was purchased.",
+          "minimum": 0,
+          "required": true
         },
         "region": {
           "type": "string",
-          "required": true,
           "enum": [
             "US"
-          ]
+          ],
+          "description": "Region code. Currently only 'US' is supported.",
+          "required": true
         },
         "plan": {
           "type": "string",
-          "required": true,
           "enum": [
             "individual"
-          ]
+          ],
+          "description": "Plan type. Currently only 'individual' plans are supported.",
+          "required": true
+        },
+        "qualifying_conditions_met": {
+          "type": "boolean",
+          "description": "Required when the vendor policy has source-specific conditions such as first purchase, unused benefits, or an eligible annual plan.",
+          "required": false
         }
       },
       "outputs": {
@@ -444,7 +474,6 @@
       "inputs": {
         "vendor": {
           "type": "string",
-          "required": true,
           "enum": [
             "1password",
             "adobe",
@@ -546,21 +575,47 @@
             "youtube_premium",
             "youtube_tv",
             "zoom"
-          ]
+          ],
+          "description": "Vendor identifier (lowercase, underscore-separated).",
+          "required": true
         },
         "region": {
           "type": "string",
-          "required": true,
           "enum": [
             "US"
-          ]
+          ],
+          "description": "Region code. Currently only 'US' is supported.",
+          "required": true
         },
         "plan": {
           "type": "string",
-          "required": true,
           "enum": [
             "individual"
-          ]
+          ],
+          "description": "Plan type. Currently only 'individual' plans are supported.",
+          "required": true
+        },
+        "offer_confirmed": {
+          "type": "boolean",
+          "description": "For account- or promotion-specific trials, whether a live offer has been confirmed for this account.",
+          "required": false
+        },
+        "observed_trial_days": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 365,
+          "description": "Trial duration shown by the confirmed live offer. Required when offer_confirmed is true for a variable offer.",
+          "required": false
+        },
+        "observed_card_required": {
+          "type": "boolean",
+          "description": "Whether the confirmed live offer requires a payment card.",
+          "required": false
+        },
+        "observed_auto_converts": {
+          "type": "boolean",
+          "description": "Whether the confirmed live offer converts to a paid subscription after the trial.",
+          "required": false
         }
       },
       "outputs": {
