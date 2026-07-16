@@ -44,7 +44,11 @@ When enabled:
   - diffing prefers confirmed baseline + canonical daily fingerprints (`rules/*-policy-daily-fingerprints.json`)
   - transient run-hash drift is excluded from baseline comparison.
 - Blocked-source retry queues are persisted as state artifacts (`rules/*-policy-blocked-retry-queue.json`).
-- Public strict feed remains date-continuous (including zero-change days); provisional/quality-held/fetch telemetry stays internal (`raw` payload/ops reports).
+- New non-zero detections are written as `review_required` and stay out of the
+  strict file feed until adjudicated; zero-change continuity rows remain strict.
+  The Supabase-backed API promotes reviewed events dynamically, while
+  provisional/quality-held/fetch telemetry stays internal (`raw` payload/ops
+  reports).
 
 Workflow behavior:
 
@@ -66,10 +70,26 @@ File fallback is disabled by default in production (`POLICY_ALERTS_ALLOW_FILE_FA
 Response contract:
 
 - top-level `schema_version=policy_alerts_v2`
+- top-level `trust_model=review_gated_change_claims_v1`
 - top-level `source` is a string (`supabase` or `file_fallback`)
 - top-level `state`, `limit`, `alerts[]`
 - each alert should include normalized `date_utc`, `changed_count`, `pending_count`, `state`, `status`, `run_url`, `rulebook_status`, `decision_rule_impact`, and `sample_details[]`
 - each new sample detail includes `event_id`, `review_status`, and `rulebook_updated`; the API overlays recorded Supabase review decisions onto daily rollups
+- a non-zero change claim is eligible for `state=confirmed` only when every
+  detected event has an adjudicated review status (`reviewed_no_rule_change` or
+  `rulebook_updated`)
+- unresolved or incomplete evidence is returned only by `state=review|all` with
+  `status=review`, `state=needs_review`, and `signal_confidence=manual-review`
+- `dismissed_false_signal` details remain in `sample_details[]` for audit, but
+  are removed from `changed_count`, `changed_sample`, and `by_policy`
+- the daily writer stores new change rows with `strict_eligible=false`,
+  `status=review`, and `change_review_state=review_required`; after all linked
+  events are adjudicated, the API promotes the row without rewriting history
+- additive audit counters distinguish the stages: `detected_changed_count`,
+  `confirmed_changed_count`, `unresolved_changed_count`, and
+  `dismissed_signal_count`
+- zero-change continuity rows retain their checker quality classification and do
+  not require event review because they make no policy-change claim
 
 ## 5) Review a policy event
 

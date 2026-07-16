@@ -819,11 +819,45 @@ export function buildDailyAlertFromEvents(entry = {}, eventLogEntries = []) {
   };
 }
 
-function isStrictDailyAlertEntry(entry = {}, { includeZeroChange = true } = {}) {
-  // Public strict feed should remain date-continuous: confirmed change rows + confirmed zero-change rows.
+export function isStrictDailyAlertEntry(entry = {}, { includeZeroChange = true } = {}) {
   const changedCount = Number(entry.changed_count || 0);
-  if (changedCount > 0) return true;
+  if (changedCount > 0) {
+    const details = Array.isArray(entry?.sample_details) ? entry.sample_details : [];
+    const reviewedStatuses = new Set(["reviewed_no_rule_change", "rulebook_updated"]);
+    return details.length >= changedCount && details.every((detail) =>
+      reviewedStatuses.has(String(detail?.review_status || "").trim().toLowerCase())
+    );
+  }
   return Boolean(includeZeroChange);
+}
+
+export function classifyDailyAlertForPublication(dailyEntry = {}, { includeZeroChange = true } = {}) {
+  const strictEligible = isStrictDailyAlertEntry(dailyEntry, { includeZeroChange });
+  const hasDetectedChanges = Number(dailyEntry.changed_count || 0) > 0;
+  const signalConfidence = strictEligible ? "high-confidence" : "manual-review";
+  const signalConfidenceReason = hasDetectedChanges
+    ? strictEligible
+      ? "Every detected semantic change has an adjudicated event review."
+      : "Detected semantic changes require human event review before entering the confirmed feed."
+    : strictEligible
+      ? "No confirmed policy changes for the UTC date; published as a zero-change continuity row."
+      : "No confirmed policy changes for the date; nothing published to strict feed.";
+  const normalizedEntry = {
+    ...dailyEntry,
+    strict_eligible: strictEligible,
+    signal_confidence: signalConfidence,
+    signal_confidence_reason: signalConfidenceReason,
+    status: strictEligible ? "confirmed" : "review",
+    state: strictEligible ? "verified" : "needs_review",
+    change_review_state: hasDetectedChanges
+      ? strictEligible ? "reviewed" : "review_required"
+      : "not_applicable",
+  };
+  const reason = strictEligible
+    ? hasDetectedChanges ? "" : "zero_change_continuity"
+    : hasDetectedChanges ? "awaiting_event_review" : "strict_quality_filter";
+
+  return { strictEligible, hasDetectedChanges, normalizedEntry, reason };
 }
 
 function updatePolicyAlertFeed(entry, eventLogEntries = [], { includeZeroChange = true } = {}) {
@@ -834,21 +868,10 @@ function updatePolicyAlertFeed(entry, eventLogEntries = [], { includeZeroChange 
   const existingReviewAlerts = collapseAlertsByDate(Array.isArray(reviewExisting.alerts) ? reviewExisting.alerts : []);
 
   const dailyEntry = buildDailyAlertFromEvents(entry, eventLogEntries);
-  const strictEligible = isStrictDailyAlertEntry(dailyEntry, { includeZeroChange });
-  const hasConfirmedChanges = Number(dailyEntry.changed_count || 0) > 0;
-  const signalConfidence = strictEligible ? "high-confidence" : "manual-review";
-  const signalConfidenceReason = hasConfirmedChanges
-    ? "Confirmed semantic changes emitted to strict feed; operational telemetry is tracked separately."
-    : strictEligible
-      ? "No confirmed policy changes for the UTC date; published as a zero-change continuity row."
-      : "No confirmed policy changes for the date; nothing published to strict feed.";
-  const normalizedEntry = {
-    ...dailyEntry,
-    signal_confidence: signalConfidence,
-    signal_confidence_reason: signalConfidenceReason,
-    status: strictEligible ? "confirmed" : "review",
-    state: strictEligible ? "verified" : "needs_review",
-  };
+  const { strictEligible, normalizedEntry, reason } = classifyDailyAlertForPublication(
+    dailyEntry,
+    { includeZeroChange }
+  );
 
   const nextReviewAlerts = collapseAlertsByDate(upsertDailyAlert(existingReviewAlerts, normalizedEntry, maxEntries)).slice(
     0,
@@ -903,7 +926,7 @@ function updatePolicyAlertFeed(entry, eventLogEntries = [], { includeZeroChange 
   return {
     published: strictEligible,
     review_published: true,
-    reason: strictEligible ? (hasConfirmedChanges ? "" : "zero_change_continuity") : "strict_quality_filter",
+    reason,
     signature: String(normalizedEntry.alert_signature || buildAlertSignature(normalizedEntry)),
     feedChanged: strictChanged,
     reviewFeedChanged: reviewChanged,

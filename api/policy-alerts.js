@@ -8,7 +8,10 @@ const ROOT_DIR = join(__dirname, "..");
 const STRICT_FEED_PATH = join(ROOT_DIR, "rules", "policy-alert-feed.json");
 const REVIEW_FEED_PATH = join(ROOT_DIR, "rules", "policy-alert-review-feed.json");
 const POLICY_ALERTS_API_SCHEMA_VERSION = "policy_alerts_v2";
-const POLICY_ALERTS_API_SCHEMA_PUBLISHED_UTC = "2026-03-08";
+const POLICY_ALERTS_API_SCHEMA_PUBLISHED_UTC = "2026-07-16";
+const POLICY_ALERTS_TRUST_MODEL = "review_gated_change_claims_v1";
+const REVIEWED_CHANGE_STATUSES = new Set(["reviewed_no_rule_change", "rulebook_updated"]);
+const DISMISSED_CHANGE_STATUS = "dismissed_false_signal";
 
 function send(res, statusCode, payload) {
   res.statusCode = statusCode;
@@ -160,6 +163,151 @@ export function applyPolicyEventReviews(alerts = [], eventReviews = []) {
       };
     }),
   }));
+}
+
+function normalizeReviewStatus(value = "") {
+  return String(value || "unreviewed").trim().toLowerCase() || "unreviewed";
+}
+
+function withoutDismissedPolicyCounts(byPolicy = {}, dismissedDetails = []) {
+  const next = byPolicy && typeof byPolicy === "object" ? { ...byPolicy } : {};
+  for (const detail of dismissedDetails) {
+    const policy = String(detail?.policy || "").trim();
+    if (!policy || !(policy in next)) continue;
+    next[policy] = Math.max(0, toNumber(next[policy], 0) - 1);
+  }
+  return next;
+}
+
+function withoutDismissedSamples(changedSample = [], dismissedDetails = []) {
+  const dismissedKeys = new Set(
+    dismissedDetails.map((detail) => String(detail?.key || "").trim()).filter(Boolean)
+  );
+  return (Array.isArray(changedSample) ? changedSample : []).filter(
+    (entry) => !dismissedKeys.has(String(entry || "").trim())
+  );
+}
+
+export function reconcilePolicyAlertTrust(alert = {}) {
+  const details = normalizeSampleDetails(alert?.sample_details);
+  const storedChangedCount = Math.max(0, toNumber(alert?.changed_count, 0));
+  const priorDetectedCount = Math.max(0, toNumber(alert?.detected_changed_count, storedChangedCount));
+  const detectedChangedCount = Math.max(priorDetectedCount, details.length);
+
+  if (detectedChangedCount === 0) {
+    return {
+      ...alert,
+      sample_details: details,
+      detected_changed_count: 0,
+      confirmed_changed_count: 0,
+      unresolved_changed_count: 0,
+      dismissed_signal_count: 0,
+      review_coverage_complete: true,
+      change_review_state: "not_applicable",
+    };
+  }
+
+  const reviewedDetails = [];
+  const unresolvedDetails = [];
+  const dismissedDetails = [];
+  for (const detail of details) {
+    const reviewStatus = normalizeReviewStatus(detail?.review_status);
+    if (REVIEWED_CHANGE_STATUSES.has(reviewStatus)) {
+      reviewedDetails.push(detail);
+    } else if (reviewStatus === DISMISSED_CHANGE_STATUS) {
+      dismissedDetails.push(detail);
+    } else {
+      unresolvedDetails.push(detail);
+    }
+  }
+
+  const missingReviewCount = Math.max(0, detectedChangedCount - details.length);
+  const unresolvedChangedCount = unresolvedDetails.length + missingReviewCount;
+  const dismissedSignalCount = dismissedDetails.length;
+  const activeChangedCount = Math.max(0, detectedChangedCount - dismissedSignalCount);
+  const confirmedChangedCount = reviewedDetails.length;
+  const originalStrictEligible = alert?.strict_eligible === true;
+  const originalStatus = String(alert?.status || "").trim().toLowerCase();
+  const originalState = String(alert?.state || "").trim().toLowerCase();
+  const originalChangeReviewState = String(alert?.change_review_state || "").trim().toLowerCase();
+  const heldOnlyForEventReview = originalChangeReviewState === "review_required";
+  const base = {
+    ...alert,
+    changed_count: activeChangedCount,
+    dedupe_changed_count: activeChangedCount,
+    reported_changed_count: activeChangedCount,
+    detected_changed_count: detectedChangedCount,
+    confirmed_changed_count: confirmedChangedCount,
+    unresolved_changed_count: unresolvedChangedCount,
+    dismissed_signal_count: dismissedSignalCount,
+    review_coverage_complete: missingReviewCount === 0,
+    detected_changed_sample: Array.isArray(alert?.detected_changed_sample)
+      ? alert.detected_changed_sample
+      : Array.isArray(alert?.changed_sample)
+        ? alert.changed_sample
+        : [],
+    changed_sample: withoutDismissedSamples(alert?.changed_sample, dismissedDetails),
+    detected_by_policy: alert?.detected_by_policy && typeof alert.detected_by_policy === "object"
+      ? alert.detected_by_policy
+      : alert?.by_policy && typeof alert.by_policy === "object"
+        ? { ...alert.by_policy }
+        : {},
+    by_policy: withoutDismissedPolicyCounts(alert?.by_policy, dismissedDetails),
+    sample_details: details,
+  };
+
+  if (unresolvedChangedCount > 0) {
+    return {
+      ...base,
+      strict_eligible: false,
+      signal_confidence: "manual-review",
+      signal_confidence_reason: `${unresolvedChangedCount} of ${detectedChangedCount} detected change signal(s) require human review.`,
+      status: "review",
+      state: "needs_review",
+      rulebook_status: "unchanged_pending_human_review",
+      decision_rule_impact: "not_auto_applied",
+      change_review_state: "review_required",
+    };
+  }
+
+  if (activeChangedCount === 0 && dismissedSignalCount > 0) {
+    const qualityHeld = !heldOnlyForEventReview && (
+      !originalStrictEligible || originalStatus === "review" || originalState === "needs_review"
+    );
+    return {
+      ...base,
+      strict_eligible: !qualityHeld,
+      signal_confidence: qualityHeld ? "manual-review" : "high-confidence",
+      signal_confidence_reason: qualityHeld
+        ? String(alert?.signal_confidence_reason || "Daily source quality remains under review.")
+        : `All ${dismissedSignalCount} detected signal(s) were dismissed after human review.`,
+      status: qualityHeld ? "review" : "confirmed",
+      state: qualityHeld ? "needs_review" : "verified",
+      rulebook_status: "unchanged_no_confirmed_change",
+      decision_rule_impact: "not_auto_applied",
+      change_review_state: "dismissed_false_signal",
+    };
+  }
+
+  const rulebookUpdated = reviewedDetails.some((detail) =>
+    normalizeReviewStatus(detail?.review_status) === "rulebook_updated" || detail?.rulebook_updated === true
+  );
+  const reviewedResult = {
+    ...base,
+    signal_confidence_reason: `${confirmedChangedCount} detected change signal(s) were adjudicated; ${dismissedSignalCount} dismissed.`,
+    rulebook_status: rulebookUpdated ? "rulebook_updated_after_review" : "unchanged_reviewed_no_rule_change",
+    decision_rule_impact: "not_auto_applied",
+    change_review_state: "reviewed",
+  };
+  if (!heldOnlyForEventReview) return reviewedResult;
+
+  return {
+    ...reviewedResult,
+    strict_eligible: true,
+    signal_confidence: "high-confidence",
+    status: "confirmed",
+    state: "verified",
+  };
 }
 
 function resolveRulebookStatus(value, changedCount) {
@@ -318,6 +466,7 @@ function buildSuccessPayload({
     ok: true,
     schema_version: POLICY_ALERTS_API_SCHEMA_VERSION,
     schema_published_on_utc: POLICY_ALERTS_API_SCHEMA_PUBLISHED_UTC,
+    trust_model: POLICY_ALERTS_TRUST_MODEL,
     source,
     state,
     limit,
@@ -353,27 +502,42 @@ function filterByIncludeZero(alerts = [], includeZero = true) {
   return alerts.filter((entry) => toNumber(entry?.changed_count, 0) > 0);
 }
 
+function filterByState(alerts = [], state = "confirmed") {
+  if (state === "all") return [...alerts];
+  if (state === "review") {
+    return alerts.filter((entry) =>
+      entry?.strict_eligible === false ||
+      String(entry?.status || "").trim().toLowerCase() === "review" ||
+      String(entry?.state || "").trim().toLowerCase() === "needs_review"
+    );
+  }
+  return alerts.filter((entry) =>
+    entry?.strict_eligible === true &&
+    String(entry?.status || "").trim().toLowerCase() !== "review" &&
+    String(entry?.state || "").trim().toLowerCase() !== "needs_review"
+  );
+}
+
+function mergeAlertsByIdentity(...alertGroups) {
+  const merged = new Map();
+  for (const alert of alertGroups.flat()) {
+    const key = [alert?.date_utc, alert?.run_id, alert?.generated_at_utc].map((value) => String(value || "")).join(":");
+    if (!merged.has(key)) merged.set(key, alert);
+  }
+  return [...merged.values()];
+}
+
 function loadAlertsFromFiles({ state = "confirmed", dateFrom = "", dateTo = "", limit = 20, includeZero = true } = {}) {
   const strictFeed = readJson(STRICT_FEED_PATH, { alerts: [] });
   const reviewFeed = readJson(REVIEW_FEED_PATH, { alerts: [] });
   const strictAlerts = Array.isArray(strictFeed?.alerts)
-    ? strictFeed.alerts.map((entry) => toAlertObjectFromFeedEntry(entry, "confirmed"))
+    ? strictFeed.alerts.map((entry) => reconcilePolicyAlertTrust(toAlertObjectFromFeedEntry(entry, "confirmed")))
     : [];
   const reviewAlerts = Array.isArray(reviewFeed?.alerts)
-    ? reviewFeed.alerts.map((entry) => toAlertObjectFromFeedEntry(entry, "review"))
+    ? reviewFeed.alerts.map((entry) => reconcilePolicyAlertTrust(toAlertObjectFromFeedEntry(entry, "review")))
     : [];
 
-  let alerts = [];
-  if (state === "review") {
-    alerts = reviewAlerts.filter(
-      (entry) =>
-        String(entry?.status || "").toLowerCase() === "review" || String(entry?.state || "").toLowerCase() === "needs_review"
-    );
-  } else if (state === "all") {
-    alerts = reviewAlerts.length > 0 ? reviewAlerts : strictAlerts;
-  } else {
-    alerts = strictAlerts;
-  }
+  const alerts = filterByState(mergeAlertsByIdentity(reviewAlerts, strictAlerts), state);
 
   const dateFiltered = filterByDateRange(alerts, dateFrom, dateTo);
   const includeZeroFiltered = filterByIncludeZero(dateFiltered, includeZero);
@@ -391,17 +555,8 @@ async function loadAlertsFromSupabase({
   const params = {
     select: "*",
     order: "date_utc.desc",
-    limit,
+    limit: state === "all" && includeZero ? limit : Math.min(500, Math.max(limit * 8, 160)),
   };
-
-  if (state === "review") {
-    params.strict_eligible = "eq.false";
-  } else if (state === "confirmed") {
-    params.strict_eligible = "eq.true";
-    if (!includeZero) {
-      params.changed_count = "gt.0";
-    }
-  }
 
   if (dateFrom && dateTo) {
     params.and = `(date_utc.gte.${dateFrom},date_utc.lte.${dateTo})`;
@@ -473,9 +628,12 @@ async function loadAlertsFromSupabase({
       reviewedAlerts = applyPolicyEventReviews(hydratedAlerts, reviews.data);
     }
   }
+  const reconciledAlerts = reviewedAlerts.map((alert) => reconcilePolicyAlertTrust(alert));
+  const stateFiltered = filterByState(reconciledAlerts, state);
+  const zeroFiltered = filterByIncludeZero(stateFiltered, includeZero);
   return {
     ok: true,
-    alerts: filterByIncludeZero(reviewedAlerts, includeZero),
+    alerts: sortAlertsNewest(zeroFiltered).slice(0, limit),
     error: "",
   };
 }

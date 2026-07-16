@@ -25,7 +25,10 @@ The source tracker and the deterministic notaries have different jobs:
 `historical_unreviewed` identifies source signals recorded before this review
 workflow launched. They remain available as audit evidence but are not mixed
 into the live `unreviewed` queue. This label does not claim that a human
-verified the underlying policy.
+verified the underlying policy. The public API therefore excludes these events
+from `state=confirmed`; query `state=review|all` to inspect them. A dismissed
+historical signal remains visible in `sample_details[]` but no longer counts as
+a policy change.
 
 ## Promote a real rule change
 

@@ -10,6 +10,7 @@ import {
   buildChangeKey,
   buildDailyAlertFromEvents,
   checkPolicySet,
+  classifyDailyAlertForPublication,
   classifyFetchFailureBlock,
   countSignalWindowChangeFlips,
   evaluateFallbackSignalTransition,
@@ -21,6 +22,7 @@ import {
   getVolatileFlipThresholdForVendor,
   isHighSignalWindowCandidate,
   isLegacyPendingCandidate,
+  isStrictDailyAlertEntry,
   LEGACY_PENDING_MODEL_ID,
   normalizeSourceUrlForComparison,
   PENDING_MODEL_ID,
@@ -284,6 +286,28 @@ function testRefundWindowsRequireDirectPolicyLanguage() {
   );
 }
 
+function testRelativeMetadataStaysStableAcrossDailyRuns() {
+  const dailyTokens = [1, 2, 3, 4].map((daysAgo) =>
+    extractSemanticTokens(
+      `Last updated ${daysAgo} days ago. Refund Request. Premium subscriptions are refundable within 7 days of the charge.`,
+      "refund"
+    )
+  );
+
+  for (const tokens of dailyTokens) {
+    assert.deepEqual(
+      tokens.filter((token) => token.startsWith("refund_window_days:")),
+      ["refund_window_days:7"],
+      "relative page metadata must not create a moving refund window"
+    );
+  }
+  assert.equal(
+    new Set(dailyTokens.map((tokens) => tokens.join("|"))).size,
+    1,
+    "daily relative metadata changes must keep the semantic signature stable"
+  );
+}
+
 function testTrialWindowsRequireDirectPolicyLanguage() {
   const tokens = extractSemanticTokens(
     "Start a 30-day free trial. Billing begins after the trial ends. Last updated 2 weeks ago.",
@@ -324,6 +348,35 @@ function testDailyAlertsPreserveReviewEvidence() {
   }]);
   assert.equal(alert.rulebook_status, "unchanged_pending_human_review");
   assert.equal(alert.decision_rule_impact, "not_auto_applied");
+}
+
+function testStrictDailyFeedRequiresReviewedChangeEvidence() {
+  const unreviewedChange = buildDailyAlertFromEvents(
+    { date_utc: "2026-07-16", generated_at_utc: "2026-07-16T12:00:00Z" },
+    [{
+      event_id: "refund:linkedin_premium:hash-123",
+      emitted_at_utc: "2026-07-16T11:00:00Z",
+      policy: "refund",
+      vendor: "linkedin_premium",
+    }]
+  );
+  assert.equal(
+    isStrictDailyAlertEntry(unreviewedChange, { includeZeroChange: true }),
+    false,
+    "unreviewed change evidence must not enter the strict daily feed"
+  );
+  assert.equal(
+    isStrictDailyAlertEntry({ changed_count: 0, sample_details: [] }, { includeZeroChange: true }),
+    true,
+    "zero-change continuity rows may remain strict"
+  );
+
+  const publication = classifyDailyAlertForPublication(unreviewedChange, { includeZeroChange: true });
+  assert.equal(publication.strictEligible, false);
+  assert.equal(publication.reason, "awaiting_event_review");
+  assert.equal(publication.normalizedEntry.status, "review");
+  assert.equal(publication.normalizedEntry.state, "needs_review");
+  assert.equal(publication.normalizedEntry.change_review_state, "review_required");
 }
 
 function testBuildChangeKeyPrefersSemanticSignature() {
@@ -612,11 +665,17 @@ async function main() {
   testRefundWindowsRequireDirectPolicyLanguage();
   console.log("PASS check-policies refund windows require direct policy language");
 
+  testRelativeMetadataStaysStableAcrossDailyRuns();
+  console.log("PASS check-policies relative metadata stable across daily runs");
+
   testTrialWindowsRequireDirectPolicyLanguage();
   console.log("PASS check-policies trial windows require direct policy language");
 
   testDailyAlertsPreserveReviewEvidence();
   console.log("PASS check-policies daily alerts preserve review evidence");
+
+  testStrictDailyFeedRequiresReviewedChangeEvidence();
+  console.log("PASS check-policies strict feed requires reviewed change evidence");
 
   testBuildChangeKeyPrefersSemanticSignature();
   console.log("PASS check-policies change key prefers semantic signature");
@@ -666,7 +725,7 @@ async function main() {
   testEvaluateVendorSourceMigrationSkipsStableOrMissingSources();
   console.log("PASS check-policies source migration stable/missing");
 
-  console.log("Check-policies tests passed: 32/32");
+  console.log("Check-policies tests passed: 34/34");
 }
 
 try {
