@@ -1,0 +1,128 @@
+{
+  "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
+  "schema_version": 1,
+  "app_info": {
+    "display_name": "Decide Policy Notaries",
+    "subtitle": "Check support policies",
+    "description": "Decide Policy Notaries checks source-backed US consumer subscription policies for refunds, cancellation penalties, returns, and trial terms. It returns a deterministic verdict with the policy source and verification metadata, and fails closed to UNKNOWN when the supplied facts cannot support automation.",
+    "category": "BUSINESS"
+  },
+  "tools": {
+    "refund_eligibility": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Evaluates supplied purchase facts against versioned refund rules without modifying a subscription, account, policy, or downstream system.",
+        "open_world_justification": "Does not publish content, contact a third party, submit a form, or change publicly visible internet state.",
+        "destructive_justification": "Cannot issue a refund, cancel service, delete data, overwrite records, or perform any irreversible action."
+      }
+    },
+    "cancellation_penalty": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Computes a cancellation-policy result from supplied plan facts without changing the customer's subscription or vendor data.",
+        "open_world_justification": "Does not cancel service, message a vendor, submit external requests, or change public internet state.",
+        "destructive_justification": "Cannot terminate a subscription, assess a charge, delete data, or perform another irreversible action."
+      }
+    },
+    "return_eligibility": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Evaluates supplied purchase facts against versioned return rules without creating a return or updating any external record.",
+        "open_world_justification": "Does not submit a return, contact a merchant, post content, or alter a third-party system.",
+        "destructive_justification": "Cannot reverse a purchase, dispose of data, overwrite a record, or perform an irreversible transaction."
+      }
+    },
+    "trial_terms": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Evaluates user-observed trial-offer facts without enrolling the user, modifying an account, or changing a vendor offer.",
+        "open_world_justification": "Does not start a trial, submit payment details, contact a vendor, or publish anything externally.",
+        "destructive_justification": "Cannot begin paid service, charge a card, revoke access, delete data, or perform another irreversible action."
+      }
+    }
+  },
+  "test_cases": [
+    {
+      "description": "Check a refund that is inside a confirmed vendor window.",
+      "user_prompt": "Can an individual US Adobe customer get a refund 12 days after purchase if the qualifying conditions are confirmed?",
+      "file_attachment_urls": null,
+      "tools_triggered": "refund_eligibility",
+      "expected_output": "Returns the refund verdict and reason together with the Adobe policy source, policy version, and verification metadata.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Check the cancellation consequence for an annual plan.",
+      "user_prompt": "What cancellation penalty applies to an individual US Adobe annual subscription?",
+      "file_attachment_urls": null,
+      "tools_triggered": "cancellation_penalty",
+      "expected_output": "Returns whether cancellation is free, penalized, locked, or requires review, with the source-backed reason and policy metadata.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Check whether a recent subscription purchase can be returned.",
+      "user_prompt": "Is an individual US Adobe subscription returnable five days after purchase when its qualifying conditions are met?",
+      "file_attachment_urls": null,
+      "tools_triggered": "return_eligibility",
+      "expected_output": "Returns the return verdict and method or review reason, plus the policy source and verification metadata.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Evaluate the terms of a confirmed live trial offer.",
+      "user_prompt": "Adobe shows this individual US account a 7-day trial that requires a card and auto-converts. What are the trial terms?",
+      "file_attachment_urls": null,
+      "tools_triggered": "trial_terms",
+      "expected_output": "Returns the confirmed trial duration, card requirement, auto-conversion status, and source-backed policy metadata.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Fail closed when policy-specific facts are incomplete.",
+      "user_prompt": "Can an individual US Dropbox customer get a refund 10 days after purchase? I do not know whether any special qualifying conditions were met.",
+      "file_attachment_urls": null,
+      "tools_triggered": "refund_eligibility",
+      "expected_output": "Returns UNKNOWN or requests the missing qualifying fact instead of inventing an approval, and identifies the relevant source-backed policy context.",
+      "expected_output_url": null
+    }
+  ],
+  "negative_test_cases": [
+    {
+      "description": "Do not trigger for an instruction to mutate a subscription.",
+      "user_prompt": "Cancel my Adobe subscription now and make sure I am not charged again.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The app should not be invoked because it cannot access or modify customer subscriptions.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not trigger for shopping recommendations.",
+      "user_prompt": "Which streaming subscription is the cheapest this month?",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The app should not be invoked because price comparison and purchasing recommendations are outside its policy-check workflows.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not trigger for a private company policy that is not in the public vendor rulebook.",
+      "user_prompt": "What is my employer's internal laptop return policy?",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The app should not be invoked because it only covers supported public US consumer subscription vendors.",
+      "expected_output_url": null
+    }
+  ]
+}

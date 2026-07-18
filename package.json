@@ -17,6 +17,7 @@
     "mcp:check:local": "bash scripts/mcp-check-local.sh",
     "test:policy-mcp": "node scripts/test-policy-mcp.js",
     "test:mcp-distribution": "node scripts/test-mcp-distribution.js",
+    "test:mcp-marketplaces": "node scripts/test-mcp-marketplace-packages.js",
     "test:mcp-telemetry": "node scripts/test-mcp-telemetry.js",
     "test:mcp-adoption": "node scripts/test-mcp-adoption-report.js",
     "audit:mcp-distribution": "node scripts/check-mcp-distribution.js",

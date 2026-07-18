@@ -307,6 +307,8 @@
             <div><a href="https://policy.decide.fyi/api/mcp">policy.decide.fyi/api/mcp</a></div>
             <div class="k">Tools</div>
             <div><code>refund_eligibility</code>, <code>cancellation_penalty</code>, <code>return_eligibility</code>, <code>trial_terms</code></div>
+            <div class="k">Guide</div>
+            <div><a href="https://www.decide.fyi/resources/policy-notaries">Run the live proof and install the suite</a></div>
           </div>
         </article>
 
@@ -363,6 +365,7 @@
       </div>
 
       <div class="links">
+        <a class="pill primary" href="https://www.decide.fyi/resources/policy-notaries">Policy Notaries guide</a>
         <a class="pill" href="/.well-known/mcp/server-card.json">MCP server card</a>
         <a class="pill" href="https://github.com/decidefyi/decide">Runtime GitHub</a>
         <a class="pill" href="/.well-known/agent-card.json">Agent card</a>
@@ -384,19 +387,30 @@
           trial: "Trial",
         };
         const titleCase = labels[notary] || notary.charAt(0).toUpperCase() + notary.slice(1);
-        document.title = `${titleCase} Notary Runtime | decide.fyi`;
+        document.title = notary === "policy"
+          ? "Decide Policy Notaries | Source-backed support policy checks"
+          : `${titleCase} Notary Runtime | decide.fyi`;
 
         const mainTitle = document.getElementById("main-title");
-        if (mainTitle) mainTitle.textContent = `${titleCase} notary runtime`;
+        if (mainTitle) {
+          mainTitle.textContent = notary === "policy"
+            ? "Decide Policy Notaries"
+            : `${titleCase} notary runtime`;
+        }
 
         const mainLead = document.getElementById("main-lead");
         if (mainLead) {
-          mainLead.textContent =
-            "This Decide URL remains the stable MCP and REST runtime for policy-check reference applications.";
+          mainLead.textContent = notary === "policy"
+            ? "One public, read-only MCP server for source-backed refund, cancellation, return, and trial checks. Missing or approval-dependent facts fail closed to review."
+            : "This Decide URL remains the stable MCP and REST runtime for policy-check reference applications.";
         }
 
         const badge = document.getElementById("product-badge");
-        if (badge) badge.innerHTML = '<span class="dot"></span> Stable runtime bridge';
+        if (badge) {
+          badge.innerHTML = notary === "policy"
+            ? '<span class="dot"></span> Four-tool MCP suite'
+            : '<span class="dot"></span> Stable runtime bridge';
+        }
 
         const engineGrid = document.getElementById("engine-grid");
         const productGrid = document.getElementById("product-grid");

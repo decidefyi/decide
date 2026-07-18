@@ -76,6 +76,10 @@ function testDistributionInventoryMatchesManifest() {
   assert.equal(inventory.canonical_product.registry_name, manifest.name);
   assert.equal(inventory.canonical_product.version, manifest.version);
   assert.equal(inventory.canonical_product.endpoint, manifest.remotes[0].url);
+  assert.equal(inventory.directory_submission_profile.name, inventory.canonical_product.name);
+  assert.equal(inventory.directory_submission_profile.endpoint_url, inventory.canonical_product.endpoint);
+  assert.equal(inventory.directory_submission_profile.client_config.mcpServers["decide-policy-notaries"].url, inventory.canonical_product.endpoint);
+  assert.deepEqual(inventory.directory_submission_profile.tools, inventory.canonical_product.tools);
   const ids = inventory.directories.map((entry) => entry.id);
   assert.equal(new Set(ids).size, ids.length, "directory IDs must be unique");
 }

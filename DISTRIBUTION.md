@@ -10,6 +10,12 @@ Canonical endpoint:
 https://policy.decide.fyi/api/mcp
 ```
 
+Canonical product and install guide:
+
+```text
+https://www.decide.fyi/resources/policy-notaries
+```
+
 The four specialist endpoints remain stable compatibility surfaces. Do not
 remove or redirect them in a way that breaks existing clients.
 
@@ -18,6 +24,9 @@ remove or redirect them in a way that breaks existing clients.
 - `distribution/mcp-directories.json` is the canonical ownership ledger for
   primary registries, client-integrated catalogs, downstream aggregators, and
   monitor-only mirrors.
+- Its `directory_submission_profile` is the source of truth for directory
+  names, descriptions, links, tags, tool names, and client configuration. Do
+  not improvise separate copy in each catalog.
 - `npm run audit:mcp-distribution -- --strict` verifies the local manifest,
   production initialization, exact four-tool set, published tool metadata, and
   Official MCP Registry state.
@@ -36,10 +45,13 @@ and action when a submission, rescan, or registry release completes.
 - **Smithery canonical suite:** `decidefyi/policy-notaries` is live at
   `https://smithery.ai/servers/decidefyi/policy-notaries`. Its external release
   points to `https://policy.decide.fyi/api/mcp`; Smithery discovered the
-  well-known server card and verified the exact four-tool suite.
+  well-known server card and verified the exact four-tool suite. A managed
+  Smithery connection has also completed a source-backed refund tool call.
 - **Smithery Refund compatibility:** `refund-decide/notary` retains its usage
-  history. Preserve that qualified name and describe it as the Refund-only
-  compatibility endpoint when its descriptive metadata next changes.
+  history, but belongs to a different Smithery owner than the current
+  `decidefyi` identity. Preserve that qualified name; request ownership transfer
+  or a metadata correction before describing it as the Refund-only
+  compatibility endpoint.
 - **Official MCP Registry:** the active legacy record is
   `io.github.ndkasndakn/refund-decide@1.0.0`. Registry versions are immutable and
   cannot currently be unpublished.
@@ -49,10 +61,42 @@ and action when a submission, rescan, or registry release completes.
   material endpoint or tool-contract change.
 - **awesome-mcp-servers:** correction PR #1830 is open, mergeable, and passing
   the required Glama check. It describes the canonical suite under Support &
-  Service Management; do not open a duplicate submission.
+  Service Management. A maintainer clarification now explains that the diff
+  removes and relocates the old entry; its automated `duplicate` and
+  `missing-glama` labels are stale. Do not open another submission.
 - **Glama:** the live catalog recognizes all four policy tools and now mirrors
   the canonical `policy.decide.fyi` one-click configuration. No manual sync is
   currently needed.
+- **MCP.so:** the canonical remote is in the no-cost review queue. Its draft is
+  not public yet and still needs to be normalized against the source-controlled
+  submission profile from an authenticated MCP.so session.
+
+## Client-Integrated Expansion Wave
+
+The next acquisition layer is client-integrated distribution, not another set
+of generic MCP mirrors. Source-controlled packages are ready for:
+
+- **OpenAI plugin directory:** `chatgpt-app-submission.json` contains all four
+  tool-hint justifications, five positive review tests, and three negative
+  tests. `distribution/submissions/openai-plugin.md` records the portal fields
+  and account prerequisites.
+- **Anthropic Connectors Directory:**
+  `distribution/submissions/anthropic-connectors.md` contains the listing,
+  connection, data-handling, use-case, and reviewer-test fields. Submission
+  requires a Claude Team or Enterprise organization with directory-management
+  access.
+- **Cursor Marketplace:** `.cursor-plugin/marketplace.json` and
+  `integrations/cursor-policy-notaries/` form a complete remote-MCP plugin with
+  a safe support-policy skill. Submit the public repository after the package
+  is committed and its paths are validated.
+- **Docker MCP Catalog:**
+  `distribution/submissions/docker-mcp-registry/decide-policy-notaries/`
+  contains the required remote `server.yaml`, empty dynamic `tools.json`, and
+  documentation link. Upstream PR #4471 is open for review.
+
+Run `npm run test:mcp-marketplaces` before any marketplace submission. All
+surfaces must retain the same endpoint, tool names, fail-closed scope, and
+product links from `directory_submission_profile`.
 
 ## Release Sequence
 
@@ -65,21 +109,34 @@ and action when a submission, rescan, or registry release completes.
 4. Completed: publish **Decide Policy Notaries** at
    `decidefyi/policy-notaries` from the canonical URL. Smithery scanned the
    live endpoint and server card, discovering the exact four-tool suite.
-5. Update the existing Refund Smithery description to point to the four-tool
-   suite while preserving Refund compatibility and usage history.
+5. Request ownership transfer or a metadata correction for the existing Refund
+   Smithery page, then point its description to the four-tool suite while
+   preserving Refund compatibility and usage history. The current `decidefyi`
+   Smithery identity cannot edit that legacy qualified name.
 6. Completed: verify Glama's `decidefyi/decide` catalog page exposes the
    canonical four-tool install configuration. Claim ownership or manually sync
    only if a future material repository change does not recrawl.
 7. In progress: merge awesome-mcp-servers PR #1830, which describes all four
-   tools and moves the entry to Support & Service Management.
+   tools and moves the entry to Support & Service Management. The current diff
+   is clean, mergeable, and includes the live Glama score badge; monitor the
+   maintainer response to the stale-label clarification.
 8. Let PulseMCP and other registry aggregators ingest the Official MCP Registry
    record. Submit manually only if the canonical entry remains absent after an
    indexing window.
 9. Submitted: MCP.so accepted `https://policy.decide.fyi/api/mcp` as the one
-   canonical suite through its free queued-review path on 2026-07-18. Keep the
-   listing only if referral or install activity justifies direct maintenance.
+   canonical suite through its free queued-review path on 2026-07-18. Its page
+   is not public while queued. Normalize the draft against
+   `directory_submission_profile` before publication; do not pay to skip the
+   review queue without measured acquisition value.
 10. Let downstream mirrors refresh from those canonical sources before filing
-   individual correction requests.
+    individual correction requests.
+11. Publish the Cursor package, validate the committed repository, and submit
+    it to Cursor Marketplace review.
+12. In progress: merge Docker MCP Registry PR #4471 for the canonical remote
+    server, then verify the catalog install after publication.
+13. Use account-qualified organizations to submit the prepared OpenAI and
+    Anthropic directory packets. These are account/reviewer gates, not further
+    product-development projects.
 
 ## When To Resubmit
 
@@ -91,6 +148,9 @@ and action when a submission, rescan, or registry release completes.
   Refund listing and its history.
 - **awesome-mcp-servers / MCP.so:** correct material product identity, endpoint,
   or tool-set changes. Do not file a directory update for every code release.
+- **OpenAI / Anthropic / Cursor / Docker:** update the existing listing or
+  plugin version after a material tool-contract, scope, privacy, endpoint, or
+  reviewed-metadata change. Do not create duplicate directory identities.
 - **Glama / PulseMCP / mirrors:** first refresh the repository and Official MCP
   Registry. Escalate manually only for persistent absence, meaningful traffic,
   or harmful false claims.

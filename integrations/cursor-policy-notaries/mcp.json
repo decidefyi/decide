@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "decide-policy-notaries": {
+      "url": "https://policy.decide.fyi/api/mcp"
+    }
+  }
+}
