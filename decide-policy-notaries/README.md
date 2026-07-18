@@ -1,7 +1,8 @@
-# Decide Policy Notaries for Cursor
+# Policy Notaries for Cursor
 
-This plugin connects Cursor to the public Decide Policy Notaries MCP server and
-adds guidance for safe support-policy checks.
+Policy Notaries is a Krafthaus app powered by Decide. This plugin connects
+Cursor to the public Decide Policy Notaries MCP server and adds guidance for
+safe support-policy checks.
 
 ## Install
 
@@ -27,5 +28,6 @@ or vendor accounts.
 unsupported facts out of the request, and treats `UNKNOWN` as a manual-review
 outcome.
 
-See the live proof, supported vendors, and complete scope at
+See the Krafthaus product page at https://www.krafthaus.app/policy-notaries and
+the Decide technical documentation at
 https://www.decide.fyi/resources/policy-notaries.

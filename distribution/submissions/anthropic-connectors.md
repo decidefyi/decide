@@ -2,21 +2,23 @@
 
 ## Listing
 
-- Server name: Decide Policy Notaries
+- Server name: Policy Notaries
 - Tagline: Source-backed subscription policy checks
 - Slug: `decide-policy-notaries`
-- Description: Decide Policy Notaries gives Claude four deterministic,
-  read-only checks for supported US consumer subscription vendors: refund
-  eligibility, cancellation penalties, returns, and trial terms. Each answer
-  includes a source URL and verification metadata. Missing or approval-dependent
-  facts fail closed to `UNKNOWN` so the workflow can route to human review.
+- Description: Policy Notaries is a Krafthaus app powered by Decide. It gives
+  Claude four deterministic, read-only checks for supported US consumer
+  subscription vendors: refund eligibility, cancellation penalties, returns,
+  and trial terms. Each answer includes a source URL and verification metadata.
+  Missing or approval-dependent facts fail closed to `UNKNOWN` so the workflow
+  can route to human review.
 - Categories: Business, Productivity
-- Documentation: `https://www.decide.fyi/resources/policy-notaries`
-- Privacy policy: `https://www.decide.fyi/privacy`
-- Support contact: `support@decide.fyi`
-- Company: decide
-- Company website: `https://www.decide.fyi`
-- Icon: `https://www.decide.fyi/assets/favicon-dark-blob-48.png?v=20260216n`
+- Documentation: `https://www.krafthaus.app/policy-notaries`
+- Technical documentation: `https://www.decide.fyi/resources/policy-notaries`
+- Privacy policy: `https://www.krafthaus.app/privacy`
+- Support contact: `hello@krafthaus.app`
+- Company: Krafthaus
+- Company website: `https://www.krafthaus.app`
+- Icon: `https://www.krafthaus.app/favicon.png?v=20260316b`
 
 ## Connection
 

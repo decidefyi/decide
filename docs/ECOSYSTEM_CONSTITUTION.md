@@ -112,6 +112,10 @@ them.
 
 These demonstrate the runtime directly and may be shown in the Krafthaus
 application catalog without implying that all interface ownership is identical.
+Their stable MCP and REST compatibility surfaces remain Decide-owned. Public
+application and directory surfaces should package the combined product as
+**Policy Notaries by Krafthaus, powered by Decide** so the customer-facing app
+layer follows the same ownership model as other Krafthaus applications.
 
 ### Krafthaus applications
 

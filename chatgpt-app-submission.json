@@ -2,9 +2,9 @@
   "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
   "schema_version": 1,
   "app_info": {
-    "display_name": "Decide Policy Notaries",
+    "display_name": "Policy Notaries",
     "subtitle": "Check support policies",
-    "description": "Decide Policy Notaries checks source-backed US consumer subscription policies for refunds, cancellation penalties, returns, and trial terms. It returns a deterministic verdict with the policy source and verification metadata, and fails closed to UNKNOWN when the supplied facts cannot support automation.",
+    "description": "Policy Notaries is a Krafthaus app powered by Decide. It checks source-backed US consumer subscription policies for refunds, cancellation penalties, returns, and trial terms, returns deterministic verdicts with source and verification metadata, and fails closed to UNKNOWN when supplied facts cannot support automation.",
     "category": "BUSINESS"
   },
   "tools": {

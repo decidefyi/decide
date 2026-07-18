@@ -1,6 +1,6 @@
 ---
 name: policy-support-check
-description: Check supported US consumer subscription refund, cancellation, return, and trial policies with Decide Policy Notaries. Use for support-policy questions and integration tests, not for executing account changes.
+description: Check supported US consumer subscription refund, cancellation, return, and trial policies with Policy Notaries, a Krafthaus app powered by Decide. Use for support-policy questions and integration tests, not for executing account changes.
 ---
 
 # Policy Support Check

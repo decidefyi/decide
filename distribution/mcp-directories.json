@@ -52,9 +52,22 @@
       }
     }
   },
+  "application_submission_profile": {
+    "name": "Policy Notaries",
+    "publisher": "Krafthaus",
+    "runtime": "Decide",
+    "summary": "A Krafthaus support-policy app powered by Decide, with four deterministic, read-only, source-backed checks for refunds, cancellation penalties, returns, and trial terms.",
+    "product_url": "https://www.krafthaus.app/policy-notaries",
+    "technical_documentation_url": "https://www.decide.fyi/resources/policy-notaries",
+    "privacy_url": "https://www.krafthaus.app/privacy",
+    "terms_url": "https://www.krafthaus.app/terms",
+    "support_email": "hello@krafthaus.app",
+    "endpoint_url": "https://policy.decide.fyi/api/mcp"
+  },
   "principles": [
     "One canonical four-tool listing concentrates installs, trust, usage, and maintenance.",
     "Specialist endpoints remain compatibility surfaces, not four separate acquisition products.",
+    "Technical server registries use Decide Policy Notaries; customer-facing app marketplaces use Policy Notaries by Krafthaus, powered by Decide.",
     "Primary registries and client-integrated catalogs receive direct ownership; scraper mirrors refresh from canonical metadata.",
     "Directory counters measure discovery activity, not customers or revenue."
   ],
@@ -158,10 +171,10 @@
       "tier": 1,
       "authority": "client_integrated_catalog",
       "status": "submission_packet_ready_account_gate",
-      "identity": "Decide Policy Notaries",
+      "identity": "Policy Notaries by Krafthaus, powered by Decide",
       "url": "https://platform.openai.com/plugins",
       "observed_on_utc": "2026-07-18",
-      "observed_evidence": "The live endpoint advertises four titled tools with explicit read-only, destructive, and open-world annotations plus output schemas. chatgpt-app-submission.json contains the review copy, all four hint justifications, exactly five positive tests, and exactly three negative tests.",
+      "observed_evidence": "The live Decide endpoint advertises four titled tools with explicit read-only, destructive, and open-world annotations plus output schemas. chatgpt-app-submission.json packages the customer-facing app as Policy Notaries by Krafthaus, powered by Decide, with all four hint justifications, exactly five positive tests, and exactly three negative tests.",
       "next_action": "Validate the live server in ChatGPT Developer Mode, complete OpenAI organization verification and app permissions, then import the submission JSON and submit the plugin for review.",
       "update_policy": "Create a new plugin version for public tool-contract or reviewed metadata changes; server-only compatible fixes do not need a new directory identity."
     },
@@ -170,10 +183,10 @@
       "tier": 1,
       "authority": "client_integrated_catalog",
       "status": "submission_packet_ready_team_org_gate",
-      "identity": "Decide Policy Notaries",
+      "identity": "Policy Notaries by Krafthaus, powered by Decide",
       "url": "https://claude.ai/admin-settings/directory/submissions/new",
       "observed_on_utc": "2026-07-18",
-      "observed_evidence": "The remote connector meets the public no-auth connection shape and exposes titles plus applicable tool annotations. The source-controlled Anthropic packet includes listing, connection, use-case, data-handling, and reviewer-test copy.",
+      "observed_evidence": "The remote Decide connector meets the public no-auth connection shape and exposes titles plus applicable tool annotations. The source-controlled packet presents the customer-facing app as Policy Notaries by Krafthaus and includes listing, connection, use-case, data-handling, and reviewer-test copy.",
       "next_action": "Use a Claude Team or Enterprise organization with directory-management access to submit the remote server through the Claude.ai admin portal.",
       "update_policy": "Update the managed listing after material tool, scope, privacy, or documentation changes."
     },
@@ -185,7 +198,7 @@
       "identity": "decide-policy-notaries",
       "url": "https://cursor.com/marketplace/publish",
       "observed_on_utc": "2026-07-18",
-      "observed_evidence": "The repository now contains a Cursor marketplace manifest and a valid plugin bundle with the canonical remote MCP configuration, README, and policy-support skill.",
+      "observed_evidence": "The repository contains a Cursor marketplace manifest and valid Policy Notaries by Krafthaus plugin bundle with the canonical Decide remote MCP configuration, README, and policy-support skill.",
       "next_action": "Publish the package in the public repository, validate the committed paths, then submit the repository URL to the Cursor Marketplace review portal.",
       "update_policy": "Keep the plugin version synchronized with material MCP tool-contract or skill changes."
     },

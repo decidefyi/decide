@@ -29,7 +29,8 @@ function assertToolAnnotations(tools) {
 
 const submission = readJson("chatgpt-app-submission.json");
 assert.equal(submission.schema_version, 1);
-assert.equal(submission.app_info.display_name, "Decide Policy Notaries");
+assert.equal(submission.app_info.display_name, "Policy Notaries");
+assert.match(submission.app_info.description, /Krafthaus app powered by Decide/);
 assert.ok(submission.app_info.subtitle.length <= 30);
 assertToolAnnotations(submission.tools);
 assert.equal(submission.test_cases.length, 5);
@@ -42,6 +43,8 @@ for (const testCase of submission.negative_test_cases) {
 }
 
 const cursorMarketplace = readJson(".cursor-plugin/marketplace.json");
+assert.equal(cursorMarketplace.owner.name, "Krafthaus");
+assert.equal(cursorMarketplace.owner.email, "hello@krafthaus.app");
 assert.equal(cursorMarketplace.plugins.length, 1);
 assert.equal(cursorMarketplace.plugins[0].source, "decide-policy-notaries");
 assert.deepEqual(Object.keys(cursorMarketplace.plugins[0]), ["name", "source", "description"]);
@@ -49,7 +52,9 @@ assert.deepEqual(Object.keys(cursorMarketplace.plugins[0]), ["name", "source", "
 const cursorPluginDir = "decide-policy-notaries";
 const cursorManifest = readJson(`${cursorPluginDir}/.cursor-plugin/plugin.json`);
 assert.equal(cursorManifest.name, "decide-policy-notaries");
-assert.equal(cursorManifest.displayName, "Decide Policy Notaries");
+assert.equal(cursorManifest.displayName, "Policy Notaries");
+assert.equal(cursorManifest.author.name, "Krafthaus");
+assert.equal(cursorManifest.homepage, "https://www.krafthaus.app/policy-notaries");
 assert.equal(cursorManifest.license, "MIT");
 assert.equal(cursorManifest.logo, "assets/logo.png");
 assert.equal(cursorManifest.mcpServers, "./mcp.json");
@@ -71,7 +76,13 @@ assert.deepEqual(readJson(`${dockerDir}/tools.json`), []);
 assert.match(readFileSync(join(root, dockerDir, "readme.md"), "utf8"), /resources\/docs/);
 
 const inventory = readJson("distribution/mcp-directories.json");
+const serverManifest = readJson("server.json");
+assert.equal(serverManifest.title, "Decide Policy Notaries");
 assert.equal(inventory.directory_submission_profile.endpoint_url, endpoint);
 assert.deepEqual(inventory.directory_submission_profile.tools, expectedTools);
+assert.equal(inventory.application_submission_profile.name, "Policy Notaries");
+assert.equal(inventory.application_submission_profile.publisher, "Krafthaus");
+assert.equal(inventory.application_submission_profile.runtime, "Decide");
+assert.equal(inventory.application_submission_profile.endpoint_url, endpoint);
 
 console.log("MCP marketplace package checks passed.");
