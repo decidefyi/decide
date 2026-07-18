@@ -22,6 +22,9 @@ jobs:
       - name: Test distribution evaluator
         run: npm run test:mcp-distribution
 
+      - name: Test marketplace packages
+        run: npm run test:mcp-marketplaces
+
       - name: Check live endpoint and Official MCP Registry
         run: node scripts/check-mcp-distribution.js --strict > mcp-distribution-health.json
 

@@ -43,16 +43,23 @@ for (const testCase of submission.negative_test_cases) {
 
 const cursorMarketplace = readJson(".cursor-plugin/marketplace.json");
 assert.equal(cursorMarketplace.plugins.length, 1);
-assert.equal(cursorMarketplace.plugins[0].source, "integrations/cursor-policy-notaries");
+assert.equal(cursorMarketplace.plugins[0].source, "decide-policy-notaries");
+assert.deepEqual(Object.keys(cursorMarketplace.plugins[0]), ["name", "source", "description"]);
 
-const cursorManifest = readJson("integrations/cursor-policy-notaries/.cursor-plugin/plugin.json");
+const cursorPluginDir = "decide-policy-notaries";
+const cursorManifest = readJson(`${cursorPluginDir}/.cursor-plugin/plugin.json`);
 assert.equal(cursorManifest.name, "decide-policy-notaries");
+assert.equal(cursorManifest.displayName, "Decide Policy Notaries");
+assert.equal(cursorManifest.license, "MIT");
+assert.equal(cursorManifest.logo, "assets/logo.png");
 assert.equal(cursorManifest.mcpServers, "./mcp.json");
 assert.equal(cursorManifest.skills, "./skills/");
 
-const cursorMcp = readJson("integrations/cursor-policy-notaries/mcp.json");
+const cursorMcp = readJson(`${cursorPluginDir}/mcp.json`);
 assert.equal(cursorMcp.mcpServers["decide-policy-notaries"].url, endpoint);
-assert.ok(existsSync(join(root, "integrations/cursor-policy-notaries/skills/policy-support-check/SKILL.md")));
+assert.ok(existsSync(join(root, cursorPluginDir, "skills/policy-support-check/SKILL.md")));
+assert.ok(existsSync(join(root, cursorPluginDir, "assets/logo.png")));
+assert.ok(existsSync(join(root, cursorPluginDir, "LICENSE")));
 
 const dockerDir = "distribution/submissions/docker-mcp-registry/decide-policy-notaries";
 const dockerServer = readFileSync(join(root, dockerDir, "server.yaml"), "utf8");

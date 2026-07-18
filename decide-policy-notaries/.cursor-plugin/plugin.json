@@ -1,5 +1,6 @@
 {
   "name": "decide-policy-notaries",
+  "displayName": "Decide Policy Notaries",
   "version": "1.3.1",
   "description": "Source-backed refund, cancellation, return, and trial policy checks for support workflows.",
   "author": {
@@ -8,6 +9,7 @@
   },
   "homepage": "https://www.decide.fyi/resources/policy-notaries",
   "repository": "https://github.com/decidefyi/decide",
+  "license": "MIT",
   "keywords": [
     "mcp",
     "customer-support",
@@ -15,7 +17,7 @@
     "refunds",
     "returns"
   ],
-  "logo": "https://www.decide.fyi/assets/favicon-dark-blob-48.png?v=20260216n",
+  "logo": "assets/logo.png",
   "skills": "./skills/",
   "mcpServers": "./mcp.json"
 }

@@ -86,9 +86,9 @@ of generic MCP mirrors. Source-controlled packages are ready for:
   requires a Claude Team or Enterprise organization with directory-management
   access.
 - **Cursor Marketplace:** `.cursor-plugin/marketplace.json` and
-  `integrations/cursor-policy-notaries/` form a complete remote-MCP plugin with
-  a safe support-policy skill. Submit the public repository after the package
-  is committed and its paths are validated.
+  `decide-policy-notaries/` form a self-contained, MIT-licensed remote-MCP
+  plugin with a local icon and safe support-policy skill. Submit the public
+  repository after the package is committed and its paths are validated.
 - **Docker MCP Catalog:**
   `distribution/submissions/docker-mcp-registry/decide-policy-notaries/`
   contains the required remote `server.yaml`, empty dynamic `tools.json`, and
