@@ -63,5 +63,13 @@ jobs:
       - name: Run Policy MCP contract tests
         run: npm run test:policy-mcp
 
+      - name: Run MCP telemetry and adoption tests
+        run: |
+          npm run test:mcp-telemetry
+          npm run test:mcp-adoption
+
+      - name: Run Zendesk reference workflow tests
+        run: npm run workflow:test
+
       - name: Run public bridge regression tests
         run: npm run test:site-bridge

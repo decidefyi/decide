@@ -270,13 +270,17 @@ DECIDE_SMOKE_API_KEY='<customer-key>' npm run smoke:customer-key
 
 ---
 
-## Zendesk Workflow Orchestrators
+## Protected Zendesk Reference Workflow
 
-Use workflow endpoints when you want one request to return:
+The Zendesk routes are protected reference adapters. They return an advisory
+classification, a policy result, and a recommended Zendesk action shape, but
+they do **not** write to Zendesk, authorize execution, or create a binding
+production Decision Record. Every response sets
+`workflow_contract.execution_allowed: false`.
 
-- decision classification (`yes | no`) from `/api/decide`
-- policy result from the relevant notary endpoint
-- recommended Zendesk action + tags + private note with `request_id`
+For the production architecture, including the Rulebook v1 action boundary and
+Decision Record that must precede a downstream side effect, see
+[`docs/POLICY_MCP_SUPPORT_WORKFLOW.md`](docs/POLICY_MCP_SUPPORT_WORKFLOW.md).
 
 **Endpoints**
 
@@ -300,11 +304,22 @@ Use workflow endpoints when you want one request to return:
 }
 ```
 
+Production workflow requests require a server-to-server Bearer token:
+
+```bash
+curl -sS -X POST https://refund.decide.fyi/api/v1/workflows/zendesk/refund \
+  -H "Authorization: Bearer $WORKFLOW_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d @workflow-request.json
+```
+
 For `refund` and `return`, include `days_since_purchase` and source-specific condition evidence when requested. Cancellation may require `billing_cadence`. Trial automation requires `offer_confirmed` plus the observed duration, card requirement, and auto-conversion status. The workflow escalates instead of approving when required context is absent.
 
-### Deterministic test mode
+### Test-only fixture mode
 
-Set `decision_override` to bypass model classification during fixtures and CI:
+`decision_override` exists only for explicit local and CI tests with both
+`NODE_ENV=test` and `WORKFLOW_TEST_MODE=1`. It is rejected by deployed routes
+and must never be used as an integration mechanism.
 
 ```json
 {
@@ -321,8 +336,10 @@ Set `decision_override` to bypass model classification during fixtures and CI:
   "ticket_id": "ZD-9001",
   "decision": { "c": "yes", "request_id": "req_123" },
   "policy": { "verdict": "ALLOWED", "code": "WITHIN_WINDOW" },
+  "workflow_contract": { "production_verdict": false, "execution_allowed": false },
   "action": {
     "type": "approve_refund",
+    "execution_allowed": false,
     "zendesk_tags": ["decide", "decide_yes", "refund_allowed"]
   }
 }
@@ -467,9 +484,11 @@ it does not automatically promote page text into a verdict.
 **Added:**
 - `GET /api/compliance-export` endpoint for policy monitoring evidence export (CSV default, JSON via `?format=json`).
 - Smoke test coverage for compliance export JSON and CSV paths.
+- Private `report:mcp-adoption` operator report that separates remote-server discovery, probes, and completed Policy Notaries evaluations.
 
 **Changed:**
 - Landing pages now position Decide as the Decision API engine and frame Policy MCP Notaries as one reference application.
+- Zendesk reference routes require server-to-server authentication in production, fail closed when unconfigured, and mark all returned action shapes as non-executing.
 
 ### v1.2.1 (2026-02-08)
 

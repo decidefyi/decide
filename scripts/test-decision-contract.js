@@ -3981,21 +3981,40 @@ async function testWorkflowFixture() {
   const fixture = loadFixture("workflow-zendesk-refund.json");
   const previousProxyToken = process.env.DECIDE_PROXY_SHARED_TOKEN;
   const previousVercelEnv = process.env.VERCEL_ENV;
+  const previousWorkflowToken = process.env.WORKFLOW_API_TOKEN;
+  const previousWorkflowTestMode = process.env.WORKFLOW_TEST_MODE;
+  const previousNodeEnv = process.env.NODE_ENV;
   process.env.DECIDE_PROXY_SHARED_TOKEN = "workflow-shared-proxy-token";
   process.env.VERCEL_ENV = "production";
+  process.env.WORKFLOW_API_TOKEN = "workflow-contract-token";
+  process.env.WORKFLOW_TEST_MODE = "1";
+  process.env.NODE_ENV = "test";
 
   try {
-    const first = await invokeJson(zendeskWorkflowDispatcher, fixture.request);
+    const unauthorized = await invokeJson(zendeskWorkflowDispatcher, fixture.request);
+    assert.equal(unauthorized.statusCode, 401, "production workflow must require an authorized caller");
+    assert.equal(unauthorized.json?.error, "WORKFLOW_UNAUTHORIZED", "workflow auth error mismatch");
+
+    const request = {
+      ...fixture.request,
+      headers: {
+        ...(fixture.request.headers || {}),
+        authorization: "Bearer workflow-contract-token",
+      },
+    };
+    const first = await invokeJson(zendeskWorkflowDispatcher, request);
     assert.equal(first.statusCode, fixture.expect.statusCode, "workflow status mismatch");
     assert.equal(first.json?.ok, fixture.expect.ok, "workflow ok mismatch");
     assert.equal(first.json?.flow, fixture.expect.flow, "workflow flow mismatch");
     assert.equal(first.json?.decision?.c, fixture.expect.decision, "workflow decision mismatch");
     assert.equal(first.json?.action?.type, fixture.expect.action, "workflow action mismatch");
     assert.equal(first.json?.policy?.verdict, fixture.expect.policy_verdict, "workflow policy verdict mismatch");
+    assert.equal(first.json?.workflow_contract?.execution_allowed, false, "workflow must not authorize execution directly");
+    assert.equal(first.json?.decision?.decision_contract?.authority, "test_fixture", "workflow fixture contract mismatch");
     assertLineage(first.json, "workflow");
     assertLineage(first.json?.policy || {}, "workflow.policy");
 
-    const second = await invokeJson(zendeskWorkflowDispatcher, fixture.request);
+    const second = await invokeJson(zendeskWorkflowDispatcher, request);
     assert.equal(second.statusCode, fixture.expect.statusCode, "workflow replay status mismatch");
     assert.equal(second.json?.idempotent_replay, true, "workflow idempotent replay expected");
   } finally {
@@ -4003,6 +4022,12 @@ async function testWorkflowFixture() {
     else process.env.DECIDE_PROXY_SHARED_TOKEN = previousProxyToken;
     if (previousVercelEnv === undefined) delete process.env.VERCEL_ENV;
     else process.env.VERCEL_ENV = previousVercelEnv;
+    if (previousWorkflowToken === undefined) delete process.env.WORKFLOW_API_TOKEN;
+    else process.env.WORKFLOW_API_TOKEN = previousWorkflowToken;
+    if (previousWorkflowTestMode === undefined) delete process.env.WORKFLOW_TEST_MODE;
+    else process.env.WORKFLOW_TEST_MODE = previousWorkflowTestMode;
+    if (previousNodeEnv === undefined) delete process.env.NODE_ENV;
+    else process.env.NODE_ENV = previousNodeEnv;
   }
 }
 

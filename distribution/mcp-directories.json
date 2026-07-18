@@ -104,10 +104,12 @@
       "id": "mcp_so",
       "tier": 2,
       "authority": "manual_directory",
-      "status": "candidate_after_canonical_launch",
+      "status": "submitted_free_review_queue",
       "identity": "Decide Policy Notaries",
       "url": "https://mcp.so/",
-      "next_action": "Submit the one canonical suite after Official Registry and Smithery are live, then measure referral or install activity before maintaining it as Tier 1.",
+      "observed_on_utc": "2026-07-18",
+      "observed_evidence": "The authenticated MCP.so remote-server submission accepted https://policy.decide.fyi/api/mcp under its no-cost queued-review option and confirmed: Submission received. It is now in the review queue.",
+      "next_action": "Monitor review outcome, then measure referral or install activity before maintaining MCP.so as a higher-touch acquisition channel.",
       "update_policy": "Refresh only for a material endpoint or tool-set change."
     },
     {

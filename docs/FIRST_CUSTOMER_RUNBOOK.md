@@ -93,4 +93,4 @@ Only set `qualifying_conditions_met=true` after verifying the source-specific pu
 - Confirm plan, owner email, and expected monthly decision volume.
 - Run the keyed smoke and paste the `request_id` into the CRM/customer note.
 - Send the customer curl plus docs link: `https://www.decide.fyi/resources/docs#decision-api-runtime`.
-- For support-policy buyers, also send `https://www.decide.fyi/resources/policy-alerts` and the relevant notary URL.
+- For support-policy buyers, send the canonical four-tool remote `https://policy.decide.fyi/api/mcp`, the policy-alert feed at `https://www.decide.fyi/resources/policy-alerts`, and [`POLICY_MCP_SUPPORT_WORKFLOW.md`](POLICY_MCP_SUPPORT_WORKFLOW.md). Keep specialist notary URLs for compatibility only.

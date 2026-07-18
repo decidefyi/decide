@@ -75,8 +75,9 @@ and action when a submission, rescan, or registry release completes.
 8. Let PulseMCP and other registry aggregators ingest the Official MCP Registry
    record. Submit manually only if the canonical entry remains absent after an
    indexing window.
-9. Submit the one canonical suite to MCP.so, then keep it only if referral or
-   install activity justifies direct maintenance.
+9. Submitted: MCP.so accepted `https://policy.decide.fyi/api/mcp` as the one
+   canonical suite through its free queued-review path on 2026-07-18. Keep the
+   listing only if referral or install activity justifies direct maintenance.
 10. Let downstream mirrors refresh from those canonical sources before filing
    individual correction requests.
 
@@ -128,12 +129,24 @@ and grants deny `anon` and `authenticated`; only the server-side service role
 can write or query the table. `mcp_usage_daily` provides a tools-call-only
 rollup without storing request contents.
 
+Run the aggregate-only operator report from an environment that has the
+server-side Supabase variables:
+
+```bash
+npm run report:mcp-adoption -- --days=30
+```
+
+It separates discovery, generic probes, completed policy evaluations, and
+invalid evaluations. It emits counts only; it never writes raw caller IPs or
+tool payloads.
+
 Review after 30 days:
 
-- unique callers that completed at least one `tools/call`
-- repeat callers across multiple days
-- calls and errors by tool
-- Smithery client mix and source channel
-- documentation-to-install and install-to-call conversion
+- completed policy evaluations and review-required rate by tool
+- known repeat evaluators across multiple UTC days, when the telemetry salt is configured
+- invalid evaluations, generic probes, and client-family mix
+- directory referral and install attribution from directory/platform or website analytics
 
-Directory call counters are discovery signals, not customer or revenue proof.
+MCP telemetry does not identify referral source, paying customers, or
+docs-to-install conversion. Directory call counters are discovery signals, not
+customer or revenue proof.

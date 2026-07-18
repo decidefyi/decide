@@ -58,7 +58,103 @@ async function runCase(label, handler, reqOptions, assertFn) {
   console.log(`PASS ${label}`);
 }
 
+async function withEnvironment(overrides, work) {
+  const previous = Object.fromEntries(Object.keys(overrides).map((key) => [key, process.env[key]]));
+  for (const [key, value] of Object.entries(overrides)) {
+    if (value === undefined) delete process.env[key];
+    else process.env[key] = value;
+  }
+
+  try {
+    return await work();
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+}
+
 async function main() {
+  await withEnvironment(
+    {
+      NODE_ENV: "test",
+      WORKFLOW_TEST_MODE: "1",
+      VERCEL_ENV: undefined,
+      WORKFLOW_API_TOKEN: undefined,
+      WORKFLOW_API_AUTH_REQUIRED: undefined,
+    },
+    async () => {
+      await withEnvironment(
+        {
+          VERCEL_ENV: "production",
+          WORKFLOW_API_TOKEN: "workflow-test-token",
+          WORKFLOW_TEST_MODE: "0",
+        },
+        async () => {
+          await runCase(
+            "production workflow requires bearer token",
+            zendeskWorkflowRoute,
+            {
+              method: "POST",
+              headers: { "user-agent": "workflow-test", "content-type": "application/json" },
+              url: "/api/v1/workflows/zendesk/refund",
+              query: { workflow: "refund" },
+            },
+            ({ statusCode, json }) => {
+              expect(statusCode === 401, "expected production workflow auth failure");
+              expect(json.error === "WORKFLOW_UNAUTHORIZED", "expected WORKFLOW_UNAUTHORIZED");
+            }
+          );
+
+          await runCase(
+            "production workflow rejects decision override",
+            zendeskWorkflowRoute,
+            {
+              method: "POST",
+              headers: {
+                "user-agent": "workflow-test",
+                "content-type": "application/json",
+                authorization: "Bearer workflow-test-token",
+              },
+              body: {
+                ticket_id: "ZD-9000",
+                workflow_type: "refund",
+                vendor: "adobe",
+                days_since_purchase: 5,
+                decision_override: "yes",
+              },
+              url: "/api/v1/workflows/zendesk/refund",
+              query: { workflow: "refund" },
+            },
+            ({ statusCode, json }) => {
+              expect(statusCode === 400, "expected production decision_override rejection");
+              expect(json.error === "DECISION_OVERRIDE_TEST_ONLY", "expected test-only override error");
+            }
+          );
+        }
+      );
+
+      await withEnvironment(
+        { VERCEL_ENV: "production", WORKFLOW_API_TOKEN: undefined },
+        async () => {
+          await runCase(
+            "production workflow fails closed without configured token",
+            zendeskWorkflowRoute,
+            {
+              method: "POST",
+              headers: { "user-agent": "workflow-test", "content-type": "application/json" },
+              url: "/api/v1/workflows/zendesk/refund",
+              query: { workflow: "refund" },
+            },
+            ({ statusCode, json }) => {
+              expect(statusCode === 503, "expected production workflow configuration failure");
+              expect(json.error === "WORKFLOW_AUTH_NOT_CONFIGURED", "expected WORKFLOW_AUTH_NOT_CONFIGURED");
+            }
+          );
+        }
+      );
+
   await runCase(
     "refund workflow => approve_refund",
     zendeskWorkflowRoute,
@@ -87,6 +183,9 @@ async function main() {
       expect(json.policy?.verdict === "ALLOWED", "expected policy ALLOWED");
       expect(json.policy?.code === "WITHIN_WINDOW", "expected policy code WITHIN_WINDOW");
       expect(json.action?.type === "approve_refund", "expected action approve_refund");
+      expect(json.action?.execution_allowed === false, "expected reference action execution guard");
+      expect(json.workflow_contract?.execution_allowed === false, "expected reference workflow contract");
+      expect(json.decision?.decision_contract?.authority === "test_fixture", "expected fixture decision contract");
       expect(Array.isArray(json.action?.zendesk_tags), "expected zendesk_tags");
       expect(json.action.zendesk_tags.includes("refund_allowed"), "expected refund_allowed tag");
       expect(String(json.action?.zendesk_private_note || "").includes("request_id:"), "expected request_id in note");
@@ -272,6 +371,9 @@ async function main() {
       expect(json.decision?.c === "tie", "expected decision tie");
       expect(json.policy === null, "expected no policy call on tie");
       expect(json.action?.type === "escalate_policy_owner", "expected escalation");
+    }
+  );
+
     }
   );
 
