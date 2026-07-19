@@ -113,9 +113,9 @@
       "status": "active",
       "identity": "decidefyi/policy-notaries",
       "url": "https://smithery.ai/servers/decidefyi/policy-notaries",
-      "observed_on_utc": "2026-07-18",
-      "observed_evidence": "Smithery external release c67357b9-9851-42ad-9f1f-4852dcce80cb points to https://policy.decide.fyi/api/mcp and exposes all four policy tools. A Smithery-managed connection listed the exact four-tool contract and returned Adobe refund verdict ALLOWED / WITHIN_WINDOW with source and signed Rulebook evidence.",
-      "next_action": "Monitor installs and tools/call activity on the canonical suite. Preserve the separate refund compatibility listing and update its description when Smithery metadata editing is available.",
+      "observed_on_utc": "2026-07-19",
+      "observed_evidence": "Smithery external release a2096f0f-24e6-4c10-bd8a-2513018a84ef points to https://policy.decide.fyi/api/mcp and exposes all four policy tools. The catalog uses the canonical same-origin Decide icon and reports a 99/100 quality score. A Smithery-managed connection listed the exact four-tool contract and returned Adobe refund verdict ALLOWED / WITHIN_WINDOW with source and signed Rulebook evidence.",
+      "next_action": "Monitor installs and tools/call activity on the canonical suite. Preserve the separate refund compatibility listing and the stable public tool names; do not rename tools to dot notation solely for Smithery's remaining cosmetic score point.",
       "update_policy": "Publish a new release for endpoint or tool-contract changes; edit descriptive metadata for positioning changes."
     },
     {

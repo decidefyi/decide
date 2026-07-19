@@ -45,8 +45,11 @@ and action when a submission, rescan, or registry release completes.
 - **Smithery canonical suite:** `decidefyi/policy-notaries` is live at
   `https://smithery.ai/servers/decidefyi/policy-notaries`. Its external release
   points to `https://policy.decide.fyi/api/mcp`; Smithery discovered the
-  well-known server card and verified the exact four-tool suite. A managed
-  Smithery connection has also completed a source-backed refund tool call.
+  well-known server card and verified the exact four-tool suite. The catalog
+  uses the canonical Decide icon and reports a 99/100 quality score. The final
+  cosmetic point favors dot-separated tool names, so the stable public tool
+  contract takes precedence. A managed Smithery connection has also completed
+  a source-backed refund tool call.
 - **Smithery Refund compatibility:** `refund-decide/notary` retains its usage
   history, but belongs to a different Smithery owner than the current
   `decidefyi` identity. Preserve that qualified name; request ownership transfer

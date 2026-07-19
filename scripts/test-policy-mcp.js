@@ -705,6 +705,13 @@ function testPublishesCanonicalDiscoveryMetadata() {
   ]);
   assert.equal(serverCard.serverInfo?.name, "policy.decide.fyi");
   assert.match(serverCard.serverInfo?.description || "", /100 US subscription vendors/);
+  assert.deepEqual(serverCard.serverInfo?.icons, [
+    {
+      src: "https://policy.decide.fyi/favicon.svg",
+      mimeType: "image/svg+xml",
+      sizes: ["any"],
+    },
+  ]);
   assert.equal(agentCard.services?.[0]?.mcp_url, "https://policy.decide.fyi/api/mcp");
   assert.deepEqual(
     serverCard.tools?.map((tool) => tool.name),
