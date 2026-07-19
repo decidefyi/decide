@@ -17,9 +17,12 @@ directory traffic as customer demand.
   awesome-mcp-servers correction remains a single pending curation path.
 - The policy tracker has a strong governance boundary: it records source
   signals, while reviewed versioned rules alone change deterministic results.
-- Production telemetry proves remote traffic and completed tool evaluations,
-  but it cannot identify referral source, customer identity, paid status, or
-  installation conversion. Treat it as instrumentation, not adoption proof.
+- Production telemetry proves remote traffic and completed tool evaluations.
+  It now records declared MCP client families and conservatively attributes
+  same-caller, same-surface events when the client is unambiguous. The public
+  Policy Notaries page separately records tagged source and referrer hostname.
+  Neither path identifies customer identity, paid status, or installation
+  conversion, so treat them as instrumentation rather than adoption proof.
 
 ## Executed in this pass
 
@@ -33,6 +36,9 @@ directory traffic as customer demand.
 4. Documented the production support-policy architecture and the boundary
    between Policy Notaries, Decision Records, Krafthaus workflow apps, and
    downstream executors.
+5. Added declared MCP client attribution, conservative follow-on event
+   inference, website source/referrer attribution, and a token-gated 30-day
+   adoption snapshot in the existing operator metrics flow.
 
 ## Next 30 days: prove one repeated workflow
 
@@ -68,7 +74,9 @@ Success criteria:
 
 ### Measurement
 
-Run the private aggregate report weekly:
+Load the token-gated operator Console weekly for the 30-day adoption snapshot,
+or run the equivalent private CLI report in an environment with the server-side
+Supabase credentials:
 
 ```bash
 npm run report:mcp-adoption -- --days=30
@@ -80,6 +88,11 @@ Read it in this order:
 2. repeat known evaluators across multiple UTC days;
 3. invalid evaluations and review-required rate;
 4. directory and website attribution separately.
+
+The Console and CLI expose aggregates only. They do not return raw caller
+identifiers or request payloads. MCP client inference requires one unambiguous
+declared client for the same privacy-preserving caller and endpoint surface;
+shared or conflicting client evidence remains `other`.
 
 Do not call initialization, tool-list traffic, an IP-derived caller count, or
 a directory counter a customer.

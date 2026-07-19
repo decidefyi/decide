@@ -1,6 +1,26 @@
 import { getMetricsSnapshot } from "../lib/metrics-store.js";
 import { getAxiomMetricsSnapshot } from "../lib/metrics-axiom.js";
 import { getClientIp } from "../lib/rate-limit.js";
+import { getMcpAdoptionReport } from "../lib/mcp-adoption-store.js";
+
+const MCP_ADOPTION_CACHE_MS = 5 * 60 * 1000;
+let mcpAdoptionCache = { expiresAt: 0, report: null };
+
+async function getCachedMcpAdoptionReport() {
+  if (mcpAdoptionCache.report && Date.now() < mcpAdoptionCache.expiresAt) {
+    return mcpAdoptionCache.report;
+  }
+  const report = await getMcpAdoptionReport({ days: 30, maxRows: 10000 });
+  mcpAdoptionCache = {
+    expiresAt: Date.now() + MCP_ADOPTION_CACHE_MS,
+    report,
+  };
+  return report;
+}
+
+export function resetMcpAdoptionCacheForTests() {
+  mcpAdoptionCache = { expiresAt: 0, report: null };
+}
 
 function send(res, status, payload) {
   res.statusCode = status;
@@ -11,7 +31,7 @@ function send(res, status, payload) {
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-metrics-token");
 
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
@@ -71,9 +91,18 @@ export default async function handler(req, res) {
     });
   }
 
+  let mcpAdoption = null;
+  try {
+    mcpAdoption = await getCachedMcpAdoptionReport();
+  } catch {
+    // Runtime metrics stay available when the private Supabase report is unavailable.
+  }
+
   return send(res, 200, {
     ok: true,
     axiom_enabled: axiomEnabled,
     ...snapshot,
+    mcp_adoption_available: Boolean(mcpAdoption),
+    mcp_adoption: mcpAdoption,
   });
 }

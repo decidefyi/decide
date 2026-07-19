@@ -485,6 +485,7 @@ it does not automatically promote page text into a verdict.
 - `GET /api/compliance-export` endpoint for policy monitoring evidence export (CSV default, JSON via `?format=json`).
 - Smoke test coverage for compliance export JSON and CSV paths.
 - Private `report:mcp-adoption` operator report that separates remote-server discovery, probes, and completed Policy Notaries evaluations.
+- Token-gated Console adoption snapshot with declared MCP client attribution, conservative follow-on inference, and aggregate-only output.
 
 **Changed:**
 - Landing pages now position Decide as the Decision API engine and frame Policy MCP Notaries as one reference application.

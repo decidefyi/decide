@@ -22,7 +22,7 @@
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization, X-Hook-Token, X-Policy-Hook-Token"
+          "value": "Content-Type, Authorization, X-Hook-Token, X-Policy-Hook-Token, x-metrics-token"
         }
       ]
     },

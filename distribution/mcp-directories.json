@@ -1,6 +1,6 @@
 {
   "schema_version": "mcp_distribution_inventory_v1",
-  "reviewed_on_utc": "2026-07-18",
+  "reviewed_on_utc": "2026-07-19",
   "canonical_product": {
     "name": "Decide Policy Notaries",
     "registry_name": "io.github.decidefyi/policy-notaries",
@@ -161,9 +161,9 @@
       "status": "submitted_free_review_queue",
       "identity": "Decide Policy Notaries",
       "url": "https://mcp.so/",
-      "observed_on_utc": "2026-07-18",
-      "observed_evidence": "The authenticated MCP.so remote-server submission accepted https://policy.decide.fyi/api/mcp under its no-cost queued-review option and confirmed: Submission received. It is now in the review queue. Its preview route remains non-public while queued.",
-      "next_action": "Normalize the queued submission against directory_submission_profile before publication, then monitor the review outcome and measure referral or install activity.",
+      "observed_on_utc": "2026-07-19",
+      "observed_evidence": "The authenticated no-cost submission remains queued for review. The saved metadata persisted after reload with the Decide Policy Notaries name, canonical four-tool endpoint, Productivity category, no-auth connection, and complete four-tool description.",
+      "next_action": "Monitor the free review outcome and public route. After publication, verify the listing and compare referral-host, install-click, and MCP client activity without treating directory counters as customers.",
       "update_policy": "Refresh only for a material endpoint or tool-set change."
     },
     {
@@ -194,12 +194,12 @@
       "id": "cursor_marketplace",
       "tier": 1,
       "authority": "client_integrated_catalog",
-      "status": "plugin_package_ready_repo_publish_required",
+      "status": "submitted_review_pending",
       "identity": "decide-policy-notaries",
       "url": "https://cursor.com/marketplace/publish",
-      "observed_on_utc": "2026-07-18",
-      "observed_evidence": "The repository contains a Cursor marketplace manifest and valid Policy Notaries by Krafthaus plugin bundle with the canonical Decide remote MCP configuration, README, and policy-support skill.",
-      "next_action": "Publish the package in the public repository, validate the committed paths, then submit the repository URL to the Cursor Marketplace review portal.",
+      "observed_on_utc": "2026-07-19",
+      "observed_evidence": "The free Krafthaus publisher application was submitted with the public decidefyi/decide repository, canonical Policy Notaries endpoint, plugin manifest, MCP configuration, README, and policy-support skill. The portal confirmed the application with a Thanks for applying success page.",
+      "next_action": "Monitor the Marketplace review email or portal outcome, then verify the public install path and declared Cursor client telemetry after approval.",
       "update_policy": "Keep the plugin version synchronized with material MCP tool-contract or skill changes."
     },
     {

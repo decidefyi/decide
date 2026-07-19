@@ -38,6 +38,22 @@ function testOmitsCallerIdentityWithoutSalt() {
   assert.equal(event.caller_id, "");
 }
 
+function testPrefersDeclaredMcpClientName() {
+  const cursorEvent = buildMcpTelemetryEvent({
+    headers: { "user-agent": "undici" },
+    clientName: "Cursor",
+    method: "initialize",
+  });
+  const codexEvent = buildMcpTelemetryEvent({
+    headers: { "user-agent": "OpenAI client" },
+    clientName: "OpenAI Codex",
+    method: "initialize",
+  });
+
+  assert.equal(cursorEvent.client, "cursor");
+  assert.equal(codexEvent.client, "codex");
+}
+
 async function testPersistsMinimalTelemetryToSupabase() {
   let capturedUrl = "";
   let capturedOptions = {};
@@ -90,8 +106,10 @@ testBuildsPrivacyMinimalStableCallerTelemetry();
 console.log("PASS MCP telemetry is privacy-minimal and attributable");
 testOmitsCallerIdentityWithoutSalt();
 console.log("PASS MCP telemetry omits unstable caller identity without salt");
+testPrefersDeclaredMcpClientName();
+console.log("PASS MCP telemetry prefers declared initialize clientInfo over generic user agents");
 await testPersistsMinimalTelemetryToSupabase();
 console.log("PASS MCP telemetry persists privacy-minimal events to Supabase");
 await testSkipsSupabaseWhenDisabled();
 console.log("PASS MCP telemetry skips Supabase when disabled");
-console.log("MCP telemetry tests passed: 4/4");
+console.log("MCP telemetry tests passed: 5/5");

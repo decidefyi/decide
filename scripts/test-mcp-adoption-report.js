@@ -10,12 +10,12 @@ import {
 } from "../lib/mcp-adoption-report.js";
 
 const events = [
-  { timestamp: "2026-07-16T10:00:00.000Z", surface: "policy_mcp_request", client: "smithery", method: "initialize", result: "success" },
-  { timestamp: "2026-07-16T10:01:00.000Z", surface: "policy_mcp_request", client: "smithery", method: "tools/list", result: "success" },
+  { timestamp: "2026-07-16T10:00:00.000Z", surface: "policy_mcp_request", client: "smithery", method: "initialize", result: "success", caller_id: "caller-a" },
+  { timestamp: "2026-07-16T10:01:00.000Z", surface: "policy_mcp_request", client: "other", method: "tools/list", result: "success", caller_id: "caller-a" },
   {
     timestamp: "2026-07-16T10:02:00.000Z",
     surface: "policy_mcp_request",
-    client: "smithery",
+    client: "other",
     method: "tools/call",
     tool: "refund_eligibility",
     result: "success",
@@ -72,6 +72,11 @@ assert.equal(report.totals.completed_evaluations, 2);
 assert.equal(report.totals.invalid_evaluations, 1);
 assert.equal(report.callers.known_evaluation_callers, 2);
 assert.equal(report.callers.repeat_evaluation_callers, 0);
+assert.deepEqual(report.attribution, {
+  explicit_client_events: 3,
+  inferred_client_events: 2,
+  unattributed_client_events: 2,
+});
 assert.equal(report.tools[0].tool, "refund_eligibility");
 assert.equal(report.tools[0].calls, 2);
 assert.equal(report.tools[0].completed_evaluations, 1);
@@ -83,4 +88,15 @@ assert.equal(report.clients[0].client, "smithery");
 assert.equal(report.clients[0].completed_evaluations, 1);
 assert.equal(report.latest_event_at, "2026-07-17T10:05:00.000Z");
 console.log("PASS MCP adoption report aggregates only privacy-minimal operational fields");
-console.log("MCP adoption report tests passed: 2/2");
+
+const ambiguousReport = buildMcpAdoptionReport({
+  events: [
+    { surface: "policy_mcp_request", client: "cursor", caller_id: "shared", method: "initialize" },
+    { surface: "policy_mcp_request", client: "vscode", caller_id: "shared", method: "initialize" },
+    { surface: "policy_mcp_request", client: "other", caller_id: "shared", method: "tools/list" },
+  ],
+});
+assert.equal(ambiguousReport.clients.find((entry) => entry.client === "other")?.events, 1);
+assert.equal(ambiguousReport.attribution.inferred_client_events, 0);
+console.log("PASS MCP adoption leaves ambiguous shared-caller traffic unattributed");
+console.log("MCP adoption report tests passed: 3/3");
