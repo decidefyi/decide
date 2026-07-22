@@ -82,6 +82,8 @@ try {
   assert.equal(authorizedPayload.mcp_adoption.trend.schema_version, "mcp_adoption_trend_v1");
   assert.equal(authorizedPayload.mcp_adoption.trend.current.totals.completed_evaluations, 1);
   assert.equal(authorizedPayload.mcp_adoption.trend.previous.totals.completed_evaluations, 0);
+  assert.equal(authorizedPayload.mcp_adoption.trend.comparison.status, "baseline_pending");
+  assert.equal(authorizedPayload.mcp_adoption.trend.comparison.previous_window_observed, false);
   assert.ok(!authorizedResponse.body.includes("caller-a"));
   assert.equal(supabaseRequests, 1);
   console.log("PASS authorized metrics include an aggregate private MCP adoption report");

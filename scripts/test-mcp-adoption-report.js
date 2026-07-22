@@ -157,5 +157,26 @@ assert.deepEqual(trend.deltas, {
 });
 assert.equal(trend.current.tools[0].completed_evaluations, 2);
 assert.equal(trend.previous.tools[0].completed_evaluations, 1);
+assert.deepEqual(trend.comparison, {
+  status: "available",
+  current_window_observed: true,
+  previous_window_observed: true,
+  reason_code: "COMPLETE_WINDOWS",
+});
 console.log("PASS MCP adoption trend compares rolling windows without probes or future events");
-console.log("MCP adoption report tests passed: 4/4");
+
+const pendingTrend = buildMcpAdoptionTrend({
+  events: [
+    { timestamp: "2026-07-21T12:00:00.000Z", surface: "policy_mcp_request", method: "tools/call", tool: "refund_eligibility", result: "success", caller_id: "new-caller" },
+  ],
+  generatedAt: "2026-07-22T12:00:00.000Z",
+  days: 7,
+});
+assert.deepEqual(pendingTrend.comparison, {
+  status: "baseline_pending",
+  current_window_observed: true,
+  previous_window_observed: false,
+  reason_code: "PRIOR_WINDOW_UNOBSERVED",
+});
+console.log("PASS MCP adoption trend does not label a missing prior baseline as growth");
+console.log("MCP adoption report tests passed: 5/5");
