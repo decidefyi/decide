@@ -62,14 +62,17 @@ and action when a submission, rescan, or registry release completes.
   `io.github.decidefyi/policy-notaries@1.3.1` is active and points to the
   canonical four-tool remote. Publish another immutable version only for a
   material endpoint or tool-contract change.
-- **awesome-mcp-servers:** correction PR #1830 is open, mergeable, and passing
-  the required Glama check. It describes the canonical suite under Support &
-  Service Management. A maintainer clarification now explains that the diff
-  removes and relocates the old entry; its automated `duplicate` and
-  `missing-glama` labels are stale. Do not open another submission.
-- **Glama:** the live catalog recognizes all four policy tools and now mirrors
-  the canonical `policy.decide.fyi` one-click configuration. No manual sync is
-  currently needed.
+- **awesome-mcp-servers:** correction PR #1830 remains open in manual review.
+  It describes the canonical suite under Support & Service Management, removes
+  the old refund-only entry, and includes the required live Glama badge. GitHub
+  still shows stale `duplicate` and `missing-glama` labels, no review decision,
+  and an indeterminate merge state. The relocation clarification was posted on
+  2026-07-18; wait until after 2026-07-25 before one concise follow-up, and do
+  not open another submission.
+- **Glama:** the live catalog describes the four-tool deterministic policy
+  suite and canonical repository. Repository install metadata now points at the
+  canonical `policy.decide.fyi` server; allow the crawler to absorb the latest
+  README refresh. No duplicate listing or manual sync is currently needed.
 - **MCP.so:** the canonical remote is in the no-cost review queue. Its draft is
   not public yet and still needs to be normalized against the source-controlled
   submission profile from an authenticated MCP.so session.

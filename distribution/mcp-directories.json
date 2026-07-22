@@ -1,6 +1,6 @@
 {
   "schema_version": "mcp_distribution_inventory_v1",
-  "reviewed_on_utc": "2026-07-19",
+  "reviewed_on_utc": "2026-07-22",
   "canonical_product": {
     "name": "Decide Policy Notaries",
     "registry_name": "io.github.decidefyi/policy-notaries",
@@ -125,9 +125,9 @@
       "status": "correction_pr_open",
       "identity": "Decide Policy Notaries entry",
       "url": "https://github.com/punkpeye/awesome-mcp-servers/pull/1830",
-      "observed_on_utc": "2026-07-18",
-      "observed_evidence": "Correction PR describes the canonical four-tool suite in Support and Service Management, removes the old refund-only Finance entry, includes the required live Glama score badge, and is clean and mergeable. A maintainer clarification was posted at issuecomment-5010951656 because the automated duplicate and missing-glama labels are stale.",
-      "next_action": "Monitor PR 1830 for maintainer review or label refresh; do not open a duplicate submission.",
+      "observed_on_utc": "2026-07-22",
+      "observed_evidence": "Correction PR 1830 remains open in manual review and still describes the canonical four-tool suite in Support and Service Management while removing the old refund-only Finance entry. The required Glama score badge and canonical Glama listing are live. GitHub still shows the stale duplicate and missing-glama labels, no review decision, and an indeterminate merge state; no maintainer response has landed since the relocation clarification posted on 2026-07-18.",
+      "next_action": "Wait for maintainer manual review. If there is still no response after 2026-07-25, post one concise follow-up that links the live Glama listing and relocation clarification; do not open a duplicate submission.",
       "update_policy": "Update only for material product identity, endpoint, or tool-set changes."
     },
     {
@@ -137,8 +137,8 @@
       "status": "active_auto_discovered",
       "identity": "decidefyi/decide",
       "url": "https://glama.ai/mcp/servers/decidefyi/decide",
-      "observed_on_utc": "2026-07-17",
-      "observed_evidence": "The live catalog exposes Decide Policy Notaries, the canonical policy.decide.fyi MCP URL, all four policy tools, and the canonical one-click install configuration.",
+      "observed_on_utc": "2026-07-22",
+      "observed_evidence": "The live catalog still describes the four-tool deterministic policy suite and canonical repository, while the public page exposes the policy.decide.fyi configuration and vendor integrations. The repository metadata now installs the canonical four-tool remote; allow Glama's crawler to absorb the latest README refresh rather than creating another listing.",
       "next_action": "No manual sync is needed. Monitor after material repository or canonical endpoint changes; claim ownership only if a future crawl remains stale.",
       "update_policy": "Prefer repository and official-registry refreshes over manually maintaining duplicate descriptions."
     },
@@ -209,9 +209,9 @@
       "status": "pull_request_open",
       "identity": "decide-policy-notaries",
       "url": "https://github.com/docker/mcp-registry/pull/4471",
-      "observed_on_utc": "2026-07-18",
-      "observed_evidence": "Docker MCP Registry PR 4471 adds the required server.yaml, empty tools.json for dynamic discovery, and readme.md documentation link using the canonical streamable HTTP endpoint. The YAML parses locally and the documentation URL returns HTTP 200; Docker Desktop and Task were unavailable for a local catalog import.",
-      "next_action": "Monitor upstream review and CI, respond to requested changes, and verify the catalog install after merge.",
+      "observed_on_utc": "2026-07-22",
+      "observed_evidence": "Docker MCP Registry PR 4471 remains open with no comments, reviews, or status checks. GitHub reports review required and blocks merge pending upstream review; no corrective request is outstanding. The submitted server.yaml, dynamic-discovery tools.json, and readme.md continue to use the canonical streamable HTTP endpoint.",
+      "next_action": "Wait for upstream review, respond promptly to requested changes, and verify the catalog install after merge. Do not churn the submission while no reviewer change is requested.",
       "update_policy": "Update only when the remote URL, transport, identity, or discoverable tool contract changes."
     },
     {
