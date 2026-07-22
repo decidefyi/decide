@@ -20,6 +20,7 @@
     "test:mcp-marketplaces": "node scripts/test-mcp-marketplace-packages.js",
     "test:mcp-telemetry": "node scripts/test-mcp-telemetry.js",
     "test:mcp-adoption": "node scripts/test-mcp-adoption-report.js && node scripts/test-mcp-adoption-api.js",
+    "test:policy-funnel": "node scripts/test-policy-funnel.js",
     "audit:mcp-distribution": "node scripts/check-mcp-distribution.js",
     "report:mcp-adoption": "node scripts/report-mcp-adoption.js",
     "workflow:test": "NODE_ENV=test WORKFLOW_TEST_MODE=1 node scripts/workflow-zendesk-refund-test.js",

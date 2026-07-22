@@ -216,3 +216,25 @@ Review after 30 days:
 MCP telemetry does not identify referral source, paying customers, or
 docs-to-install conversion. Directory call counters are discovery signals, not
 customer or revenue proof.
+
+The canonical Policy Notaries guide has a separate service-only conversion
+ledger for understanding the path into that runtime. Apply
+`docs/sql/policy_funnel_supabase.sql`, then set
+`POLICY_FUNNEL_SUPABASE_ENABLED=1` in the backend environment. It records only
+allowlisted guide events, tagged source fields, selected tool/target, result
+classification, and the same salted network-group identifier used for
+directional overlap. It never stores full referrers, URLs, user agents, raw IP
+addresses, policy inputs, or MCP payloads.
+
+Read the guide funnel and MCP adoption report as adjacent evidence, not one
+conversion count:
+
+- guide views show discovery;
+- URL copies and client links show connection intent, not installs;
+- live proof results show public REST use, not MCP evaluations;
+- MCP `tools/call` results show runtime evaluation activity;
+- Krafthaus handoffs show workflow interest, not sales.
+
+The token-gated Console exposes only aggregate stages, source totals, rolling
+seven-day comparisons, and directional salted-group overlap. Raw event rows and
+caller identifiers remain service-role only.

@@ -1,6 +1,11 @@
 import { createRateLimiter, getClientIp, addRateLimitHeaders } from "../lib/rate-limit.js";
 import { persistLog } from "../lib/log.js";
 import { recordClientEvent, recordVendorRequest } from "../lib/metrics-store.js";
+import { buildPseudonymousCallerId } from "../lib/privacy-identifiers.js";
+import {
+  buildPolicyFunnelEvent,
+  persistPolicyFunnelEvent,
+} from "../lib/policy-funnel-telemetry.js";
 
 const rateLimiter = createRateLimiter(300, 60000);
 const DEFAULT_ALLOWED_HOSTS = new Set([
@@ -156,7 +161,7 @@ export default async function handler(req, res) {
     const data = {
       event_name: event,
       props,
-      ip: clientIp,
+      visitor_group: buildPseudonymousCallerId(clientIp, process.env.MCP_TELEMETRY_SALT),
       ua: String(ua).slice(0, 180),
       referrer: String(referrer).slice(0, 240),
       ts: new Date().toISOString(),
@@ -167,7 +172,19 @@ export default async function handler(req, res) {
     if (event === "vendor_request" && typeof props.vendor === "string" && props.vendor.trim()) {
       recordVendorRequest(props.vendor, Date.now());
     }
-    await persistLog("client_event", data);
+    const policyFunnelEvent = buildPolicyFunnelEvent({
+      event,
+      props,
+      clientIp,
+      salt: process.env.MCP_TELEMETRY_SALT,
+    });
+    const persistenceResults = await Promise.allSettled([
+      persistLog("client_event", data),
+      persistPolicyFunnelEvent(policyFunnelEvent),
+    ]);
+    if (persistenceResults.some((result) => result.status === "rejected")) {
+      console.error("[Client Event Persistence] One or more telemetry stores were unavailable.");
+    }
     return send(res, 200, { ok: true });
   } catch (error) {
     return send(res, 200, { ok: false, error: "TRACK_FAILED", message: String(error?.message || error) });

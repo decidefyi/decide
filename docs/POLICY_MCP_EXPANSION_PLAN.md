@@ -43,6 +43,11 @@ directory traffic as customer demand.
    metrics. Requests marked with the internal probe secret remain visible in a
    dedicated aggregate but cannot increase evaluator, tool, client, or caller
    totals.
+7. Added a durable, privacy-minimal guide conversion ledger that separates
+   guide views, connection intent, public REST proof results, and Krafthaus
+   workflow handoffs from actual MCP evaluations. The Console reports those
+   stages independently and labels salted network-group overlap as directional,
+   never as person-level attribution.
 
 ## Next 30 days: prove one repeated workflow
 
@@ -88,15 +93,23 @@ npm run report:mcp-adoption -- --days=30
 
 Read it in this order:
 
-1. completed evaluations by tool;
-2. repeat known evaluators across multiple UTC days;
-3. invalid evaluations and review-required rate;
-4. directory and website attribution separately.
+1. Policy Notaries guide views and declared source mix;
+2. connection intent and completed public REST proofs;
+3. completed MCP evaluations by tool;
+4. repeat known evaluators across multiple UTC days;
+5. workflow handoffs, invalid evaluations, and review-required rate.
 
 The Console and CLI expose aggregates only. They do not return raw caller
 identifiers or request payloads. MCP client inference requires one unambiguous
 declared client for the same privacy-preserving caller and endpoint surface;
 shared or conflicting client evidence remains `other`.
+
+Guide funnel retention is enabled separately with
+`POLICY_FUNNEL_SUPABASE_ENABLED=1` and the service-only
+`policy_funnel_events` table from `docs/sql/policy_funnel_supabase.sql`.
+Connection clicks are intent, public proof results are REST activity, and
+workflow handoffs are navigation events. None independently proves an install,
+customer, sale, or successful production rollout.
 
 Set `MCP_INTERNAL_PROBE_TOKEN` only in server-side environments and first-party
 production checks. Those checks send `X-Decide-Internal-Probe`; the server

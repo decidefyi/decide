@@ -38,8 +38,28 @@ try {
 
   let supabaseRequests = 0;
   globalThis.fetch = async (url) => {
-    assert.match(String(url), /\/rest\/v1\/mcp_usage_events/);
     supabaseRequests += 1;
+    if (String(url).includes("/rest/v1/policy_funnel_events")) {
+      return {
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify([
+          {
+            timestamp: recentEventAt,
+            event: "demo_policy_notary_view",
+            source: "google",
+            caller_id: "caller-a",
+          },
+          {
+            timestamp: recentEventAt,
+            event: "demo_policy_notary_result",
+            source: "google",
+            caller_id: "caller-a",
+          },
+        ]),
+      };
+    }
+    assert.match(String(url), /\/rest\/v1\/mcp_usage_events/);
     return {
       ok: true,
       status: 200,
@@ -84,9 +104,13 @@ try {
   assert.equal(authorizedPayload.mcp_adoption.trend.previous.totals.completed_evaluations, 0);
   assert.equal(authorizedPayload.mcp_adoption.trend.comparison.status, "baseline_pending");
   assert.equal(authorizedPayload.mcp_adoption.trend.comparison.previous_window_observed, false);
+  assert.equal(authorizedPayload.policy_funnel_available, true);
+  assert.equal(authorizedPayload.policy_funnel.trend.current.stages.guide_views.events, 1);
+  assert.equal(authorizedPayload.policy_funnel.trend.current.stages.live_proof_results.events, 1);
+  assert.equal(authorizedPayload.policy_funnel.correlation.guide_to_evaluator_groups, 1);
   assert.ok(!authorizedResponse.body.includes("caller-a"));
-  assert.equal(supabaseRequests, 1);
-  console.log("PASS authorized metrics include an aggregate private MCP adoption report");
+  assert.equal(supabaseRequests, 2);
+  console.log("PASS authorized metrics include aggregate private MCP and guide-funnel reports");
 
   const publicResponse = createResponse();
   await handler({
@@ -97,8 +121,9 @@ try {
   assert.equal(publicResponse.statusCode, 200);
   assert.equal(publicPayload.limited, true);
   assert.ok(!Object.hasOwn(publicPayload, "mcp_adoption"));
-  assert.equal(supabaseRequests, 1);
-  console.log("PASS public metrics omit MCP adoption data and do not query Supabase");
+  assert.ok(!Object.hasOwn(publicPayload, "policy_funnel"));
+  assert.equal(supabaseRequests, 2);
+  console.log("PASS public metrics omit private growth data and do not query Supabase");
 } finally {
   globalThis.fetch = originalFetch;
   for (const [key, value] of Object.entries(originalEnv)) {
@@ -108,4 +133,4 @@ try {
   resetMcpAdoptionCacheForTests();
 }
 
-console.log("MCP adoption metrics API tests passed: 2/2");
+console.log("Policy growth metrics API tests passed: 2/2");
