@@ -27,12 +27,14 @@ async function fetchJson(url, options = {}) {
 }
 
 async function rpc(method, id) {
+  const internalProbeToken = String(process.env.MCP_INTERNAL_PROBE_TOKEN || "").trim();
   return fetchJson(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json, text/event-stream",
       "MCP-Protocol-Version": "2025-11-25",
+      ...(internalProbeToken ? { "X-Decide-Internal-Probe": internalProbeToken } : {}),
     },
     body: JSON.stringify({
       jsonrpc: "2.0",

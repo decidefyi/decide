@@ -2,12 +2,17 @@
 set -euo pipefail
 
 BASE_URL="${BASE_URL:-http://localhost:3000}"
+PROBE_HEADER=()
+if [[ -n "${MCP_INTERNAL_PROBE_TOKEN:-}" ]]; then
+  PROBE_HEADER=(-H "X-Decide-Internal-Probe: ${MCP_INTERNAL_PROBE_TOKEN}")
+fi
 
 post_json() {
   local path="$1"
   local payload="$2"
   curl -sS -X POST "${BASE_URL}${path}" \
     -H "Content-Type: application/json" \
+    "${PROBE_HEADER[@]}" \
     --data-binary "$payload"
 }
 

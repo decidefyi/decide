@@ -39,6 +39,10 @@ directory traffic as customer demand.
 5. Added declared MCP client attribution, conservative follow-on event
    inference, website source/referrer attribution, and a token-gated 30-day
    adoption snapshot in the existing operator metrics flow.
+6. Separated authenticated first-party verification traffic from adoption
+   metrics. Requests marked with the internal probe secret remain visible in a
+   dedicated aggregate but cannot increase evaluator, tool, client, or caller
+   totals.
 
 ## Next 30 days: prove one repeated workflow
 
@@ -93,6 +97,12 @@ The Console and CLI expose aggregates only. They do not return raw caller
 identifiers or request payloads. MCP client inference requires one unambiguous
 declared client for the same privacy-preserving caller and endpoint surface;
 shared or conflicting client evidence remains `other`.
+
+Set `MCP_INTERNAL_PROBE_TOKEN` only in server-side environments and first-party
+production checks. Those checks send `X-Decide-Internal-Probe`; the server
+records only `traffic_class=internal_probe`, never the token. Missing,
+unconfigured, or incorrect tokens remain `external_or_unknown` and cannot opt
+third-party traffic out of adoption reporting.
 
 Do not call initialization, tool-list traffic, an IP-derived caller count, or
 a directory counter a customer.

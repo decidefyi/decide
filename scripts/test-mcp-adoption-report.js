@@ -50,6 +50,16 @@ const events = [
     code: "UNKNOWN_TOOL",
   },
   { timestamp: "2026-07-17T10:05:00.000Z", surface: "policy_mcp_request", client: "other", method: "ping", result: "success" },
+  {
+    timestamp: "2026-07-17T10:06:00.000Z",
+    surface: "policy_mcp_request",
+    client: "codex",
+    method: "tools/call",
+    tool: "refund_eligibility",
+    result: "success",
+    caller_id: "internal-caller",
+    traffic_class: "internal_probe",
+  },
 ];
 
 assert.equal(classifyMcpAdoptionEvent(events[0]), "discovery");
@@ -57,6 +67,7 @@ assert.equal(classifyMcpAdoptionEvent(events[2]), "evaluation");
 assert.equal(classifyMcpAdoptionEvent(events[3]), "invalid_evaluation");
 assert.equal(classifyMcpAdoptionEvent(events[5]), "probe");
 assert.ok(MCP_ADOPTION_EVENT_COLUMNS.includes("surface"));
+assert.ok(MCP_ADOPTION_EVENT_COLUMNS.includes("traffic_class"));
 assert.ok(POLICY_MCP_TELEMETRY_SURFACES.includes("policy_mcp_request"));
 console.log("PASS MCP adoption classifies discovery, evaluations, and probes");
 
@@ -87,6 +98,14 @@ assert.equal(report.surfaces[0].completed_evaluations, 1);
 assert.equal(report.clients[0].client, "smithery");
 assert.equal(report.clients[0].completed_evaluations, 1);
 assert.equal(report.latest_event_at, "2026-07-17T10:05:00.000Z");
+assert.deepEqual(report.internal_probes, {
+  events: 1,
+  discovery_events: 0,
+  probe_events: 0,
+  completed_evaluations: 1,
+  invalid_evaluations: 0,
+  latest_event_at: "2026-07-17T10:06:00.000Z",
+});
 console.log("PASS MCP adoption report aggregates only privacy-minimal operational fields");
 
 const ambiguousReport = buildMcpAdoptionReport({

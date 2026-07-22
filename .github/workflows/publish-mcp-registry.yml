@@ -49,6 +49,8 @@ jobs:
           git diff --exit-code -- server.json public/.well-known/mcp/server-card.json
 
       - name: Verify production is ready for publication
+        env:
+          MCP_INTERNAL_PROBE_TOKEN: ${{ secrets.MCP_INTERNAL_PROBE_TOKEN }}
         run: |
           node scripts/check-mcp-distribution.js --strict > mcp-distribution-health.json
           node - <<'NODE'

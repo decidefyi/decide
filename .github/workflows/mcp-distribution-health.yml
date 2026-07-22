@@ -26,6 +26,8 @@ jobs:
         run: npm run test:mcp-marketplaces
 
       - name: Check live endpoint and Official MCP Registry
+        env:
+          MCP_INTERNAL_PROBE_TOKEN: ${{ secrets.MCP_INTERNAL_PROBE_TOKEN }}
         run: node scripts/check-mcp-distribution.js --strict > mcp-distribution-health.json
 
       - name: Summarize

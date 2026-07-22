@@ -54,10 +54,34 @@ function testPrefersDeclaredMcpClientName() {
   assert.equal(codexEvent.client, "codex");
 }
 
+function testClassifiesOnlyAuthenticatedInternalProbes() {
+  const internalProbe = buildMcpTelemetryEvent({
+    headers: { "x-decide-internal-probe": "probe-secret" },
+    internalProbeToken: "probe-secret",
+    method: "tools/list",
+  });
+  const wrongToken = buildMcpTelemetryEvent({
+    headers: { "x-decide-internal-probe": "wrong-secret" },
+    internalProbeToken: "probe-secret",
+    method: "tools/list",
+  });
+  const unconfigured = buildMcpTelemetryEvent({
+    headers: { "x-decide-internal-probe": "probe-secret" },
+    internalProbeToken: "",
+    method: "tools/list",
+  });
+
+  assert.equal(internalProbe.traffic_class, "internal_probe");
+  assert.equal(wrongToken.traffic_class, "external_or_unknown");
+  assert.equal(unconfigured.traffic_class, "external_or_unknown");
+}
+
 async function testPersistsMinimalTelemetryToSupabase() {
   let capturedUrl = "";
   let capturedOptions = {};
   const event = buildMcpTelemetryEvent({
+    headers: { "x-decide-internal-probe": "probe-secret" },
+    internalProbeToken: "probe-secret",
     surface: "policy_mcp_request",
     method: "tools/call",
     tool: "refund_eligibility",
@@ -85,6 +109,8 @@ async function testPersistsMinimalTelemetryToSupabase() {
   const persisted = JSON.parse(capturedOptions.body);
   assert.equal(persisted.tool, "refund_eligibility");
   assert.equal(persisted.timestamp, "2026-07-15T17:30:00.000Z");
+  assert.equal(persisted.traffic_class, "internal_probe");
+  assert.ok(!capturedOptions.body.includes("probe-secret"));
   assert.ok(!Object.hasOwn(persisted, "client_ip"));
   assert.ok(!Object.hasOwn(persisted, "payload"));
 }
@@ -108,8 +134,10 @@ testOmitsCallerIdentityWithoutSalt();
 console.log("PASS MCP telemetry omits unstable caller identity without salt");
 testPrefersDeclaredMcpClientName();
 console.log("PASS MCP telemetry prefers declared initialize clientInfo over generic user agents");
+testClassifiesOnlyAuthenticatedInternalProbes();
+console.log("PASS MCP telemetry marks only authenticated internal probes");
 await testPersistsMinimalTelemetryToSupabase();
 console.log("PASS MCP telemetry persists privacy-minimal events to Supabase");
 await testSkipsSupabaseWhenDisabled();
 console.log("PASS MCP telemetry skips Supabase when disabled");
-console.log("MCP telemetry tests passed: 5/5");
+console.log("MCP telemetry tests passed: 6/6");
