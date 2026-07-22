@@ -2,7 +2,9 @@
 
 import assert from "node:assert/strict";
 
+import { createMcpHandler } from "../lib/mcp-handler.js";
 import { buildMcpTelemetryEvent, persistMcpTelemetryEvent } from "../lib/mcp-telemetry.js";
+import { createReq, createRes } from "./test-helpers/http-harness.js";
 
 function testBuildsPrivacyMinimalStableCallerTelemetry() {
   const event = buildMcpTelemetryEvent({
@@ -128,6 +130,79 @@ async function testSkipsSupabaseWhenDisabled() {
   assert.equal(called, false);
 }
 
+async function testPersistsCompletedEvaluationBeforeEndingResponse() {
+  const previousEnv = {
+    MCP_TELEMETRY_SUPABASE_ENABLED: process.env.MCP_TELEMETRY_SUPABASE_ENABLED,
+    SUPABASE_URL: process.env.SUPABASE_URL,
+    SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
+    AXIOM_DATASET: process.env.AXIOM_DATASET,
+    AXIOM_TOKEN: process.env.AXIOM_TOKEN,
+  };
+  const originalFetch = globalThis.fetch;
+  let releaseFetch = () => {};
+  let pendingHandler;
+
+  try {
+    process.env.MCP_TELEMETRY_SUPABASE_ENABLED = "1";
+    process.env.SUPABASE_URL = "https://example.supabase.co";
+    process.env.SUPABASE_SERVICE_ROLE_KEY = "test-service-key";
+    delete process.env.AXIOM_DATASET;
+    delete process.env.AXIOM_TOKEN;
+
+    let markFetchStarted;
+    const fetchStarted = new Promise((resolve) => {
+      markFetchStarted = resolve;
+    });
+    const fetchReleased = new Promise((resolve) => {
+      releaseFetch = resolve;
+    });
+    globalThis.fetch = async () => {
+      markFetchStarted();
+      await fetchReleased;
+      return { ok: true, status: 201 };
+    };
+
+    const handler = createMcpHandler({
+      compute: () => ({ verdict: "ALLOWED", code: "WITHIN_WINDOW" }),
+      tool: {
+        name: "refund_eligibility",
+        description: "Test tool",
+        inputSchema: { type: "object", properties: {}, additionalProperties: false },
+      },
+      documentationUrl: "https://decide.fyi/resources/policy-notaries",
+      serverInfo: { name: "test.decide.fyi", version: "1.0.0" },
+      instructions: "Test instructions",
+      formatTextMessage: () => "Allowed",
+    });
+    const req = createReq({
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: {
+        jsonrpc: "2.0",
+        id: "telemetry-order",
+        method: "tools/call",
+        params: { name: "refund_eligibility", arguments: {} },
+      },
+    });
+    const res = createRes();
+
+    pendingHandler = handler(req, res);
+    await fetchStarted;
+    assert.equal(res.body, "", "tools/call response ended before telemetry persistence settled");
+    releaseFetch();
+    await pendingHandler;
+    assert.match(res.body, /"verdict":"ALLOWED"/);
+  } finally {
+    releaseFetch();
+    await pendingHandler?.catch(() => {});
+    globalThis.fetch = originalFetch;
+    for (const [name, value] of Object.entries(previousEnv)) {
+      if (value === undefined) delete process.env[name];
+      else process.env[name] = value;
+    }
+  }
+}
+
 testBuildsPrivacyMinimalStableCallerTelemetry();
 console.log("PASS MCP telemetry is privacy-minimal and attributable");
 testOmitsCallerIdentityWithoutSalt();
@@ -140,4 +215,6 @@ await testPersistsMinimalTelemetryToSupabase();
 console.log("PASS MCP telemetry persists privacy-minimal events to Supabase");
 await testSkipsSupabaseWhenDisabled();
 console.log("PASS MCP telemetry skips Supabase when disabled");
-console.log("MCP telemetry tests passed: 6/6");
+await testPersistsCompletedEvaluationBeforeEndingResponse();
+console.log("PASS MCP telemetry persists completed evaluations before ending the response");
+console.log("MCP telemetry tests passed: 7/7");
