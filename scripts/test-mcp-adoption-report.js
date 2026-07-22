@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 
 import {
   buildMcpAdoptionReport,
+  buildMcpAdoptionTrend,
   classifyMcpAdoptionEvent,
   MCP_ADOPTION_EVENT_COLUMNS,
   POLICY_MCP_TELEMETRY_SURFACES,
@@ -118,4 +119,43 @@ const ambiguousReport = buildMcpAdoptionReport({
 assert.equal(ambiguousReport.clients.find((entry) => entry.client === "other")?.events, 1);
 assert.equal(ambiguousReport.attribution.inferred_client_events, 0);
 console.log("PASS MCP adoption leaves ambiguous shared-caller traffic unattributed");
-console.log("MCP adoption report tests passed: 3/3");
+
+const trend = buildMcpAdoptionTrend({
+  events: [
+    { timestamp: "2026-07-10T12:00:00.000Z", surface: "policy_mcp_request", method: "tools/call", tool: "refund_eligibility", result: "success", caller_id: "previous-caller" },
+    { timestamp: "2026-07-11T12:00:00.000Z", surface: "policy_mcp_request", method: "tools/list", result: "success", caller_id: "previous-caller" },
+    { timestamp: "2026-07-18T12:00:00.000Z", surface: "policy_mcp_request", method: "tools/call", tool: "refund_eligibility", result: "success", caller_id: "current-caller" },
+    { timestamp: "2026-07-20T12:00:00.000Z", surface: "policy_mcp_request", method: "tools/call", tool: "refund_eligibility", result: "success", caller_id: "current-caller" },
+    { timestamp: "2026-07-21T12:00:00.000Z", surface: "policy_mcp_request", method: "tools/list", result: "success", caller_id: "current-caller" },
+    { timestamp: "2026-07-21T13:00:00.000Z", surface: "policy_mcp_request", method: "tools/call", tool: "refund_eligibility", result: "success", caller_id: "internal-caller", traffic_class: "internal_probe" },
+    { timestamp: "2026-07-23T12:00:00.000Z", surface: "policy_mcp_request", method: "tools/call", tool: "refund_eligibility", result: "success", caller_id: "future-caller" },
+  ],
+  generatedAt: "2026-07-22T12:00:00.000Z",
+  days: 7,
+});
+assert.equal(trend.schema_version, "mcp_adoption_trend_v1");
+assert.deepEqual(trend.current.window, {
+  since: "2026-07-15T12:00:00.000Z",
+  until: "2026-07-22T12:00:00.000Z",
+  days: 7,
+});
+assert.deepEqual(trend.previous.window, {
+  since: "2026-07-08T12:00:00.000Z",
+  until: "2026-07-15T12:00:00.000Z",
+  days: 7,
+});
+assert.equal(trend.current.totals.completed_evaluations, 2);
+assert.equal(trend.previous.totals.completed_evaluations, 1);
+assert.equal(trend.current.callers.repeat_evaluation_callers, 1);
+assert.equal(trend.previous.callers.repeat_evaluation_callers, 0);
+assert.deepEqual(trend.deltas, {
+  completed_evaluations: 1,
+  discovery_events: 0,
+  invalid_evaluations: 0,
+  known_evaluation_callers: 0,
+  repeat_evaluation_callers: 1,
+});
+assert.equal(trend.current.tools[0].completed_evaluations, 2);
+assert.equal(trend.previous.tools[0].completed_evaluations, 1);
+console.log("PASS MCP adoption trend compares rolling windows without probes or future events");
+console.log("MCP adoption report tests passed: 4/4");

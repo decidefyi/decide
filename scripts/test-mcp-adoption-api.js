@@ -19,6 +19,7 @@ function createResponse() {
 }
 
 const originalFetch = globalThis.fetch;
+const recentEventAt = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 const originalEnv = {
   METRICS_ADMIN_TOKEN: process.env.METRICS_ADMIN_TOKEN,
   SUPABASE_URL: process.env.SUPABASE_URL,
@@ -44,7 +45,7 @@ try {
       status: 200,
       text: async () => JSON.stringify([
         {
-          timestamp: "2026-07-19T10:00:00.000Z",
+          timestamp: recentEventAt,
           surface: "policy_mcp_request",
           client: "cursor",
           caller_id: "caller-a",
@@ -52,7 +53,7 @@ try {
           result: "success",
         },
         {
-          timestamp: "2026-07-19T10:01:00.000Z",
+          timestamp: recentEventAt,
           surface: "policy_mcp_request",
           client: "other",
           caller_id: "caller-a",
@@ -78,6 +79,9 @@ try {
   assert.equal(authorizedPayload.mcp_adoption.totals.completed_evaluations, 1);
   assert.equal(authorizedPayload.mcp_adoption.clients[0].client, "cursor");
   assert.equal(authorizedPayload.mcp_adoption.attribution.inferred_client_events, 1);
+  assert.equal(authorizedPayload.mcp_adoption.trend.schema_version, "mcp_adoption_trend_v1");
+  assert.equal(authorizedPayload.mcp_adoption.trend.current.totals.completed_evaluations, 1);
+  assert.equal(authorizedPayload.mcp_adoption.trend.previous.totals.completed_evaluations, 0);
   assert.ok(!authorizedResponse.body.includes("caller-a"));
   assert.equal(supabaseRequests, 1);
   console.log("PASS authorized metrics include an aggregate private MCP adoption report");
