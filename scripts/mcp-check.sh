@@ -38,6 +38,18 @@ assert_jsonrpc_success() {
 
 echo "Checking MCP endpoints at ${BASE_URL}..."
 
+for protocol_version in 2025-11-25 2025-06-18 2025-03-26 2024-11-05; do
+  initialized="$(
+    post_json "/api/policy-mcp" \
+      "{\"jsonrpc\":\"2.0\",\"id\":\"initialize-${protocol_version}\",\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"${protocol_version}\",\"clientInfo\":{\"name\":\"decide-mcp-check\",\"version\":\"1.0.0\"}}}"
+  )"
+  assert_contains "policy MCP initialize ${protocol_version}" "$initialized" "\"protocolVersion\":\"${protocol_version}\""
+done
+
+ping="$(post_json "/api/policy-mcp" '{"jsonrpc":"2.0","id":"ping","method":"ping","params":{}}')"
+assert_contains "policy MCP ping jsonrpc" "$ping" '"jsonrpc":"2.0"'
+assert_contains "policy MCP ping result" "$ping" '"result":{}'
+
 policy_tools="$(post_json "/api/policy-mcp" '{"jsonrpc":"2.0","id":0,"method":"tools/list","params":{}}')"
 for tool_name in refund_eligibility cancellation_penalty return_eligibility trial_terms; do
   assert_contains "policy MCP tools/list" "$policy_tools" "\"name\":\"${tool_name}\""

@@ -41,6 +41,53 @@ async function testListsAllPolicyNotaryTools() {
   );
 }
 
+async function testSupportsLifecyclePingAndProtocolNegotiation() {
+  for (const protocolVersion of [
+    "2025-11-25",
+    "2025-06-18",
+    "2025-03-26",
+    "2024-11-05",
+  ]) {
+    const initialized = await invokeJson(policyMcp, {
+      method: "POST",
+      headers: { "user-agent": "policy-mcp-test" },
+      body: {
+        jsonrpc: "2.0",
+        id: `initialize-${protocolVersion}`,
+        method: "initialize",
+        params: {
+          protocolVersion,
+          clientInfo: { name: "policy-mcp-test", version: "1.0.0" },
+        },
+      },
+    });
+
+    assert.equal(initialized.statusCode, 200);
+    assert.equal(initialized.json?.result?.protocolVersion, protocolVersion);
+  }
+
+  const ping = await invokeJson(policyMcp, {
+    method: "POST",
+    headers: {
+      "user-agent": "policy-mcp-test",
+      "mcp-protocol-version": "2025-03-26",
+    },
+    body: {
+      jsonrpc: "2.0",
+      id: "ping",
+      method: "ping",
+      params: {},
+    },
+  });
+
+  assert.equal(ping.statusCode, 200);
+  assert.deepEqual(ping.json, {
+    jsonrpc: "2.0",
+    id: "ping",
+    result: {},
+  });
+}
+
 function testPublishesReadOnlyToolContracts() {
   const configs = [refundTool, cancelTool, returnTool, trialTool];
   for (const config of configs) {
@@ -793,6 +840,8 @@ async function testRoutesCanonicalPolicyHostname() {
 
 await testListsAllPolicyNotaryTools();
 console.log("PASS policy MCP lists all four notary tools");
+await testSupportsLifecyclePingAndProtocolNegotiation();
+console.log("PASS policy MCP supports lifecycle ping and published protocol versions");
 testPublishesReadOnlyToolContracts();
 console.log("PASS policy MCP publishes read-only tool contracts");
 await testCallsCancellationTool();
