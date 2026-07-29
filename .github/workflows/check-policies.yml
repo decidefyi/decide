@@ -167,9 +167,11 @@ jobs:
           tier1_total=$(extract_output_value "TIER1_TOTAL" | tr -d '[:space:]')
           tier1_fetched=$(extract_output_value "TIER1_FETCHED" | tr -d '[:space:]')
           tier1_failed=$(extract_output_value "TIER1_FAILED" | tr -d '[:space:]')
+          tier1_unique_failed=$(extract_output_value "TIER1_UNIQUE_FAILED" | tr -d '[:space:]')
           tier1_coverage_pct=$(extract_output_value "TIER1_COVERAGE_PCT")
           tier1_by_policy=$(extract_output_value "TIER1_BY_POLICY")
           tier1_failed_sample=$(extract_output_value "TIER1_FAILED_SAMPLE")
+          tier1_unique_failed_sample=$(extract_output_value "TIER1_UNIQUE_FAILED_SAMPLE")
           tier1_missing_configured_count=$(extract_output_value "TIER1_MISSING_CONFIGURED_COUNT" | tr -d '[:space:]')
           tier1_missing_configured_sample=$(extract_output_value "TIER1_MISSING_CONFIGURED_SAMPLE")
           unique_vendor_total=$(extract_output_value "UNIQUE_VENDOR_TOTAL" | tr -d '[:space:]')
@@ -224,6 +226,7 @@ jobs:
           if [ -z "$tier1_total" ]; then tier1_total=0; fi
           if [ -z "$tier1_fetched" ]; then tier1_fetched=0; fi
           if [ -z "$tier1_failed" ]; then tier1_failed=0; fi
+          if [ -z "$tier1_unique_failed" ]; then tier1_unique_failed=$tier1_failed; fi
           if [ -z "$tier1_coverage_pct" ]; then tier1_coverage_pct=0.00; fi
           if [ -z "$tier1_missing_configured_count" ]; then tier1_missing_configured_count=0; fi
           if [ -z "$unique_vendor_total" ]; then unique_vendor_total=0; fi
@@ -326,9 +329,11 @@ jobs:
           echo "tier1_total=$tier1_total" >> "$GITHUB_OUTPUT"
           echo "tier1_fetched=$tier1_fetched" >> "$GITHUB_OUTPUT"
           echo "tier1_failed=$tier1_failed" >> "$GITHUB_OUTPUT"
+          echo "tier1_unique_failed=$tier1_unique_failed" >> "$GITHUB_OUTPUT"
           echo "tier1_coverage_pct=$tier1_coverage_pct" >> "$GITHUB_OUTPUT"
           echo "tier1_by_policy=$tier1_by_policy" >> "$GITHUB_OUTPUT"
           echo "tier1_failed_sample=$tier1_failed_sample" >> "$GITHUB_OUTPUT"
+          echo "tier1_unique_failed_sample=$tier1_unique_failed_sample" >> "$GITHUB_OUTPUT"
           echo "tier1_missing_configured_count=$tier1_missing_configured_count" >> "$GITHUB_OUTPUT"
           echo "tier1_missing_configured_sample=$tier1_missing_configured_sample" >> "$GITHUB_OUTPUT"
           echo "unique_vendor_total=$unique_vendor_total" >> "$GITHUB_OUTPUT"
@@ -890,9 +895,11 @@ jobs:
           TIER1_TOTAL: ${{ steps.check.outputs.tier1_total }}
           TIER1_FETCHED: ${{ steps.check.outputs.tier1_fetched }}
           TIER1_FAILED: ${{ steps.check.outputs.tier1_failed }}
+          TIER1_UNIQUE_FAILED: ${{ steps.check.outputs.tier1_unique_failed }}
           TIER1_COVERAGE_PCT: ${{ steps.check.outputs.tier1_coverage_pct }}
           TIER1_BY_POLICY: ${{ steps.check.outputs.tier1_by_policy }}
           TIER1_FAILED_SAMPLE: ${{ steps.check.outputs.tier1_failed_sample }}
+          TIER1_UNIQUE_FAILED_SAMPLE: ${{ steps.check.outputs.tier1_unique_failed_sample }}
           TIER1_MISSING_CONFIGURED_COUNT: ${{ steps.check.outputs.tier1_missing_configured_count }}
           TIER1_MISSING_CONFIGURED_SAMPLE: ${{ steps.check.outputs.tier1_missing_configured_sample }}
           UNIQUE_VENDOR_TOTAL: ${{ steps.check.outputs.unique_vendor_total }}
@@ -1409,11 +1416,12 @@ jobs:
           total="${TIER1_TOTAL:-0}"
           fetched="${TIER1_FETCHED:-0}"
           failed="${TIER1_FAILED:-0}"
+          unique_failed="${TIER1_UNIQUE_FAILED:-$failed}"
           coverage="${TIER1_COVERAGE_PCT:-0.00}"
           min_coverage="${POLICY_CHECK_TIER1_MIN_COVERAGE_PCT:-95.00}"
           max_failed="${POLICY_CHECK_TIER1_MAX_FAILED:-1}"
 
-          echo "Tier-1 coverage summary: fetched=${fetched}/${total}, failed=${failed}, coverage=${coverage}%"
+          echo "Tier-1 coverage summary: fetched=${fetched}/${total}, failed checks=${failed}, distinct failed vendors=${unique_failed}, coverage=${coverage}%"
           echo "Tier-1 by policy: ${TIER1_BY_POLICY:-n/a}"
 
           if [ "${TIER1_MISSING_CONFIGURED_COUNT:-0}" -gt 0 ]; then
@@ -1432,8 +1440,8 @@ jobs:
             should_fail=1
           fi
 
-          if [ "$failed" -gt "$max_failed" ]; then
-            echo "::error::Tier-1 failed vendors ${failed} exceeds max allowed ${max_failed}. Sample: ${TIER1_FAILED_SAMPLE:-n/a}"
+          if [ "$unique_failed" -gt "$max_failed" ]; then
+            echo "::error::Tier-1 distinct failed vendors ${unique_failed} exceeds max allowed ${max_failed}. Sample: ${TIER1_UNIQUE_FAILED_SAMPLE:-n/a}"
             should_fail=1
           fi
 

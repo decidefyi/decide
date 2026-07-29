@@ -28,6 +28,7 @@ import {
   PENDING_MODEL_ID,
   resolveSourceVolatilityTier,
   semanticSignaturesStable,
+  summarizeDistinctVendorFailures,
   toZendeskHelpCenterApiTarget,
 } from "./check-policies.js";
 
@@ -55,6 +56,21 @@ function testMonitorCheckDoesNotClaimHumanVerification() {
   assert.equal(result.sources.last_checked, "2026-07-16");
   assert.equal(result.sources.last_verified_utc, "2026-03-02T06:47:25Z");
   assert.equal(result.sources.hash_profile, "policy-source-v2");
+}
+
+function testDistinctTier1FailuresCountVendorsOnceAcrossPolicies() {
+  const summary = summarizeDistinctVendorFailures([
+    { policyType: "refund", vendor: "amazon_prime" },
+    { policyType: "cancel", vendor: "amazon_prime" },
+    { policyType: "return", vendor: "amazon_prime" },
+    { policyType: "trial", vendor: "amazon_prime" },
+    { policyType: "refund", vendor: "adobe" },
+  ]);
+
+  assert.deepEqual(summary, {
+    count: 2,
+    sample: "adobe,amazon_prime",
+  });
 }
 
 async function testPolicySetWritesMonitorArtifactTimestamps() {
@@ -621,6 +637,8 @@ function testEvaluateVendorSourceMigrationSkipsStableOrMissingSources() {
 async function main() {
   testMonitorCheckDoesNotClaimHumanVerification();
   console.log("PASS check-policies machine checks preserve human verification time");
+  testDistinctTier1FailuresCountVendorsOnceAcrossPolicies();
+  console.log("PASS check-policies Tier-1 gate counts distinct vendors");
   await testPolicySetWritesMonitorArtifactTimestamps();
   console.log("PASS check-policies state artifacts use monitor timestamp");
   testImmediateBlockOnCloudflareAnd403();
@@ -725,7 +743,7 @@ async function main() {
   testEvaluateVendorSourceMigrationSkipsStableOrMissingSources();
   console.log("PASS check-policies source migration stable/missing");
 
-  console.log("Check-policies tests passed: 34/34");
+  console.log("Check-policies tests passed: 35/35");
 }
 
 try {

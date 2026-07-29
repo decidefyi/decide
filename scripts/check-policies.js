@@ -2145,6 +2145,18 @@ export function buildChangeKey(hashValue, semanticSignature) {
   return hashText;
 }
 
+export function summarizeDistinctVendorFailures(failures = []) {
+  const vendors = [...new Set(
+    failures
+      .map((item) => String(item?.vendor || "").trim())
+      .filter(Boolean)
+  )].sort();
+  return {
+    count: vendors.length,
+    sample: vendors.slice(0, 20).join(","),
+  };
+}
+
 function getCandidateChangeKey(candidate, fallback = {}) {
   const explicit =
     typeof candidate?.change_key === "string" && candidate.change_key.trim()
@@ -5781,6 +5793,7 @@ async function main() {
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
     .join(",");
+  const tier1UniqueFailures = summarizeDistinctVendorFailures(allTier1Failed);
   const tier1MissingConfiguredSample = allTier1MissingConfigured
     .slice(0, 20)
     .map((item) => `${item.policyType}:${item.vendor}`)
@@ -5933,9 +5946,11 @@ async function main() {
   console.log(`TIER1_TOTAL=${tier1Total}`);
   console.log(`TIER1_FETCHED=${tier1Fetched}`);
   console.log(`TIER1_FAILED=${tier1Failed}`);
+  console.log(`TIER1_UNIQUE_FAILED=${tier1UniqueFailures.count}`);
   console.log(`TIER1_COVERAGE_PCT=${tier1CoveragePct}`);
   console.log(`TIER1_BY_POLICY=${tier1ByPolicyValue}`);
   console.log(`TIER1_FAILED_SAMPLE=${tier1FailedSample}`);
+  console.log(`TIER1_UNIQUE_FAILED_SAMPLE=${tier1UniqueFailures.sample}`);
   console.log(`TIER1_MISSING_CONFIGURED_COUNT=${allTier1MissingConfigured.length}`);
   console.log(`TIER1_MISSING_CONFIGURED_SAMPLE=${tier1MissingConfiguredSample}`);
   console.log(`UNIQUE_VENDOR_TOTAL=${uniqueVendorTotal}`);
