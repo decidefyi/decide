@@ -1401,9 +1401,11 @@ jobs:
           TIER1_TOTAL: ${{ steps.check.outputs.tier1_total }}
           TIER1_FETCHED: ${{ steps.check.outputs.tier1_fetched }}
           TIER1_FAILED: ${{ steps.check.outputs.tier1_failed }}
+          TIER1_UNIQUE_FAILED: ${{ steps.check.outputs.tier1_unique_failed }}
           TIER1_COVERAGE_PCT: ${{ steps.check.outputs.tier1_coverage_pct }}
           TIER1_BY_POLICY: ${{ steps.check.outputs.tier1_by_policy }}
           TIER1_FAILED_SAMPLE: ${{ steps.check.outputs.tier1_failed_sample }}
+          TIER1_UNIQUE_FAILED_SAMPLE: ${{ steps.check.outputs.tier1_unique_failed_sample }}
           TIER1_MISSING_CONFIGURED_COUNT: ${{ steps.check.outputs.tier1_missing_configured_count }}
           TIER1_MISSING_CONFIGURED_SAMPLE: ${{ steps.check.outputs.tier1_missing_configured_sample }}
         run: |
