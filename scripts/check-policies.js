@@ -16,6 +16,15 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
 import { buildAlertSignature } from "./lib/policy-feed-reliability.js";
 import { getPolicySupabaseConfig, supabaseRestRequest, supabaseUpsertRows } from "../lib/policy-supabase.js";
+import {
+  buildPolicyCoverageScorecard,
+  formatPolicyCoverageScorecardMarkdown,
+} from "../lib/policy-coverage-scorecard.js";
+import { monitorPolicyVendorCandidates } from "../lib/policy-vendor-candidate-monitor.js";
+import {
+  buildPolicyVendorLifecycleReport,
+  formatPolicyVendorLifecycleMarkdown,
+} from "../lib/policy-vendor-lifecycle.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CHECKER_CONFIG = {
@@ -291,6 +300,12 @@ const POLICY_STATUS_REPORT_JSON_PATH = join(__dirname, "..", "rules", "policy-st
 const POLICY_STATUS_REPORT_MD_PATH = join(__dirname, "..", "rules", "policy-status-report.md");
 const POLICY_WEEKLY_TRIAGE_JSON_PATH = join(__dirname, "..", "rules", "policy-weekly-triage.json");
 const POLICY_WEEKLY_TRIAGE_MD_PATH = join(__dirname, "..", "rules", "policy-weekly-triage.md");
+const POLICY_VENDOR_CANDIDATES_PATH = join(__dirname, "..", "rules", "policy-vendor-candidates.json");
+const POLICY_VENDOR_CANDIDATE_STATE_PATH = join(__dirname, "..", "rules", "policy-vendor-candidate-state.json");
+const POLICY_VENDOR_LIFECYCLE_JSON_PATH = join(__dirname, "..", "rules", "policy-vendor-lifecycle.json");
+const POLICY_VENDOR_LIFECYCLE_MD_PATH = join(__dirname, "..", "rules", "policy-vendor-lifecycle.md");
+const POLICY_COVERAGE_SCORECARD_JSON_PATH = join(__dirname, "..", "rules", "policy-coverage-scorecard.json");
+const POLICY_COVERAGE_SCORECARD_MD_PATH = join(__dirname, "..", "rules", "policy-coverage-scorecard.md");
 const POLICY_COUNT_KEYS = ["refund", "cancel", "return", "trial"];
 const POLICY_SUPABASE_STATE_ARTIFACTS = [
   "rules/policy-hashes.json",
@@ -324,6 +339,7 @@ const POLICY_SUPABASE_STATE_ARTIFACTS = [
   "rules/policy-events.ndjson",
   "rules/policy-alert-feed.json",
   "rules/policy-alert-review-feed.json",
+  "rules/policy-vendor-candidate-state.json",
 ];
 
 const isUpdate = process.argv.includes("--update");
@@ -1047,6 +1063,16 @@ function writePolicyStatusReports(rows, generatedAtUtc) {
   }
 
   writeFileSync(POLICY_STATUS_REPORT_MD_PATH, lines.join("\n").trimEnd() + "\n");
+}
+
+function writePolicyVendorLifecycleReports(report) {
+  writeFileSync(POLICY_VENDOR_LIFECYCLE_JSON_PATH, JSON.stringify(report, null, 2) + "\n");
+  writeFileSync(POLICY_VENDOR_LIFECYCLE_MD_PATH, formatPolicyVendorLifecycleMarkdown(report));
+}
+
+function writePolicyCoverageScorecard(scorecard) {
+  writeFileSync(POLICY_COVERAGE_SCORECARD_JSON_PATH, JSON.stringify(scorecard, null, 2) + "\n");
+  writeFileSync(POLICY_COVERAGE_SCORECARD_MD_PATH, formatPolicyCoverageScorecardMarkdown(scorecard));
 }
 
 function toIsoWeekKey(utcIso) {
@@ -5881,6 +5907,56 @@ async function main() {
     ? ((uniqueVendorFetched / uniqueVendorTotal) * 100).toFixed(2)
     : "0.00";
   const generatedAtUtc = utcIsoTimestamp();
+  const candidateRegistry = readJson(POLICY_VENDOR_CANDIDATES_PATH, { candidates: {} });
+  const previousCandidateState = readJson(POLICY_VENDOR_CANDIDATE_STATE_PATH, {
+    schema_version: "policy_vendor_candidate_state_v1",
+    updated_utc: "",
+    candidates: {},
+  });
+  let candidateMonitorResult = {
+    state: previousCandidateState,
+    results: [],
+    observation_slot: "",
+  };
+  try {
+    candidateMonitorResult = await monitorPolicyVendorCandidates({
+      registry: candidateRegistry,
+      state: previousCandidateState,
+      now: new Date(generatedAtUtc),
+    });
+    writeFileSync(
+      POLICY_VENDOR_CANDIDATE_STATE_PATH,
+      JSON.stringify(candidateMonitorResult.state, null, 2) + "\n"
+    );
+  } catch (error) {
+    console.log(`::warning::Candidate vendor monitor failed without affecting current notaries: ${String(error?.message || error)}`);
+  }
+
+  const vendorLifecycleReport = buildPolicyVendorLifecycleReport({
+    rows: allVendorStatusRows,
+    candidateRegistry,
+    candidateState: candidateMonitorResult.state,
+    now: new Date(generatedAtUtc),
+  });
+  writePolicyVendorLifecycleReports(vendorLifecycleReport);
+  const policyCoverageScorecard = buildPolicyCoverageScorecard({
+    rulebooks: Object.fromEntries(
+      POLICY_SETS.map((policySet) => [
+        policySet.name,
+        readJson(join(__dirname, "..", "rules", policySet.rulesFile), { vendors: {} }),
+      ])
+    ),
+    sourceMaps: Object.fromEntries(
+      POLICY_SETS.map((policySet) => [
+        policySet.name,
+        readJson(policySet.sourcesPath, { vendors: {} }),
+      ])
+    ),
+    candidateRegistry,
+    lifecycleReport: vendorLifecycleReport,
+    now: new Date(generatedAtUtc),
+  });
+  writePolicyCoverageScorecard(policyCoverageScorecard);
   writePolicyStatusReports(allVendorStatusRows, generatedAtUtc);
   writeWeeklyTriageReports(allVendorStatusRows, generatedAtUtc);
   const changedDateUtc = generatedAtUtc.slice(0, 10);
@@ -5995,6 +6071,30 @@ async function main() {
   console.log(`SUPABASE_DAILY_ALERT_BACKFILLED_COUNT=${supabaseAlertSyncResult.daily_alert_backfilled_count || 0}`);
   console.log(`SUPABASE_STATE_SYNCED_COUNT=${supabaseStateSyncResult.synced_count || 0}`);
   console.log(`SUPABASE_SYNC_OK=${supabaseSyncOk ? "1" : "0"}`);
+  const candidateResults = candidateMonitorResult.results || [];
+  const candidateFetchFailures = candidateResults.filter((result) => result.status === "failure");
+  if (candidateFetchFailures.length > 0) {
+    const candidateFailureSample = candidateFetchFailures
+      .slice(0, 5)
+      .map((result) => `${result.vendor}:${result.policy}`)
+      .join(", ");
+    console.log(
+      `::warning::Candidate source failures are isolated from production notaries: ${candidateFailureSample}`
+    );
+  }
+  console.log(`CANDIDATE_OBSERVATION_SLOT=${candidateMonitorResult.observation_slot || ""}`);
+  console.log(`CANDIDATE_FETCH_COUNT=${candidateResults.filter((result) => result.fetched).length}`);
+  console.log(`CANDIDATE_FETCH_FAILURE_COUNT=${candidateFetchFailures.length}`);
+  console.log(
+    `CANDIDATE_FETCH_FAILURE_SAMPLE=${candidateFetchFailures
+      .slice(0, 20)
+      .map((result) => `${result.vendor}:${result.policy}:${result.error || "unknown"}`)
+      .join(",")}`
+  );
+  console.log(`CANDIDATES_READY_FOR_REVIEW=${vendorLifecycleReport.totals?.candidates_ready_for_review || 0}`);
+  console.log(`POLICY_TRACKED_VENDOR_COUNT=${policyCoverageScorecard.network?.tracked_vendor_count || 0}`);
+  console.log(`POLICY_ADMITTED_VENDOR_COUNT=${policyCoverageScorecard.production?.admitted_vendor_count || 0}`);
+  console.log(`POLICY_DECISION_READY_SURFACE_COUNT=${policyCoverageScorecard.production?.decision_ready_surface_count || 0}`);
   console.log("BASELINE_COMPARISON_MODE=confirmed_daily_fingerprint");
   console.log(`FETCH_FAILURE_COUNT=${allErrors.length}`);
   console.log(`FETCH_FAILURE_BY_POLICY=${fetchFailureByPolicy}`);

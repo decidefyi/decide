@@ -1,0 +1,292 @@
+{
+  "schema_version": "policy_vendor_candidates_v1",
+  "description": "Compatibility-preserving candidate pool. Candidates are monitored but cannot enter deterministic rulebooks without burn-in and human review.",
+  "targets": {
+    "tracked_vendors": 200,
+    "admitted_vendors": 150,
+    "decision_ready_surfaces": 300
+  },
+  "admission": {
+    "observation_interval_hours": 6,
+    "minimum_observations": 56,
+    "observation_window": 120,
+    "minimum_success_rate": 0.99,
+    "minimum_hash_stability_rate": 0.95,
+    "max_consecutive_failures": 0,
+    "freshness_days_by_policy": {
+      "refund": 30,
+      "cancel": 30,
+      "return": 30,
+      "trial": 7
+    }
+  },
+  "existing_vendor_overrides": {},
+  "candidates": {
+    "skillshare": {
+      "display_name": "Skillshare",
+      "cohort": "2026-07-source-qualified-01",
+      "segment": "creator_education",
+      "demand_tier": 2,
+      "source_strategy": "structured_help_center_api",
+      "allowed_hosts": [
+        "help.skillshare.com"
+      ],
+      "policies": {
+        "refund": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.skillshare.com/api/v2/help_center/en-us/articles/204536798.json",
+          "evidence_url": "https://help.skillshare.com/hc/en-us/articles/204536798-Can-I-get-a-refund-for-my-Skillshare-subscription-or-purchase",
+          "required_terms": ["refund"]
+        },
+        "cancel": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.skillshare.com/api/v2/help_center/en-us/articles/115001701651.json",
+          "evidence_url": "https://help.skillshare.com/hc/en-us/articles/115001701651-How-do-I-cancel-my-Skillshare-subscription",
+          "required_terms": ["cancel"]
+        },
+        "return": {
+          "monitor": "manual_review",
+          "review_status": "pending",
+          "reason": "Confirm that a digital-service return surface is explicitly not applicable before admission."
+        },
+        "trial": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.skillshare.com/api/v2/help_center/en-us/articles/4402806767117.json",
+          "evidence_url": "https://help.skillshare.com/hc/en-us/articles/4402806767117-How-do-Skillshare-subscriptions-pricing-and-refunds-work",
+          "required_terms": ["trial"]
+        }
+      }
+    },
+    "vimeo": {
+      "display_name": "Vimeo",
+      "cohort": "2026-07-source-qualified-01",
+      "segment": "creator_video",
+      "demand_tier": 2,
+      "source_strategy": "structured_help_center_api",
+      "allowed_hosts": [
+        "help.vimeo.com"
+      ],
+      "policies": {
+        "refund": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.vimeo.com/api/v2/help_center/en-us/articles/12425462316433.json",
+          "evidence_url": "https://help.vimeo.com/hc/en-us/articles/12425462316433-FAQ-Refunds-for-Vimeo-subscriptions",
+          "required_terms": ["refund"]
+        },
+        "cancel": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.vimeo.com/api/v2/help_center/en-us/articles/12425433330577.json",
+          "evidence_url": "https://help.vimeo.com/hc/en-us/articles/12425433330577-How-to-cancel-my-Vimeo-subscription",
+          "required_terms": ["cancel"]
+        },
+        "return": {
+          "monitor": "manual_review",
+          "review_status": "pending",
+          "reason": "Confirm that a digital-service return surface is explicitly not applicable before admission."
+        },
+        "trial": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.vimeo.com/api/v2/help_center/en-us/articles/12425433330577.json",
+          "evidence_url": "https://help.vimeo.com/hc/en-us/articles/12425433330577-How-to-cancel-my-Vimeo-subscription",
+          "required_terms": ["trial"]
+        }
+      }
+    },
+    "typeform": {
+      "display_name": "Typeform",
+      "cohort": "2026-07-source-qualified-01",
+      "segment": "b2b_saas",
+      "demand_tier": 2,
+      "source_strategy": "structured_help_center_api",
+      "allowed_hosts": [
+        "help.typeform.com"
+      ],
+      "policies": {
+        "refund": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.typeform.com/api/v2/help_center/en-us/articles/360038887692.json",
+          "evidence_url": "https://help.typeform.com/hc/en-us/articles/360038887692-What-happens-if-I-cancel-my-paid-account",
+          "required_terms": ["refund"]
+        },
+        "cancel": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.typeform.com/api/v2/help_center/en-us/articles/360060804271.json",
+          "evidence_url": "https://help.typeform.com/hc/en-us/articles/360060804271-Cancel-your-Typeform-plan",
+          "required_terms": ["cancel"]
+        },
+        "return": {
+          "monitor": "manual_review",
+          "review_status": "pending",
+          "reason": "Confirm that a digital-service return surface is explicitly not applicable before admission."
+        },
+        "trial": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.typeform.com/api/v2/help_center/en-us/articles/360034896331.json",
+          "evidence_url": "https://help.typeform.com/hc/en-us/articles/360034896331-Can-I-try-paid-features-for-free",
+          "required_terms": ["trial"]
+        }
+      }
+    },
+    "miro": {
+      "display_name": "Miro",
+      "cohort": "2026-07-source-qualified-01",
+      "segment": "b2b_saas",
+      "demand_tier": 1,
+      "source_strategy": "structured_help_center_api",
+      "allowed_hosts": [
+        "help.miro.com"
+      ],
+      "policies": {
+        "refund": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.miro.com/api/v2/help_center/en-us/articles/360017571694.json",
+          "evidence_url": "https://help.miro.com/hc/en-us/articles/360017571694-Manage-your-subscription",
+          "required_terms": ["refund"]
+        },
+        "cancel": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.miro.com/api/v2/help_center/en-us/articles/360011986179.json",
+          "evidence_url": "https://help.miro.com/hc/en-us/articles/360011986179-Cancel-your-Miro-subscription",
+          "required_terms": ["cancel"]
+        },
+        "return": {
+          "monitor": "manual_review",
+          "review_status": "pending",
+          "reason": "Confirm that a digital-service return surface is explicitly not applicable before admission."
+        },
+        "trial": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.miro.com/api/v2/help_center/en-us/articles/15392587152786.json",
+          "evidence_url": "https://help.miro.com/hc/en-us/articles/15392587152786-Business-plan-14-day-free-trial",
+          "required_terms": ["trial"]
+        }
+      }
+    },
+    "monday_com": {
+      "display_name": "monday.com",
+      "cohort": "2026-07-source-qualified-01",
+      "segment": "b2b_saas",
+      "demand_tier": 1,
+      "source_strategy": "structured_help_center_api",
+      "allowed_hosts": [
+        "support.monday.com"
+      ],
+      "policies": {
+        "refund": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://support.monday.com/api/v2/help_center/en-us/articles/115005320069.json",
+          "evidence_url": "https://support.monday.com/hc/en-us/articles/115005320069-Refund-eligibility",
+          "required_terms": ["refund"]
+        },
+        "cancel": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://support.monday.com/api/v2/help_center/en-us/articles/360018133779.json",
+          "evidence_url": "https://support.monday.com/hc/en-us/articles/360018133779-How-to-cancel-and-close-your-account",
+          "required_terms": ["cancel"]
+        },
+        "return": {
+          "monitor": "manual_review",
+          "review_status": "pending",
+          "reason": "Confirm that a digital-service return surface is explicitly not applicable before admission."
+        },
+        "trial": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://support.monday.com/api/v2/help_center/en-us/articles/360010594079.json",
+          "evidence_url": "https://support.monday.com/hc/en-us/articles/360010594079-All-about-the-monday-com-free-trial",
+          "required_terms": ["trial"]
+        }
+      }
+    },
+    "thinkific": {
+      "display_name": "Thinkific",
+      "cohort": "2026-07-source-qualified-01",
+      "segment": "creator_education",
+      "demand_tier": 2,
+      "source_strategy": "structured_help_center_api",
+      "allowed_hosts": [
+        "support.thinkific.com"
+      ],
+      "policies": {
+        "refund": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://support.thinkific.com/api/v2/help_center/en-us/articles/41582716364567.json",
+          "evidence_url": "https://support.thinkific.com/hc/en-us/articles/41582716364567-Thinkific-s-2026-Plan-Pricing-Update-What-It-Means-for-You",
+          "required_terms": ["refund"]
+        },
+        "cancel": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://support.thinkific.com/api/v2/help_center/en-us/articles/360030721453.json",
+          "evidence_url": "https://support.thinkific.com/hc/en-us/articles/360030721453-Cancel-Your-Thinkific-Subscription",
+          "required_terms": ["cancel"]
+        },
+        "return": {
+          "monitor": "manual_review",
+          "review_status": "pending",
+          "reason": "Confirm that a digital-service return surface is explicitly not applicable before admission."
+        },
+        "trial": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://support.thinkific.com/api/v2/help_center/en-us/articles/360030719433.json",
+          "evidence_url": "https://support.thinkific.com/hc/en-us/articles/360030719433-Getting-Started-with-Thinkific",
+          "required_terms": ["trial"]
+        }
+      }
+    },
+    "clickup": {
+      "display_name": "ClickUp",
+      "cohort": "2026-07-source-qualified-01",
+      "segment": "b2b_saas",
+      "demand_tier": 1,
+      "source_strategy": "structured_help_center_api",
+      "allowed_hosts": [
+        "help.clickup.com"
+      ],
+      "policies": {
+        "refund": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.clickup.com/api/v2/help_center/en-us/articles/6303244318999.json",
+          "evidence_url": "https://help.clickup.com/hc/en-us/articles/6303244318999-Pricing-per-user-role-and-plan",
+          "required_terms": ["refund"]
+        },
+        "cancel": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.clickup.com/api/v2/help_center/en-us/articles/13673035695127.json",
+          "evidence_url": "https://help.clickup.com/hc/en-us/articles/13673035695127-Downgrade-your-plan",
+          "required_terms": ["cancel"]
+        },
+        "return": {
+          "monitor": "manual_review",
+          "review_status": "pending",
+          "reason": "Confirm that a digital-service return surface is explicitly not applicable before admission."
+        },
+        "trial": {
+          "monitor": "zendesk_api",
+          "policy_subject": "direct_vendor_customer_relationship",
+          "fetch_url": "https://help.clickup.com/api/v2/help_center/en-us/articles/6303314345623.json",
+          "evidence_url": "https://help.clickup.com/hc/en-us/articles/6303314345623-Upgrade-your-plan",
+          "required_terms": ["trial"]
+        }
+      }
+    }
+  }
+}

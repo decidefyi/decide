@@ -74,6 +74,11 @@ jobs:
             rules/policy-status-report.md
             rules/policy-weekly-triage.json
             rules/policy-weekly-triage.md
+            rules/policy-vendor-candidate-state.json
+            rules/policy-vendor-lifecycle.json
+            rules/policy-vendor-lifecycle.md
+            rules/policy-coverage-scorecard.json
+            rules/policy-coverage-scorecard.md
           )
 
           git fetch origin "${artifact_branch}" || {
@@ -203,6 +208,14 @@ jobs:
           supabase_daily_alert_upserted_count=$(extract_output_value "SUPABASE_DAILY_ALERT_UPSERTED_COUNT" | tr -d '[:space:]')
           supabase_state_synced_count=$(extract_output_value "SUPABASE_STATE_SYNCED_COUNT" | tr -d '[:space:]')
           supabase_sync_ok=$(extract_output_value "SUPABASE_SYNC_OK" | tr -d '[:space:]')
+          candidate_observation_slot=$(extract_output_value "CANDIDATE_OBSERVATION_SLOT" | tr -d '[:space:]')
+          candidate_fetch_count=$(extract_output_value "CANDIDATE_FETCH_COUNT" | tr -d '[:space:]')
+          candidate_fetch_failure_count=$(extract_output_value "CANDIDATE_FETCH_FAILURE_COUNT" | tr -d '[:space:]')
+          candidate_fetch_failure_sample=$(extract_output_value "CANDIDATE_FETCH_FAILURE_SAMPLE")
+          candidates_ready_for_review=$(extract_output_value "CANDIDATES_READY_FOR_REVIEW" | tr -d '[:space:]')
+          policy_tracked_vendor_count=$(extract_output_value "POLICY_TRACKED_VENDOR_COUNT" | tr -d '[:space:]')
+          policy_admitted_vendor_count=$(extract_output_value "POLICY_ADMITTED_VENDOR_COUNT" | tr -d '[:space:]')
+          policy_decision_ready_surface_count=$(extract_output_value "POLICY_DECISION_READY_SURFACE_COUNT" | tr -d '[:space:]')
 
           if [ -z "$actual_diff_sample" ]; then actual_diff_sample=$(extract_output_value "MATERIAL_DIFF_SAMPLE"); fi
           if [ -z "$actual_changed_count" ]; then actual_changed_count=$changed_count; fi
@@ -250,6 +263,12 @@ jobs:
           if [ -z "$supabase_daily_alert_upserted_count" ]; then supabase_daily_alert_upserted_count=0; fi
           if [ -z "$supabase_state_synced_count" ]; then supabase_state_synced_count=0; fi
           if [ -z "$supabase_sync_ok" ]; then supabase_sync_ok=0; fi
+          if [ -z "$candidate_fetch_count" ]; then candidate_fetch_count=0; fi
+          if [ -z "$candidate_fetch_failure_count" ]; then candidate_fetch_failure_count=0; fi
+          if [ -z "$candidates_ready_for_review" ]; then candidates_ready_for_review=0; fi
+          if [ -z "$policy_tracked_vendor_count" ]; then policy_tracked_vendor_count=0; fi
+          if [ -z "$policy_admitted_vendor_count" ]; then policy_admitted_vendor_count=0; fi
+          if [ -z "$policy_decision_ready_surface_count" ]; then policy_decision_ready_surface_count=0; fi
 
           sum_policy_counts() {
             local value="$1"
@@ -365,6 +384,14 @@ jobs:
           echo "supabase_daily_alert_upserted_count=$supabase_daily_alert_upserted_count" >> "$GITHUB_OUTPUT"
           echo "supabase_state_synced_count=$supabase_state_synced_count" >> "$GITHUB_OUTPUT"
           echo "supabase_sync_ok=$supabase_sync_ok" >> "$GITHUB_OUTPUT"
+          echo "candidate_observation_slot=$candidate_observation_slot" >> "$GITHUB_OUTPUT"
+          echo "candidate_fetch_count=$candidate_fetch_count" >> "$GITHUB_OUTPUT"
+          echo "candidate_fetch_failure_count=$candidate_fetch_failure_count" >> "$GITHUB_OUTPUT"
+          echo "candidate_fetch_failure_sample=$candidate_fetch_failure_sample" >> "$GITHUB_OUTPUT"
+          echo "candidates_ready_for_review=$candidates_ready_for_review" >> "$GITHUB_OUTPUT"
+          echo "policy_tracked_vendor_count=$policy_tracked_vendor_count" >> "$GITHUB_OUTPUT"
+          echo "policy_admitted_vendor_count=$policy_admitted_vendor_count" >> "$GITHUB_OUTPUT"
+          echo "policy_decision_ready_surface_count=$policy_decision_ready_surface_count" >> "$GITHUB_OUTPUT"
           echo "contract_valid=$contract_valid" >> "$GITHUB_OUTPUT"
 
       - name: Summarize policy health
@@ -411,6 +438,14 @@ jobs:
           SUPABASE_EVENTS_UPSERTED_COUNT: ${{ steps.check.outputs.supabase_events_upserted_count }}
           SUPABASE_DAILY_ALERT_UPSERTED_COUNT: ${{ steps.check.outputs.supabase_daily_alert_upserted_count }}
           SUPABASE_STATE_SYNCED_COUNT: ${{ steps.check.outputs.supabase_state_synced_count }}
+          CANDIDATE_OBSERVATION_SLOT: ${{ steps.check.outputs.candidate_observation_slot }}
+          CANDIDATE_FETCH_COUNT: ${{ steps.check.outputs.candidate_fetch_count }}
+          CANDIDATE_FETCH_FAILURE_COUNT: ${{ steps.check.outputs.candidate_fetch_failure_count }}
+          CANDIDATE_FETCH_FAILURE_SAMPLE: ${{ steps.check.outputs.candidate_fetch_failure_sample }}
+          CANDIDATES_READY_FOR_REVIEW: ${{ steps.check.outputs.candidates_ready_for_review }}
+          POLICY_TRACKED_VENDOR_COUNT: ${{ steps.check.outputs.policy_tracked_vendor_count }}
+          POLICY_ADMITTED_VENDOR_COUNT: ${{ steps.check.outputs.policy_admitted_vendor_count }}
+          POLICY_DECISION_READY_SURFACE_COUNT: ${{ steps.check.outputs.policy_decision_ready_surface_count }}
         run: |
           changed="${ACTUAL_CHANGED_COUNT:-0}"
           pending="${PENDING_COUNT:-0}"
@@ -442,6 +477,13 @@ jobs:
           supabase_events_upserted="${SUPABASE_EVENTS_UPSERTED_COUNT:-0}"
           supabase_daily_alert_upserted="${SUPABASE_DAILY_ALERT_UPSERTED_COUNT:-0}"
           supabase_state_synced="${SUPABASE_STATE_SYNCED_COUNT:-0}"
+          candidate_observation_slot="${CANDIDATE_OBSERVATION_SLOT:-unknown}"
+          candidate_fetch_count="${CANDIDATE_FETCH_COUNT:-0}"
+          candidate_fetch_failures="${CANDIDATE_FETCH_FAILURE_COUNT:-0}"
+          candidates_ready="${CANDIDATES_READY_FOR_REVIEW:-0}"
+          tracked_vendors="${POLICY_TRACKED_VENDOR_COUNT:-0}"
+          admitted_vendors="${POLICY_ADMITTED_VENDOR_COUNT:-0}"
+          decision_ready_surfaces="${POLICY_DECISION_READY_SURFACE_COUNT:-0}"
           issue_mode="${POLICY_CHECK_PUBLIC_ISSUES_ENABLED:-0}"
           checker_status="${CHECKER_STATUS:-unknown}"
 
@@ -450,6 +492,9 @@ jobs:
           fi
           if [ "$escalations" -gt 0 ]; then
             echo "::warning::Policy escalation backlog=${escalations}; stale=${stale}; volatile=${volatile}; quality_gate_held=${quality_gate_held}."
+          fi
+          if [ "$candidate_fetch_failures" -gt 0 ]; then
+            echo "::warning::Candidate source failures=${candidate_fetch_failures}; production notaries remain isolated."
           fi
 
           {
@@ -479,7 +524,15 @@ jobs:
             echo "- Supabase events upserted: ${supabase_events_upserted}"
             echo "- Supabase daily alerts upserted: ${supabase_daily_alert_upserted}"
             echo "- Supabase state artifacts synced: ${supabase_state_synced}"
+            echo "- Candidate observation slot: ${candidate_observation_slot}"
+            echo "- Candidate structured sources healthy: $((candidate_fetch_count - candidate_fetch_failures))/${candidate_fetch_count}"
+            echo "- Candidate source failures: ${candidate_fetch_failures}"
+            echo "- Candidates ready for human review: ${candidates_ready}"
+            echo "- Coverage network: ${tracked_vendors} tracked / ${admitted_vendors} admitted / ${decision_ready_surfaces} decision-ready surfaces"
             echo "- Public issue automation: ${issue_mode}"
+            if [ -n "${CANDIDATE_FETCH_FAILURE_SAMPLE:-}" ]; then
+              echo "- Candidate source failure sample: ${CANDIDATE_FETCH_FAILURE_SAMPLE}"
+            fi
             if [ -n "${FETCH_FAILURE_BY_POLICY:-}" ]; then
               echo "- Fetch failures by policy: ${FETCH_FAILURE_BY_POLICY}"
             fi
@@ -584,6 +637,11 @@ jobs:
             rules/policy-status-report.md
             rules/policy-weekly-triage.json
             rules/policy-weekly-triage.md
+            rules/policy-vendor-candidate-state.json
+            rules/policy-vendor-lifecycle.json
+            rules/policy-vendor-lifecycle.md
+            rules/policy-coverage-scorecard.json
+            rules/policy-coverage-scorecard.md
             /tmp/policy-rule-freshness.json
 
       - name: Commit policy artifacts to aggregation branch
@@ -613,6 +671,10 @@ jobs:
             rules/policy-status-report.md
             rules/policy-weekly-triage.json
             rules/policy-weekly-triage.md
+            rules/policy-vendor-lifecycle.json
+            rules/policy-vendor-lifecycle.md
+            rules/policy-coverage-scorecard.json
+            rules/policy-coverage-scorecard.md
           )
           source_files=(
             rules/policy-sources.json
@@ -638,12 +700,21 @@ jobs:
             rules/policy-status-report.md
             rules/policy-weekly-triage.json
             rules/policy-weekly-triage.md
+            rules/policy-vendor-candidate-state.json
+            rules/policy-vendor-lifecycle.json
+            rules/policy-vendor-lifecycle.md
+            rules/policy-coverage-scorecard.json
+            rules/policy-coverage-scorecard.md
           )
           report_files=(
             rules/policy-status-report.json
             rules/policy-status-report.md
             rules/policy-weekly-triage.json
             rules/policy-weekly-triage.md
+            rules/policy-vendor-lifecycle.json
+            rules/policy-vendor-lifecycle.md
+            rules/policy-coverage-scorecard.json
+            rules/policy-coverage-scorecard.md
           )
 
           suppress_state_churn=0

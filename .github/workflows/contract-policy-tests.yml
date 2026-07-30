@@ -11,6 +11,7 @@ on:
       - "lib/**"
       - "public/**"
       - "rules/*-policy-sources.json"
+      - "rules/policy-vendor-candidates.json"
       - "scripts/**"
       - "README.md"
       - "middleware.js"
@@ -24,6 +25,7 @@ on:
       - "lib/**"
       - "public/**"
       - "rules/*-policy-sources.json"
+      - "rules/policy-vendor-candidates.json"
       - "scripts/**"
       - "README.md"
       - "middleware.js"
@@ -53,6 +55,12 @@ jobs:
 
       - name: Run policy checker reliability tests
         run: npm run test:policy-check
+
+      - name: Run policy vendor lifecycle tests
+        run: |
+          npm run test:policy-vendor-lifecycle
+          npm run test:policy-vendor-candidates
+          npm run test:policy-coverage-scorecard
 
       - name: Verify published policy source mirrors
         run: npm run test:public-policy-sources
