@@ -122,10 +122,10 @@
       "notes": "Non-refundable in US; 14-day window if service unused"
     },
     "discord_nitro": {
-      "url": "https://discord.com/nitro",
+      "url": "https://support.discord.com/hc/en-us/articles/360012668071-Refund-Policy",
       "notes": "Nitro purchases are generally non-refundable except where required by law.",
       "backup_urls": [
-        "https://discord.com/terms",
+        "https://support.discord.com/hc/en-us/articles/19580873036695-How-to-Cancel-your-Nitro-Subscription",
         "https://discord.com/nitro"
       ]
     },
@@ -143,7 +143,7 @@
       ]
     },
     "doordash_dashpass": {
-      "url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
+      "url": "https://help.doordash.com/en-us/consumers/article/how-do-i-cancel-my-dashpass-subscription",
       "notes": "Non-refundable; benefits continue until end of billing cycle"
     },
     "dropbox_us": {
@@ -239,8 +239,8 @@
       "url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
       "notes": "Non-refundable in US; 3-day right-to-cancel in some states",
       "backup_urls": [
-        "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-        "https://help.hinge.co/hc/en-us"
+        "https://help.hinge.co/hc/en-us/articles/36311108859411-Adjusting-or-Canceling-Your-Subscription",
+        "https://help.hinge.co/hc/en-us/articles/38014282744595-Subscription-and-Purchase-Benefits"
       ]
     },
     "hulu": {
@@ -296,8 +296,8 @@
       "url": "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund",
       "notes": "Refund only if <20 GPU minutes used lifetime; effectively non-refundable",
       "backup_urls": [
-        "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-        "https://www.midjourney.com/home"
+        "https://docs.midjourney.com/hc/en-us/articles/28014179406861-Managing-Your-Subscription",
+        "https://docs.midjourney.com/hc/en-us/articles/25384024738573-Canceling-Your-Subscription"
       ]
     },
     "netflix": {
@@ -398,11 +398,11 @@
       "notes": "30-day money-back guarantee for initial purchase"
     },
     "tidal": {
-      "url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
+      "url": "https://support.tidal.com/hc/en-us/articles/22401976776593-Refund-FAQs",
       "notes": "No refunds in US",
       "backup_urls": [
-        "https://tidal.com/pricing",
-        "https://support.tidal.com/hc/en-us"
+        "https://support.tidal.com/hc/en-us/articles/201314601-Cancel-Tidal-Subscription-or-Trial",
+        "https://tidal.com/pricing"
       ]
     },
     "tinder": {
@@ -454,10 +454,10 @@
       ]
     },
     "dashlane": {
-      "url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
-      "notes": "Dashlane subscription management and billing guidance.",
+      "url": "https://support.dashlane.com/hc/en-us/articles/12248372111506-Get-a-refund-for-my-Dashlane-subscription",
+      "notes": "Refund eligibility depends on purchase channel, timing, and applicable law.",
       "backup_urls": [
-        "https://support.dashlane.com/hc/en-us",
+        "https://support.dashlane.com/hc/en-us/articles/12247552144786-Cancel-my-Dashlane-subscription-and-stop-autorenewal",
         "https://www.dashlane.com/pricing"
       ]
     },
@@ -466,7 +466,7 @@
       "notes": "Refund terms depend on plan and purchase channel."
     },
     "keeper": {
-      "url": "https://www.keepersecurity.com/terms.html",
+      "url": "https://www.keepersecurity.com/legal/terms-of-use/",
       "notes": "Refund requests are handled per Keeper billing terms."
     },
     "fitbit_premium": {
@@ -540,18 +540,18 @@
       ]
     },
     "washington_post": {
-      "url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
-      "notes": "Washington Post subscription management and cancellation guidance.",
+      "url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360000177571-How-to-cancel-your-digital-only-subscription",
+      "notes": "Digital subscriptions can be canceled; refund eligibility is not guaranteed by the cancellation article.",
       "backup_urls": [
         "https://helpcenter.washingtonpost.com/hc/en-us",
         "https://www.washingtonpost.com/subscribe/"
       ]
     },
     "substack": {
-      "url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
-      "notes": "Substack subscription management and cancellation guidance.",
+      "url": "https://support.substack.com/hc/en-us/articles/360059896552-How-do-I-cancel-a-subscription-and-issue-a-refund-for-a-paid-subscriber-on-Substack",
+      "notes": "Refunds are issued by individual publishers; Substack does not define one platform-wide eligibility rule.",
       "backup_urls": [
-        "https://substack.com/going-paid",
+        "https://support.substack.com/hc/en-us/articles/360037489252-How-do-I-cancel-my-paid-subscription-on-Substack",
         "https://substack.com"
       ],
       "confirm_runs": 3
@@ -561,7 +561,7 @@
       "notes": "Snap subscription terms and billing conditions."
     },
     "x_premium": {
-      "url": "https://legal.x.com/purchaser-terms.html",
+      "url": "https://legal.x.com/en/purchaser-terms.html",
       "notes": "X Premium subscription details and billing behavior.",
       "fetch_lanes": [
         "direct",
@@ -573,10 +573,10 @@
       ]
     },
     "reddit_premium": {
-      "url": "https://www.reddit.com/premium",
-      "notes": "Reddit Premium plan and billing details.",
+      "url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-my-Reddit-subscription",
+      "notes": "Subscriptions can be canceled by purchase channel; unused partial periods are not generally refunded.",
       "backup_urls": [
-        "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
+        "https://www.reddit.com/premium",
         "https://www.redditinc.com/policies/user-agreement"
       ]
     },

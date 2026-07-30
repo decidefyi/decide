@@ -4,6 +4,9 @@ const DEFAULT_TIMEOUT_MS = 18000;
 const MIN_TIMEOUT_MS = 3000;
 const MAX_TIMEOUT_MS = 30000;
 const MAX_TEXT_CHARS = 1_500_000;
+const DEFAULT_CLOUDFLARE_CACHE_TTL_SECONDS = 21600;
+const MIN_CLOUDFLARE_CACHE_TTL_SECONDS = 60;
+const MAX_CLOUDFLARE_CACHE_TTL_SECONDS = 86400;
 
 const USER_AGENTS = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
@@ -60,6 +63,15 @@ function clampTimeout(value) {
   const parsed = Number.parseInt(String(value || DEFAULT_TIMEOUT_MS), 10);
   if (!Number.isFinite(parsed)) return DEFAULT_TIMEOUT_MS;
   return Math.max(MIN_TIMEOUT_MS, Math.min(MAX_TIMEOUT_MS, parsed));
+}
+
+function clampCloudflareCacheTtl(value) {
+  const parsed = Number.parseInt(String(value || DEFAULT_CLOUDFLARE_CACHE_TTL_SECONDS), 10);
+  if (!Number.isFinite(parsed)) return DEFAULT_CLOUDFLARE_CACHE_TTL_SECONDS;
+  return Math.max(
+    MIN_CLOUDFLARE_CACHE_TTL_SECONDS,
+    Math.min(MAX_CLOUDFLARE_CACHE_TTL_SECONDS, parsed)
+  );
 }
 
 function parseBody(req) {
@@ -156,6 +168,102 @@ async function fetchTextOnce(url, timeoutMs, userAgent, method = "GET") {
   }
 }
 
+function parseJson(value) {
+  try {
+    return JSON.parse(String(value || ""));
+  } catch {
+    return null;
+  }
+}
+
+function classifyCloudflareBrowserRunError(statusCode, payload) {
+  const errorCode = Number(payload?.errors?.[0]?.code || 0);
+  if (statusCode === 429 || errorCode === 2001) {
+    return "cloudflare_browser_run_rate_limited";
+  }
+  if (statusCode === 401 || statusCode === 403) {
+    return "cloudflare_browser_run_unauthorized";
+  }
+  if (errorCode > 0) {
+    return `cloudflare_browser_run_error_${errorCode}`;
+  }
+  return `cloudflare_browser_run_http_${statusCode}`;
+}
+
+async function fetchViaCloudflareBrowserRun(targetUrl, timeoutMs) {
+  const accountId = String(process.env.POLICY_FETCH_CLOUDFLARE_ACCOUNT_ID || "").trim();
+  const apiToken = String(process.env.POLICY_FETCH_CLOUDFLARE_API_TOKEN || "").trim();
+  if (!accountId || !apiToken) {
+    return { ok: false, skipped: true, error: "cloudflare_browser_run_not_configured" };
+  }
+
+  const endpoint = new URL(
+    `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(accountId)}/browser-rendering/content`
+  );
+  endpoint.searchParams.set(
+    "cacheTTL",
+    String(clampCloudflareCacheTtl(process.env.POLICY_FETCH_CLOUDFLARE_CACHE_TTL_SECONDS))
+  );
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(endpoint.toString(), {
+      method: "POST",
+      signal: controller.signal,
+      headers: {
+        Authorization: `Bearer ${apiToken}`,
+        "Content-Type": "application/json",
+        Accept: "text/html,application/json;q=0.9,text/plain;q=0.8,*/*;q=0.7",
+      },
+      body: JSON.stringify({
+        url: targetUrl,
+        gotoOptions: { waitUntil: "networkidle2", timeout: timeoutMs },
+        rejectResourceTypes: ["image", "media", "font"],
+      }),
+    });
+
+    const rawBody = await response.text();
+    const contentType = String(response.headers.get("content-type") || "").toLowerCase();
+    const payload = contentType.includes("application/json") || rawBody.trim().startsWith("{")
+      ? parseJson(rawBody)
+      : null;
+
+    if (!response.ok || payload?.success === false) {
+      return {
+        ok: false,
+        error: classifyCloudflareBrowserRunError(response.status, payload),
+        statusCode: response.status,
+      };
+    }
+
+    const renderedText = typeof payload?.result === "string"
+      ? payload.result
+      : typeof payload === "string"
+        ? payload
+        : rawBody;
+    const text = toLimitedText(renderedText);
+    if (!text.trim()) {
+      return { ok: false, error: "cloudflare_browser_run_empty_body", statusCode: response.status };
+    }
+
+    return {
+      ok: true,
+      text,
+      statusCode: response.status,
+      contentType,
+      finalUrl: targetUrl,
+    };
+  } catch (error) {
+    const message = error?.name === "AbortError"
+      ? "cloudflare_browser_run_timeout"
+      : "cloudflare_browser_run_failed";
+    return { ok: false, error: message };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 async function fetchViaBrowserless(targetUrl, timeoutMs) {
   const browserlessToken = String(
     process.env.POLICY_FETCH_BROWSERLESS_TOKEN || process.env.BROWSERLESS_TOKEN || ""
@@ -165,7 +273,7 @@ async function fetchViaBrowserless(targetUrl, timeoutMs) {
   }
 
   const endpointBase = String(
-    process.env.POLICY_FETCH_BROWSERLESS_CONTENT_URL || "https://chrome.browserless.io/content"
+    process.env.POLICY_FETCH_BROWSERLESS_CONTENT_URL || "https://production-sfo.browserless.io/content"
   ).trim();
 
   let endpointUrl;
@@ -192,11 +300,21 @@ async function fetchViaBrowserless(targetUrl, timeoutMs) {
       }),
     });
 
+    const rawBody = await response.text();
     if (!response.ok) {
-      return { ok: false, error: `browserless_http_${response.status}`, statusCode: response.status };
+      const normalizedBody = rawBody.toLowerCase();
+      const quotaExhausted = response.status === 401 && (
+        normalizedBody.includes("units usage limit") ||
+        normalizedBody.includes("usage limit allowed under our free plan")
+      );
+      return {
+        ok: false,
+        error: quotaExhausted ? "browserless_quota_exhausted" : `browserless_http_${response.status}`,
+        statusCode: response.status,
+      };
     }
 
-    const text = toLimitedText(await response.text());
+    const text = toLimitedText(rawBody);
     if (!text.trim()) return { ok: false, error: "browserless_empty_body" };
     return {
       ok: true,
@@ -302,6 +420,7 @@ export default async function handler(req, res) {
   const attempts = [];
 
   const strategies = [
+    { provider: "cloudflare_browser_run", fn: () => fetchViaCloudflareBrowserRun(targetUrl, timeoutMs) },
     { provider: "browserless", fn: () => fetchViaBrowserless(targetUrl, timeoutMs) },
     { provider: "direct", fn: () => fetchViaDirect(targetUrl, timeoutMs) },
     { provider: "jina_mirror", fn: () => fetchViaJinaMirror(targetUrl, timeoutMs) },

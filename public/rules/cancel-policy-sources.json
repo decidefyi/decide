@@ -76,7 +76,7 @@
       ]
     },
     "canva": {
-      "url": "https://www.canva.com/policies/terms-of-use-2022-12-05/",
+      "url": "https://www.canva.com/policies/terms-of-use/",
       "notes": "Cancellation and billing terms for Canva subscriptions.",
       "fetch_lanes": [
         "direct",
@@ -84,8 +84,7 @@
       ],
       "backup_urls": [
         "https://www.canva.com/help/cancellation/",
-        "https://www.canva.com/policies/terms-of-use/",
-        "https://www.canva.com/policies/terms-of-use-2021-11-03/"
+        "https://www.canva.com/help/"
       ]
     },
     "chatgpt_plus": {
@@ -127,10 +126,10 @@
       "notes": "Cancel anytime; access until end of billing period"
     },
     "discord_nitro": {
-      "url": "https://discord.com/nitro",
+      "url": "https://support.discord.com/hc/en-us/articles/19580873036695-How-to-Cancel-your-Nitro-Subscription",
       "notes": "Cancel anytime; perks remain until end of billing period.",
       "backup_urls": [
-        "https://discord.com/terms",
+        "https://support.discord.com/hc/en-us/articles/360012668071-Refund-Policy",
         "https://discord.com/nitro"
       ]
     },
@@ -147,7 +146,7 @@
       ]
     },
     "doordash_dashpass": {
-      "url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
+      "url": "https://help.doordash.com/en-us/consumers/article/how-do-i-cancel-my-dashpass-subscription",
       "notes": "Cancel anytime; benefits until end of cycle"
     },
     "dropbox_us": {
@@ -240,11 +239,11 @@
       ]
     },
     "hinge": {
-      "url": "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
+      "url": "https://help.hinge.co/hc/en-us/articles/36311108859411-Adjusting-or-Canceling-Your-Subscription",
       "notes": "Cancel anytime; access until end of billing period",
       "backup_urls": [
-        "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-        "https://help.hinge.co/hc/en-us"
+        "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund",
+        "https://help.hinge.co/hc/en-us/articles/38014282744595-Subscription-and-Purchase-Benefits"
       ]
     },
     "hulu": {
@@ -284,11 +283,12 @@
       "notes": "Cancel anytime; access until end of billing period"
     },
     "masterclass": {
-      "url": "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
+      "url": "https://www.masterclass.com/help-center/masterclass/answers/cancelling-your-subscription-renewal--id--M2McWBvNTh-WNRR6llmkAw",
       "notes": "Cancel anytime; annual plan access until end of period",
       "backup_urls": [
+        "https://www.masterclass.com/help-center/masterclass/answers/requesting-a-refund--id--ffUda_F-TPqkca5o9hJc5g",
         "https://www.masterclass.com/legal/terms",
-        "https://www.masterclass.com/"
+        "https://www.masterclass.com/help-center/masterclass"
       ],
       "confirm_runs": 3
     },
@@ -305,11 +305,11 @@
       ]
     },
     "midjourney": {
-      "url": "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/25384024738573-Canceling-Your-Subscription",
       "notes": "Cancel anytime; access until end of billing period",
       "backup_urls": [
-        "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-        "https://www.midjourney.com/home"
+        "https://docs.midjourney.com/hc/en-us/articles/28014179406861-Managing-Your-Subscription",
+        "https://docs.midjourney.com/hc/en-us/articles/25386088618253-Requesting-a-Refund"
       ]
     },
     "netflix": {
@@ -390,11 +390,11 @@
       ]
     },
     "scribd": {
-      "url": "https://support.scribd.com/hc/en-us/articles/210133466-How-do-I-cancel-my-subscription",
+      "url": "https://support.scribd.com/hc/en-us/articles/210134046-How-to-cancel-your-subscription",
       "notes": "Cancel anytime; access until end of billing period"
     },
     "shutterstock": {
-      "url": "https://www.shutterstock.com/help/en/articles/10594851-can-i-get-a-refund-if-i-cancel-my-plan",
+      "url": "https://www.shutterstock.com/help/en/articles/10598559-does-shutterstock-charge-any-cancellation-fees",
       "notes": "Annual plan: 50% ETF; monthly: cancel anytime",
       "backup_urls": [
         "https://www.shutterstock.com/pricing",
@@ -427,7 +427,7 @@
       "notes": "Cancel anytime; 30-day MBG on first purchase"
     },
     "tidal": {
-      "url": "https://support.tidal.com/hc/en-us/articles/203134791-Refund-Policy",
+      "url": "https://support.tidal.com/hc/en-us/articles/201314601-Cancel-Tidal-Subscription-or-Trial",
       "notes": "Cancel anytime; access until end of billing period",
       "backup_urls": [
         "https://tidal.com/pricing",
@@ -492,7 +492,7 @@
       ]
     },
     "dashlane": {
-      "url": "https://support.dashlane.com/hc/en-us/articles/202699201-Cancel-your-subscription",
+      "url": "https://support.dashlane.com/hc/en-us/articles/12247552144786-Cancel-my-Dashlane-subscription-and-stop-autorenewal",
       "notes": "Cancel anytime; access continues through current term."
     },
     "lastpass": {
@@ -508,7 +508,7 @@
       ]
     },
     "keeper": {
-      "url": "https://docs.keeper.io/user-guides/keeper-subscriptions-and-billing",
+      "url": "https://www.keepersecurity.com/legal/terms-of-use/",
       "notes": "Cancel anytime; service remains active through current billing period."
     },
     "fitbit_premium": {
@@ -614,11 +614,11 @@
       ]
     },
     "washington_post": {
-      "url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360040497371-Cancel-my-subscription",
+      "url": "https://helpcenter.washingtonpost.com/hc/en-us/articles/360000177571-How-to-cancel-your-digital-only-subscription",
       "notes": "Washington Post cancellation instructions and renewal behavior."
     },
     "substack": {
-      "url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "url": "https://support.substack.com/hc/en-us/articles/360037489252-How-do-I-cancel-my-paid-subscription-on-Substack",
       "notes": "Substack cancellation steps for paid subscriptions.",
       "confirm_runs": 3
     },
@@ -627,7 +627,7 @@
       "notes": "Snapchat+ cancellation is managed through purchase channel settings."
     },
     "x_premium": {
-      "url": "https://legal.x.com/purchaser-terms.html",
+      "url": "https://legal.x.com/en/purchaser-terms.html",
       "notes": "X Premium cancellation and billing details.",
       "fetch_lanes": [
         "direct",
@@ -639,7 +639,7 @@
       ]
     },
     "reddit_premium": {
-      "url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-Reddit-Premium",
+      "url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-my-Reddit-subscription",
       "notes": "Reddit Premium cancellation instructions by platform."
     },
     "telegram_premium": {
@@ -669,8 +669,8 @@
       "confirm_runs": 3
     },
     "britbox": {
-      "url": "https://help.britbox.com/hc/en-us/articles/360042761294-How-do-I-cancel",
-      "notes": "BritBox cancellation instructions and renewal behavior."
+      "url": "https://www.britbox.com/us/terms-and-conditions",
+      "notes": "Cancel before renewal; cancellation takes effect at the end of the current billing period and partial periods are non-refundable."
     },
     "amc_plus": {
       "url": "https://www.amcplus.com/faqs",

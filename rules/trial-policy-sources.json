@@ -68,11 +68,11 @@
       "notes": "7-day Premium trial"
     },
     "calm": {
-      "url": "https://www.calm.com/subscribe",
-      "notes": "7-day free trial",
+      "url": "https://support.calm.com/hc/en-us/articles/360003084493-Calm-Web-Free-Trial-Sign-Up-Cancellation-Steps",
+      "notes": "Eligible new web users receive a 14-day trial that renews annually unless canceled at least 24 hours before expiry.",
       "backup_urls": [
-        "https://support.calm.com/hc/en-us",
-        "https://www.calm.com/terms"
+        "https://support.calm.com/hc/en-us/articles/115002473607-How-to-cancel-my-subscription",
+        "https://support.calm.com/hc/en-us/articles/360000933454-How-a-Free-Trial-via-Apple-Works"
       ]
     },
     "canva": {
@@ -122,10 +122,10 @@
       "notes": "1-month free trial"
     },
     "discord_nitro": {
-      "url": "https://discord.com/nitro",
+      "url": "https://support.discord.com/hc/en-us/articles/360042410272-Nitro-Free-Trial-Offer-FAQ",
       "notes": "No standing free trial in US; occasional promotions may appear.",
       "backup_urls": [
-        "https://discord.com/terms",
+        "https://support.discord.com/hc/en-us/articles/19580873036695-How-to-Cancel-your-Nitro-Subscription",
         "https://discord.com/nitro"
       ]
     },
@@ -134,7 +134,7 @@
       "notes": "No free trial in US"
     },
     "doordash_dashpass": {
-      "url": "https://help.doordash.com/consumers/s/article/How-do-I-cancel-my-Dashpass-subscription",
+      "url": "https://help.doordash.com/en-us/consumers/article/how-do-i-cancel-my-dashpass-subscription",
       "notes": "DashPass membership help and cancellation terms (includes trial and renewal context).",
       "backup_urls": [
         "https://www.doordash.com/dashpass/",
@@ -235,11 +235,11 @@
       ]
     },
     "hinge": {
-      "url": "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-      "notes": "Occasional 7-day HingeX trial",
+      "url": "https://help.hinge.co/hc/en-us/articles/38014282744595-Subscription-and-Purchase-Benefits",
+      "notes": "Trial availability is offer-specific and is not a standing entitlement.",
       "backup_urls": [
-        "https://hingeapp.zendesk.com/hc/en-us/articles/360011232034",
-        "https://help.hinge.co/hc/en-us"
+        "https://help.hinge.co/hc/en-us/articles/36311108859411-Adjusting-or-Canceling-Your-Subscription",
+        "https://help.hinge.co/hc/en-us/articles/13198710538515-How-can-I-request-a-refund"
       ]
     },
     "hulu": {
@@ -295,8 +295,8 @@
       "url": "https://www.midjourney.com/home",
       "notes": "No trial currently",
       "backup_urls": [
-        "https://docs.midjourney.com/hc/en-us/articles/25383543872269-Manage-Your-Subscription-Plan",
-        "https://www.midjourney.com/home"
+        "https://docs.midjourney.com/hc/en-us/articles/28014179406861-Managing-Your-Subscription",
+        "https://docs.midjourney.com/hc/en-us/articles/25384024738573-Canceling-Your-Subscription"
       ]
     },
     "netflix": {
@@ -400,7 +400,7 @@
       "notes": "7-day mobile trial; 30-day MBG"
     },
     "tidal": {
-      "url": "https://tidal.com/pricing",
+      "url": "https://support.tidal.com/hc/en-us/articles/115003671729-Sign-up-for-Tidal",
       "notes": "30-day free trial",
       "backup_urls": [
         "https://tidal.com/pricing",
@@ -520,7 +520,7 @@
       "notes": "Trial and promotional access may vary by offer and period."
     },
     "substack": {
-      "url": "https://support.substack.com/hc/en-us/articles/360037488271-How-do-I-cancel-a-subscription",
+      "url": "https://support.substack.com/hc/en-us/articles/360037489252-How-do-I-cancel-my-paid-subscription-on-Substack",
       "notes": "No platform-wide trial; creators can configure free or paid offers.",
       "confirm_runs": 3,
       "backup_urls": [
@@ -533,7 +533,7 @@
       "notes": "Trial availability varies by account and purchase channel."
     },
     "x_premium": {
-      "url": "https://legal.x.com/purchaser-terms.html",
+      "url": "https://legal.x.com/en/purchaser-terms.html",
       "notes": "No standing free trial; promotional offers may vary.",
       "fetch_lanes": [
         "direct",
@@ -546,8 +546,12 @@
       ]
     },
     "reddit_premium": {
-      "url": "https://www.reddit.com/premium",
-      "notes": "No standing free trial; promotional offers may vary."
+      "url": "https://support.reddithelp.com/hc/en-us/articles/360050099112-How-do-I-cancel-my-Reddit-subscription",
+      "notes": "No standing free trial; promotional offers may vary.",
+      "backup_urls": [
+        "https://www.reddit.com/premium",
+        "https://www.redditinc.com/policies/user-agreement"
+      ]
     },
     "telegram_premium": {
       "url": "https://telegram.org/premium",

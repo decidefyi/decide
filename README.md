@@ -567,14 +567,17 @@ Auth:
 
 Server env:
 - `POLICY_CHECK_BROWSER_HOOK_TOKEN` (required for endpoint auth)
-- `POLICY_FETCH_BROWSERLESS_TOKEN` (optional; enables browserless render first)
-- `POLICY_FETCH_BROWSERLESS_CONTENT_URL` (optional override; default `https://chrome.browserless.io/content`)
+- `POLICY_FETCH_CLOUDFLARE_ACCOUNT_ID` and `POLICY_FETCH_CLOUDFLARE_API_TOKEN` (optional; enables Cloudflare Browser Run first, using a token limited to Browser Rendering Write)
+- `POLICY_FETCH_CLOUDFLARE_CACHE_TTL_SECONDS` (optional; defaults to 21600 seconds to reuse renders across policy types)
+- `POLICY_FETCH_BROWSERLESS_TOKEN` (optional secondary browser provider)
+- `POLICY_FETCH_BROWSERLESS_CONTENT_URL` (optional override; default `https://production-sfo.browserless.io/content`)
 - `POLICY_FETCH_ALLOWED_HOSTS` (optional comma-separated host allowlist)
 
 Checker (GitHub Actions, repo `decide`):
-- Secret `POLICY_CHECK_BROWSER_HOOK_URL` = deployed endpoint URL (example: `https://decide-1.vercel.app/api/policy-fetch-hook`)
+- Secret `POLICY_CHECK_BROWSER_HOOK_URL` = deployed endpoint URL (canonical: `https://api.decide.fyi/api/policy-fetch-hook`)
 - Secret `POLICY_CHECK_BROWSER_HOOK_TOKEN` = same token as runtime env
-- Variable `POLICY_CHECK_FETCH_LANES_DEFAULT` = `browser_hook,direct,zendesk_api,mirror`
+- Variable `POLICY_CHECK_FETCH_LANES_DEFAULT` = `direct,zendesk_api,mirror,browser_hook`
+- Optional variable `POLICY_CHECK_BROWSER_HOOK_MIN_INTERVAL_MS` controls spacing between browser-hook requests (default `10500`, suitable for Cloudflare Browser Rendering Free limits).
 
 Questions? [support@decide.fyi](mailto:support@decide.fyi) or [@decidefyi on X](https://x.com/decidefyi)
 

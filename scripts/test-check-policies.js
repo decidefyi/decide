@@ -13,10 +13,12 @@ import {
   classifyDailyAlertForPublication,
   classifyFetchFailureBlock,
   countSignalWindowChangeFlips,
+  createMinIntervalScheduler,
   evaluateFallbackSignalTransition,
   evaluateVendorSourceMigration,
   evaluateSignalWindow,
   extractSemanticTokens,
+  fetchText,
   getCandidatePendingModelId,
   getCrossRunWindowRequiredForCandidate,
   getVolatileFlipThresholdForVendor,
@@ -29,6 +31,7 @@ import {
   resolveSourceVolatilityTier,
   semanticSignaturesStable,
   summarizeDistinctVendorFailures,
+  summarizeBrowserHookFailure,
   toZendeskHelpCenterApiTarget,
 } from "./check-policies.js";
 
@@ -71,6 +74,63 @@ function testDistinctTier1FailuresCountVendorsOnceAcrossPolicies() {
     count: 2,
     sample: "adobe,amazon_prime",
   });
+}
+
+function testBrowserHookFailuresExposeSanitizedProviderReasons() {
+  const summary = summarizeBrowserHookFailure(502, {
+    error: "all_fetch_strategies_failed",
+    source_url: "https://secret.example/policy?token=never-log-this",
+    attempts: [
+      { provider: "cloudflare_browser_run", error: "cloudflare_browser_run_rate_limited" },
+      { provider: "browserless", error: "browserless_quota_exhausted" },
+      { provider: "direct", error: "HTTP 403" },
+    ],
+  });
+
+  assert.equal(
+    summary,
+    "HTTP 502 [cloudflare_browser_run=cloudflare_browser_run_rate_limited,browserless=browserless_quota_exhausted,direct=HTTP_403]"
+  );
+  assert.equal(summary.includes("secret.example"), false, "hook diagnostics must not echo source URLs");
+  assert.equal(summary.includes("never-log-this"), false, "hook diagnostics must not echo query secrets");
+}
+
+async function testMinIntervalSchedulerSerializesBrowserHookRequests() {
+  let now = 1000;
+  const waits = [];
+  const starts = [];
+  const schedule = createMinIntervalScheduler({
+    minIntervalMs: 100,
+    nowFn: () => now,
+    sleepFn: async (ms) => {
+      waits.push(ms);
+      now += ms;
+    },
+  });
+
+  const results = await Promise.all([
+    schedule(async () => {
+      starts.push(now);
+      return "first";
+    }),
+    schedule(async () => {
+      starts.push(now);
+      return "second";
+    }),
+    schedule(async () => {
+      starts.push(now);
+      return "third";
+    }),
+  ]);
+
+  assert.deepEqual(results, ["first", "second", "third"]);
+  assert.deepEqual(starts, [1000, 1100, 1200]);
+  assert.deepEqual(waits, [100, 100]);
+}
+
+async function testDirectFetchLaneOwnsAbortLifecycle() {
+  const text = await fetchText("data:text/plain,Refund%20policy%20available", 1);
+  assert.equal(text, "Refund policy available");
 }
 
 async function testPolicySetWritesMonitorArtifactTimestamps() {
@@ -639,6 +699,12 @@ async function main() {
   console.log("PASS check-policies machine checks preserve human verification time");
   testDistinctTier1FailuresCountVendorsOnceAcrossPolicies();
   console.log("PASS check-policies Tier-1 gate counts distinct vendors");
+  testBrowserHookFailuresExposeSanitizedProviderReasons();
+  console.log("PASS check-policies browser-hook diagnostics are sanitized");
+  await testMinIntervalSchedulerSerializesBrowserHookRequests();
+  console.log("PASS check-policies browser-hook requests respect minimum spacing");
+  await testDirectFetchLaneOwnsAbortLifecycle();
+  console.log("PASS check-policies direct fetch owns its abort lifecycle");
   await testPolicySetWritesMonitorArtifactTimestamps();
   console.log("PASS check-policies state artifacts use monitor timestamp");
   testImmediateBlockOnCloudflareAnd403();
@@ -743,7 +809,7 @@ async function main() {
   testEvaluateVendorSourceMigrationSkipsStableOrMissingSources();
   console.log("PASS check-policies source migration stable/missing");
 
-  console.log("Check-policies tests passed: 35/35");
+  console.log("Check-policies tests passed: 37/37");
 }
 
 try {

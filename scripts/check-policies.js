@@ -23,6 +23,10 @@ const CHECKER_CONFIG = {
   directAttempts: Number.parseInt(process.env.POLICY_CHECK_DIRECT_ATTEMPTS || "3", 10),
   fallbackAttempts: Number.parseInt(process.env.POLICY_CHECK_FALLBACK_ATTEMPTS || "2", 10),
   browserHookAttempts: Number.parseInt(process.env.POLICY_CHECK_BROWSER_HOOK_ATTEMPTS || "1", 10),
+  browserHookMinIntervalMs: Number.parseInt(
+    process.env.POLICY_CHECK_BROWSER_HOOK_MIN_INTERVAL_MS || "10500",
+    10
+  ),
   timeoutMs: Number.parseInt(process.env.POLICY_CHECK_TIMEOUT_MS || "18000", 10),
   errorDetailLimit: Number.parseInt(process.env.POLICY_CHECK_ERROR_DETAIL_LIMIT || "12", 10),
   candidateTtlDays: Number.parseInt(process.env.POLICY_CHECK_CANDIDATE_TTL_DAYS || "7", 10),
@@ -345,6 +349,32 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+export function createMinIntervalScheduler({ minIntervalMs = 0, sleepFn = sleep, nowFn = Date.now } = {}) {
+  const intervalMs = Number.isFinite(minIntervalMs) ? Math.max(0, Math.floor(minIntervalMs)) : 0;
+  let tail = Promise.resolve();
+  let lastStartedAt = null;
+
+  return function schedule(task) {
+    const run = tail.then(async () => {
+      if (lastStartedAt !== null && intervalMs > 0) {
+        const waitMs = Math.max(0, intervalMs - (nowFn() - lastStartedAt));
+        if (waitMs > 0) await sleepFn(waitMs);
+      }
+      lastStartedAt = nowFn();
+      return task();
+    });
+    tail = run.then(
+      () => undefined,
+      () => undefined
+    );
+    return run;
+  };
+}
+
+const scheduleBrowserHookRequest = createMinIntervalScheduler({
+  minIntervalMs: CHECKER_CONFIG.browserHookMinIntervalMs,
+});
+
 function jitter(ms) {
   return Math.floor(Math.random() * ms);
 }
@@ -376,7 +406,7 @@ function getDefaultFetchLanes() {
   const configured = parseFetchLaneCsv(CHECKER_CONFIG.fetchLaneDefault);
   if (configured.length > 0) return configured;
   if (CHECKER_CONFIG.browserHookUrl) {
-    return ["browser_hook", "direct", "zendesk_api", "mirror"];
+    return ["direct", "zendesk_api", "mirror", "browser_hook"];
   }
   return ["direct", "zendesk_api", "mirror"];
 }
@@ -2816,7 +2846,7 @@ function isStaleCandidate(candidate, nowMs = Date.now()) {
   return nowMs - seenMs > ttlDays * 24 * 60 * 60 * 1000;
 }
 
-async function fetchText(url, attempts = 3) {
+export async function fetchText(url, attempts = 3) {
   let lastErrorMessage = "unknown";
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     const controller = new AbortController();
@@ -3081,6 +3111,30 @@ async function probeFallbackMetadata(vendorConfig) {
   };
 }
 
+function sanitizeBrowserHookDiagnostic(value, fallback) {
+  const sanitized = String(value || "")
+    .trim()
+    .replace(/[^a-zA-Z0-9_.:-]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 96);
+  return sanitized || fallback;
+}
+
+export function summarizeBrowserHookFailure(statusCode, payload) {
+  const status = Number.parseInt(statusCode, 10) || 0;
+  const attempts = Array.isArray(payload?.attempts) ? payload.attempts : [];
+  const details = attempts.slice(0, 5).map((attempt) => {
+    const provider = sanitizeBrowserHookDiagnostic(attempt?.provider, "provider");
+    const error = sanitizeBrowserHookDiagnostic(attempt?.error, "fetch_failed");
+    return `${provider}=${error}`;
+  });
+  if (details.length > 0) {
+    return `HTTP ${status} [${details.join(",")}]`;
+  }
+  const error = sanitizeBrowserHookDiagnostic(payload?.error, "");
+  return error ? `HTTP ${status} [${error}]` : `HTTP ${status}`;
+}
+
 async function fetchBrowserHookText({ url, vendor, policyType }, attempts = 1) {
   if (!CHECKER_CONFIG.browserHookUrl) {
     return { text: null, error: "browser_hook_disabled", skipped: true };
@@ -3092,8 +3146,6 @@ async function fetchBrowserHookText({ url, vendor, policyType }, attempts = 1) {
 
   let lastErrorMessage = "unknown";
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), CHECKER_CONFIG.timeoutMs);
     try {
       const headers = {
         "Content-Type": "application/json",
@@ -3105,19 +3157,38 @@ async function fetchBrowserHookText({ url, vendor, policyType }, attempts = 1) {
         headers["x-hook-token"] = CHECKER_CONFIG.browserHookToken;
       }
 
-      const response = await fetch(CHECKER_CONFIG.browserHookUrl, {
-        method: "POST",
-        signal: controller.signal,
-        headers,
-        body: JSON.stringify({
-          url: target,
-          vendor: String(vendor || "").trim(),
-          policy_type: String(policyType || "").trim(),
-          timeout_ms: CHECKER_CONFIG.timeoutMs,
-        }),
+      const response = await scheduleBrowserHookRequest(async () => {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), CHECKER_CONFIG.timeoutMs);
+        try {
+          return await fetch(CHECKER_CONFIG.browserHookUrl, {
+            method: "POST",
+            signal: controller.signal,
+            headers,
+            body: JSON.stringify({
+              url: target,
+              vendor: String(vendor || "").trim(),
+              policy_type: String(policyType || "").trim(),
+              timeout_ms: CHECKER_CONFIG.timeoutMs,
+            }),
+          });
+        } finally {
+          clearTimeout(timeout);
+        }
       });
       if (!response.ok) {
-        lastErrorMessage = `HTTP ${response.status}`;
+        const contentType = String(response.headers.get("content-type") || "").toLowerCase();
+        const rawBody = await response.text().catch(() => "");
+        const payload = contentType.includes("application/json")
+          ? (() => {
+              try {
+                return JSON.parse(rawBody);
+              } catch {
+                return null;
+              }
+            })()
+          : null;
+        lastErrorMessage = summarizeBrowserHookFailure(response.status, payload);
         throw new Error(lastErrorMessage);
       }
 
@@ -3156,8 +3227,6 @@ async function fetchBrowserHookText({ url, vendor, policyType }, attempts = 1) {
       if (attempt < attempts) {
         await sleep(450 * attempt + jitter(250));
       }
-    } finally {
-      clearTimeout(timeout);
     }
   }
 
