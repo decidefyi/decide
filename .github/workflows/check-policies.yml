@@ -22,7 +22,10 @@ env:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # Cloudflare Browser Run Quick Actions are paced at one request per 10 seconds
+    # on the Free plan. A complete four-policy pass can legitimately take about
+    # an hour when many vendor pages need the browser fallback.
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v6
 
