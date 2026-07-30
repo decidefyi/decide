@@ -6,6 +6,7 @@ import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
+import { mapWithConcurrency } from "../lib/async-work-pool.js";
 import { createSuccessfulFetchCache } from "../lib/successful-fetch-cache.js";
 
 import {
@@ -129,6 +130,72 @@ async function testMinIntervalSchedulerSerializesBrowserHookRequests() {
   assert.deepEqual(results, ["first", "second", "third"]);
   assert.deepEqual(starts, [1000, 1100, 1200]);
   assert.deepEqual(waits, [100, 100]);
+}
+
+async function testWorkPoolStartsNextItemWithoutWaitingForBatchPeers() {
+  const started = [];
+  const releases = new Map();
+  const releaseFor = (item) => new Promise((resolve) => releases.set(item, resolve));
+
+  const pending = mapWithConcurrency([0, 1, 2], 2, async (item) => {
+    started.push(item);
+    await releaseFor(item);
+    return `done-${item}`;
+  });
+
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.deepEqual(started, [0, 1], "the pool should initially fill only its configured workers");
+
+  releases.get(1)();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.deepEqual(started, [0, 1, 2], "a free worker should start the next item before a slow peer finishes");
+
+  releases.get(0)();
+  releases.get(2)();
+  assert.deepEqual(await pending, ["done-0", "done-1", "done-2"]);
+}
+
+async function testWorkPoolPreservesConcurrencyAndCooldown() {
+  let active = 0;
+  let maxActive = 0;
+  const cooled = [];
+
+  const results = await mapWithConcurrency(
+    [0, 1, 2, 3, 4],
+    2,
+    async (item) => {
+      active += 1;
+      maxActive = Math.max(maxActive, active);
+      await new Promise((resolve) => setImmediate(resolve));
+      active -= 1;
+      return item * 2;
+    },
+    {
+      afterTask: async ({ index }) => {
+        cooled.push(index);
+      },
+    }
+  );
+
+  assert.equal(maxActive, 2, "the pool must never exceed its configured concurrency");
+  assert.deepEqual(results, [0, 2, 4, 6, 8], "results should retain input order");
+  assert.deepEqual(cooled.sort((a, b) => a - b), [0, 1, 2, 3, 4]);
+}
+
+async function testWorkPoolStopsQueuedWorkAfterFailure() {
+  const started = [];
+
+  await assert.rejects(
+    mapWithConcurrency([0, 1, 2, 3], 2, async (item) => {
+      started.push(item);
+      if (item === 1) throw new Error("source worker failed");
+      await new Promise((resolve) => setImmediate(resolve));
+      return item;
+    }),
+    /source worker failed/
+  );
+
+  assert.deepEqual(started, [0, 1], "a worker failure should prevent queued items from starting");
 }
 
 async function testDirectFetchLaneOwnsAbortLifecycle() {
@@ -874,6 +941,12 @@ async function main() {
   console.log("PASS check-policies browser-hook diagnostics are sanitized");
   await testMinIntervalSchedulerSerializesBrowserHookRequests();
   console.log("PASS check-policies browser-hook requests respect minimum spacing");
+  await testWorkPoolStartsNextItemWithoutWaitingForBatchPeers();
+  console.log("PASS check-policies worker pool avoids batch head-of-line blocking");
+  await testWorkPoolPreservesConcurrencyAndCooldown();
+  console.log("PASS check-policies worker pool preserves concurrency and cooldowns");
+  await testWorkPoolStopsQueuedWorkAfterFailure();
+  console.log("PASS check-policies worker pool stops queued work after failure");
   await testDirectFetchLaneOwnsAbortLifecycle();
   console.log("PASS check-policies direct fetch owns its abort lifecycle");
   await testSuccessfulFetchCacheReusesSuccessfulReads();
@@ -990,7 +1063,7 @@ async function main() {
   testEvaluateVendorSourceMigrationSkipsStableOrMissingSources();
   console.log("PASS check-policies source migration stable/missing");
 
-  console.log("Check-policies tests passed: 42/42");
+  console.log("Check-policies tests passed: 48/48");
 }
 
 try {

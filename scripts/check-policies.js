@@ -20,6 +20,7 @@ import {
   buildPolicyCoverageScorecard,
   formatPolicyCoverageScorecardMarkdown,
 } from "../lib/policy-coverage-scorecard.js";
+import { mapWithConcurrency } from "../lib/async-work-pool.js";
 import { monitorPolicyVendorCandidates } from "../lib/policy-vendor-candidate-monitor.js";
 import { createSuccessfulFetchCache } from "../lib/successful-fetch-cache.js";
 import {
@@ -4155,14 +4156,14 @@ export async function checkPolicySet({
     markConfirmedChange(vendor, confirmedAtUtc);
   };
 
-  // Process in gentler batches to reduce bot-defense blocks and rate limits.
+  // Keep paced workers busy without making fast sources wait for a slow batch peer.
   const batchSize = Number.isFinite(CHECKER_CONFIG.batchSize) && CHECKER_CONFIG.batchSize > 0
     ? CHECKER_CONFIG.batchSize
     : 3;
-  for (let i = 0; i < vendors.length; i += batchSize) {
-    const batch = vendors.slice(i, i + batchSize);
-    await Promise.all(
-      batch.map(async ([vendor, vendorConfig]) => {
+  await mapWithConcurrency(
+    vendors,
+    batchSize,
+    async ([vendor, vendorConfig]) => {
         const configuredSourceUrl = getConfiguredSourceUrl(vendorConfig);
         let sourceVolatilityTier = getVendorVolatilityTier(vendorConfig, configuredSourceUrl);
         const coverage = ensureCoverageEntry(vendor);
@@ -4639,12 +4640,13 @@ export async function checkPolicySet({
           hashVotes: { [h]: 1 },
           hashProfiles: { [h]: semanticProfile },
         };
-      })
-    );
-    if (i + batchSize < vendors.length) {
-      await sleep(250 + jitter(350));
+    },
+    {
+      afterTask: async () => {
+        await sleep(250 + jitter(350));
+      },
     }
-  }
+  );
 
   const sameRunRecheckPasses = getSameRunRecheckPasses();
   const sameRunRecheckDelayMs = getSameRunRecheckDelayMs();
