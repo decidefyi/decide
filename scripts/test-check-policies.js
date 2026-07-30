@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
+import { createServer } from "node:http";
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+
+import { createSuccessfulFetchCache } from "../lib/successful-fetch-cache.js";
 
 import {
   applyMonitorSourceCheckMetadata,
@@ -131,6 +134,174 @@ async function testMinIntervalSchedulerSerializesBrowserHookRequests() {
 async function testDirectFetchLaneOwnsAbortLifecycle() {
   const text = await fetchText("data:text/plain,Refund%20policy%20available", 1);
   assert.equal(text, "Refund policy available");
+}
+
+async function testSuccessfulFetchCacheReusesSuccessfulReads() {
+  const cache = createSuccessfulFetchCache();
+  let loadCount = 0;
+  const load = async () => {
+    loadCount += 1;
+    return { ok: true, text: "policy source" };
+  };
+
+  const first = await cache.load("direct:https://example.com/policy", load);
+  const second = await cache.load("direct:https://example.com/policy", load);
+
+  assert.deepEqual(second, first, "a successful raw source read should be reused within one run");
+  assert.equal(loadCount, 1, "a shared successful source should only perform one network load");
+  assert.deepEqual(cache.snapshot(), {
+    hitCount: 1,
+    missCount: 1,
+    bypassCount: 0,
+    networkLoadCount: 1,
+    cachedSuccessCount: 1,
+    entryCount: 1,
+  });
+}
+
+async function testSuccessfulFetchCacheRetriesFailures() {
+  const cache = createSuccessfulFetchCache();
+  let loadCount = 0;
+
+  const first = await cache.load("direct:https://example.com/policy", async () => {
+    loadCount += 1;
+    return { ok: false, error: "timeout" };
+  });
+  const second = await cache.load("direct:https://example.com/policy", async () => {
+    loadCount += 1;
+    return { ok: true, text: "recovered policy source" };
+  });
+
+  assert.equal(first.ok, false);
+  assert.equal(second.ok, true);
+  assert.equal(loadCount, 2, "failed source reads must not poison another policy surface");
+  assert.equal(cache.snapshot().entryCount, 1, "only the recovered success should be retained");
+}
+
+async function testSuccessfulFetchCacheBypassReadsFreshWithoutReplacingCache() {
+  const cache = createSuccessfulFetchCache();
+  let loadCount = 0;
+  const key = "direct:https://example.com/policy";
+
+  const initial = await cache.load(key, async () => {
+    loadCount += 1;
+    return { ok: true, text: "initial source" };
+  });
+  const fresh = await cache.load(
+    key,
+    async () => {
+      loadCount += 1;
+      return { ok: true, text: "fresh confirmation source" };
+    },
+    { bypass: true }
+  );
+  const reused = await cache.load(key, async () => {
+    loadCount += 1;
+    return { ok: true, text: "unexpected replacement" };
+  });
+
+  assert.equal(initial.text, "initial source");
+  assert.equal(fresh.text, "fresh confirmation source");
+  assert.equal(reused.text, "initial source", "confirmation bypass must not overwrite the initial-run cache");
+  assert.equal(loadCount, 2, "a bypass should perform exactly one additional network load");
+  assert.deepEqual(cache.snapshot(), {
+    hitCount: 1,
+    missCount: 1,
+    bypassCount: 1,
+    networkLoadCount: 2,
+    cachedSuccessCount: 1,
+    entryCount: 1,
+  });
+}
+
+async function testSuccessfulFetchCacheDefersRetentionUntilQualityPasses() {
+  const cache = createSuccessfulFetchCache();
+  const key = "direct:https://example.com/policy";
+  let loadCount = 0;
+  const load = async () => {
+    loadCount += 1;
+    return { ok: true, text: `source observation ${loadCount}` };
+  };
+
+  const first = await cache.load(key, load, { retainSuccess: false });
+  const second = await cache.load(key, load, { retainSuccess: false });
+  assert.equal(loadCount, 2, "unqualified HTTP successes should remain independently retryable");
+
+  assert.equal(cache.retain(key, second), true);
+  const reused = await cache.load(key, load, { retainSuccess: false });
+  assert.equal(reused.text, second.text);
+  assert.equal(first.text, "source observation 1");
+  assert.equal(loadCount, 2, "a quality-approved observation should become reusable");
+}
+
+async function testPolicySetsShareSuccessfulRawSourceReads() {
+  const policyText = [
+    "Subscription refund and cancellation policy",
+    "Customers may request a refund within fourteen days of the original purchase.",
+    "Approved refunds return to the original payment method after review.",
+    "Customers can cancel a subscription from account settings before renewal.",
+    "Cancellation stops future renewal charges but does not erase prior invoices.",
+    "Regional consumer protections may provide additional refund rights.",
+    "Support can review billing evidence when a refund or cancellation needs help.",
+    "These terms apply to the subscription service and its recurring billing cycle.",
+  ].join("\n");
+  let requestCount = 0;
+  const server = createServer((_request, response) => {
+    requestCount += 1;
+    response.writeHead(200, { "content-type": "text/plain; charset=utf-8" });
+    response.end(policyText);
+  });
+  await new Promise((resolve, reject) => {
+    server.once("error", reject);
+    server.listen(0, "127.0.0.1", resolve);
+  });
+
+  try {
+    const address = server.address();
+    assert(address && typeof address === "object");
+    const sourceUrl = `http://127.0.0.1:${address.port}/policy`;
+    const fixtureDir = mkdtempSync(join(tmpdir(), "decide-policy-cache-"));
+    const rawFetchCache = createSuccessfulFetchCache();
+
+    const buildPolicySet = (name) => {
+      const policyPrefix = join(fixtureDir, name);
+      const sourcesPath = `${policyPrefix}-sources.json`;
+      writeJson(sourcesPath, {
+        hash_profile: "focus-v3",
+        vendors: {
+          example_vendor: {
+            url: sourceUrl,
+            fetch_lanes: ["direct"],
+          },
+        },
+      });
+      return {
+        name,
+        sourcesPath,
+        hashesPath: `${policyPrefix}-hashes.json`,
+        candidatesPath: `${policyPrefix}-candidates.json`,
+        coveragePath: `${policyPrefix}-coverage.json`,
+        semanticPath: `${policyPrefix}-semantic.json`,
+        baselinePath: `${policyPrefix}-baseline.json`,
+        dailyFingerprintPath: `${policyPrefix}-daily.json`,
+        blockedRetryPath: `${policyPrefix}-blocked.json`,
+        rulesFile: `${name}-rules.json`,
+        rawFetchCache,
+      };
+    };
+
+    const refundResult = await checkPolicySet(buildPolicySet("refund"));
+    const cancelResult = await checkPolicySet(buildPolicySet("cancel"));
+
+    assert.equal(refundResult.successfulChecks, 1);
+    assert.equal(cancelResult.successfulChecks, 1);
+    assert.equal(requestCount, 1, "separate policy surfaces should share one successful raw source read");
+    assert.equal(rawFetchCache.snapshot().hitCount, 1);
+  } finally {
+    await new Promise((resolve, reject) => {
+      server.close((error) => (error ? reject(error) : resolve()));
+    });
+  }
 }
 
 async function testPolicySetWritesMonitorArtifactTimestamps() {
@@ -705,6 +876,16 @@ async function main() {
   console.log("PASS check-policies browser-hook requests respect minimum spacing");
   await testDirectFetchLaneOwnsAbortLifecycle();
   console.log("PASS check-policies direct fetch owns its abort lifecycle");
+  await testSuccessfulFetchCacheReusesSuccessfulReads();
+  console.log("PASS check-policies successful raw reads are reused within a run");
+  await testSuccessfulFetchCacheRetriesFailures();
+  console.log("PASS check-policies failed raw reads are retried");
+  await testSuccessfulFetchCacheBypassReadsFreshWithoutReplacingCache();
+  console.log("PASS check-policies confirmation reads bypass the run cache");
+  await testSuccessfulFetchCacheDefersRetentionUntilQualityPasses();
+  console.log("PASS check-policies raw reads are retained only after quality approval");
+  await testPolicySetsShareSuccessfulRawSourceReads();
+  console.log("PASS check-policies policy surfaces share successful raw source reads");
   await testPolicySetWritesMonitorArtifactTimestamps();
   console.log("PASS check-policies state artifacts use monitor timestamp");
   testImmediateBlockOnCloudflareAnd403();
@@ -809,7 +990,7 @@ async function main() {
   testEvaluateVendorSourceMigrationSkipsStableOrMissingSources();
   console.log("PASS check-policies source migration stable/missing");
 
-  console.log("Check-policies tests passed: 37/37");
+  console.log("Check-policies tests passed: 42/42");
 }
 
 try {

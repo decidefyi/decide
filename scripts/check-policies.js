@@ -21,6 +21,7 @@ import {
   formatPolicyCoverageScorecardMarkdown,
 } from "../lib/policy-coverage-scorecard.js";
 import { monitorPolicyVendorCandidates } from "../lib/policy-vendor-candidate-monitor.js";
+import { createSuccessfulFetchCache } from "../lib/successful-fetch-cache.js";
 import {
   buildPolicyVendorLifecycleReport,
   formatPolicyVendorLifecycleMarkdown,
@@ -3413,7 +3414,7 @@ function buildCandidateUrls(vendorConfig) {
   return [...candidateSet];
 }
 
-async function attemptFetchLane({ lane, candidateUrl, context }) {
+async function performFetchLane({ lane, candidateUrl, context }) {
   if (lane === "direct") {
     const directResult = await fetchText(candidateUrl, CHECKER_CONFIG.directAttempts);
     if (typeof directResult === "string") {
@@ -3489,7 +3490,40 @@ async function attemptFetchLane({ lane, candidateUrl, context }) {
   return { ok: false, skip: true };
 }
 
-async function fetchWithFallback(vendorConfig, context = {}) {
+function buildRawFetchCacheKey(lane, candidateUrl) {
+  let sourceUrl = String(candidateUrl || "").trim();
+  try {
+    const parsed = new URL(sourceUrl);
+    parsed.hash = "";
+    sourceUrl = parsed.toString();
+  } catch {
+    // Keep the exact configured value when a source is not a standard URL.
+  }
+  return `${lane}:${sourceUrl}`;
+}
+
+async function attemptFetchLane({
+  lane,
+  candidateUrl,
+  context,
+  rawFetchCache = null,
+  bypassRawFetchCache = false,
+}) {
+  const loader = () => performFetchLane({ lane, candidateUrl, context });
+  if (!rawFetchCache || typeof rawFetchCache.load !== "function") {
+    return loader();
+  }
+  return rawFetchCache.load(buildRawFetchCacheKey(lane, candidateUrl), loader, {
+    bypass: bypassRawFetchCache,
+    retainSuccess: false,
+  });
+}
+
+async function fetchWithFallback(
+  vendorConfig,
+  context = {},
+  { rawFetchCache = null, bypassRawFetchCache = false } = {}
+) {
   const candidates = buildCandidateUrls(vendorConfig);
   if (candidates.length === 0) {
     return { text: null, error: "missing source URL" };
@@ -3509,7 +3543,13 @@ async function fetchWithFallback(vendorConfig, context = {}) {
         attemptedLaneSet.add(lane);
         attemptedLanes.push(lane);
       }
-      const laneResult = await attemptFetchLane({ lane, candidateUrl, context });
+      const laneResult = await attemptFetchLane({
+        lane,
+        candidateUrl,
+        context,
+        rawFetchCache,
+        bypassRawFetchCache,
+      });
       if (laneResult?.skip) {
         continue;
       }
@@ -3526,6 +3566,13 @@ async function fetchWithFallback(vendorConfig, context = {}) {
           vendorKey: context?.vendor || "",
         });
         if (quality.passed) {
+          if (
+            !bypassRawFetchCache &&
+            rawFetchCache &&
+            typeof rawFetchCache.retain === "function"
+          ) {
+            rawFetchCache.retain(buildRawFetchCacheKey(lane, candidateUrl), laneResult);
+          }
           return {
             text: laneResult.text,
             sourceUrl: laneResult.sourceUrl || candidateUrl,
@@ -3583,6 +3630,7 @@ export async function checkPolicySet({
   dailyFingerprintPath,
   blockedRetryPath,
   rulesFile,
+  rawFetchCache = null,
 }) {
   if (!existsSync(sourcesPath)) {
     console.log(`::warning::Sources file not found for ${name}: ${sourcesPath}`);
@@ -4122,7 +4170,11 @@ export async function checkPolicySet({
         if (sourceVolatilityTier === "flaky") {
           flakySourceVendorSet.add(vendor);
         }
-        const fetchResult = await fetchWithFallback(vendorConfig, { vendor, policyType: name });
+        const fetchResult = await fetchWithFallback(
+          vendorConfig,
+          { vendor, policyType: name },
+          { rawFetchCache }
+        );
         if (!fetchResult.text) {
           errors.push(vendor);
           const failureReason = fetchResult.error || "request failed";
@@ -4620,7 +4672,11 @@ export async function checkPolicySet({
             };
           }
 
-          const recheckResult = await fetchWithFallback(metadata.vendorConfig, { vendor, policyType: name });
+          const recheckResult = await fetchWithFallback(
+            metadata.vendorConfig,
+            { vendor, policyType: name },
+            { rawFetchCache, bypassRawFetchCache: true }
+          );
           if (!recheckResult.text) {
             recheckFetchFailureSet.add(vendor);
             const coverage = ensureCoverageEntry(vendor);
@@ -5418,9 +5474,10 @@ async function main() {
   const escalationDetailByPolicy = {};
   const tier1ByPolicy = {};
   const uniqueVendorCoverage = new Map();
+  const rawFetchCache = createSuccessfulFetchCache();
 
   for (const policySet of POLICY_SETS) {
-    const result = await checkPolicySet(policySet);
+    const result = await checkPolicySet({ ...policySet, rawFetchCache });
     const tier1Target = getTier1TargetForPolicy(result.name, result.vendorKeys || [], tier1Config);
     const errorSet = new Set(result.errors || []);
     for (const vendor of result.vendorKeys || []) {
@@ -5907,6 +5964,7 @@ async function main() {
     ? ((uniqueVendorFetched / uniqueVendorTotal) * 100).toFixed(2)
     : "0.00";
   const generatedAtUtc = utcIsoTimestamp();
+  const rawFetchCacheStats = rawFetchCache.snapshot();
   const candidateRegistry = readJson(POLICY_VENDOR_CANDIDATES_PATH, { candidates: {} });
   const previousCandidateState = readJson(POLICY_VENDOR_CANDIDATE_STATE_PATH, {
     schema_version: "policy_vendor_candidate_state_v1",
@@ -6095,6 +6153,11 @@ async function main() {
   console.log(`POLICY_TRACKED_VENDOR_COUNT=${policyCoverageScorecard.network?.tracked_vendor_count || 0}`);
   console.log(`POLICY_ADMITTED_VENDOR_COUNT=${policyCoverageScorecard.production?.admitted_vendor_count || 0}`);
   console.log(`POLICY_DECISION_READY_SURFACE_COUNT=${policyCoverageScorecard.production?.decision_ready_surface_count || 0}`);
+  console.log(`RAW_FETCH_CACHE_HIT_COUNT=${rawFetchCacheStats.hitCount}`);
+  console.log(`RAW_FETCH_CACHE_MISS_COUNT=${rawFetchCacheStats.missCount}`);
+  console.log(`RAW_FETCH_CACHE_BYPASS_COUNT=${rawFetchCacheStats.bypassCount}`);
+  console.log(`RAW_FETCH_LANE_EXECUTION_COUNT=${rawFetchCacheStats.networkLoadCount}`);
+  console.log(`RAW_FETCH_CACHE_ENTRY_COUNT=${rawFetchCacheStats.entryCount}`);
   console.log("BASELINE_COMPARISON_MODE=confirmed_daily_fingerprint");
   console.log(`FETCH_FAILURE_COUNT=${allErrors.length}`);
   console.log(`FETCH_FAILURE_BY_POLICY=${fetchFailureByPolicy}`);
