@@ -21,6 +21,7 @@ import {
   formatPolicyCoverageScorecardMarkdown,
 } from "../lib/policy-coverage-scorecard.js";
 import { mapWithConcurrency } from "../lib/async-work-pool.js";
+import { createBlockedFetchReuseCache } from "../lib/blocked-fetch-reuse-cache.js";
 import { monitorPolicyVendorCandidates } from "../lib/policy-vendor-candidate-monitor.js";
 import { createSuccessfulFetchCache } from "../lib/successful-fetch-cache.js";
 import {
@@ -3491,7 +3492,7 @@ async function performFetchLane({ lane, candidateUrl, context }) {
   return { ok: false, skip: true };
 }
 
-function buildRawFetchCacheKey(lane, candidateUrl) {
+function normalizeFetchCacheUrl(candidateUrl) {
   let sourceUrl = String(candidateUrl || "").trim();
   try {
     const parsed = new URL(sourceUrl);
@@ -3500,7 +3501,63 @@ function buildRawFetchCacheKey(lane, candidateUrl) {
   } catch {
     // Keep the exact configured value when a source is not a standard URL.
   }
-  return `${lane}:${sourceUrl}`;
+  return sourceUrl;
+}
+
+function buildRawFetchCacheKey(lane, candidateUrl) {
+  return `${lane}:${normalizeFetchCacheUrl(candidateUrl)}`;
+}
+
+export function buildBlockedFetchPlanKey(vendor, vendorConfig) {
+  const candidates = buildCandidateUrls(vendorConfig).map(normalizeFetchCacheUrl);
+  const lanes = getVendorFetchLanes(vendorConfig);
+  if (candidates.length === 0 || lanes.length === 0) return "";
+  return JSON.stringify({
+    vendor: String(vendor || "").trim(),
+    candidates,
+    lanes,
+  });
+}
+
+export function buildPolicyFetchSchedule(
+  vendors,
+  {
+    blockedRetryVendors = {},
+    coverageVendors = {},
+    blockedFetchCache = null,
+    quarantineStreak = getFetchFailureQuarantineStreak(),
+  } = {}
+) {
+  const primaryVendors = [];
+  const blockedVendors = [];
+  const normalizedThreshold = Number.isFinite(quarantineStreak)
+    ? Math.max(1, quarantineStreak)
+    : 2;
+
+  for (const vendorEntry of vendors || []) {
+    const [vendor, vendorConfig] = vendorEntry;
+    const coverage = coverageVendors?.[vendor] || {};
+    const fetchPlanKey = buildBlockedFetchPlanKey(vendor, vendorConfig);
+    const blockedInRun = Boolean(
+      fetchPlanKey &&
+      blockedFetchCache &&
+      typeof blockedFetchCache.has === "function" &&
+      blockedFetchCache.has(fetchPlanKey)
+    );
+    const isBlocked = Boolean(
+      blockedRetryVendors?.[vendor] ||
+      coverage.pending_fetch_blocked ||
+      Number(coverage.consecutive_fetch_failures || 0) >= normalizedThreshold ||
+      blockedInRun
+    );
+    (isBlocked ? blockedVendors : primaryVendors).push(vendorEntry);
+  }
+
+  return {
+    primaryVendors,
+    blockedVendors,
+    scheduledVendors: [...primaryVendors, ...blockedVendors],
+  };
 }
 
 async function attemptFetchLane({
@@ -3632,6 +3689,7 @@ export async function checkPolicySet({
   blockedRetryPath,
   rulesFile,
   rawFetchCache = null,
+  blockedFetchCache = null,
 }) {
   if (!existsSync(sourcesPath)) {
     console.log(`::warning::Sources file not found for ${name}: ${sourcesPath}`);
@@ -3673,6 +3731,7 @@ export async function checkPolicySet({
       fallbackSignalActionable: [],
       sourceMigrationResets: [],
       provisionalVendors: [],
+      blockedRetryLaneVendors: [],
       blockedRetryQueueVendors: [],
       blockedRetryQueueEntries: {},
     };
@@ -4156,12 +4215,21 @@ export async function checkPolicySet({
     markConfirmedChange(vendor, confirmedAtUtc);
   };
 
-  // Keep paced workers busy without making fast sources wait for a slow batch peer.
+  const fetchSchedule = buildPolicyFetchSchedule(vendors, {
+    blockedRetryVendors: newBlockedRetryQueue,
+    coverageVendors,
+    blockedFetchCache,
+  });
+  const blockedRetryLaneVendors = fetchSchedule.blockedVendors
+    .map(([vendor]) => vendor)
+    .sort((a, b) => a.localeCompare(b));
+
+  // Keep paced workers busy while healthy sources stay ahead of persistent blockers.
   const batchSize = Number.isFinite(CHECKER_CONFIG.batchSize) && CHECKER_CONFIG.batchSize > 0
     ? CHECKER_CONFIG.batchSize
     : 3;
   await mapWithConcurrency(
-    vendors,
+    fetchSchedule.scheduledVendors,
     batchSize,
     async ([vendor, vendorConfig]) => {
         const configuredSourceUrl = getConfiguredSourceUrl(vendorConfig);
@@ -4171,7 +4239,14 @@ export async function checkPolicySet({
         if (sourceVolatilityTier === "flaky") {
           flakySourceVendorSet.add(vendor);
         }
-        const fetchResult = await fetchWithFallback(
+        const blockedFetchPlanKey = buildBlockedFetchPlanKey(vendor, vendorConfig);
+        const reusedBlockedFetch =
+          blockedFetchPlanKey &&
+          blockedFetchCache &&
+          typeof blockedFetchCache.get === "function"
+            ? blockedFetchCache.get(blockedFetchPlanKey)
+            : undefined;
+        const fetchResult = reusedBlockedFetch ?? await fetchWithFallback(
           vendorConfig,
           { vendor, policyType: name },
           { rawFetchCache }
@@ -4187,6 +4262,14 @@ export async function checkPolicySet({
           const nextFailureStreak = priorFailureStreak + 1;
           const fetchBlockClassification = classifyFetchFailureBlock(failureReason);
           const isFetchBlocked = fetchBlockClassification.immediateBlock || nextFailureStreak >= getFetchFailureQuarantineStreak();
+          if (
+            isFetchBlocked &&
+            blockedFetchPlanKey &&
+            blockedFetchCache &&
+            typeof blockedFetchCache.retain === "function"
+          ) {
+            blockedFetchCache.retain(blockedFetchPlanKey, fetchResult);
+          }
           coverage.last_fetch_failure_utc = failureAtUtc;
           coverage.last_fetch_failure_reason = failureReason;
           if (Array.isArray(fetchResult.attemptedLanes) && fetchResult.attemptedLanes.length > 0) {
@@ -5421,6 +5504,7 @@ export async function checkPolicySet({
     qualityGateHeld: qualityGateHeldPending,
     legacyPending,
     provisionalVendors,
+    blockedRetryLaneVendors,
     blockedRetryQueueVendors,
     blockedRetryQueueEntries: sortedBlockedRetryVendors,
     flakySourceVendors: [...flakySourceVendorSet].sort((a, b) => a.localeCompare(b)),
@@ -5467,6 +5551,7 @@ async function main() {
   const allEscalatedPending = [];
   const allCoverageGaps = [];
   const allProvisional = [];
+  const allBlockedRetryLane = [];
   const allBlockedRetryQueue = [];
   const allFlakySources = [];
   const allTier1Failed = [];
@@ -5477,9 +5562,10 @@ async function main() {
   const tier1ByPolicy = {};
   const uniqueVendorCoverage = new Map();
   const rawFetchCache = createSuccessfulFetchCache();
+  const blockedFetchCache = createBlockedFetchReuseCache();
 
   for (const policySet of POLICY_SETS) {
-    const result = await checkPolicySet({ ...policySet, rawFetchCache });
+    const result = await checkPolicySet({ ...policySet, rawFetchCache, blockedFetchCache });
     const tier1Target = getTier1TargetForPolicy(result.name, result.vendorKeys || [], tier1Config);
     const errorSet = new Set(result.errors || []);
     for (const vendor of result.vendorKeys || []) {
@@ -5563,6 +5649,12 @@ async function main() {
       const blockedNames = sortedLimitedVendors(result.fetchBlockedPending, getPendingDetailLimit());
       console.log(
         `::notice::${result.name}: fetch_blocked_pending=${result.fetchBlockedPending.length} (consecutive_fetch_failures>=${getFetchFailureQuarantineStreak()}); first ${blockedNames.length}: ${blockedNames.join(", ")}`
+      );
+    }
+    if (result.blockedRetryLaneVendors.length > 0) {
+      const laneNames = sortedLimitedVendors(result.blockedRetryLaneVendors, getPendingDetailLimit());
+      console.log(
+        `::notice::${result.name}: blocked_retry_lane=${result.blockedRetryLaneVendors.length} (scheduled after healthy vendors); first ${laneNames.length}: ${laneNames.join(", ")}`
       );
     }
     if (result.blockedRetryQueueVendors.length > 0) {
@@ -5749,6 +5841,9 @@ async function main() {
     }
     for (const vendor of result.provisionalVendors) {
       allProvisional.push({ policyType: result.name, vendor });
+    }
+    for (const vendor of result.blockedRetryLaneVendors) {
+      allBlockedRetryLane.push({ policyType: result.name, vendor });
     }
     for (const vendor of result.blockedRetryQueueVendors) {
       allBlockedRetryQueue.push({ policyType: result.name, vendor });
@@ -5967,6 +6062,7 @@ async function main() {
     : "0.00";
   const generatedAtUtc = utcIsoTimestamp();
   const rawFetchCacheStats = rawFetchCache.snapshot();
+  const blockedFetchCacheStats = blockedFetchCache.snapshot();
   const candidateRegistry = readJson(POLICY_VENDOR_CANDIDATES_PATH, { candidates: {} });
   const previousCandidateState = readJson(POLICY_VENDOR_CANDIDATE_STATE_PATH, {
     schema_version: "policy_vendor_candidate_state_v1",
@@ -6160,6 +6256,11 @@ async function main() {
   console.log(`RAW_FETCH_CACHE_BYPASS_COUNT=${rawFetchCacheStats.bypassCount}`);
   console.log(`RAW_FETCH_LANE_EXECUTION_COUNT=${rawFetchCacheStats.networkLoadCount}`);
   console.log(`RAW_FETCH_CACHE_ENTRY_COUNT=${rawFetchCacheStats.entryCount}`);
+  console.log(`BLOCKED_RETRY_LANE_COUNT=${allBlockedRetryLane.length}`);
+  console.log(`BLOCKED_FETCH_REUSE_HIT_COUNT=${blockedFetchCacheStats.hitCount}`);
+  console.log(`BLOCKED_FETCH_REUSE_MISS_COUNT=${blockedFetchCacheStats.missCount}`);
+  console.log(`BLOCKED_FETCH_REUSE_RETAINED_COUNT=${blockedFetchCacheStats.retainedFailureCount}`);
+  console.log(`BLOCKED_FETCH_REUSE_ENTRY_COUNT=${blockedFetchCacheStats.entryCount}`);
   console.log("BASELINE_COMPARISON_MODE=confirmed_daily_fingerprint");
   console.log(`FETCH_FAILURE_COUNT=${allErrors.length}`);
   console.log(`FETCH_FAILURE_BY_POLICY=${fetchFailureByPolicy}`);

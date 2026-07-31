@@ -7,12 +7,15 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 import { mapWithConcurrency } from "../lib/async-work-pool.js";
+import { createBlockedFetchReuseCache } from "../lib/blocked-fetch-reuse-cache.js";
 import { createSuccessfulFetchCache } from "../lib/successful-fetch-cache.js";
 
 import {
   applyMonitorSourceCheckMetadata,
+  buildBlockedFetchPlanKey,
   buildChangeKey,
   buildDailyAlertFromEvents,
+  buildPolicyFetchSchedule,
   checkPolicySet,
   classifyDailyAlertForPublication,
   classifyFetchFailureBlock,
@@ -299,6 +302,137 @@ async function testSuccessfulFetchCacheDefersRetentionUntilQualityPasses() {
   assert.equal(reused.text, second.text);
   assert.equal(first.text, "source observation 1");
   assert.equal(loadCount, 2, "a quality-approved observation should become reusable");
+}
+
+function testBlockedFetchReuseCacheRetainsOnlyExhaustedFailures() {
+  const cache = createBlockedFetchReuseCache();
+  const key = "blocked:example";
+  const failure = { text: null, error: "HTTP 403", attemptedLanes: ["direct"] };
+
+  assert.equal(cache.get(key), undefined);
+  assert.equal(cache.retain(key, { text: "policy", error: "" }), false);
+  assert.equal(cache.retain(key, failure), true);
+  assert.equal(cache.retain(key, failure), true);
+  assert.deepEqual(cache.get(key), failure);
+  assert.deepEqual(cache.snapshot(), {
+    hitCount: 1,
+    missCount: 1,
+    retainedFailureCount: 1,
+    entryCount: 1,
+  });
+}
+
+function testPolicyFetchScheduleDefersKnownBlockedSources() {
+  const blockedFetchCache = createBlockedFetchReuseCache();
+  const runBlockedConfig = { url: "https://run-blocked.example/policy", fetch_lanes: ["direct"] };
+  blockedFetchCache.retain(
+    buildBlockedFetchPlanKey("run_blocked", runBlockedConfig),
+    { text: null, error: "HTTP 403" }
+  );
+  const vendors = [
+    ["queued", { url: "https://queued.example/policy" }],
+    ["healthy", { url: "https://healthy.example/policy" }],
+    ["coverage_blocked", { url: "https://coverage.example/policy" }],
+    ["streak_blocked", { url: "https://streak.example/policy" }],
+    ["run_blocked", runBlockedConfig],
+  ];
+
+  const schedule = buildPolicyFetchSchedule(vendors, {
+    blockedRetryVendors: { queued: { blocked_reason: "HTTP_403" } },
+    coverageVendors: {
+      coverage_blocked: { pending_fetch_blocked: true },
+      streak_blocked: { consecutive_fetch_failures: 2 },
+    },
+    blockedFetchCache,
+    quarantineStreak: 2,
+  });
+
+  assert.deepEqual(schedule.primaryVendors.map(([vendor]) => vendor), ["healthy"]);
+  assert.deepEqual(
+    schedule.blockedVendors.map(([vendor]) => vendor),
+    ["queued", "coverage_blocked", "streak_blocked", "run_blocked"]
+  );
+  assert.deepEqual(
+    schedule.scheduledVendors.map(([vendor]) => vendor),
+    ["healthy", "queued", "coverage_blocked", "streak_blocked", "run_blocked"]
+  );
+}
+
+async function testPolicySetsReuseExhaustedBlockedFetchPlans() {
+  let getRequestCount = 0;
+  const server = createServer((request, response) => {
+    if (request.method === "HEAD") {
+      response.writeHead(200, {
+        etag: '"blocked-source-v1"',
+        "content-type": "text/html; charset=utf-8",
+      });
+      response.end();
+      return;
+    }
+    getRequestCount += 1;
+    response.writeHead(403, { "content-type": "text/plain; charset=utf-8" });
+    response.end("Forbidden");
+  });
+  await new Promise((resolve, reject) => {
+    server.once("error", reject);
+    server.listen(0, "127.0.0.1", resolve);
+  });
+
+  try {
+    const address = server.address();
+    assert(address && typeof address === "object");
+    const sourceUrl = `http://127.0.0.1:${address.port}/policy`;
+    const fixtureDir = mkdtempSync(join(tmpdir(), "decide-policy-blocked-cache-"));
+    const rawFetchCache = createSuccessfulFetchCache();
+    const blockedFetchCache = createBlockedFetchReuseCache();
+
+    const buildPolicySet = (name) => {
+      const policyPrefix = join(fixtureDir, name);
+      const sourcesPath = `${policyPrefix}-sources.json`;
+      writeJson(sourcesPath, {
+        hash_profile: "focus-v3",
+        vendors: {
+          blocked_vendor: {
+            url: sourceUrl,
+            fetch_lanes: ["direct"],
+          },
+        },
+      });
+      return {
+        name,
+        sourcesPath,
+        hashesPath: `${policyPrefix}-hashes.json`,
+        candidatesPath: `${policyPrefix}-candidates.json`,
+        coveragePath: `${policyPrefix}-coverage.json`,
+        semanticPath: `${policyPrefix}-semantic.json`,
+        baselinePath: `${policyPrefix}-baseline.json`,
+        dailyFingerprintPath: `${policyPrefix}-daily.json`,
+        blockedRetryPath: `${policyPrefix}-blocked.json`,
+        rulesFile: `${name}-rules.json`,
+        rawFetchCache,
+        blockedFetchCache,
+      };
+    };
+
+    const refundResult = await checkPolicySet(buildPolicySet("refund"));
+    const requestsAfterFirstPolicy = getRequestCount;
+    const cancelResult = await checkPolicySet(buildPolicySet("cancel"));
+
+    assert.deepEqual(refundResult.errors, ["blocked_vendor"]);
+    assert.deepEqual(cancelResult.errors, ["blocked_vendor"]);
+    assert(requestsAfterFirstPolicy > 0, "the first policy surface should exhaust its configured fetch plan");
+    assert.equal(
+      getRequestCount,
+      requestsAfterFirstPolicy,
+      "later policy surfaces should reuse the exhausted blocked plan without more GET requests"
+    );
+    assert.deepEqual(cancelResult.blockedRetryLaneVendors, ["blocked_vendor"]);
+    assert.equal(blockedFetchCache.snapshot().hitCount, 1);
+  } finally {
+    await new Promise((resolve, reject) => {
+      server.close((error) => (error ? reject(error) : resolve()));
+    });
+  }
 }
 
 async function testPolicySetsShareSuccessfulRawSourceReads() {
@@ -957,6 +1091,12 @@ async function main() {
   console.log("PASS check-policies confirmation reads bypass the run cache");
   await testSuccessfulFetchCacheDefersRetentionUntilQualityPasses();
   console.log("PASS check-policies raw reads are retained only after quality approval");
+  testBlockedFetchReuseCacheRetainsOnlyExhaustedFailures();
+  console.log("PASS check-policies exhausted blocker cache retains only failures");
+  testPolicyFetchScheduleDefersKnownBlockedSources();
+  console.log("PASS check-policies healthy sources run before blocked retry sources");
+  await testPolicySetsReuseExhaustedBlockedFetchPlans();
+  console.log("PASS check-policies policy surfaces reuse exhausted blocked fetch plans");
   await testPolicySetsShareSuccessfulRawSourceReads();
   console.log("PASS check-policies policy surfaces share successful raw source reads");
   await testPolicySetWritesMonitorArtifactTimestamps();
@@ -1063,7 +1203,7 @@ async function main() {
   testEvaluateVendorSourceMigrationSkipsStableOrMissingSources();
   console.log("PASS check-policies source migration stable/missing");
 
-  console.log("Check-policies tests passed: 48/48");
+  console.log("Check-policies tests passed: 51/51");
 }
 
 try {

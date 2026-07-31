@@ -221,6 +221,11 @@ jobs:
           raw_fetch_cache_bypass_count=$(extract_output_value "RAW_FETCH_CACHE_BYPASS_COUNT" | tr -d '[:space:]')
           raw_fetch_lane_execution_count=$(extract_output_value "RAW_FETCH_LANE_EXECUTION_COUNT" | tr -d '[:space:]')
           raw_fetch_cache_entry_count=$(extract_output_value "RAW_FETCH_CACHE_ENTRY_COUNT" | tr -d '[:space:]')
+          blocked_retry_lane_count=$(extract_output_value "BLOCKED_RETRY_LANE_COUNT" | tr -d '[:space:]')
+          blocked_fetch_reuse_hit_count=$(extract_output_value "BLOCKED_FETCH_REUSE_HIT_COUNT" | tr -d '[:space:]')
+          blocked_fetch_reuse_miss_count=$(extract_output_value "BLOCKED_FETCH_REUSE_MISS_COUNT" | tr -d '[:space:]')
+          blocked_fetch_reuse_retained_count=$(extract_output_value "BLOCKED_FETCH_REUSE_RETAINED_COUNT" | tr -d '[:space:]')
+          blocked_fetch_reuse_entry_count=$(extract_output_value "BLOCKED_FETCH_REUSE_ENTRY_COUNT" | tr -d '[:space:]')
 
           if [ -z "$actual_diff_sample" ]; then actual_diff_sample=$(extract_output_value "MATERIAL_DIFF_SAMPLE"); fi
           if [ -z "$actual_changed_count" ]; then actual_changed_count=$changed_count; fi
@@ -279,6 +284,11 @@ jobs:
           if [ -z "$raw_fetch_cache_bypass_count" ]; then raw_fetch_cache_bypass_count=0; fi
           if [ -z "$raw_fetch_lane_execution_count" ]; then raw_fetch_lane_execution_count=0; fi
           if [ -z "$raw_fetch_cache_entry_count" ]; then raw_fetch_cache_entry_count=0; fi
+          if [ -z "$blocked_retry_lane_count" ]; then blocked_retry_lane_count=0; fi
+          if [ -z "$blocked_fetch_reuse_hit_count" ]; then blocked_fetch_reuse_hit_count=0; fi
+          if [ -z "$blocked_fetch_reuse_miss_count" ]; then blocked_fetch_reuse_miss_count=0; fi
+          if [ -z "$blocked_fetch_reuse_retained_count" ]; then blocked_fetch_reuse_retained_count=0; fi
+          if [ -z "$blocked_fetch_reuse_entry_count" ]; then blocked_fetch_reuse_entry_count=0; fi
 
           sum_policy_counts() {
             local value="$1"
@@ -407,6 +417,11 @@ jobs:
           echo "raw_fetch_cache_bypass_count=$raw_fetch_cache_bypass_count" >> "$GITHUB_OUTPUT"
           echo "raw_fetch_lane_execution_count=$raw_fetch_lane_execution_count" >> "$GITHUB_OUTPUT"
           echo "raw_fetch_cache_entry_count=$raw_fetch_cache_entry_count" >> "$GITHUB_OUTPUT"
+          echo "blocked_retry_lane_count=$blocked_retry_lane_count" >> "$GITHUB_OUTPUT"
+          echo "blocked_fetch_reuse_hit_count=$blocked_fetch_reuse_hit_count" >> "$GITHUB_OUTPUT"
+          echo "blocked_fetch_reuse_miss_count=$blocked_fetch_reuse_miss_count" >> "$GITHUB_OUTPUT"
+          echo "blocked_fetch_reuse_retained_count=$blocked_fetch_reuse_retained_count" >> "$GITHUB_OUTPUT"
+          echo "blocked_fetch_reuse_entry_count=$blocked_fetch_reuse_entry_count" >> "$GITHUB_OUTPUT"
           echo "contract_valid=$contract_valid" >> "$GITHUB_OUTPUT"
 
       - name: Summarize policy health
@@ -466,6 +481,11 @@ jobs:
           RAW_FETCH_CACHE_BYPASS_COUNT: ${{ steps.check.outputs.raw_fetch_cache_bypass_count }}
           RAW_FETCH_LANE_EXECUTION_COUNT: ${{ steps.check.outputs.raw_fetch_lane_execution_count }}
           RAW_FETCH_CACHE_ENTRY_COUNT: ${{ steps.check.outputs.raw_fetch_cache_entry_count }}
+          BLOCKED_RETRY_LANE_COUNT: ${{ steps.check.outputs.blocked_retry_lane_count }}
+          BLOCKED_FETCH_REUSE_HIT_COUNT: ${{ steps.check.outputs.blocked_fetch_reuse_hit_count }}
+          BLOCKED_FETCH_REUSE_MISS_COUNT: ${{ steps.check.outputs.blocked_fetch_reuse_miss_count }}
+          BLOCKED_FETCH_REUSE_RETAINED_COUNT: ${{ steps.check.outputs.blocked_fetch_reuse_retained_count }}
+          BLOCKED_FETCH_REUSE_ENTRY_COUNT: ${{ steps.check.outputs.blocked_fetch_reuse_entry_count }}
         run: |
           changed="${ACTUAL_CHANGED_COUNT:-0}"
           pending="${PENDING_COUNT:-0}"
@@ -509,6 +529,11 @@ jobs:
           raw_fetch_cache_bypasses="${RAW_FETCH_CACHE_BYPASS_COUNT:-0}"
           raw_fetch_lane_executions="${RAW_FETCH_LANE_EXECUTION_COUNT:-0}"
           raw_fetch_cache_entries="${RAW_FETCH_CACHE_ENTRY_COUNT:-0}"
+          blocked_retry_lane="${BLOCKED_RETRY_LANE_COUNT:-0}"
+          blocked_fetch_reuse_hits="${BLOCKED_FETCH_REUSE_HIT_COUNT:-0}"
+          blocked_fetch_reuse_misses="${BLOCKED_FETCH_REUSE_MISS_COUNT:-0}"
+          blocked_fetch_reuse_retained="${BLOCKED_FETCH_REUSE_RETAINED_COUNT:-0}"
+          blocked_fetch_reuse_entries="${BLOCKED_FETCH_REUSE_ENTRY_COUNT:-0}"
           issue_mode="${POLICY_CHECK_PUBLIC_ISSUES_ENABLED:-0}"
           checker_status="${CHECKER_STATUS:-unknown}"
 
@@ -557,6 +582,8 @@ jobs:
             echo "- Raw source reuse: ${raw_fetch_cache_hits} cache hits / ${raw_fetch_cache_misses} misses"
             echo "- Fresh confirmation reads: ${raw_fetch_cache_bypasses}"
             echo "- Raw lane executions: ${raw_fetch_lane_executions} (${raw_fetch_cache_entries} quality-approved cache entries)"
+            echo "- Blocked retry lane: ${blocked_retry_lane} policy surfaces scheduled after healthy sources"
+            echo "- Exhausted blocker reuse: ${blocked_fetch_reuse_hits} hits / ${blocked_fetch_reuse_misses} misses / ${blocked_fetch_reuse_retained} retained (${blocked_fetch_reuse_entries} entries)"
             echo "- Public issue automation: ${issue_mode}"
             if [ -n "${CANDIDATE_FETCH_FAILURE_SAMPLE:-}" ]; then
               echo "- Candidate source failure sample: ${CANDIDATE_FETCH_FAILURE_SAMPLE}"
