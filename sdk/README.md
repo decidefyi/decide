@@ -2,17 +2,17 @@
 
 JavaScript SDK and CLI for the Decide Decision API, Decision Record verification, conformance checks, replay, execution receipts, and outcome reporting.
 
-Release candidate for `@decide-fyi/sdk@0.1.18`. Python examples use raw HTTPS requests today; Decide does not advertise a separate PyPI package yet.
+Published release: `@decide-fyi/sdk@0.1.19`. Python examples use raw HTTPS requests today; Decide does not advertise a separate PyPI package yet.
 
 Verified package links:
 
 - npm package: `https://www.npmjs.com/package/@decide-fyi/sdk`
 - npm registry metadata: `https://registry.npmjs.org/@decide-fyi/sdk`
-- npm source tarball: `https://registry.npmjs.org/@decide-fyi/sdk/-/sdk-0.1.18.tgz`
+- npm source tarball: `https://registry.npmjs.org/@decide-fyi/sdk/-/sdk-0.1.19.tgz`
 - public source: `https://github.com/decidefyi/decide/tree/main/sdk`
 - public support tracker: `https://github.com/decidefyi/decide/issues`
 
-The public `decidefyi/decide` repository is the canonical source for SDK releases beginning with `0.1.18`. Published package metadata points to this exact directory, and support and bug reports use the public Decide issue tracker. See `SOURCE_PROVENANCE.md` for the release boundary.
+The public `decidefyi/decide` repository is the canonical source for SDK releases beginning with `0.1.18`. Published package metadata points to this exact directory, and support and bug reports use the public Decide issue tracker. See the public source-provenance record at `https://github.com/decidefyi/decide/blob/main/sdk/SOURCE_PROVENANCE.md` for the release boundary.
 
 ```sh
 npm install @decide-fyi/sdk

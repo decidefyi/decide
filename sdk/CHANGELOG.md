@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.19
+
+- Clarifies that the public SDK is a published release rather than a release candidate.
+- Keeps runtime behavior, exports, Apache-2.0 licensing, and public source metadata unchanged from `0.1.18`.
+
 ## 0.1.18
 
 - Publishes the SDK source in the public `decidefyi/decide` repository.

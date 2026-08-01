@@ -4,6 +4,8 @@ Beginning with `@decide-fyi/sdk@0.1.18`, this `sdk/` directory in the public
 `decidefyi/decide` repository is the canonical source for published SDK
 releases.
 
+The current package release is `@decide-fyi/sdk@0.1.19`.
+
 Release requirements:
 
 1. The package version, changelog, public source, and website SDK metadata must
