@@ -1,0 +1,17 @@
+{
+  "question": "Approve 15% annual-plan discount exception before billing update?",
+  "mode": "single",
+  "context": {
+    "workflow": "billing_discount_gate",
+    "source_record_id": "sub_conformance_1042",
+    "requested_action": "apply_discount",
+    "actor": "user_finance_ops_17",
+    "target_system": "billing",
+    "target_object_id": "sub_conformance_1042",
+    "mutation": "discount.create",
+    "discount_percent": 15,
+    "account_tier": "annual",
+    "margin_floor": "passed",
+    "owner_rule": "verified"
+  }
+}

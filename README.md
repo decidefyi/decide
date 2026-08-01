@@ -169,6 +169,21 @@ Architecture:
 - [Rulebook migration examples](docs/RULEBOOK_MIGRATION_EXAMPLES.md)
 - [Rulebook migration manifest](docs/RULEBOOK_MIGRATION_MANIFEST_V1.md)
 
+## JavaScript SDK and CLI
+
+The public [`@decide-fyi/sdk`](https://www.npmjs.com/package/@decide-fyi/sdk)
+client covers Decision API calls, Decision Record and Decision Packet
+verification, Rulebook conformance, replay, execution receipts, and outcome
+reporting.
+
+```sh
+npm install @decide-fyi/sdk
+```
+
+The canonical package source is [`sdk/`](sdk/), licensed under Apache-2.0.
+Package release requirements and source mapping are documented in
+[`sdk/SOURCE_PROVENANCE.md`](sdk/SOURCE_PROVENANCE.md).
+
 ## One-Click Install
 
 [![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.png)](cursor://anysphere.cursor-deeplink/mcp/install?name=decide-policy-notaries&config=eyJ1cmwiOiJodHRwczovL3BvbGljeS5kZWNpZGUuZnlpL2FwaS9tY3AifQ==) [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=decide-policy-notaries&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fpolicy.decide.fyi%2Fapi%2Fmcp%22%7D) [![Add to Claude](https://fastmcp.me/badges/claude_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to ChatGPT](https://fastmcp.me/badges/chatgpt_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to Codex](https://fastmcp.me/badges/codex_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients) [![Add to Gemini](https://fastmcp.me/badges/gemini_dark.svg)](#connect-via-mcp-claude-desktop--windsurf--other-clients)

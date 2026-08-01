@@ -1,0 +1,107 @@
+{
+  "c": "yes",
+  "v": "approved",
+  "verdict": "yes",
+  "action": "apply_discount",
+  "decision_id": "dec_conformance_0001",
+  "request_id": "req_conformance_0001",
+  "created_at": "2026-05-21T00:00:00.000Z",
+  "evidence": [
+    "MARGIN_FLOOR_OK",
+    "OWNER_RULE_VERIFIED"
+  ],
+  "evidence_sources": [
+    {
+      "id": "margin_policy_v3",
+      "type": "policy_rule",
+      "title": "Margin floor rule",
+      "policy_ref": "policies/pricing_exception#margin_floor",
+      "observed_at": "2026-05-21T00:00:00.000Z",
+      "snapshot_hash": "sha256:margin-policy-fixture"
+    },
+    {
+      "id": "owner_rule_v2",
+      "type": "policy_rule",
+      "title": "Owner approval rule",
+      "policy_ref": "policies/pricing_exception#owner_rule",
+      "observed_at": "2026-05-21T00:00:00.000Z",
+      "snapshot_hash": "sha256:owner-rule-fixture"
+    }
+  ],
+  "policy_id": "pricing_exception",
+  "policy_version": "v3",
+  "policy_bundle": {
+    "id": "pricing_exception_bundle",
+    "version": "2026-05-21.conformance",
+    "hash": "b1f7c9ca64e55c7dfef64f7d3d6a8b4d5103f63f91a505e2c3c1e1d9f0b1329c",
+    "hash_algorithm": "sha256",
+    "canonicalization": "json.sort_deep.v1",
+    "source": "git:policies/pricing_exception#conformance"
+  },
+  "decision_protocol_version": "decision_protocol_v1",
+  "decision_record_version": "decision_record_v1",
+  "idempotency_key": "conformance:sub_1042:discount_15",
+  "action_binding": {
+    "actor": "user_finance_ops_17",
+    "system": "billing_discount_gate",
+    "resource": "sub_conformance_1042",
+    "proposed_action": "apply_discount",
+    "amount": "15",
+    "target_system": "billing",
+    "target_object_id": "sub_conformance_1042",
+    "mutation": "discount.create"
+  },
+  "evidence_manifest": {
+    "codes": [
+      "MARGIN_FLOOR_OK",
+      "OWNER_RULE_VERIFIED"
+    ],
+    "sources": [
+      {
+        "id": "margin_policy_v3",
+        "type": "policy_rule",
+        "title": "Margin floor rule",
+        "policy_ref": "policies/pricing_exception#margin_floor",
+        "observed_at": "2026-05-21T00:00:00.000Z",
+        "snapshot_hash": "sha256:margin-policy-fixture"
+      },
+      {
+        "id": "owner_rule_v2",
+        "type": "policy_rule",
+        "title": "Owner approval rule",
+        "policy_ref": "policies/pricing_exception#owner_rule",
+        "observed_at": "2026-05-21T00:00:00.000Z",
+        "snapshot_hash": "sha256:owner-rule-fixture"
+      }
+    ]
+  },
+  "policy_hash": "883023cdf70eda7b334226d772b5c2d76bc8dea319c3d9944a0bd728d44193a7",
+  "policy_bundle_hash": "b1f7c9ca64e55c7dfef64f7d3d6a8b4d5103f63f91a505e2c3c1e1d9f0b1329c",
+  "input_hash": "1680bbc7615604cf930fa1dd452165eb7147f84592fe98a4196b0218e309f17f",
+  "output_hash": "d6e504f19a1e01173adc965a5ec8a37cbf1a07cfc96111c1ac63393cbf93cfdf",
+  "replay_url": "/api/decision/dec_conformance_0001/replay",
+  "replay": "/api/decision/dec_conformance_0001/replay",
+  "verify_url": "/api/decision/dec_conformance_0001/verify",
+  "record_hash": "ceb82c2dffe7f6b69fdf3b9fa9e528f4c90f66ed7349c82d7126e42279907848",
+  "receipt_hash": "b1056f6d48bedd0b493f907fbe1e36f04863f36445f1df3ef00396a867e27437",
+  "receipt_key_id": "decide_conformance_hmac_v1",
+  "receipt_signature": "hmac-sha256:2ce3cb2a8c7981a28f27d85ef4baf06763becec75a6e3521bb71d1c0185b5411",
+  "receipt_signature_algorithm": "hmac-sha256",
+  "integrity": {
+    "canonicalization": "json.sort_deep.v1",
+    "decision_protocol_version": "decision_protocol_v1",
+    "hash_algorithm": "sha256",
+    "input_hash": "1680bbc7615604cf930fa1dd452165eb7147f84592fe98a4196b0218e309f17f",
+    "output_hash": "d6e504f19a1e01173adc965a5ec8a37cbf1a07cfc96111c1ac63393cbf93cfdf",
+    "policy_hash": "883023cdf70eda7b334226d772b5c2d76bc8dea319c3d9944a0bd728d44193a7",
+    "policy_bundle_hash": "b1f7c9ca64e55c7dfef64f7d3d6a8b4d5103f63f91a505e2c3c1e1d9f0b1329c",
+    "record_hash": "ceb82c2dffe7f6b69fdf3b9fa9e528f4c90f66ed7349c82d7126e42279907848",
+    "receipt_hash": "b1056f6d48bedd0b493f907fbe1e36f04863f36445f1df3ef00396a867e27437",
+    "replay_url": "/api/decision/dec_conformance_0001/replay",
+    "verify_url": "/api/decision/dec_conformance_0001/verify",
+    "signature": {
+      "algorithm": "hmac-sha256",
+      "key_id": "decide_conformance_hmac_v1"
+    }
+  }
+}

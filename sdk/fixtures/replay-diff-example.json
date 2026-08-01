@@ -1,0 +1,28 @@
+{
+  "decision_protocol_version": "decision_protocol_v1",
+  "decision_record_version": "decision_record_v1",
+  "fixture": "replay_diff_example_v1",
+  "decision_id": "dec_conformance_0001",
+  "original_record_hash": "ceb82c2dffe7f6b69fdf3b9fa9e528f4c90f66ed7349c82d7126e42279907848",
+  "original_receipt_hash": "b1056f6d48bedd0b493f907fbe1e36f04863f36445f1df3ef00396a867e27437",
+  "original_policy_bundle_hash": "b1f7c9ca64e55c7dfef64f7d3d6a8b4d5103f63f91a505e2c3c1e1d9f0b1329c",
+  "replayed_at": "2026-05-22T00:00:00.000Z",
+  "replay_input_hash": "1680bbc7615604cf930fa1dd452165eb7147f84592fe98a4196b0218e309f17f",
+  "current_policy_bundle": {
+    "id": "pricing_exception_bundle",
+    "version": "2026-05-22.conformance",
+    "hash": "7c91fe159cde23b96db3a97b832fe0173c9acbeb8659f2e0f73b1631025ad8a1",
+    "hash_algorithm": "sha256",
+    "canonicalization": "json.sort_deep.v1",
+    "source": "git:policies/pricing_exception#conformance-next"
+  },
+  "current_verdict": "review",
+  "original_verdict": "yes",
+  "drift": true,
+  "changed_fields": [
+    "verdict",
+    "action",
+    "policy_bundle_hash"
+  ],
+  "summary": "The same input would move from yes to review under the newer conformance policy bundle."
+}

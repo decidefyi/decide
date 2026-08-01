@@ -1,0 +1,71 @@
+{
+  "name": "@decide-fyi/sdk",
+  "version": "0.1.18",
+  "description": "JavaScript SDK and CLI for the Decide Decision API, Decision Record verification, conformance checks, replay, execution receipts, and outcome reporting.",
+  "keywords": [
+    "decide",
+    "decision-api",
+    "decision-record",
+    "policy-engine",
+    "approval-api",
+    "agent-guardrails",
+    "audit-trail",
+    "rulebook",
+    "replay",
+    "verification"
+  ],
+  "homepage": "https://www.decide.fyi/sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decidefyi/decide.git",
+    "directory": "sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/decidefyi/decide/issues"
+  },
+  "main": "./decide.js",
+  "types": "./decide.d.ts",
+  "exports": {
+    ".": {
+      "types": "./decide.d.ts",
+      "require": "./decide.js",
+      "default": "./decide.js"
+    },
+    "./conformance": {
+      "types": "./conformance.d.ts",
+      "require": "./conformance.js",
+      "default": "./conformance.js"
+    },
+    "./verifier": {
+      "types": "./verifier.d.ts",
+      "require": "./verifier.js",
+      "default": "./verifier.js"
+    }
+  },
+  "bin": {
+    "decide": "bin/decide.js"
+  },
+  "files": [
+    "bin",
+    "conformance.js",
+    "conformance.d.ts",
+    "decide.js",
+    "decide.d.ts",
+    "verifier.js",
+    "verifier.d.ts",
+    "examples",
+    "fixtures",
+    "README.md",
+    "CHANGELOG.md",
+    "SOURCE_PROVENANCE.md"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Decide",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=18"
+  }
+}

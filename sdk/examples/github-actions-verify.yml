@@ -1,0 +1,22 @@
+name: Verify Decision Record
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify-decision-record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+
+      - name: Verify exported Decision Record
+        run: |
+          npx @decide-fyi/sdk verify ./artifacts/decision-record.json \
+            --input ./artifacts/decision-input.json \
+            --key-registry https://www.decide.fyi/api/decision/receipt-keys \
+            --json

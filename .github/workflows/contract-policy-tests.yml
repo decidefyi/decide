@@ -13,6 +13,7 @@ on:
       - "rules/*-policy-sources.json"
       - "rules/policy-vendor-candidates.json"
       - "scripts/**"
+      - "sdk/**"
       - "README.md"
       - "middleware.js"
       - "package.json"
@@ -27,6 +28,7 @@ on:
       - "rules/*-policy-sources.json"
       - "rules/policy-vendor-candidates.json"
       - "scripts/**"
+      - "sdk/**"
       - "README.md"
       - "middleware.js"
       - "package.json"
@@ -49,6 +51,9 @@ jobs:
 
       - name: Run decision contract tests
         run: npm run test:contract
+
+      - name: Verify public SDK package
+        run: npm run test:sdk-package
 
       - name: Run policy feed reliability tests
         run: npm run test:policy-feed

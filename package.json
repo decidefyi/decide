@@ -27,6 +27,7 @@
     "test:gemini-routing": "node scripts/test-gemini-model-routing.js",
     "test:release-gates": "node scripts/test-release-gates.js",
     "test:site-bridge": "node scripts/site-bridge-regression.js",
+    "test:sdk-package": "node scripts/test-sdk-package.js",
     "test:policy-check": "node scripts/test-check-policies.js",
     "test:policy-fetch-hook": "node scripts/test-policy-fetch-hook.js",
     "test:contract": "node scripts/test-decision-contract.js",
