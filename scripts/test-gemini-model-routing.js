@@ -49,16 +49,8 @@ assert.deepEqual(
   [DEFAULT_PAID_GEMINI_MODEL]
 );
 
-const reviewedPaid = resolveGeminiRuntimePolicy({
-  env: {
-    DECIDE_GEMINI_MODE: "paid",
-    DECIDE_GEMINI_MODEL: "gemini-3.1-flash-lite",
-  },
-});
-assert.equal(reviewedPaid.enabled, true);
-assert.equal(reviewedPaid.model, "gemini-3.1-flash-lite");
-
 for (const model of [
+  "gemini-3.1-flash-lite",
   "gemini-3.1-pro-preview",
   "gemini-3.5-flash",
   "gemini-2.5-pro",

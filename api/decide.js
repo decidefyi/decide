@@ -809,57 +809,55 @@ export default async function handler(req, res) {
     }
 
     const geminiPolicy = resolveGeminiRuntimePolicy();
-    if (!geminiPolicy.enabled) {
-      const zeroCostDisabled = ["zero_cost_default", "zero_cost_disabled"].includes(geminiPolicy.reason);
-      const advisoryMode = runtimeRequested ? "runtime" : multiRequested ? "multi" : "single";
-      const error = zeroCostDisabled ? "DECIDE_AI_DISABLED_ZERO_COST" : "DECIDE_AI_CONFIGURATION_INVALID";
-      const message = zeroCostDisabled
-        ? "AI-assisted advisory modes are disabled under the zero-cost policy. Deterministic Rulebook v1 remains available."
-        : "AI-assisted advisory modes are unavailable because the provider configuration failed closed.";
-      await persistLog("decide_ai_advisory_request", {
-        request_id,
-        event: zeroCostDisabled ? "gemini_disabled_zero_cost" : "gemini_configuration_invalid",
-        mode: advisoryMode,
-        configuration_reason: geminiPolicy.reason,
-        ip: clientIp,
-        ua,
-        trusted_proxy: proxyContext.trusted,
-        decide_plan: proxyContext.plan || undefined,
-        customer_id: proxyContext.customerId || undefined,
-      });
-      sendDecisionJson(
-        res,
-        503,
-        {
-          c: "unclear",
-          v: "unavailable",
+    const getGeminiProviderOrRespond = async (advisoryMode, lineageInput) => {
+      if (!geminiPolicy.enabled) {
+        const zeroCostDisabled = ["zero_cost_default", "zero_cost_disabled"].includes(geminiPolicy.reason);
+        const error = zeroCostDisabled ? "DECIDE_AI_DISABLED_ZERO_COST" : "DECIDE_AI_CONFIGURATION_INVALID";
+        const message = zeroCostDisabled
+          ? "AI-assisted advisory modes are disabled under the zero-cost policy. Deterministic Rulebook v1 remains available."
+          : "AI-assisted advisory modes are unavailable because the provider configuration failed closed.";
+        await persistLog("decide_ai_advisory_request", {
           request_id,
-          error,
-          message,
-        },
-        {
+          event: zeroCostDisabled ? "gemini_disabled_zero_cost" : "gemini_configuration_invalid",
           mode: advisoryMode,
-          question,
-          stem,
-          options,
-        }
-      );
-      return;
-    }
-
-    const API_KEY = process.env.GEMINI_API_KEY;
-    if (!API_KEY) {
-      console.error(
-        JSON.stringify({
-          ts: new Date().toISOString(),
-          request_id,
-          error: "GEMINI_API_KEY_MISSING",
+          configuration_reason: geminiPolicy.reason,
+          ip: clientIp,
           ua,
-        })
-      );
-      sendDecisionJson(res, 500, { c: "unclear", v: "try again", request_id }, { mode });
-      return;
-    }
+          trusted_proxy: proxyContext.trusted,
+          decide_plan: proxyContext.plan || undefined,
+          customer_id: proxyContext.customerId || undefined,
+        });
+        sendDecisionJson(
+          res,
+          503,
+          {
+            c: "unclear",
+            v: "unavailable",
+            request_id,
+            error,
+            message,
+          },
+          lineageInput
+        );
+        return null;
+      }
+
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) {
+        console.error(
+          JSON.stringify({
+            ts: new Date().toISOString(),
+            request_id,
+            error: "GEMINI_API_KEY_MISSING",
+            ua,
+          })
+        );
+        sendDecisionJson(res, 500, { c: "unclear", v: "try again", request_id }, lineageInput);
+        return null;
+      }
+
+      return { apiKey, model: geminiPolicy.model };
+    };
 
     if (runtimeRequested) {
       const normalizedForPolicy = normalize(
@@ -876,6 +874,14 @@ export default async function handler(req, res) {
         await persistLog("decide_runtime_request", { request_id, event: "filtered_question", category, ip: clientIp, ua });
         return;
       }
+
+      const geminiProvider = await getGeminiProviderOrRespond("runtime", {
+        mode: "runtime",
+        question: runtimePrompt,
+        stem: runtimePrompt,
+        options: runtimeOptions,
+      });
+      if (!geminiProvider) return;
 
       const optionList = runtimeOptions.map((option, idx) => `${idx + 1}. ${option}`).join("\n");
       const prompt = `You are a strict decision engine.
@@ -928,11 +934,11 @@ Rules:
 
       const startedAt = Date.now();
       const runtimeResult = await requestGeminiGenerateContent({
-        apiKey: API_KEY,
+        apiKey: geminiProvider.apiKey,
         prompt,
         generationConfig: { temperature: 0.2, maxOutputTokens: 900 },
         request_id,
-        model: geminiPolicy.model,
+        model: geminiProvider.model,
       });
       const data = runtimeResult.data;
       if (!runtimeResult.ok) {
@@ -1053,6 +1059,14 @@ Rules:
         return;
       }
 
+      const geminiProvider = await getGeminiProviderOrRespond("multi", {
+        mode: "multi",
+        question,
+        stem,
+        options,
+      });
+      if (!geminiProvider) return;
+
       const optionList = options.map((opt, idx) => `${idx + 1}. ${opt}`).join("\n");
       const prompt = `You are a strict comparative scoring engine.
 Task: score each option for this decision and pick the best.
@@ -1075,11 +1089,11 @@ Rules:
 - no markdown, no extra text`;
 
       const multiResult = await requestGeminiGenerateContent({
-        apiKey: API_KEY,
+        apiKey: geminiProvider.apiKey,
         prompt,
         generationConfig: { temperature: 0, maxOutputTokens: 220 },
         request_id,
-        model: geminiPolicy.model,
+        model: geminiProvider.model,
       });
       const data = multiResult.data;
       if (!multiResult.ok) {
@@ -1171,16 +1185,22 @@ Rules:
       return;
     }
 
+    const geminiProvider = await getGeminiProviderOrRespond("single", {
+      mode: "single",
+      question: q,
+    });
+    if (!geminiProvider) return;
+
     const prompt = `You're a decisive oracle. You must commit and find the differentiation factor. Output only "yes" or "no". No other text. Answer metaphorical questions based on intent.
 User's question: ${q}
 Output exactly one of: yes, no`;
 
     const singleResult = await requestGeminiGenerateContent({
-      apiKey: API_KEY,
+      apiKey: geminiProvider.apiKey,
       prompt,
       generationConfig: { temperature: 0.7, maxOutputTokens: 10 },
       request_id,
-      model: geminiPolicy.model,
+      model: geminiProvider.model,
     });
     const data = singleResult.data;
     if (!singleResult.ok) {

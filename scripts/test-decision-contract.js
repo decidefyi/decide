@@ -2882,6 +2882,167 @@ async function testDecideGeminiDisabledByDefault() {
   }
 }
 
+async function testDecideGeminiDisabledPreservesDeterministicGuards() {
+  const originalFetch = global.fetch;
+  const envKeys = ["GEMINI_API_KEY", "DECIDE_API_KEY", "DECIDE_GEMINI_MODE", "DECIDE_GEMINI_MODEL"];
+  const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
+  process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "";
+  delete process.env.DECIDE_GEMINI_MODE;
+  delete process.env.DECIDE_GEMINI_MODEL;
+  let fetchCalls = 0;
+  global.fetch = async () => {
+    fetchCalls += 1;
+    throw new Error("deterministic guards must run without Gemini");
+  };
+
+  const cases = [
+    {
+      label: "short single",
+      ip: "127.0.0.91",
+      body: { mode: "single", question: "hi" },
+      expected: { c: "unclear", v: "Ask a question" },
+    },
+    {
+      label: "invalid multi",
+      ip: "127.0.0.92",
+      body: { mode: "multi", stem: "Pick one", options: ["Only option"] },
+      expected: { c: "unclear", v: "Need 2-8 options" },
+    },
+    {
+      label: "filtered single",
+      ip: "127.0.0.93",
+      body: { mode: "single", question: "Should I buy this stock?" },
+      expected: { c: "filtered", v: "Cannot provide finance advice" },
+    },
+    {
+      label: "filtered multi",
+      ip: "127.0.0.94",
+      body: { mode: "multi", stem: "Should I buy this stock?", options: ["Buy", "Wait"] },
+      expected: { c: "filtered", v: "Cannot provide finance advice" },
+    },
+    {
+      label: "filtered runtime",
+      ip: "127.0.0.95",
+      body: {
+        mode: "runtime",
+        prompt: "Should I buy this stock?",
+        context: { options: ["Buy", "Wait"] },
+      },
+      expected: { c: "filtered", v: "Cannot provide finance advice" },
+    },
+  ];
+
+  try {
+    for (const entry of cases) {
+      const result = await invokeJson(decideHandler, {
+        method: "POST",
+        url: "/api/decide",
+        headers: {
+          "content-type": "application/json",
+          "user-agent": "contract-test",
+          "x-forwarded-for": entry.ip,
+        },
+        body: entry.body,
+      });
+      assert.equal(result.statusCode, 200, `${entry.label}: deterministic response status mismatch`);
+      assert.equal(result.json?.c, entry.expected.c, `${entry.label}: response class mismatch`);
+      assert.equal(result.json?.v, entry.expected.v, `${entry.label}: response verdict mismatch`);
+    }
+    assert.equal(fetchCalls, 0, "disabled deterministic guards must make zero provider calls");
+  } finally {
+    global.fetch = originalFetch;
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
+  }
+}
+
+async function testDecideGeminiDisabledRuntimeLineage() {
+  const originalFetch = global.fetch;
+  const envKeys = ["GEMINI_API_KEY", "DECIDE_API_KEY", "DECIDE_GEMINI_MODE", "DECIDE_GEMINI_MODEL"];
+  const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
+  process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "";
+  delete process.env.DECIDE_GEMINI_MODE;
+  delete process.env.DECIDE_GEMINI_MODEL;
+  let fetchCalls = 0;
+  global.fetch = async () => {
+    fetchCalls += 1;
+    throw new Error("disabled runtime must never call Gemini");
+  };
+
+  const request = (prompt, ip) => ({
+    method: "POST",
+    url: "/api/decide",
+    headers: {
+      "content-type": "application/json",
+      "user-agent": "contract-test",
+      "x-forwarded-for": ip,
+    },
+    body: {
+      mode: "runtime",
+      prompt,
+      context: { options: ["Ship now", "Wait"] },
+    },
+  });
+
+  try {
+    const first = await invokeJson(decideHandler, request("Choose the rollout path", "127.0.0.96"));
+    const second = await invokeJson(decideHandler, request("Choose the support path", "127.0.0.97"));
+    for (const [label, result] of [["first", first], ["second", second]]) {
+      assert.equal(result.statusCode, 503, `${label} disabled runtime status mismatch`);
+      assert.equal(result.json?.error, "DECIDE_AI_DISABLED_ZERO_COST", `${label} disabled runtime error mismatch`);
+      assertAdvisoryDecisionContract(result.json, "runtime", `${label} disabled runtime`);
+      assertLineage(result.json, `${label} disabled runtime`);
+    }
+    assert.notEqual(first.json?.source_hash, second.json?.source_hash, "distinct runtime prompts need distinct lineage hashes");
+    assert.equal(fetchCalls, 0, "disabled runtime lineage checks must make zero provider calls");
+  } finally {
+    global.fetch = originalFetch;
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
+  }
+}
+
+async function testDecideGeminiPaidMissingKeyFailsClosed() {
+  const fixture = loadFixture("decide-single.json");
+  const originalFetch = global.fetch;
+  const envKeys = ["GEMINI_API_KEY", "DECIDE_API_KEY", "DECIDE_GEMINI_MODE", "DECIDE_GEMINI_MODEL"];
+  const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
+  delete process.env.GEMINI_API_KEY;
+  process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_GEMINI_MODE = "paid";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  let fetchCalls = 0;
+  global.fetch = async () => {
+    fetchCalls += 1;
+    throw new Error("missing-key paid mode must never call Gemini");
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: {
+        ...(fixture.request.headers || {}),
+        "x-forwarded-for": "127.0.0.98",
+      },
+    });
+    assert.equal(result.statusCode, 500, "paid mode without a key must fail closed");
+    assert.equal(result.json?.c, "unclear", "missing-key paid mode response class mismatch");
+    assert.equal(fetchCalls, 0, "missing-key paid mode must make zero provider calls");
+  } finally {
+    global.fetch = originalFetch;
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
+  }
+}
+
 async function testDecideGeminiPaidSingleAttempt() {
   const fixture = loadFixture("decide-single.json");
   const originalFetch = global.fetch;
@@ -2937,7 +3098,7 @@ async function testDecideGeminiEmptyTextSingleAttempt() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  process.env.DECIDE_GEMINI_MODEL = "gemini-3.1-flash-lite";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
   let fetchCalls = 0;
   global.fetch = async () => {
     fetchCalls += 1;
@@ -4305,6 +4466,9 @@ async function main() {
     ["rulebook-runtime-architecture-doc", testRulebookRuntimeArchitectureDoc],
     ["rulebook-runtime-manifest", testRulebookRuntimeManifest],
     ["decide-gemini-disabled-by-default", testDecideGeminiDisabledByDefault],
+    ["decide-gemini-disabled-preserves-deterministic-guards", testDecideGeminiDisabledPreservesDeterministicGuards],
+    ["decide-gemini-disabled-runtime-lineage", testDecideGeminiDisabledRuntimeLineage],
+    ["decide-gemini-paid-missing-key-fails-closed", testDecideGeminiPaidMissingKeyFailsClosed],
     ["decide-gemini-paid-single-attempt", testDecideGeminiPaidSingleAttempt],
     ["decide-gemini-empty-text-single-attempt", testDecideGeminiEmptyTextSingleAttempt],
     ["decide-gemini-deadline", testDecideGeminiDeadline],
