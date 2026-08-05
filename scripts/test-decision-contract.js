@@ -256,8 +256,10 @@ async function testDecideSingleFixture() {
   const originalFetch = global.fetch;
   const previousApiKey = process.env.GEMINI_API_KEY;
   const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  const previousGeminiMode = process.env.DECIDE_GEMINI_MODE;
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_GEMINI_MODE = "paid";
   global.fetch = async () => ({
     ok: true,
     async json() {
@@ -285,6 +287,8 @@ async function testDecideSingleFixture() {
     global.fetch = originalFetch;
     process.env.GEMINI_API_KEY = previousApiKey;
     process.env.DECIDE_API_KEY = previousDecideApiKey;
+    if (previousGeminiMode === undefined) delete process.env.DECIDE_GEMINI_MODE;
+    else process.env.DECIDE_GEMINI_MODE = previousGeminiMode;
   }
 }
 
@@ -305,8 +309,10 @@ async function testDecideMultiAdvisoryContract() {
   const originalFetch = global.fetch;
   const previousApiKey = process.env.GEMINI_API_KEY;
   const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  const previousGeminiMode = process.env.DECIDE_GEMINI_MODE;
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_GEMINI_MODE = "paid";
   global.fetch = async () => ({
     ok: true,
     async json() {
@@ -334,6 +340,8 @@ async function testDecideMultiAdvisoryContract() {
     global.fetch = originalFetch;
     process.env.GEMINI_API_KEY = previousApiKey;
     process.env.DECIDE_API_KEY = previousDecideApiKey;
+    if (previousGeminiMode === undefined) delete process.env.DECIDE_GEMINI_MODE;
+    else process.env.DECIDE_GEMINI_MODE = previousGeminiMode;
   }
 }
 
@@ -342,8 +350,10 @@ async function testDecideApiKeyFixture() {
   const originalFetch = global.fetch;
   const previousApiKey = process.env.GEMINI_API_KEY;
   const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  const previousGeminiMode = process.env.DECIDE_GEMINI_MODE;
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "decide-auth-token";
+  process.env.DECIDE_GEMINI_MODE = "paid";
   global.fetch = async () => ({
     ok: true,
     async json() {
@@ -378,6 +388,8 @@ async function testDecideApiKeyFixture() {
     global.fetch = originalFetch;
     process.env.GEMINI_API_KEY = previousApiKey;
     process.env.DECIDE_API_KEY = previousDecideApiKey;
+    if (previousGeminiMode === undefined) delete process.env.DECIDE_GEMINI_MODE;
+    else process.env.DECIDE_GEMINI_MODE = previousGeminiMode;
   }
 }
 
@@ -389,12 +401,14 @@ async function testDecideProductionRequiresTrustedEdge() {
     "DECIDE_API_KEY",
     "DECIDE_PROXY_SHARED_TOKEN",
     "DECIDE_API_AUTH_REQUIRED",
+    "DECIDE_GEMINI_MODE",
     "VERCEL_ENV",
   ];
   const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_PROXY_SHARED_TOKEN = "trusted-proxy-token";
+  process.env.DECIDE_GEMINI_MODE = "paid";
   delete process.env.DECIDE_API_AUTH_REQUIRED;
   process.env.VERCEL_ENV = "production";
   global.fetch = async () => ({
@@ -438,8 +452,10 @@ async function testDecideRuntimeFixture() {
   const originalFetch = global.fetch;
   const previousApiKey = process.env.GEMINI_API_KEY;
   const previousDecideApiKey = process.env.DECIDE_API_KEY;
+  const previousGeminiMode = process.env.DECIDE_GEMINI_MODE;
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_GEMINI_MODE = "paid";
   global.fetch = async () => ({
     ok: true,
     async json() {
@@ -517,6 +533,8 @@ async function testDecideRuntimeFixture() {
     global.fetch = originalFetch;
     process.env.GEMINI_API_KEY = previousApiKey;
     process.env.DECIDE_API_KEY = previousDecideApiKey;
+    if (previousGeminiMode === undefined) delete process.env.DECIDE_GEMINI_MODE;
+    else process.env.DECIDE_GEMINI_MODE = previousGeminiMode;
   }
 }
 
@@ -2832,123 +2850,117 @@ function testRulebookRuntimeArchitectureDoc() {
   );
 }
 
-async function testDecideModelFallbackOrder() {
+async function testDecideGeminiDisabledByDefault() {
   const fixture = loadFixture("decide-single.json");
   const originalFetch = global.fetch;
-  const previousApiKey = process.env.GEMINI_API_KEY;
-  const previousDecideApiKey = process.env.DECIDE_API_KEY;
-  const previousLowLatencyLadder = process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER;
+  const envKeys = ["GEMINI_API_KEY", "DECIDE_API_KEY", "DECIDE_GEMINI_MODE", "DECIDE_GEMINI_MODEL"];
+  const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
-  process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = "";
-  const urls = [];
-  global.fetch = async (url) => {
-    urls.push(String(url));
-    if (urls.length === 1) {
-      return {
-        ok: false,
-        status: 404,
-        async json() {
-          return {
-            error: {
-              message: "model not found",
-            },
-          };
-        },
-      };
-    }
-    return {
-      ok: true,
-      status: 200,
-      async json() {
-        return {
-          candidates: [
-            {
-              content: {
-                parts: [{ text: "yes" }],
-              },
-            },
-          ],
-        };
-      },
-    };
+  delete process.env.DECIDE_GEMINI_MODE;
+  delete process.env.DECIDE_GEMINI_MODEL;
+  let fetchCalls = 0;
+  global.fetch = async () => {
+    fetchCalls += 1;
+    throw new Error("zero-cost mode must never call Gemini");
   };
 
   try {
     const result = await invokeJson(decideHandler, fixture.request);
-    assert.equal(result.statusCode, 200, "decide fallback order status mismatch");
-    assert.equal(result.json?.c, "yes", "decide fallback order verdict mismatch");
-    assert.equal(urls.length, 2, "expected second model attempt after first-model failure");
-    assert.match(urls[0], /models\/gemini-3\.1-flash-lite:generateContent/, "first attempt should use gemini-3.1-flash-lite");
-    assert.match(urls[1], /models\/gemini-3\.5-flash:generateContent/, "second attempt should use gemini-3.5-flash");
+    assert.equal(result.statusCode, 503, "disabled Gemini mode should be explicitly unavailable");
+    assert.equal(result.json?.c, "unclear", "disabled Gemini mode must fail closed");
+    assert.equal(result.json?.v, "unavailable", "disabled Gemini mode verdict mismatch");
+    assert.equal(result.json?.error, "DECIDE_AI_DISABLED_ZERO_COST", "disabled mode error mismatch");
+    assert.equal(fetchCalls, 0, "disabled Gemini mode must make zero provider calls");
+    assertAdvisoryDecisionContract(result.json, "single", "disabled decide advisory");
   } finally {
     global.fetch = originalFetch;
-    process.env.GEMINI_API_KEY = previousApiKey;
-    process.env.DECIDE_API_KEY = previousDecideApiKey;
-    if (previousLowLatencyLadder === undefined) delete process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER;
-    else process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = previousLowLatencyLadder;
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
   }
 }
 
-async function testDecideModelFallbackOnEmptyText() {
+async function testDecideGeminiPaidSingleAttempt() {
   const fixture = loadFixture("decide-single.json");
   const originalFetch = global.fetch;
-  const previousApiKey = process.env.GEMINI_API_KEY;
-  const previousDecideApiKey = process.env.DECIDE_API_KEY;
-  const previousLowLatencyLadder = process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER;
+  const envKeys = [
+    "GEMINI_API_KEY",
+    "DECIDE_API_KEY",
+    "DECIDE_GEMINI_MODE",
+    "DECIDE_GEMINI_MODEL",
+    "DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER",
+  ];
+  const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
-  process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = "";
+  process.env.DECIDE_GEMINI_MODE = "paid";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = "gemini-3.1-pro-preview,gemini-3.5-flash";
   const urls = [];
   global.fetch = async (url) => {
     urls.push(String(url));
-    if (urls.length === 1) {
-      return {
-        ok: true,
-        status: 200,
-        async json() {
-          return {
-            candidates: [
-              {
-                content: {
-                  parts: [{ text: "" }],
-                },
-              },
-            ],
-          };
-        },
-      };
-    }
     return {
-      ok: true,
-      status: 200,
+      ok: false,
+      status: 503,
       async json() {
-        return {
-          candidates: [
-            {
-              content: {
-                parts: [{ text: "yes" }],
-              },
-            },
-          ],
-        };
+        return { error: { message: "temporarily unavailable" } };
       },
     };
   };
 
   try {
     const result = await invokeJson(decideHandler, fixture.request);
-    assert.equal(result.statusCode, 200, "decide empty-text fallback status mismatch");
-    assert.equal(result.json?.c, "yes", "decide empty-text fallback verdict mismatch");
-    assert.equal(urls.length, 2, "expected second model attempt after empty first response");
-    assert.match(urls[0], /models\/gemini-3\.1-flash-lite:generateContent/, "first attempt should use gemini-3.1-flash-lite");
-    assert.match(urls[1], /models\/gemini-3\.5-flash:generateContent/, "second attempt should use gemini-3.5-flash");
+    assert.equal(result.statusCode, 200, "paid provider failure should preserve advisory response compatibility");
+    assert.equal(result.json?.c, "unclear", "paid provider failure must fail closed");
+    assert.equal(urls.length, 1, "paid mode must make exactly one provider attempt");
+    assert.match(
+      urls[0],
+      /models\/gemini-2\.5-flash-lite:generateContent/,
+      "paid mode must use the exact reviewed model"
+    );
   } finally {
     global.fetch = originalFetch;
-    process.env.GEMINI_API_KEY = previousApiKey;
-    process.env.DECIDE_API_KEY = previousDecideApiKey;
-    if (previousLowLatencyLadder === undefined) delete process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER;
-    else process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = previousLowLatencyLadder;
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
+  }
+}
+
+async function testDecideGeminiEmptyTextSingleAttempt() {
+  const fixture = loadFixture("decide-single.json");
+  const originalFetch = global.fetch;
+  const envKeys = ["GEMINI_API_KEY", "DECIDE_API_KEY", "DECIDE_GEMINI_MODE", "DECIDE_GEMINI_MODEL"];
+  const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
+  process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_GEMINI_MODE = "paid";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-3.1-flash-lite";
+  let fetchCalls = 0;
+  global.fetch = async () => {
+    fetchCalls += 1;
+    return {
+      ok: true,
+      status: 200,
+      async json() {
+        return { candidates: [{ content: { parts: [{ text: "" }] } }] };
+      },
+    };
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, fixture.request);
+    assert.equal(result.statusCode, 200, "empty provider output should preserve advisory response compatibility");
+    assert.equal(result.json?.c, "unclear", "empty provider output must fail closed");
+    assert.equal(fetchCalls, 1, "empty provider output must not trigger a second attempt");
+  } finally {
+    global.fetch = originalFetch;
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
   }
 }
 
@@ -2958,18 +2970,18 @@ async function testDecideGeminiDeadline() {
   const envKeys = [
     "GEMINI_API_KEY",
     "DECIDE_API_KEY",
-    "DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER",
+    "DECIDE_GEMINI_MODE",
+    "DECIDE_GEMINI_MODEL",
     "DECIDE_GEMINI_TIMEOUT_MS",
-    "DECIDE_GEMINI_ATTEMPT_TIMEOUT_MS",
   ];
   const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
   let signalSeen = false;
   let signalAborted = false;
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
-  process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = "gemini-3.1-flash-lite";
-  process.env.DECIDE_GEMINI_TIMEOUT_MS = "30";
-  process.env.DECIDE_GEMINI_ATTEMPT_TIMEOUT_MS = "20";
+  process.env.DECIDE_GEMINI_MODE = "paid";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  process.env.DECIDE_GEMINI_TIMEOUT_MS = "20";
   global.fetch = async (_url, options = {}) =>
     new Promise((_resolve, reject) => {
       signalSeen = Boolean(options.signal);
@@ -3010,64 +3022,50 @@ async function testDecideGeminiDeadline() {
   }
 }
 
-async function testDecideExtendedFallbackOrder() {
+async function testDecideGeminiPromptLimit() {
   const fixture = loadFixture("decide-single.json");
   const originalFetch = global.fetch;
-  const previousApiKey = process.env.GEMINI_API_KEY;
-  const previousDecideApiKey = process.env.DECIDE_API_KEY;
-  const previousLowLatencyLadder = process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER;
+  const envKeys = [
+    "GEMINI_API_KEY",
+    "DECIDE_API_KEY",
+    "DECIDE_GEMINI_MODE",
+    "DECIDE_GEMINI_MODEL",
+    "DECIDE_GEMINI_MAX_PROMPT_CHARS",
+  ];
+  const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
-  process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = "";
-  const urls = [];
-
-  global.fetch = async (url) => {
-    urls.push(String(url));
-    if (urls.length < 4) {
-      return {
-        ok: false,
-        status: 404,
-        async json() {
-          return {
-            error: {
-              message: "model not found",
-            },
-          };
-        },
-      };
-    }
-    return {
-      ok: true,
-      status: 200,
-      async json() {
-        return {
-          candidates: [
-            {
-              content: {
-                parts: [{ text: "yes" }],
-              },
-            },
-          ],
-        };
-      },
-    };
+  process.env.DECIDE_GEMINI_MODE = "paid";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  process.env.DECIDE_GEMINI_MAX_PROMPT_CHARS = "512";
+  let fetchCalls = 0;
+  global.fetch = async () => {
+    fetchCalls += 1;
+    throw new Error("oversized prompts must fail before fetch");
   };
 
   try {
-    const result = await invokeJson(decideHandler, fixture.request);
-    assert.equal(result.statusCode, 200, "decide extended fallback order status mismatch");
-    assert.equal(result.json?.c, "yes", "decide extended fallback order verdict mismatch");
-    assert.equal(urls.length, 4, "expected success on the fourth low-latency model attempt");
-    assert.match(urls[0], /models\/gemini-3\.1-flash-lite:generateContent/, "rung 1 should use gemini-3.1-flash-lite");
-    assert.match(urls[1], /models\/gemini-3\.5-flash:generateContent/, "rung 2 should use gemini-3.5-flash");
-    assert.match(urls[2], /models\/gemini-2\.5-flash-lite:generateContent/, "rung 3 should use gemini-2.5-flash-lite");
-    assert.match(urls[3], /models\/gemini-2\.5-flash:generateContent/, "rung 4 should use gemini-2.5-flash");
+    const result = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: {
+        ...(fixture.request.headers || {}),
+        "x-forwarded-for": "127.0.0.88",
+      },
+      body: {
+        ...fixture.request.body,
+        question: `Should I choose ${"x".repeat(700)}?`,
+      },
+    });
+    assert.equal(result.statusCode, 413, "oversized advisory prompt should be rejected");
+    assert.equal(result.json?.c, "unclear", "oversized advisory prompt must fail closed");
+    assert.equal(result.json?.error, "DECIDE_AI_PROMPT_TOO_LARGE", "prompt limit error mismatch");
+    assert.equal(fetchCalls, 0, "oversized advisory prompt must make zero provider calls");
   } finally {
     global.fetch = originalFetch;
-    process.env.GEMINI_API_KEY = previousApiKey;
-    process.env.DECIDE_API_KEY = previousDecideApiKey;
-    if (previousLowLatencyLadder === undefined) delete process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER;
-    else process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = previousLowLatencyLadder;
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
   }
 }
 
@@ -4306,10 +4304,11 @@ async function main() {
     ["rulebook-migration-dry-run-cli", testRulebookMigrationDryRunCli],
     ["rulebook-runtime-architecture-doc", testRulebookRuntimeArchitectureDoc],
     ["rulebook-runtime-manifest", testRulebookRuntimeManifest],
-    ["decide-model-fallback-order", testDecideModelFallbackOrder],
-    ["decide-model-fallback-empty-text", testDecideModelFallbackOnEmptyText],
+    ["decide-gemini-disabled-by-default", testDecideGeminiDisabledByDefault],
+    ["decide-gemini-paid-single-attempt", testDecideGeminiPaidSingleAttempt],
+    ["decide-gemini-empty-text-single-attempt", testDecideGeminiEmptyTextSingleAttempt],
     ["decide-gemini-deadline", testDecideGeminiDeadline],
-    ["decide-extended-fallback-order", testDecideExtendedFallbackOrder],
+    ["decide-gemini-prompt-limit", testDecideGeminiPromptLimit],
     ["policy-v1-dispatch", testPolicyV1Fixture],
     ["policy-decision-record-material", testPolicyDecisionRecordMaterialFixture],
     ["refund-policy-rulebook-outcomes", testRefundPolicyRulebookOutcomes],

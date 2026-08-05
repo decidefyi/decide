@@ -12,10 +12,7 @@ import {
 import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
 import { isRulebookAttestationSignatureRequired } from "../lib/rulebook-attestation-signing.js";
 import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
-import {
-  resolveGeminiModelLadder,
-  resolveGeminiModelProfile,
-} from "../lib/gemini-model-routing.js";
+import { resolveGeminiRuntimePolicy } from "../lib/gemini-model-routing.js";
 import { timingSafeEqual } from "node:crypto";
 
 // Rate limiter: 20 requests per minute per IP
@@ -284,14 +281,6 @@ function findCallerSuppliedRulebookOutputFields(body = {}) {
   );
 }
 
-function shouldRetryGeminiModel(statusCode, payload) {
-  if ([400, 401].includes(Number(statusCode))) return false;
-  if ([403, 404, 408, 409, 429, 500, 502, 503, 504].includes(Number(statusCode))) return true;
-  const message = JSON.stringify(payload?.error || payload || "").toLowerCase();
-  if (!message) return false;
-  return /(quota|rate limit|resource exhausted|temporarily unavailable|unavailable|overloaded|not found|deprecated|unsupported)/.test(message);
-}
-
 function boundedTimeoutMs(value, fallback, min = 10, max = 30000) {
   const parsed = Number.parseInt(String(value || ""), 10);
   if (!Number.isFinite(parsed)) return fallback;
@@ -303,98 +292,128 @@ async function requestGeminiGenerateContent({
   prompt,
   generationConfig,
   request_id,
-  modelProfile = "quality",
+  model,
 }) {
   const attempts = [];
-  let lastStatus = 0;
-  let lastData = null;
-  let lastError = null;
-  const totalTimeoutMs = boundedTimeoutMs(process.env.DECIDE_GEMINI_TIMEOUT_MS, 15000);
-  const attemptTimeoutMs = boundedTimeoutMs(
-    process.env.DECIDE_GEMINI_ATTEMPT_TIMEOUT_MS,
-    Math.min(5000, totalTimeoutMs),
-    10,
-    totalTimeoutMs
+  const promptText = String(prompt || "");
+  const maxPromptChars = boundedTimeoutMs(
+    process.env.DECIDE_GEMINI_MAX_PROMPT_CHARS,
+    12000,
+    256,
+    20000
   );
-  const deadlineAt = Date.now() + totalTimeoutMs;
-
-  for (const model of resolveGeminiModelLadder({ profile: modelProfile })) {
-    const remainingMs = deadlineAt - Date.now();
-    if (remainingMs <= 0) break;
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-    const controller = new AbortController();
-    let attemptTimedOut = false;
-    const timer = setTimeout(() => {
-      attemptTimedOut = true;
-      controller.abort();
-    }, Math.min(attemptTimeoutMs, remainingMs));
-    try {
-      const startedAt = Date.now();
-      const apiRes = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": apiKey,
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig,
-        }),
-        signal: controller.signal,
-      });
-      const data = await apiRes.json();
-      const attempt = { model, status: apiRes.status, latency_ms: Date.now() - startedAt };
-      attempts.push(attempt);
-      if (apiRes.ok) {
-        if (!readGeminiText(data).trim()) {
-          attempt.empty_text = true;
-          lastStatus = apiRes.status;
-          lastData = data;
-          continue;
-        }
-        return {
-          ok: true,
-          data,
-          model,
-          attempts,
-        };
-      }
-      lastStatus = apiRes.status;
-      lastData = data;
-      if (!shouldRetryGeminiModel(apiRes.status, data)) {
-        break;
-      }
-    } catch (error) {
-      lastError = attemptTimedOut ? new Error("Gemini request timed out") : error;
-      attempts.push({
-        model,
-        status: 0,
-        error: attemptTimedOut ? "GEMINI_REQUEST_TIMEOUT" : String(error?.message || error),
-      });
-    } finally {
-      clearTimeout(timer);
-    }
+  if (promptText.length > maxPromptChars) {
+    return {
+      ok: false,
+      status: 413,
+      data: null,
+      attempts,
+      errorCode: "GEMINI_PROMPT_TOO_LARGE",
+      maxPromptChars,
+    };
   }
 
-  if (lastError) {
+  const totalTimeoutMs = boundedTimeoutMs(process.env.DECIDE_GEMINI_TIMEOUT_MS, 15000);
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+  const controller = new AbortController();
+  let requestTimedOut = false;
+  const timer = setTimeout(() => {
+    requestTimedOut = true;
+    controller.abort();
+  }, totalTimeoutMs);
+
+  try {
+    const startedAt = Date.now();
+    const apiRes = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: promptText }] }],
+        generationConfig,
+      }),
+      signal: controller.signal,
+    });
+    const data = await apiRes.json();
+    const attempt = { model, status: apiRes.status, latency_ms: Date.now() - startedAt };
+    attempts.push(attempt);
+
+    if (!apiRes.ok) {
+      return {
+        ok: false,
+        status: apiRes.status,
+        data,
+        attempts,
+        errorCode: "GEMINI_PROVIDER_FAILED",
+      };
+    }
+
+    if (!readGeminiText(data).trim()) {
+      attempt.empty_text = true;
+      return {
+        ok: false,
+        status: apiRes.status,
+        data,
+        attempts,
+        errorCode: "GEMINI_EMPTY_RESPONSE",
+      };
+    }
+
+    return {
+      ok: true,
+      data,
+      model,
+      attempts,
+    };
+  } catch (error) {
+    const normalizedError = requestTimedOut ? new Error("Gemini request timed out") : error;
+    attempts.push({
+      model,
+      status: 0,
+      error: requestTimedOut ? "GEMINI_REQUEST_TIMEOUT" : String(error?.message || error),
+    });
     console.error(
       JSON.stringify({
         ts: new Date().toISOString(),
         request_id,
-        error: "GEMINI_MODEL_LADDER_EXHAUSTED",
-        message: String(lastError?.message || lastError),
+        error: "GEMINI_REQUEST_FAILED",
+        message: String(normalizedError?.message || normalizedError),
         attempts,
       })
     );
+    return {
+      ok: false,
+      status: 0,
+      data: null,
+      attempts,
+      error: normalizedError,
+      errorCode: requestTimedOut ? "GEMINI_REQUEST_TIMEOUT" : "GEMINI_REQUEST_FAILED",
+    };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function sendGeminiRequestFailure(res, result, request_id, lineageInput) {
+  if (result?.errorCode === "GEMINI_PROMPT_TOO_LARGE") {
+    sendDecisionJson(
+      res,
+      413,
+      {
+        c: "unclear",
+        v: "invalid_request",
+        request_id,
+        error: "DECIDE_AI_PROMPT_TOO_LARGE",
+        message: `AI advisory prompt exceeds the ${result.maxPromptChars}-character limit.`,
+      },
+      lineageInput
+    );
+    return;
   }
 
-  return {
-    ok: false,
-    status: lastStatus,
-    data: lastData,
-    attempts,
-    error: lastError,
-  };
+  sendDecisionJson(res, 200, { c: "unclear", v: "try again", request_id }, lineageInput);
 }
 
 function safeEqualToken(left, right) {
@@ -789,6 +808,45 @@ export default async function handler(req, res) {
       return;
     }
 
+    const geminiPolicy = resolveGeminiRuntimePolicy();
+    if (!geminiPolicy.enabled) {
+      const zeroCostDisabled = ["zero_cost_default", "zero_cost_disabled"].includes(geminiPolicy.reason);
+      const advisoryMode = runtimeRequested ? "runtime" : multiRequested ? "multi" : "single";
+      const error = zeroCostDisabled ? "DECIDE_AI_DISABLED_ZERO_COST" : "DECIDE_AI_CONFIGURATION_INVALID";
+      const message = zeroCostDisabled
+        ? "AI-assisted advisory modes are disabled under the zero-cost policy. Deterministic Rulebook v1 remains available."
+        : "AI-assisted advisory modes are unavailable because the provider configuration failed closed.";
+      await persistLog("decide_ai_advisory_request", {
+        request_id,
+        event: zeroCostDisabled ? "gemini_disabled_zero_cost" : "gemini_configuration_invalid",
+        mode: advisoryMode,
+        configuration_reason: geminiPolicy.reason,
+        ip: clientIp,
+        ua,
+        trusted_proxy: proxyContext.trusted,
+        decide_plan: proxyContext.plan || undefined,
+        customer_id: proxyContext.customerId || undefined,
+      });
+      sendDecisionJson(
+        res,
+        503,
+        {
+          c: "unclear",
+          v: "unavailable",
+          request_id,
+          error,
+          message,
+        },
+        {
+          mode: advisoryMode,
+          question,
+          stem,
+          options,
+        }
+      );
+      return;
+    }
+
     const API_KEY = process.env.GEMINI_API_KEY;
     if (!API_KEY) {
       console.error(
@@ -874,13 +932,14 @@ Rules:
         prompt,
         generationConfig: { temperature: 0.2, maxOutputTokens: 900 },
         request_id,
+        model: geminiPolicy.model,
       });
       const data = runtimeResult.data;
       if (!runtimeResult.ok) {
-        sendDecisionJson(
+        sendGeminiRequestFailure(
           res,
-          200,
-          { c: "unclear", v: "try again", request_id },
+          runtimeResult,
+          request_id,
           { mode: "runtime", question: runtimePrompt, stem: runtimePrompt, options: runtimeOptions }
         );
         return;
@@ -1020,11 +1079,16 @@ Rules:
         prompt,
         generationConfig: { temperature: 0, maxOutputTokens: 220 },
         request_id,
-        modelProfile: resolveGeminiModelProfile("multi"),
+        model: geminiPolicy.model,
       });
       const data = multiResult.data;
       if (!multiResult.ok) {
-        sendDecisionJson(res, 200, { c: "unclear", v: "try again", request_id }, { mode: "multi", question, stem, options });
+        sendGeminiRequestFailure(
+          res,
+          multiResult,
+          request_id,
+          { mode: "multi", question, stem, options }
+        );
         return;
       }
 
@@ -1116,11 +1180,16 @@ Output exactly one of: yes, no`;
       prompt,
       generationConfig: { temperature: 0.7, maxOutputTokens: 10 },
       request_id,
-      modelProfile: resolveGeminiModelProfile("single"),
+      model: geminiPolicy.model,
     });
     const data = singleResult.data;
     if (!singleResult.ok) {
-      sendDecisionJson(res, 200, { c: "unclear", v: "try again", request_id }, { mode: "single", question: q });
+      sendGeminiRequestFailure(
+        res,
+        singleResult,
+        request_id,
+        { mode: "single", question: q }
+      );
       return;
     }
 

@@ -555,8 +555,12 @@ If you run `decide` behind the `decidesite` proxy with dynamic customer keys, al
 
 - `DECIDE_PROXY_SHARED_TOKEN`: shared secret required in `x-decide-proxy-token` header for trusted proxy calls.
 - `DECIDE_API_KEY`: optional direct backend credential for trusted server-side callers.
-- `DECIDE_GEMINI_TIMEOUT_MS`: total Gemini model-ladder deadline (defaults to 15 seconds).
-- `DECIDE_GEMINI_ATTEMPT_TIMEOUT_MS`: per-model attempt deadline (defaults to 5 seconds, bounded by the total deadline).
+- `DECIDE_GEMINI_MODE`: defaults to `disabled`. In this hard-zero state, legacy advisory `single`, `multi`, and `runtime` requests return `DECIDE_AI_DISABLED_ZERO_COST` without reading an API key or making a provider request. Rulebook v1 remains available and never uses Gemini.
+- `DECIDE_GEMINI_MODE=paid`: explicit nonzero-cost opt-in for advisory modes. This mode also requires a restricted server-side `GEMINI_API_KEY` and optionally `DECIDE_GEMINI_MODEL` (`gemini-2.5-flash-lite` by default; `gemini-3.1-flash-lite` is the only other reviewed value).
+- `DECIDE_GEMINI_TIMEOUT_MS`: the single paid-mode provider deadline (defaults to 15 seconds).
+- `DECIDE_GEMINI_MAX_PROMPT_CHARS`: the pre-fetch advisory prompt cap (defaults to 12,000; bounded to 256-20,000).
+
+Paid mode makes exactly one provider attempt and never falls back to another model. Product request quotas and provider billing controls are not a zero-dollar guarantee; keep `DECIDE_GEMINI_MODE=disabled` when zero cost is required.
 
 Rate limit: 100 requests/minute per IP.
 
