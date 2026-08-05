@@ -2,6 +2,7 @@ import cancelPenaltyHandler from "../../../lib/routes/v1/policies/cancel-penalty
 import refundEligibilityHandler from "../../../lib/routes/v1/policies/refund-eligibility.js";
 import returnEligibilityHandler from "../../../lib/routes/v1/policies/return-eligibility.js";
 import trialTermsHandler from "../../../lib/routes/v1/policies/trial-terms.js";
+import { parseRequestQuery } from "../../../lib/request-query.js";
 
 const POLICY_ROUTE_MAP = {
   "cancel/penalty": cancelPenaltyHandler,
@@ -18,8 +19,8 @@ function normalize(value) {
   return String(value || "").toLowerCase().trim();
 }
 
-function readPathParam(req, key, pathIndex) {
-  const fromQuery = first(req.query?.[key]);
+function readPathParam(req, query, key, pathIndex) {
+  const fromQuery = first(query[key]);
   if (typeof fromQuery === "string" && fromQuery) return fromQuery;
 
   const path = String(req.url || "").split("?")[0];
@@ -34,8 +35,9 @@ function json(res, statusCode, payload) {
 }
 
 export default async function v1PolicyDispatcher(req, res) {
-  const policy = normalize(readPathParam(req, "policy", 2));
-  const action = normalize(readPathParam(req, "action", 3));
+  const query = parseRequestQuery(req);
+  const policy = normalize(readPathParam(req, query, "policy", 2));
+  const action = normalize(readPathParam(req, query, "action", 3));
   const routeKey = `${policy}/${action}`;
   const handler = POLICY_ROUTE_MAP[routeKey];
 

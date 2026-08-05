@@ -2,6 +2,7 @@ import zendeskCancelWorkflow from "../../../../lib/routes/v1/workflows/zendesk/c
 import zendeskRefundWorkflow from "../../../../lib/routes/v1/workflows/zendesk/refund.js";
 import zendeskReturnWorkflow from "../../../../lib/routes/v1/workflows/zendesk/return.js";
 import zendeskTrialWorkflow from "../../../../lib/routes/v1/workflows/zendesk/trial.js";
+import { parseRequestQuery } from "../../../../lib/request-query.js";
 
 const WORKFLOW_ROUTE_MAP = {
   cancel: zendeskCancelWorkflow,
@@ -18,8 +19,8 @@ function normalize(value) {
   return String(value || "").toLowerCase().trim();
 }
 
-function readWorkflowParam(req) {
-  const fromQuery = first(req.query?.workflow);
+function readWorkflowParam(req, query) {
+  const fromQuery = first(query.workflow);
   if (typeof fromQuery === "string" && fromQuery) return fromQuery;
 
   const path = String(req.url || "").split("?")[0];
@@ -34,7 +35,8 @@ function json(res, statusCode, payload) {
 }
 
 export default async function zendeskWorkflowDispatcher(req, res) {
-  const workflow = normalize(readWorkflowParam(req));
+  const query = parseRequestQuery(req);
+  const workflow = normalize(readWorkflowParam(req, query));
   const handler = WORKFLOW_ROUTE_MAP[workflow];
 
   if (!handler) {
