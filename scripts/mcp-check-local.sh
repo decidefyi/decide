@@ -23,7 +23,7 @@ is_http_reachable() {
 is_decide_mcp_ready() {
   local body
   body="$(
-    curl -sS --max-time 3 -X POST "${BASE_URL}/api/policy-mcp" \
+    curl -sS --max-time 15 -X POST "${BASE_URL}/api/policy-mcp" \
       -H "Content-Type: application/json" \
       --data-binary '{"jsonrpc":"2.0","id":0,"method":"tools/list","params":{}}' \
       2>/dev/null || true
@@ -69,10 +69,11 @@ port="$(
 )"
 
 echo "Starting Vercel dev for MCP checks at ${BASE_URL}..."
-vercel dev --listen "127.0.0.1:${port}" >"${LOG_FILE}" 2>&1 &
+vercel dev --yes --listen "127.0.0.1:${port}" >"${LOG_FILE}" 2>&1 &
 SERVER_PID="$!"
 
-for _ in $(seq 1 "${WAIT_SECONDS}"); do
+deadline_seconds=$((SECONDS + WAIT_SECONDS))
+while ((SECONDS < deadline_seconds)); do
   if is_decide_mcp_ready; then
     BASE_URL="${BASE_URL}" bash scripts/mcp-check.sh
     exit 0
