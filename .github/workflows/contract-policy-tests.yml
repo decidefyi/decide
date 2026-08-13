@@ -50,7 +50,10 @@ jobs:
           node-version: "24"
 
       - name: Run decision contract tests
-        run: npm run test:contract
+        run: |
+          npm run test:gemini-budget
+          npm run test:gemini-routing
+          npm run test:contract
 
       - name: Verify public SDK package
         run: npm run test:sdk-package

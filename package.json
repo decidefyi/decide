@@ -25,6 +25,7 @@
     "report:mcp-adoption": "node scripts/report-mcp-adoption.js",
     "workflow:test": "NODE_ENV=test WORKFLOW_TEST_MODE=1 node scripts/workflow-zendesk-refund-test.js",
     "test:gemini-routing": "node scripts/test-gemini-model-routing.js",
+    "test:gemini-budget": "node scripts/test-gemini-usage-budget.js",
     "test:request-query": "node scripts/request-query-regression.test.js",
     "test:release-gates": "node scripts/test-release-gates.js",
     "test:site-bridge": "node scripts/site-bridge-regression.js",

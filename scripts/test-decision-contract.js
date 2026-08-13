@@ -33,6 +33,30 @@ import { invokeJson } from "./test-helpers/http-harness.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FIXTURE_DIR = join(__dirname, "fixtures", "decision-contract");
+const CONTRACT_GEMINI_BUDGET_URL = "https://gemini-budget.contract.test";
+process.env.DECIDE_GEMINI_BUDGET_KV_REST_API_URL = CONTRACT_GEMINI_BUDGET_URL;
+process.env.DECIDE_GEMINI_BUDGET_KV_REST_API_TOKEN = "contract-budget-token";
+
+function createBudgetedGeminiFetch(providerFetch) {
+  return async (url, options = {}) => {
+    if (String(url).startsWith(`${CONTRACT_GEMINI_BUDGET_URL}/`)) {
+      const pipeline = JSON.parse(String(options.body || "[]"));
+      const command = pipeline?.[0] || [];
+      const keyCount = Number(command[2]);
+      return {
+        ok: true,
+        status: 200,
+        async json() {
+          if (command[0] !== "EVAL") return [{ error: "unexpected budget command" }];
+          if (keyCount === 4) return [{ result: [1, "allowed", 1, 1, 1] }];
+          if (keyCount === 1) return [{ result: 1 }];
+          return [{ error: "unexpected budget key count" }];
+        },
+      };
+    }
+    return providerFetch(url, options);
+  };
+}
 
 function loadFixture(fileName) {
   return JSON.parse(readFileSync(join(FIXTURE_DIR, fileName), "utf8"));
@@ -260,7 +284,7 @@ async function testDecideSingleFixture() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  global.fetch = async () => ({
+  global.fetch = createBudgetedGeminiFetch(async () => ({
     ok: true,
     async json() {
       return {
@@ -273,10 +297,13 @@ async function testDecideSingleFixture() {
         ],
       };
     },
-  });
+  }));
 
   try {
-    const result = await invokeJson(decideHandler, fixture.request);
+    const result = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: { ...(fixture.request.headers || {}), "x-forwarded-for": "127.0.0.201" },
+    });
     assert.equal(result.statusCode, fixture.expect.statusCode, "decide status mismatch");
     assert.equal(result.json?.c, fixture.expect.c, "decide c mismatch");
     assert.equal(result.json?.v, fixture.expect.v, "decide v mismatch");
@@ -313,7 +340,7 @@ async function testDecideMultiAdvisoryContract() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  global.fetch = async () => ({
+  global.fetch = createBudgetedGeminiFetch(async () => ({
     ok: true,
     async json() {
       return {
@@ -326,7 +353,7 @@ async function testDecideMultiAdvisoryContract() {
         ],
       };
     },
-  });
+  }));
 
   try {
     const result = await invokeJson(decideHandler, request);
@@ -354,7 +381,7 @@ async function testDecideApiKeyFixture() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "decide-auth-token";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  global.fetch = async () => ({
+  global.fetch = createBudgetedGeminiFetch(async () => ({
     ok: true,
     async json() {
       return {
@@ -367,7 +394,7 @@ async function testDecideApiKeyFixture() {
         ],
       };
     },
-  });
+  }));
 
   try {
     const unauthorized = await invokeJson(decideHandler, fixture.request);
@@ -411,14 +438,14 @@ async function testDecideProductionRequiresTrustedEdge() {
   process.env.DECIDE_GEMINI_MODE = "paid";
   delete process.env.DECIDE_API_AUTH_REQUIRED;
   process.env.VERCEL_ENV = "production";
-  global.fetch = async () => ({
+  global.fetch = createBudgetedGeminiFetch(async () => ({
     ok: true,
     async json() {
       return {
         candidates: [{ content: { parts: [{ text: "yes" }] } }],
       };
     },
-  });
+  }));
 
   try {
     const direct = await invokeJson(decideHandler, fixture.request);
@@ -456,7 +483,7 @@ async function testDecideRuntimeFixture() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  global.fetch = async () => ({
+  global.fetch = createBudgetedGeminiFetch(async () => ({
     ok: true,
     async json() {
       return {
@@ -486,10 +513,13 @@ async function testDecideRuntimeFixture() {
         ],
       };
     },
-  });
+  }));
 
   try {
-    const result = await invokeJson(decideHandler, fixture.request);
+    const result = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: { ...(fixture.request.headers || {}), "x-forwarded-for": "127.0.0.202" },
+    });
     assert.equal(result.statusCode, fixture.expect.statusCode, "decide runtime status mismatch");
     assert.equal(result.json?.status, "ok", "decide runtime status field mismatch");
     assert.equal(result.json?.engine, "decide", "decide runtime engine mismatch");
@@ -3043,6 +3073,113 @@ async function testDecideGeminiPaidMissingKeyFailsClosed() {
   }
 }
 
+async function testDecideGeminiBudgetMissingFailsClosed() {
+  const fixture = loadFixture("decide-single.json");
+  const originalFetch = global.fetch;
+  const envKeys = [
+    "GEMINI_API_KEY",
+    "DECIDE_API_KEY",
+    "DECIDE_GEMINI_MODE",
+    "DECIDE_GEMINI_MODEL",
+    "DECIDE_GEMINI_BUDGET_KV_REST_API_URL",
+    "DECIDE_GEMINI_BUDGET_KV_REST_API_TOKEN",
+    "DECIDE_KV_REST_API_URL",
+    "DECIDE_KV_REST_API_TOKEN",
+    "KV_REST_API_URL",
+    "KV_REST_API_TOKEN",
+  ];
+  const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
+  process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_GEMINI_MODE = "paid";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  for (const key of envKeys.slice(4)) delete process.env[key];
+  let providerCalls = 0;
+  global.fetch = async () => {
+    providerCalls += 1;
+    return {
+      ok: true,
+      status: 200,
+      async json() {
+        return { candidates: [{ content: { parts: [{ text: "yes" }] } }] };
+      },
+    };
+  };
+
+  try {
+    const result = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: { ...(fixture.request.headers || {}), "x-forwarded-for": "127.0.0.211" },
+    });
+    assert.equal(result.statusCode, 503, "paid advisory must fail closed without its durable budget store");
+    assert.equal(result.json?.error, "DECIDE_AI_BUDGET_UNAVAILABLE", "missing budget store error mismatch");
+    assert.equal(providerCalls, 0, "missing budget store must prevent every provider call");
+  } finally {
+    global.fetch = originalFetch;
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
+  }
+}
+
+async function testDecideGeminiBudgetCapFailsClosed() {
+  const fixture = loadFixture("decide-single.json");
+  const originalFetch = global.fetch;
+  const envKeys = [
+    "GEMINI_API_KEY",
+    "DECIDE_API_KEY",
+    "DECIDE_GEMINI_MODE",
+    "DECIDE_GEMINI_MODEL",
+    "DECIDE_GEMINI_BUDGET_KV_REST_API_URL",
+    "DECIDE_GEMINI_BUDGET_KV_REST_API_TOKEN",
+  ];
+  const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
+  process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_GEMINI_MODE = "paid";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  process.env.DECIDE_GEMINI_BUDGET_KV_REST_API_URL = "https://budget.example.test";
+  process.env.DECIDE_GEMINI_BUDGET_KV_REST_API_TOKEN = "budget-test-token";
+  let providerCalls = 0;
+  global.fetch = createBudgetedGeminiFetch(async (url) => {
+    if (String(url).startsWith("https://budget.example.test/")) {
+      return {
+        ok: true,
+        status: 200,
+        async json() {
+          return [{ result: [0, "monthly", 4, 100, 221] }];
+        },
+      };
+    }
+    providerCalls += 1;
+    return {
+      ok: true,
+      status: 200,
+      async json() {
+        return { candidates: [{ content: { parts: [{ text: "yes" }] } }] };
+      },
+    };
+  });
+
+  try {
+    const result = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: { ...(fixture.request.headers || {}), "x-forwarded-for": "127.0.0.212" },
+    });
+    assert.equal(result.statusCode, 429, "exhausted durable advisory budget must reject the request");
+    assert.equal(result.json?.error, "DECIDE_AI_BUDGET_EXHAUSTED", "budget cap error mismatch");
+    assert.equal(result.json?.budget_reason, "monthly_cap_reached", "budget cap reason mismatch");
+    assert.equal(providerCalls, 0, "exhausted durable budget must prevent every provider call");
+  } finally {
+    global.fetch = originalFetch;
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
+  }
+}
+
 async function testDecideGeminiPaidSingleAttempt() {
   const fixture = loadFixture("decide-single.json");
   const originalFetch = global.fetch;
@@ -3060,8 +3197,10 @@ async function testDecideGeminiPaidSingleAttempt() {
   process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
   process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = "gemini-3.1-pro-preview,gemini-3.5-flash";
   const urls = [];
-  global.fetch = async (url) => {
+  const providerBodies = [];
+  global.fetch = createBudgetedGeminiFetch(async (url, options = {}) => {
     urls.push(String(url));
+    providerBodies.push(JSON.parse(String(options.body || "{}")));
     return {
       ok: false,
       status: 503,
@@ -3069,17 +3208,31 @@ async function testDecideGeminiPaidSingleAttempt() {
         return { error: { message: "temporarily unavailable" } };
       },
     };
-  };
+  });
 
   try {
-    const result = await invokeJson(decideHandler, fixture.request);
-    assert.equal(result.statusCode, 200, "paid provider failure should preserve advisory response compatibility");
+    const result = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: { ...(fixture.request.headers || {}), "x-forwarded-for": "127.0.0.214" },
+    });
+    assert.equal(
+      result.statusCode,
+      200,
+      `paid provider failure should preserve advisory response compatibility: ${JSON.stringify(result.json)}`
+    );
     assert.equal(result.json?.c, "unclear", "paid provider failure must fail closed");
     assert.equal(urls.length, 1, "paid mode must make exactly one provider attempt");
     assert.match(
       urls[0],
       /models\/gemini-2\.5-flash-lite:generateContent/,
       "paid mode must use the exact reviewed model"
+    );
+    assert.equal(providerBodies[0]?.generationConfig?.candidateCount, 1, "paid mode must request one candidate");
+    assert.equal(providerBodies[0]?.generationConfig?.maxOutputTokens, 8, "single mode output cap mismatch");
+    assert.equal(
+      providerBodies[0]?.generationConfig?.thinkingConfig?.thinkingBudget,
+      0,
+      "Flash-Lite thinking must remain disabled"
     );
   } finally {
     global.fetch = originalFetch;
@@ -3100,7 +3253,7 @@ async function testDecideGeminiEmptyTextSingleAttempt() {
   process.env.DECIDE_GEMINI_MODE = "paid";
   process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
   let fetchCalls = 0;
-  global.fetch = async () => {
+  global.fetch = createBudgetedGeminiFetch(async () => {
     fetchCalls += 1;
     return {
       ok: true,
@@ -3109,7 +3262,7 @@ async function testDecideGeminiEmptyTextSingleAttempt() {
         return { candidates: [{ content: { parts: [{ text: "" }] } }] };
       },
     };
-  };
+  });
 
   try {
     const result = await invokeJson(decideHandler, fixture.request);
@@ -3143,7 +3296,7 @@ async function testDecideGeminiDeadline() {
   process.env.DECIDE_GEMINI_MODE = "paid";
   process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
   process.env.DECIDE_GEMINI_TIMEOUT_MS = "20";
-  global.fetch = async (_url, options = {}) =>
+  global.fetch = createBudgetedGeminiFetch(async (_url, options = {}) =>
     new Promise((_resolve, reject) => {
       signalSeen = Boolean(options.signal);
       const fallback = setTimeout(() => reject(new Error("Gemini wait exceeded without abort")), 100);
@@ -3158,7 +3311,7 @@ async function testDecideGeminiDeadline() {
         },
         { once: true }
       );
-    });
+    }));
 
   try {
     const startedAt = Date.now();
@@ -4469,6 +4622,8 @@ async function main() {
     ["decide-gemini-disabled-preserves-deterministic-guards", testDecideGeminiDisabledPreservesDeterministicGuards],
     ["decide-gemini-disabled-runtime-lineage", testDecideGeminiDisabledRuntimeLineage],
     ["decide-gemini-paid-missing-key-fails-closed", testDecideGeminiPaidMissingKeyFailsClosed],
+    ["decide-gemini-budget-missing-fails-closed", testDecideGeminiBudgetMissingFailsClosed],
+    ["decide-gemini-budget-cap-fails-closed", testDecideGeminiBudgetCapFailsClosed],
     ["decide-gemini-paid-single-attempt", testDecideGeminiPaidSingleAttempt],
     ["decide-gemini-empty-text-single-attempt", testDecideGeminiEmptyTextSingleAttempt],
     ["decide-gemini-deadline", testDecideGeminiDeadline],

@@ -13,6 +13,8 @@ import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
 import { isRulebookAttestationSignatureRequired } from "../lib/rulebook-attestation-signing.js";
 import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
 import { resolveGeminiRuntimePolicy } from "../lib/gemini-model-routing.js";
+import { releaseGeminiUsage, reserveGeminiUsage } from "../lib/gemini-usage-budget.js";
+import { resolveGeminiRequestPolicy } from "../lib/gemini-request-policy.js";
 import { timingSafeEqual } from "node:crypto";
 
 // Rate limiter: 20 requests per minute per IP
@@ -281,27 +283,18 @@ function findCallerSuppliedRulebookOutputFields(body = {}) {
   );
 }
 
-function boundedTimeoutMs(value, fallback, min = 10, max = 30000) {
-  const parsed = Number.parseInt(String(value || ""), 10);
-  if (!Number.isFinite(parsed)) return fallback;
-  return Math.min(Math.max(parsed, min), max);
-}
-
 async function requestGeminiGenerateContent({
   apiKey,
   prompt,
   generationConfig,
   request_id,
   model,
+  advisoryMode,
 }) {
   const attempts = [];
   const promptText = String(prompt || "");
-  const maxPromptChars = boundedTimeoutMs(
-    process.env.DECIDE_GEMINI_MAX_PROMPT_CHARS,
-    12000,
-    256,
-    20000
-  );
+  const requestPolicy = resolveGeminiRequestPolicy({ mode: advisoryMode });
+  const maxPromptChars = requestPolicy.maxPromptChars;
   if (promptText.length > maxPromptChars) {
     return {
       ok: false,
@@ -313,7 +306,21 @@ async function requestGeminiGenerateContent({
     };
   }
 
-  const totalTimeoutMs = boundedTimeoutMs(process.env.DECIDE_GEMINI_TIMEOUT_MS, 15000);
+  const usageReservation = await reserveGeminiUsage({ requestId: request_id });
+  if (!usageReservation.allowed) {
+    const storeUnavailable = usageReservation.reason === "budget_store_unavailable";
+    return {
+      ok: false,
+      status: storeUnavailable ? 503 : 429,
+      data: null,
+      attempts,
+      errorCode: storeUnavailable ? "GEMINI_BUDGET_UNAVAILABLE" : "GEMINI_BUDGET_EXHAUSTED",
+      budgetReason: usageReservation.reason,
+      budgetUsage: usageReservation.usage,
+    };
+  }
+
+  const totalTimeoutMs = requestPolicy.timeoutMs;
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
   const controller = new AbortController();
   let requestTimedOut = false;
@@ -332,7 +339,12 @@ async function requestGeminiGenerateContent({
       },
       body: JSON.stringify({
         contents: [{ parts: [{ text: promptText }] }],
-        generationConfig,
+        generationConfig: {
+          ...generationConfig,
+          candidateCount: requestPolicy.candidateCount,
+          maxOutputTokens: requestPolicy.maxOutputTokens,
+          thinkingConfig: { thinkingBudget: requestPolicy.thinkingBudget },
+        },
       }),
       signal: controller.signal,
     });
@@ -393,6 +405,16 @@ async function requestGeminiGenerateContent({
     };
   } finally {
     clearTimeout(timer);
+    const released = await releaseGeminiUsage(usageReservation);
+    if (!released) {
+      console.error(
+        JSON.stringify({
+          ts: new Date().toISOString(),
+          request_id,
+          error: "GEMINI_BUDGET_CONCURRENCY_RELEASE_FAILED",
+        })
+      );
+    }
   }
 }
 
@@ -407,6 +429,39 @@ function sendGeminiRequestFailure(res, result, request_id, lineageInput) {
         request_id,
         error: "DECIDE_AI_PROMPT_TOO_LARGE",
         message: `AI advisory prompt exceeds the ${result.maxPromptChars}-character limit.`,
+      },
+      lineageInput
+    );
+    return;
+  }
+
+  if (result?.errorCode === "GEMINI_BUDGET_UNAVAILABLE") {
+    sendDecisionJson(
+      res,
+      503,
+      {
+        c: "unclear",
+        v: "unavailable",
+        request_id,
+        error: "DECIDE_AI_BUDGET_UNAVAILABLE",
+        message: "AI advisory is paused because its durable usage guard is unavailable.",
+      },
+      lineageInput
+    );
+    return;
+  }
+
+  if (result?.errorCode === "GEMINI_BUDGET_EXHAUSTED") {
+    sendDecisionJson(
+      res,
+      429,
+      {
+        c: "unclear",
+        v: "rate_limited",
+        request_id,
+        error: "DECIDE_AI_BUDGET_EXHAUSTED",
+        message: "AI advisory has reached its pre-profit usage allowance.",
+        budget_reason: result.budgetReason,
       },
       lineageInput
     );
@@ -936,9 +991,10 @@ Rules:
       const runtimeResult = await requestGeminiGenerateContent({
         apiKey: geminiProvider.apiKey,
         prompt,
-        generationConfig: { temperature: 0.2, maxOutputTokens: 900 },
+        generationConfig: { temperature: 0.2 },
         request_id,
         model: geminiProvider.model,
+        advisoryMode: "runtime",
       });
       const data = runtimeResult.data;
       if (!runtimeResult.ok) {
@@ -1091,9 +1147,10 @@ Rules:
       const multiResult = await requestGeminiGenerateContent({
         apiKey: geminiProvider.apiKey,
         prompt,
-        generationConfig: { temperature: 0, maxOutputTokens: 220 },
+        generationConfig: { temperature: 0 },
         request_id,
         model: geminiProvider.model,
+        advisoryMode: "multi",
       });
       const data = multiResult.data;
       if (!multiResult.ok) {
@@ -1198,9 +1255,10 @@ Output exactly one of: yes, no`;
     const singleResult = await requestGeminiGenerateContent({
       apiKey: geminiProvider.apiKey,
       prompt,
-      generationConfig: { temperature: 0.7, maxOutputTokens: 10 },
+      generationConfig: { temperature: 0.7 },
       request_id,
       model: geminiProvider.model,
+      advisoryMode: "single",
     });
     const data = singleResult.data;
     if (!singleResult.ok) {
