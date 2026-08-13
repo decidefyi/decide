@@ -4792,6 +4792,49 @@ function testRulebookRuntimeManifest() {
   );
 }
 
+function testMcpPublisherSupplyChain() {
+  const workflow = readFileSync(
+    join(__dirname, "..", ".github", "workflows", "publish-mcp-registry.yml"),
+    "utf8"
+  );
+
+  assert.equal(
+    workflow.includes("releases/latest"),
+    false,
+    "MCP publisher workflow must not execute an unpinned latest release"
+  );
+  assert.ok(
+    workflow.includes("MCP_PUBLISHER_VERSION: v1.8.1"),
+    "MCP publisher workflow must pin the reviewed publisher release"
+  );
+  assert.ok(
+    workflow.includes("MCP_PUBLISHER_SHA256: a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc"),
+    "MCP publisher workflow must pin the Linux amd64 archive digest"
+  );
+  assert.ok(
+    workflow.includes("cosign verify-blob") &&
+      workflow.includes("--certificate-identity") &&
+      workflow.includes("--certificate-oidc-issuer"),
+    "MCP publisher workflow must verify the upstream Sigstore bundle and signer identity"
+  );
+  assert.ok(
+    workflow.includes("sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6"),
+    "MCP publisher workflow must pin the cosign installer action"
+  );
+  assert.ok(
+    workflow.includes("actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803"),
+    "MCP publisher workflow must pin checkout to an immutable commit"
+  );
+  assert.ok(
+    workflow.includes("actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38"),
+    "MCP publisher workflow must pin setup-node to an immutable commit"
+  );
+  assert.ok(
+    workflow.indexOf("cosign verify-blob") < workflow.indexOf("tar -xzf"),
+    "MCP publisher archive must be verified before extraction"
+  );
+}
+
 async function main() {
   const tests = [
     ["decide-single", testDecideSingleFixture],
@@ -4829,6 +4872,7 @@ async function main() {
     ["rulebook-migration-dry-run-cli", testRulebookMigrationDryRunCli],
     ["rulebook-runtime-architecture-doc", testRulebookRuntimeArchitectureDoc],
     ["rulebook-runtime-manifest", testRulebookRuntimeManifest],
+    ["mcp-publisher-supply-chain", testMcpPublisherSupplyChain],
     ["decide-gemini-disabled-by-default", testDecideGeminiDisabledByDefault],
     ["decide-gemini-disabled-preserves-deterministic-guards", testDecideGeminiDisabledPreservesDeterministicGuards],
     ["decide-gemini-disabled-runtime-lineage", testDecideGeminiDisabledRuntimeLineage],
