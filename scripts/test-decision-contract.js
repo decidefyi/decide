@@ -4754,11 +4754,17 @@ function testRulebookRuntimeManifest() {
       workflow.includes("FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true"),
       `${label} must force JavaScript actions onto Node 24`
     );
-    assert.ok(workflow.includes("actions/checkout@v6"), `${label} must use checkout@v6`);
-    assert.ok(workflow.includes("actions/setup-node@v6"), `${label} must use setup-node@v6`);
+    assert.ok(
+      workflow.includes("actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6"),
+      `${label} must pin the reviewed checkout v6 commit`
+    );
+    assert.ok(
+      workflow.includes("actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6"),
+      `${label} must pin the reviewed setup-node v6 commit`
+    );
     assert.ok(workflow.includes('node-version: "24"'), `${label} must run tests on Node 24`);
-    assert.equal(workflow.includes("actions/checkout@v4"), false, `${label} must not use checkout@v4`);
-    assert.equal(workflow.includes("actions/setup-node@v4"), false, `${label} must not use setup-node@v4`);
+    assert.equal(workflow.includes("actions/checkout@v"), false, `${label} must not use a mutable checkout tag`);
+    assert.equal(workflow.includes("actions/setup-node@v"), false, `${label} must not use a mutable setup-node tag`);
     assert.equal(workflow.includes('node-version: "20"'), false, `${label} must not pin Node 20`);
   }
   assert.ok(
@@ -4782,8 +4788,15 @@ function testRulebookRuntimeManifest() {
     "policy review branch refresh must use a lease-protected push"
   );
   assert.ok(
-    dailyPolicyWorkflow.includes("actions/upload-artifact@v4"),
-    "daily policy workflow must preserve a per-run review packet"
+    dailyPolicyWorkflow.includes(
+      "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4"
+    ),
+    "daily policy workflow must preserve a per-run review packet with the reviewed action commit"
+  );
+  assert.equal(
+    dailyPolicyWorkflow.includes("actions/upload-artifact@v"),
+    false,
+    "daily policy workflow must not use a mutable upload-artifact tag"
   );
   assert.ok(
     dailyPolicyWorkflow.includes("Verify canonical policy alerts API") &&
