@@ -27,9 +27,9 @@ jobs:
     # an hour when many vendor pages need the browser fallback.
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: "24"
 
@@ -679,7 +679,7 @@ jobs:
 
       - name: Preserve policy review packet
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: policy-review-${{ github.run_id }}
           if-no-files-found: warn
@@ -864,7 +864,7 @@ jobs:
       - name: Open or update aggregation PR
         if: steps.commit_artifacts.outputs.artifact_updated == '1'
         continue-on-error: true
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         env:
           ARTIFACT_BRANCH: ${{ steps.commit_artifacts.outputs.artifact_branch }}
           ARTIFACT_BASE: ${{ steps.commit_artifacts.outputs.artifact_base }}
@@ -976,7 +976,7 @@ jobs:
       - name: Open issue if policies changed or candidates pending
         if: env.POLICY_CHECK_PUBLIC_ISSUES_ENABLED == '1' && steps.check.outputs.contract_valid == '1' && ((steps.check.outputs.changed_count && steps.check.outputs.changed_count != '0') || (steps.check.outputs.pending_count && steps.check.outputs.pending_count != '0') || (steps.check.outputs.fallback_signal_actionable_count && steps.check.outputs.fallback_signal_actionable_count != '0'))
         continue-on-error: true
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         env:
           ACTUAL_CHANGED_COUNT: ${{ steps.check.outputs.actual_changed_count }}
           ACTUAL_CHANGED_BY_POLICY: ${{ steps.check.outputs.actual_changed_by_policy }}
@@ -1428,7 +1428,7 @@ jobs:
       - name: Open escalation issue if SLA thresholds are hit
         if: env.POLICY_CHECK_PUBLIC_ISSUES_ENABLED == '1' && steps.check.outputs.contract_valid == '1' && ((steps.check.outputs.escalation_count && steps.check.outputs.escalation_count != '0') || (steps.check.outputs.coverage_gap_count && steps.check.outputs.coverage_gap_count != '0'))
         continue-on-error: true
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         env:
           ESCALATION_COUNT: ${{ steps.check.outputs.escalation_count }}
           ESCALATION_BY_POLICY: ${{ steps.check.outputs.escalation_by_policy }}
