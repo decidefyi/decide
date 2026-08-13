@@ -556,13 +556,13 @@ If you run `decide` behind the `decidesite` proxy with dynamic customer keys, al
 - `DECIDE_PROXY_SHARED_TOKEN`: shared secret required in `x-decide-proxy-token` header for trusted proxy calls.
 - `DECIDE_API_KEY`: optional direct backend credential for trusted server-side callers.
 - `DECIDE_GEMINI_MODE`: defaults to `disabled`. In this hard-zero state, legacy advisory `single`, `multi`, and `runtime` requests return `DECIDE_AI_DISABLED_ZERO_COST` without reading an API key or making a provider request. Rulebook v1 remains available and never uses Gemini.
-- `DECIDE_GEMINI_MODE=paid`: explicit nonzero-cost opt-in for advisory modes. This mode also requires a restricted server-side `GEMINI_API_KEY`. `DECIDE_GEMINI_MODEL` may only be `gemini-2.5-flash-lite`; changing models requires a reviewed code release rather than an environment-only switch.
+- `DECIDE_GEMINI_MODE=paid`: explicit nonzero-cost opt-in for advisory modes. This mode also requires a restricted server-side `GEMINI_API_KEY`. `DECIDE_GEMINI_MODEL` may only be `gemini-3.1-flash-lite`; changing models requires a reviewed code release rather than an environment-only switch.
 - `DECIDE_GEMINI_BUDGET_KV_REST_API_URL` and `DECIDE_GEMINI_BUDGET_KV_REST_API_TOKEN`: dedicated Redis-compatible REST store for the atomic provider-attempt guard. Paid advisory fails closed before Gemini if this store is absent or unavailable. The legacy `DECIDE_KV_REST_API_*`/`KV_REST_API_*` names are compatibility fallbacks; dedicated credentials are preferred.
 - Compiled provider-attempt ceilings are 10/day, 100/month, 500 lifetime, and one concurrent request. `DECIDE_GEMINI_DAILY_CALL_CAP`, `DECIDE_GEMINI_MONTHLY_CALL_CAP`, and `DECIDE_GEMINI_LIFETIME_CALL_CAP` may only lower those ceilings.
 - `DECIDE_GEMINI_TIMEOUT_MS`: the single paid-mode provider deadline (defaults to and cannot exceed 8 seconds).
 - `DECIDE_GEMINI_MAX_PROMPT_CHARS`: the pre-fetch advisory prompt cap (defaults to and cannot exceed 4,096 characters; it may be lowered to 256).
 
-Paid mode makes exactly one provider attempt and never falls back to another model. Candidate count is fixed at one, Gemini 2.5 Flash-Lite thinking is disabled, and output is capped at 8 tokens for `single`, 128 for `multi`, and 512 for `runtime`. Keep the Gemini Google Cloud project unlinked from billing for a provider-side zero-dollar boundary; the application counters limit calls but do not prove a currency amount.
+Paid mode makes exactly one provider attempt and never falls back to another model. Gemini 3.1 Flash-Lite uses the provider's one-candidate default, lowest supported `minimal` thinking level, and default temperature; output is capped at 8 tokens for `single`, 128 for `multi`, and 512 for `runtime`. Keep the Gemini Google Cloud project unlinked from billing for a provider-side zero-dollar boundary; the application counters limit calls but do not prove a currency amount.
 
 General `/api/decide` rate limit: 20 requests/minute per IP per serverless instance. This is an abuse control, not the Gemini cost boundary; the durable provider-attempt guard applies even when a trusted proxy bypasses the general limiter.
 

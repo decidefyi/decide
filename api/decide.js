@@ -406,9 +406,8 @@ async function requestGeminiGenerateContent({
         contents: [{ parts: [{ text: promptText }] }],
         generationConfig: {
           ...generationConfig,
-          candidateCount: requestPolicy.candidateCount,
           maxOutputTokens: requestPolicy.maxOutputTokens,
-          thinkingConfig: { thinkingBudget: requestPolicy.thinkingBudget },
+          thinkingConfig: { thinkingLevel: requestPolicy.thinkingLevel },
         },
       }),
       signal: controller.signal,
@@ -1118,7 +1117,7 @@ Rules:
       const runtimeResult = await requestGeminiGenerateContent({
         apiKey: geminiProvider.apiKey,
         prompt,
-        generationConfig: { temperature: 0.2 },
+        generationConfig: {},
         request_id,
         model: geminiProvider.model,
         advisoryMode: "runtime",
@@ -1290,7 +1289,7 @@ Rules:
       const multiResult = await requestGeminiGenerateContent({
         apiKey: geminiProvider.apiKey,
         prompt,
-        generationConfig: { temperature: 0 },
+        generationConfig: {},
         request_id,
         model: geminiProvider.model,
         advisoryMode: "multi",
@@ -1398,7 +1397,7 @@ Output exactly one of: yes, no`;
     const singleResult = await requestGeminiGenerateContent({
       apiKey: geminiProvider.apiKey,
       prompt,
-      generationConfig: { temperature: 0.7 },
+      generationConfig: {},
       request_id,
       model: geminiProvider.model,
       advisoryMode: "single",

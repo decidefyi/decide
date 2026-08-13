@@ -7,6 +7,12 @@ import {
   resolveGeminiRuntimePolicy,
 } from "../lib/gemini-model-routing.js";
 
+assert.equal(
+  DEFAULT_PAID_GEMINI_MODEL,
+  "gemini-3.1-flash-lite",
+  "paid advisory routing must use the reviewed live Flash-Lite replacement"
+);
+
 const defaultPolicy = resolveGeminiRuntimePolicy({ env: {} });
 assert.equal(defaultPolicy.enabled, false);
 assert.equal(defaultPolicy.mode, "disabled");
@@ -50,7 +56,7 @@ assert.deepEqual(
 );
 
 for (const model of [
-  "gemini-3.1-flash-lite",
+  "gemini-2.5-flash-lite",
   "gemini-3.1-pro-preview",
   "gemini-3.5-flash",
   "gemini-2.5-pro",

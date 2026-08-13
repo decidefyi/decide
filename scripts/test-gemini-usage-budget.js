@@ -27,16 +27,14 @@ assert.deepEqual(GEMINI_REQUEST_HARD_CAPS, {
   promptChars: 4096,
   timeoutMs: 8000,
   outputTokens: { single: 8, multi: 128, runtime: 512 },
-  candidateCount: 1,
-  thinkingBudget: 0,
+  thinkingLevel: "minimal",
 });
 
 assert.deepEqual(resolveGeminiRequestPolicy({ mode: "single", env: {} }), {
   maxPromptChars: 4096,
   timeoutMs: 8000,
   maxOutputTokens: 8,
-  candidateCount: 1,
-  thinkingBudget: 0,
+  thinkingLevel: "minimal",
 });
 assert.deepEqual(
   resolveGeminiRequestPolicy({
@@ -50,8 +48,7 @@ assert.deepEqual(
     maxPromptChars: 4096,
     timeoutMs: 8000,
     maxOutputTokens: 512,
-    candidateCount: 1,
-    thinkingBudget: 0,
+    thinkingLevel: "minimal",
   }
 );
 assert.deepEqual(
@@ -66,8 +63,7 @@ assert.deepEqual(
     maxPromptChars: 1000,
     timeoutMs: 2500,
     maxOutputTokens: 128,
-    candidateCount: 1,
-    thinkingBudget: 0,
+    thinkingLevel: "minimal",
   }
 );
 

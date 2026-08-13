@@ -3124,7 +3124,7 @@ async function testDecideGeminiPaidMissingKeyFailsClosed() {
   delete process.env.GEMINI_API_KEY;
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-3.1-flash-lite";
   let fetchCalls = 0;
   global.fetch = async () => {
     fetchCalls += 1;
@@ -3170,7 +3170,7 @@ async function testDecideGeminiBudgetMissingFailsClosed() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-3.1-flash-lite";
   for (const key of envKeys.slice(4)) delete process.env[key];
   let providerCalls = 0;
   global.fetch = async () => {
@@ -3216,7 +3216,7 @@ async function testDecideGeminiBudgetCapFailsClosed() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-3.1-flash-lite";
   process.env.DECIDE_GEMINI_BUDGET_KV_REST_API_URL = "https://budget.example.test";
   process.env.DECIDE_GEMINI_BUDGET_KV_REST_API_TOKEN = "budget-test-token";
   let providerCalls = 0;
@@ -3272,7 +3272,7 @@ async function testDecideGeminiPaidSingleAttempt() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-3.1-flash-lite";
   process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = "gemini-3.1-pro-preview,gemini-3.5-flash";
   const urls = [];
   const providerBodies = [];
@@ -3309,15 +3309,32 @@ async function testDecideGeminiPaidSingleAttempt() {
     assert.equal(urls.length, 1, "paid mode must make exactly one provider attempt");
     assert.match(
       urls[0],
-      /models\/gemini-2\.5-flash-lite:generateContent/,
+      /models\/gemini-3\.1-flash-lite:generateContent/,
       "paid mode must use the exact reviewed model"
     );
-    assert.equal(providerBodies[0]?.generationConfig?.candidateCount, 1, "paid mode must request one candidate");
+    assert.equal(
+      Object.prototype.hasOwnProperty.call(providerBodies[0]?.generationConfig || {}, "candidateCount"),
+      false,
+      "Gemini 3 requests must use the provider's one-candidate default"
+    );
     assert.equal(providerBodies[0]?.generationConfig?.maxOutputTokens, 8, "single mode output cap mismatch");
     assert.equal(
-      providerBodies[0]?.generationConfig?.thinkingConfig?.thinkingBudget,
-      0,
-      "Flash-Lite thinking must remain disabled"
+      Object.prototype.hasOwnProperty.call(providerBodies[0]?.generationConfig || {}, "temperature"),
+      false,
+      "Gemini 3 requests must use the provider's reviewed default temperature"
+    );
+    assert.equal(
+      providerBodies[0]?.generationConfig?.thinkingConfig?.thinkingLevel,
+      "minimal",
+      "Gemini 3 Flash-Lite must use its lowest supported thinking level"
+    );
+    assert.equal(
+      Object.prototype.hasOwnProperty.call(
+        providerBodies[0]?.generationConfig?.thinkingConfig || {},
+        "thinkingBudget"
+      ),
+      false,
+      "Gemini 3 Flash-Lite requests must not use the legacy Gemini 2.5 thinking budget"
     );
 
     providerStatus = 429;
@@ -3350,7 +3367,7 @@ async function testDecideGeminiEmptyTextSingleAttempt() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-3.1-flash-lite";
   let fetchCalls = 0;
   global.fetch = createBudgetedGeminiFetch(async () => {
     fetchCalls += 1;
@@ -3399,7 +3416,7 @@ async function testDecideGeminiDeadline() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-3.1-flash-lite";
   process.env.DECIDE_GEMINI_TIMEOUT_MS = "20";
   global.fetch = createBudgetedGeminiFetch(async (_url, options = {}) =>
     new Promise((_resolve, reject) => {
@@ -3457,7 +3474,7 @@ async function testDecideGeminiPromptLimit() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  process.env.DECIDE_GEMINI_MODEL = "gemini-2.5-flash-lite";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-3.1-flash-lite";
   process.env.DECIDE_GEMINI_MAX_PROMPT_CHARS = "512";
   let fetchCalls = 0;
   global.fetch = async () => {
