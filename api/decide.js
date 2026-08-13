@@ -82,6 +82,18 @@ function toStringArray(value, maxLength = 8) {
     .slice(0, maxLength);
 }
 
+function isFiniteJsonNumber(value) {
+  return typeof value === "number" && Number.isFinite(value);
+}
+
+function isNonEmptyJsonString(value) {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function isStrictStringArray(value, minLength = 1) {
+  return Array.isArray(value) && value.length >= minLength && value.every(isNonEmptyJsonString);
+}
+
 function extractJson(text = "") {
   const raw = String(text || "").trim();
   if (!raw) return null;
@@ -160,6 +172,59 @@ function normalizeRuntimeCitations(citations) {
       };
     })
     .filter(Boolean);
+}
+
+function validateRuntimeProviderOutput(payload = {}, options = []) {
+  const source = asObject(payload);
+  const decision = asObject(source.decision);
+  const expectedOptions = toStringArray(options, 8);
+  const optionSet = new Set(expectedOptions);
+  const recommendedOption = String(decision.recommended_option || "").trim();
+  const scorecard = Array.isArray(source.scorecard) ? source.scorecard : [];
+  const tradeoffs = source.tradeoffs;
+  const nextActions = source.next_actions || source.nextActions;
+  const citations = Array.isArray(source.citations) ? source.citations : [];
+  const errors = [];
+
+  if (!isNonEmptyJsonString(decision.recommended_option) || !optionSet.has(recommendedOption)) {
+    errors.push("recommended_option_not_submitted");
+  }
+  if (!isFiniteJsonNumber(decision.confidence)) errors.push("decision_confidence_missing");
+  if (scorecard.length !== expectedOptions.length) errors.push("scorecard_length_mismatch");
+
+  const seenOptions = new Set();
+  scorecard.forEach((entry) => {
+    const item = asObject(entry);
+    const rawOption = item.option || item.id || item.label;
+    const option = isNonEmptyJsonString(rawOption) ? rawOption.trim() : "";
+    if (!option || !optionSet.has(option)) errors.push("scorecard_option_not_submitted");
+    if (seenOptions.has(option)) errors.push("scorecard_option_duplicate");
+    if (option) seenOptions.add(option);
+    if (!isFiniteJsonNumber(item.score)) errors.push("scorecard_score_missing");
+    if (!isFiniteJsonNumber(item.confidence)) errors.push("scorecard_confidence_missing");
+    if (!isNonEmptyJsonString(item.impact || item.expected_impact)) errors.push("scorecard_impact_missing");
+    const risk = item.risk || item.risk_level;
+    if (!isNonEmptyJsonString(risk) || !["low", "medium", "high"].includes(risk.trim().toLowerCase())) {
+      errors.push("scorecard_risk_invalid");
+    }
+  });
+  if (seenOptions.size !== optionSet.size) errors.push("scorecard_option_coverage_incomplete");
+  if (!isStrictStringArray(tradeoffs)) errors.push("tradeoffs_invalid");
+  if (!isStrictStringArray(nextActions)) errors.push("next_actions_invalid");
+  if (!citations.length) errors.push("citations_missing");
+  citations.forEach((entry) => {
+    const item = asObject(entry, null);
+    if (!item || !isNonEmptyJsonString(item.title || item.name || item.label)) errors.push("citation_title_missing");
+    if (!item || !isStrictStringArray(item.reasoning_lines || item.reasoningLines, 2)) {
+      errors.push("citation_reasoning_incomplete");
+    }
+    if (item && item.url != null && typeof item.url !== "string") errors.push("citation_url_invalid");
+  });
+
+  return {
+    ok: errors.length === 0,
+    errors: [...new Set(errors)],
+  };
 }
 
 const SENSITIVE_INPUT_KEY_PATTERN =
@@ -435,6 +500,29 @@ function sendGeminiRequestFailure(res, result, request_id, lineageInput) {
     return;
   }
 
+  const providerStatus = Number(result?.status || 0);
+  const attempts = Array.isArray(result?.attempts)
+    ? result.attempts.map((attempt) => ({
+        model: String(attempt?.model || "").slice(0, 80),
+        status: Number(attempt?.status || 0),
+        latency_ms: Number(attempt?.latency_ms || 0),
+        empty_text: attempt?.empty_text === true,
+        error: String(attempt?.error || "").slice(0, 160),
+      }))
+    : [];
+  console.warn(
+    JSON.stringify({
+      ts: new Date().toISOString(),
+      event: "decide_ai_advisory_failure",
+      request_id,
+      error: String(result?.errorCode || "GEMINI_PROVIDER_FAILED"),
+      provider_status: providerStatus,
+      budget_reason: String(result?.budgetReason || ""),
+      validation_errors: Array.isArray(result?.validationErrors) ? result.validationErrors : [],
+      attempts,
+    })
+  );
+
   if (result?.errorCode === "GEMINI_BUDGET_UNAVAILABLE") {
     sendDecisionJson(
       res,
@@ -468,7 +556,46 @@ function sendGeminiRequestFailure(res, result, request_id, lineageInput) {
     return;
   }
 
-  sendDecisionJson(res, 200, { c: "unclear", v: "try again", request_id }, lineageInput);
+  const invalidResponse = ["GEMINI_EMPTY_RESPONSE", "GEMINI_INVALID_RESPONSE"].includes(result?.errorCode);
+  const timedOut = result?.errorCode === "GEMINI_REQUEST_TIMEOUT";
+  const rateLimited = providerStatus === 429;
+  const requestRejected = providerStatus >= 400 && providerStatus < 500 && !rateLimited;
+  const error = invalidResponse
+    ? "DECIDE_AI_PROVIDER_INVALID_RESPONSE"
+    : timedOut
+      ? "DECIDE_AI_PROVIDER_TIMEOUT"
+      : rateLimited
+        ? "DECIDE_AI_PROVIDER_RATE_LIMITED"
+        : requestRejected
+          ? "DECIDE_AI_PROVIDER_REJECTED"
+          : "DECIDE_AI_PROVIDER_UNAVAILABLE";
+  const message = invalidResponse
+    ? "The AI advisory provider returned no usable recommendation."
+    : timedOut
+      ? "The AI advisory provider did not respond before the request deadline."
+      : rateLimited
+        ? "The AI advisory provider is rate limited. Retry later."
+        : requestRejected
+          ? "The AI advisory provider rejected the advisory request."
+          : "The AI advisory provider is temporarily unavailable.";
+
+  // Preserve the legacy advisory HTTP-200 compatibility contract while making
+  // the failure explicit so consumers cannot mistake it for a recommendation.
+  sendDecisionJson(
+    res,
+    200,
+    {
+      c: "unclear",
+      v: "try again",
+      status: "degraded",
+      engine: "decide",
+      request_id,
+      error,
+      message,
+      retryable: !invalidResponse && !requestRejected,
+    },
+    lineageInput
+  );
 }
 
 function safeEqualToken(left, right) {
@@ -1009,6 +1136,22 @@ Rules:
 
       const rawText = readGeminiText(data);
       const parsed = asObject(extractJson(rawText));
+      const providerOutputValidation = validateRuntimeProviderOutput(parsed, runtimeOptions);
+      if (!providerOutputValidation.ok) {
+        sendGeminiRequestFailure(
+          res,
+          {
+            ...runtimeResult,
+            ok: false,
+            status: 200,
+            errorCode: "GEMINI_INVALID_RESPONSE",
+            validationErrors: providerOutputValidation.errors,
+          },
+          request_id,
+          { mode: "runtime", question: runtimePrompt, stem: runtimePrompt, options: runtimeOptions }
+        );
+        return;
+      }
       const parsedDecision = asObject(parsed.decision);
       const parsedScorecard = Array.isArray(parsed.scorecard) ? parsed.scorecard : [];
 

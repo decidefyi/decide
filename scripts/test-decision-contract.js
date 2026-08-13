@@ -483,6 +483,29 @@ async function testDecideRuntimeFixture() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
+  let runtimeProviderText = JSON.stringify({
+    decision: {
+      recommended_option: "Burst packs",
+      confidence: 1.2,
+    },
+    scorecard: [
+      { option: "Burst packs", score: 8.7, confidence: 1.1, impact: "high projected expansion", risk: "low", rank: 1 },
+      { option: "Automatic overage", score: 8.4, confidence: 0.67, impact: "high expansion with trust risk", risk: "high", rank: 2 },
+      { option: "Hybrid grace + overage", score: 8.2, confidence: 0.7, impact: "balanced expansion and retention", risk: "medium", rank: 3 },
+    ],
+    tradeoffs: ["Burst packs add packaging complexity compared with automatic overage."],
+    next_actions: ["Run a bounded Burst packs pilot with a rollback owner."],
+    citations: [
+      {
+        title: "Requester context evidence",
+        url: "",
+        reasoning_lines: [
+          "Compared all submitted packaging options.",
+          "Applied the stated expansion and trust constraints.",
+        ],
+      },
+    ],
+  });
   global.fetch = createBudgetedGeminiFetch(async () => ({
     ok: true,
     async json() {
@@ -492,20 +515,7 @@ async function testDecideRuntimeFixture() {
             content: {
               parts: [
                 {
-                  text: JSON.stringify({
-                    decision: {
-                      recommended_option: "Burst packs",
-                      confidence: 1.2,
-                    },
-                    scorecard: [
-                      { option: "Burst packs", score: 8.7, confidence: 1.1, impact: "high projected expansion", risk: "low", rank: 1 },
-                      { option: "Automatic overage", score: 8.4, confidence: 0.67, impact: "high expansion with trust risk", risk: "high", rank: 2 },
-                      { option: "Hybrid grace + overage", score: 8.2, confidence: 0.7, impact: "balanced expansion and retention", risk: "medium", rank: 3 },
-                    ],
-                    tradeoffs: [],
-                    next_actions: [],
-                    citations: [],
-                  }),
+                  text: runtimeProviderText,
                 },
               ],
             },
@@ -559,6 +569,74 @@ async function testDecideRuntimeFixture() {
     assert.equal(/api[_-]?key\s*=/.test(reasoningText.toLowerCase()), false, "sensitive input key should not be echoed in reasoning");
 
     assertLineage(result.json, "decide_runtime");
+
+    runtimeProviderText = "not valid runtime advisory JSON";
+    const malformed = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: { ...(fixture.request.headers || {}), "x-forwarded-for": "127.0.0.203" },
+    });
+    assert.equal(malformed.statusCode, 200, "invalid runtime provider output must preserve advisory HTTP compatibility");
+    assert.equal(malformed.json?.status, "degraded", "invalid runtime provider output must be marked degraded");
+    assert.equal(malformed.json?.c, "unclear", "invalid runtime provider output must fail closed");
+    assert.equal(
+      malformed.json?.error,
+      "DECIDE_AI_PROVIDER_INVALID_RESPONSE",
+      "invalid runtime provider output error code mismatch"
+    );
+    assert.equal(malformed.json?.decision, undefined, "invalid runtime provider output must not synthesize a recommendation");
+
+    runtimeProviderText = JSON.stringify({
+      decision: { recommended_option: "Burst packs", confidence: null },
+      scorecard: [
+        { option: "Burst packs", score: null, confidence: null, impact: "high projected expansion", risk: "low" },
+        { option: "Automatic overage", score: false, confidence: "", impact: "high expansion with trust risk", risk: "high" },
+        { option: "Hybrid grace + overage", score: 8.2, confidence: 0.7, impact: "balanced expansion and retention", risk: "medium" },
+      ],
+      tradeoffs: ["Burst packs add packaging complexity compared with automatic overage."],
+      next_actions: ["Run a bounded Burst packs pilot with a rollback owner."],
+      citations: [
+        {
+          title: "Requester context evidence",
+          reasoning_lines: ["Compared all submitted options.", "Applied the stated constraints."],
+        },
+      ],
+    });
+    const coercedNumbers = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: { ...(fixture.request.headers || {}), "x-forwarded-for": "127.0.0.204" },
+    });
+    assert.equal(coercedNumbers.statusCode, 200, "non-numeric provider values must preserve advisory HTTP compatibility");
+    assert.equal(coercedNumbers.json?.status, "degraded", "non-numeric provider values must be marked degraded");
+    assert.equal(
+      coercedNumbers.json?.error,
+      "DECIDE_AI_PROVIDER_INVALID_RESPONSE",
+      "non-numeric provider values must expose the invalid-response code"
+    );
+    assert.equal(coercedNumbers.json?.decision, undefined, "non-numeric provider values must not synthesize a recommendation");
+
+    runtimeProviderText = JSON.stringify({
+      decision: { recommended_option: "Burst packs", confidence: 0.8 },
+      scorecard: [
+        { option: "Burst packs", score: 8.7, confidence: 0.8, impact: {}, risk: "low" },
+        { option: "Automatic overage", score: 8.4, confidence: 0.7, impact: "high expansion with trust risk", risk: "high" },
+        { option: "Hybrid grace + overage", score: 8.2, confidence: 0.7, impact: "balanced expansion and retention", risk: "medium" },
+      ],
+      tradeoffs: [{}],
+      next_actions: [false],
+      citations: [{ title: {}, reasoning_lines: [{}, {}] }],
+    });
+    const structuredGarbage = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: { ...(fixture.request.headers || {}), "x-forwarded-for": "127.0.0.205" },
+    });
+    assert.equal(structuredGarbage.statusCode, 200, "non-string provider evidence must preserve advisory HTTP compatibility");
+    assert.equal(structuredGarbage.json?.status, "degraded", "non-string provider evidence must be marked degraded");
+    assert.equal(
+      structuredGarbage.json?.error,
+      "DECIDE_AI_PROVIDER_INVALID_RESPONSE",
+      "non-string provider evidence must expose the invalid-response code"
+    );
+    assert.equal(structuredGarbage.json?.decision, undefined, "non-string provider evidence must not synthesize a recommendation");
   } finally {
     global.fetch = originalFetch;
     process.env.GEMINI_API_KEY = previousApiKey;
@@ -3198,12 +3276,13 @@ async function testDecideGeminiPaidSingleAttempt() {
   process.env.DECIDE_GEMINI_LOW_LATENCY_MODEL_LADDER = "gemini-3.1-pro-preview,gemini-3.5-flash";
   const urls = [];
   const providerBodies = [];
+  let providerStatus = 503;
   global.fetch = createBudgetedGeminiFetch(async (url, options = {}) => {
     urls.push(String(url));
     providerBodies.push(JSON.parse(String(options.body || "{}")));
     return {
       ok: false,
-      status: 503,
+      status: providerStatus,
       async json() {
         return { error: { message: "temporarily unavailable" } };
       },
@@ -3221,6 +3300,12 @@ async function testDecideGeminiPaidSingleAttempt() {
       `paid provider failure should preserve advisory response compatibility: ${JSON.stringify(result.json)}`
     );
     assert.equal(result.json?.c, "unclear", "paid provider failure must fail closed");
+    assert.equal(result.json?.status, "degraded", "paid provider failure must be explicitly degraded");
+    assert.equal(
+      result.json?.error,
+      "DECIDE_AI_PROVIDER_UNAVAILABLE",
+      "paid provider failure must expose a stable safe error code"
+    );
     assert.equal(urls.length, 1, "paid mode must make exactly one provider attempt");
     assert.match(
       urls[0],
@@ -3234,6 +3319,20 @@ async function testDecideGeminiPaidSingleAttempt() {
       0,
       "Flash-Lite thinking must remain disabled"
     );
+
+    providerStatus = 429;
+    const rateLimitedResult = await invokeJson(decideHandler, {
+      ...fixture.request,
+      headers: { ...(fixture.request.headers || {}), "x-forwarded-for": "127.0.0.215" },
+    });
+    assert.equal(rateLimitedResult.statusCode, 200, "provider rate limit must preserve advisory HTTP compatibility");
+    assert.equal(rateLimitedResult.json?.status, "degraded", "provider rate limit must be explicitly degraded");
+    assert.equal(
+      rateLimitedResult.json?.error,
+      "DECIDE_AI_PROVIDER_RATE_LIMITED",
+      "provider rate limit error code mismatch"
+    );
+    assert.equal(urls.length, 2, "each paid advisory request must make exactly one provider attempt");
   } finally {
     global.fetch = originalFetch;
     for (const key of envKeys) {
@@ -3266,8 +3365,14 @@ async function testDecideGeminiEmptyTextSingleAttempt() {
 
   try {
     const result = await invokeJson(decideHandler, fixture.request);
-    assert.equal(result.statusCode, 200, "empty provider output should preserve advisory response compatibility");
+    assert.equal(result.statusCode, 200, "empty provider output must preserve advisory HTTP compatibility");
     assert.equal(result.json?.c, "unclear", "empty provider output must fail closed");
+    assert.equal(result.json?.status, "degraded", "empty provider output must be explicitly degraded");
+    assert.equal(
+      result.json?.error,
+      "DECIDE_AI_PROVIDER_INVALID_RESPONSE",
+      "empty provider output must expose a stable safe error code"
+    );
     assert.equal(fetchCalls, 1, "empty provider output must not trigger a second attempt");
   } finally {
     global.fetch = originalFetch;
@@ -3322,8 +3427,10 @@ async function testDecideGeminiDeadline() {
         "x-forwarded-for": "127.0.0.77",
       },
     });
-    assert.equal(result.statusCode, 200, "advisory timeout should return a bounded unclear result");
+    assert.equal(result.statusCode, 200, "advisory timeout must preserve advisory HTTP compatibility");
     assert.equal(result.json?.c, "unclear", "advisory timeout should fail closed to unclear");
+    assert.equal(result.json?.status, "degraded", "advisory timeout must be explicitly degraded");
+    assert.equal(result.json?.error, "DECIDE_AI_PROVIDER_TIMEOUT", "advisory timeout error code mismatch");
     assert.equal(signalSeen, true, "Gemini requests must receive an abort signal");
     assert.equal(signalAborted, true, "Gemini requests must abort at the configured deadline");
     assert.ok(Date.now() - startedAt < 90, "Gemini deadline should complete before the fallback wait");
