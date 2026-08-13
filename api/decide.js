@@ -119,6 +119,116 @@ function readGeminiText(data) {
   return parts.map((part) => (typeof part?.text === "string" ? part.text : "")).join("");
 }
 
+function buildGeminiResponseJsonSchema(advisoryMode, options = []) {
+  if (advisoryMode === "single") {
+    return {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        answer: { type: "string", enum: ["yes", "no"] },
+      },
+      required: ["answer"],
+    };
+  }
+
+  const submittedOptions = toStringArray(options, 8);
+  if (advisoryMode === "multi") {
+    return {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        scores: {
+          type: "array",
+          minItems: submittedOptions.length,
+          maxItems: submittedOptions.length,
+          items: { type: "number", minimum: 1, maximum: 10 },
+        },
+        reason: { type: "string" },
+      },
+      required: ["scores", "reason"],
+    };
+  }
+
+  return {
+    type: "object",
+    additionalProperties: false,
+    properties: {
+      decision: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          recommended_option: { type: "string", enum: submittedOptions },
+          confidence: { type: "number", minimum: 0, maximum: 1 },
+        },
+        required: ["recommended_option", "confidence"],
+      },
+      scorecard: {
+        type: "array",
+        minItems: submittedOptions.length,
+        maxItems: submittedOptions.length,
+        items: {
+          type: "object",
+          additionalProperties: false,
+          properties: {
+            option: { type: "string", enum: submittedOptions },
+            score: { type: "number", minimum: 1, maximum: 10 },
+            confidence: { type: "number", minimum: 0, maximum: 1 },
+            impact: { type: "string" },
+            risk: { type: "string", enum: ["low", "medium", "high"] },
+            rank: {
+              type: "integer",
+              minimum: 1,
+              maximum: Math.max(1, submittedOptions.length),
+            },
+          },
+          required: ["option", "score", "confidence", "impact", "risk", "rank"],
+        },
+      },
+      tradeoffs: {
+        type: "array",
+        minItems: 1,
+        items: { type: "string" },
+      },
+      next_actions: {
+        type: "array",
+        minItems: 1,
+        items: { type: "string" },
+      },
+      citations: {
+        type: "array",
+        minItems: 1,
+        items: {
+          type: "object",
+          additionalProperties: false,
+          properties: {
+            title: { type: "string" },
+            url: { type: "string" },
+            reasoning_lines: {
+              type: "array",
+              minItems: 2,
+              items: { type: "string" },
+            },
+          },
+          required: ["title", "url", "reasoning_lines"],
+        },
+      },
+    },
+    required: ["decision", "scorecard", "tradeoffs", "next_actions", "citations"],
+  };
+}
+
+function readSingleGeminiAnswer(data) {
+  const raw = readGeminiText(data).trim();
+  const parsed = extractJson(raw);
+  const candidate = typeof parsed?.answer === "string" ? parsed.answer : raw;
+  return String(candidate || "")
+    .toLowerCase()
+    .trim()
+    .replace(/^"+|"+$/g, "")
+    .replace(/[^\w\s]/g, "")
+    .trim();
+}
+
 function sanitizeScore(n) {
   const parsed = Number(n);
   if (!Number.isFinite(parsed)) return null;
@@ -355,6 +465,7 @@ async function requestGeminiGenerateContent({
   request_id,
   model,
   advisoryMode,
+  advisoryOptions = [],
 }) {
   const attempts = [];
   const promptText = String(prompt || "");
@@ -408,12 +519,20 @@ async function requestGeminiGenerateContent({
           ...generationConfig,
           maxOutputTokens: requestPolicy.maxOutputTokens,
           thinkingConfig: { thinkingLevel: requestPolicy.thinkingLevel },
+          responseMimeType: "application/json",
+          responseJsonSchema: buildGeminiResponseJsonSchema(advisoryMode, advisoryOptions),
         },
       }),
       signal: controller.signal,
     });
     const data = await apiRes.json();
-    const attempt = { model, status: apiRes.status, latency_ms: Date.now() - startedAt };
+    const finishReason = String(data?.candidates?.[0]?.finishReason || "").trim();
+    const attempt = {
+      model,
+      status: apiRes.status,
+      latency_ms: Date.now() - startedAt,
+      ...(finishReason ? { finish_reason: finishReason } : {}),
+    };
     attempts.push(attempt);
 
     if (!apiRes.ok) {
@@ -434,6 +553,16 @@ async function requestGeminiGenerateContent({
         data,
         attempts,
         errorCode: "GEMINI_EMPTY_RESPONSE",
+      };
+    }
+
+    if (finishReason && finishReason !== "STOP") {
+      return {
+        ok: false,
+        status: apiRes.status,
+        data,
+        attempts,
+        errorCode: "GEMINI_INCOMPLETE_RESPONSE",
       };
     }
 
@@ -507,6 +636,7 @@ function sendGeminiRequestFailure(res, result, request_id, lineageInput) {
         latency_ms: Number(attempt?.latency_ms || 0),
         empty_text: attempt?.empty_text === true,
         error: String(attempt?.error || "").slice(0, 160),
+        finish_reason: String(attempt?.finish_reason || "").slice(0, 80),
       }))
     : [];
   console.warn(
@@ -555,7 +685,11 @@ function sendGeminiRequestFailure(res, result, request_id, lineageInput) {
     return;
   }
 
-  const invalidResponse = ["GEMINI_EMPTY_RESPONSE", "GEMINI_INVALID_RESPONSE"].includes(result?.errorCode);
+  const invalidResponse = [
+    "GEMINI_EMPTY_RESPONSE",
+    "GEMINI_INCOMPLETE_RESPONSE",
+    "GEMINI_INVALID_RESPONSE",
+  ].includes(result?.errorCode);
   const timedOut = result?.errorCode === "GEMINI_REQUEST_TIMEOUT";
   const rateLimited = providerStatus === 429;
   const requestRejected = providerStatus >= 400 && providerStatus < 500 && !rateLimited;
@@ -1121,6 +1255,7 @@ Rules:
         request_id,
         model: geminiProvider.model,
         advisoryMode: "runtime",
+        advisoryOptions: runtimeOptions,
       });
       const data = runtimeResult.data;
       if (!runtimeResult.ok) {
@@ -1293,6 +1428,7 @@ Rules:
         request_id,
         model: geminiProvider.model,
         advisoryMode: "multi",
+        advisoryOptions: options,
       });
       const data = multiResult.data;
       if (!multiResult.ok) {
@@ -1390,9 +1526,9 @@ Rules:
     });
     if (!geminiProvider) return;
 
-    const prompt = `You're a decisive oracle. You must commit and find the differentiation factor. Output only "yes" or "no". No other text. Answer metaphorical questions based on intent.
+    const prompt = `You're a decisive oracle. You must commit and find the differentiation factor. Answer metaphorical questions based on intent.
 User's question: ${q}
-Output exactly one of: yes, no`;
+Return only JSON with exactly one field named "answer" whose value is either "yes" or "no".`;
 
     const singleResult = await requestGeminiGenerateContent({
       apiKey: geminiProvider.apiKey,
@@ -1413,8 +1549,7 @@ Output exactly one of: yes, no`;
       return;
     }
 
-    let out = readGeminiText(data);
-    out = out.toLowerCase().trim().replace(/^"+|"+$/g, "").replace(/[^\w\s]/g, "").trim();
+    const out = readSingleGeminiAnswer(data);
 
     if (out === "yes") {
       sendDecisionJson(res, 200, { c: "yes", v: "yes", request_id }, { mode: "single", question: q });

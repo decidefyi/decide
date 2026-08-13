@@ -340,20 +340,24 @@ async function testDecideMultiAdvisoryContract() {
   process.env.GEMINI_API_KEY = "contract-test";
   process.env.DECIDE_API_KEY = "";
   process.env.DECIDE_GEMINI_MODE = "paid";
-  global.fetch = createBudgetedGeminiFetch(async () => ({
-    ok: true,
-    async json() {
-      return {
-        candidates: [
-          {
-            content: {
-              parts: [{ text: JSON.stringify({ scores: [9.1, 2.4, 1.8], reason: "bounded rulebooks are replayable" }) }],
+  let providerBody = null;
+  global.fetch = createBudgetedGeminiFetch(async (_url, options = {}) => {
+    providerBody = JSON.parse(String(options.body || "{}"));
+    return {
+      ok: true,
+      async json() {
+        return {
+          candidates: [
+            {
+              content: {
+                parts: [{ text: JSON.stringify({ scores: [9.1, 2.4, 1.8], reason: "bounded rulebooks are replayable" }) }],
+              },
             },
-          },
-        ],
-      };
-    },
-  }));
+          ],
+        };
+      },
+    };
+  });
 
   try {
     const result = await invokeJson(decideHandler, request);
@@ -361,6 +365,21 @@ async function testDecideMultiAdvisoryContract() {
     assert.equal(result.json?.c, "ok", "decide multi c mismatch");
     assert.equal(result.json?.v, "ok", "decide multi v mismatch");
     assert.equal(result.json?.winner_index, 0, "decide multi winner mismatch");
+    assert.equal(
+      providerBody?.generationConfig?.responseMimeType,
+      "application/json",
+      "multi advisory must request structured JSON"
+    );
+    assert.equal(
+      providerBody?.generationConfig?.responseJsonSchema?.properties?.scores?.minItems,
+      request.body.options.length,
+      "multi advisory schema must require one score per option"
+    );
+    assert.equal(
+      providerBody?.generationConfig?.responseJsonSchema?.properties?.scores?.maxItems,
+      request.body.options.length,
+      "multi advisory schema must reject extra scores"
+    );
     assertAdvisoryDecisionContract(result.json, "multi", "decide multi");
     assertLineage(result.json, "decide_multi");
   } finally {
@@ -506,24 +525,28 @@ async function testDecideRuntimeFixture() {
       },
     ],
   });
-  global.fetch = createBudgetedGeminiFetch(async () => ({
-    ok: true,
-    async json() {
-      return {
-        candidates: [
-          {
-            content: {
-              parts: [
-                {
-                  text: runtimeProviderText,
-                },
-              ],
+  let runtimeProviderBody = null;
+  global.fetch = createBudgetedGeminiFetch(async (_url, options = {}) => {
+    runtimeProviderBody = JSON.parse(String(options.body || "{}"));
+    return {
+      ok: true,
+      async json() {
+        return {
+          candidates: [
+            {
+              content: {
+                parts: [
+                  {
+                    text: runtimeProviderText,
+                  },
+                ],
+              },
             },
-          },
-        ],
-      };
-    },
-  }));
+          ],
+        };
+      },
+    };
+  });
 
   try {
     const result = await invokeJson(decideHandler, {
@@ -535,6 +558,17 @@ async function testDecideRuntimeFixture() {
     assert.equal(result.json?.engine, "decide", "decide runtime engine mismatch");
     assert.equal(result.json?.c, "ok", "decide runtime c mismatch");
     assert.equal(result.json?.v, "ok", "decide runtime v mismatch");
+    assert.equal(
+      runtimeProviderBody?.generationConfig?.responseMimeType,
+      "application/json",
+      "runtime advisory must request structured JSON"
+    );
+    assert.deepEqual(
+      runtimeProviderBody?.generationConfig?.responseJsonSchema?.properties?.decision?.properties
+        ?.recommended_option?.enum,
+      fixture.request.body.context.options,
+      "runtime advisory schema must bind the recommendation to submitted options"
+    );
     assertAdvisoryDecisionContract(result.json, "runtime", "decide runtime");
 
     const recommended = result.json?.decision?.recommended_option;
@@ -3336,6 +3370,16 @@ async function testDecideGeminiPaidSingleAttempt() {
       false,
       "Gemini 3 Flash-Lite requests must not use the legacy Gemini 2.5 thinking budget"
     );
+    assert.equal(
+      providerBodies[0]?.generationConfig?.responseMimeType,
+      "application/json",
+      "single advisory must request structured JSON"
+    );
+    assert.deepEqual(
+      providerBodies[0]?.generationConfig?.responseJsonSchema?.properties?.answer?.enum,
+      ["yes", "no"],
+      "single advisory schema must restrict the provider answer"
+    );
 
     providerStatus = 429;
     const rateLimitedResult = await invokeJson(decideHandler, {
@@ -3391,6 +3435,49 @@ async function testDecideGeminiEmptyTextSingleAttempt() {
       "empty provider output must expose a stable safe error code"
     );
     assert.equal(fetchCalls, 1, "empty provider output must not trigger a second attempt");
+  } finally {
+    global.fetch = originalFetch;
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
+  }
+}
+
+async function testDecideGeminiIncompleteFinishReasonFailsClosed() {
+  const fixture = loadFixture("decide-single.json");
+  const originalFetch = global.fetch;
+  const envKeys = ["GEMINI_API_KEY", "DECIDE_API_KEY", "DECIDE_GEMINI_MODE", "DECIDE_GEMINI_MODEL"];
+  const previousEnv = Object.fromEntries(envKeys.map((key) => [key, process.env[key]]));
+  process.env.GEMINI_API_KEY = "contract-test";
+  process.env.DECIDE_API_KEY = "";
+  process.env.DECIDE_GEMINI_MODE = "paid";
+  process.env.DECIDE_GEMINI_MODEL = "gemini-3.1-flash-lite";
+  global.fetch = createBudgetedGeminiFetch(async () => ({
+    ok: true,
+    status: 200,
+    async json() {
+      return {
+        candidates: [
+          {
+            finishReason: "MAX_TOKENS",
+            content: { parts: [{ text: JSON.stringify({ answer: "yes" }) }] },
+          },
+        ],
+      };
+    },
+  }));
+
+  try {
+    const result = await invokeJson(decideHandler, fixture.request);
+    assert.equal(result.statusCode, 200, "incomplete provider output must preserve advisory HTTP compatibility");
+    assert.equal(result.json?.c, "unclear", "incomplete provider output must fail closed");
+    assert.equal(result.json?.status, "degraded", "incomplete provider output must be explicitly degraded");
+    assert.equal(
+      result.json?.error,
+      "DECIDE_AI_PROVIDER_INVALID_RESPONSE",
+      "incomplete provider output must expose a stable safe error code"
+    );
   } finally {
     global.fetch = originalFetch;
     for (const key of envKeys) {
@@ -4750,6 +4837,7 @@ async function main() {
     ["decide-gemini-budget-cap-fails-closed", testDecideGeminiBudgetCapFailsClosed],
     ["decide-gemini-paid-single-attempt", testDecideGeminiPaidSingleAttempt],
     ["decide-gemini-empty-text-single-attempt", testDecideGeminiEmptyTextSingleAttempt],
+    ["decide-gemini-incomplete-finish-reason", testDecideGeminiIncompleteFinishReasonFailsClosed],
     ["decide-gemini-deadline", testDecideGeminiDeadline],
     ["decide-gemini-prompt-limit", testDecideGeminiPromptLimit],
     ["policy-v1-dispatch", testPolicyV1Fixture],
