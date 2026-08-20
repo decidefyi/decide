@@ -4662,6 +4662,15 @@ function testRulebookRuntimeManifest() {
       `contract workflow must run when ${contractPath} changes`
     );
   }
+  assert.ok(
+    contractWorkflow.includes("pull_request:"),
+    "contract workflow must validate pull requests"
+  );
+  assert.equal(
+    contractWorkflow.includes("- codex/**"),
+    false,
+    "contract workflow must not duplicate pull-request runs on codex branch pushes"
+  );
   for (const [label, workflow] of workflowFiles.entries()) {
     assert.ok(
       workflow.includes("FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true"),
