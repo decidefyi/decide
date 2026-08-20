@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-06-13 04:18:15 CEST
+Generated: 2026-08-20 12:22:28 CEST
 
 ## Scope
 
@@ -20,116 +20,146 @@ Companion artifacts:
 ### Function declarations
 
 ```text
-api/cancel-mcp.js:34:function formatTextMessage(payload) {
-api/cancel-mcp.js:38:export default createMcpHandler({
+api/cancel-mcp.js:52:function formatTextMessage(payload) {
+api/cancel-mcp.js:62:export default createMcpHandler({
 api/compliance-export.js:18:export default async function complianceExportHandler(req, res) {
 api/compliance-export.js:3:function sendJson(res, statusCode, payload) {
 api/compliance-export.js:9:function readFormat(req) {
-api/decide.js:109:function readGeminiText(data) {
-api/decide.js:115:function sanitizeScore(n) {
-api/decide.js:122:function sanitizeUnitScore(n) {
-api/decide.js:134:function normalizeRisk(value, fallback = "medium") {
-api/decide.js:140:function normalizeRuntimeCitations(citations) {
-api/decide.js:173:function summarizeInputEvidenceValue(value) {
-api/decide.js:184:function buildInputEvidenceSummary(inputs = {}) {
-api/decide.js:191:function buildRuntimeFallbackEvidence(payload = {}, context = {}) {
-api/decide.js:257:function normalizeHeaderValue(value) {
-api/decide.js:262:function readHeader(req, name = "") {
-api/decide.js:273:function readApiToken(req) {
-api/decide.js:285:function resolveGeminiModelLadder() {
-api/decide.js:294:function shouldRetryGeminiModel(statusCode, payload) {
-api/decide.js:29:function rid() {
-api/decide.js:302:async function requestGeminiGenerateContent({ apiKey, prompt, generationConfig, request_id }) {
-api/decide.js:33:function normalize(s = "") {
-api/decide.js:372:function safeEqualToken(left, right) {
-api/decide.js:37:function wantsAdvice(q) {
-api/decide.js:382:function parseFlag(value) {
-api/decide.js:387:function readTrustedProxyContext(req) {
-api/decide.js:413:function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
-api/decide.js:41:function isFinanceAdvice(q) {
-api/decide.js:448:export default async function handler(req, res) {
-api/decide.js:47:function isMedicalAdvice(q) {
-api/decide.js:53:function isLegalAdvice(q) {
-api/decide.js:59:function parseMultiQuestion(raw = "") {
-api/decide.js:78:function asObject(value, fallback = {}) {
-api/decide.js:82:function toStringArray(value, maxLength = 8) {
-api/decide.js:90:function extractJson(text = "") {
+api/decide.js:116:function readGeminiText(data) {
+api/decide.js:122:function sanitizeScore(n) {
+api/decide.js:129:function sanitizeUnitScore(n) {
+api/decide.js:141:function normalizeRisk(value, fallback = "medium") {
+api/decide.js:147:function normalizeRuntimeCitations(citations) {
+api/decide.js:177:function validateRuntimeProviderOutput(payload = {}, options = []) {
+api/decide.js:232:function summarizeInputEvidenceValue(value) {
+api/decide.js:243:function buildInputEvidenceSummary(inputs = {}) {
+api/decide.js:24:function rid() {
+api/decide.js:250:function buildRuntimeFallbackEvidence(payload = {}, context = {}) {
+api/decide.js:28:function normalize(s = "") {
+api/decide.js:316:function normalizeHeaderValue(value) {
+api/decide.js:321:function readHeader(req, name = "") {
+api/decide.js:32:function wantsAdvice(q) {
+api/decide.js:332:function readApiToken(req) {
+api/decide.js:344:function findCallerSuppliedRulebookOutputFields(body = {}) {
+api/decide.js:351:async function requestGeminiGenerateContent({
+api/decide.js:36:function isFinanceAdvice(q) {
+api/decide.js:42:function isMedicalAdvice(q) {
+api/decide.js:485:function sendGeminiRequestFailure(res, result, request_id, lineageInput) {
+api/decide.js:48:function isLegalAdvice(q) {
+api/decide.js:54:function parseMultiQuestion(raw = "") {
+api/decide.js:600:function safeEqualToken(left, right) {
+api/decide.js:610:function parseFlag(value) {
+api/decide.js:615:function shouldRequireDecisionApiAuth(env = process.env) {
+api/decide.js:625:function readTrustedProxyContext(req) {
+api/decide.js:651:function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
+api/decide.js:678:export default async function handler(req, res) {
+api/decide.js:73:function asObject(value, fallback = {}) {
+api/decide.js:77:function toStringArray(value, maxLength = 8) {
+api/decide.js:85:function isFiniteJsonNumber(value) {
+api/decide.js:89:function isNonEmptyJsonString(value) {
+api/decide.js:93:function isStrictStringArray(value, minLength = 1) {
+api/decide.js:97:function extractJson(text = "") {
+api/decide.js:993:    const getGeminiProviderOrRespond = async (advisoryMode, lineageInput) => {
 api/health.js:12:function inferServiceFromHost(host) {
 api/health.js:3:function normalizeHost(req) {
 api/health.js:51:export default function handler(req, res) {
-api/mcp.js:39:function formatTextMessage(payload) {
-api/mcp.js:43:export default createMcpHandler({
-api/metrics.js:11:export default async function handler(req, res) {
-api/metrics.js:5:function send(res, status, payload) {
-api/policy-alerts.js:13:function send(res, statusCode, payload) {
-api/policy-alerts.js:144:function toAlertObjectFromFeedEntry(entry = {}, fallbackStatus = "confirmed") {
-api/policy-alerts.js:189:function buildSuccessPayload({
-api/policy-alerts.js:19:function readQueryValue(req, key, fallback = "") {
-api/policy-alerts.js:215:function filterByDateRange(alerts = [], dateFrom = "", dateTo = "") {
-api/policy-alerts.js:225:function sortAlertsNewest(alerts = []) {
-api/policy-alerts.js:233:function filterByIncludeZero(alerts = [], includeZero = true) {
-api/policy-alerts.js:238:function loadAlertsFromFiles({ state = "confirmed", dateFrom = "", dateTo = "", limit = 20, includeZero = true } = {}) {
-api/policy-alerts.js:25:function readJson(filePath, fallback = {}) {
-api/policy-alerts.js:265:async function loadAlertsFromSupabase({
-api/policy-alerts.js:318:export default async function handler(req, res) {
-api/policy-alerts.js:34:function parseLimit(rawValue, fallback = 20) {
-api/policy-alerts.js:40:function parseIncludeZero(rawValue, fallback = true) {
-api/policy-alerts.js:48:function parseBooleanFlag(rawValue, fallback = false) {
-api/policy-alerts.js:56:function toNumber(value, fallback = 0) {
-api/policy-alerts.js:61:function resolveStatusAndState({ status = "", state = "", strictEligible = true } = {}) {
-api/policy-alerts.js:69:function resolveStrictEligible(value, status = "", state = "") {
-api/policy-alerts.js:76:function normalizeState(value = "") {
-api/policy-alerts.js:83:function normalizeDateOnly(value = "") {
-api/policy-alerts.js:89:function defaultAllowFileFallback(env = process.env) {
-api/policy-alerts.js:94:function toAlertObjectFromDailyRow(row = {}) {
-api/policy-fetch-hook.js:101:function toLimitedText(value) {
-api/policy-fetch-hook.js:108:async function fetchTextOnce(url, timeoutMs, userAgent, method = "GET") {
-api/policy-fetch-hook.js:14:function normalizeHeaderValue(value) {
-api/policy-fetch-hook.js:159:async function fetchViaBrowserless(targetUrl, timeoutMs) {
-api/policy-fetch-hook.js:19:function readHeader(req, name = "") {
-api/policy-fetch-hook.js:216:async function fetchViaDirect(targetUrl, timeoutMs) {
-api/policy-fetch-hook.js:227:async function fetchViaJinaMirror(targetUrl, timeoutMs) {
-api/policy-fetch-hook.js:238:export default async function handler(req, res) {
-api/policy-fetch-hook.js:30:function readBearerToken(req) {
-api/policy-fetch-hook.js:39:function readInboundHookToken(req) {
-api/policy-fetch-hook.js:43:function safeEqualToken(left, right) {
-api/policy-fetch-hook.js:53:function sendJson(res, statusCode, payload) {
-api/policy-fetch-hook.js:59:function clampTimeout(value) {
-api/policy-fetch-hook.js:65:function parseBody(req) {
-api/policy-fetch-hook.js:78:function parseAllowlist(value) {
-api/policy-fetch-hook.js:85:function isHostAllowed(hostname, allowlist) {
-api/policy-fetch-hook.js:92:function toJinaMirrorUrl(url) {
-api/return-mcp.js:39:function formatTextMessage(payload) {
-api/return-mcp.js:43:export default createMcpHandler({
+api/mcp.js:55:function formatTextMessage(payload) {
+api/mcp.js:65:export default createMcpHandler({
+api/metrics.js:21:export function resetMcpAdoptionCacheForTests() {
+api/metrics.js:25:function send(res, status, payload) {
+api/metrics.js:31:export default async function handler(req, res) {
+api/metrics.js:9:async function getCachedPolicyGrowthReports() {
+api/policy-alerts.js:101:export function attachPolicyEventDetails(alerts = [], policyEvents = []) {
+api/policy-alerts.js:143:export function applyPolicyEventReviews(alerts = [], eventReviews = []) {
+api/policy-alerts.js:168:function normalizeReviewStatus(value = "") {
+api/policy-alerts.js:16:function send(res, statusCode, payload) {
+api/policy-alerts.js:172:function withoutDismissedPolicyCounts(byPolicy = {}, dismissedDetails = []) {
+api/policy-alerts.js:182:function withoutDismissedSamples(changedSample = [], dismissedDetails = []) {
+api/policy-alerts.js:191:export function reconcilePolicyAlertTrust(alert = {}) {
+api/policy-alerts.js:22:function readQueryValue(req, key, fallback = "") {
+api/policy-alerts.js:28:function readJson(filePath, fallback = {}) {
+api/policy-alerts.js:313:function resolveRulebookStatus(value, changedCount) {
+api/policy-alerts.js:319:function resolveStatusAndState({ status = "", state = "", strictEligible = true } = {}) {
+api/policy-alerts.js:327:function resolveStrictEligible(value, status = "", state = "") {
+api/policy-alerts.js:334:function normalizeState(value = "") {
+api/policy-alerts.js:341:function normalizeDateOnly(value = "") {
+api/policy-alerts.js:347:function defaultAllowFileFallback(env = process.env) {
+api/policy-alerts.js:352:function toAlertObjectFromDailyRow(row = {}) {
+api/policy-alerts.js:37:function parseLimit(rawValue, fallback = 20) {
+api/policy-alerts.js:406:function toAlertObjectFromFeedEntry(entry = {}, fallbackStatus = "confirmed") {
+api/policy-alerts.js:43:function parseIncludeZero(rawValue, fallback = true) {
+api/policy-alerts.js:455:function buildSuccessPayload({
+api/policy-alerts.js:482:function filterByDateRange(alerts = [], dateFrom = "", dateTo = "") {
+api/policy-alerts.js:492:function sortAlertsNewest(alerts = []) {
+api/policy-alerts.js:500:function filterByIncludeZero(alerts = [], includeZero = true) {
+api/policy-alerts.js:505:function filterByState(alerts = [], state = "confirmed") {
+api/policy-alerts.js:51:function parseBooleanFlag(rawValue, fallback = false) {
+api/policy-alerts.js:521:function mergeAlertsByIdentity(...alertGroups) {
+api/policy-alerts.js:530:function loadAlertsFromFiles({ state = "confirmed", dateFrom = "", dateTo = "", limit = 20, includeZero = true } = {}) {
+api/policy-alerts.js:547:async function loadAlertsFromSupabase({
+api/policy-alerts.js:59:function toNumber(value, fallback = 0) {
+api/policy-alerts.js:641:export default async function handler(req, res) {
+api/policy-alerts.js:64:function normalizeSampleDetails(value) {
+api/policy-alerts.js:73:function eventDateUtc(event = {}) {
+api/policy-alerts.js:80:function toSampleDetailFromEvent(event = {}) {
+api/policy-fetch-hook.js:104:function toJinaMirrorUrl(url) {
+api/policy-fetch-hook.js:113:function toLimitedText(value) {
+api/policy-fetch-hook.js:120:async function fetchTextOnce(url, timeoutMs, userAgent, method = "GET") {
+api/policy-fetch-hook.js:171:function parseJson(value) {
+api/policy-fetch-hook.js:179:function classifyCloudflareBrowserRunError(statusCode, payload) {
+api/policy-fetch-hook.js:17:function normalizeHeaderValue(value) {
+api/policy-fetch-hook.js:193:async function fetchViaCloudflareBrowserRun(targetUrl, timeoutMs) {
+api/policy-fetch-hook.js:22:function readHeader(req, name = "") {
+api/policy-fetch-hook.js:267:async function fetchViaBrowserless(targetUrl, timeoutMs) {
+api/policy-fetch-hook.js:334:async function fetchViaDirect(targetUrl, timeoutMs) {
+api/policy-fetch-hook.js:33:function readBearerToken(req) {
+api/policy-fetch-hook.js:345:async function fetchViaJinaMirror(targetUrl, timeoutMs) {
+api/policy-fetch-hook.js:356:export default async function handler(req, res) {
+api/policy-fetch-hook.js:42:function readInboundHookToken(req) {
+api/policy-fetch-hook.js:46:function safeEqualToken(left, right) {
+api/policy-fetch-hook.js:56:function sendJson(res, statusCode, payload) {
+api/policy-fetch-hook.js:62:function clampTimeout(value) {
+api/policy-fetch-hook.js:68:function clampCloudflareCacheTtl(value) {
+api/policy-fetch-hook.js:77:function parseBody(req) {
+api/policy-fetch-hook.js:90:function parseAllowlist(value) {
+api/policy-fetch-hook.js:97:function isHostAllowed(hostname, allowlist) {
+api/policy-mcp.js:8:export default createMcpHandler({
+api/return-mcp.js:57:function formatTextMessage(payload) {
+api/return-mcp.js:67:export default createMcpHandler({
 api/rulebook-attestation-keys.js:13:export default async function handler(req, res) {
 api/rulebook-attestation-keys.js:6:function sendJson(res, statusCode, payload) {
-api/track.js:113:export default async function handler(req, res) {
-api/track.js:34:function send(res, status, payload) {
-api/track.js:40:async function readJson(req) {
-api/track.js:50:function getAllowedOriginsFromEnv() {
-api/track.js:61:function parseOrigin(rawOrigin) {
-api/track.js:70:function isAllowedOrigin(rawOrigin) {
-api/track.js:83:function isAllowedEvent(event) {
-api/track.js:89:function sanitizeProps(rawProps) {
-api/trial-mcp.js:34:function formatTextMessage(payload) {
-api/trial-mcp.js:38:export default createMcpHandler({
-api/v1/[policy]/[action].js:13:function first(value) {
-api/v1/[policy]/[action].js:17:function normalize(value) {
-api/v1/[policy]/[action].js:21:function readPathParam(req, key, pathIndex) {
-api/v1/[policy]/[action].js:30:function json(res, statusCode, payload) {
-api/v1/[policy]/[action].js:36:export default async function v1PolicyDispatcher(req, res) {
-api/v1/workflows/zendesk/[workflow].js:13:function first(value) {
-api/v1/workflows/zendesk/[workflow].js:17:function normalize(value) {
-api/v1/workflows/zendesk/[workflow].js:21:function readWorkflowParam(req) {
-api/v1/workflows/zendesk/[workflow].js:30:function json(res, statusCode, payload) {
-api/v1/workflows/zendesk/[workflow].js:36:export default async function zendeskWorkflowDispatcher(req, res) {
-client/refund-auditor.js:28:async function checkRefundEligibility(vendor, daysSincePurchase) {
-lib/cancel-compute.js:188:export function getSupportedVendors() {
-lib/cancel-compute.js:195:export function getRulesVersion() {
-lib/cancel-compute.js:23:function withSource(result, vendor) {
-lib/cancel-compute.js:34:function withRulebook(result, vendor, rulebookResult) {
-lib/cancel-compute.js:45:export function validateInput({ vendor, region, plan }) {
-lib/cancel-compute.js:81:export function compute({ vendor, region, plan }) {
+api/track.js:118:export default async function handler(req, res) {
+api/track.js:39:function send(res, status, payload) {
+api/track.js:45:async function readJson(req) {
+api/track.js:55:function getAllowedOriginsFromEnv() {
+api/track.js:66:function parseOrigin(rawOrigin) {
+api/track.js:75:function isAllowedOrigin(rawOrigin) {
+api/track.js:88:function isAllowedEvent(event) {
+api/track.js:94:function sanitizeProps(rawProps) {
+api/trial-mcp.js:65:function formatTextMessage(payload) {
+api/trial-mcp.js:75:export default createMcpHandler({
+api/v1/[policy]/[action].js:14:function first(value) {
+api/v1/[policy]/[action].js:18:function normalize(value) {
+api/v1/[policy]/[action].js:22:function readPathParam(req, query, key, pathIndex) {
+api/v1/[policy]/[action].js:31:function json(res, statusCode, payload) {
+api/v1/[policy]/[action].js:37:export default async function v1PolicyDispatcher(req, res) {
+api/v1/workflows/zendesk/[workflow].js:14:function first(value) {
+api/v1/workflows/zendesk/[workflow].js:18:function normalize(value) {
+api/v1/workflows/zendesk/[workflow].js:22:function readWorkflowParam(req, query) {
+api/v1/workflows/zendesk/[workflow].js:31:function json(res, statusCode, payload) {
+api/v1/workflows/zendesk/[workflow].js:37:export default async function zendeskWorkflowDispatcher(req, res) {
+client/refund-auditor.js:27:async function checkRefundEligibility(vendor, daysSincePurchase, qualifyingConditionsMet) {
+lib/async-work-pool.js:1:export async function mapWithConcurrency(items, concurrency, mapper, options = {}) {
+lib/async-work-pool.js:23:  async function runWorker(workerIndex) {
+lib/blocked-fetch-reuse-cache.js:10:export function createBlockedFetchReuseCache({ isReusableFailure = isBlockedFetchFailure } = {}) {
+lib/blocked-fetch-reuse-cache.js:1:function isBlockedFetchFailure(value) {
+lib/blocked-fetch-reuse-cache.js:22:  const validateKey = (key) => {
+lib/cancel-compute.js:246:export function getSupportedVendors() {
+lib/cancel-compute.js:24:function withSource(result, vendor) {
+lib/cancel-compute.js:253:export function getRulesVersion() {
+lib/cancel-compute.js:37:function withRulebook(result, vendor, rulebookResult) {
+lib/cancel-compute.js:48:export function validateInput({ vendor, region, plan, billing_cadence }) {
+lib/cancel-compute.js:97:export function compute({ vendor, region, plan, billing_cadence }, { requireCompleteContext = true } = {}) {
 lib/cancel-rulebook.js:12:export function evaluateCancelPolicyRulebook(inputs) {
 lib/compliance-export.js:109:function escapeCsv(value) {
 lib/compliance-export.js:115:function toCsv(rows) {
@@ -141,6 +171,23 @@ lib/compliance-export.js:63:function asText(value) {
 lib/compliance-export.js:67:function normalizeSource(entry) {
 lib/compliance-export.js:80:function normalizeCandidate(entry) {
 lib/compliance-export.js:94:function loadPolicySet(config) {
+lib/gemini-model-routing.js:56:export function resolveGeminiModelLadder({ env = process.env } = {}) {
+lib/gemini-model-routing.js:5:export function resolveGeminiRuntimePolicy({ env = process.env } = {}) {
+lib/gemini-request-policy.js:12:function lowerOnlyInteger(value, fallback, min, hardMax) {
+lib/gemini-request-policy.js:18:export function resolveGeminiRequestPolicy({ mode = "single", env = process.env } = {}) {
+lib/gemini-usage-budget.js:112:async function runEval({ config, script, keys, args, fetchImpl = globalThis.fetch }) {
+lib/gemini-usage-budget.js:138:function usageFromResult(result) {
+lib/gemini-usage-budget.js:146:function denialReason(value) {
+lib/gemini-usage-budget.js:154:export async function reserveGeminiUsage({
+lib/gemini-usage-budget.js:202:export async function releaseGeminiUsage(reservation, {
+lib/gemini-usage-budget.js:53:function asLowerOnlyCap(value, hardCap) {
+lib/gemini-usage-budget.js:60:function periodKeys(now) {
+lib/gemini-usage-budget.js:77:function normalizeStoreUrl(value) {
+lib/gemini-usage-budget.js:81:export function resolveGeminiUsageBudgetConfig({ env = process.env, now = Date.now() } = {}) {
+lib/json-schema-lite.js:18:function validateNode(value, schema, path, errors) {
+lib/json-schema-lite.js:1:function describeValue(value) {
+lib/json-schema-lite.js:70:export function validateJsonSchema(value, schema) {
+lib/json-schema-lite.js:7:function matchesType(value, type) {
 lib/json-schema-subset.js:18:function valuesEqual(left, right) {
 lib/json-schema-subset.js:1:function isPlainObject(value) {
 lib/json-schema-subset.js:22:function resolveLocalSchemaRef(rootSchema, ref) {
@@ -151,17 +198,56 @@ lib/json-schema-subset.js:58:export function validateJsonSchemaSubset(value, sch
 lib/json-schema-subset.js:5:function hasOwn(source, key) {
 lib/json-schema-subset.js:9:function canonicalJson(value) {
 lib/lineage.js:15:export function buildSourceHash(payload) {
-lib/lineage.js:20:export function withLineage(payload, { policyVersion = "unknown", sourceHash = "unknown", evaluatedAt } = {}) {
+lib/lineage.js:20:export function buildPolicySourceHash({
+lib/lineage.js:38:export function withLineage(payload, { policyVersion = "unknown", sourceHash = "unknown", evaluatedAt } = {}) {
 lib/lineage.js:3:function toIso(value = new Date()) {
 lib/lineage.js:8:function stableStringify(value) {
 lib/log.js:3:export async function persistLog(event, data) {
-lib/mcp-handler.js:12:async function readJson(req) {
-lib/mcp-handler.js:23:function ok(id, result) {
-lib/mcp-handler.js:27:function err(id, code, message, data) {
-lib/mcp-handler.js:31:function defaultIsError(payload) {
-lib/mcp-handler.js:35:export function createMcpHandler(config) {
-lib/mcp-handler.js:52:  return async function mcpHandler(req, res) {
-lib/mcp-handler.js:6:function send(res, status, payload) {
+lib/mcp-adoption-report.js:105:function toolSummary(tool) {
+lib/mcp-adoption-report.js:116:function breakdownSummary(field, value) {
+lib/mcp-adoption-report.js:127:function recordBreakdown(map, field, rawValue, classification) {
+lib/mcp-adoption-report.js:138:function sortedBreakdowns(map, field) {
+lib/mcp-adoption-report.js:146:function classificationSummary(events = []) {
+lib/mcp-adoption-report.js:171:export function buildMcpAdoptionReport({ events = [], generatedAt = new Date().toISOString() } = {}) {
+lib/mcp-adoption-report.js:270:function adoptionTrendPeriod(events, window, generatedAt) {
+lib/mcp-adoption-report.js:282:function adoptionDelta(current, previous, field) {
+lib/mcp-adoption-report.js:286:function adoptionTrendWindowObserved(period) {
+lib/mcp-adoption-report.js:290:function adoptionTrendComparison(current, previous) {
+lib/mcp-adoption-report.js:306:export function buildMcpAdoptionTrend({
+lib/mcp-adoption-report.js:329:  const inWindow = (event, sinceTime, endTime) => {
+lib/mcp-adoption-report.js:36:function text(value = "") {
+lib/mcp-adoption-report.js:40:function dayFromTimestamp(value = "") {
+lib/mcp-adoption-report.js:45:function latestTimestamp(left = "", right = "") {
+lib/mcp-adoption-report.js:53:function normalizedClient(value = "") {
+lib/mcp-adoption-report.js:58:function clientAttributionKey(event = {}) {
+lib/mcp-adoption-report.js:64:function buildClientHints(events = []) {
+lib/mcp-adoption-report.js:77:function resolveClient(event = {}, clientHints = new Map()) {
+lib/mcp-adoption-report.js:91:export function classifyMcpAdoptionEvent(event = {}) {
+lib/mcp-adoption-store.js:12:function positiveInteger(value, fallback) {
+lib/mcp-adoption-store.js:17:export async function fetchPolicyMcpEvents(config, { since, maxRows = 10000 } = {}) {
+lib/mcp-adoption-store.js:51:export async function getMcpAdoptionReport({
+lib/mcp-distribution-health.js:13:function hasCompleteToolMetadata(tools = []) {
+lib/mcp-distribution-health.js:21:function registryServers(payload = {}) {
+lib/mcp-distribution-health.js:27:export function buildMcpDistributionHealthReport({
+lib/mcp-distribution-health.js:8:function sameStringSet(left = [], right = []) {
+lib/mcp-distribution-health.js:9:  const normalize = (values) => [...new Set(values.map((value) => String(value || "").trim()).filter(Boolean))].sort();
+lib/mcp-handler.js:101:  return async function mcpHandler(req, res) {
+lib/mcp-handler.js:144:    const recordTelemetry = (method, details = {}) => {
+lib/mcp-handler.js:19:function send(res, status, payload) {
+lib/mcp-handler.js:25:async function readJson(req) {
+lib/mcp-handler.js:36:function ok(id, result) {
+lib/mcp-handler.js:40:function err(id, code, message, data) {
+lib/mcp-handler.js:44:function defaultIsError(payload) {
+lib/mcp-handler.js:48:function getAllowedBrowserOrigins() {
+lib/mcp-handler.js:57:function isAllowedBrowserOrigin(rawOrigin) {
+lib/mcp-handler.js:76:export function createMcpHandler(config) {
+lib/mcp-telemetry.js:22:function classifyClient(userAgent = "", clientName = "") {
+lib/mcp-telemetry.js:27:function enabled(value = "") {
+lib/mcp-telemetry.js:31:function trafficClass(headers = {}, internalProbeToken = "") {
+lib/mcp-telemetry.js:44:function persistedEvent(event = {}) {
+lib/mcp-telemetry.js:61:export function buildMcpTelemetryEvent({
+lib/mcp-telemetry.js:8:function classifyClientValue(value = "") {
+lib/mcp-telemetry.js:93:export async function persistMcpTelemetryEvent(event = {}, {
 lib/metrics-axiom.js:10:function parseAxiomRows(payload) {
 lib/metrics-axiom.js:1:function toUnixSeconds(ms) {
 lib/metrics-axiom.js:27:export async function getAxiomMetricsSnapshot() {
@@ -170,9 +256,55 @@ lib/metrics-store.js:18:export function recordClientEvent(eventName, ts = Date.n
 lib/metrics-store.js:33:export function recordVendorRequest(vendorName, ts = Date.now()) {
 lib/metrics-store.js:46:export function getMetricsSnapshot() {
 lib/metrics-store.js:5:function getStore() {
+lib/policy-context.js:1:export function resolveQualifyingConditionContext({
+lib/policy-coverage-scorecard.js:107:function countByCandidateMetadata(candidates, key) {
+lib/policy-coverage-scorecard.js:115:function validateCandidateUrl({
+lib/policy-coverage-scorecard.js:138:function buildCandidateCoverage(candidateRegistry = {}, lifecycleReport = {}) {
+lib/policy-coverage-scorecard.js:168:export function validatePolicyVendorCandidateRegistry(candidateRegistry = {}, admittedVendorIds = new Set()) {
+lib/policy-coverage-scorecard.js:231:export function buildPolicyCoverageScorecard({
+lib/policy-coverage-scorecard.js:24:function toFinitePositiveNumber(value, fallback) {
+lib/policy-coverage-scorecard.js:292:export function formatPolicyCoverageScorecardMarkdown(scorecard = {}) {
+lib/policy-coverage-scorecard.js:29:function percent(value, target) {
+lib/policy-coverage-scorecard.js:34:function productionVendorIds(rulebooks = {}) {
+lib/policy-coverage-scorecard.js:42:function decisionModeFor(policy, config = {}) {
+lib/policy-coverage-scorecard.js:49:function buildPolicyDepth(rulebooks = {}) {
+lib/policy-coverage-scorecard.js:78:function buildSourceCoverage(sourceMaps = {}) {
 lib/policy-decision-material.js:12:export function attachPolicyDecisionMaterial(result, { rulebook, inputs } = {}) {
 lib/policy-decision-material.js:36:export function exposePolicyDecisionMaterial(req, payload) {
 lib/policy-decision-material.js:3:function readHeader(req, name) {
+lib/policy-freshness.js:36:export function buildPolicyFreshnessReport({
+lib/policy-freshness.js:3:function parseDate(value) {
+lib/policy-freshness.js:8:export function evaluatePolicyFreshness({
+lib/policy-funnel-report.js:166:function observed(period) {
+lib/policy-funnel-report.js:170:function comparison(current, previous) {
+lib/policy-funnel-report.js:185:function stageDeltas(current, previous) {
+lib/policy-funnel-report.js:192:function eventsInWindow(events, sinceTime, untilTime) {
+lib/policy-funnel-report.js:199:export function buildPolicyFunnelReport({
+lib/policy-funnel-report.js:37:function text(value = "") {
+lib/policy-funnel-report.js:41:function stageForEvent(eventName = "") {
+lib/policy-funnel-report.js:48:function latestTimestamp(left = "", right = "") {
+lib/policy-funnel-report.js:56:function emptyStage() {
+lib/policy-funnel-report.js:60:function stageMap() {
+lib/policy-funnel-report.js:64:function percentage(numerator, denominator) {
+lib/policy-funnel-report.js:71:function evaluatorCallerIds(mcpEvents = []) {
+lib/policy-funnel-report.js:82:function sourceSummary(source = "direct") {
+lib/policy-funnel-report.js:94:function summarizePeriod(events = [], mcpEvents = [], { evaluatorDataAvailable = true } = {}) {
+lib/policy-funnel-telemetry.js:113:export async function persistPolicyFunnelEvent(event, {
+lib/policy-funnel-telemetry.js:33:function enabled(value = "") {
+lib/policy-funnel-telemetry.js:37:function token(value = "", maxLength = 80) {
+lib/policy-funnel-telemetry.js:46:function pagePath(value = "") {
+lib/policy-funnel-telemetry.js:51:function verdict(value = "") {
+lib/policy-funnel-telemetry.js:59:function persistedEvent(event = {}) {
+lib/policy-funnel-telemetry.js:76:export function isPolicyFunnelEvent(event = "") {
+lib/policy-funnel-telemetry.js:80:export function buildPolicyFunnelEvent({
+lib/policy-growth-store.js:16:function positiveInteger(value, fallback) {
+lib/policy-growth-store.js:21:export async function fetchPolicyFunnelEvents(config, { since, maxRows = 10000 } = {}) {
+lib/policy-growth-store.js:53:export async function getPolicyGrowthReports({
+lib/policy-mcp-metadata.js:11:export function buildPolicyMcpOutputSchema(verdicts, properties = {}) {
+lib/policy-mcp-metadata.js:51:export function buildPolicyRegistryServer() {
+lib/policy-mcp-metadata.js:66:export function buildPolicyMcpServerCard(tools) {
+lib/policy-review.js:14:export function buildPolicyReviewUpdate({
+lib/policy-review.js:8:function requiredString(value, label) {
 lib/policy-supabase.js:107:export async function supabaseUpsertRows(config, tableName, rows = [], onConflictColumns = []) {
 lib/policy-supabase.js:13:export function getPolicySupabaseConfig(env = process.env) {
 lib/policy-supabase.js:1:function toFlag(value, fallback = false) {
@@ -180,24 +312,45 @@ lib/policy-supabase.js:31:function buildUrl(baseUrl, path, params = {}) {
 lib/policy-supabase.js:47:function buildHeaders(config, { json = true, prefer = "" } = {}) {
 lib/policy-supabase.js:61:export async function supabaseRestRequest(config, { method = "GET", path = "", params = {}, body, prefer = "" } = {}) {
 lib/policy-supabase.js:7:function normalizeUrl(value = "") {
+lib/policy-vendor-candidate-monitor.js:114:function responseHeader(response, name) {
+lib/policy-vendor-candidate-monitor.js:118:function assertCandidateContent(text, source = {}) {
+lib/policy-vendor-candidate-monitor.js:130:async function fetchZendeskArticle({ fetchUrl, fetchImpl, timeoutMs }) {
+lib/policy-vendor-candidate-monitor.js:157:async function fetchOfficialDocument({ fetchUrl, fetchImpl, timeoutMs }) {
+lib/policy-vendor-candidate-monitor.js:191:export async function monitorPolicyVendorCandidates({
+lib/policy-vendor-candidate-monitor.js:20:function clone(value) {
+lib/policy-vendor-candidate-monitor.js:24:function normalizeText(value) {
+lib/policy-vendor-candidate-monitor.js:40:function contentHash(value) {
+lib/policy-vendor-candidate-monitor.js:44:export function toObservationSlot(now = new Date(), intervalHours = 6) {
+lib/policy-vendor-candidate-monitor.js:52:function validateSourceUrl(sourceUrl, allowedHosts) {
+lib/policy-vendor-candidate-monitor.js:62:function updatePolicyState(previous = {}, observation, observationWindow) {
+lib/policy-vendor-lifecycle.js:166:function aggregateMonitoredVendors(rows) {
+lib/policy-vendor-lifecycle.js:16:function parseDate(value) {
+lib/policy-vendor-lifecycle.js:189:export function buildPolicyVendorLifecycleReport({
+lib/policy-vendor-lifecycle.js:21:function ageDays(value, now) {
+lib/policy-vendor-lifecycle.js:257:export function formatPolicyVendorLifecycleMarkdown(report = {}) {
+lib/policy-vendor-lifecycle.js:28:function normalizeAdmission(registry = {}) {
+lib/policy-vendor-lifecycle.js:47:export function evaluateMonitoredVendorPolicy(row = {}, {
+lib/policy-vendor-lifecycle.js:84:function evaluateCandidatePolicy({
+lib/privacy-identifiers.js:3:export function buildPseudonymousCallerId(value = "", salt = "") {
 lib/rate-limit.js:108:export function addRateLimitHeaders(res, result) {
 lib/rate-limit.js:11:export function createRateLimiter(requests, window) {
 lib/rate-limit.js:16:  return function checkRateLimit(identifier) {
 lib/rate-limit.js:74:export function getClientIp(req) {
 lib/rate-limit.js:86:export function sendRateLimitError(res, result, request_id) {
-lib/refund-compute.js:115:export function compute({ vendor, days_since_purchase, region, plan }) {
-lib/refund-compute.js:207:export function getSupportedVendors() {
-lib/refund-compute.js:214:export function getRulesVersion() {
-lib/refund-compute.js:23:function withSource(result, vendor) {
-lib/refund-compute.js:34:function withRulebook(result, vendor, rulebookResult) {
-lib/refund-compute.js:45:export function validateInput({ vendor, days_since_purchase, region, plan }) {
+lib/refund-compute.js:129:export function compute(
+lib/refund-compute.js:25:function withSource(result, vendor) {
+lib/refund-compute.js:272:export function getSupportedVendors() {
+lib/refund-compute.js:279:export function getRulesVersion() {
+lib/refund-compute.js:38:function withRulebook(result, vendor, rulebookResult) {
+lib/refund-compute.js:49:export function validateInput({ vendor, days_since_purchase, region, plan, qualifying_conditions_met }) {
 lib/refund-rulebook.js:12:export function evaluateRefundPolicyRulebook(inputs) {
-lib/return-compute.js:114:export function compute({ vendor, days_since_purchase, region, plan }) {
-lib/return-compute.js:225:export function getSupportedVendors() {
-lib/return-compute.js:232:export function getRulesVersion() {
-lib/return-compute.js:23:function withSource(result, vendor) {
-lib/return-compute.js:34:function withRulebook(result, vendor, rulebookResult) {
-lib/return-compute.js:45:export function validateInput({ vendor, days_since_purchase, region, plan }) {
+lib/request-query.js:3:export function parseRequestQuery(request) {
+lib/return-compute.js:128:export function compute(
+lib/return-compute.js:25:function withSource(result, vendor) {
+lib/return-compute.js:295:export function getSupportedVendors() {
+lib/return-compute.js:302:export function getRulesVersion() {
+lib/return-compute.js:38:function withRulebook(result, vendor, rulebookResult) {
+lib/return-compute.js:49:export function validateInput({ vendor, days_since_purchase, region, plan, qualifying_conditions_met }) {
 lib/return-rulebook.js:12:export function evaluateReturnPolicyRulebook(inputs) {
 lib/routes/v1/policies/cancel-penalty.js:18:function rid() {
 lib/routes/v1/policies/cancel-penalty.js:22:async function readJson(req) {
@@ -224,22 +377,30 @@ lib/routes/v1/workflows/zendesk/return.js:28:export default createZendeskWorkflo
 lib/routes/v1/workflows/zendesk/return.js:4:function buildAction({ decisionClass, policy }) {
 lib/routes/v1/workflows/zendesk/trial.js:28:export default createZendeskWorkflowHandler({
 lib/routes/v1/workflows/zendesk/trial.js:4:function buildAction({ decisionClass, policy }) {
-lib/routes/v1/workflows/zendesk/workflow-common.js:107:async function invokeJson(handler, reqOptions) {
-lib/routes/v1/workflows/zendesk/workflow-common.js:118:function buildZendeskTags({
-lib/routes/v1/workflows/zendesk/workflow-common.js:11:function json(res, statusCode, payload) {
-lib/routes/v1/workflows/zendesk/workflow-common.js:143:function buildPrivateNote({
-lib/routes/v1/workflows/zendesk/workflow-common.js:176:export function createZendeskWorkflowHandler(config) {
-lib/routes/v1/workflows/zendesk/workflow-common.js:197:  function pruneIdempotencyCache(now) {
-lib/routes/v1/workflows/zendesk/workflow-common.js:205:  return async function zendeskWorkflowHandler(req, res) {
-lib/routes/v1/workflows/zendesk/workflow-common.js:21:async function readJson(req) {
-lib/routes/v1/workflows/zendesk/workflow-common.js:32:function normalizeText(value, maxLen = 500) {
-lib/routes/v1/workflows/zendesk/workflow-common.js:37:function normalizeDecision(value) {
-lib/routes/v1/workflows/zendesk/workflow-common.js:43:function buildDecideAuthHeaders() {
-lib/routes/v1/workflows/zendesk/workflow-common.js:52:function parseDays(value) {
-lib/routes/v1/workflows/zendesk/workflow-common.js:58:function buildIdempotencyKey(payload) {
-lib/routes/v1/workflows/zendesk/workflow-common.js:70:function createReq({
-lib/routes/v1/workflows/zendesk/workflow-common.js:7:function rid() {
-lib/routes/v1/workflows/zendesk/workflow-common.js:93:function createRes() {
+lib/routes/v1/workflows/zendesk/workflow-common.js:111:function allowsDecisionOverride(env = process.env) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:115:function buildDecideAuthHeaders() {
+lib/routes/v1/workflows/zendesk/workflow-common.js:131:function parseDays(value) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:137:function buildIdempotencyKey(payload) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:13:function json(res, statusCode, payload) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:155:function createReq({
+lib/routes/v1/workflows/zendesk/workflow-common.js:178:function createRes() {
+lib/routes/v1/workflows/zendesk/workflow-common.js:192:async function invokeJson(handler, reqOptions) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:203:function buildZendeskTags({
+lib/routes/v1/workflows/zendesk/workflow-common.js:228:function buildPrivateNote({
+lib/routes/v1/workflows/zendesk/workflow-common.js:23:async function readJson(req) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:261:export function createZendeskWorkflowHandler(config) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:282:  function pruneIdempotencyCache(now) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:290:  return async function zendeskWorkflowHandler(req, res) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:34:function normalizeText(value, maxLen = 500) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:39:function normalizeDecision(value) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:45:function parseFlag(value) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:50:function readHeader(req, name) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:60:function safeEqualToken(left, right) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:70:function isProductionDeployment(env = process.env) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:74:function shouldRequireWorkflowAuth(env = process.env) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:80:function readBearerToken(req) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:86:function getWorkflowAuthState(req, env = process.env) {
+lib/routes/v1/workflows/zendesk/workflow-common.js:9:function rid() {
 lib/rulebook-attestation-signing.js:123:function resolveKeyHistory(env = process.env) {
 lib/rulebook-attestation-signing.js:153:export function isRulebookAttestationSignatureRequired(env = process.env) {
 lib/rulebook-attestation-signing.js:159:export function signRulebookAttestationBundleHash(bundleHash, env = process.env) {
@@ -258,32 +419,41 @@ lib/rulebook-attestation.js:23:function normalizeTrustedAdapter(attestation) {
 lib/rulebook-attestation.js:40:function normalizeRuntimeBinding(binding) {
 lib/rulebook-attestation.js:54:export function buildRulebookAttestation(result = {}) {
 lib/rulebook-attestation.js:6:function isPlainObject(value) {
+lib/rulebook-runtime-contract.js:105:function buildRulebookRuntimeBinding({ bindingMode = RULEBOOK_DIRECT_BINDING_MODE } = {}) {
+lib/rulebook-runtime-contract.js:129:function buildAdvisoryDecisionContract({ mode = "single" } = {}) {
 lib/rulebook-runtime-contract.js:12:function readJson(filePath) {
+lib/rulebook-runtime-contract.js:145:function buildAdvisoryResponseContractManifest() {
+lib/rulebook-runtime-contract.js:155:function buildRulebookRuntimeManifest() {
 lib/rulebook-runtime-contract.js:16:function sha256(value) {
-lib/rulebook-runtime-contract.js:42:function buildRulebookRuntimeBinding({ bindingMode = RULEBOOK_DIRECT_BINDING_MODE } = {}) {
-lib/rulebook-runtime-contract.js:61:function buildRulebookRuntimeManifest() {
-lib/rulebook-v1.js:104:function validateCondition(condition, path, errors, state, depth = 0) {
-lib/rulebook-v1.js:173:function validateRulebook(rulebook) {
-lib/rulebook-v1.js:22:function isPlainObject(value) {
-lib/rulebook-v1.js:251:function rulebookContract() {
-lib/rulebook-v1.js:255:function compareScalar(left, right, operator) {
-lib/rulebook-v1.js:26:function canonicalJson(value) {
-lib/rulebook-v1.js:273:function evaluateCondition(condition, inputs) {
-lib/rulebook-v1.js:300:function normalizeOutcome(outcome) {
-lib/rulebook-v1.js:309:function validateInputs(rulebook, inputs) {
-lib/rulebook-v1.js:323:export function evaluateRulebookV1({ rulebook, inputs, bindingMode } = {}) {
-lib/rulebook-v1.js:35:function sha256(value) {
-lib/rulebook-v1.js:39:function hasOwn(source, key) {
-lib/rulebook-v1.js:43:function validateAllowedKeys(source, allowedKeys, path, errors) {
-lib/rulebook-v1.js:57:function getFieldValue(inputs, path) {
-lib/rulebook-v1.js:69:function valueTypeMatches(value, type) {
-lib/rulebook-v1.js:80:function validateOutcome(outcome, path, errors) {
-lib/trial-compute.js:167:export function getSupportedVendors() {
-lib/trial-compute.js:174:export function getRulesVersion() {
-lib/trial-compute.js:23:function withSource(result, vendor) {
-lib/trial-compute.js:34:function withRulebook(result, vendor, rulebookResult) {
-lib/trial-compute.js:45:export function validateInput({ vendor, region, plan }) {
-lib/trial-compute.js:81:export function compute({ vendor, region, plan }) {
+lib/rulebook-runtime-contract.js:75:function normalizeRulebookBindingMode(bindingMode = RULEBOOK_DIRECT_BINDING_MODE) {
+lib/rulebook-runtime-contract.js:79:function isRulebookBindingModeSupported(bindingMode = RULEBOOK_DIRECT_BINDING_MODE) {
+lib/rulebook-runtime-contract.js:83:function findRulebookOutputMaterialPaths(value, { path = "" } = {}) {
+lib/rulebook-runtime-contract.js:85:  const visit = (node, currentPath) => {
+lib/rulebook-v1.js:108:function validateCondition(condition, path, errors, state, depth = 0) {
+lib/rulebook-v1.js:177:function validateRulebook(rulebook) {
+lib/rulebook-v1.js:255:function rulebookContract() {
+lib/rulebook-v1.js:259:function compareScalar(left, right, operator) {
+lib/rulebook-v1.js:26:function isPlainObject(value) {
+lib/rulebook-v1.js:277:function evaluateCondition(condition, inputs) {
+lib/rulebook-v1.js:304:function normalizeOutcome(outcome) {
+lib/rulebook-v1.js:30:function canonicalJson(value) {
+lib/rulebook-v1.js:313:function validateInputs(rulebook, inputs) {
+lib/rulebook-v1.js:327:export function evaluateRulebookV1({ rulebook, inputs, bindingMode } = {}) {
+lib/rulebook-v1.js:39:function sha256(value) {
+lib/rulebook-v1.js:43:function hasOwn(source, key) {
+lib/rulebook-v1.js:47:function validateAllowedKeys(source, allowedKeys, path, errors) {
+lib/rulebook-v1.js:61:function getFieldValue(inputs, path) {
+lib/rulebook-v1.js:73:function valueTypeMatches(value, type) {
+lib/rulebook-v1.js:84:function validateOutcome(outcome, path, errors) {
+lib/successful-fetch-cache.js:19:  const retain = (key, value) => {
+lib/successful-fetch-cache.js:1:function isSuccessfulRawFetch(value) {
+lib/successful-fetch-cache.js:5:export function createSuccessfulFetchCache({ isSuccess = isSuccessfulRawFetch } = {}) {
+lib/trial-compute.js:131:export function compute(
+lib/trial-compute.js:24:function withSource(result, vendor) {
+lib/trial-compute.js:292:export function getSupportedVendors() {
+lib/trial-compute.js:299:export function getRulesVersion() {
+lib/trial-compute.js:37:function withRulebook(result, vendor, rulebookResult) {
+lib/trial-compute.js:48:export function validateInput({
 lib/trial-rulebook.js:12:export function evaluateTrialPolicyRulebook(inputs) {
 lib/trusted-adapter-capabilities.js:30:function capabilityDeniedError(name) {
 lib/trusted-adapter-capabilities.js:37:function deniedCapability(name) {
@@ -313,200 +483,222 @@ lib/trusted-adapters.js:50:function materializedManifest(entry) {
 lib/trusted-adapters.js:58:function publicManifest(entry) {
 lib/trusted-adapters.js:69:function assertTrustedAdapterVersionLock(manifest) {
 lib/trusted-adapters.js:93:function validateAdapterInput(manifest, input) {
-scripts/check-policies.js:1007:function writeWeeklyTriageReports(rows, generatedAtUtc) {
-scripts/check-policies.js:1032:  const delta = (key) => {
-scripts/check-policies.js:1076:function readNdjson(filePath) {
-scripts/check-policies.js:1096:function toArtifactAbsolutePath(artifactPath = "") {
-scripts/check-policies.js:1100:async function hydratePolicyStateArtifactsFromSupabase(supabaseConfig) {
-scripts/check-policies.js:1158:async function syncPolicyStateArtifactsToSupabase(supabaseConfig) {
-scripts/check-policies.js:1204:function buildSupabasePolicyEventRows(eventLogEntries = [], dateUtc = "") {
-scripts/check-policies.js:1235:function buildSupabaseDailyAlertRow(entry = {}, strictEligible = false) {
-scripts/check-policies.js:1273:function getAlertContinuityLookbackDays() {
-scripts/check-policies.js:1279:function listDateRangeUtc(startDateUtc = "", endDateUtc = "") {
-scripts/check-policies.js:1293:async function fetchSupabaseDailyAlertDateSet(supabaseConfig, startDateUtc = "", endDateUtc = "") {
-scripts/check-policies.js:1317:function buildSupabaseZeroChangeContinuityRow(dateUtc = "", templateEntry = {}) {
-scripts/check-policies.js:1359:async function buildSupabaseContinuityBackfillRows({
-scripts/check-policies.js:1383:async function syncPolicyAlertsToSupabase({
-scripts/check-policies.js:1433:function buildPolicyEventId(item) {
-scripts/check-policies.js:1441:function appendPolicyEventLog(changedItems, generatedAtUtc = utcIsoTimestamp()) {
-scripts/check-policies.js:1507:function updateJsonStringField(filePath, fieldName, nextValue) {
-scripts/check-policies.js:1522:export function normalizeSourceUrlForComparison(value) {
-scripts/check-policies.js:1550:function firstNonEmptyString(values = []) {
-scripts/check-policies.js:1557:export function evaluateVendorSourceMigration({
-scripts/check-policies.js:1598:function detectFetchInterstitial(text) {
-scripts/check-policies.js:1618:function normalizeFetchFailureReasonToken(errorMessage) {
-scripts/check-policies.js:1627:function parseFetchFailureSegments(failureReason) {
-scripts/check-policies.js:1647:function isImmediateFetchBlockErrorMessage(errorMessage) {
-scripts/check-policies.js:1654:function isAuxiliaryFetchFailureSegment(segment) {
-scripts/check-policies.js:1661:export function classifyFetchFailureBlock(failureReason) {
-scripts/check-policies.js:1695:export function getCandidatePendingModelId(candidate) {
-scripts/check-policies.js:1703:export function isLegacyPendingCandidate(candidate) {
-scripts/check-policies.js:1707:function getPendingModelFirstObservedUtc(candidate, fallback = "") {
-scripts/check-policies.js:1714:function markCandidatePendingModel(candidate, firstObservedUtc) {
-scripts/check-policies.js:1722:function decodeHtmlEntities(input) {
-scripts/check-policies.js:1734:function escapeRegexLiteral(value) {
-scripts/check-policies.js:1738:function getPolicyKeywordRegex(policyType) {
-scripts/check-policies.js:1750:function getPolicyKeywords(policyType) {
-scripts/check-policies.js:1757:function getVendorKeywordRegex(vendorKey) {
-scripts/check-policies.js:1768:function extractVendorStableText(lines, vendorKey) {
-scripts/check-policies.js:1788:function extractPolicyFocusedText(lines, policyType) {
-scripts/check-policies.js:1811:function normalizeFetchedText(rawText, policyType = "default", vendorKey = "") {
-scripts/check-policies.js:1849:function getFetchQualityMinChars() {
-scripts/check-policies.js:1854:function getFetchQualityMinLines() {
-scripts/check-policies.js:1859:function getFetchQualityMinPolicyHits() {
-scripts/check-policies.js:1864:function getQualityGateRejectFailures() {
-scripts/check-policies.js:1869:function getFetchQualityThresholds(policyType, vendorKey) {
-scripts/check-policies.js:1892:function countPolicyKeywordHits(text, policyType) {
-scripts/check-policies.js:1905:function assessFetchQuality({ rawText, normalizedText, policyType, vendorKey = "" }) {
-scripts/check-policies.js:1941:function scoreFetchQuality(quality) {
-scripts/check-policies.js:1954:function normalizePageMetadata(input = {}) {
-scripts/check-policies.js:1974:function toIsoDateOnly(value) {
-scripts/check-policies.js:1982:function buildPageMetadataSignature(input) {
-scripts/check-policies.js:2003:function extractMetadataText(rawText) {
-scripts/check-policies.js:2015:function extractDateLabelFromText(text, labelPattern) {
-scripts/check-policies.js:2023:function extractTitleFromText(rawText) {
-scripts/check-policies.js:2039:function extractPageMetadata({ rawText, sourceMetadata } = {}) {
-scripts/check-policies.js:2064:function normalizeSemanticTokens(tokens) {
-scripts/check-policies.js:2072:function semanticTokenSignature(profile) {
-scripts/check-policies.js:2077:export function semanticSignaturesStable(previousSignature, nextSignature) {
-scripts/check-policies.js:2084:export function buildChangeKey(hashValue, semanticSignature) {
-scripts/check-policies.js:2091:function getCandidateChangeKey(candidate, fallback = {}) {
-scripts/check-policies.js:2113:function getCandidateSignalWindowDecision(candidate) {
-scripts/check-policies.js:2123:function extractDurationTokens(text, anchors = [], tokenPrefix = "window_days") {
-scripts/check-policies.js:2151:function extractSemanticTokens(text, policyType = "default") {
-scripts/check-policies.js:2156:  const addIfMatch = (token, regex) => {
-scripts/check-policies.js:2217:function buildSemanticProfile(text, policyType, metadata = {}) {
-scripts/check-policies.js:2236:function normalizeSemanticProfile(input, metadata = {}) {
-scripts/check-policies.js:2259:function normalizeConfirmedBaselineEntry(input) {
-scripts/check-policies.js:2279:function semanticTokensFromSignature(signature) {
-scripts/check-policies.js:2286:function buildComparisonSemanticProfile({ baselineEntry, fallbackProfile }) {
-scripts/check-policies.js:2315:function diffSemanticProfiles(previousProfile, nextProfile) {
-scripts/check-policies.js:2339:function formatSemanticDiffSummary(semanticDiff) {
-scripts/check-policies.js:2349:function buildSemanticDiffSignature(semanticDiff) {
-scripts/check-policies.js:2356:function getActualConfirmRuns() {
-scripts/check-policies.js:2361:function getActualConfirmRunsForVendor(vendorConfig, vendor, sourceVolatilityTier = "normal") {
-scripts/check-policies.js:2383:function getActualMinGapMs() {
-scripts/check-policies.js:2389:function getActualMinGapHours() {
-scripts/check-policies.js:2394:function getCandidateTtlDays() {
-scripts/check-policies.js:2399:function getPendingDetailLimit() {
-scripts/check-policies.js:2404:function getSameRunRecheckPasses() {
-scripts/check-policies.js:2409:function getSameRunRecheckDelayMs() {
-scripts/check-policies.js:2414:function getSameRunRecheckBatchSize(defaultSize = 3) {
-scripts/check-policies.js:2419:function getSameRunMajorityMinVotes() {
-scripts/check-policies.js:2424:function getCrossRunWindowSize() {
-scripts/check-policies.js:2429:function getCrossRunWindowRequired() {
-scripts/check-policies.js:2437:function getAdaptiveWindowEnabled() {
-scripts/check-policies.js:2443:function getHighSignalWindowRequired() {
-scripts/check-policies.js:2451:function getHighSignalMinPolicyHits() {
-scripts/check-policies.js:2456:function getHighSignalMinLines() {
-scripts/check-policies.js:2461:export function isHighSignalWindowCandidate({ semanticSignature, quality }) {
-scripts/check-policies.js:2471:export function getCrossRunWindowRequiredForCandidate({ semanticSignature, quality }) {
-scripts/check-policies.js:2478:function getCrossRunWindowRequirementLabel() {
-scripts/check-policies.js:2486:function getStalePendingDays() {
-scripts/check-policies.js:2491:function getVolatileFlipThreshold() {
-scripts/check-policies.js:2496:function getVolatileRequireRecentFlip() {
-scripts/check-policies.js:2502:function getEscalationPendingDays() {
-scripts/check-policies.js:2507:function getEscalationFlipThreshold() {
-scripts/check-policies.js:2512:function getEscalationRequireRecentFlip() {
-scripts/check-policies.js:2518:function getFetchFailureQuarantineStreak() {
-scripts/check-policies.js:2523:function getFallbackSignalConsecutiveRuns() {
-scripts/check-policies.js:2528:function getEscalationFlipThresholdForVendor(policyName, vendor, sourceVolatilityTier = "normal") {
-scripts/check-policies.js:2551:export function getVolatileFlipThresholdForVendor(policyName, vendor, sourceVolatilityTier = "normal") {
-scripts/check-policies.js:2574:function getNoConfirmEscalationDays() {
-scripts/check-policies.js:2579:function getMaterialCooldownDays() {
-scripts/check-policies.js:2584:function getMaterialOscillationWindowDays() {
-scripts/check-policies.js:2589:function getCandidatePendingSinceUtc(candidate) {
-scripts/check-policies.js:2600:function getCandidateAgeDays(candidate, nowMs = Date.now()) {
-scripts/check-policies.js:2608:function toMsOrNaN(isoValue) {
-scripts/check-policies.js:2613:function appendSignalWindow(coverageEntry, signal) {
-scripts/check-policies.js:2626:export function countSignalWindowChangeFlips(signalWindow) {
-scripts/check-policies.js:2642:export function evaluateSignalWindow(signalWindow, requiredVotes = getCrossRunWindowRequired()) {
-scripts/check-policies.js:2676:function getRunMajorityDecision(observations) {
-scripts/check-policies.js:2713:function sortedLimitedVendors(vendors, limit = getPendingDetailLimit()) {
-scripts/check-policies.js:2718:function isStaleCandidate(candidate, nowMs = Date.now()) {
-scripts/check-policies.js:2731:async function fetchText(url, attempts = 3) {
-scripts/check-policies.js:2770:function normalizeFallbackProbeHeaderValue(value) {
-scripts/check-policies.js:2774:function getFallbackProbeHeader(headers, key) {
-scripts/check-policies.js:2779:function buildFallbackProbeEntrySignatures(entry) {
-scripts/check-policies.js:2810:export function evaluateFallbackSignalTransition({
-scripts/check-policies.js:2859:async function probeHeadMetadata(url, attempts = 2) {
-scripts/check-policies.js:2923:async function probeFallbackMetadata(vendorConfig) {
-scripts/check-policies.js:2996:async function fetchBrowserHookText({ url, vendor, policyType }, attempts = 1) {
-scripts/check-policies.js:3079:function toJinaMirrorUrl(url) {
-scripts/check-policies.js:3088:export function toZendeskHelpCenterApiTarget(url) {
-scripts/check-policies.js:3119:async function fetchZendeskHelpCenterJson(apiTarget, attempts = 2) {
-scripts/check-policies.js:3215:function buildCandidateUrls(vendorConfig) {
-scripts/check-policies.js:3233:async function attemptFetchLane({ lane, candidateUrl, context }) {
-scripts/check-policies.js:327:function hash(text) {
-scripts/check-policies.js:3309:async function fetchWithFallback(vendorConfig, context = {}) {
-scripts/check-policies.js:331:function sha256Hex(text = "") {
-scripts/check-policies.js:335:function readJson(filePath, fallback = {}) {
-scripts/check-policies.js:3392:async function checkPolicySet({
-scripts/check-policies.js:344:function sleep(ms) {
-scripts/check-policies.js:348:function jitter(ms) {
-scripts/check-policies.js:354:function normalizeFetchLane(value) {
-scripts/check-policies.js:3579:  const ensureCoverageEntry = (vendor) => {
-scripts/check-policies.js:3586:  const markSuccessfulFetch = (vendor, whenUtc, fetchLane = "") => {
-scripts/check-policies.js:358:function normalizeFetchLaneList(values) {
-scripts/check-policies.js:3594:  const markConfirmedChange = (vendor, whenUtc) => {
-scripts/check-policies.js:3599:  const getConfiguredSourceUrl = (vendorConfig) => {
-scripts/check-policies.js:3609:  const getVendorVolatilityTier = (vendorConfig, sourceUrl = "") => {
-scripts/check-policies.js:3645:  const clearBlockedRetryQueueEntry = (vendor) => {
-scripts/check-policies.js:371:function parseFetchLaneCsv(value) {
-scripts/check-policies.js:375:function getDefaultFetchLanes() {
-scripts/check-policies.js:384:function getVendorFetchLanes(vendorConfig) {
-scripts/check-policies.js:390:function normalizeTier1VendorList(value) {
-scripts/check-policies.js:403:function loadTier1VendorsConfig() {
-scripts/check-policies.js:413:function getTier1TargetForPolicy(policyType, availableVendors, tier1Config) {
-scripts/check-policies.js:423:function utcIsoTimestamp(date = new Date()) {
-scripts/check-policies.js:427:function parseDateOnlyToUtc(value = "") {
-scripts/check-policies.js:435:function toDateOnlyUtc(date = new Date()) {
-scripts/check-policies.js:439:function addUtcDays(value = "", days = 0) {
-scripts/check-policies.js:446:function toZeroPolicyCounts() {
-scripts/check-policies.js:450:function buildZeroChangeContinuityAlert(dateUtc = "") {
-scripts/check-policies.js:495:function summarizePolicyCounts(changedItems) {
-scripts/check-policies.js:504:function toPolicyCountObject(changedItems) {
-scripts/check-policies.js:514:function getPolicyAlertFeedMaxEntries() {
-scripts/check-policies.js:5190:async function main() {
-scripts/check-policies.js:520:function getPolicyAlertIncludeZeroChange() {
-scripts/check-policies.js:525:function buildRunUrl() {
-scripts/check-policies.js:532:function sortAlertsByGeneratedUtcDesc(alerts = []) {
-scripts/check-policies.js:540:function removeAlertsForDate(alerts = [], dateUtc = "") {
-scripts/check-policies.js:546:function upsertDailyAlert(alerts = [], dailyEntry = {}, maxEntries = 120) {
-scripts/check-policies.js:553:function collapseAlertsByDate(alerts = []) {
-scripts/check-policies.js:5544:  const toPolicyCountString = (items) => Object.entries(summarizePolicyCounts(items))
-scripts/check-policies.js:566:function ensureAlertDateContinuity(alerts = [], maxEntries = 120) {
-scripts/check-policies.js:592:function toDateUtcPrefix(value = "") {
-scripts/check-policies.js:598:function normalizeSourceHostname(value = "") {
-scripts/check-policies.js:608:function normalizeVolatilityTier(value = "") {
-scripts/check-policies.js:614:function inferSourceVolatilityTier(sourceUrl = "") {
-scripts/check-policies.js:637:function getSourceVolatilityRule(tier = "normal") {
-scripts/check-policies.js:642:export function resolveSourceVolatilityTier(vendorConfig, sourceUrl = "") {
-scripts/check-policies.js:650:function normalizeDailyFingerprintEntry(input) {
-scripts/check-policies.js:678:function normalizeBlockedRetryEntry(input) {
-scripts/check-policies.js:718:function buildComparisonBaselineEntry({ baselineEntry, dailyFingerprintEntry }) {
-scripts/check-policies.js:736:function buildDailyPolicyCountsFromEvents(dayEvents = []) {
-scripts/check-policies.js:746:function buildDailyAlertFromEvents(entry = {}, eventLogEntries = []) {
-scripts/check-policies.js:789:function isStrictDailyAlertEntry(entry = {}, { includeZeroChange = true } = {}) {
-scripts/check-policies.js:796:function updatePolicyAlertFeed(entry, eventLogEntries = [], { includeZeroChange = true } = {}) {
-scripts/check-policies.js:882:function summarizeStatusCounts(rows) {
-scripts/check-policies.js:891:function summarizePolicyStatusCounts(rows, statuses = []) {
-scripts/check-policies.js:904:function writePolicyStatusReports(rows, generatedAtUtc) {
-scripts/check-policies.js:966:function toIsoWeekKey(utcIso) {
-scripts/check-policies.js:979:function buildWeeklyTriageSnapshot(rows, generatedAtUtc) {
-scripts/customer-key-smoke.js:114:async function main() {
-scripts/customer-key-smoke.js:17:function usage() {
-scripts/customer-key-smoke.js:36:function parseArgs(argv) {
-scripts/customer-key-smoke.js:67:function normalizeBaseUrl(value) {
-scripts/customer-key-smoke.js:77:function redactKey(key) {
-scripts/customer-key-smoke.js:83:async function postJson(url, { key, question, timeoutMs }) {
-scripts/generate-golden-replay-corpus.js:101:async function buildFixture({ id, title, kind, request, notes }) {
+scripts/audit-policy-freshness.js:17:function readJson(relativePath) {
+scripts/audit-policy-freshness.js:21:function readArgValue(name, fallback = "") {
+scripts/check-mcp-distribution.js:16:async function fetchJson(url, options = {}) {
+scripts/check-mcp-distribution.js:29:async function rpc(method, id) {
+scripts/check-mcp-distribution.js:52:async function settledValue(promise, label, errors) {
+scripts/check-policies.js:1009:function writePolicyStatusReports(rows, generatedAtUtc) {
+scripts/check-policies.js:1071:function writePolicyVendorLifecycleReports(report) {
+scripts/check-policies.js:1076:function writePolicyCoverageScorecard(scorecard) {
+scripts/check-policies.js:1081:function toIsoWeekKey(utcIso) {
+scripts/check-policies.js:1094:function buildWeeklyTriageSnapshot(rows, generatedAtUtc) {
+scripts/check-policies.js:1122:function writeWeeklyTriageReports(rows, generatedAtUtc) {
+scripts/check-policies.js:1147:  const delta = (key) => {
+scripts/check-policies.js:1191:function readNdjson(filePath) {
+scripts/check-policies.js:1211:function toArtifactAbsolutePath(artifactPath = "") {
+scripts/check-policies.js:1215:async function hydratePolicyStateArtifactsFromSupabase(supabaseConfig) {
+scripts/check-policies.js:1273:async function syncPolicyStateArtifactsToSupabase(supabaseConfig) {
+scripts/check-policies.js:1319:function buildSupabasePolicyEventRows(eventLogEntries = [], dateUtc = "") {
+scripts/check-policies.js:1350:function buildSupabaseDailyAlertRow(entry = {}, strictEligible = false) {
+scripts/check-policies.js:1389:function getAlertContinuityLookbackDays() {
+scripts/check-policies.js:1395:function listDateRangeUtc(startDateUtc = "", endDateUtc = "") {
+scripts/check-policies.js:1409:async function fetchSupabaseDailyAlertDateSet(supabaseConfig, startDateUtc = "", endDateUtc = "") {
+scripts/check-policies.js:1433:function buildSupabaseZeroChangeContinuityRow(dateUtc = "", templateEntry = {}) {
+scripts/check-policies.js:1475:async function buildSupabaseContinuityBackfillRows({
+scripts/check-policies.js:1499:async function syncPolicyAlertsToSupabase({
+scripts/check-policies.js:1549:function buildPolicyEventId(item) {
+scripts/check-policies.js:1557:function appendPolicyEventLog(changedItems, generatedAtUtc = utcIsoTimestamp()) {
+scripts/check-policies.js:1623:function updateJsonStringField(filePath, fieldName, nextValue) {
+scripts/check-policies.js:1638:export function normalizeSourceUrlForComparison(value) {
+scripts/check-policies.js:1666:function firstNonEmptyString(values = []) {
+scripts/check-policies.js:1673:export function evaluateVendorSourceMigration({
+scripts/check-policies.js:1714:function detectFetchInterstitial(text) {
+scripts/check-policies.js:1734:function normalizeFetchFailureReasonToken(errorMessage) {
+scripts/check-policies.js:1743:function parseFetchFailureSegments(failureReason) {
+scripts/check-policies.js:1763:function isImmediateFetchBlockErrorMessage(errorMessage) {
+scripts/check-policies.js:1770:function isAuxiliaryFetchFailureSegment(segment) {
+scripts/check-policies.js:1777:export function classifyFetchFailureBlock(failureReason) {
+scripts/check-policies.js:1811:export function getCandidatePendingModelId(candidate) {
+scripts/check-policies.js:1819:export function isLegacyPendingCandidate(candidate) {
+scripts/check-policies.js:1823:function getPendingModelFirstObservedUtc(candidate, fallback = "") {
+scripts/check-policies.js:1830:function markCandidatePendingModel(candidate, firstObservedUtc) {
+scripts/check-policies.js:1838:function decodeHtmlEntities(input) {
+scripts/check-policies.js:1850:function escapeRegexLiteral(value) {
+scripts/check-policies.js:1854:function getPolicyKeywordRegex(policyType) {
+scripts/check-policies.js:1866:function getPolicyKeywords(policyType) {
+scripts/check-policies.js:1873:function getVendorKeywordRegex(vendorKey) {
+scripts/check-policies.js:1884:function extractVendorStableText(lines, vendorKey) {
+scripts/check-policies.js:1904:function extractPolicyFocusedText(lines, policyType) {
+scripts/check-policies.js:1927:function normalizeFetchedText(rawText, policyType = "default", vendorKey = "") {
+scripts/check-policies.js:1965:function getFetchQualityMinChars() {
+scripts/check-policies.js:1970:function getFetchQualityMinLines() {
+scripts/check-policies.js:1975:function getFetchQualityMinPolicyHits() {
+scripts/check-policies.js:1980:function getQualityGateRejectFailures() {
+scripts/check-policies.js:1985:function getFetchQualityThresholds(policyType, vendorKey) {
+scripts/check-policies.js:2008:function countPolicyKeywordHits(text, policyType) {
+scripts/check-policies.js:2021:function assessFetchQuality({ rawText, normalizedText, policyType, vendorKey = "" }) {
+scripts/check-policies.js:2057:function scoreFetchQuality(quality) {
+scripts/check-policies.js:2070:function normalizePageMetadata(input = {}) {
+scripts/check-policies.js:2090:function toIsoDateOnly(value) {
+scripts/check-policies.js:2098:function buildPageMetadataSignature(input) {
+scripts/check-policies.js:2119:function extractMetadataText(rawText) {
+scripts/check-policies.js:2131:function extractDateLabelFromText(text, labelPattern) {
+scripts/check-policies.js:2139:function extractTitleFromText(rawText) {
+scripts/check-policies.js:2155:function extractPageMetadata({ rawText, sourceMetadata } = {}) {
+scripts/check-policies.js:2180:function normalizeSemanticTokens(tokens) {
+scripts/check-policies.js:2188:function semanticTokenSignature(profile) {
+scripts/check-policies.js:2193:export function semanticSignaturesStable(previousSignature, nextSignature) {
+scripts/check-policies.js:2200:export function buildChangeKey(hashValue, semanticSignature) {
+scripts/check-policies.js:2207:export function summarizeDistinctVendorFailures(failures = []) {
+scripts/check-policies.js:2219:function getCandidateChangeKey(candidate, fallback = {}) {
+scripts/check-policies.js:2241:function getCandidateSignalWindowDecision(candidate) {
+scripts/check-policies.js:2251:function extractDurationTokens(text, anchors = [], tokenPrefix = "window_days") {
+scripts/check-policies.js:2278:  const addDuration = (rawValue, rawUnit) => {
+scripts/check-policies.js:2300:export function extractSemanticTokens(text, policyType = "default") {
+scripts/check-policies.js:2305:  const addIfMatch = (token, regex) => {
+scripts/check-policies.js:2364:function buildSemanticProfile(text, policyType, metadata = {}) {
+scripts/check-policies.js:2383:function normalizeSemanticProfile(input, metadata = {}) {
+scripts/check-policies.js:2406:function normalizeConfirmedBaselineEntry(input) {
+scripts/check-policies.js:2426:function semanticTokensFromSignature(signature) {
+scripts/check-policies.js:2433:function buildComparisonSemanticProfile({ baselineEntry, fallbackProfile }) {
+scripts/check-policies.js:2462:function diffSemanticProfiles(previousProfile, nextProfile) {
+scripts/check-policies.js:2486:function formatSemanticDiffSummary(semanticDiff) {
+scripts/check-policies.js:2496:function buildSemanticDiffSignature(semanticDiff) {
+scripts/check-policies.js:2503:function getActualConfirmRuns() {
+scripts/check-policies.js:2508:function getActualConfirmRunsForVendor(vendorConfig, vendor, sourceVolatilityTier = "normal") {
+scripts/check-policies.js:2530:function getActualMinGapMs() {
+scripts/check-policies.js:2536:function getActualMinGapHours() {
+scripts/check-policies.js:2541:function getCandidateTtlDays() {
+scripts/check-policies.js:2546:function getPendingDetailLimit() {
+scripts/check-policies.js:2551:function getSameRunRecheckPasses() {
+scripts/check-policies.js:2556:function getSameRunRecheckDelayMs() {
+scripts/check-policies.js:2561:function getSameRunRecheckBatchSize(defaultSize = 3) {
+scripts/check-policies.js:2566:function getSameRunMajorityMinVotes() {
+scripts/check-policies.js:2571:function getCrossRunWindowSize() {
+scripts/check-policies.js:2576:function getCrossRunWindowRequired() {
+scripts/check-policies.js:2584:function getAdaptiveWindowEnabled() {
+scripts/check-policies.js:2590:function getHighSignalWindowRequired() {
+scripts/check-policies.js:2598:function getHighSignalMinPolicyHits() {
+scripts/check-policies.js:2603:function getHighSignalMinLines() {
+scripts/check-policies.js:2608:export function isHighSignalWindowCandidate({ semanticSignature, quality }) {
+scripts/check-policies.js:2618:export function getCrossRunWindowRequiredForCandidate({ semanticSignature, quality }) {
+scripts/check-policies.js:2625:function getCrossRunWindowRequirementLabel() {
+scripts/check-policies.js:2633:function getStalePendingDays() {
+scripts/check-policies.js:2638:function getVolatileFlipThreshold() {
+scripts/check-policies.js:2643:function getVolatileRequireRecentFlip() {
+scripts/check-policies.js:2649:function getEscalationPendingDays() {
+scripts/check-policies.js:2654:function getEscalationFlipThreshold() {
+scripts/check-policies.js:2659:function getEscalationRequireRecentFlip() {
+scripts/check-policies.js:2665:function getFetchFailureQuarantineStreak() {
+scripts/check-policies.js:2670:function getFallbackSignalConsecutiveRuns() {
+scripts/check-policies.js:2675:function getEscalationFlipThresholdForVendor(policyName, vendor, sourceVolatilityTier = "normal") {
+scripts/check-policies.js:2698:export function getVolatileFlipThresholdForVendor(policyName, vendor, sourceVolatilityTier = "normal") {
+scripts/check-policies.js:2721:function getNoConfirmEscalationDays() {
+scripts/check-policies.js:2726:function getMaterialCooldownDays() {
+scripts/check-policies.js:2731:function getMaterialOscillationWindowDays() {
+scripts/check-policies.js:2736:function getCandidatePendingSinceUtc(candidate) {
+scripts/check-policies.js:2747:function getCandidateAgeDays(candidate, nowMs = Date.now()) {
+scripts/check-policies.js:2755:function toMsOrNaN(isoValue) {
+scripts/check-policies.js:2760:function appendSignalWindow(coverageEntry, signal) {
+scripts/check-policies.js:2773:export function countSignalWindowChangeFlips(signalWindow) {
+scripts/check-policies.js:2789:export function evaluateSignalWindow(signalWindow, requiredVotes = getCrossRunWindowRequired()) {
+scripts/check-policies.js:2823:function getRunMajorityDecision(observations) {
+scripts/check-policies.js:2860:function sortedLimitedVendors(vendors, limit = getPendingDetailLimit()) {
+scripts/check-policies.js:2865:function isStaleCandidate(candidate, nowMs = Date.now()) {
+scripts/check-policies.js:2878:export async function fetchText(url, attempts = 3) {
+scripts/check-policies.js:2917:function normalizeFallbackProbeHeaderValue(value) {
+scripts/check-policies.js:2921:function getFallbackProbeHeader(headers, key) {
+scripts/check-policies.js:2926:function buildFallbackProbeEntrySignatures(entry) {
+scripts/check-policies.js:2957:export function evaluateFallbackSignalTransition({
+scripts/check-policies.js:3006:async function probeHeadMetadata(url, attempts = 2) {
+scripts/check-policies.js:3070:async function probeFallbackMetadata(vendorConfig) {
+scripts/check-policies.js:3143:function sanitizeBrowserHookDiagnostic(value, fallback) {
+scripts/check-policies.js:3152:export function summarizeBrowserHookFailure(statusCode, payload) {
+scripts/check-policies.js:3167:async function fetchBrowserHookText({ url, vendor, policyType }, attempts = 1) {
+scripts/check-policies.js:3265:function toJinaMirrorUrl(url) {
+scripts/check-policies.js:3274:export function toZendeskHelpCenterApiTarget(url) {
+scripts/check-policies.js:3305:async function fetchZendeskHelpCenterJson(apiTarget, attempts = 2) {
+scripts/check-policies.js:3401:function buildCandidateUrls(vendorConfig) {
+scripts/check-policies.js:3419:async function performFetchLane({ lane, candidateUrl, context }) {
+scripts/check-policies.js:3495:function normalizeFetchCacheUrl(candidateUrl) {
+scripts/check-policies.js:3507:function buildRawFetchCacheKey(lane, candidateUrl) {
+scripts/check-policies.js:350:function hash(text) {
+scripts/check-policies.js:3511:export function buildBlockedFetchPlanKey(vendor, vendorConfig) {
+scripts/check-policies.js:3522:export function buildPolicyFetchSchedule(
+scripts/check-policies.js:354:function sha256Hex(text = "") {
+scripts/check-policies.js:3563:async function attemptFetchLane({
+scripts/check-policies.js:3570:  const loader = () => performFetchLane({ lane, candidateUrl, context });
+scripts/check-policies.js:3580:async function fetchWithFallback(
+scripts/check-policies.js:358:function readJson(filePath, fallback = {}) {
+scripts/check-policies.js:367:function sleep(ms) {
+scripts/check-policies.js:3680:export async function checkPolicySet({
+scripts/check-policies.js:371:export function createMinIntervalScheduler({ minIntervalMs = 0, sleepFn = sleep, nowFn = Date.now } = {}) {
+scripts/check-policies.js:376:  return function schedule(task) {
+scripts/check-policies.js:3870:  const ensureCoverageEntry = (vendor) => {
+scripts/check-policies.js:3877:  const markSuccessfulFetch = (vendor, whenUtc, fetchLane = "") => {
+scripts/check-policies.js:3885:  const markConfirmedChange = (vendor, whenUtc) => {
+scripts/check-policies.js:3890:  const getConfiguredSourceUrl = (vendorConfig) => {
+scripts/check-policies.js:3900:  const getVendorVolatilityTier = (vendorConfig, sourceUrl = "") => {
+scripts/check-policies.js:3936:  const clearBlockedRetryQueueEntry = (vendor) => {
+scripts/check-policies.js:397:function jitter(ms) {
+scripts/check-policies.js:403:function normalizeFetchLane(value) {
+scripts/check-policies.js:407:function normalizeFetchLaneList(values) {
+scripts/check-policies.js:420:function parseFetchLaneCsv(value) {
+scripts/check-policies.js:424:function getDefaultFetchLanes() {
+scripts/check-policies.js:433:function getVendorFetchLanes(vendorConfig) {
+scripts/check-policies.js:439:function normalizeTier1VendorList(value) {
+scripts/check-policies.js:452:function loadTier1VendorsConfig() {
+scripts/check-policies.js:462:function getTier1TargetForPolicy(policyType, availableVendors, tier1Config) {
+scripts/check-policies.js:472:function utcIsoTimestamp(date = new Date()) {
+scripts/check-policies.js:476:export function applyMonitorSourceCheckMetadata(
+scripts/check-policies.js:493:function parseDateOnlyToUtc(value = "") {
+scripts/check-policies.js:501:function toDateOnlyUtc(date = new Date()) {
+scripts/check-policies.js:505:function addUtcDays(value = "", days = 0) {
+scripts/check-policies.js:512:function toZeroPolicyCounts() {
+scripts/check-policies.js:516:function buildZeroChangeContinuityAlert(dateUtc = "") {
+scripts/check-policies.js:5519:async function main() {
+scripts/check-policies.js:562:function summarizePolicyCounts(changedItems) {
+scripts/check-policies.js:571:function toPolicyCountObject(changedItems) {
+scripts/check-policies.js:581:function getPolicyAlertFeedMaxEntries() {
+scripts/check-policies.js:587:function getPolicyAlertIncludeZeroChange() {
+scripts/check-policies.js:5885:  const toPolicyCountString = (items) => Object.entries(summarizePolicyCounts(items))
+scripts/check-policies.js:592:function buildRunUrl() {
+scripts/check-policies.js:599:function sortAlertsByGeneratedUtcDesc(alerts = []) {
+scripts/check-policies.js:607:function removeAlertsForDate(alerts = [], dateUtc = "") {
+scripts/check-policies.js:613:function upsertDailyAlert(alerts = [], dailyEntry = {}, maxEntries = 120) {
+scripts/check-policies.js:620:function collapseAlertsByDate(alerts = []) {
+scripts/check-policies.js:633:function ensureAlertDateContinuity(alerts = [], maxEntries = 120) {
+scripts/check-policies.js:659:function toDateUtcPrefix(value = "") {
+scripts/check-policies.js:665:function normalizeSourceHostname(value = "") {
+scripts/check-policies.js:675:function normalizeVolatilityTier(value = "") {
+scripts/check-policies.js:681:function inferSourceVolatilityTier(sourceUrl = "") {
+scripts/check-policies.js:704:function getSourceVolatilityRule(tier = "normal") {
+scripts/check-policies.js:709:export function resolveSourceVolatilityTier(vendorConfig, sourceUrl = "") {
+scripts/check-policies.js:717:function normalizeDailyFingerprintEntry(input) {
+scripts/check-policies.js:745:function normalizeBlockedRetryEntry(input) {
+scripts/check-policies.js:785:function buildComparisonBaselineEntry({ baselineEntry, dailyFingerprintEntry }) {
+scripts/check-policies.js:803:function buildDailyPolicyCountsFromEvents(dayEvents = []) {
+scripts/check-policies.js:813:export function buildDailyAlertFromEvents(entry = {}, eventLogEntries = []) {
+scripts/check-policies.js:871:export function isStrictDailyAlertEntry(entry = {}, { includeZeroChange = true } = {}) {
+scripts/check-policies.js:883:export function classifyDailyAlertForPublication(dailyEntry = {}, { includeZeroChange = true } = {}) {
+scripts/check-policies.js:912:function updatePolicyAlertFeed(entry, eventLogEntries = [], { includeZeroChange = true } = {}) {
+scripts/check-policies.js:987:function summarizeStatusCounts(rows) {
+scripts/check-policies.js:996:function summarizePolicyStatusCounts(rows, statuses = []) {
+scripts/customer-key-smoke.js:114:function normalizeBaseUrl(value) {
+scripts/customer-key-smoke.js:124:function redactKey(key) {
+scripts/customer-key-smoke.js:130:async function postJson(url, { key, timeoutMs }) {
+scripts/customer-key-smoke.js:157:async function main() {
+scripts/customer-key-smoke.js:68:function usage() {
+scripts/customer-key-smoke.js:86:function parseArgs(argv) {
+scripts/generate-golden-replay-corpus.js:133:async function buildFixture({ id, title, kind, request, notes }) {
 scripts/generate-golden-replay-corpus.js:26:function loadJson(...segments) {
-scripts/generate-golden-replay-corpus.js:30:function clone(value) {
-scripts/generate-golden-replay-corpus.js:34:function writeJson(fileName, value) {
-scripts/generate-golden-replay-corpus.js:38:function conformanceRequest(fileName) {
-scripts/generate-golden-replay-corpus.js:42:function rulebookRequest({ rulebookFile, workflow, sourceRecordId, requestedAction, inputs }) {
-scripts/generate-golden-replay-corpus.js:62:async function evaluateRequest(request) {
+scripts/generate-golden-replay-corpus.js:49:function policyFixtureMetadata(policyType, vendor, evidenceNote = "") {
+scripts/generate-golden-replay-corpus.js:62:function clone(value) {
+scripts/generate-golden-replay-corpus.js:66:function writeJson(fileName, value) {
+scripts/generate-golden-replay-corpus.js:70:function conformanceRequest(fileName) {
+scripts/generate-golden-replay-corpus.js:74:function rulebookRequest({ rulebookFile, workflow, sourceRecordId, requestedAction, inputs }) {
+scripts/generate-golden-replay-corpus.js:94:async function evaluateRequest(request) {
 scripts/generate-outbound-domain-inventory.mjs:103:function inferTags(host, ownSuffixes) {
 scripts/generate-outbound-domain-inventory.mjs:141:function riskTier(tags, contexts) {
 scripts/generate-outbound-domain-inventory.mjs:172:function isCriticalDomain(tags) {
@@ -524,6 +716,9 @@ scripts/generate-outbound-domain-inventory.mjs:6:function parseArgs(argv) {
 scripts/generate-outbound-domain-inventory.mjs:72:function splitCombinedUrls(rawUrl) {
 scripts/generate-outbound-domain-inventory.mjs:79:function normalizeHost(hostname) {
 scripts/generate-outbound-domain-inventory.mjs:88:function inferContexts(filePath) {
+scripts/generate-policy-mcp-metadata.js:20:function writeJson(relativePath, value) {
+scripts/generate-policy-mcp-metadata.js:27:function readJson(relativePath) {
+scripts/generate-policy-mcp-metadata.js:31:function toUcpInputs(tool) {
 scripts/generate-project-inventory.sh:16:FUNC_PATTERN='export default|export async function|export function|function [A-Za-z0-9_]+\(|const [A-Za-z0-9_]+\s*=\s*\([^)]*\)\s*=>|const [A-Za-z0-9_]+\s*=\s*async\s*\([^)]*\)\s*=>'
 scripts/lib/policy-feed-reliability.js:100:export function mergePolicyAlertFeed({
 scripts/lib/policy-feed-reliability.js:13:function normalizeByPolicy(byPolicyValue) {
@@ -533,6 +728,13 @@ scripts/lib/policy-feed-reliability.js:56:export function buildAlertSignature(en
 scripts/lib/policy-feed-reliability.js:76:export function isLowSignalAlert(entry, { lowSignalThreshold = DEFAULT_LOW_SIGNAL_THRESHOLD } = {}) {
 scripts/lib/policy-feed-reliability.js:7:function toNonNegativeInt(value, fallback = 0) {
 scripts/lib/policy-feed-reliability.js:86:function dedupeAlerts(alerts) {
+scripts/report-mcp-adoption.js:12:function positiveInteger(value, fallback) {
+scripts/report-mcp-adoption.js:17:async function main() {
+scripts/report-mcp-adoption.js:5:function argValue(name, fallback = "") {
+scripts/request-query-regression.test.js:39:function assertNoCompatibilityQueryReads(directory) {
+scripts/review-policy-event.js:12:function fail(message) {
+scripts/review-policy-event.js:17:async function main() {
+scripts/review-policy-event.js:6:function argValue(name, fallback = "") {
 scripts/rulebook-migration-dry-run.js:161:function validateMigrationManifestSchema(manifest) {
 scripts/rulebook-migration-dry-run.js:171:function usage() {
 scripts/rulebook-migration-dry-run.js:187:function takeValue(args, index, flag) {
@@ -564,18 +766,19 @@ scripts/rulebook-migration-dry-run.js:68:function schemaTypeMatches(value, expec
 scripts/rulebook-migration-dry-run.js:77:function validateJsonSchemaSubset(value, schema, rootSchema = schema, path = "migration") {
 scripts/rulebook-migration-dry-run.js:790:function printText(report) {
 scripts/rulebook-migration-dry-run.js:803:async function main() {
-scripts/rulebook-runtime-production-smoke.js:118:function assertRuntimeBinding(payload, expectedMode, label) {
-scripts/rulebook-runtime-production-smoke.js:128:function assertUnknownField(errors, expectedField, label) {
-scripts/rulebook-runtime-production-smoke.js:136:function assertAdvisoryDecisionContract(payload, expectedMode, label) {
-scripts/rulebook-runtime-production-smoke.js:160:async function assertKrafthausWorkflowReadinessBinding({ baseUrl, apiKey, timeoutMs, allowUnsigned }) {
-scripts/rulebook-runtime-production-smoke.js:20:function usage() {
-scripts/rulebook-runtime-production-smoke.js:235:async function main() {
-scripts/rulebook-runtime-production-smoke.js:37:function parseArgs(argv) {
-scripts/rulebook-runtime-production-smoke.js:66:function normalizeBaseUrl(value) {
-scripts/rulebook-runtime-production-smoke.js:76:function loadFixture(fileName) {
-scripts/rulebook-runtime-production-smoke.js:80:function loadRepoJson(...segments) {
-scripts/rulebook-runtime-production-smoke.js:84:function expect(condition, message) {
-scripts/rulebook-runtime-production-smoke.js:88:async function requestJson({ baseUrl, path, method = "GET", body, apiKey, timeoutMs }) {
+scripts/rulebook-runtime-production-smoke.js:124:function assertRuntimeBinding(payload, expectedMode, label) {
+scripts/rulebook-runtime-production-smoke.js:134:function assertUnknownField(errors, expectedField, label) {
+scripts/rulebook-runtime-production-smoke.js:142:function assertAdvisoryDecisionContract(payload, expectedMode, label) {
+scripts/rulebook-runtime-production-smoke.js:151:async function assertKrafthausWorkflowReadinessBinding({ baseUrl, apiKey, timeoutMs, allowUnsigned }) {
+scripts/rulebook-runtime-production-smoke.js:226:async function main() {
+scripts/rulebook-runtime-production-smoke.js:22:function usage() {
+scripts/rulebook-runtime-production-smoke.js:39:function parseArgs(argv) {
+scripts/rulebook-runtime-production-smoke.js:68:function normalizeBaseUrl(value) {
+scripts/rulebook-runtime-production-smoke.js:78:function loadFixture(fileName) {
+scripts/rulebook-runtime-production-smoke.js:82:function loadRepoJson(...segments) {
+scripts/rulebook-runtime-production-smoke.js:86:function expect(condition, message) {
+scripts/rulebook-runtime-production-smoke.js:90:function sameJson(left, right) {
+scripts/rulebook-runtime-production-smoke.js:94:async function requestJson({ baseUrl, path, method = "GET", body, apiKey, timeoutMs }) {
 scripts/site-bridge-regression.js:13:function assert(condition, message) {
 scripts/site-bridge-regression.js:17:function pass(message) {
 scripts/site-bridge-regression.js:9:function read(relativePath) {
@@ -585,131 +788,247 @@ scripts/smoke-test.js:49:function parseJson(label, body) {
 scripts/smoke-test.js:57:async function runCase(label, handler, reqOptions, assertFn) {
 scripts/smoke-test.js:66:function expect(condition, message) {
 scripts/smoke-test.js:72:async function main() {
-scripts/test-check-policies.js:107:function testCurrentPendingModelStaysActive() {
-scripts/test-check-policies.js:117:function testZendeskApiTargetForArticle() {
-scripts/test-check-policies.js:128:function testZendeskApiTargetForSection() {
-scripts/test-check-policies.js:139:function testZendeskApiTargetRejectsUnsupportedPaths() {
-scripts/test-check-policies.js:144:function testSemanticSignaturesStableForEmptyTokens() {
-scripts/test-check-policies.js:152:function testSemanticSignaturesStableForMatchingNonEmptyTokens() {
-scripts/test-check-policies.js:160:function testSemanticSignaturesStableRejectsMixedOrDifferentTokens() {
-scripts/test-check-policies.js:173:function testBuildChangeKeyPrefersSemanticSignature() {
-scripts/test-check-policies.js:178:function testBuildChangeKeyFallsBackToHash() {
-scripts/test-check-policies.js:183:function testBuildChangeKeyHandlesMissingValues() {
-scripts/test-check-policies.js:188:function testHighSignalWindowCandidateDetection() {
-scripts/test-check-policies.js:209:function testAdaptiveWindowRequiredForCandidate() {
-scripts/test-check-policies.js:232:function testEvaluateSignalWindowSupportsRequiredOverride() {
-scripts/test-check-policies.js:243:function testCountSignalWindowChangeFlips() {
-scripts/test-check-policies.js:256:function testVolatileFlipThresholdOverrides() {
-scripts/test-check-policies.js:25:function envInt(name, fallback) {
-scripts/test-check-policies.js:269:function testSourceVolatilityTierResolution() {
-scripts/test-check-policies.js:289:function testVolatileFlipThresholdIncludesFlakyTierDelta() {
-scripts/test-check-policies.js:307:function testFallbackSignalTransitionRequiresStrongSignatures() {
-scripts/test-check-policies.js:31:function configuredCrossRunWindowSize() {
-scripts/test-check-policies.js:336:function testFallbackSignalTransitionStableSignatureResetsConsecutiveRuns() {
-scripts/test-check-policies.js:355:function testFallbackSignalTransitionActionableThreshold() {
-scripts/test-check-policies.js:35:function configuredDefaultWindowRequired() {
-scripts/test-check-policies.js:378:function testNormalizeSourceUrlForComparisonCanonicalizesTrivialDifferences() {
-scripts/test-check-policies.js:384:function testEvaluateVendorSourceMigrationDetectsPrimaryUrlChanges() {
-scripts/test-check-policies.js:393:function testEvaluateVendorSourceMigrationSkipsStableOrMissingSources() {
-scripts/test-check-policies.js:40:function configuredHighSignalWindowRequired() {
-scripts/test-check-policies.js:412:function main() {
-scripts/test-check-policies.js:45:function configuredHighSignalMinPolicyHits() {
-scripts/test-check-policies.js:49:function configuredHighSignalMinLines() {
-scripts/test-check-policies.js:53:function testImmediateBlockOnCloudflareAnd403() {
-scripts/test-check-policies.js:66:function testImmediateBlockAllowsZendesk404AsAuxiliary() {
-scripts/test-check-policies.js:79:function testTransientFailureDoesNotImmediateBlock() {
-scripts/test-check-policies.js:91:function testPlain403StillImmediateBlocks() {
-scripts/test-check-policies.js:98:function testLegacyPendingModelDefaults() {
-scripts/test-decision-contract.js:1127:async function testDecideKrafthausWorkflowReadinessAdapterFixture() {
-scripts/test-decision-contract.js:1276:function testTrustedAdapterVersionLocks() {
-scripts/test-decision-contract.js:1329:function testTrustedAdapterCapabilityAudit() {
-scripts/test-decision-contract.js:1330:  const denied = auditTrustedAdapterImplementation(function forbiddenAdapter() {
-scripts/test-decision-contract.js:1341:async function testTrustedAdapterCapabilityRuntimeEnforcement() {
-scripts/test-decision-contract.js:1351:function testTrustedAdapterColdStartIsolation() {
-scripts/test-decision-contract.js:1379:async function testDecideTrustedAdapterRejectsManifestDrift() {
-scripts/test-decision-contract.js:1401:async function testDecideTrustedAdapterRejectsExecutablePayloadFields() {
-scripts/test-decision-contract.js:1433:async function testDecideTrustedAdapterRejectsExecutableInputFields() {
-scripts/test-decision-contract.js:1457:async function testRulebookV1PublicConformanceFixtures() {
-scripts/test-decision-contract.js:1632:async function testRulebookV1GoldenReplayCorpus() {
-scripts/test-decision-contract.js:170:function assertRuntimeBinding(payload, expectedMode, label) {
-scripts/test-decision-contract.js:1795:async function testKrafthausWorkflowBindingExample() {
-scripts/test-decision-contract.js:186:function assertAdvisoryDecisionContract(payload, expectedMode, label) {
-scripts/test-decision-contract.js:1925:function testRulebookMigrationDryRunCli() {
-scripts/test-decision-contract.js:204:function generateSigningEnv(keyId = "contract-test-rulebook-key") {
-scripts/test-decision-contract.js:2135:function testRulebookRuntimeArchitectureDoc() {
-scripts/test-decision-contract.js:213:function runTrustedAdapterCapabilityRuntimeProbe() {
-scripts/test-decision-contract.js:221:      const probe = (name, operation) => {
-scripts/test-decision-contract.js:2440:async function testDecideModelFallbackOrder() {
-scripts/test-decision-contract.js:2494:async function testDecideModelFallbackOnEmptyText() {
-scripts/test-decision-contract.js:2552:async function testDecideExtendedFallbackOrder() {
-scripts/test-decision-contract.js:256:async function testDecideSingleFixture() {
-scripts/test-decision-contract.js:2614:async function testPolicyV1Fixture() {
-scripts/test-decision-contract.js:2646:async function testPolicyDecisionRecordMaterialFixture() {
-scripts/test-decision-contract.js:2684:async function testRefundPolicyRulebookOutcomes() {
-scripts/test-decision-contract.js:2746:async function testRefundPolicyRulebookBindsEvidenceIdentity() {
-scripts/test-decision-contract.js:2747:  const evaluate = async (vendor) =>
-scripts/test-decision-contract.js:2771:async function testRefundPolicyRulebookSignsAttestation() {
-scripts/test-decision-contract.js:2811:async function testRefundPolicyRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:2839:async function testTrialPolicyRulebookFixture() {
-scripts/test-decision-contract.js:2876:async function testTrialPolicyRulebookOutcomes() {
-scripts/test-decision-contract.js:2938:async function testTrialPolicyRulebookBindsEvidenceIdentity() {
-scripts/test-decision-contract.js:2939:  const evaluate = async (vendor) =>
-scripts/test-decision-contract.js:293:async function testDecideMultiAdvisoryContract() {
-scripts/test-decision-contract.js:2964:async function testTrialPolicyRulebookSignsAttestation() {
-scripts/test-decision-contract.js:3004:async function testTrialPolicyRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:3032:async function testCancelPolicyRulebookFixture() {
-scripts/test-decision-contract.js:3069:async function testCancelPolicyRulebookOutcomes() {
-scripts/test-decision-contract.js:3131:async function testCancelPolicyRulebookBindsEvidenceIdentity() {
-scripts/test-decision-contract.js:3132:  const evaluate = async (vendor) =>
-scripts/test-decision-contract.js:3157:async function testCancelPolicyRulebookSignsAttestation() {
-scripts/test-decision-contract.js:3197:async function testCancelPolicyRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:31:function loadFixture(fileName) {
-scripts/test-decision-contract.js:3225:async function testReturnPolicyRulebookFixture() {
-scripts/test-decision-contract.js:3262:async function testReturnPolicyRulebookOutcomes() {
-scripts/test-decision-contract.js:3338:async function testReturnPolicyRulebookBindsEvidenceIdentity() {
-scripts/test-decision-contract.js:3339:  const evaluate = async (vendor) =>
-scripts/test-decision-contract.js:3364:async function testReturnPolicyRulebookSignsAttestation() {
-scripts/test-decision-contract.js:3404:async function testReturnPolicyRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:342:async function testDecideApiKeyFixture() {
-scripts/test-decision-contract.js:3432:async function testWorkflowFixture() {
-scripts/test-decision-contract.js:3449:async function testUcpVendorEnumConsistency() {
-scripts/test-decision-contract.js:3470:function testRulebookRuntimeManifest() {
-scripts/test-decision-contract.js:35:function loadJsonFromRepo(...segments) {
-scripts/test-decision-contract.js:3638:async function main() {
-scripts/test-decision-contract.js:386:async function testDecideRuntimeFixture() {
-scripts/test-decision-contract.js:39:function loadPublicRulebookConformanceFixture(fileName) {
-scripts/test-decision-contract.js:43:function loadPublicRulebookGoldenReplayFixture(fileName) {
-scripts/test-decision-contract.js:476:async function testDecideRulebookFixture() {
-scripts/test-decision-contract.js:47:function assertIsoTimestamp(value, label) {
-scripts/test-decision-contract.js:52:function assertLineage(payload, label) {
-scripts/test-decision-contract.js:553:async function testDecideRulebookEnforcesPublishedSchema() {
-scripts/test-decision-contract.js:589:async function testDecideRulebookMissingInput() {
-scripts/test-decision-contract.js:60:function assertUnknownField(errors, expectedField, label) {
-scripts/test-decision-contract.js:623:async function testDecideRulebookAttestationSigning() {
-scripts/test-decision-contract.js:682:async function testDecideRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:68:function canonicalJson(value) {
-scripts/test-decision-contract.js:725:async function testRulebookAttestationPublishesKeyHistory() {
-scripts/test-decision-contract.js:77:function sha256(value) {
-scripts/test-decision-contract.js:780:async function testRulebookAttestationRejectsInvalidKeyHistory() {
-scripts/test-decision-contract.js:81:function verifySignature({ publicKeyPem, bundleHash, signature }) {
-scripts/test-decision-contract.js:824:async function testDecideRulebookRejectsExecutableOperator() {
-scripts/test-decision-contract.js:862:async function testDecideRulebookRejectsExecutablePayloadFields() {
-scripts/test-decision-contract.js:896:async function testDecideTrustedAdapterFixture() {
-scripts/test-decision-contract.js:90:function assertRulebookAttestation(payload, label) {
-scripts/test-decision-contract.js:984:async function testDecideDecisionMemoReadinessAdapterFixture() {
+scripts/test-check-policies.js:1012:function testFallbackSignalTransitionActionableThreshold() {
+scripts/test-check-policies.js:1035:function testNormalizeSourceUrlForComparisonCanonicalizesTrivialDifferences() {
+scripts/test-check-policies.js:1041:function testEvaluateVendorSourceMigrationDetectsPrimaryUrlChanges() {
+scripts/test-check-policies.js:1050:function testEvaluateVendorSourceMigrationSkipsStableOrMissingSources() {
+scripts/test-check-policies.js:105:async function testMinIntervalSchedulerSerializesBrowserHookRequests() {
+scripts/test-check-policies.js:1069:async function main() {
+scripts/test-check-policies.js:138:async function testWorkPoolStartsNextItemWithoutWaitingForBatchPeers() {
+scripts/test-check-policies.js:141:  const releaseFor = (item) => new Promise((resolve) => releases.set(item, resolve));
+scripts/test-check-policies.js:161:async function testWorkPoolPreservesConcurrencyAndCooldown() {
+scripts/test-check-policies.js:188:async function testWorkPoolStopsQueuedWorkAfterFailure() {
+scripts/test-check-policies.js:204:async function testDirectFetchLaneOwnsAbortLifecycle() {
+scripts/test-check-policies.js:209:async function testSuccessfulFetchCacheReusesSuccessfulReads() {
+scripts/test-check-policies.js:212:  const load = async () => {
+scripts/test-check-policies.js:232:async function testSuccessfulFetchCacheRetriesFailures() {
+scripts/test-check-policies.js:251:async function testSuccessfulFetchCacheBypassReadsFreshWithoutReplacingCache() {
+scripts/test-check-policies.js:287:async function testSuccessfulFetchCacheDefersRetentionUntilQualityPasses() {
+scripts/test-check-policies.js:291:  const load = async () => {
+scripts/test-check-policies.js:307:function testBlockedFetchReuseCacheRetainsOnlyExhaustedFailures() {
+scripts/test-check-policies.js:325:function testPolicyFetchScheduleDefersKnownBlockedSources() {
+scripts/test-check-policies.js:361:async function testPolicySetsReuseExhaustedBlockedFetchPlans() {
+scripts/test-check-policies.js:389:    const buildPolicySet = (name) => {
+scripts/test-check-policies.js:438:async function testPolicySetsShareSuccessfulRawSourceReads() {
+scripts/test-check-policies.js:45:function writeJson(path, value) {
+scripts/test-check-policies.js:467:    const buildPolicySet = (name) => {
+scripts/test-check-policies.js:49:function readJson(path) {
+scripts/test-check-policies.js:508:async function testPolicySetWritesMonitorArtifactTimestamps() {
+scripts/test-check-policies.js:53:function testMonitorCheckDoesNotClaimHumanVerification() {
+scripts/test-check-policies.js:546:function envInt(name, fallback) {
+scripts/test-check-policies.js:552:function configuredCrossRunWindowSize() {
+scripts/test-check-policies.js:556:function configuredDefaultWindowRequired() {
+scripts/test-check-policies.js:561:function configuredHighSignalWindowRequired() {
+scripts/test-check-policies.js:566:function configuredHighSignalMinPolicyHits() {
+scripts/test-check-policies.js:570:function configuredHighSignalMinLines() {
+scripts/test-check-policies.js:574:function testImmediateBlockOnCloudflareAnd403() {
+scripts/test-check-policies.js:587:function testImmediateBlockAllowsZendesk404AsAuxiliary() {
+scripts/test-check-policies.js:600:function testTransientFailureDoesNotImmediateBlock() {
+scripts/test-check-policies.js:612:function testPlain403StillImmediateBlocks() {
+scripts/test-check-policies.js:619:function testLegacyPendingModelDefaults() {
+scripts/test-check-policies.js:628:function testCurrentPendingModelStaysActive() {
+scripts/test-check-policies.js:638:function testZendeskApiTargetForArticle() {
+scripts/test-check-policies.js:649:function testZendeskApiTargetForSection() {
+scripts/test-check-policies.js:660:function testZendeskApiTargetRejectsUnsupportedPaths() {
+scripts/test-check-policies.js:665:function testSemanticSignaturesStableForEmptyTokens() {
+scripts/test-check-policies.js:673:function testSemanticSignaturesStableForMatchingNonEmptyTokens() {
+scripts/test-check-policies.js:681:function testSemanticSignaturesStableRejectsMixedOrDifferentTokens() {
+scripts/test-check-policies.js:694:function testReturnSignalsIgnoreCancellationOnlyLanguage() {
+scripts/test-check-policies.js:705:function testRefundWindowsRequireDirectPolicyLanguage() {
+scripts/test-check-policies.js:71:function testDistinctTier1FailuresCountVendorsOnceAcrossPolicies() {
+scripts/test-check-policies.js:737:function testRelativeMetadataStaysStableAcrossDailyRuns() {
+scripts/test-check-policies.js:759:function testTrialWindowsRequireDirectPolicyLanguage() {
+scripts/test-check-policies.js:771:function testDailyAlertsPreserveReviewEvidence() {
+scripts/test-check-policies.js:801:function testStrictDailyFeedRequiresReviewedChangeEvidence() {
+scripts/test-check-policies.js:830:function testBuildChangeKeyPrefersSemanticSignature() {
+scripts/test-check-policies.js:835:function testBuildChangeKeyFallsBackToHash() {
+scripts/test-check-policies.js:840:function testBuildChangeKeyHandlesMissingValues() {
+scripts/test-check-policies.js:845:function testHighSignalWindowCandidateDetection() {
+scripts/test-check-policies.js:866:function testAdaptiveWindowRequiredForCandidate() {
+scripts/test-check-policies.js:86:function testBrowserHookFailuresExposeSanitizedProviderReasons() {
+scripts/test-check-policies.js:889:function testEvaluateSignalWindowSupportsRequiredOverride() {
+scripts/test-check-policies.js:900:function testCountSignalWindowChangeFlips() {
+scripts/test-check-policies.js:913:function testVolatileFlipThresholdOverrides() {
+scripts/test-check-policies.js:926:function testSourceVolatilityTierResolution() {
+scripts/test-check-policies.js:946:function testVolatileFlipThresholdIncludesFlakyTierDelta() {
+scripts/test-check-policies.js:964:function testFallbackSignalTransitionRequiresStrongSignatures() {
+scripts/test-check-policies.js:993:function testFallbackSignalTransitionStableSignatureResetsConsecutiveRuns() {
+scripts/test-decision-contract.js:1035:async function testDecideRulebookRejectsExecutablePayloadFields() {
+scripts/test-decision-contract.js:1069:async function testDecideRulebookRejectsUnsupportedBindingMode() {
+scripts/test-decision-contract.js:107:function sha256(value) {
+scripts/test-decision-contract.js:1101:async function testDecideRulebookRejectsBindingModeShapeConflict() {
+scripts/test-decision-contract.js:111:function verifySignature({ publicKeyPem, bundleHash, signature }) {
+scripts/test-decision-contract.js:1142:async function testDecideRulebookRejectsCallerSuppliedDecisionMaterial() {
+scripts/test-decision-contract.js:120:function assertRulebookAttestation(payload, label) {
+scripts/test-decision-contract.js:1212:async function testDecideRulebookRejectsCallerSuppliedDecisionMaterialInInputs() {
+scripts/test-decision-contract.js:1273:function testRulebookCoreRejectsUnsupportedBindingMode() {
+scripts/test-decision-contract.js:1295:async function testDecideTrustedAdapterFixture() {
+scripts/test-decision-contract.js:1388:async function testDecideDecisionMemoReadinessAdapterFixture() {
+scripts/test-decision-contract.js:1536:async function testDecideKrafthausWorkflowReadinessAdapterFixture() {
+scripts/test-decision-contract.js:1690:function testTrustedAdapterVersionLocks() {
+scripts/test-decision-contract.js:1743:function testTrustedAdapterCapabilityAudit() {
+scripts/test-decision-contract.js:1744:  const denied = auditTrustedAdapterImplementation(function forbiddenAdapter() {
+scripts/test-decision-contract.js:1755:async function testTrustedAdapterCapabilityRuntimeEnforcement() {
+scripts/test-decision-contract.js:1765:function testTrustedAdapterColdStartIsolation() {
+scripts/test-decision-contract.js:1793:async function testDecideTrustedAdapterRejectsManifestDrift() {
+scripts/test-decision-contract.js:1815:async function testDecideTrustedAdapterRejectsExecutablePayloadFields() {
+scripts/test-decision-contract.js:1847:async function testDecideTrustedAdapterRejectsExecutableInputFields() {
+scripts/test-decision-contract.js:1871:async function testRulebookV1PublicConformanceFixtures() {
+scripts/test-decision-contract.js:200:function assertRuntimeBinding(payload, expectedMode, label) {
+scripts/test-decision-contract.js:2105:async function testRulebookV1GoldenReplayCorpus() {
+scripts/test-decision-contract.js:216:function assertAdvisoryDecisionContract(payload, expectedMode, label) {
+scripts/test-decision-contract.js:226:function generateSigningEnv(keyId = "contract-test-rulebook-key") {
+scripts/test-decision-contract.js:2285:async function testKrafthausWorkflowBindingExample() {
+scripts/test-decision-contract.js:235:function runTrustedAdapterCapabilityRuntimeProbe() {
+scripts/test-decision-contract.js:2420:function testRulebookMigrationDryRunCli() {
+scripts/test-decision-contract.js:243:      const probe = (name, operation) => {
+scripts/test-decision-contract.js:2630:function testRulebookRuntimeArchitectureDoc() {
+scripts/test-decision-contract.js:278:async function testDecideSingleFixture() {
+scripts/test-decision-contract.js:2961:async function testDecideGeminiDisabledByDefault() {
+scripts/test-decision-contract.js:2993:async function testDecideGeminiDisabledPreservesDeterministicGuards() {
+scripts/test-decision-contract.js:3070:async function testDecideGeminiDisabledRuntimeLineage() {
+scripts/test-decision-contract.js:3084:  const request = (prompt, ip) => ({
+scripts/test-decision-contract.js:3119:async function testDecideGeminiPaidMissingKeyFailsClosed() {
+scripts/test-decision-contract.js:3154:async function testDecideGeminiBudgetMissingFailsClosed() {
+scripts/test-decision-contract.js:3204:async function testDecideGeminiBudgetCapFailsClosed() {
+scripts/test-decision-contract.js:322:async function testDecideMultiAdvisoryContract() {
+scripts/test-decision-contract.js:3261:async function testDecideGeminiPaidSingleAttempt() {
+scripts/test-decision-contract.js:3362:async function testDecideGeminiEmptyTextSingleAttempt() {
+scripts/test-decision-contract.js:3403:async function testDecideGeminiDeadline() {
+scripts/test-decision-contract.js:3463:async function testDecideGeminiPromptLimit() {
+scripts/test-decision-contract.js:3510:async function testPolicyV1Fixture() {
+scripts/test-decision-contract.js:3542:async function testPolicyDecisionRecordMaterialFixture() {
+scripts/test-decision-contract.js:3580:async function testRefundPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:3648:async function testRefundPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:3649:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:3673:async function testRefundPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:3719:async function testRefundPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:3753:async function testTrialPolicyRulebookFixture() {
+scripts/test-decision-contract.js:375:async function testDecideApiKeyFixture() {
+scripts/test-decision-contract.js:3798:async function testTrialPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:3868:async function testTrialPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:3869:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:3902:async function testTrialPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:3950:async function testTrialPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:3986:async function testCancelPolicyRulebookFixture() {
+scripts/test-decision-contract.js:4023:async function testCancelPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:4085:async function testCancelPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:4086:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:40:function createBudgetedGeminiFetch(providerFetch) {
+scripts/test-decision-contract.js:4111:async function testCancelPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:4151:async function testCancelPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:4179:async function testReturnPolicyRulebookFixture() {
+scripts/test-decision-contract.js:4222:async function testReturnPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:423:async function testDecideProductionRequiresTrustedEdge() {
+scripts/test-decision-contract.js:4310:async function testReturnPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:4311:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:4336:async function testReturnPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:4382:async function testReturnPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:4416:async function testWorkflowFixture() {
+scripts/test-decision-contract.js:4470:async function testUcpVendorEnumConsistency() {
+scripts/test-decision-contract.js:4491:function testRulebookRuntimeManifest() {
+scripts/test-decision-contract.js:4726:async function main() {
+scripts/test-decision-contract.js:474:async function testDecideRuntimeFixture() {
+scripts/test-decision-contract.js:61:function loadFixture(fileName) {
+scripts/test-decision-contract.js:649:async function testDecideRulebookFixture() {
+scripts/test-decision-contract.js:65:function loadJsonFromRepo(...segments) {
+scripts/test-decision-contract.js:69:function loadPublicRulebookConformanceFixture(fileName) {
+scripts/test-decision-contract.js:726:async function testDecideRulebookEnforcesPublishedSchema() {
+scripts/test-decision-contract.js:73:function loadPublicRulebookGoldenReplayFixture(fileName) {
+scripts/test-decision-contract.js:762:async function testDecideRulebookMissingInput() {
+scripts/test-decision-contract.js:77:function assertIsoTimestamp(value, label) {
+scripts/test-decision-contract.js:796:async function testDecideRulebookAttestationSigning() {
+scripts/test-decision-contract.js:82:function assertLineage(payload, label) {
+scripts/test-decision-contract.js:855:async function testDecideRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:898:async function testRulebookAttestationPublishesKeyHistory() {
+scripts/test-decision-contract.js:90:function assertUnknownField(errors, expectedField, label) {
+scripts/test-decision-contract.js:953:async function testRulebookAttestationRejectsInvalidKeyHistory() {
+scripts/test-decision-contract.js:98:function canonicalJson(value) {
+scripts/test-decision-contract.js:997:async function testDecideRulebookRejectsExecutableOperator() {
 scripts/test-helpers/http-harness.js:1:export function createReq({
 scripts/test-helpers/http-harness.js:24:export function createRes() {
 scripts/test-helpers/http-harness.js:38:export async function invokeJson(handler, reqOptions = {}) {
-scripts/test-policy-alerts-api.js:28:async function invoke(query = {}, method = "GET") {
-scripts/test-policy-alerts-api.js:42:function assertCommonPayload(result, expectedState, expectedLimit, expectedIncludeZero = true) {
-scripts/test-policy-alerts-api.js:54:function assertNoLegacySourceObject(result) {
-scripts/test-policy-alerts-api.js:59:function assertAlertShapeIfPresent(result) {
-scripts/test-policy-alerts-api.js:70:async function main() {
-scripts/test-policy-alerts-api.js:7:function createResponseRecorder() {
+scripts/test-mcp-adoption-api.js:7:function createResponse() {
+scripts/test-mcp-distribution.js:15:function tool(name, complete = true) {
+scripts/test-mcp-distribution.js:25:function baseInput() {
+scripts/test-mcp-distribution.js:40:function testTreatsMissingRegistryListingAsActionNotOutage() {
+scripts/test-mcp-distribution.js:48:function testTreatsMissingCanonicalToolAsOutage() {
+scripts/test-mcp-distribution.js:56:function testDetectsStaleLiveMetadataWithoutBreakingRuntimeHealth() {
+scripts/test-mcp-distribution.js:65:function testSeparatesRegistryOutageFromMissingListing() {
+scripts/test-mcp-distribution.js:73:function testDistributionInventoryMatchesManifest() {
+scripts/test-mcp-marketplace-packages.js:15:function readJson(relativePath) {
+scripts/test-mcp-marketplace-packages.js:19:function assertToolAnnotations(tools) {
+scripts/test-mcp-telemetry.js:120:async function testSkipsSupabaseWhenDisabled() {
+scripts/test-mcp-telemetry.js:133:async function testPersistsCompletedEvaluationBeforeEndingResponse() {
+scripts/test-mcp-telemetry.js:38:function testOmitsCallerIdentityWithoutSalt() {
+scripts/test-mcp-telemetry.js:43:function testPrefersDeclaredMcpClientName() {
+scripts/test-mcp-telemetry.js:59:function testClassifiesOnlyAuthenticatedInternalProbes() {
+scripts/test-mcp-telemetry.js:81:async function testPersistsMinimalTelemetryToSupabase() {
+scripts/test-mcp-telemetry.js:9:function testBuildsPrivacyMinimalStableCallerTelemetry() {
+scripts/test-policy-alerts-api.js:10:function createResponseRecorder() {
+scripts/test-policy-alerts-api.js:111:function testBackfillsMissingPolicyEventDetails() {
+scripts/test-policy-alerts-api.js:154:function createSupabaseFetchFixture({ dailyRows = [], policyEvents = [] } = {}) {
+scripts/test-policy-alerts-api.js:155:  return async function fetchFixture(rawUrl) {
+scripts/test-policy-alerts-api.js:173:async function testSupabaseFeedGatesChangeClaimsOnReview() {
+scripts/test-policy-alerts-api.js:294:async function main() {
+scripts/test-policy-alerts-api.js:31:async function invoke(query = {}, method = "GET") {
+scripts/test-policy-alerts-api.js:45:function assertCommonPayload(result, expectedState, expectedLimit, expectedIncludeZero = true) {
+scripts/test-policy-alerts-api.js:58:function assertNoLegacySourceObject(result) {
+scripts/test-policy-alerts-api.js:63:function assertAlertShapeIfPresent(result) {
+scripts/test-policy-alerts-api.js:86:function testAppliesRecordedPolicyEventReviews() {
+scripts/test-policy-coverage-scorecard.js:10:function buildFixture() {
+scripts/test-policy-coverage-scorecard.js:113:function testCandidateMetadataAndProductionIdsAreValidated() {
+scripts/test-policy-coverage-scorecard.js:95:function testScorecardSeparatesTrackedFromAdmittedCoverage() {
 scripts/test-policy-feed.js:13:function loadFixture(fileName) {
 scripts/test-policy-feed.js:17:function runFixture(fileName) {
 scripts/test-policy-feed.js:36:function testIdempotentDuplicateSuppression() {
 scripts/test-policy-feed.js:58:function main() {
+scripts/test-policy-fetch-hook.js:21:function createHeaders(contentType = "application/json") {
+scripts/test-policy-fetch-hook.js:29:async function callHook() {
+scripts/test-policy-fetch-hook.js:7:function createResponse() {
+scripts/test-policy-freshness.js:10:function testMarksExpiredHumanVerificationStale() {
+scripts/test-policy-freshness.js:26:function testReportSeparatesMonitoringFromRulebookPromotion() {
+scripts/test-policy-funnel.js:114:function buildsConservativeAggregateReport() {
+scripts/test-policy-funnel.js:152:async function trackRoutePersistsBeforeResponding() {
+scripts/test-policy-funnel.js:15:function createResponse() {
+scripts/test-policy-funnel.js:29:function buildsMinimalAllowlistedEvent() {
+scripts/test-policy-funnel.js:61:async function persistsOnlyMinimalFields() {
+scripts/test-policy-mcp.js:107:async function testCallsCancellationTool() {
+scripts/test-policy-mcp.js:130:async function testRoutesAmbiguousCancellationContextToReview() {
+scripts/test-policy-mcp.js:177:async function testRoutesVariableTrialOfferToReview() {
+scripts/test-policy-mcp.js:20:async function testListsAllPolicyNotaryTools() {
+scripts/test-policy-mcp.js:226:async function testRoutesDynamicTrialsToReview() {
+scripts/test-policy-mcp.js:271:async function testRoutesConditionalRefundToReview() {
+scripts/test-policy-mcp.js:323:async function testKeepsApprovalBasedRefundsInManualReview() {
+scripts/test-policy-mcp.js:367:async function testPublicPolicyRoutesFailClosed() {
+scripts/test-policy-mcp.js:392:function testPolicyAutomationModesAreExplicit() {
+scripts/test-policy-mcp.js:44:async function testSupportsLifecyclePingAndProtocolNegotiation() {
+scripts/test-policy-mcp.js:451:function testPolicySourceHashTracksReviewedPolicyNotMonitorTime() {
+scripts/test-policy-mcp.js:473:async function testRoutesConditionalReturnToReview() {
+scripts/test-policy-mcp.js:525:async function testCallsEveryPolicyTool() {
+scripts/test-policy-mcp.js:593:async function testLabelsSourceAndRuleFreshnessPrecisely() {
+scripts/test-policy-mcp.js:619:async function testRejectsArgumentsOutsidePublishedSchema() {
+scripts/test-policy-mcp.js:646:async function testRejectsUnexpectedBrowserOrigin() {
+scripts/test-policy-mcp.js:666:async function testAcceptsInitializedNotificationWithoutResponseBody() {
+scripts/test-policy-mcp.js:681:async function testRejectsGetWhenSseIsNotImplemented() {
+scripts/test-policy-mcp.js:694:async function testRejectsNonJsonRpcTwoRequests() {
+scripts/test-policy-mcp.js:711:async function testRejectsUnsupportedProtocolVersionHeader() {
+scripts/test-policy-mcp.js:730:function readJson(relativePath) {
+scripts/test-policy-mcp.js:734:function testPublishesCanonicalDiscoveryMetadata() {
+scripts/test-policy-mcp.js:788:async function testPublishesOnePolicyMcpVersion() {
+scripts/test-policy-mcp.js:818:async function testRoutesCanonicalPolicyHostname() {
+scripts/test-policy-mcp.js:91:function testPublishesReadOnlyToolContracts() {
+scripts/test-policy-review.js:22:function testRulebookUpdateRequiresVersion() {
+scripts/test-policy-review.js:7:function testBuildsAuditableNoRuleChangeReview() {
+scripts/test-policy-vendor-candidates.js:137:async function testChallengeDocumentCannotCountAsEvidence() {
+scripts/test-policy-vendor-candidates.js:32:function successfulFetch() {
+scripts/test-policy-vendor-candidates.js:46:async function testObservationSlotsCannotBeInflatedByReruns() {
+scripts/test-policy-vendor-candidates.js:73:async function testFailedFetchIsRecordedWithoutThrowing() {
+scripts/test-policy-vendor-candidates.js:95:async function testOfficialDocumentSourcesAreValidatedAndFetchedOnce() {
+scripts/test-policy-vendor-lifecycle.js:10:function testCurrentDegradedAndExpiredPoliciesStayDistinct() {
+scripts/test-policy-vendor-lifecycle.js:37:function successObservation(slot) {
+scripts/test-policy-vendor-lifecycle.js:41:function testCandidateNeedsBurnInAndHumanApplicabilityReview() {
+scripts/test-policy-vendor-lifecycle.js:97:function testUnstableCandidateEvidenceCannotGraduate() {
 scripts/test-release-gates.js:8:function read(path) {
 scripts/verify-policy-alerts-bridge.js:121:async function fetchJson(url) {
 scripts/verify-policy-alerts-bridge.js:141:async function main() {
@@ -725,7 +1044,8 @@ scripts/workflow-zendesk-refund-test.js:3:function createReq({
 scripts/workflow-zendesk-refund-test.js:40:function parseJson(label, body) {
 scripts/workflow-zendesk-refund-test.js:48:function expect(condition, message) {
 scripts/workflow-zendesk-refund-test.js:52:async function runCase(label, handler, reqOptions, assertFn) {
-scripts/workflow-zendesk-refund-test.js:61:async function main() {
+scripts/workflow-zendesk-refund-test.js:61:async function withEnvironment(overrides, work) {
+scripts/workflow-zendesk-refund-test.js:78:async function main() {
 ```
 
 ### Import/require graph
@@ -733,11 +1053,15 @@ scripts/workflow-zendesk-refund-test.js:61:async function main() {
 ```text
 api/cancel-mcp.js:1:import { compute, getSupportedVendors } from "../lib/cancel-compute.js";
 api/cancel-mcp.js:2:import { createMcpHandler } from "../lib/mcp-handler.js";
+api/cancel-mcp.js:3:import {
 api/compliance-export.js:1:import { buildComplianceSnapshot, snapshotToCsv } from "../lib/compliance-export.js";
-api/decide.js:10:import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
-api/decide.js:11:import { isRulebookAttestationSignatureRequired } from "../lib/rulebook-attestation-signing.js";
-api/decide.js:12:import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
-api/decide.js:13:import { timingSafeEqual } from "node:crypto";
+api/decide.js:12:import { buildRulebookAttestation } from "../lib/rulebook-attestation.js";
+api/decide.js:13:import { isRulebookAttestationSignatureRequired } from "../lib/rulebook-attestation-signing.js";
+api/decide.js:14:import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
+api/decide.js:15:import { resolveGeminiRuntimePolicy } from "../lib/gemini-model-routing.js";
+api/decide.js:16:import { releaseGeminiUsage, reserveGeminiUsage } from "../lib/gemini-usage-budget.js";
+api/decide.js:17:import { resolveGeminiRequestPolicy } from "../lib/gemini-request-policy.js";
+api/decide.js:18:import { timingSafeEqual } from "node:crypto";
 api/decide.js:1:import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../lib/rate-limit.js";
 api/decide.js:2:import { persistLog } from "../lib/log.js";
 api/decide.js:3:import { buildSourceHash, withLineage } from "../lib/lineage.js";
@@ -745,37 +1069,51 @@ api/decide.js:4:import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
 api/decide.js:5:import {
 api/mcp.js:1:import { compute, getSupportedVendors } from "../lib/refund-compute.js";
 api/mcp.js:2:import { createMcpHandler } from "../lib/mcp-handler.js";
+api/mcp.js:3:import {
 api/metrics.js:1:import { getMetricsSnapshot } from "../lib/metrics-store.js";
 api/metrics.js:2:import { getAxiomMetricsSnapshot } from "../lib/metrics-axiom.js";
 api/metrics.js:3:import { getClientIp } from "../lib/rate-limit.js";
+api/metrics.js:4:import { getPolicyGrowthReports } from "../lib/policy-growth-store.js";
 api/policy-alerts.js:1:import { readFileSync, existsSync } from "node:fs";
 api/policy-alerts.js:2:import { dirname, join } from "node:path";
 api/policy-alerts.js:3:import { fileURLToPath } from "node:url";
 api/policy-alerts.js:4:import { getPolicySupabaseConfig, supabaseRestRequest } from "../lib/policy-supabase.js";
 api/policy-fetch-hook.js:1:import { timingSafeEqual } from "node:crypto";
+api/policy-mcp.js:1:import { MCP_TOOL_CONFIG as refundTool } from "./mcp.js";
+api/policy-mcp.js:2:import { MCP_TOOL_CONFIG as cancelTool } from "./cancel-mcp.js";
+api/policy-mcp.js:3:import { MCP_TOOL_CONFIG as returnTool } from "./return-mcp.js";
+api/policy-mcp.js:4:import { MCP_TOOL_CONFIG as trialTool } from "./trial-mcp.js";
+api/policy-mcp.js:5:import { createMcpHandler } from "../lib/mcp-handler.js";
+api/policy-mcp.js:6:import { POLICY_MCP_SERVER_INFO } from "../lib/policy-mcp-metadata.js";
 api/return-mcp.js:1:import { compute, getSupportedVendors } from "../lib/return-compute.js";
 api/return-mcp.js:2:import { createMcpHandler } from "../lib/mcp-handler.js";
+api/return-mcp.js:3:import {
 api/rulebook-attestation-keys.js:1:import {
 api/track.js:1:import { createRateLimiter, getClientIp, addRateLimitHeaders } from "../lib/rate-limit.js";
 api/track.js:2:import { persistLog } from "../lib/log.js";
 api/track.js:3:import { recordClientEvent, recordVendorRequest } from "../lib/metrics-store.js";
+api/track.js:4:import { buildPseudonymousCallerId } from "../lib/privacy-identifiers.js";
+api/track.js:5:import {
 api/trial-mcp.js:1:import { compute, getSupportedVendors } from "../lib/trial-compute.js";
 api/trial-mcp.js:2:import { createMcpHandler } from "../lib/mcp-handler.js";
+api/trial-mcp.js:3:import {
 api/v1/[policy]/[action].js:1:import cancelPenaltyHandler from "../../../lib/routes/v1/policies/cancel-penalty.js";
 api/v1/[policy]/[action].js:2:import refundEligibilityHandler from "../../../lib/routes/v1/policies/refund-eligibility.js";
 api/v1/[policy]/[action].js:3:import returnEligibilityHandler from "../../../lib/routes/v1/policies/return-eligibility.js";
 api/v1/[policy]/[action].js:4:import trialTermsHandler from "../../../lib/routes/v1/policies/trial-terms.js";
+api/v1/[policy]/[action].js:5:import { parseRequestQuery } from "../../../lib/request-query.js";
 api/v1/workflows/zendesk/[workflow].js:1:import zendeskCancelWorkflow from "../../../../lib/routes/v1/workflows/zendesk/cancel.js";
 api/v1/workflows/zendesk/[workflow].js:2:import zendeskRefundWorkflow from "../../../../lib/routes/v1/workflows/zendesk/refund.js";
 api/v1/workflows/zendesk/[workflow].js:3:import zendeskReturnWorkflow from "../../../../lib/routes/v1/workflows/zendesk/return.js";
 api/v1/workflows/zendesk/[workflow].js:4:import zendeskTrialWorkflow from "../../../../lib/routes/v1/workflows/zendesk/trial.js";
-client/EXAMPLES.md:62:import requests
+api/v1/workflows/zendesk/[workflow].js:5:import { parseRequestQuery } from "../../../../lib/request-query.js";
+client/EXAMPLES.md:66:import requests
 client/refund-check.py:26:import sys
 client/refund-check.py:27:import requests
 lib/cancel-compute.js:1:import { readFileSync } from "node:fs";
 lib/cancel-compute.js:2:import { fileURLToPath } from "node:url";
 lib/cancel-compute.js:3:import { dirname, join } from "node:path";
-lib/cancel-compute.js:4:import { buildSourceHash, withLineage } from "./lineage.js";
+lib/cancel-compute.js:4:import { buildPolicySourceHash, withLineage } from "./lineage.js";
 lib/cancel-compute.js:5:import { evaluateCancelPolicyRulebook } from "./cancel-rulebook.js";
 lib/cancel-rulebook.js:1:import { readFileSync } from "node:fs";
 lib/cancel-rulebook.js:3:import { buildRulebookAttestation } from "./rulebook-attestation.js";
@@ -785,14 +1123,30 @@ lib/cancel-rulebook.js:6:import { attachPolicyDecisionMaterial } from "./policy-
 lib/compliance-export.js:1:import { existsSync, readFileSync } from "node:fs";
 lib/compliance-export.js:2:import { dirname, join } from "node:path";
 lib/compliance-export.js:3:import { fileURLToPath } from "node:url";
+lib/gemini-usage-budget.js:1:import { randomUUID } from "node:crypto";
 lib/lineage.js:1:import { createHash } from "node:crypto";
+lib/mcp-adoption-store.js:1:import {
+lib/mcp-adoption-store.js:7:import { getPolicySupabaseConfig, supabaseRestRequest } from "./policy-supabase.js";
 lib/mcp-handler.js:1:import { createRateLimiter, getClientIp, addRateLimitHeaders } from "./rate-limit.js";
 lib/mcp-handler.js:2:import { persistLog } from "./log.js";
+lib/mcp-handler.js:3:import { validateJsonSchema } from "./json-schema-lite.js";
+lib/mcp-handler.js:4:import { buildMcpTelemetryEvent, persistMcpTelemetryEvent } from "./mcp-telemetry.js";
+lib/mcp-telemetry.js:1:import { timingSafeEqual } from "node:crypto";
+lib/mcp-telemetry.js:3:import { buildPseudonymousCallerId } from "./privacy-identifiers.js";
+lib/policy-funnel-report.js:1:import { classifyMcpAdoptionEvent } from "./mcp-adoption-report.js";
+lib/policy-funnel-telemetry.js:1:import { buildPseudonymousCallerId } from "./privacy-identifiers.js";
+lib/policy-growth-store.js:11:import { getPolicySupabaseConfig, supabaseRestRequest } from "./policy-supabase.js";
+lib/policy-growth-store.js:1:import {
+lib/policy-growth-store.js:6:import { fetchPolicyMcpEvents } from "./mcp-adoption-store.js";
+lib/policy-growth-store.js:7:import {
+lib/policy-vendor-candidate-monitor.js:1:import { createHash } from "node:crypto";
+lib/privacy-identifiers.js:1:import { createHmac } from "node:crypto";
 lib/refund-compute.js:1:import { readFileSync } from "node:fs";
 lib/refund-compute.js:2:import { fileURLToPath } from "node:url";
 lib/refund-compute.js:3:import { dirname, join } from "node:path";
-lib/refund-compute.js:4:import { buildSourceHash, withLineage } from "./lineage.js";
+lib/refund-compute.js:4:import { buildPolicySourceHash, withLineage } from "./lineage.js";
 lib/refund-compute.js:5:import { evaluateRefundPolicyRulebook } from "./refund-rulebook.js";
+lib/refund-compute.js:6:import { resolveQualifyingConditionContext } from "./policy-context.js";
 lib/refund-rulebook.js:1:import { readFileSync } from "node:fs";
 lib/refund-rulebook.js:3:import { buildRulebookAttestation } from "./rulebook-attestation.js";
 lib/refund-rulebook.js:4:import { isRulebookAttestationSignatureRequired } from "./rulebook-attestation-signing.js";
@@ -801,8 +1155,9 @@ lib/refund-rulebook.js:6:import { attachPolicyDecisionMaterial } from "./policy-
 lib/return-compute.js:1:import { readFileSync } from "node:fs";
 lib/return-compute.js:2:import { fileURLToPath } from "node:url";
 lib/return-compute.js:3:import { dirname, join } from "node:path";
-lib/return-compute.js:4:import { buildSourceHash, withLineage } from "./lineage.js";
+lib/return-compute.js:4:import { buildPolicySourceHash, withLineage } from "./lineage.js";
 lib/return-compute.js:5:import { evaluateReturnPolicyRulebook } from "./return-rulebook.js";
+lib/return-compute.js:6:import { resolveQualifyingConditionContext } from "./policy-context.js";
 lib/return-rulebook.js:1:import { readFileSync } from "node:fs";
 lib/return-rulebook.js:3:import { buildRulebookAttestation } from "./rulebook-attestation.js";
 lib/return-rulebook.js:4:import { isRulebookAttestationSignatureRequired } from "./rulebook-attestation-signing.js";
@@ -832,9 +1187,10 @@ lib/routes/v1/workflows/zendesk/return.js:1:import returnEligibilityHandler from
 lib/routes/v1/workflows/zendesk/return.js:2:import { createZendeskWorkflowHandler } from "./workflow-common.js";
 lib/routes/v1/workflows/zendesk/trial.js:1:import trialTermsHandler from "../../policies/trial-terms.js";
 lib/routes/v1/workflows/zendesk/trial.js:2:import { createZendeskWorkflowHandler } from "./workflow-common.js";
-lib/routes/v1/workflows/zendesk/workflow-common.js:1:import decideHandler from "../../../../../api/decide.js";
-lib/routes/v1/workflows/zendesk/workflow-common.js:2:import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../../../../rate-limit.js";
-lib/routes/v1/workflows/zendesk/workflow-common.js:3:import { persistLog } from "../../../../log.js";
+lib/routes/v1/workflows/zendesk/workflow-common.js:1:import { timingSafeEqual } from "node:crypto";
+lib/routes/v1/workflows/zendesk/workflow-common.js:3:import decideHandler from "../../../../../api/decide.js";
+lib/routes/v1/workflows/zendesk/workflow-common.js:4:import { createRateLimiter, getClientIp, sendRateLimitError, addRateLimitHeaders } from "../../../../rate-limit.js";
+lib/routes/v1/workflows/zendesk/workflow-common.js:5:import { persistLog } from "../../../../log.js";
 lib/rulebook-attestation-signing.js:1:import {
 lib/rulebook-attestation.js:1:import { createHash } from "node:crypto";
 lib/rulebook-attestation.js:2:import { signRulebookAttestationBundleHash } from "./rulebook-attestation-signing.js";
@@ -848,7 +1204,7 @@ lib/rulebook-v1.js:4:import {
 lib/trial-compute.js:1:import { readFileSync } from "node:fs";
 lib/trial-compute.js:2:import { fileURLToPath } from "node:url";
 lib/trial-compute.js:3:import { dirname, join } from "node:path";
-lib/trial-compute.js:4:import { buildSourceHash, withLineage } from "./lineage.js";
+lib/trial-compute.js:4:import { buildPolicySourceHash, withLineage } from "./lineage.js";
 lib/trial-compute.js:5:import { evaluateTrialPolicyRulebook } from "./trial-rulebook.js";
 lib/trial-rulebook.js:1:import { readFileSync } from "node:fs";
 lib/trial-rulebook.js:3:import { buildRulebookAttestation } from "./rulebook-attestation.js";
@@ -865,12 +1221,26 @@ lib/trusted-adapters.js:13:import { executeTrustedAdapterIsolated } from "./trus
 lib/trusted-adapters.js:1:import { createHash } from "node:crypto";
 lib/trusted-adapters.js:2:import {
 lib/trusted-adapters.js:8:import {
+scripts/audit-policy-freshness.js:3:import { readFileSync } from "node:fs";
+scripts/audit-policy-freshness.js:4:import { dirname, join } from "node:path";
+scripts/audit-policy-freshness.js:5:import { fileURLToPath } from "node:url";
+scripts/audit-policy-freshness.js:7:import { buildPolicyFreshnessReport } from "../lib/policy-freshness.js";
+scripts/check-mcp-distribution.js:3:import { readFileSync } from "node:fs";
+scripts/check-mcp-distribution.js:4:import { dirname, join } from "node:path";
+scripts/check-mcp-distribution.js:5:import { fileURLToPath } from "node:url";
+scripts/check-mcp-distribution.js:7:import { buildMcpDistributionHealthReport } from "../lib/mcp-distribution-health.js";
 scripts/check-policies.js:13:import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 scripts/check-policies.js:14:import { createHash } from "node:crypto";
 scripts/check-policies.js:15:import { fileURLToPath, pathToFileURL } from "node:url";
 scripts/check-policies.js:16:import { dirname, join } from "node:path";
 scripts/check-policies.js:17:import { buildAlertSignature } from "./lib/policy-feed-reliability.js";
 scripts/check-policies.js:18:import { getPolicySupabaseConfig, supabaseRestRequest, supabaseUpsertRows } from "../lib/policy-supabase.js";
+scripts/check-policies.js:19:import {
+scripts/check-policies.js:23:import { mapWithConcurrency } from "../lib/async-work-pool.js";
+scripts/check-policies.js:24:import { createBlockedFetchReuseCache } from "../lib/blocked-fetch-reuse-cache.js";
+scripts/check-policies.js:25:import { monitorPolicyVendorCandidates } from "../lib/policy-vendor-candidate-monitor.js";
+scripts/check-policies.js:26:import { createSuccessfulFetchCache } from "../lib/successful-fetch-cache.js";
+scripts/check-policies.js:27:import {
 scripts/generate-golden-replay-corpus.js:10:import {
 scripts/generate-golden-replay-corpus.js:14:import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
 scripts/generate-golden-replay-corpus.js:3:import assert from "node:assert/strict";
@@ -881,11 +1251,30 @@ scripts/generate-golden-replay-corpus.js:8:import { buildRulebookAttestation } f
 scripts/generate-golden-replay-corpus.js:9:import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
 scripts/generate-outbound-domain-inventory.mjs:3:import fs from 'node:fs';
 scripts/generate-outbound-domain-inventory.mjs:4:import path from 'node:path';
+scripts/generate-policy-mcp-metadata.js:10:import { MCP_TOOL_CONFIG as trialTool } from "../api/trial-mcp.js";
+scripts/generate-policy-mcp-metadata.js:11:import {
+scripts/generate-policy-mcp-metadata.js:3:import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+scripts/generate-policy-mcp-metadata.js:4:import { dirname, join } from "node:path";
+scripts/generate-policy-mcp-metadata.js:5:import { fileURLToPath } from "node:url";
+scripts/generate-policy-mcp-metadata.js:7:import { MCP_TOOL_CONFIG as refundTool } from "../api/mcp.js";
+scripts/generate-policy-mcp-metadata.js:8:import { MCP_TOOL_CONFIG as cancelTool } from "../api/cancel-mcp.js";
+scripts/generate-policy-mcp-metadata.js:9:import { MCP_TOOL_CONFIG as returnTool } from "../api/return-mcp.js";
 scripts/generate-rulebook-runtime-manifest.js:3:import { mkdirSync, writeFileSync } from "node:fs";
 scripts/generate-rulebook-runtime-manifest.js:4:import { dirname, join } from "node:path";
 scripts/generate-rulebook-runtime-manifest.js:5:import { fileURLToPath } from "node:url";
 scripts/generate-rulebook-runtime-manifest.js:7:import { buildRulebookRuntimeManifest } from "../lib/rulebook-runtime-contract.js";
 scripts/lib/policy-feed-reliability.js:1:import { createHash } from "node:crypto";
+scripts/mcp-check-local.sh:40:      const net = require("node:net");
+scripts/report-mcp-adoption.js:3:import { getMcpAdoptionReport } from "../lib/mcp-adoption-store.js";
+scripts/request-query-regression.test.js:1:import assert from "node:assert/strict";
+scripts/request-query-regression.test.js:2:import fs from "node:fs";
+scripts/request-query-regression.test.js:3:import path from "node:path";
+scripts/request-query-regression.test.js:4:import { fileURLToPath } from "node:url";
+scripts/request-query-regression.test.js:6:import v1PolicyDispatcher from "../api/v1/[policy]/[action].js";
+scripts/request-query-regression.test.js:7:import zendeskWorkflowDispatcher from "../api/v1/workflows/zendesk/[workflow].js";
+scripts/request-query-regression.test.js:8:import { parseRequestQuery } from "../lib/request-query.js";
+scripts/review-policy-event.js:3:import { buildPolicyReviewUpdate, POLICY_REVIEW_STATUSES } from "../lib/policy-review.js";
+scripts/review-policy-event.js:4:import { getPolicySupabaseConfig, supabaseRestRequest } from "../lib/policy-supabase.js";
 scripts/rulebook-migration-dry-run.js:13:import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
 scripts/rulebook-migration-dry-run.js:3:import { readFileSync } from "node:fs";
 scripts/rulebook-migration-dry-run.js:4:import { dirname, isAbsolute, join, resolve } from "node:path";
@@ -896,6 +1285,7 @@ scripts/rulebook-migration-dry-run.js:9:import {
 scripts/rulebook-runtime-production-smoke.js:3:import { readFileSync } from "node:fs";
 scripts/rulebook-runtime-production-smoke.js:4:import { dirname, join } from "node:path";
 scripts/rulebook-runtime-production-smoke.js:5:import { fileURLToPath } from "node:url";
+scripts/rulebook-runtime-production-smoke.js:7:import { buildAdvisoryDecisionContract } from "../lib/rulebook-runtime-contract.js";
 scripts/site-bridge-regression.js:3:import fs from "node:fs";
 scripts/site-bridge-regression.js:4:import path from "node:path";
 scripts/site-bridge-regression.js:5:import { fileURLToPath } from "node:url";
@@ -909,8 +1299,16 @@ scripts/smoke-test.js:6:import trialMcp from "../api/trial-mcp.js";
 scripts/smoke-test.js:7:import track from "../api/track.js";
 scripts/smoke-test.js:8:import metrics from "../api/metrics.js";
 scripts/smoke-test.js:9:import complianceExport from "../api/compliance-export.js";
+scripts/sync-public-policy-sources.js:3:import { copyFileSync } from "node:fs";
+scripts/test-check-policies.js:10:import { createBlockedFetchReuseCache } from "../lib/blocked-fetch-reuse-cache.js";
+scripts/test-check-policies.js:11:import { createSuccessfulFetchCache } from "../lib/successful-fetch-cache.js";
+scripts/test-check-policies.js:13:import {
 scripts/test-check-policies.js:3:import assert from "node:assert/strict";
-scripts/test-check-policies.js:5:import {
+scripts/test-check-policies.js:4:import { createServer } from "node:http";
+scripts/test-check-policies.js:5:import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+scripts/test-check-policies.js:6:import { tmpdir } from "node:os";
+scripts/test-check-policies.js:7:import { join } from "node:path";
+scripts/test-check-policies.js:9:import { mapWithConcurrency } from "../lib/async-work-pool.js";
 scripts/test-decision-contract.js:11:import { existsSync, readFileSync } from "node:fs";
 scripts/test-decision-contract.js:12:import { dirname, join } from "node:path";
 scripts/test-decision-contract.js:13:import { fileURLToPath } from "node:url";
@@ -919,21 +1317,81 @@ scripts/test-decision-contract.js:16:import decideHandler from "../api/decide.js
 scripts/test-decision-contract.js:17:import rulebookAttestationKeysHandler from "../api/rulebook-attestation-keys.js";
 scripts/test-decision-contract.js:18:import v1PolicyDispatcher from "../api/v1/[policy]/[action].js";
 scripts/test-decision-contract.js:19:import zendeskWorkflowDispatcher from "../api/v1/workflows/zendesk/[workflow].js";
-scripts/test-decision-contract.js:20:import { buildRulebookRuntimeManifest } from "../lib/rulebook-runtime-contract.js";
-scripts/test-decision-contract.js:21:import {
-scripts/test-decision-contract.js:26:import { invokeJson } from "./test-helpers/http-harness.js";
+scripts/test-decision-contract.js:20:import {
+scripts/test-decision-contract.js:26:import { evaluateRulebookV1 } from "../lib/rulebook-v1.js";
+scripts/test-decision-contract.js:27:import {
+scripts/test-decision-contract.js:32:import { invokeJson } from "./test-helpers/http-harness.js";
 scripts/test-decision-contract.js:3:import assert from "node:assert/strict";
 scripts/test-decision-contract.js:4:import { execFileSync } from "node:child_process";
 scripts/test-decision-contract.js:5:import {
+scripts/test-gemini-model-routing.js:3:import assert from "node:assert/strict";
+scripts/test-gemini-model-routing.js:4:import {
+scripts/test-gemini-usage-budget.js:10:import {
+scripts/test-gemini-usage-budget.js:3:import assert from "node:assert/strict";
+scripts/test-gemini-usage-budget.js:4:import {
+scripts/test-mcp-adoption-api.js:3:import assert from "node:assert/strict";
+scripts/test-mcp-adoption-api.js:5:import handler, { resetMcpAdoptionCacheForTests } from "../api/metrics.js";
+scripts/test-mcp-adoption-report.js:3:import assert from "node:assert/strict";
+scripts/test-mcp-adoption-report.js:5:import {
+scripts/test-mcp-distribution.js:3:import assert from "node:assert/strict";
+scripts/test-mcp-distribution.js:4:import { readFileSync } from "node:fs";
+scripts/test-mcp-distribution.js:6:import { buildMcpDistributionHealthReport } from "../lib/mcp-distribution-health.js";
+scripts/test-mcp-marketplace-packages.js:1:import assert from "node:assert/strict";
+scripts/test-mcp-marketplace-packages.js:2:import { existsSync, readFileSync } from "node:fs";
+scripts/test-mcp-marketplace-packages.js:3:import { dirname, join } from "node:path";
+scripts/test-mcp-marketplace-packages.js:4:import { fileURLToPath } from "node:url";
+scripts/test-mcp-telemetry.js:3:import assert from "node:assert/strict";
+scripts/test-mcp-telemetry.js:5:import { createMcpHandler } from "../lib/mcp-handler.js";
+scripts/test-mcp-telemetry.js:6:import { buildMcpTelemetryEvent, persistMcpTelemetryEvent } from "../lib/mcp-telemetry.js";
+scripts/test-mcp-telemetry.js:7:import { createReq, createRes } from "./test-helpers/http-harness.js";
 scripts/test-policy-alerts-api.js:3:import assert from "node:assert/strict";
-scripts/test-policy-alerts-api.js:5:import handler from "../api/policy-alerts.js";
+scripts/test-policy-alerts-api.js:5:import handler, {
+scripts/test-policy-coverage-scorecard.js:3:import assert from "node:assert/strict";
+scripts/test-policy-coverage-scorecard.js:5:import {
 scripts/test-policy-feed.js:3:import assert from "node:assert/strict";
 scripts/test-policy-feed.js:4:import { readFileSync } from "node:fs";
 scripts/test-policy-feed.js:5:import { dirname, join } from "node:path";
 scripts/test-policy-feed.js:6:import { fileURLToPath } from "node:url";
 scripts/test-policy-feed.js:8:import { mergePolicyAlertFeed } from "./lib/policy-feed-reliability.js";
+scripts/test-policy-fetch-hook.js:3:import assert from "node:assert/strict";
+scripts/test-policy-fetch-hook.js:5:import handler from "../api/policy-fetch-hook.js";
+scripts/test-policy-freshness.js:3:import assert from "node:assert/strict";
+scripts/test-policy-freshness.js:5:import {
+scripts/test-policy-funnel.js:10:import {
+scripts/test-policy-funnel.js:3:import assert from "node:assert/strict";
+scripts/test-policy-funnel.js:5:import trackHandler from "../api/track.js";
+scripts/test-policy-funnel.js:6:import {
+scripts/test-policy-mcp.js:10:import trialTermsHandler from "../lib/routes/v1/policies/trial-terms.js";
+scripts/test-policy-mcp.js:11:import {
+scripts/test-policy-mcp.js:15:import { buildPolicySourceHash } from "../lib/lineage.js";
+scripts/test-policy-mcp.js:16:import { validateJsonSchema } from "../lib/json-schema-lite.js";
+scripts/test-policy-mcp.js:17:import middleware from "../middleware.js";
+scripts/test-policy-mcp.js:18:import { invokeJson } from "./test-helpers/http-harness.js";
+scripts/test-policy-mcp.js:1:import assert from "node:assert/strict";
+scripts/test-policy-mcp.js:2:import { readFileSync } from "node:fs";
+scripts/test-policy-mcp.js:4:import policyMcp from "../api/policy-mcp.js";
+scripts/test-policy-mcp.js:5:import { MCP_TOOL_CONFIG as refundTool } from "../api/mcp.js";
+scripts/test-policy-mcp.js:6:import { MCP_TOOL_CONFIG as cancelTool } from "../api/cancel-mcp.js";
+scripts/test-policy-mcp.js:7:import { MCP_TOOL_CONFIG as returnTool } from "../api/return-mcp.js";
+scripts/test-policy-mcp.js:8:import { MCP_TOOL_CONFIG as trialTool } from "../api/trial-mcp.js";
+scripts/test-policy-mcp.js:9:import refundEligibilityHandler from "../lib/routes/v1/policies/refund-eligibility.js";
+scripts/test-policy-review.js:3:import assert from "node:assert/strict";
+scripts/test-policy-review.js:5:import { buildPolicyReviewUpdate } from "../lib/policy-review.js";
+scripts/test-policy-vendor-candidates.js:3:import assert from "node:assert/strict";
+scripts/test-policy-vendor-candidates.js:5:import {
+scripts/test-policy-vendor-lifecycle.js:3:import assert from "node:assert/strict";
+scripts/test-policy-vendor-lifecycle.js:5:import {
+scripts/test-public-policy-sources.js:3:import assert from "node:assert/strict";
+scripts/test-public-policy-sources.js:4:import { readFileSync } from "node:fs";
 scripts/test-release-gates.js:3:import assert from "node:assert/strict";
 scripts/test-release-gates.js:4:import { existsSync, readFileSync } from "node:fs";
+scripts/test-sdk-package.js:3:import assert from 'node:assert/strict';
+scripts/test-sdk-package.js:40:const sdk = require(path.join(sdkRoot, 'decide.js'));
+scripts/test-sdk-package.js:4:import fs from 'node:fs';
+scripts/test-sdk-package.js:5:import path from 'node:path';
+scripts/test-sdk-package.js:6:import { execFileSync } from 'node:child_process';
+scripts/test-sdk-package.js:7:import { createRequire } from 'node:module';
+scripts/test-sdk-package.js:8:import { fileURLToPath } from 'node:url';
 scripts/workflow-zendesk-refund-test.js:1:import zendeskWorkflowRoute from "../api/v1/workflows/zendesk/[workflow].js";
 ```
 
