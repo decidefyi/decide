@@ -4749,6 +4749,15 @@ function testRulebookRuntimeManifest() {
       `contract workflow must run when ${contractPath} changes`
     );
   }
+  assert.ok(
+    contractWorkflow.includes("pull_request:"),
+    "contract workflow must validate pull requests"
+  );
+  assert.equal(
+    contractWorkflow.includes("- codex/**"),
+    false,
+    "contract workflow must not duplicate pull-request runs on codex branch pushes"
+  );
   for (const [label, workflow] of workflowFiles.entries()) {
     assert.ok(
       workflow.includes("FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true"),
@@ -4767,6 +4776,15 @@ function testRulebookRuntimeManifest() {
     assert.equal(workflow.includes("actions/setup-node@v"), false, `${label} must not use a mutable setup-node tag`);
     assert.equal(workflow.includes('node-version: "20"'), false, `${label} must not pin Node 20`);
   }
+  assert.match(
+    dailyPolicyWorkflow,
+    /schedule:\s*\n(?:\s*#.*\n)*\s*- cron:\s*["']0 0 \* \* \*["']/,
+    "daily policy workflow must run once per day"
+  );
+  assert.ok(
+    dailyPolicyWorkflow.includes("workflow_dispatch:"),
+    "daily policy workflow must remain manually runnable"
+  );
   assert.ok(
     dailyPolicyWorkflow.includes('echo "checker_status=$status" >> "$GITHUB_OUTPUT"'),
     "daily policy workflow must publish the policy checker process status"
