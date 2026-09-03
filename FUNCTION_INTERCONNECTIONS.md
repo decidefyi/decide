@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-08-20 12:22:28 CEST
+Generated: 2026-09-03 11:46:29 CEST
 
 ## Scope
 
@@ -25,41 +25,43 @@ api/cancel-mcp.js:62:export default createMcpHandler({
 api/compliance-export.js:18:export default async function complianceExportHandler(req, res) {
 api/compliance-export.js:3:function sendJson(res, statusCode, payload) {
 api/compliance-export.js:9:function readFormat(req) {
+api/decide.js:1127:    const getGeminiProviderOrRespond = async (advisoryMode, lineageInput) => {
 api/decide.js:116:function readGeminiText(data) {
-api/decide.js:122:function sanitizeScore(n) {
-api/decide.js:129:function sanitizeUnitScore(n) {
-api/decide.js:141:function normalizeRisk(value, fallback = "medium") {
-api/decide.js:147:function normalizeRuntimeCitations(citations) {
-api/decide.js:177:function validateRuntimeProviderOutput(payload = {}, options = []) {
-api/decide.js:232:function summarizeInputEvidenceValue(value) {
-api/decide.js:243:function buildInputEvidenceSummary(inputs = {}) {
+api/decide.js:122:function buildGeminiResponseJsonSchema(advisoryMode, options = []) {
+api/decide.js:220:function readSingleGeminiAnswer(data) {
+api/decide.js:232:function sanitizeScore(n) {
+api/decide.js:239:function sanitizeUnitScore(n) {
 api/decide.js:24:function rid() {
-api/decide.js:250:function buildRuntimeFallbackEvidence(payload = {}, context = {}) {
+api/decide.js:251:function normalizeRisk(value, fallback = "medium") {
+api/decide.js:257:function normalizeRuntimeCitations(citations) {
+api/decide.js:287:function validateRuntimeProviderOutput(payload = {}, options = []) {
 api/decide.js:28:function normalize(s = "") {
-api/decide.js:316:function normalizeHeaderValue(value) {
-api/decide.js:321:function readHeader(req, name = "") {
 api/decide.js:32:function wantsAdvice(q) {
-api/decide.js:332:function readApiToken(req) {
-api/decide.js:344:function findCallerSuppliedRulebookOutputFields(body = {}) {
-api/decide.js:351:async function requestGeminiGenerateContent({
+api/decide.js:342:function summarizeInputEvidenceValue(value) {
+api/decide.js:353:function buildInputEvidenceSummary(inputs = {}) {
+api/decide.js:360:function buildRuntimeFallbackEvidence(payload = {}, context = {}) {
 api/decide.js:36:function isFinanceAdvice(q) {
+api/decide.js:426:function normalizeHeaderValue(value) {
 api/decide.js:42:function isMedicalAdvice(q) {
-api/decide.js:485:function sendGeminiRequestFailure(res, result, request_id, lineageInput) {
+api/decide.js:431:function readHeader(req, name = "") {
+api/decide.js:442:function readApiToken(req) {
+api/decide.js:454:function findCallerSuppliedRulebookOutputFields(body = {}) {
+api/decide.js:461:async function requestGeminiGenerateContent({
 api/decide.js:48:function isLegalAdvice(q) {
 api/decide.js:54:function parseMultiQuestion(raw = "") {
-api/decide.js:600:function safeEqualToken(left, right) {
-api/decide.js:610:function parseFlag(value) {
-api/decide.js:615:function shouldRequireDecisionApiAuth(env = process.env) {
-api/decide.js:625:function readTrustedProxyContext(req) {
-api/decide.js:651:function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
-api/decide.js:678:export default async function handler(req, res) {
+api/decide.js:614:function sendGeminiRequestFailure(res, result, request_id, lineageInput) {
+api/decide.js:734:function safeEqualToken(left, right) {
 api/decide.js:73:function asObject(value, fallback = {}) {
+api/decide.js:744:function parseFlag(value) {
+api/decide.js:749:function shouldRequireDecisionApiAuth(env = process.env) {
+api/decide.js:759:function readTrustedProxyContext(req) {
 api/decide.js:77:function toStringArray(value, maxLength = 8) {
+api/decide.js:785:function sendDecisionJson(res, statusCode, payload, lineageInput = {}) {
+api/decide.js:812:export default async function handler(req, res) {
 api/decide.js:85:function isFiniteJsonNumber(value) {
 api/decide.js:89:function isNonEmptyJsonString(value) {
 api/decide.js:93:function isStrictStringArray(value, minLength = 1) {
 api/decide.js:97:function extractJson(text = "") {
-api/decide.js:993:    const getGeminiProviderOrRespond = async (advisoryMode, lineageInput) => {
 api/health.js:12:function inferServiceFromHost(host) {
 api/health.js:3:function normalizeHost(req) {
 api/health.js:51:export default function handler(req, res) {
@@ -853,98 +855,100 @@ scripts/test-check-policies.js:926:function testSourceVolatilityTierResolution()
 scripts/test-check-policies.js:946:function testVolatileFlipThresholdIncludesFlakyTierDelta() {
 scripts/test-check-policies.js:964:function testFallbackSignalTransitionRequiresStrongSignatures() {
 scripts/test-check-policies.js:993:function testFallbackSignalTransitionStableSignatureResetsConsecutiveRuns() {
-scripts/test-decision-contract.js:1035:async function testDecideRulebookRejectsExecutablePayloadFields() {
-scripts/test-decision-contract.js:1069:async function testDecideRulebookRejectsUnsupportedBindingMode() {
+scripts/test-decision-contract.js:1031:async function testDecideRulebookRejectsExecutableOperator() {
+scripts/test-decision-contract.js:1069:async function testDecideRulebookRejectsExecutablePayloadFields() {
 scripts/test-decision-contract.js:107:function sha256(value) {
-scripts/test-decision-contract.js:1101:async function testDecideRulebookRejectsBindingModeShapeConflict() {
+scripts/test-decision-contract.js:1103:async function testDecideRulebookRejectsUnsupportedBindingMode() {
 scripts/test-decision-contract.js:111:function verifySignature({ publicKeyPem, bundleHash, signature }) {
-scripts/test-decision-contract.js:1142:async function testDecideRulebookRejectsCallerSuppliedDecisionMaterial() {
+scripts/test-decision-contract.js:1135:async function testDecideRulebookRejectsBindingModeShapeConflict() {
+scripts/test-decision-contract.js:1176:async function testDecideRulebookRejectsCallerSuppliedDecisionMaterial() {
 scripts/test-decision-contract.js:120:function assertRulebookAttestation(payload, label) {
-scripts/test-decision-contract.js:1212:async function testDecideRulebookRejectsCallerSuppliedDecisionMaterialInInputs() {
-scripts/test-decision-contract.js:1273:function testRulebookCoreRejectsUnsupportedBindingMode() {
-scripts/test-decision-contract.js:1295:async function testDecideTrustedAdapterFixture() {
-scripts/test-decision-contract.js:1388:async function testDecideDecisionMemoReadinessAdapterFixture() {
-scripts/test-decision-contract.js:1536:async function testDecideKrafthausWorkflowReadinessAdapterFixture() {
-scripts/test-decision-contract.js:1690:function testTrustedAdapterVersionLocks() {
-scripts/test-decision-contract.js:1743:function testTrustedAdapterCapabilityAudit() {
-scripts/test-decision-contract.js:1744:  const denied = auditTrustedAdapterImplementation(function forbiddenAdapter() {
-scripts/test-decision-contract.js:1755:async function testTrustedAdapterCapabilityRuntimeEnforcement() {
-scripts/test-decision-contract.js:1765:function testTrustedAdapterColdStartIsolation() {
-scripts/test-decision-contract.js:1793:async function testDecideTrustedAdapterRejectsManifestDrift() {
-scripts/test-decision-contract.js:1815:async function testDecideTrustedAdapterRejectsExecutablePayloadFields() {
-scripts/test-decision-contract.js:1847:async function testDecideTrustedAdapterRejectsExecutableInputFields() {
-scripts/test-decision-contract.js:1871:async function testRulebookV1PublicConformanceFixtures() {
+scripts/test-decision-contract.js:1246:async function testDecideRulebookRejectsCallerSuppliedDecisionMaterialInInputs() {
+scripts/test-decision-contract.js:1307:function testRulebookCoreRejectsUnsupportedBindingMode() {
+scripts/test-decision-contract.js:1329:async function testDecideTrustedAdapterFixture() {
+scripts/test-decision-contract.js:1422:async function testDecideDecisionMemoReadinessAdapterFixture() {
+scripts/test-decision-contract.js:1570:async function testDecideKrafthausWorkflowReadinessAdapterFixture() {
+scripts/test-decision-contract.js:1724:function testTrustedAdapterVersionLocks() {
+scripts/test-decision-contract.js:1777:function testTrustedAdapterCapabilityAudit() {
+scripts/test-decision-contract.js:1778:  const denied = auditTrustedAdapterImplementation(function forbiddenAdapter() {
+scripts/test-decision-contract.js:1789:async function testTrustedAdapterCapabilityRuntimeEnforcement() {
+scripts/test-decision-contract.js:1799:function testTrustedAdapterColdStartIsolation() {
+scripts/test-decision-contract.js:1827:async function testDecideTrustedAdapterRejectsManifestDrift() {
+scripts/test-decision-contract.js:1849:async function testDecideTrustedAdapterRejectsExecutablePayloadFields() {
+scripts/test-decision-contract.js:1881:async function testDecideTrustedAdapterRejectsExecutableInputFields() {
+scripts/test-decision-contract.js:1905:async function testRulebookV1PublicConformanceFixtures() {
 scripts/test-decision-contract.js:200:function assertRuntimeBinding(payload, expectedMode, label) {
-scripts/test-decision-contract.js:2105:async function testRulebookV1GoldenReplayCorpus() {
+scripts/test-decision-contract.js:2139:async function testRulebookV1GoldenReplayCorpus() {
 scripts/test-decision-contract.js:216:function assertAdvisoryDecisionContract(payload, expectedMode, label) {
 scripts/test-decision-contract.js:226:function generateSigningEnv(keyId = "contract-test-rulebook-key") {
-scripts/test-decision-contract.js:2285:async function testKrafthausWorkflowBindingExample() {
+scripts/test-decision-contract.js:2319:async function testKrafthausWorkflowBindingExample() {
 scripts/test-decision-contract.js:235:function runTrustedAdapterCapabilityRuntimeProbe() {
-scripts/test-decision-contract.js:2420:function testRulebookMigrationDryRunCli() {
 scripts/test-decision-contract.js:243:      const probe = (name, operation) => {
-scripts/test-decision-contract.js:2630:function testRulebookRuntimeArchitectureDoc() {
+scripts/test-decision-contract.js:2454:function testRulebookMigrationDryRunCli() {
+scripts/test-decision-contract.js:2664:function testRulebookRuntimeArchitectureDoc() {
 scripts/test-decision-contract.js:278:async function testDecideSingleFixture() {
-scripts/test-decision-contract.js:2961:async function testDecideGeminiDisabledByDefault() {
-scripts/test-decision-contract.js:2993:async function testDecideGeminiDisabledPreservesDeterministicGuards() {
-scripts/test-decision-contract.js:3070:async function testDecideGeminiDisabledRuntimeLineage() {
-scripts/test-decision-contract.js:3084:  const request = (prompt, ip) => ({
-scripts/test-decision-contract.js:3119:async function testDecideGeminiPaidMissingKeyFailsClosed() {
-scripts/test-decision-contract.js:3154:async function testDecideGeminiBudgetMissingFailsClosed() {
-scripts/test-decision-contract.js:3204:async function testDecideGeminiBudgetCapFailsClosed() {
+scripts/test-decision-contract.js:2995:async function testDecideGeminiDisabledByDefault() {
+scripts/test-decision-contract.js:3027:async function testDecideGeminiDisabledPreservesDeterministicGuards() {
+scripts/test-decision-contract.js:3104:async function testDecideGeminiDisabledRuntimeLineage() {
+scripts/test-decision-contract.js:3118:  const request = (prompt, ip) => ({
+scripts/test-decision-contract.js:3153:async function testDecideGeminiPaidMissingKeyFailsClosed() {
+scripts/test-decision-contract.js:3188:async function testDecideGeminiBudgetMissingFailsClosed() {
 scripts/test-decision-contract.js:322:async function testDecideMultiAdvisoryContract() {
-scripts/test-decision-contract.js:3261:async function testDecideGeminiPaidSingleAttempt() {
-scripts/test-decision-contract.js:3362:async function testDecideGeminiEmptyTextSingleAttempt() {
-scripts/test-decision-contract.js:3403:async function testDecideGeminiDeadline() {
-scripts/test-decision-contract.js:3463:async function testDecideGeminiPromptLimit() {
-scripts/test-decision-contract.js:3510:async function testPolicyV1Fixture() {
-scripts/test-decision-contract.js:3542:async function testPolicyDecisionRecordMaterialFixture() {
-scripts/test-decision-contract.js:3580:async function testRefundPolicyRulebookOutcomes() {
-scripts/test-decision-contract.js:3648:async function testRefundPolicyRulebookBindsEvidenceIdentity() {
-scripts/test-decision-contract.js:3649:  const evaluate = async (vendor) =>
-scripts/test-decision-contract.js:3673:async function testRefundPolicyRulebookSignsAttestation() {
-scripts/test-decision-contract.js:3719:async function testRefundPolicyRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:3753:async function testTrialPolicyRulebookFixture() {
-scripts/test-decision-contract.js:375:async function testDecideApiKeyFixture() {
-scripts/test-decision-contract.js:3798:async function testTrialPolicyRulebookOutcomes() {
-scripts/test-decision-contract.js:3868:async function testTrialPolicyRulebookBindsEvidenceIdentity() {
-scripts/test-decision-contract.js:3869:  const evaluate = async (vendor) =>
-scripts/test-decision-contract.js:3902:async function testTrialPolicyRulebookSignsAttestation() {
-scripts/test-decision-contract.js:3950:async function testTrialPolicyRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:3986:async function testCancelPolicyRulebookFixture() {
-scripts/test-decision-contract.js:4023:async function testCancelPolicyRulebookOutcomes() {
-scripts/test-decision-contract.js:4085:async function testCancelPolicyRulebookBindsEvidenceIdentity() {
-scripts/test-decision-contract.js:4086:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:3238:async function testDecideGeminiBudgetCapFailsClosed() {
+scripts/test-decision-contract.js:3295:async function testDecideGeminiPaidSingleAttempt() {
+scripts/test-decision-contract.js:3406:async function testDecideGeminiEmptyTextSingleAttempt() {
+scripts/test-decision-contract.js:3447:async function testDecideGeminiIncompleteFinishReasonFailsClosed() {
+scripts/test-decision-contract.js:3490:async function testDecideGeminiDeadline() {
+scripts/test-decision-contract.js:3550:async function testDecideGeminiPromptLimit() {
+scripts/test-decision-contract.js:3597:async function testPolicyV1Fixture() {
+scripts/test-decision-contract.js:3629:async function testPolicyDecisionRecordMaterialFixture() {
+scripts/test-decision-contract.js:3667:async function testRefundPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:3735:async function testRefundPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:3736:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:3760:async function testRefundPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:3806:async function testRefundPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:3840:async function testTrialPolicyRulebookFixture() {
+scripts/test-decision-contract.js:3885:async function testTrialPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:394:async function testDecideApiKeyFixture() {
+scripts/test-decision-contract.js:3955:async function testTrialPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:3956:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:3989:async function testTrialPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:4037:async function testTrialPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:4073:async function testCancelPolicyRulebookFixture() {
 scripts/test-decision-contract.js:40:function createBudgetedGeminiFetch(providerFetch) {
-scripts/test-decision-contract.js:4111:async function testCancelPolicyRulebookSignsAttestation() {
-scripts/test-decision-contract.js:4151:async function testCancelPolicyRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:4179:async function testReturnPolicyRulebookFixture() {
-scripts/test-decision-contract.js:4222:async function testReturnPolicyRulebookOutcomes() {
-scripts/test-decision-contract.js:423:async function testDecideProductionRequiresTrustedEdge() {
-scripts/test-decision-contract.js:4310:async function testReturnPolicyRulebookBindsEvidenceIdentity() {
-scripts/test-decision-contract.js:4311:  const evaluate = async (vendor) =>
-scripts/test-decision-contract.js:4336:async function testReturnPolicyRulebookSignsAttestation() {
-scripts/test-decision-contract.js:4382:async function testReturnPolicyRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:4416:async function testWorkflowFixture() {
-scripts/test-decision-contract.js:4470:async function testUcpVendorEnumConsistency() {
-scripts/test-decision-contract.js:4491:function testRulebookRuntimeManifest() {
-scripts/test-decision-contract.js:4726:async function main() {
-scripts/test-decision-contract.js:474:async function testDecideRuntimeFixture() {
+scripts/test-decision-contract.js:4110:async function testCancelPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:4172:async function testCancelPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:4173:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:4198:async function testCancelPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:4238:async function testCancelPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:4266:async function testReturnPolicyRulebookFixture() {
+scripts/test-decision-contract.js:4309:async function testReturnPolicyRulebookOutcomes() {
+scripts/test-decision-contract.js:4397:async function testReturnPolicyRulebookBindsEvidenceIdentity() {
+scripts/test-decision-contract.js:4398:  const evaluate = async (vendor) =>
+scripts/test-decision-contract.js:4423:async function testReturnPolicyRulebookSignsAttestation() {
+scripts/test-decision-contract.js:442:async function testDecideProductionRequiresTrustedEdge() {
+scripts/test-decision-contract.js:4469:async function testReturnPolicyRulebookRequiresSignedAttestation() {
+scripts/test-decision-contract.js:4503:async function testWorkflowFixture() {
+scripts/test-decision-contract.js:4557:async function testUcpVendorEnumConsistency() {
+scripts/test-decision-contract.js:4578:function testRulebookRuntimeManifest() {
+scripts/test-decision-contract.js:4826:function testMcpPublisherSupplyChain() {
+scripts/test-decision-contract.js:4869:async function main() {
+scripts/test-decision-contract.js:493:async function testDecideRuntimeFixture() {
 scripts/test-decision-contract.js:61:function loadFixture(fileName) {
-scripts/test-decision-contract.js:649:async function testDecideRulebookFixture() {
 scripts/test-decision-contract.js:65:function loadJsonFromRepo(...segments) {
+scripts/test-decision-contract.js:683:async function testDecideRulebookFixture() {
 scripts/test-decision-contract.js:69:function loadPublicRulebookConformanceFixture(fileName) {
-scripts/test-decision-contract.js:726:async function testDecideRulebookEnforcesPublishedSchema() {
 scripts/test-decision-contract.js:73:function loadPublicRulebookGoldenReplayFixture(fileName) {
-scripts/test-decision-contract.js:762:async function testDecideRulebookMissingInput() {
+scripts/test-decision-contract.js:760:async function testDecideRulebookEnforcesPublishedSchema() {
 scripts/test-decision-contract.js:77:function assertIsoTimestamp(value, label) {
-scripts/test-decision-contract.js:796:async function testDecideRulebookAttestationSigning() {
+scripts/test-decision-contract.js:796:async function testDecideRulebookMissingInput() {
 scripts/test-decision-contract.js:82:function assertLineage(payload, label) {
-scripts/test-decision-contract.js:855:async function testDecideRulebookRequiresSignedAttestation() {
-scripts/test-decision-contract.js:898:async function testRulebookAttestationPublishesKeyHistory() {
+scripts/test-decision-contract.js:830:async function testDecideRulebookAttestationSigning() {
+scripts/test-decision-contract.js:889:async function testDecideRulebookRequiresSignedAttestation() {
 scripts/test-decision-contract.js:90:function assertUnknownField(errors, expectedField, label) {
-scripts/test-decision-contract.js:953:async function testRulebookAttestationRejectsInvalidKeyHistory() {
+scripts/test-decision-contract.js:932:async function testRulebookAttestationPublishesKeyHistory() {
+scripts/test-decision-contract.js:987:async function testRulebookAttestationRejectsInvalidKeyHistory() {
 scripts/test-decision-contract.js:98:function canonicalJson(value) {
-scripts/test-decision-contract.js:997:async function testDecideRulebookRejectsExecutableOperator() {
 scripts/test-helpers/http-harness.js:1:export function createReq({
 scripts/test-helpers/http-harness.js:24:export function createRes() {
 scripts/test-helpers/http-harness.js:38:export async function invokeJson(handler, reqOptions = {}) {

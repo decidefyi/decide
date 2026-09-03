@@ -8,6 +8,15 @@
 
 **Positioning:** Decide is the API engine and compatibility surface. Krafthaus workflow apps, Policy MCP Notaries, decision memo packets, and execution gates are application surfaces that reuse the same verdict, request ID, and evidence contract.
 
+## Gate agent tool calls before execution
+
+Use Decide to evaluate an agent-proposed action against a deterministic rulebook
+before the tool receives authority to change state. The caller gets a replayable
+Decision Record and routes `yes`, `no`, or `review` while retaining control of
+credentials and execution.
+
+[See the AI agent action gate guide](https://www.decide.fyi/use-cases/ai-agent-action-gate?source=github_readme)
+
 ## Production Determinism Boundary
 
 Binding production verdicts should use a versioned declarative rulebook:
