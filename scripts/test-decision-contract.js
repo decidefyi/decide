@@ -3351,7 +3351,7 @@ async function testDecideGeminiPaidSingleAttempt() {
       false,
       "Gemini 3 requests must use the provider's one-candidate default"
     );
-    assert.equal(providerBodies[0]?.generationConfig?.maxOutputTokens, 8, "single mode output cap mismatch");
+    assert.equal(providerBodies[0]?.generationConfig?.maxOutputTokens, 32, "single mode output cap mismatch");
     assert.equal(
       Object.prototype.hasOwnProperty.call(providerBodies[0]?.generationConfig || {}, "temperature"),
       false,

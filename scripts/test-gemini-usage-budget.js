@@ -26,14 +26,14 @@ assert.deepEqual(GEMINI_USAGE_HARD_CAPS, {
 assert.deepEqual(GEMINI_REQUEST_HARD_CAPS, {
   promptChars: 4096,
   timeoutMs: 8000,
-  outputTokens: { single: 8, multi: 128, runtime: 512 },
+  outputTokens: { single: 32, multi: 128, runtime: 512 },
   thinkingLevel: "minimal",
 });
 
 assert.deepEqual(resolveGeminiRequestPolicy({ mode: "single", env: {} }), {
   maxPromptChars: 4096,
   timeoutMs: 8000,
-  maxOutputTokens: 8,
+  maxOutputTokens: 32,
   thinkingLevel: "minimal",
 });
 assert.deepEqual(
