@@ -7,6 +7,7 @@ on:
     paths:
       - "api/**"
       - "docs/**"
+      - "examples/candidates/**"
       - "lib/**"
       - "public/**"
       - "rules/**"
@@ -23,6 +24,7 @@ on:
     paths:
       - "api/**"
       - "docs/**"
+      - "examples/candidates/**"
       - "lib/**"
       - "public/**"
       - "rules/**"
@@ -61,6 +63,7 @@ jobs:
           npm run test:policy-mcp-contracts
           npm run test:policy-mcp-http
           npm run test:policy-candidate-reviews
+          npm run test:typeform-cancellation
 
       - name: Verify policy artifact database boundary in isolated PostgreSQL
         run: env PATH="$(pg_config --bindir):$PATH" npm run test:policy-evidence-postgres

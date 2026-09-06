@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Typeform cancellation candidate request, not a production notary request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "vendor", "region", "product", "plan", "purchase_channel", "contract_type",
+    "billing_cadence", "billing_state", "requested_action", "organization_id",
+    "actor_role", "account_observed_at", "current_period_end"
+  ],
+  "properties": {
+    "vendor": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "region": { "type": "string", "minLength": 1, "maxLength": 20 },
+    "product": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "plan": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "purchase_channel": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "contract_type": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "billing_cadence": { "type": "string", "minLength": 1, "maxLength": 20 },
+    "billing_state": { "type": "string", "minLength": 1, "maxLength": 40 },
+    "requested_action": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "organization_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$" },
+    "actor_role": { "type": "string", "minLength": 1, "maxLength": 40 },
+    "account_observed_at": { "type": "string", "maxLength": 24 },
+    "current_period_end": { "type": "string", "maxLength": 24 }
+  }
+}

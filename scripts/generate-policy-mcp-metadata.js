@@ -48,7 +48,7 @@ const agentCard = readJson("public/.well-known/agent-card.json");
 writeJson("public/.well-known/agent-card.json", {
   ...agentCard,
   version: POLICY_MCP_VERSION,
-  description: "Fail-closed subscription policy notaries for US consumers. One canonical four-tool MCP server with stable specialist compatibility endpoints.",
+  description: "Fail-closed US subscription policy notaries with policy-specific coverage. One canonical four-tool MCP server with stable specialist compatibility endpoints.",
 });
 
 const toolByName = new Map(toolConfigs.map((entry) => [entry.tool.name, entry.tool]));
@@ -56,9 +56,11 @@ const ucp = readJson("public/.well-known/ucp.json");
 writeJson("public/.well-known/ucp.json", {
   ...ucp,
   version: POLICY_MCP_VERSION,
-  description: "Fail-closed subscription policy notaries for US consumers.",
+  description: "Fail-closed US subscription policy notaries with policy-specific coverage.",
   services: (ucp.services || []).map((service) => {
     const tool = toolByName.get(service.tool_name);
-    return tool ? { ...service, inputs: toUcpInputs(tool) } : service;
+    return tool ? { ...service, inputs: toUcpInputs(tool), outputs: {
+      ...service.outputs, verdict: tool.outputSchema.properties.verdict.enum,
+    } } : service;
   }),
 });

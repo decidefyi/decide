@@ -2,6 +2,14 @@
   "description": "Source URLs for each vendor's cancellation policy. Used by the daily policy-check action to detect changes.",
   "last_checked": "2026-07-16",
   "vendors": {
+    "typeform": {
+      "url": "https://help.typeform.com/hc/en-us/articles/360060804271-Cancel-your-Typeform-plan",
+      "notes": "US direct self-serve Basic platform subscriptions: cancellation completes at paid term end, not immediately. Refunds and respondent payments are outside this cancellation check. Reviewed by Codex under explicit user delegation, not a named human attestation.",
+      "last_verified_utc": "2026-09-06T21:51:45.342Z",
+      "review_record": "docs/reviews/typeform-cancellation-admission-20260907.json",
+      "fetch_lanes": ["zendesk_api", "direct"],
+      "backup_urls": ["https://help.typeform.com/hc/en-us/articles/360038887692-What-happens-if-I-cancel-my-paid-account"]
+    },
     "1password": {
       "url": "https://support.1password.com/cancel-subscription/",
       "notes": "Cancel anytime; access until end of billing cycle",

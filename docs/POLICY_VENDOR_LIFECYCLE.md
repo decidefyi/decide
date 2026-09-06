@@ -17,7 +17,7 @@ The daily checker derives lifecycle state per vendor-policy pair:
 
 New policy API and MCP evaluations require validated runtime evidence. The server reads a checksum-validated, complete snapshot through the service-only database boundary. It never uses a checked-in file as a runtime fallback. Missing, expired, changed, corrupt or unavailable evidence selects `UNKNOWN` with `automation_safe: false` through Rulebook v1. A failed source fetch alone does not invalidate a still-current reviewed evidence window.
 
-Freshness is per vendor-policy pair: 30 days for refund/cancel/return, 7 days for trial, at most 90 days since human verification and 72 hours since snapshot generation. The earliest deadline wins. The report's `runtime_enforcement_active` describes this code contract, not an independently verified production deployment. See [runtime evidence and rollout](POLICY_EVIDENCE_HARDENING.md).
+Freshness is per vendor-policy pair: 30 days for refund/cancel/return, 7 days for trial, at most 90 days since recorded source verification and 72 hours since snapshot generation. Verification provenance identifies human or delegated automated review separately. The earliest deadline wins. The report's `runtime_enforcement_active` describes this code contract, not an independently verified production deployment. See [runtime evidence and rollout](POLICY_EVIDENCE_HARDENING.md).
 
 ## Candidate admission
 
@@ -41,11 +41,30 @@ Skillshare, Vimeo, Typeform, Miro, monday.com, Thinkific, and ClickUp are monito
 
 Manual applicability approval requires `review_owner`, `reviewed_by`, `reviewed_at_utc`, `review_scope`, `review_id`, HTTPS `evidence_urls` and a scoped not-applicable disposition. A flag alone is not sign-off. Future-dated or 90-day-old approvals do not satisfy admission.
 
-Candidate vendors are part of the tracked network, not the supported-vendor contract. The coverage scorecard keeps three numbers separate:
+Unadmitted candidate policy surfaces are not supported. A vendor may have an
+admitted policy and still have other policies under candidate review. The
+registry records those separately in `admitted_policies` and `policies`; they
+must not overlap. Each admission references its scope and review record, and
+the scorecard checks that the corresponding production rule exists.
 
-- `tracked`: admitted production vendors plus isolated candidates under observation.
-- `admitted`: reviewed vendors present in production rulebooks.
+The coverage scorecard keeps three numbers separate:
+
+- `tracked`: distinct vendors across admitted and candidate policy surfaces.
+- `admitted`: vendors with at least one reviewed policy present in production rulebooks.
 - `decision-ready`: production policy surfaces with deterministic or conditional decision modes.
+
+### Typeform cancellation admission
+
+The [Typeform integration](TYPEFORM_CANCELLATION.md) adds cancellation only for
+US direct self-serve Basic platform subscriptions. Source review was performed
+by Codex under the user's explicit delegation, recorded without claiming human
+sign-off. This scoped admission does not approve the pending goods-return
+applicability review or imply refund/trial support. The lifecycle reports
+`partially_admitted`, and remaining candidate sources continue to be monitored.
+
+The separate local research preview remains advisory. The production code uses
+the same trusted runtime evidence reader as every other vendor, not that preview
+or its checked-in research bundle. Release verification is a separate step.
 
 ## Generated evidence
 

@@ -13,7 +13,7 @@ export const TOOL = {
   name: "cancellation_penalty",
   title: "Check cancellation penalty",
   description:
-    "Evaluate whether cancelling a US consumer subscription incurs a penalty or lock. Returns UNKNOWN when billing cadence is required or the policy needs manual review.",
+    "Check US subscription cancellation terms without executing cancellation. Typeform requires Basic, direct/self-serve platform subscription scope and returns CANCEL_AT_PERIOD_END, not an immediate cancellation or refund. Missing scope or current evidence returns UNKNOWN.",
   inputSchema: {
     type: "object",
     additionalProperties: false,
@@ -30,22 +30,30 @@ export const TOOL = {
       },
       plan: {
         type: "string",
-        enum: ["individual"],
-        description: "Plan type. Currently only 'individual' plans are supported.",
+        enum: ["individual", "basic"],
+        description: "Use 'basic' for Typeform; 'individual' for other supported vendors.",
       },
       billing_cadence: {
         type: "string",
         enum: ["monthly", "annual"],
         description: "Required when the vendor applies different cancellation terms to monthly and annual plans.",
       },
+      product: { type: "string", enum: ["platform_subscription"], description: "Required for Typeform. Excludes payments collected from form respondents." },
+      purchase_channel: { type: "string", enum: ["direct"], description: "Required for Typeform. Third-party purchases are not covered." },
+      contract_type: { type: "string", enum: ["self_serve"], description: "Required for Typeform. Custom and enterprise contracts are not covered." },
+      requested_action: { type: "string", enum: ["cancel_at_period_end"], description: "Required for Typeform. Checks ending renewal at the paid term end; does not execute it." },
     },
     required: ["vendor", "region", "plan"],
   },
-  outputSchema: buildPolicyMcpOutputSchema(["FREE_CANCEL", "PENALTY", "LOCKED", "UNKNOWN"], {
+  outputSchema: buildPolicyMcpOutputSchema(["FREE_CANCEL", "CANCEL_AT_PERIOD_END", "PENALTY", "LOCKED", "UNKNOWN"], {
     policy: { type: "string" },
     penalty: { type: "string" },
     notice_days: { type: "number" },
     billing_cadence: { type: ["string", "null"] },
+    cancellation_effective: { type: "string", enum: ["paid_term_end"] },
+    execution_performed: { type: "boolean", const: false },
+    cancellation_confirmed: { type: "boolean", const: false },
+    refund: { type: "string", enum: ["not_evaluated"] },
   }),
   annotations: { ...POLICY_MCP_READ_ONLY_ANNOTATIONS },
 };

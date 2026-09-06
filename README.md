@@ -4,7 +4,7 @@
 
 [![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://decide.fyi)
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
-[![Vendors](https://img.shields.io/badge/vendors-100-orange.svg)](https://decide.fyi)
+[![Vendors](https://img.shields.io/badge/vendors-101-orange.svg)](https://decide.fyi)
 
 **Positioning:** Decide is the API engine and compatibility surface. Krafthaus workflow apps, Policy MCP Notaries, decision memo packets, and execution gates are application surfaces that reuse the same verdict, request ID, and evidence contract.
 
@@ -205,11 +205,11 @@ Package release requirements and source mapping are documented in
 |--------|--------|------|----------|
 | **Policy Notaries** | [policy.decide.fyi](https://policy.decide.fyi) | All 4 tools below | Policy-specific verdicts |
 | **Refund Notary** | [refund.decide.fyi](https://refund.decide.fyi) | `refund_eligibility` | ALLOWED / DENIED / UNKNOWN |
-| **Cancel Notary** | [cancel.decide.fyi](https://cancel.decide.fyi) | `cancellation_penalty` | FREE_CANCEL / PENALTY / LOCKED / UNKNOWN |
+| **Cancel Notary** | [cancel.decide.fyi](https://cancel.decide.fyi) | `cancellation_penalty` | FREE_CANCEL / CANCEL_AT_PERIOD_END / PENALTY / LOCKED / UNKNOWN |
 | **Return Notary** | [return.decide.fyi](https://return.decide.fyi) | `return_eligibility` | RETURNABLE / EXPIRED / NON_RETURNABLE / UNKNOWN |
 | **Trial Notary** | [trial.decide.fyi](https://trial.decide.fyi) | `trial_terms` | TRIAL_AVAILABLE / NO_TRIAL / UNKNOWN |
 
-All servers: 100 vendor identifiers, US region, individual plans, stateless, no auth, 100 req/min. Results fail closed to `UNKNOWN` when the available facts cannot support an automated verdict.
+Stateless, no auth, 100 req/min. Coverage is policy-specific: 100 existing US individual-plan vendors, plus scoped Typeform Basic cancellation only. Results fail closed to `UNKNOWN` when scope or current reviewed evidence is missing. See [Typeform integration](docs/TYPEFORM_CANCELLATION.md).
 
 ## Quick Start
 
@@ -433,12 +433,13 @@ Evaluates availability and terms from a live offer observation. It does not publ
 
 ---
 
-## Supported Vendor Registry (100)
+## Supported Vendor Registry (101 distinct vendors)
 
 The versioned JSON registries are the canonical vendor catalog. A compact Markdown
 table is intentionally not duplicated here because policy windows, channels, and
-approval branches can change independently. Contract tests require the same 100
-identifiers in every rule and source registry.
+approval branches can change independently. Contract tests require each policy's
+rules, sources and discovery to agree. Typeform is admitted for cancellation
+only, not refund, return or trial.
 
 | Family | Rules | Official-source registry | Automation classification |
 |--------|-------|--------------------------|---------------------------|
@@ -452,11 +453,11 @@ identifiers in every rule and source registry.
 - `review_only`: the policy depends on approval, channel, commitment, exceptions, or source language that is not categorical enough to automate.
 - `observed`: the current account or promotion must expose a live offer before trial terms can be returned.
 
-**Scope:** US region, individual plans only.
+**Scope:** US individual plans by default. Typeform cancellation has an explicit Basic, direct, self-serve platform-subscription override.
 
 ## Data Freshness
 
-Each policy family has versioned rules and source metadata for 100 vendor identifiers.
+Each policy family has versioned rules and source metadata. Cancellation has 101 vendor identifiers; the other three families have 100 each.
 The source tracker monitors official vendor documentation and terms of service;
 it does not automatically promote page text into a verdict.
 

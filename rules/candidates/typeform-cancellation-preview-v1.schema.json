@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local Typeform cancellation candidate preview, never production authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "authority", "candidate_status", "production_verdict", "automation_safe",
+    "decision", "verdict", "action", "reason_code", "effective_at", "refund_eligibility",
+    "cancellation_confirmed", "execution_performed", "request_hash", "decision_input_hash",
+    "rulebook", "evaluated_at", "validation_errors", "research_evidence"
+  ],
+  "properties": {
+    "schema_version": { "const": "typeform_cancellation_candidate_preview_v1" },
+    "authority": { "const": "advisory_only" },
+    "candidate_status": { "const": "not_admitted" },
+    "production_verdict": { "const": false },
+    "automation_safe": { "const": false },
+    "decision": { "enum": ["yes", "review"] },
+    "verdict": { "enum": ["CANCEL_AT_PERIOD_END", "UNKNOWN"] },
+    "action": { "type": "string", "minLength": 1 },
+    "reason_code": { "type": "string", "minLength": 1 },
+    "effective_at": { "type": ["string", "null"] },
+    "refund_eligibility": { "const": "not_evaluated" },
+    "cancellation_confirmed": { "const": false },
+    "execution_performed": { "const": false },
+    "request_hash": { "$ref": "#/$defs/hash" },
+    "decision_input_hash": { "$ref": "#/$defs/hash" },
+    "evaluated_at": { "type": ["string", "null"] },
+    "synthetic": { "type": "boolean" },
+    "rulebook": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "id", "version", "hash"],
+      "properties": {
+        "schema_version": { "const": "rulebook_v1" },
+        "id": { "const": "typeform_subscription_cancellation_candidate" },
+        "version": { "type": "string", "minLength": 1 },
+        "hash": { "$ref": "#/$defs/hash" }
+      }
+    },
+    "validation_errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "code", "message"],
+        "properties": {
+          "field": { "type": "string" },
+          "code": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "research_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "snapshot_fresh", "production_evidence"],
+      "properties": {
+        "status": { "enum": ["snapshot_fresh", "unavailable", "expired"] },
+        "snapshot_fresh": { "type": "boolean" },
+        "production_evidence": { "const": false },
+        "reason": { "type": "string" },
+        "assessed_by": { "type": "string" },
+        "human_approval": { "const": false },
+        "snapshot_hash": { "$ref": "#/$defs/hash" },
+        "source_urls": { "type": "array", "items": { "type": "string" } },
+        "valid_until": { "type": ["string", "null"] }
+      }
+    }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

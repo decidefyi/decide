@@ -1,0 +1,55 @@
+{
+  "schema_version": "policy_candidate_research_v1",
+  "review_id": "typeform-cancellation-candidate-20260906",
+  "vendor": "typeform",
+  "policy": "cancel",
+  "assessed_by": "Codex automated research",
+  "scope_selection_authority": "explicit_user_delegation",
+  "human_approval": false,
+  "production_admitted": false,
+  "scope": "US direct self-serve Typeform Basic subscription, active prepaid monthly or annual term, organization owner or admin, cancellation at actual term end only.",
+  "excluded": [
+    "Plus, Business, Growth, Enterprise and custom or legacy agreements",
+    "third-party billing or respondent purchases",
+    "add-on-only cancellation",
+    "trial or free accounts",
+    "immediate deletion, immediate termination, refund entitlement or proof of execution"
+  ],
+  "sources": [
+    {
+      "article_id": "360060804271",
+      "url": "https://help.typeform.com/hc/en-us/articles/360060804271-Cancel-your-Typeform-plan",
+      "fetch_url": "https://help.typeform.com/api/v2/help_center/en-us/articles/360060804271.json",
+      "checked_at": "2026-09-06T21:51:45.342Z",
+      "source_updated_at": "2026-09-01T14:14:45Z",
+      "body_sha256": "3ce2ad5b85758dfc71fad6cc37bed9e3818f0f6cfeb2d9cfe2cf4d8224be0abb",
+      "finding": "Cancellation requires the completed survey and final confirmation. Access changes at paid-term end; starting the flow does not prove success."
+    },
+    {
+      "article_id": "360038887692",
+      "url": "https://help.typeform.com/hc/en-us/articles/360038887692-What-happens-if-I-cancel-my-paid-account",
+      "fetch_url": "https://help.typeform.com/api/v2/help_center/en-us/articles/360038887692.json",
+      "checked_at": "2026-09-06T21:51:45.747Z",
+      "source_updated_at": "2026-08-09T16:46:16Z",
+      "body_sha256": "cd4449256924b7312e5cae694834f1f167f0c6b2d34ceab7dce0cc8b52758b89",
+      "finding": "Monthly and annual cancellation takes effect at the actual prepaid expiry. Paid-feature forms may close; stored responses remain. Refunds are a separate policy question."
+    },
+    {
+      "article_id": "360029663851",
+      "url": "https://help.typeform.com/hc/en-us/articles/360029663851-Organization-account-and-profile-settings",
+      "fetch_url": "https://help.typeform.com/api/v2/help_center/en-us/articles/360029663851.json",
+      "checked_at": "2026-09-06T21:51:46.029Z",
+      "source_updated_at": "2026-07-29T04:38:02Z",
+      "body_sha256": "5fa6dd1cc3fe09d483fb3f3f8aca6df10993e62f5c7a837f6c5b2ab275bbbfe5",
+      "finding": "Organization settings are accessible to organization owners and admins; Plan and Billing contains subscription controls. An asserted role is not authentication."
+    }
+  ],
+  "release_prerequisites": [
+    "Review and admit the exact vendor-policy scope without implying coverage of the other policy families.",
+    "Represent product, plan and purchase channel in the public request and cross-repository binding contracts.",
+    "Use reviewed, monitored source evidence through the service-only runtime boundary. This research file is not runtime evidence.",
+    "Bind fresh account facts and authenticated authority to the same organization using a trusted adapter.",
+    "Keep user consent, execution and provider confirmation in the application layer.",
+    "Verify exact-source CI and approve a separate production release."
+  ]
+}

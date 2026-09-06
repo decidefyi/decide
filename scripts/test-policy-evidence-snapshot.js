@@ -12,7 +12,8 @@ const report = {
   }))),
 };
 const snapshot = buildPolicyEvidenceSnapshot(report);
-assert.equal(snapshot.policies.length, 400);
+const expectedSurfaces = Object.values(catalog).reduce((sum, family) => sum + Object.keys(family.vendors).length, 0);
+assert.equal(snapshot.policies.length, expectedSurfaces);
 const heldReport = structuredClone(report);
 heldReport.rows[0].status = 'fetch_failed';
 heldReport.rows[0].pending_candidate = true;
@@ -37,7 +38,7 @@ const fetchImpl = async (url, init) => {
 };
 const loaded = await loadPolicyEvidenceSnapshot({ env, fetchImpl, now });
 assert.equal(loaded?.snapshot_hash, artifact.content_sha256);
-assert.equal(loaded?.policies.length, 400);
+assert.equal(loaded?.policies.length, expectedSurfaces);
 console.log("PASS: generated monitoring evidence loads through the validated durable-state boundary");
 
 for (const mutate of [

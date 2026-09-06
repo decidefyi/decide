@@ -1,0 +1,34 @@
+{
+  "schema_version": "policy_scoped_admission_v1",
+  "vendor": "typeform",
+  "policy": "cancel",
+  "reviewed_by": "Codex",
+  "review_method": "automated_primary_source_review_under_explicit_user_delegation",
+  "human_attestation": false,
+  "source_review_record": "docs/reviews/typeform-cancellation-candidate-20260906.json",
+  "source_verified_at": "2026-09-06T21:51:45.342Z",
+  "monitoring_admission_evidence": {
+    "workflow_run_url": "https://github.com/decidefyi/decide/actions/runs/34058852109",
+    "artifact": "rules/policy-vendor-lifecycle.json",
+    "artifact_sha256": "df277f7f5e8d47db66b86c7f981a298905c73b708614ae10ce2096a29c64b63a",
+    "generated_at": "2026-09-06T21:14:01.000Z",
+    "observation_count": 101,
+    "success_count": 101,
+    "success_rate": 1,
+    "hash_stability_rate": 1,
+    "consecutive_failures": 0,
+    "cancel_ready_for_review": true,
+    "not_a_runtime_evidence_fallback": true
+  },
+  "decision": "admit_scoped_policy",
+  "scope": {
+    "region": "US", "plan": "basic", "product": "platform_subscription",
+    "purchase_channel": "direct", "contract_type": "self_serve",
+    "billing_cadence": ["monthly", "annual"], "requested_action": "cancel_at_period_end"
+  },
+  "outcome": "CANCEL_AT_PERIOD_END",
+  "excluded": ["refund_entitlement", "goods_returns", "trial_terms", "respondent_payments", "enterprise_contracts", "third_party_purchases", "immediate_termination"],
+  "runtime_evidence_required": true,
+  "execution_performed": false,
+  "rationale": "Official Typeform cancellation guidance establishes ending renewal at the prepaid term end after completing the provider flow. The check does not authenticate an operator, execute that flow, confirm success or decide refund rights. Other policy admissions remain independent."
+}

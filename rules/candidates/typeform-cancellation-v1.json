@@ -1,0 +1,79 @@
+{
+  "schema_version": "rulebook_v1",
+  "rulebook_id": "typeform_subscription_cancellation_candidate",
+  "version": "2026-09-06-draft.1",
+  "input_schema": {
+    "required": ["request", "request_valid", "account_context_current", "research_snapshot_fresh"],
+    "properties": {
+      "request": { "type": "object" },
+      "request_valid": { "type": "boolean" },
+      "account_context_current": { "type": "boolean" },
+      "research_snapshot_fresh": { "type": "boolean" }
+    }
+  },
+  "rules": [
+    {
+      "rule_id": "review_invalid_request",
+      "priority": 1000,
+      "condition": { "field": "request_valid", "operator": "eq", "value": false },
+      "outcome": {
+        "decision": "review",
+        "verdict": "UNKNOWN",
+        "action": "collect_valid_subscription_facts",
+        "reason_code": "INVALID_CANDIDATE_REQUEST"
+      }
+    },
+    {
+      "rule_id": "review_research_snapshot",
+      "priority": 900,
+      "condition": { "field": "research_snapshot_fresh", "operator": "eq", "value": false },
+      "outcome": {
+        "decision": "review",
+        "verdict": "UNKNOWN",
+        "action": "refresh_candidate_research",
+        "reason_code": "RESEARCH_EVIDENCE_NOT_CURRENT"
+      }
+    },
+    {
+      "rule_id": "review_account_context",
+      "priority": 800,
+      "condition": { "field": "account_context_current", "operator": "eq", "value": false },
+      "outcome": {
+        "decision": "review",
+        "verdict": "UNKNOWN",
+        "action": "refresh_subscription_facts",
+        "reason_code": "ACCOUNT_CONTEXT_NOT_CURRENT"
+      }
+    },
+    {
+      "rule_id": "preview_direct_basic_period_end",
+      "priority": 100,
+      "condition": {
+        "all": [
+          { "field": "request.vendor", "operator": "eq", "value": "typeform" },
+          { "field": "request.region", "operator": "eq", "value": "US" },
+          { "field": "request.product", "operator": "eq", "value": "platform_subscription" },
+          { "field": "request.plan", "operator": "eq", "value": "basic" },
+          { "field": "request.purchase_channel", "operator": "eq", "value": "direct" },
+          { "field": "request.contract_type", "operator": "eq", "value": "self_serve" },
+          { "field": "request.billing_cadence", "operator": "in", "value": ["monthly", "annual"] },
+          { "field": "request.billing_state", "operator": "eq", "value": "active_paid" },
+          { "field": "request.requested_action", "operator": "eq", "value": "cancel_at_period_end" },
+          { "field": "request.actor_role", "operator": "in", "value": ["owner", "admin"] }
+        ]
+      },
+      "outcome": {
+        "decision": "yes",
+        "verdict": "CANCEL_AT_PERIOD_END",
+        "action": "preview_period_end_cancellation",
+        "reason_code": "PREPAID_PERIOD_END"
+      }
+    }
+  ],
+  "default_outcome": {
+    "decision": "review",
+    "verdict": "UNKNOWN",
+    "action": "review_subscription_scope",
+    "reason_code": "UNSUPPORTED_SUBSCRIPTION_SCOPE"
+  }
+}

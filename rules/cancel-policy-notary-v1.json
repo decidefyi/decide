@@ -1,7 +1,7 @@
 {
   "schema_version": "rulebook_v1",
   "rulebook_id": "cancel_policy_notary",
-  "version": "2026-09-06",
+  "version": "2026-09-07",
   "input_schema": {
     "required": [
       "policy_request",
@@ -45,6 +45,17 @@
     }
   },
   "rules": [
+    {
+      "rule_id": "allow_period_end_cancellation",
+      "priority": 310,
+      "condition": { "field": "policy", "operator": "eq", "value": "cancel_at_period_end" },
+      "outcome": {
+        "decision": "yes",
+        "verdict": "CANCEL_AT_PERIOD_END",
+        "action": "schedule_cancellation_at_period_end",
+        "reason_code": "PAID_TERM_END_CANCELLATION"
+      }
+    },
     {
       "rule_id": "review_unsupported_region",
       "priority": 500,
