@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { buildPolicyCoverageScorecard } from '../lib/policy-coverage-scorecard.js';
+import { buildPolicyVendorLifecycleReport } from '../lib/policy-vendor-lifecycle.js';
+import { readPolicyEvidenceCatalog } from '../lib/policy-evidence-snapshot.js';
+const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
+const candidateRegistry = read('../rules/policy-vendor-candidates.json');
+const rulebooks = Object.fromEntries(Object.entries({ refund: 'v1_us_individual', cancel: 'v1_us_individual_cancel',
+  return: 'v1_us_individual_return', trial: 'v1_us_individual_trial' }).map(([policy, file]) => [policy, read(`../rules/${file}.json`)]));
+const score = buildPolicyCoverageScorecard({ rulebooks, candidateRegistry });
+assert.equal(score.production.admitted_vendor_count, 101);
+assert.equal(score.production.configured_policy_surface_count, 401);
+assert.equal(score.network.tracked_vendor_count, 107, 'partial admission never double-counts a vendor');
+assert.deepEqual(Object.keys(candidateRegistry.candidates.typeform.admitted_policies), ['cancel']);
+assert.deepEqual(Object.keys(candidateRegistry.candidates.typeform.policies).sort(), ['refund', 'return', 'trial']);
+const lifecycle = buildPolicyVendorLifecycleReport({ candidateRegistry });
+const typeform = lifecycle.candidates.find(row => row.vendor === 'typeform');
+assert.equal(typeform.lifecycle, 'partially_admitted');
+assert.deepEqual(typeform.admitted_policies, ['cancel']);
+assert.equal(typeform.ready_for_review, false);
+const catalog = readPolicyEvidenceCatalog();
+assert.ok(catalog.cancel.vendors.typeform);
+for (const policy of ['refund', 'return', 'trial']) assert.equal(catalog[policy].vendors.typeform, undefined);
+const invalid = structuredClone(candidateRegistry);
+invalid.candidates.typeform.admitted_policies.refund = invalid.candidates.typeform.admitted_policies.cancel;
+assert.throws(() => buildPolicyCoverageScorecard({ rulebooks, candidateRegistry: invalid }), /admission/);
+console.log('PASS: partial admission, distinct tracking, remaining candidate policies and evidence catalog');

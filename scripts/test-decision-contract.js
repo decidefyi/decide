@@ -4556,13 +4556,14 @@ async function testWorkflowFixture() {
 }
 
 async function testUcpVendorEnumConsistency() {
-  const rules = loadJsonFromRepo("rules", "v1_us_individual.json");
   const ucp = loadJsonFromRepo("public", ".well-known", "ucp.json");
 
-  const expectedVendors = Object.keys(rules?.vendors || {}).sort((a, b) => a.localeCompare(b));
-  assert.ok(expectedVendors.length > 0, "rules vendor list should not be empty");
-
   for (const service of ucp?.services || []) {
+    const file = { refund_eligibility: "v1_us_individual.json", cancellation_penalty: "v1_us_individual_cancel.json",
+      return_eligibility: "v1_us_individual_return.json", trial_terms: "v1_us_individual_trial.json" }[service.tool_name];
+    assert.ok(file, "Unknown policy discovery tool");
+    const rules = loadJsonFromRepo("rules", file);
+    const expectedVendors = Object.keys(rules.vendors).sort((a, b) => a.localeCompare(b));
     const actual = Array.isArray(service?.inputs?.vendor?.enum)
       ? [...service.inputs.vendor.enum].sort((a, b) => a.localeCompare(b))
       : null;
@@ -4571,7 +4572,7 @@ async function testUcpVendorEnumConsistency() {
     assert.deepEqual(
       actual,
       expectedVendors,
-      `${service?.name || "unknown service"} vendor enum drifted from rules/v1_us_individual.json`
+      `${service?.name || "unknown service"} vendor enum drifted from its own ${file}`
     );
   }
 }

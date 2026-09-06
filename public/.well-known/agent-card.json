@@ -1,7 +1,7 @@
 {
   "name": "decide.fyi",
   "version": "1.3.1",
-  "description": "Fail-closed subscription policy notaries for US consumers. One canonical four-tool MCP server with stable specialist compatibility endpoints.",
+  "description": "Fail-closed US subscription policy notaries with policy-specific coverage. One canonical four-tool MCP server with stable specialist compatibility endpoints.",
   "url": "https://decide.fyi",
   "services": [
     {

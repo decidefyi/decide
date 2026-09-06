@@ -149,9 +149,11 @@ console.log("PASS coverage scorecard separates tracked, admitted, and decision-r
 testCandidateMetadataAndProductionIdsAreValidated();
 console.log("PASS coverage scorecard validates candidate metadata and admitted-vendor overlap");
 const checkedInRegistry = JSON.parse(readFileSync(new URL("../rules/policy-vendor-candidates.json", import.meta.url), "utf8"));
-const checkedInScorecard = buildPolicyCoverageScorecard({ ...buildFixture(), candidateRegistry: checkedInRegistry });
+const scopedFixture = buildFixture();
+scopedFixture.rulebooks.cancel.vendors.typeform = { decision_mode: "conditional" };
+const checkedInScorecard = buildPolicyCoverageScorecard({ ...scopedFixture, candidateRegistry: checkedInRegistry });
 assert.equal(checkedInScorecard.candidates.manual_review_surface_count, 7);
-assert.equal(checkedInScorecard.production.admitted_vendor_count, 2);
+assert.equal(checkedInScorecard.production.admitted_vendor_count, 3);
 const checkedInLifecycle = buildPolicyVendorLifecycleReport({ candidateRegistry: checkedInRegistry });
 assert.equal(checkedInLifecycle.candidates.length, 7);
 assert.equal(checkedInLifecycle.candidates.every(candidate => candidate.ready_for_review === false

@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-09-06 22:41:43 CEST
+Generated: 2026-09-07 00:48:35 CEST
 
 ## Scope
 
@@ -20,8 +20,8 @@ Companion artifacts:
 ### Function declarations
 
 ```text
-api/cancel-mcp.js:53:function formatTextMessage(payload) {
-api/cancel-mcp.js:63:export default createMcpHandler({
+api/cancel-mcp.js:61:function formatTextMessage(payload) {
+api/cancel-mcp.js:71:export default createMcpHandler({
 api/compliance-export.js:18:export default async function complianceExportHandler(req, res) {
 api/compliance-export.js:3:function sendJson(res, statusCode, payload) {
 api/compliance-export.js:9:function readFormat(req) {
@@ -156,13 +156,18 @@ lib/async-work-pool.js:23:  async function runWorker(workerIndex) {
 lib/blocked-fetch-reuse-cache.js:10:export function createBlockedFetchReuseCache({ isReusableFailure = isBlockedFetchFailure } = {}) {
 lib/blocked-fetch-reuse-cache.js:1:function isBlockedFetchFailure(value) {
 lib/blocked-fetch-reuse-cache.js:22:  const validateKey = (key) => {
-lib/cancel-compute.js:101:export function compute({ vendor, region, plan, billing_cadence }, { requireCompleteContext = true, evidenceSnapshot = null, now = new Date() } = {}) {
-lib/cancel-compute.js:268:export function getSupportedVendors() {
+lib/cancel-compute.js:101:export function compute(request, { requireCompleteContext = true, evidenceSnapshot = null, now = new Date() } = {}) {
 lib/cancel-compute.js:26:function withSource(result, vendor) {
-lib/cancel-compute.js:275:export function getRulesVersion() {
+lib/cancel-compute.js:301:export function getSupportedVendors() {
+lib/cancel-compute.js:308:export function getRulesVersion() {
 lib/cancel-compute.js:40:function withRulebook(result, vendor, rulebookResult) {
 lib/cancel-compute.js:52:export function validateInput({ vendor, region, plan, billing_cadence }) {
 lib/cancel-rulebook.js:12:export function evaluateCancelPolicyRulebook(inputs) {
+lib/candidates/typeform-cancellation.js:12:const digest = (value) => createHash("sha256").update(canonicalJson(value)).digest("hex");
+lib/candidates/typeform-cancellation.js:15:function strictUtcTimestamp(value) {
+lib/candidates/typeform-cancellation.js:22:function researchEvidence(snapshot, evaluatedTime) {
+lib/candidates/typeform-cancellation.js:46:export function previewTypeformCancellation(request, { now = new Date(), researchSnapshot = research } = {}) {
+lib/candidates/typeform-cancellation.js:8:const readJson = (path) => JSON.parse(readFileSync(new URL(path, import.meta.url), "utf8"));
 lib/compliance-export.js:109:function escapeCsv(value) {
 lib/compliance-export.js:115:function toCsv(rows) {
 lib/compliance-export.js:119:export function buildComplianceSnapshot(now = new Date()) {
@@ -263,10 +268,10 @@ lib/policy-coverage-scorecard.js:107:function countByCandidateMetadata(candidate
 lib/policy-coverage-scorecard.js:115:function validateCandidateUrl({
 lib/policy-coverage-scorecard.js:138:function buildCandidateCoverage(candidateRegistry = {}, lifecycleReport = {}) {
 lib/policy-coverage-scorecard.js:168:export function validatePolicyVendorCandidateRegistry(candidateRegistry = {}, admittedVendorIds = new Set()) {
-lib/policy-coverage-scorecard.js:231:export function buildPolicyCoverageScorecard({
+lib/policy-coverage-scorecard.js:239:export function buildPolicyCoverageScorecard({
 lib/policy-coverage-scorecard.js:24:function toFinitePositiveNumber(value, fallback) {
-lib/policy-coverage-scorecard.js:292:export function formatPolicyCoverageScorecardMarkdown(scorecard = {}) {
 lib/policy-coverage-scorecard.js:29:function percent(value, target) {
+lib/policy-coverage-scorecard.js:308:export function formatPolicyCoverageScorecardMarkdown(scorecard = {}) {
 lib/policy-coverage-scorecard.js:34:function productionVendorIds(rulebooks = {}) {
 lib/policy-coverage-scorecard.js:42:function decisionModeFor(policy, config = {}) {
 lib/policy-coverage-scorecard.js:49:function buildPolicyDepth(rulebooks = {}) {
@@ -341,7 +346,7 @@ lib/policy-vendor-lifecycle.js:16:function parseDate(value) {
 lib/policy-vendor-lifecycle.js:181:function aggregateMonitoredVendors(rows) {
 lib/policy-vendor-lifecycle.js:204:export function buildPolicyVendorLifecycleReport({
 lib/policy-vendor-lifecycle.js:21:function ageDays(value, now) {
-lib/policy-vendor-lifecycle.js:274:export function formatPolicyVendorLifecycleMarkdown(report = {}) {
+lib/policy-vendor-lifecycle.js:276:export function formatPolicyVendorLifecycleMarkdown(report = {}) {
 lib/policy-vendor-lifecycle.js:28:function normalizeAdmission(registry = {}) {
 lib/policy-vendor-lifecycle.js:47:export function evaluateMonitoredVendorPolicy(row = {}, {
 lib/policy-vendor-lifecycle.js:84:function evaluateCandidatePolicy({
@@ -942,9 +947,9 @@ scripts/test-decision-contract.js:443:async function testDecideProductionRequire
 scripts/test-decision-contract.js:4470:async function testReturnPolicyRulebookRequiresSignedAttestation() {
 scripts/test-decision-contract.js:4504:async function testWorkflowFixture() {
 scripts/test-decision-contract.js:4558:async function testUcpVendorEnumConsistency() {
-scripts/test-decision-contract.js:4579:function testRulebookRuntimeManifest() {
-scripts/test-decision-contract.js:4827:function testMcpPublisherSupplyChain() {
-scripts/test-decision-contract.js:4870:async function main() {
+scripts/test-decision-contract.js:4580:function testRulebookRuntimeManifest() {
+scripts/test-decision-contract.js:4828:function testMcpPublisherSupplyChain() {
+scripts/test-decision-contract.js:4871:async function main() {
 scripts/test-decision-contract.js:494:async function testDecideRuntimeFixture() {
 scripts/test-decision-contract.js:62:function loadFixture(fileName) {
 scripts/test-decision-contract.js:66:function loadJsonFromRepo(...segments) {
@@ -995,7 +1000,7 @@ scripts/test-policy-alerts-api.js:86:function testAppliesRecordedPolicyEventRevi
 scripts/test-policy-coverage-scorecard.js:115:function testCandidateMetadataAndProductionIdsAreValidated() {
 scripts/test-policy-coverage-scorecard.js:12:function buildFixture() {
 scripts/test-policy-coverage-scorecard.js:97:function testScorecardSeparatesTrackedFromAdmittedCoverage() {
-scripts/test-policy-evidence-snapshot.js:33:const fetchImpl = async (url, init) => {
+scripts/test-policy-evidence-snapshot.js:34:const fetchImpl = async (url, init) => {
 scripts/test-policy-feed.js:13:function loadFixture(fileName) {
 scripts/test-policy-feed.js:17:function runFixture(fileName) {
 scripts/test-policy-feed.js:36:function testIdempotentDuplicateSuppression() {
@@ -1047,6 +1052,8 @@ scripts/test-policy-vendor-lifecycle.js:11:function testCurrentDegradedAndExpire
 scripts/test-policy-vendor-lifecycle.js:38:function successObservation(slot) {
 scripts/test-policy-vendor-lifecycle.js:42:function testCandidateNeedsBurnInAndHumanApplicabilityReview() {
 scripts/test-release-gates.js:8:function read(path) {
+scripts/test-typeform-cancellation-integration.js:14:const evaluate = (input, evidenceSnapshot = testPolicyEvidenceSnapshot) => compute(input, { evidenceSnapshot });
+scripts/test-typeform-cross-repository.js:33:const network = async (url, options = {}) => {
 scripts/verify-policy-alerts-bridge.js:121:async function fetchJson(url) {
 scripts/verify-policy-alerts-bridge.js:141:async function main() {
 scripts/verify-policy-alerts-bridge.js:16:function sleep(ms) {
@@ -1143,6 +1150,11 @@ lib/cancel-rulebook.js:3:import { buildRulebookAttestation } from "./rulebook-at
 lib/cancel-rulebook.js:4:import { isRulebookAttestationSignatureRequired } from "./rulebook-attestation-signing.js";
 lib/cancel-rulebook.js:5:import { evaluateRulebookV1 } from "./rulebook-v1.js";
 lib/cancel-rulebook.js:6:import { attachPolicyDecisionMaterial } from "./policy-decision-material.js";
+lib/candidates/typeform-cancellation.js:1:import { createHash } from "node:crypto";
+lib/candidates/typeform-cancellation.js:2:import { readFileSync } from "node:fs";
+lib/candidates/typeform-cancellation.js:4:import { validateJsonSchemaSubset } from "../json-schema-subset.js";
+lib/candidates/typeform-cancellation.js:5:import { canonicalJson } from "../policy-request-binding.cjs";
+lib/candidates/typeform-cancellation.js:6:import { evaluateRulebookV1 } from "../rulebook-v1.js";
 lib/compliance-export.js:1:import { existsSync, readFileSync } from "node:fs";
 lib/compliance-export.js:2:import { dirname, join } from "node:path";
 lib/compliance-export.js:3:import { fileURLToPath } from "node:url";
@@ -1305,6 +1317,8 @@ scripts/generate-rulebook-runtime-manifest.js:5:import { fileURLToPath } from "n
 scripts/generate-rulebook-runtime-manifest.js:7:import { buildRulebookRuntimeManifest } from "../lib/rulebook-runtime-contract.js";
 scripts/lib/policy-feed-reliability.js:1:import { createHash } from "node:crypto";
 scripts/mcp-check-local.sh:40:      const net = require("node:net");
+scripts/preview-typeform-cancellation.js:2:import { readFileSync } from "node:fs";
+scripts/preview-typeform-cancellation.js:3:import { previewTypeformCancellation } from "../lib/candidates/typeform-cancellation.js";
 scripts/report-mcp-adoption.js:3:import { getMcpAdoptionReport } from "../lib/mcp-adoption-store.js";
 scripts/request-query-regression.test.js:1:import assert from "node:assert/strict";
 scripts/request-query-regression.test.js:2:import fs from "node:fs";
@@ -1461,6 +1475,11 @@ scripts/test-policy-review.js:5:import { buildPolicyReviewUpdate } from "../lib/
 scripts/test-policy-runtime-evidence.js:1:import assert from "node:assert/strict";
 scripts/test-policy-runtime-evidence.js:2:import { compute } from "../lib/cancel-compute.js";
 scripts/test-policy-runtime-evidence.js:3:import { readFileSync } from "node:fs";
+scripts/test-policy-scoped-admission.js:1:import assert from 'node:assert/strict';
+scripts/test-policy-scoped-admission.js:2:import { readFileSync } from 'node:fs';
+scripts/test-policy-scoped-admission.js:3:import { buildPolicyCoverageScorecard } from '../lib/policy-coverage-scorecard.js';
+scripts/test-policy-scoped-admission.js:4:import { buildPolicyVendorLifecycleReport } from '../lib/policy-vendor-lifecycle.js';
+scripts/test-policy-scoped-admission.js:5:import { readPolicyEvidenceCatalog } from '../lib/policy-evidence-snapshot.js';
 scripts/test-policy-state-integrity.js:1:import assert from 'node:assert/strict';
 scripts/test-policy-state-integrity.js:2:import { createHash } from 'node:crypto';
 scripts/test-policy-state-integrity.js:3:import { validatePolicyStateArtifacts } from '../lib/policy-state-integrity.js';
@@ -1489,6 +1508,39 @@ scripts/test-sdk-package.js:5:import path from 'node:path';
 scripts/test-sdk-package.js:6:import { execFileSync } from 'node:child_process';
 scripts/test-sdk-package.js:7:import { createRequire } from 'node:module';
 scripts/test-sdk-package.js:8:import { fileURLToPath } from 'node:url';
+scripts/test-typeform-cancellation-candidate.js:1:import assert from "node:assert/strict";
+scripts/test-typeform-cancellation-candidate.js:2:import { test } from "node:test";
+scripts/test-typeform-cancellation-candidate.js:3:import { readFileSync } from "node:fs";
+scripts/test-typeform-cancellation-candidate.js:4:import { spawnSync } from "node:child_process";
+scripts/test-typeform-cancellation-candidate.js:5:import { fileURLToPath } from "node:url";
+scripts/test-typeform-cancellation-candidate.js:6:import Ajv2020 from "ajv/dist/2020.js";
+scripts/test-typeform-cancellation-candidate.js:8:import { previewTypeformCancellation } from "../lib/candidates/typeform-cancellation.js";
+scripts/test-typeform-cancellation-integration.js:1:import { testPolicyEvidenceSnapshot } from './test-helpers/install-policy-evidence-fixture.js';
+scripts/test-typeform-cancellation-integration.js:2:import assert from 'node:assert/strict';
+scripts/test-typeform-cancellation-integration.js:3:import Ajv from 'ajv';
+scripts/test-typeform-cancellation-integration.js:4:import { compute, getSupportedVendors } from '../lib/cancel-compute.js';
+scripts/test-typeform-cancellation-integration.js:5:import { bindPolicyRequest, policyRequestMatchesInputs } from '../lib/policy-request-binding.cjs';
+scripts/test-typeform-cancellation-integration.js:6:import cancelRest from '../lib/routes/v1/policies/cancel-penalty.js';
+scripts/test-typeform-cancellation-integration.js:7:import cancelMcp from '../api/cancel-mcp.js';
+scripts/test-typeform-cancellation-integration.js:8:import policyMcp from '../api/policy-mcp.js';
+scripts/test-typeform-cancellation-integration.js:9:import { invokeJson } from './test-helpers/http-harness.js';
+scripts/test-typeform-cancellation-isolation.js:1:import "./test-helpers/install-policy-evidence-fixture.js";
+scripts/test-typeform-cancellation-isolation.js:2:import assert from "node:assert/strict";
+scripts/test-typeform-cancellation-isolation.js:3:import { readFileSync } from "node:fs";
+scripts/test-typeform-cancellation-isolation.js:5:import { getSupportedVendors } from "../lib/cancel-compute.js";
+scripts/test-typeform-cancellation-isolation.js:6:import cancelRest from "../lib/routes/v1/policies/cancel-penalty.js";
+scripts/test-typeform-cancellation-isolation.js:7:import cancelMcp from "../api/cancel-mcp.js";
+scripts/test-typeform-cancellation-isolation.js:8:import policyMcp from "../api/policy-mcp.js";
+scripts/test-typeform-cancellation-isolation.js:9:import { invokeJson } from "./test-helpers/http-harness.js";
+scripts/test-typeform-cross-repository.js:10:import { invokeJson } from './test-helpers/http-harness.js';
+scripts/test-typeform-cross-repository.js:2:import './test-helpers/install-policy-evidence-fixture.js';
+scripts/test-typeform-cross-repository.js:3:import assert from 'node:assert/strict';
+scripts/test-typeform-cross-repository.js:4:import { createRequire } from 'node:module';
+scripts/test-typeform-cross-repository.js:5:import { mkdtempSync, readFileSync } from 'node:fs';
+scripts/test-typeform-cross-repository.js:6:import { join, resolve } from 'node:path';
+scripts/test-typeform-cross-repository.js:7:import { tmpdir } from 'node:os';
+scripts/test-typeform-cross-repository.js:8:import cancelRest from '../lib/routes/v1/policies/cancel-penalty.js';
+scripts/test-typeform-cross-repository.js:9:import decide from '../api/decide.js';
 scripts/workflow-zendesk-refund-test.js:1:import "./test-helpers/install-policy-evidence-fixture.js";
 scripts/workflow-zendesk-refund-test.js:2:import zendeskWorkflowRoute from "../api/v1/workflows/zendesk/[workflow].js";
 ```

@@ -1,7 +1,8 @@
 {
-  "rules_version": "2026-07-16",
-  "scope": {"region":"US","plan":"individual"},
+  "rules_version": "2026-09-07",
+  "scope": {"region":"US","plan":"individual","vendor_scope_overrides":true},
   "vendors": {
+    "typeform": {"policy":"cancel_at_period_end","penalty":"none","notice_days":0,"notes":"Direct self-serve Basic platform subscriptions only. Complete the provider cancellation flow before renewal. Cancellation takes effect at the paid term end; this check does not cancel the account or evaluate refunds.","decision_mode":"conditional","billing_cadence_required":true,"monthly_policy":"cancel_at_period_end","monthly_penalty":"none","supported_plan":"basic","required_scope":{"product":"platform_subscription","purchase_channel":"direct","contract_type":"self_serve","requested_action":"cancel_at_period_end"}},
     "1password": {"policy":"free_cancel","penalty":"none","notice_days":0,"notes":"Cancel anytime; access continues until end of billing cycle","decision_mode":"deterministic"},
     "adobe": {"policy":"etf","penalty":"50% of remaining months on annual plan","notice_days":0,"notes":"Annual plan: early termination fee of 50% remaining balance; monthly: cancel anytime","decision_mode":"conditional","billing_cadence_required":true,"monthly_policy":"free_cancel","monthly_penalty":"none"},
     "amazon_music_unlimited": {"policy":"free_cancel","penalty":"none","notice_days":0,"notes":"Cancel anytime; access continues until end of billing period.","decision_mode":"deterministic"},

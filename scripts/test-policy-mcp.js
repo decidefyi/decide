@@ -752,7 +752,7 @@ function testPublishesCanonicalDiscoveryMetadata() {
     { type: "streamable-http", url: "https://policy.decide.fyi/api/mcp" },
   ]);
   assert.equal(serverCard.serverInfo?.name, "policy.decide.fyi");
-  assert.match(serverCard.serverInfo?.description || "", /100 US subscription vendors/);
+  assert.match(serverCard.serverInfo?.description || "", /policy-specific coverage/);
   assert.deepEqual(serverCard.serverInfo?.icons, [
     {
       src: "https://policy.decide.fyi/favicon.svg",

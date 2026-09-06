@@ -21,6 +21,8 @@
     "test:policy-mcp-http": "node scripts/test-policy-mcp-http.js",
     "test:policy-evidence-postgres": "node scripts/test-policy-evidence-postgres.js",
     "test:policy-candidate-reviews": "node scripts/test-policy-candidate-review-packet.js",
+    "test:typeform-cancellation": "node --test scripts/test-typeform-cancellation-candidate.js && node scripts/test-typeform-cancellation-integration.js && node scripts/test-policy-scoped-admission.js && node scripts/test-typeform-cancellation-isolation.js",
+    "preview:typeform-cancellation": "node scripts/preview-typeform-cancellation.js",
     "test:policy-evidence": "node scripts/test-policy-state-integrity.js && node scripts/test-policy-evidence-snapshot.js && node scripts/test-policy-runtime-evidence.js && node scripts/test-policy-evidence-transports.js",
     "test:mcp-distribution": "node scripts/test-mcp-distribution.js",
     "test:mcp-marketplaces": "node scripts/test-mcp-marketplace-packages.js",
