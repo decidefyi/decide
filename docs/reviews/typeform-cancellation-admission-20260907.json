@@ -6,7 +6,20 @@
   "review_method": "automated_primary_source_review_under_explicit_user_delegation",
   "human_attestation": false,
   "source_review_record": "docs/reviews/typeform-cancellation-candidate-20260906.json",
-  "source_verified_at": "2026-09-06T21:51:45.342Z",
+  "source_verified_at": "2026-09-06T23:10:29.475Z",
+  "post_baseline_review": {
+    "reviewed_by": "Codex",
+    "human_attestation": false,
+    "authority": "explicit_user_delegation",
+    "workflow_run_id": "34065015573",
+    "runtime_artifact_sha256": "76bd31b5e308cff9ac7a8303ea57ed910923f000c802d6e9a35113a51993050d",
+    "baseline_initialized_at": "2026-09-06T22:53:09Z",
+    "checked_at": "2026-09-06T23:10:29.475Z",
+    "cancellation_article_body_sha256": "3ce2ad5b85758dfc71fad6cc37bed9e3818f0f6cfeb2d9cfe2cf4d8224be0abb",
+    "billing_article_checked_at": "2026-09-06T23:10:29.859Z",
+    "billing_article_body_sha256": "cd4449256924b7312e5cae694834f1f167f0c6b2d34ceab7dce0cc8b52758b89",
+    "finding": "Both official article bodies are identical to the earlier reviewed research. The admitted monitor initialized its baseline after that review, which correctly withheld runtime approval. This new source review occurs after baseline initialization and confirms the same scoped period-end cancellation behavior. No crawler timestamp, runtime artifact or execution claim was altered."
+  },
   "monitoring_admission_evidence": {
     "workflow_run_url": "https://github.com/decidefyi/decide/actions/runs/34058852109",
     "artifact": "rules/policy-vendor-lifecycle.json",
