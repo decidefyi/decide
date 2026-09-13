@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-09-13T03:52:17Z",
+  "current_week": "2026-W37",
+  "weeks": [
+    {
+      "week_key": "2026-W37",
+      "generated_at_utc": "2026-09-13T03:52:17Z",
+      "pending_total": 21,
+      "fetch_blocked_total": 0,
+      "fetch_failed_total": 20,
+      "confirmed_changed_total": 2,
+      "volatile_pending_total": 0,
+      "escalation_candidate_total": 0,
+      "fallback_signal_actionable_total": 0,
+      "pending_by_policy": {
+        "refund": 6,
+        "cancel": 5,
+        "return": 5,
+        "trial": 5
+      },
+      "fetch_blocked_by_policy": {},
+      "confirmed_changed_by_policy": {
+        "refund": 1,
+        "cancel": 1
+      }
+    }
+  ]
+}
