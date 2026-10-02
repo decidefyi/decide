@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- Verify the private-preview `decision_authority_v1` extension as part of the
+  signed Decision Record. Adding, removing or altering its material invalidates
+  verification. Refuse unsafe or non-JSON authority values.
+- Existing records without the extension retain their hashes and verification
+  behavior. Signature verification does not check current authority, evidence
+  freshness, execution claims or external mutations.
+- This source support is not a published SDK release or a generally available
+  authority API. Assign and publish a compatible SDK version before enabling
+  records with this profile for external clients.
+
 ## 0.1.19
 
 - Clarifies that the public SDK is a published release rather than a release candidate.

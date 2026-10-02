@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "api/**"
+      - "contracts/**"
       - "docs/**"
       - "examples/candidates/**"
       - "lib/**"
@@ -15,6 +16,7 @@ on:
       - "scripts/**"
       - "sdk/**"
       - "README.md"
+      - "AGENTS.md"
       - "middleware.js"
       - "package.json"
       - "package-lock.json"
@@ -23,6 +25,7 @@ on:
   pull_request:
     paths:
       - "api/**"
+      - "contracts/**"
       - "docs/**"
       - "examples/candidates/**"
       - "lib/**"
@@ -32,6 +35,7 @@ on:
       - "scripts/**"
       - "sdk/**"
       - "README.md"
+      - "AGENTS.md"
       - "middleware.js"
       - "package.json"
       - "package-lock.json"

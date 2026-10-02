@@ -134,11 +134,41 @@ export interface RuntimeBinding {
   customer_supplied_code: 'rejected';
 }
 
+/** Private preview. Historical signed provenance, not current execution permission. */
+export interface DecisionAuthority {
+  schema_version: 'decision_authority_v1';
+  workspace_id: string;
+  binding_id: string;
+  binding_config_hash: string;
+  authority_epoch: number;
+  approved_by: string;
+  requester_id: string;
+  requester_revision: number;
+  source_id: string;
+  source_principal_id: string;
+  source_principal_revision: number;
+  operation_id: string;
+  snapshot_id: string;
+  snapshot_hash: string;
+  resource_version: string;
+  proposal: {
+    action: string;
+    mutation: string;
+    target_system: string;
+    target_id: string;
+    parameters: Record<string, unknown>;
+  };
+  issued_at_ms: number;
+  expires_at_ms: number;
+  execution_requirement: 'current_claim_required';
+}
+
 export interface DecisionRecord extends Record<string, unknown> {
   decision_id: string;
   request_id: string;
   decision: string;
   runtime_binding?: RuntimeBinding;
+  decision_authority?: DecisionAuthority;
   trusted_adapter?: TrustedAdapterAttestation;
   record_hash?: string;
   receipt_hash?: string;

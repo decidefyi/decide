@@ -8,6 +8,11 @@ Date: 2026-06-11
 
 Rulebook v1 is the public production determinism contract for Decide.
 
+Product ownership is defined in the [Ecosystem Constitution](ECOSYSTEM_CONSTITUTION.md).
+Decide is independent decision infrastructure; Krafthaus and other applications
+own their workflows, application interfaces and execution. This runtime contract
+does not make source-specific reference tools the definition of Decide.
+
 The production core is
 `hybrid_declarative_rulebook_with_trusted_adapters`. The runtime supports two
 binding modes:
@@ -142,7 +147,7 @@ clock, Web Crypto randomness, network, and timer globals before invoking the
 adapter. Adapter attempts to use or replace those globals fail with
 `TRUSTED_ADAPTER_CAPABILITY_DENIED`.
 
-Three Krafthaus application patterns now exercise this architecture:
+Application and reference patterns exercise this architecture:
 
 - Solana Execution Gate uses a registered trusted adapter to derive bounded
   execution facts before declarative evaluation.
@@ -158,6 +163,13 @@ Evaluator, rulebook, trusted-adapter, replay, and public response migrations are
 governed by [Rulebook Compatibility Policy](RULEBOOK_COMPATIBILITY_POLICY.md).
 
 ## Future Changes
+
+The existing developer path accepts caller-supplied rules. A deterministic
+evaluation proves what was evaluated, not that an independent owner approved
+those rules or the submitted facts. The separate approved-action authority
+profile is covered by the [production path](APPROVED_ACTION_PRODUCTION_PATH.md).
+It is not established by Rulebook v1 alone. Do not advertise the local prototype
+as a production service or change existing request authority implicitly.
 
 If Decide later supports customer-authored executable policy logic, it must be
 introduced as a new architecture decision and a new versioned contract. It must

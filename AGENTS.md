@@ -5,7 +5,10 @@ application repo and it is not the public marketing-site repo.
 
 ## Product Boundary
 
-Decide is the deterministic policy runtime and Decision Record infrastructure.
+Decide is independent decision infrastructure for software and agents. It is
+the Decision API, not a vendor-policy platform. The canonical product ownership
+document is `docs/ECOSYSTEM_CONSTITUTION.md`; runtime schemas still govern wire
+behavior and compatibility.
 It owns:
 
 - Rulebook v1 validation and evaluation.
@@ -14,9 +17,21 @@ It owns:
 - Rulebook hashes, input hashes, attestations, replay, and verification.
 - Stable REST/MCP compatibility surfaces for policy notaries and runtime users.
 
-Krafthaus is the forward-deployed product/application layer that installs Decide
-into one consequential workflow. Do not make this repo depend on a specific
-Krafthaus UI, customer workflow, or vertical application.
+Krafthaus is the application and workflow layer built on Decide. Independent
+applications can use Decide without Krafthaus. An app's APIs, MCP tools, agents,
+provider credentials and execution code belong to the app; generic evaluation
+and record interfaces belong to Decide. Do not make this repo depend on a
+specific Krafthaus UI, customer workflow, or vertical application.
+
+Policy Notaries and vendor monitoring are specialist reference/evidence
+capabilities with preserved REST/MCP compatibility. They do not define the core
+product. Do not move endpoints, rebrand directory identities, or rename wire
+fields merely to align positioning.
+
+The approved-binding prototype is not a production authorization service. A
+caller-supplied rulebook proves what was evaluated, not owner approval. See
+`docs/APPROVED_ACTION_PRODUCTION_PATH.md` before adding an agent-facing authority
+profile. Keep experimental code out of production handlers until its gates pass.
 
 `One KPI. One owner. One written call.` describes one Krafthaus application
 surface. It must not be treated as the definition of Decide or of Krafthaus.

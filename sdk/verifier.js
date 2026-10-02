@@ -34,6 +34,17 @@ function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 }
 
+// The authority profile accepts JSON data only. Legacy sort_deep hashing can
+// discard __proto__ and undefined values, so refuse them before verification.
+function safeAuthorityJson(value, depth = 0, limit = 16) {
+  if (depth > limit) return false;
+  if (value === null || typeof value === 'boolean' || typeof value === 'string') return true;
+  if (typeof value === 'number') return Number.isFinite(value);
+  if (Array.isArray(value)) return value.every((item) => safeAuthorityJson(item, depth + 1, limit));
+  return isPlainObject(value) && [Object.prototype, null].includes(Object.getPrototypeOf(value)) &&
+    Object.entries(value).every(([name, item]) => !['__proto__', 'constructor', 'prototype'].includes(name) && safeAuthorityJson(item, depth + 1, limit));
+}
+
 function sortDeep(value) {
   if (Array.isArray(value)) return value.map((item) => sortDeep(item));
   if (!isPlainObject(value)) return value;
@@ -182,6 +193,9 @@ function normalizeRecordForHash(record) {
   const compactPolicyBundle = Object.fromEntries(Object.entries(policyBundle).filter(([, value]) => Boolean(value)));
   if (policyBundleHash) normalized.policy_bundle_hash = policyBundleHash;
   if (Object.keys(compactPolicyBundle).length) normalized.policy_bundle = compactPolicyBundle;
+  // Match server hashing even for empty or invalid extension values. Their
+  // presence must never upgrade an old record without invalidating its hash.
+  if (Object.hasOwn(source, 'decision_authority')) normalized.decision_authority = source.decision_authority;
   Object.assign(
     normalized,
     compactObject({
@@ -762,7 +776,8 @@ function verifyDecisionRecord(
   record,
   { input, publicKey = '', untrustedPublicKey = '', hmacSecret = '', env = process.env } = {}
 ) {
-  if (!isPlainObject(record)) {
+  if (!isPlainObject(record) || (Object.hasOwn(record, 'decision_authority') &&
+    (!safeAuthorityJson(record.decision_authority) || (input !== undefined && !safeAuthorityJson(input, 0, 48))))) {
     return {
       verified: false,
       integrity_valid: false,
@@ -770,7 +785,7 @@ function verifyDecisionRecord(
       checks: {},
       expected: {},
       actual: {},
-      error: 'Decision record must be an object'
+      error: 'Decision record must be an object with safe JSON authority material when present'
     };
   }
 

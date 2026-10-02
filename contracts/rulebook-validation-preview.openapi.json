@@ -1,0 +1,47 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Decide Internal Rulebook Validation Preview", "version": "0.1.0",
+    "description": "Disabled unless DECIDE_AUTHORITY_ENABLED=1 and a dedicated validation token is configured. Reuses actual Rulebook v1 validation without returning a verdict, creating a Decision Record, using a model or operating a provider. Private server-to-server dependency, not a public customer endpoint."
+  },
+  "x-private-preview": true,
+  "security": [{ "ValidatorToken": [] }],
+  "paths": {
+    "/api/rulebook-validation": {
+      "post": {
+        "operationId": "validateAuthorityRulebook",
+        "requestBody": { "required": true, "description": "JSON, at most 65536 bytes. No context, input facts or output material at the request root.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ValidationRequest" } } } },
+        "responses": {
+          "200": { "description": "Structurally and semantically valid rules, not an action decision", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ValidationResult" } } } },
+          "default": { "description": "400 malformed JSON or unexpected request fields; 401 invalid dedicated token or browser Origin; 405 POST required; 413 oversized input; 415 JSON required; 422 invalid rulebook; 503 disabled or unavailable. All responses are private, no-store with X-Request-Id.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ValidationError" } } } }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": { "ValidatorToken": { "type": "http", "scheme": "bearer", "description": "Dedicated server credential, at least 32 characters. No customer keys, cookies, x-api-key or browser Origin accepted." } },
+    "schemas": {
+      "ValidationRequest": { "type": "object", "additionalProperties": false, "required": ["rulebook"], "properties": { "rulebook": { "type": "object", "description": "Rulebook v1 schema and semantic constraints are enforced by evaluateRulebookV1." } } },
+      "Digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+      "RequestId": { "type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$" },
+      "RuntimeContract": {
+        "type": "object", "additionalProperties": false, "required": ["schema_version", "schema_url", "schema_hash", "evaluator_version"],
+        "properties": { "schema_version": { "const": "rulebook_v1" }, "schema_url": { "const": "https://api.decide.fyi/schemas/rulebook-v1.schema.json" }, "schema_hash": { "$ref": "#/components/schemas/Digest" }, "evaluator_version": { "const": "decide_rulebook_v1" } }
+      },
+      "ValidationResult": {
+        "type": "object", "additionalProperties": false, "required": ["ok", "rulebook", "rulebook_contract", "request_id"],
+        "properties": {
+          "ok": { "const": true }, "request_id": { "$ref": "#/components/schemas/RequestId" }, "rulebook_contract": { "$ref": "#/components/schemas/RuntimeContract" },
+          "rulebook": {
+            "type": "object", "additionalProperties": false, "required": ["schema_version", "id", "version", "hash"],
+            "properties": { "schema_version": { "const": "rulebook_v1" }, "id": { "type": "string", "pattern": "^[a-z][a-z0-9_.:-]{1,119}$" }, "version": { "type": "string", "minLength": 1, "maxLength": 80 }, "hash": { "$ref": "#/components/schemas/Digest" } }
+          }
+        }
+      },
+      "ValidationError": {
+        "type": "object", "additionalProperties": false, "required": ["ok", "error", "request_id"],
+        "properties": { "ok": { "const": false }, "error": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" }, "request_id": { "$ref": "#/components/schemas/RequestId" } }
+      }
+    }
+  }
+}

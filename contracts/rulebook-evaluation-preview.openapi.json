@@ -1,0 +1,53 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Decide Internal Rulebook Evaluation Preview", "version": "0.1.0", "description": "Default-off, dedicated server-token calculation endpoint. Uses the existing Rulebook v1 evaluator in direct_declarative_rulebook mode. Does not authenticate owners or applications, attest input truth, persist decisions, sign records or execute actions. Only the authority adapter performs those separate checks." },
+  "x-private-preview": true,
+  "security": [{ "EvaluatorToken": [] }],
+  "paths": {
+    "/api/rulebook-evaluation": {
+      "post": {
+        "operationId": "evaluateAuthorityRulebook",
+        "requestBody": { "required": true, "description": "JSON, at most 131072 bytes. Closed envelope with rulebook and inputs objects. No binding-mode override, identity or output material.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/EvaluationRequest" } } } },
+        "responses": {
+          "200": { "description": "Calculation only, including review/NEEDS_INPUT when declared inputs are missing or mistyped", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/EvaluationResult" } } } },
+          "default": { "description": "400 malformed request; 401 dedicated token required or browser Origin supplied; 405 POST required; 413 body limit; 415 JSON required; 422 invalid rulebook or forbidden input material; 503 disabled/unavailable. Private, no-store with X-Request-Id.", "content": { "application/json": { "schema": { "$ref": "rulebook-validation-preview.openapi.json#/components/schemas/ValidationError" } } } }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": { "EvaluatorToken": { "type": "http", "scheme": "bearer", "description": "Dedicated DECIDE_AUTHORITY_EVALUATOR_TOKEN of at least 32 characters, distinct from customer and validation credentials. Requires DECIDE_AUTHORITY_ENABLED=1. No cookies, x-api-key or browser Origin." } },
+    "schemas": {
+      "EvaluationRequest": { "type": "object", "additionalProperties": false, "required": ["rulebook", "inputs"], "properties": { "rulebook": { "type": "object" }, "inputs": { "type": "object" } } },
+      "EvaluationResult": {
+        "type": "object", "additionalProperties": false, "required": ["ok", "evaluation", "request_id"],
+        "properties": { "ok": { "const": true }, "request_id": { "$ref": "rulebook-validation-preview.openapi.json#/components/schemas/RequestId" }, "evaluation": { "$ref": "#/components/schemas/EngineEvaluation" } }
+      },
+      "EngineEvaluation": {
+        "type": "object", "additionalProperties": false,
+        "required": ["status", "engine", "evaluator_version", "rulebook_contract", "runtime_binding", "verdict", "application_verdict", "action", "reason_code", "evidence", "matched_rule_id", "input_hash", "policy_id", "policy_version", "policy_hash", "rulebook"],
+        "properties": {
+          "status": { "enum": ["ok", "needs_input"] }, "engine": { "const": "decide_rulebook_v1" }, "evaluator_version": { "const": "decide_rulebook_v1" },
+          "rulebook_contract": { "$ref": "rulebook-validation-preview.openapi.json#/components/schemas/RuntimeContract" },
+          "runtime_binding": { "type": "object", "additionalProperties": false, "required": ["production_core", "binding_mode", "verdict_authority", "customer_supplied_code"], "properties": {
+            "production_core": { "const": "hybrid_declarative_rulebook_with_trusted_adapters" }, "binding_mode": { "const": "direct_declarative_rulebook" }, "verdict_authority": { "const": "declarative_rulebook" }, "customer_supplied_code": { "const": "rejected" }
+          } },
+          "c": { "enum": ["yes", "no", "review"] }, "v": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "verdict": { "enum": ["yes", "no", "review"] }, "application_verdict": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "action": { "type": "string", "minLength": 1, "maxLength": 160 }, "reason_code": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "evidence": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "type": "string" } },
+          "matched_rule_id": { "type": ["string", "null"] },
+          "input_hash": { "$ref": "rulebook-validation-preview.openapi.json#/components/schemas/Digest" },
+          "policy_id": { "type": "string" }, "policy_version": { "type": "string" }, "policy_hash": { "$ref": "rulebook-validation-preview.openapi.json#/components/schemas/Digest" },
+          "rulebook": { "type": "object", "additionalProperties": false, "required": ["schema_version", "id", "version", "hash"], "properties": {
+            "schema_version": { "const": "rulebook_v1" }, "id": { "type": "string" }, "version": { "type": "string" }, "hash": { "$ref": "rulebook-validation-preview.openapi.json#/components/schemas/Digest" }
+          } },
+          "missing_fields": { "type": "array", "items": { "type": "string" } }, "invalid_fields": { "type": "array", "items": { "type": "string" } },
+          "evaluation": { "type": "object", "additionalProperties": false, "required": ["matched", "checks"], "properties": {
+            "matched": { "type": "boolean" }, "checks": { "type": "array", "maxItems": 256, "items": { "type": "object", "additionalProperties": false, "required": ["field", "operator", "passed"], "properties": { "field": { "type": "string" }, "operator": { "type": "string" }, "passed": { "type": "boolean" } } } }
+          } }
+        }
+      }
+    }
+  }
+}
