@@ -1,13 +1,13 @@
 # Outbound URL Parse Issues
 
-Generated: 2026-09-06T23:12:37.878Z
+Generated: 2026-10-02T09:58:03.075Z
 
-- Raw URL-matched lines scanned: **3149**
-- Parse/normalization issues: **12**
+- Raw URL-matched lines scanned: **3166**
+- Parse/normalization issues: **14**
 
 ## Reason Summary
 
-- url_parse_error: 11
+- url_parse_error: 13
 - invalid_host: 1
 
 ## Issue List
@@ -26,4 +26,6 @@ Generated: 2026-09-06T23:12:37.878Z
 | scripts/test-check-policies.js | 463 | url_parse_error | http://127.0.0.1:$ |
 | scripts/test-policy-mcp-http.js | 13 | invalid_host | http://localhost').pathname |
 | scripts/test-policy-mcp-http.js | 20 | url_parse_error | http://127.0.0.1:$ |
+| scripts/test-rulebook-evaluation.cjs | 20 | url_parse_error | http://127.0.0.1:$ |
+| scripts/test-rulebook-validation.cjs | 20 | url_parse_error | http://127.0.0.1:$ |
 

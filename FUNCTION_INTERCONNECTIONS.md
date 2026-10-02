@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-09-07 01:12:37 CEST
+Generated: 2026-10-02 11:58:02 CEST
 
 ## Scope
 
@@ -130,6 +130,15 @@ api/return-mcp.js:58:function formatTextMessage(payload) {
 api/return-mcp.js:68:export default createMcpHandler({
 api/rulebook-attestation-keys.js:13:export default async function handler(req, res) {
 api/rulebook-attestation-keys.js:6:function sendJson(res, statusCode, payload) {
+api/rulebook-evaluation.js:12:    const send = (status, body) => { res.statusCode = status; res.end(JSON.stringify({ ...body, request_id })); };
+api/rulebook-evaluation.js:13:    const reject = (status, error) => send(status, { ok: false, error });
+api/rulebook-evaluation.js:41:      const object = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
+api/rulebook-evaluation.js:50:export default createRulebookEvaluationHandler();
+api/rulebook-evaluation.js:6:export function createRulebookEvaluationHandler({ env = process.env } = {}) {
+api/rulebook-validation.js:12:    const send = (status, body) => { res.statusCode = status; res.end(JSON.stringify({ ...body, request_id })); };
+api/rulebook-validation.js:13:    const reject = (status, error) => send(status, { ok: false, error });
+api/rulebook-validation.js:49:export default createRulebookValidationHandler();
+api/rulebook-validation.js:6:export function createRulebookValidationHandler({ env = process.env } = {}) {
 api/track.js:118:export default async function handler(req, res) {
 api/track.js:39:function send(res, status, payload) {
 api/track.js:45:async function readJson(req) {
@@ -747,6 +756,8 @@ scripts/lib/policy-feed-reliability.js:56:export function buildAlertSignature(en
 scripts/lib/policy-feed-reliability.js:76:export function isLowSignalAlert(entry, { lowSignalThreshold = DEFAULT_LOW_SIGNAL_THRESHOLD } = {}) {
 scripts/lib/policy-feed-reliability.js:7:function toNonNegativeInt(value, fallback = 0) {
 scripts/lib/policy-feed-reliability.js:86:function dedupeAlerts(alerts) {
+scripts/product-architecture.test.cjs:7:const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
+scripts/product-architecture.test.cjs:8:const prose = (file) => read(file).replace(/\s+/g, ' ');
 scripts/report-mcp-adoption.js:12:function positiveInteger(value, fallback) {
 scripts/report-mcp-adoption.js:17:async function main() {
 scripts/report-mcp-adoption.js:5:function argValue(name, fallback = "") {
@@ -1052,6 +1063,8 @@ scripts/test-policy-vendor-lifecycle.js:11:function testCurrentDegradedAndExpire
 scripts/test-policy-vendor-lifecycle.js:38:function successObservation(slot) {
 scripts/test-policy-vendor-lifecycle.js:42:function testCandidateNeedsBurnInAndHumanApplicabilityReview() {
 scripts/test-release-gates.js:8:function read(path) {
+scripts/test-rulebook-evaluation.cjs:13:async function serve(t, env = {}) {
+scripts/test-rulebook-validation.cjs:12:async function serve(t, env = {}) {
 scripts/test-typeform-cancellation-integration.js:14:const evaluate = (input, evidenceSnapshot = testPolicyEvidenceSnapshot) => compute(input, { evidenceSnapshot });
 scripts/test-typeform-cross-repository.js:33:const network = async (url, options = {}) => {
 scripts/verify-policy-alerts-bridge.js:121:async function fetchJson(url) {
@@ -1116,6 +1129,10 @@ api/return-mcp.js:2:import { createMcpHandler } from "../lib/mcp-handler.js";
 api/return-mcp.js:3:import { loadPolicyEvidenceSnapshot } from "../lib/policy-evidence-snapshot.js";
 api/return-mcp.js:4:import {
 api/rulebook-attestation-keys.js:1:import {
+api/rulebook-evaluation.js:1:import { randomUUID, timingSafeEqual } from 'node:crypto';
+api/rulebook-evaluation.js:2:import { evaluateRulebookV1 } from '../lib/rulebook-v1.js';
+api/rulebook-validation.js:1:import { randomUUID, timingSafeEqual } from 'node:crypto';
+api/rulebook-validation.js:2:import { evaluateRulebookV1 } from '../lib/rulebook-v1.js';
 api/track.js:1:import { createRateLimiter, getClientIp, addRateLimitHeaders } from "../lib/rate-limit.js";
 api/track.js:2:import { persistLog } from "../lib/log.js";
 api/track.js:3:import { recordClientEvent, recordVendorRequest } from "../lib/metrics-store.js";
@@ -1319,6 +1336,10 @@ scripts/lib/policy-feed-reliability.js:1:import { createHash } from "node:crypto
 scripts/mcp-check-local.sh:40:      const net = require("node:net");
 scripts/preview-typeform-cancellation.js:2:import { readFileSync } from "node:fs";
 scripts/preview-typeform-cancellation.js:3:import { previewTypeformCancellation } from "../lib/candidates/typeform-cancellation.js";
+scripts/product-architecture.test.cjs:1:const assert = require('node:assert/strict');
+scripts/product-architecture.test.cjs:2:const fs = require('node:fs');
+scripts/product-architecture.test.cjs:3:const path = require('node:path');
+scripts/product-architecture.test.cjs:4:const { test } = require('node:test');
 scripts/report-mcp-adoption.js:3:import { getMcpAdoptionReport } from "../lib/mcp-adoption-store.js";
 scripts/request-query-regression.test.js:1:import assert from "node:assert/strict";
 scripts/request-query-regression.test.js:2:import fs from "node:fs";
@@ -1501,6 +1522,21 @@ scripts/test-public-policy-sources.js:3:import assert from "node:assert/strict";
 scripts/test-public-policy-sources.js:4:import { readFileSync } from "node:fs";
 scripts/test-release-gates.js:3:import assert from "node:assert/strict";
 scripts/test-release-gates.js:4:import { existsSync, readFileSync } from "node:fs";
+scripts/test-rulebook-evaluation.cjs:1:const assert = require('node:assert/strict');
+scripts/test-rulebook-evaluation.cjs:2:const test = require('node:test');
+scripts/test-rulebook-evaluation.cjs:3:const http = require('node:http');
+scripts/test-rulebook-evaluation.cjs:4:const { once } = require('node:events');
+scripts/test-rulebook-evaluation.cjs:5:const fixture = require('../public/conformance/rulebook-v1/pricing-exception-direct-approve.json');
+scripts/test-rulebook-evaluation.cjs:6:const Ajv2020 = require('ajv/dist/2020');
+scripts/test-rulebook-evaluation.cjs:7:const contract = require('../contracts/rulebook-evaluation-preview.openapi.json');
+scripts/test-rulebook-evaluation.cjs:8:const validation = require('../contracts/rulebook-validation-preview.openapi.json');
+scripts/test-rulebook-validation.cjs:1:const assert = require('node:assert/strict');
+scripts/test-rulebook-validation.cjs:2:const test = require('node:test');
+scripts/test-rulebook-validation.cjs:3:const http = require('node:http');
+scripts/test-rulebook-validation.cjs:4:const { once } = require('node:events');
+scripts/test-rulebook-validation.cjs:5:const fixture = require('../public/conformance/rulebook-v1/pricing-exception-direct-approve.json');
+scripts/test-rulebook-validation.cjs:6:const Ajv2020 = require('ajv/dist/2020');
+scripts/test-rulebook-validation.cjs:7:const contract = require('../contracts/rulebook-validation-preview.openapi.json');
 scripts/test-sdk-package.js:3:import assert from 'node:assert/strict';
 scripts/test-sdk-package.js:40:const sdk = require(path.join(sdkRoot, 'decide.js'));
 scripts/test-sdk-package.js:4:import fs from 'node:fs';
