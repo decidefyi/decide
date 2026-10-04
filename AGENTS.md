@@ -148,3 +148,15 @@ git -c core.commitGraph=false push origin main
 Deploy only when the change affects served behavior or the user explicitly asks
 for deployment. Documentation-only or agent-instruction changes usually do not
 need a Vercel deploy.
+
+## Actions usage discipline
+
+- Batch related work before an authorized push. Use `npm run ci:preflight:quick`
+  for CI-only edits and validate changed workflows and generated inventories.
+- Before a runtime release, run `npm run ci:preflight` on the final source tree
+  using CI's Node major and lockfile-matching local dependencies. Missing tools
+  are not a passing check. This command does not authorize a push or deployment.
+- Keep existing semantic monitors enabled until an external replacement's
+  checks, alerts, durable state and independent heartbeat are verified.
+- See `docs/ACTIONS_COST_CONTROLS.md`. Never claim measured account-wide savings
+  from a local test count or substitute uptime for authenticated functional proof.

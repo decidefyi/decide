@@ -21,6 +21,7 @@ on:
       - "server.json"
       - ".github/workflows/contract-policy-tests.yml"
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
     paths:
       - "api/**"
       - "docs/**"
@@ -39,12 +40,21 @@ on:
       - ".github/workflows/contract-policy-tests.yml"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   test:
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -53,6 +63,10 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: "24"
+          cache: npm
+
+      - name: Verify CI cost policy
+        run: node --test scripts/ci-cost-controls.test.cjs scripts/ci-preflight.test.cjs
 
       - name: Install pinned test dependencies
         run: npm ci --ignore-scripts

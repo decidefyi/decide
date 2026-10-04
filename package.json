@@ -5,6 +5,10 @@
   "type": "module",
   "devDependencies": { "ajv": "8.20.0" },
   "scripts": {
+    "test:ci-cost-controls": "node --test scripts/ci-cost-controls.test.cjs scripts/ci-preflight.test.cjs",
+    "ci:preflight": "npm run ci:preflight:full",
+    "ci:preflight:quick": "git diff --check && npm run test:ci-cost-controls",
+    "ci:preflight:full": "npm run ci:preflight:quick && bash scripts/check-project-inventory.sh && npm run test:policy-evidence && npm run test:policy-mcp-contracts && npm run test:policy-mcp-http && npm run test:policy-candidate-reviews && npm run test:typeform-cancellation && npm run test:policy-evidence-postgres && npm run test:gemini-budget && npm run test:gemini-routing && npm run test:contract && npm run test:sdk-package && npm run test:policy-feed && npm run test:policy-check && npm run test:policy-vendor-lifecycle && npm run test:policy-vendor-candidates && npm run test:policy-coverage-scorecard && npm run test:public-policy-sources && npm run test:policy-alerts-api && npm run test:policy-mcp && npm run test:mcp-telemetry && npm run test:mcp-adoption && npm run workflow:test && npm run test:site-bridge",
     "generate:golden-replay": "node scripts/generate-golden-replay-corpus.js",
     "generate:policy-mcp-metadata": "node scripts/generate-policy-mcp-metadata.js",
     "generate:rulebook-runtime-manifest": "node scripts/generate-rulebook-runtime-manifest.js",

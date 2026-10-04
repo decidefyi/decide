@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-09-07 01:12:37 CEST
+Generated: 2026-10-04 12:23:33 CEST
 
 ## Scope
 
@@ -1293,6 +1293,17 @@ scripts/check-policies.js:26:import { createBlockedFetchReuseCache } from "../li
 scripts/check-policies.js:27:import { monitorPolicyVendorCandidates } from "../lib/policy-vendor-candidate-monitor.js";
 scripts/check-policies.js:28:import { createSuccessfulFetchCache } from "../lib/successful-fetch-cache.js";
 scripts/check-policies.js:29:import {
+scripts/ci-cost-controls.test.cjs:1:const assert = require('node:assert/strict');
+scripts/ci-cost-controls.test.cjs:2:const test = require('node:test');
+scripts/ci-cost-controls.test.cjs:3:const fs = require('node:fs');
+scripts/ci-cost-controls.test.cjs:4:const path = require('node:path');
+scripts/ci-preflight.test.cjs:18:    + 'const fs = require("node:fs"); const path = require("node:path");\n'
+scripts/ci-preflight.test.cjs:1:const assert = require('node:assert/strict');
+scripts/ci-preflight.test.cjs:2:const test = require('node:test');
+scripts/ci-preflight.test.cjs:3:const fs = require('node:fs');
+scripts/ci-preflight.test.cjs:4:const path = require('node:path');
+scripts/ci-preflight.test.cjs:5:const os = require('node:os');
+scripts/ci-preflight.test.cjs:6:const { spawnSync } = require('node:child_process');
 scripts/generate-golden-replay-corpus.js:10:import {
 scripts/generate-golden-replay-corpus.js:14:import { executeTrustedAdapter } from "../lib/trusted-adapters.js";
 scripts/generate-golden-replay-corpus.js:3:import assert from "node:assert/strict";
