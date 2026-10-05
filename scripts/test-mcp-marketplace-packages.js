@@ -74,7 +74,10 @@ assert.match(dockerServer, /^type: remote$/m);
 assert.match(dockerServer, /^  transport_type: streamable-http$/m);
 assert.match(dockerServer, new RegExp(`^  url: ${endpoint.replaceAll(".", "\\.")}$`, "m"));
 assert.deepEqual(readJson(`${dockerDir}/tools.json`), []);
-assert.match(readFileSync(join(root, dockerDir, "readme.md"), "utf8"), /resources\/docs/);
+const dockerReadme = readFileSync(join(root, dockerDir, "readme.md"), "utf8");
+assert.match(dockerReadme, /resources\/docs/);
+assert.match(dockerReadme, /standalone, read-only Decide service/);
+assert.match(dockerReadme, /https:\/\/www\.decide\.fyi\/resources\/policy-notaries/);
 
 const inventory = readJson("distribution/mcp-directories.json");
 const serverManifest = readJson("server.json");
