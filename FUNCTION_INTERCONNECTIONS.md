@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-10-04 12:23:33 CEST
+Generated: 2026-10-05 14:11:50 CEST
 
 ## Scope
 
@@ -738,7 +738,7 @@ scripts/generate-outbound-domain-inventory.mjs:88:function inferContexts(filePat
 scripts/generate-policy-mcp-metadata.js:20:function writeJson(relativePath, value) {
 scripts/generate-policy-mcp-metadata.js:27:function readJson(relativePath) {
 scripts/generate-policy-mcp-metadata.js:31:function toUcpInputs(tool) {
-scripts/generate-project-inventory.sh:16:FUNC_PATTERN='export default|export async function|export function|function [A-Za-z0-9_]+\(|const [A-Za-z0-9_]+\s*=\s*\([^)]*\)\s*=>|const [A-Za-z0-9_]+\s*=\s*async\s*\([^)]*\)\s*=>'
+scripts/generate-project-inventory.sh:22:FUNC_PATTERN='export default|export async function|export function|function [A-Za-z0-9_]+\(|const [A-Za-z0-9_]+\s*=\s*\([^)]*\)\s*=>|const [A-Za-z0-9_]+\s*=\s*async\s*\([^)]*\)\s*=>'
 scripts/lib/policy-feed-reliability.js:100:export function mergePolicyAlertFeed({
 scripts/lib/policy-feed-reliability.js:13:function normalizeByPolicy(byPolicyValue) {
 scripts/lib/policy-feed-reliability.js:23:function buildByPolicySignature(byPolicy) {
@@ -1326,6 +1326,12 @@ scripts/generate-rulebook-runtime-manifest.js:3:import { mkdirSync, writeFileSyn
 scripts/generate-rulebook-runtime-manifest.js:4:import { dirname, join } from "node:path";
 scripts/generate-rulebook-runtime-manifest.js:5:import { fileURLToPath } from "node:url";
 scripts/generate-rulebook-runtime-manifest.js:7:import { buildRulebookRuntimeManifest } from "../lib/rulebook-runtime-contract.js";
+scripts/inventory-identity.test.cjs:1:const assert = require('node:assert/strict');
+scripts/inventory-identity.test.cjs:2:const test = require('node:test');
+scripts/inventory-identity.test.cjs:3:const fs = require('node:fs');
+scripts/inventory-identity.test.cjs:4:const path = require('node:path');
+scripts/inventory-identity.test.cjs:5:const os = require('node:os');
+scripts/inventory-identity.test.cjs:6:const { spawnSync } = require('node:child_process');
 scripts/lib/policy-feed-reliability.js:1:import { createHash } from "node:crypto";
 scripts/mcp-check-local.sh:40:      const net = require("node:net");
 scripts/preview-typeform-cancellation.js:2:import { readFileSync } from "node:fs";

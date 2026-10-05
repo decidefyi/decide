@@ -6,7 +6,11 @@
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
 [![Vendors](https://img.shields.io/badge/vendors-101-orange.svg)](https://decide.fyi)
 
-**Positioning:** Decide is the API engine and compatibility surface. Krafthaus workflow apps, Policy MCP Notaries, decision memo packets, and execution gates are application surfaces that reuse the same verdict, request ID, and evidence contract.
+**Positioning:** Decide Runtime is the general deterministic decision engine. Decide Services are standalone specialized checks built on it; Policy Notaries is the existing family. Krafthaus owns workflow applications built on Decide, including intake, review, and execution handoff. MCP, REST, and SDK interfaces belong to the product they expose, not automatically to Krafthaus.
+
+See the [ecosystem ownership contract](docs/ECOSYSTEM_CONSTITUTION.md). Direct
+service and runtime integrations do not require a Krafthaus app. Policy checks
+are one service family, not the definition of the general Decision API.
 
 ## Gate agent tool calls before execution
 

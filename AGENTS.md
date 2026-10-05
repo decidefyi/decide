@@ -5,7 +5,8 @@ application repo and it is not the public marketing-site repo.
 
 ## Product Boundary
 
-Decide is the deterministic policy runtime and Decision Record infrastructure.
+Decide is the general deterministic decision runtime and Decision Record
+infrastructure. It is not a policy-only platform.
 It owns:
 
 - Rulebook v1 validation and evaluation.
@@ -14,7 +15,11 @@ It owns:
 - Rulebook hashes, input hashes, attestations, replay, and verification.
 - Stable REST/MCP compatibility surfaces for policy notaries and runtime users.
 
-Krafthaus is the forward-deployed product/application layer that installs Decide
+Decide Services owns standalone specialized checks, including Policy Notaries,
+and their MCP/REST interfaces. MCP, REST, and SDK ownership follows the capability
+being exposed, not the protocol. See `docs/ECOSYSTEM_CONSTITUTION.md`.
+
+Krafthaus is the workflow application layer that installs Decide
 into one consequential workflow. Do not make this repo depend on a specific
 Krafthaus UI, customer workflow, or vertical application.
 

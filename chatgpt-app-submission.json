@@ -4,7 +4,7 @@
   "app_info": {
     "display_name": "Policy Notaries",
     "subtitle": "Check support policies",
-    "description": "Policy Notaries is a Krafthaus app powered by Decide. It checks source-backed US consumer subscription policies for refunds, cancellation penalties, returns, and trial terms, returns deterministic verdicts with source and verification metadata, and fails closed to UNKNOWN when supplied facts cannot support automation.",
+    "description": "Policy Notaries is a Decide-owned, read-only service. It checks source-backed US consumer subscription policies for refunds, cancellation penalties, returns, and trial terms, returns deterministic verdicts with source and verification metadata, and fails closed to UNKNOWN when supplied facts cannot support automation.",
     "category": "BUSINESS"
   },
   "tools": {

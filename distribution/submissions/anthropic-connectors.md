@@ -1,24 +1,28 @@
 # Anthropic Connectors Directory submission packet
 
+Ownership copy reviewed: 2026-10-05. This is an editable submission candidate,
+not evidence that an external listing has been updated. Recheck current portal
+eligibility before submission; preserve prior receipts separately.
+
 ## Listing
 
 - Server name: Policy Notaries
 - Tagline: Source-backed subscription policy checks
 - Slug: `decide-policy-notaries`
-- Description: Policy Notaries is a Krafthaus app powered by Decide. It gives
+- Description: Policy Notaries is a standalone Decide service. It gives
   Claude four deterministic, read-only checks for supported US consumer
   subscription vendors: refund eligibility, cancellation penalties, returns,
   and trial terms. Each answer includes a source URL and verification metadata.
   Missing or approval-dependent facts fail closed to `UNKNOWN` so the workflow
   can route to human review.
 - Categories: Business, Productivity
-- Documentation: `https://www.krafthaus.app/policy-notaries`
+- Documentation: `https://www.decide.fyi/resources/policy-notaries`
 - Technical documentation: `https://www.decide.fyi/resources/policy-notaries`
-- Privacy policy: `https://www.krafthaus.app/privacy`
-- Support contact: `hello@krafthaus.app`
-- Company: Krafthaus
-- Company website: `https://www.krafthaus.app`
-- Icon: `https://www.krafthaus.app/favicon.png?v=20260316b`
+- Privacy policy: `https://www.decide.fyi/privacy`
+- Support contact: `support@decide.fyi`
+- Publisher brand: Decide (use the provider-verified legal business identity)
+- Company website: `https://www.decide.fyi`
+- Icon: `https://policy.decide.fyi/favicon.svg`
 
 ## Connection
 
