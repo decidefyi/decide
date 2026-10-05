@@ -1,6 +1,6 @@
 # Outbound Domain Inventory (Exhaustive)
 
-Generated: 2026-10-05T12:11:50.711Z
+Generated: 2026-10-05T12:32:02.774Z
 
 Repository: `decide`
 
@@ -10,8 +10,8 @@ Lockfiles and binary image assets are excluded to reduce noise.
 
 ## 1) Snapshot
 
-- Total URL occurrences scanned: **3151**
-- Valid URL occurrences parsed: **3139**
+- Total URL occurrences scanned: **3152**
+- Valid URL occurrences parsed: **3140**
 - Invalid/truncated URL occurrences: **12**
 - Unique hosts: **246**
 - Critical integration hosts: **15**
@@ -36,7 +36,7 @@ Lockfiles and binary image assets are excluded to reduce noise.
 | github.com | 95 | 18 | T1-platform-control | github, third_party |
 | support.apple.com | 68 | 16 | T3-content-static | third_party |
 | support.google.com | 53 | 18 | T3-content-static | third_party |
-| www.decide.fyi | 47 | 22 | T2-first-party-surface | first_party |
+| www.decide.fyi | 48 | 22 | T2-first-party-surface | first_party |
 | help.crunchyroll.com | 38 | 16 | T3-content-static | third_party |
 | www.masterclass.com | 38 | 20 | T3-content-static | third_party |
 | policy.decide.fyi | 36 | 20 | T2-first-party-surface | first_party |
@@ -252,7 +252,7 @@ These are domains tagged as runtime/ops critical (`vercel`, `github`, `stripe`, 
 | www.coursera.support | 15 | 15 | config_or_data, data_source | T3-content-static | third_party | public/rules/cancel-policy-sources.json:115, public/rules/policy-sources.json:103, public/rules/return-policy-sources.json:103 |
 | www.crunchyroll.com | 6 | 6 | config_or_data, data_source, other | T3-content-static | third_party | public/rules/trial-policy-sources.json:107, rules/policy-events.ndjson:21, rules/trial-policy-confirmed-baseline.json:136 |
 | www.dashlane.com | 9 | 9 | config_or_data, data_source | T3-content-static | third_party | public/rules/policy-sources.json:461, public/rules/return-policy-sources.json:461, public/rules/trial-policy-sources.json:459 |
-| www.decide.fyi | 47 | 22 | config_or_data, docs_content, frontend, other | T2-first-party-surface | first_party | DISTRIBUTION.md:16, README.md:22, README.md:622 |
+| www.decide.fyi | 48 | 22 | config_or_data, docs_content, frontend, other | T2-first-party-surface | first_party | DISTRIBUTION.md:16, README.md:22, README.md:622 |
 | www.deezer.com | 17 | 17 | config_or_data, data_source | T3-content-static | third_party | public/rules/cancel-policy-sources.json:133, public/rules/policy-sources.json:121, public/rules/return-policy-sources.json:121 |
 | www.discoveryplus.com | 16 | 14 | config_or_data, data_source | T3-content-static | third_party | public/rules/cancel-policy-sources.json:666, public/rules/cancel-policy-sources.json:667, public/rules/policy-sources.json:597 |
 | www.disneyplus.com | 25 | 15 | config_or_data, data_source | T3-content-static | third_party | public/rules/cancel-policy-sources.json:153, public/rules/cancel-policy-sources.json:177, public/rules/policy-sources.json:133 |

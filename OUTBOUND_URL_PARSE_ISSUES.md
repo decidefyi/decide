@@ -1,8 +1,8 @@
 # Outbound URL Parse Issues
 
-Generated: 2026-10-05T12:11:50.711Z
+Generated: 2026-10-05T12:32:02.774Z
 
-- Raw URL-matched lines scanned: **3151**
+- Raw URL-matched lines scanned: **3152**
 - Parse/normalization issues: **12**
 
 ## Reason Summary
