@@ -4,6 +4,8 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
+node --test "$ROOT_DIR/scripts/inventory-identity.test.cjs"
+
 FILES=(
   "FUNCTION_INTERCONNECTIONS.md"
   "OUTBOUND_DOMAIN_INVENTORY.md"

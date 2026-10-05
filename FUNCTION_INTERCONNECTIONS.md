@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-10-05 13:53:43 CEST
+Generated: 2026-10-05 14:11:50 CEST
 
 ## Scope
 
@@ -1297,9 +1297,9 @@ scripts/ci-cost-controls.test.cjs:1:const assert = require('node:assert/strict')
 scripts/ci-cost-controls.test.cjs:2:const test = require('node:test');
 scripts/ci-cost-controls.test.cjs:3:const fs = require('node:fs');
 scripts/ci-cost-controls.test.cjs:4:const path = require('node:path');
+scripts/ci-preflight.test.cjs:18:    + 'const fs = require("node:fs"); const path = require("node:path");\n'
 scripts/ci-preflight.test.cjs:1:const assert = require('node:assert/strict');
 scripts/ci-preflight.test.cjs:2:const test = require('node:test');
-scripts/ci-preflight.test.cjs:38:    + 'const fs = require("node:fs"); const path = require("node:path");\n'
 scripts/ci-preflight.test.cjs:3:const fs = require('node:fs');
 scripts/ci-preflight.test.cjs:4:const path = require('node:path');
 scripts/ci-preflight.test.cjs:5:const os = require('node:os');
@@ -1326,6 +1326,12 @@ scripts/generate-rulebook-runtime-manifest.js:3:import { mkdirSync, writeFileSyn
 scripts/generate-rulebook-runtime-manifest.js:4:import { dirname, join } from "node:path";
 scripts/generate-rulebook-runtime-manifest.js:5:import { fileURLToPath } from "node:url";
 scripts/generate-rulebook-runtime-manifest.js:7:import { buildRulebookRuntimeManifest } from "../lib/rulebook-runtime-contract.js";
+scripts/inventory-identity.test.cjs:1:const assert = require('node:assert/strict');
+scripts/inventory-identity.test.cjs:2:const test = require('node:test');
+scripts/inventory-identity.test.cjs:3:const fs = require('node:fs');
+scripts/inventory-identity.test.cjs:4:const path = require('node:path');
+scripts/inventory-identity.test.cjs:5:const os = require('node:os');
+scripts/inventory-identity.test.cjs:6:const { spawnSync } = require('node:child_process');
 scripts/lib/policy-feed-reliability.js:1:import { createHash } from "node:crypto";
 scripts/mcp-check-local.sh:40:      const net = require("node:net");
 scripts/preview-typeform-cancellation.js:2:import { readFileSync } from "node:fs";
