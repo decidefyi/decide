@@ -30,7 +30,7 @@ function assertToolAnnotations(tools) {
 const submission = readJson("chatgpt-app-submission.json");
 assert.equal(submission.schema_version, 1);
 assert.equal(submission.app_info.display_name, "Policy Notaries");
-assert.match(submission.app_info.description, /Krafthaus app powered by Decide/);
+assert.match(submission.app_info.description, /Decide-owned, read-only service/);
 assert.ok(submission.app_info.subtitle.length <= 30);
 assertToolAnnotations(submission.tools);
 assert.equal(submission.test_cases.length, 5);
@@ -43,8 +43,8 @@ for (const testCase of submission.negative_test_cases) {
 }
 
 const cursorMarketplace = readJson(".cursor-plugin/marketplace.json");
-assert.equal(cursorMarketplace.owner.name, "Krafthaus");
-assert.equal(cursorMarketplace.owner.email, "hello@krafthaus.app");
+assert.equal(cursorMarketplace.owner.name, "Decide");
+assert.equal(cursorMarketplace.owner.email, "support@decide.fyi");
 assert.equal(cursorMarketplace.plugins.length, 1);
 assert.equal(cursorMarketplace.plugins[0].source, "decide-policy-notaries");
 assert.deepEqual(Object.keys(cursorMarketplace.plugins[0]), ["name", "source", "description"]);
@@ -53,8 +53,9 @@ const cursorPluginDir = "decide-policy-notaries";
 const cursorManifest = readJson(`${cursorPluginDir}/.cursor-plugin/plugin.json`);
 assert.equal(cursorManifest.name, "decide-policy-notaries");
 assert.equal(cursorManifest.displayName, "Policy Notaries");
-assert.equal(cursorManifest.author.name, "Krafthaus");
-assert.equal(cursorManifest.homepage, "https://www.krafthaus.app/policy-notaries");
+assert.equal(cursorManifest.author.name, "Decide");
+assert.equal(cursorManifest.homepage, "https://www.decide.fyi/resources/policy-notaries");
+assert.match(cursorManifest.description, /Decide-owned, read-only service/);
 assert.equal(cursorManifest.license, "MIT");
 assert.equal(cursorManifest.logo, "assets/logo.png");
 assert.equal(cursorManifest.mcpServers, "./mcp.json");
@@ -81,8 +82,19 @@ assert.equal(serverManifest.title, "Decide Policy Notaries");
 assert.equal(inventory.directory_submission_profile.endpoint_url, endpoint);
 assert.deepEqual(inventory.directory_submission_profile.tools, expectedTools);
 assert.equal(inventory.application_submission_profile.name, "Policy Notaries");
-assert.equal(inventory.application_submission_profile.publisher, "Krafthaus");
+assert.equal(inventory.application_submission_profile.publisher, "Decide");
 assert.equal(inventory.application_submission_profile.runtime, "Decide");
 assert.equal(inventory.application_submission_profile.endpoint_url, endpoint);
+assert.equal(inventory.application_submission_profile.product_url, "https://www.decide.fyi/resources/policy-notaries");
+assert.match(inventory.application_submission_profile.summary, /Decide-owned, read-only service/);
+
+const constitution = readFileSync(join(root, 'docs/ECOSYSTEM_CONSTITUTION.md'), 'utf8');
+for (const layer of ['### Decide Runtime', '### Decide Services', '### Krafthaus']) {
+  assert.ok(constitution.includes(layer), `architecture must identify ${layer}`);
+}
+assert.match(constitution, /not a policy platform/);
+assert.match(constitution, /Policy Notaries is a standalone Decide service, not a Krafthaus application/);
+assert.doesNotMatch(constitution, /Policy Notaries by Krafthaus/);
+assert.equal(inventory.ownership_copy_review.external_metadata_refresh, 'pending');
 
 console.log("MCP marketplace package checks passed.");

@@ -1,17 +1,17 @@
 {
   "name": "decide-plugins",
   "owner": {
-    "name": "Krafthaus",
-    "email": "hello@krafthaus.app"
+    "name": "Decide",
+    "email": "support@decide.fyi"
   },
   "metadata": {
-    "description": "Krafthaus workflow apps powered by Decide"
+    "description": "Standalone Decide decision services"
   },
   "plugins": [
     {
       "name": "decide-policy-notaries",
       "source": "decide-policy-notaries",
-      "description": "A Krafthaus app powered by Decide for source-backed subscription policy checks."
+      "description": "A Decide-owned, read-only service for source-backed subscription policy checks."
     }
   ]
 }

@@ -6,8 +6,10 @@ Runtime manifest: `https://api.decide.fyi/manifests/rulebook-runtime-v1.json`
 
 ## Purpose
 
-This contract defines what a Krafthaus workflow application must bind before it
-claims a deterministic Decide-backed verdict.
+This contract defines what a downstream application, including a Krafthaus
+workflow application, must bind before it claims a deterministic Decide-backed
+verdict. It does not transfer ownership of standalone Decide Services or their
+MCP/REST interfaces to Krafthaus; see the ecosystem constitution.
 
 Krafthaus can be broad in application shape. Decide stays narrow at the
 production boundary: a versioned Rulebook v1 evaluation, optional first-party

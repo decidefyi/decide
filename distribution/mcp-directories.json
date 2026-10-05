@@ -1,6 +1,14 @@
 {
   "schema_version": "mcp_distribution_inventory_v1",
   "reviewed_on_utc": "2026-07-22",
+  "ownership_copy_review": {
+    "reviewed_on_utc": "2026-10-05",
+    "scope": "Editable submission profiles only; not a fresh audit or update of external listings.",
+    "publisher_brand": "Decide",
+    "product_layer": "Decide Services",
+    "external_metadata_refresh": "pending",
+    "historical_receipts": "Preserved with their original dates and branding."
+  },
   "canonical_product": {
     "name": "Decide Policy Notaries",
     "registry_name": "io.github.decidefyi/policy-notaries",
@@ -54,20 +62,20 @@
   },
   "application_submission_profile": {
     "name": "Policy Notaries",
-    "publisher": "Krafthaus",
+    "publisher": "Decide",
     "runtime": "Decide",
-    "summary": "A Krafthaus support-policy app powered by Decide, with four deterministic, read-only, source-backed checks for refunds, cancellation penalties, returns, and trial terms.",
-    "product_url": "https://www.krafthaus.app/policy-notaries",
+    "summary": "A Decide-owned, read-only service with four deterministic, source-backed checks for refunds, cancellation penalties, returns, and trial terms.",
+    "product_url": "https://www.decide.fyi/resources/policy-notaries",
     "technical_documentation_url": "https://www.decide.fyi/resources/policy-notaries",
-    "privacy_url": "https://www.krafthaus.app/privacy",
-    "terms_url": "https://www.krafthaus.app/terms",
-    "support_email": "hello@krafthaus.app",
+    "privacy_url": "https://www.decide.fyi/privacy",
+    "terms_url": "https://www.decide.fyi/terms",
+    "support_email": "support@decide.fyi",
     "endpoint_url": "https://policy.decide.fyi/api/mcp"
   },
   "principles": [
     "One canonical four-tool listing concentrates installs, trust, usage, and maintenance.",
     "Specialist endpoints remain compatibility surfaces, not four separate acquisition products.",
-    "Technical server registries use Decide Policy Notaries; customer-facing app marketplaces use Policy Notaries by Krafthaus, powered by Decide.",
+    "Standalone service listings use Decide Policy Notaries, or Policy Notaries with Decide publisher attribution; Krafthaus owns the separate workflow applications.",
     "Primary registries and client-integrated catalogs receive direct ownership; scraper mirrors refresh from canonical metadata.",
     "Directory counters measure discovery activity, not customers or revenue."
   ],

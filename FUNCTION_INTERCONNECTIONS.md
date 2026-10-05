@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-10-04 12:23:33 CEST
+Generated: 2026-10-05 13:53:43 CEST
 
 ## Scope
 
@@ -738,7 +738,7 @@ scripts/generate-outbound-domain-inventory.mjs:88:function inferContexts(filePat
 scripts/generate-policy-mcp-metadata.js:20:function writeJson(relativePath, value) {
 scripts/generate-policy-mcp-metadata.js:27:function readJson(relativePath) {
 scripts/generate-policy-mcp-metadata.js:31:function toUcpInputs(tool) {
-scripts/generate-project-inventory.sh:16:FUNC_PATTERN='export default|export async function|export function|function [A-Za-z0-9_]+\(|const [A-Za-z0-9_]+\s*=\s*\([^)]*\)\s*=>|const [A-Za-z0-9_]+\s*=\s*async\s*\([^)]*\)\s*=>'
+scripts/generate-project-inventory.sh:22:FUNC_PATTERN='export default|export async function|export function|function [A-Za-z0-9_]+\(|const [A-Za-z0-9_]+\s*=\s*\([^)]*\)\s*=>|const [A-Za-z0-9_]+\s*=\s*async\s*\([^)]*\)\s*=>'
 scripts/lib/policy-feed-reliability.js:100:export function mergePolicyAlertFeed({
 scripts/lib/policy-feed-reliability.js:13:function normalizeByPolicy(byPolicyValue) {
 scripts/lib/policy-feed-reliability.js:23:function buildByPolicySignature(byPolicy) {
@@ -1297,9 +1297,9 @@ scripts/ci-cost-controls.test.cjs:1:const assert = require('node:assert/strict')
 scripts/ci-cost-controls.test.cjs:2:const test = require('node:test');
 scripts/ci-cost-controls.test.cjs:3:const fs = require('node:fs');
 scripts/ci-cost-controls.test.cjs:4:const path = require('node:path');
-scripts/ci-preflight.test.cjs:18:    + 'const fs = require("node:fs"); const path = require("node:path");\n'
 scripts/ci-preflight.test.cjs:1:const assert = require('node:assert/strict');
 scripts/ci-preflight.test.cjs:2:const test = require('node:test');
+scripts/ci-preflight.test.cjs:38:    + 'const fs = require("node:fs"); const path = require("node:path");\n'
 scripts/ci-preflight.test.cjs:3:const fs = require('node:fs');
 scripts/ci-preflight.test.cjs:4:const path = require('node:path');
 scripts/ci-preflight.test.cjs:5:const os = require('node:os');

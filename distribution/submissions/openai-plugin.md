@@ -1,39 +1,43 @@
 # OpenAI plugin submission packet
 
+Ownership copy reviewed: 2026-10-05. This is an editable submission candidate,
+not evidence that an external listing has been updated. Verify current portal
+requirements and the existing submission status before any authorized refresh.
+
 ## App
 
 - Display name: Policy Notaries
-- Publisher brand: Krafthaus
+- Publisher brand: Decide
 - Runtime: Powered by Decide
-- Public attribution: Policy Notaries by Krafthaus, powered by Decide
+- Public attribution: Decide Policy Notaries
 - Subtitle: Check support policies
 - Category: Business
 - MCP server URL: `https://policy.decide.fyi/api/mcp`
 - Transport: Streamable HTTP
 - Authentication: None
-- Product guide: `https://www.krafthaus.app/policy-notaries`
+- Product guide: `https://www.decide.fyi/resources/policy-notaries`
 - Technical guide: `https://www.decide.fyi/resources/policy-notaries`
-- Privacy policy: `https://www.krafthaus.app/privacy`
-- Terms: `https://www.krafthaus.app/terms`
-- Support: `hello@krafthaus.app`
-- Company website: `https://www.krafthaus.app`
-- Logo: `https://www.krafthaus.app/favicon.png`
+- Privacy policy: `https://www.decide.fyi/privacy`
+- Terms: `https://www.decide.fyi/terms`
+- Support: `support@decide.fyi`
+- Company website: `https://www.decide.fyi`
+- Logo: `https://policy.decide.fyi/favicon.svg`
 
 ## Brand hierarchy
 
-- `Policy Notaries` is the customer-facing application name.
-- `Krafthaus` is the publisher and application-layer brand.
-- `Decide` is the deterministic runtime and technical compatibility surface.
-- Stable MCP and REST URLs remain on Decide; public app copy says `powered by Decide`.
-- Do not publish this app as `Decide Policy Notaries` or `Krafthaus Policy Notaries`.
-  The public directory already supplies publisher attribution, so either prefix
-  would repeat one layer of the hierarchy.
-- Use the verified business identity that legally owns Krafthaus. Do not submit
-  the public listing under an individual identity.
+- `Policy Notaries` is the short marketplace display name; `Decide Policy
+  Notaries` is the canonical standalone service name.
+- `Decide` is the publisher brand and owns the service, not only its runtime.
+- `Krafthaus` owns optional workflow applications consuming that service; a
+  Krafthaus account or workflow is not required for these public tools.
+- Stable MCP and REST URLs and tool contracts remain unchanged.
+- Use the verified legal business identity responsible for Decide. Publisher
+  branding is not proof of legal verification; do not replace the legal entity
+  or publish under an individual identity based on this copy change.
 
 ## Review statement
 
-Policy Notaries is a Krafthaus application powered by the Decide runtime. It
+Policy Notaries is a standalone Decide service built on the Decide runtime. It
 exposes four deterministic policy checks for supported US consumer subscription
 vendors. The tools evaluate user-supplied facts against versioned source
 snapshots and return a verdict, reason, source URL, policy version, verification
@@ -49,7 +53,7 @@ annotations are advertised by the live endpoint.
 
 ## Submission flow
 
-1. Complete business verification for the legal entity that owns Krafthaus in
+1. Complete business verification for the legal entity responsible for Decide in
    the OpenAI Platform organization. Do not use individual verification for the
    public listing.
 2. Confirm the submitting project uses global rather than EU data residency.

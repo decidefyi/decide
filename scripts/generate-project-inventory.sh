@@ -10,6 +10,12 @@ if ! command -v rg >/dev/null 2>&1; then
 fi
 
 REPO_NAME="$(basename "$ROOT_DIR")"
+ORIGIN_URL="$(git config --get remote.origin.url 2>/dev/null || true)"
+ORIGIN_REPO="${ORIGIN_URL##*/}"
+ORIGIN_REPO="${ORIGIN_REPO%.git}"
+if [[ -n "$ORIGIN_URL" && "$ORIGIN_REPO" =~ ^[A-Za-z0-9_.-]+$ ]]; then
+  REPO_NAME="$ORIGIN_REPO"
+fi
 STOCKHOLM_TS="$(TZ=Europe/Stockholm date '+%Y-%m-%d %H:%M:%S %Z')"
 ISO_TS="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 

@@ -2,14 +2,16 @@
 
 Status: Active architecture direction
 Effective: 2026-06-11
+Ownership clarification: 2026-10-05
 
 ## Purpose
 
 This document defines the product hierarchy and the boundaries that keep the
 ecosystem coherent as new applications are added.
 
-The system is not a collection of unrelated decision products. It is one
-governed-action architecture expressed through multiple application surfaces.
+The system has one general decision runtime, specialized standalone services,
+and optional workflow applications. MCP, REST, and SDK are interfaces to these
+products, not a separate product-ownership layer.
 
 ## Product Hierarchy
 
@@ -24,40 +26,80 @@ It owns:
 - application selection and commercial framing
 - governance of the Decide and Krafthaus relationship
 
-### Decide.fyi
+### Decide Runtime
 
-Decide is the deterministic policy runtime and Decision Record infrastructure.
+Decide is the general deterministic decision runtime and Decision Record
+infrastructure. It is not a policy platform; policy checks are one use case.
 
 It owns:
 
 - versioned rulebook evaluation
 - normalized `yes`, `no`, or `review` decisions
-- purpose-specific application verdicts and reason codes
+- evaluation of declared application verdicts and reason codes
 - policy and rulebook hashes
 - Decision Record creation
 - idempotency, verification, replay, execution receipts, and outcomes
-- bounded first-party policy adapters
+- bounded first-party trusted fact adapters
 
 Decide must not depend on a specific user interface or vertical application.
 
+### Decide Services
+
+Decide Services are standalone specialized decision services built on the
+runtime. Policy Notaries is the existing family: source-backed refund,
+cancellation, return, and trial checks. This classification does not launch new
+services or change the current runtime preview/access boundary.
+
+Each service owns its domain inputs, approved rules, evidence sources, coverage,
+freshness requirements, and domain-specific output contract. Its maintainers
+own that package; the shared evaluator and record infrastructure stay in the
+runtime. A service can expose MCP, REST, or SDK interfaces without a Krafthaus
+workflow or UI being required.
+
+Rulebooks can be authored by an authorized customer, a Decide service
+maintainer, or a Krafthaus workflow owner. Decide evaluates the approved rules;
+it does not invent their business authority.
+
 ### Krafthaus
 
-Krafthaus is the forward-deployed product and delivery layer that installs
-Decide into one consequential workflow.
+Krafthaus is the workflow application and delivery layer built on Decide. It
+installs the runtime, and optional Decide Services, into one consequential
+workflow.
 
 It owns:
 
 - identifying the consequential action boundary
-- authoring and configuring the purpose-specific rulebook
+- configuring the workflow's approved rulebook and service bindings
 - workflow intake and evidence collection
 - operator and human-review interfaces
 - integrations with the systems before and after the boundary
 - execution handoff and outcome presentation
 - packaged and customer-specific application surfaces
+- application-specific APIs, MCPs, and agents that expose those workflows
 
 Krafthaus does not mean arbitrary custom software. A Krafthaus application must
 contain a governed action boundary that benefits from explicit rules and a
 verifiable record before execution.
+
+## Interface Ownership And Hosting
+
+| Surface | Product owner | Canonical home |
+| --- | --- | --- |
+| General evaluation, records, verification, replay; generic Runtime API/MCP/SDK | Decide Runtime | Decide domains and runtime repository |
+| Specialized standalone decision service and its MCP/REST/SDK | Decide Services | Decide service domains and service packages |
+| Intake, review, execution, integrations; a workflow app's API/MCP/agent | Krafthaus | Krafthaus domains and application packages |
+
+Ownership follows the capability, not the protocol or whether it has a visible
+UI. A wrapper around a standalone decision check is a Decide service interface.
+A tool that operates a support queue, quote workflow, or treasury handoff is a
+Krafthaus application interface. Both may call the same runtime. Third-party
+applications may integrate directly and need not adopt Krafthaus.
+
+Keep the existing evaluator shared rather than copying it into each service.
+Separate packages and contracts before considering separate repositories or
+deployments. Existing compatibility URLs, registry identities, tool names,
+schemas, and access controls remain stable. This clarification is not an
+endpoint migration or a public Runtime MCP release.
 
 ## Shared Application Anatomy
 
@@ -104,18 +146,22 @@ them.
 
 ## Existing Surface Classification
 
-### Decide-native reference applications
+### Decide services and runtime references
 
-- Policy MCP Notaries
+- Decide Policy Notaries
 - source-backed refund, cancel, return, and trial endpoints
 - policy patterns and verification surfaces
 
-These demonstrate the runtime directly and may be shown in the Krafthaus
-application catalog without implying that all interface ownership is identical.
-Their stable MCP and REST compatibility surfaces remain Decide-owned. Public
-application and directory surfaces should package the combined product as
-**Policy Notaries by Krafthaus, powered by Decide** so the customer-facing app
-layer follows the same ownership model as other Krafthaus applications.
+Policy Notaries is a standalone Decide service, not a Krafthaus application.
+Its MCP and REST surfaces remain Decide-owned. Service guides and directory
+packages use **Decide Policy Notaries** (or **Policy Notaries**, publisher brand
+**Decide**, where the marketplace separates those fields).
+
+Krafthaus may show how its Support Policy Gate consumes that service, but the
+workflow application and notary service are distinct products. The Krafthaus
+page is a workflow guide, not the canonical owner or paid-access route for the
+standalone notaries. Past submission receipts retain their historical branding;
+editable submission packages follow this current ownership rule.
 
 ### Krafthaus applications
 
@@ -125,6 +171,21 @@ layer follows the same ownership model as other Krafthaus applications.
 
 `One KPI. One owner. One written call.` describes the Decision Memos
 application. It does not define Krafthaus as a whole.
+
+## Discovery And Adoption
+
+Make the general runtime discoverable for developers with approved rules and
+facts. Give each released service family a canonical, task-specific guide and
+listing; preserve the existing notary acquisition paths. Give each Krafthaus
+workflow a separate application page. Do not create a separate acquisition
+product for every vendor or compatibility endpoint.
+
+Discount approval is a maintained integration example, not evidence that it is
+the winning market. Existing notary calls are usage evidence for that family,
+not proof of paid demand for it or the general runtime. Measure discovery,
+successful use, repeat external use, and paid demand separately. A service call,
+underlying evaluation, and workflow action are distinct events, not three
+independent customer acquisitions or automatically three billable units.
 
 ### Experimental or AI-assisted surfaces
 
