@@ -1,6 +1,6 @@
 # Outbound Domain Inventory (Exhaustive)
 
-Generated: 2026-10-06T00:32:17.281Z
+Generated: 2026-10-06T00:39:47.003Z
 
 Repository: `decide`
 

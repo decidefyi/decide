@@ -37,8 +37,13 @@ Policy Notaries. Krafthaus remains optional workflow, review and execution.
   maintenance counts, not zero. It grants no decision or execution authority.
 - The existing private Signalnio Ops MCP view adds a separate Policy Notaries
   health panel. It validates source identity, freshness and counts, showing
-  review deadlines, retired history and unresolved maintenance when available.
+  automated availability, qualification expiry and exclusion diagnostics.
   No credentials, customer inputs or raw MCP arguments are sent to this reader.
+- Service operation is automated-or-unavailable, not an owner review queue.
+  Seven persistent source failures automatically withhold runtime availability;
+  one short outage may still use current evidence. Unsupported scopes remain
+  off and their history is retained. Reopening is a future tested capability
+  update, not a required human task for keeping other scopes running.
 
 ## Supported catalogue semantics
 
@@ -71,8 +76,9 @@ queues. These are local receipts, not proof of a hosted release.
 This batch changes catalogue hashes. A coordinated monitor snapshot refresh with
 the exact new catalogue is required when releasing: old snapshots intentionally
 fail closed. Do not weaken hash matching or extend freshness to avoid this gate.
-Most July 16 human reviews reach the existing 90-day boundary October 14. Source
-fetches do not renew them; review supported high-value scopes before that date.
+Most July 16 qualifications reach the existing 90-day boundary October 14.
+Affected scopes become unavailable automatically. Source fetches do not renew
+them, and this release does not claim perpetual self-renewing qualification.
 
 Runtime OAuth MCP usage, directory conversion and client attribution are still
 separate reporting gaps. This policy health change does not connect those lanes.

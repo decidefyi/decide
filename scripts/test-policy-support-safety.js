@@ -53,3 +53,15 @@ for (const vendor of ['canva', 'spotify', 'netflix']) {
   }
 }
 console.log('PASS: reviewed subscription exceptions cannot produce blanket refund/return denials');
+
+const { compute: cancel } = await import('../lib/cancel-compute.js');
+const unreliable = structuredClone(testPolicyEvidenceSnapshot);
+const monitored = unreliable.policies.find(row => row.policy === 'cancel' && row.vendor === 'canva');
+monitored.status = 'fetch_failed'; monitored.consecutive_fetch_failures = 8;
+const failed = cancel({ vendor: 'canva', region: 'US', plan: 'individual', billing_cadence: 'monthly' }, { evidenceSnapshot: unreliable });
+assert.equal(failed.automation_safe, false);
+assert.equal(failed.verdict, 'UNKNOWN');
+assert.equal(failed.policy_evidence.reason, 'persistent_source_failure');
+monitored.consecutive_fetch_failures = 1;
+assert.equal(cancel({ vendor: 'canva', region: 'US', plan: 'individual', billing_cadence: 'monthly' }, { evidenceSnapshot: unreliable }).policy_evidence.current, true);
+console.log('PASS: the engine automatically withholds persistently failing scopes without retiring on a transient outage');
