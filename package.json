@@ -5,6 +5,9 @@
   "type": "module",
   "devDependencies": { "ajv": "8.20.0" },
   "scripts": {
+    "test:quote-discounts": "node --test services/quote-discounts/*.test.js",
+    "demo:quote-discounts": "node services/quote-discounts/demo.js",
+    "mcp:quote-discounts:demo": "node services/quote-discounts/stdio-demo.js",
     "test:ci-cost-controls": "node --test scripts/ci-cost-controls.test.cjs scripts/ci-preflight.test.cjs",
     "ci:preflight": "npm run ci:preflight:full",
     "ci:preflight:quick": "git diff --check && npm run test:ci-cost-controls",

@@ -12,6 +12,14 @@ See the [ecosystem ownership contract](docs/ECOSYSTEM_CONSTITUTION.md). Direct
 service and runtime integrations do not require a Krafthaus app. Policy checks
 are one service family, not the definition of the general Decision API.
 
+### Quote/discount approvals — local reference build
+
+[Quote/discount approvals](services/quote-discounts/README.md) is the next Decide
+Services package: approved policy limits, trusted quote snapshots, saved checks
+and an application-only consume gate using the existing evaluator. It includes
+a fictional local MCP demo and local acceptance tests. It is **not a hosted,
+production-enabled or billable service**; existing public interfaces are unchanged.
+
 ## Gate agent tool calls before execution
 
 Use Decide to evaluate an agent-proposed action against a deterministic rulebook

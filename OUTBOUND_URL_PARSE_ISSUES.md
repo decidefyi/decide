@@ -1,8 +1,8 @@
 # Outbound URL Parse Issues
 
-Generated: 2026-10-06T01:21:13.714Z
+Generated: 2026-10-06T09:30:42.373Z
 
-- Raw URL-matched lines scanned: **3175**
+- Raw URL-matched lines scanned: **3176**
 - Parse/normalization issues: **12**
 
 ## Reason Summary
@@ -14,12 +14,12 @@ Generated: 2026-10-06T01:21:13.714Z
 
 | File | Line | Reason | URL fragment |
 | --- | ---: | --- | --- |
-| README.md | 639 | url_parse_error | https://decide.fyi](https://decide.fyi |
-| README.md | 641 | url_parse_error | https://refund.decide.fyi](https://refund.decide.fyi |
-| README.md | 642 | url_parse_error | https://cancel.decide.fyi](https://cancel.decide.fyi |
-| README.md | 643 | url_parse_error | https://return.decide.fyi](https://return.decide.fyi |
-| README.md | 644 | url_parse_error | https://trial.decide.fyi](https://trial.decide.fyi |
-| README.md | 646 | url_parse_error | https://modelcontextprotocol.io](https://modelcontextprotocol.io |
+| README.md | 647 | url_parse_error | https://decide.fyi](https://decide.fyi |
+| README.md | 649 | url_parse_error | https://refund.decide.fyi](https://refund.decide.fyi |
+| README.md | 650 | url_parse_error | https://cancel.decide.fyi](https://cancel.decide.fyi |
+| README.md | 651 | url_parse_error | https://return.decide.fyi](https://return.decide.fyi |
+| README.md | 652 | url_parse_error | https://trial.decide.fyi](https://trial.decide.fyi |
+| README.md | 654 | url_parse_error | https://modelcontextprotocol.io](https://modelcontextprotocol.io |
 | scripts/mcp-check-local.sh | 48 | url_parse_error | http://127.0.0.1:$ |
 | scripts/request-query-regression.test.js | 35 | url_parse_error | http://[ |
 | scripts/test-check-policies.js | 384 | url_parse_error | http://127.0.0.1:$ |

@@ -1,4 +1,9 @@
 {
+  "git": {
+    "deploymentEnabled": {
+      "codex/quote-discount-service-20261006": false
+    }
+  },
   "ignoreCommand": "if [ \"$VERCEL_GIT_COMMIT_REF\" = \"policy-updates/aggregate\" ]; then echo \"Skipping deploy for policy artifact branch\"; exit 0; fi; exit 1",
   "cleanUrls": true,
   "trailingSlash": false,
