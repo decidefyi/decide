@@ -20,7 +20,7 @@
     },
     "adobe": {
       "url": "https://www.adobe.com/legal/subscription-terms.html",
-      "notes": "Annual plan: 50% ETF; monthly: cancel anytime"
+      "notes": "Review-only: cancellation depends on purchase age, contract/payment structure, state-specific terms and renewal phase; billing cadence alone is insufficient."
     },
     "amazon_music_unlimited": {
       "url": "https://www.amazon.com/music/unlimited",
@@ -322,7 +322,7 @@
     },
     "netflix": {
       "url": "https://help.netflix.com/en/node/407",
-      "notes": "Cancel anytime; access until end of billing period; account saved 10 months"
+      "notes": "Cancel anytime; billing-channel/account-status exceptions affect route and access. Viewing activity retained for 24 months, not 10."
     },
     "nintendo_switch_online": {
       "url": "https://en-americas-support.nintendo.com/app/answers/detail/a_id/41228",
@@ -547,7 +547,11 @@
     },
     "weightwatchers": {
       "url": "https://www.weightwatchers.com/us/help",
-      "notes": "Cancellation terms vary by commitment and plan type."
+      "notes": "Retired from active monitoring and automated decisions. Plan-specific historical rules are retained for reference only.",
+      "monitoring_status": "retired",
+      "retired_on": "2026-10-06",
+      "retirement_reason": "No successful source fetch since 2026-08-05; direct 404, mirror 403 and browser-hook timeout. Requalify a primary source and review the specific plan before reopening.",
+      "retirement_evidence": "https://github.com/decidefyi/decide/actions/runs/37263127260"
     },
     "siriusxm": {
       "url": "https://www.siriusxm.com/help/manage-or-cancel-service/",

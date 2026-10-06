@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-10-05 14:32:02 CEST
+Generated: 2026-10-06 02:32:17 CEST
 
 ## Scope
 
@@ -126,6 +126,8 @@ api/policy-fetch-hook.js:77:function parseBody(req) {
 api/policy-fetch-hook.js:90:function parseAllowlist(value) {
 api/policy-fetch-hook.js:97:function isHostAllowed(hostname, allowlist) {
 api/policy-mcp.js:8:export default createMcpHandler({
+api/policy-support.js:11:  const send = (status, body) => { res.statusCode = status; res.end(JSON.stringify(body)); };
+api/policy-support.js:5:export default async function policySupport(req, res) {
 api/return-mcp.js:58:function formatTextMessage(payload) {
 api/return-mcp.js:68:export default createMcpHandler({
 api/rulebook-attestation-keys.js:13:export default async function handler(req, res) {
@@ -158,8 +160,8 @@ lib/blocked-fetch-reuse-cache.js:1:function isBlockedFetchFailure(value) {
 lib/blocked-fetch-reuse-cache.js:22:  const validateKey = (key) => {
 lib/cancel-compute.js:101:export function compute(request, { requireCompleteContext = true, evidenceSnapshot = null, now = new Date() } = {}) {
 lib/cancel-compute.js:26:function withSource(result, vendor) {
-lib/cancel-compute.js:301:export function getSupportedVendors() {
-lib/cancel-compute.js:308:export function getRulesVersion() {
+lib/cancel-compute.js:302:export function getSupportedVendors() {
+lib/cancel-compute.js:309:export function getRulesVersion() {
 lib/cancel-compute.js:40:function withRulebook(result, vendor, rulebookResult) {
 lib/cancel-compute.js:52:export function validateInput({ vendor, region, plan, billing_cadence }) {
 lib/cancel-rulebook.js:12:export function evaluateCancelPolicyRulebook(inputs) {
@@ -264,28 +266,29 @@ lib/metrics-store.js:33:export function recordVendorRequest(vendorName, ts = Dat
 lib/metrics-store.js:46:export function getMetricsSnapshot() {
 lib/metrics-store.js:5:function getStore() {
 lib/policy-context.js:1:export function resolveQualifyingConditionContext({
-lib/policy-coverage-scorecard.js:107:function countByCandidateMetadata(candidates, key) {
-lib/policy-coverage-scorecard.js:115:function validateCandidateUrl({
-lib/policy-coverage-scorecard.js:138:function buildCandidateCoverage(candidateRegistry = {}, lifecycleReport = {}) {
-lib/policy-coverage-scorecard.js:168:export function validatePolicyVendorCandidateRegistry(candidateRegistry = {}, admittedVendorIds = new Set()) {
-lib/policy-coverage-scorecard.js:239:export function buildPolicyCoverageScorecard({
-lib/policy-coverage-scorecard.js:24:function toFinitePositiveNumber(value, fallback) {
-lib/policy-coverage-scorecard.js:29:function percent(value, target) {
-lib/policy-coverage-scorecard.js:308:export function formatPolicyCoverageScorecardMarkdown(scorecard = {}) {
-lib/policy-coverage-scorecard.js:34:function productionVendorIds(rulebooks = {}) {
-lib/policy-coverage-scorecard.js:42:function decisionModeFor(policy, config = {}) {
-lib/policy-coverage-scorecard.js:49:function buildPolicyDepth(rulebooks = {}) {
-lib/policy-coverage-scorecard.js:78:function buildSourceCoverage(sourceMaps = {}) {
+lib/policy-coverage-scorecard.js:123:function buildSourceCoverage(sourceMaps = {}) {
+lib/policy-coverage-scorecard.js:152:function countByCandidateMetadata(candidates, key) {
+lib/policy-coverage-scorecard.js:160:function validateCandidateUrl({
+lib/policy-coverage-scorecard.js:183:function buildCandidateCoverage(candidateRegistry = {}, lifecycleReport = {}) {
+lib/policy-coverage-scorecard.js:213:export function validatePolicyVendorCandidateRegistry(candidateRegistry = {}, admittedVendorIds = new Set()) {
+lib/policy-coverage-scorecard.js:27:function toFinitePositiveNumber(value, fallback) {
+lib/policy-coverage-scorecard.js:284:export function buildPolicyCoverageScorecard({
+lib/policy-coverage-scorecard.js:32:function percent(value, target) {
+lib/policy-coverage-scorecard.js:356:export function formatPolicyCoverageScorecardMarkdown(scorecard = {}) {
+lib/policy-coverage-scorecard.js:37:function productionVendorIds(rulebooks = {}) {
+lib/policy-coverage-scorecard.js:45:function decisionModeFor(policy, config = {}) {
+lib/policy-coverage-scorecard.js:52:function buildPolicyDepth(rulebooks = {}) {
+lib/policy-coverage-scorecard.js:81:function buildRuntimeReadiness({ rulebooks, sourceMaps, evidenceSnapshot, now }) {
 lib/policy-decision-material.js:12:export function attachPolicyDecisionMaterial(result, { rulebook, inputs } = {}) {
 lib/policy-decision-material.js:36:export function exposePolicyDecisionMaterial(req, payload) {
 lib/policy-decision-material.js:3:function readHeader(req, name) {
-lib/policy-evidence-snapshot.js:105:  const promise = (async () => {
-lib/policy-evidence-snapshot.js:114:      const operation = (async () => {
+lib/policy-evidence-snapshot.js:101:export async function loadPolicyEvidenceSnapshot(options = {}) {
+lib/policy-evidence-snapshot.js:111:  const promise = (async () => {
+lib/policy-evidence-snapshot.js:120:      const operation = (async () => {
 lib/policy-evidence-snapshot.js:20:const sha256 = (value) => createHash("sha256").update(value).digest("hex");
 lib/policy-evidence-snapshot.js:22:export function readPolicyEvidenceCatalog() {
-lib/policy-evidence-snapshot.js:41:export function buildPolicyEvidenceSnapshot(report, catalog = CATALOG) {
-lib/policy-evidence-snapshot.js:65:function decodeArtifact(row, now) {
-lib/policy-evidence-snapshot.js:95:export async function loadPolicyEvidenceSnapshot(options = {}) {
+lib/policy-evidence-snapshot.js:45:export function buildPolicyEvidenceSnapshot(report, catalog = CATALOG) {
+lib/policy-evidence-snapshot.js:71:function decodeArtifact(row, now) {
 lib/policy-freshness.js:36:export function buildPolicyFreshnessReport({
 lib/policy-freshness.js:3:function parseDate(value) {
 lib/policy-freshness.js:8:export function evaluatePolicyFreshness({
@@ -322,7 +325,7 @@ lib/policy-request-binding.cjs:23:function policyRequestMatchesInputs(policy, re
 lib/policy-request-binding.cjs:8:function canonicalJson(value) {
 lib/policy-review.js:14:export function buildPolicyReviewUpdate({
 lib/policy-review.js:8:function requiredString(value, label) {
-lib/policy-runtime-evidence.js:2:export function evaluatePolicyEvidence({ policy, vendor, snapshot, sourceHash, policyVersion, sourceUrl, verifiedAt, now = new Date() }) {
+lib/policy-runtime-evidence.js:2:export function evaluatePolicyEvidence({ policy, vendor, snapshot, sourceHash, policyVersion, sourceUrl, verifiedAt, monitoringStatus, now = new Date() }) {
 lib/policy-state-integrity.js:4:export function validatePolicyStateArtifacts(rows, allowedPaths, now = new Date()) {
 lib/policy-supabase.js:107:export async function supabaseUpsertRows(config, tableName, rows = [], onConflictColumns = []) {
 lib/policy-supabase.js:13:export function getPolicySupabaseConfig(env = process.env) {
@@ -331,6 +334,7 @@ lib/policy-supabase.js:31:function buildUrl(baseUrl, path, params = {}) {
 lib/policy-supabase.js:47:function buildHeaders(config, { json = true, prefer = "" } = {}) {
 lib/policy-supabase.js:61:export async function supabaseRestRequest(config, { method = "GET", path = "", params = {}, body, prefer = "" } = {}) {
 lib/policy-supabase.js:7:function normalizeUrl(value = "") {
+lib/policy-support-catalogue.js:9:export function buildPolicySupportCatalogue({ snapshot = null, now = new Date(), policy, vendor } = {}) {
 lib/policy-vendor-candidate-monitor.js:114:function responseHeader(response, name) {
 lib/policy-vendor-candidate-monitor.js:118:function assertCandidateContent(text, source = {}) {
 lib/policy-vendor-candidate-monitor.js:130:async function fetchZendeskArticle({ fetchUrl, fetchImpl, timeoutMs }) {
@@ -343,13 +347,13 @@ lib/policy-vendor-candidate-monitor.js:44:export function toObservationSlot(now 
 lib/policy-vendor-candidate-monitor.js:52:function validateSourceUrl(sourceUrl, allowedHosts) {
 lib/policy-vendor-candidate-monitor.js:62:function updatePolicyState(previous = {}, observation, observationWindow) {
 lib/policy-vendor-lifecycle.js:16:function parseDate(value) {
-lib/policy-vendor-lifecycle.js:181:function aggregateMonitoredVendors(rows) {
-lib/policy-vendor-lifecycle.js:204:export function buildPolicyVendorLifecycleReport({
+lib/policy-vendor-lifecycle.js:191:function aggregateMonitoredVendors(rows) {
+lib/policy-vendor-lifecycle.js:217:export function buildPolicyVendorLifecycleReport({
 lib/policy-vendor-lifecycle.js:21:function ageDays(value, now) {
-lib/policy-vendor-lifecycle.js:276:export function formatPolicyVendorLifecycleMarkdown(report = {}) {
 lib/policy-vendor-lifecycle.js:28:function normalizeAdmission(registry = {}) {
+lib/policy-vendor-lifecycle.js:295:export function formatPolicyVendorLifecycleMarkdown(report = {}) {
 lib/policy-vendor-lifecycle.js:47:export function evaluateMonitoredVendorPolicy(row = {}, {
-lib/policy-vendor-lifecycle.js:84:function evaluateCandidatePolicy({
+lib/policy-vendor-lifecycle.js:94:function evaluateCandidatePolicy({
 lib/privacy-identifiers.js:3:export function buildPseudonymousCallerId(value = "", salt = "") {
 lib/rate-limit.js:108:export function addRateLimitHeaders(res, result) {
 lib/rate-limit.js:11:export function createRateLimiter(requests, window) {
@@ -358,16 +362,16 @@ lib/rate-limit.js:74:export function getClientIp(req) {
 lib/rate-limit.js:86:export function sendRateLimitError(res, result, request_id) {
 lib/refund-compute.js:133:export function compute(
 lib/refund-compute.js:27:function withSource(result, vendor) {
-lib/refund-compute.js:294:export function getSupportedVendors() {
-lib/refund-compute.js:301:export function getRulesVersion() {
+lib/refund-compute.js:295:export function getSupportedVendors() {
+lib/refund-compute.js:302:export function getRulesVersion() {
 lib/refund-compute.js:41:function withRulebook(result, vendor, rulebookResult) {
 lib/refund-compute.js:53:export function validateInput({ vendor, days_since_purchase, region, plan, qualifying_conditions_met }) {
 lib/refund-rulebook.js:12:export function evaluateRefundPolicyRulebook(inputs) {
 lib/request-query.js:3:export function parseRequestQuery(request) {
 lib/return-compute.js:132:export function compute(
 lib/return-compute.js:27:function withSource(result, vendor) {
-lib/return-compute.js:317:export function getSupportedVendors() {
-lib/return-compute.js:324:export function getRulesVersion() {
+lib/return-compute.js:318:export function getSupportedVendors() {
+lib/return-compute.js:325:export function getRulesVersion() {
 lib/return-compute.js:41:function withRulebook(result, vendor, rulebookResult) {
 lib/return-compute.js:53:export function validateInput({ vendor, days_since_purchase, region, plan, qualifying_conditions_met }) {
 lib/return-rulebook.js:12:export function evaluateReturnPolicyRulebook(inputs) {
@@ -469,8 +473,8 @@ lib/successful-fetch-cache.js:1:function isSuccessfulRawFetch(value) {
 lib/successful-fetch-cache.js:5:export function createSuccessfulFetchCache({ isSuccess = isSuccessfulRawFetch } = {}) {
 lib/trial-compute.js:135:export function compute(
 lib/trial-compute.js:26:function withSource(result, vendor) {
-lib/trial-compute.js:313:export function getSupportedVendors() {
-lib/trial-compute.js:320:export function getRulesVersion() {
+lib/trial-compute.js:314:export function getSupportedVendors() {
+lib/trial-compute.js:321:export function getRulesVersion() {
 lib/trial-compute.js:40:function withRulebook(result, vendor, rulebookResult) {
 lib/trial-compute.js:52:export function validateInput({
 lib/trial-rulebook.js:12:export function evaluateTrialPolicyRulebook(inputs) {
@@ -654,12 +658,12 @@ scripts/check-policies.js:3680:export async function checkPolicySet({
 scripts/check-policies.js:370:function sleep(ms) {
 scripts/check-policies.js:374:export function createMinIntervalScheduler({ minIntervalMs = 0, sleepFn = sleep, nowFn = Date.now } = {}) {
 scripts/check-policies.js:379:  return function schedule(task) {
-scripts/check-policies.js:3880:  const ensureCoverageEntry = (vendor) => {
-scripts/check-policies.js:3887:  const markSuccessfulFetch = (vendor, whenUtc, fetchLane = "") => {
-scripts/check-policies.js:3895:  const markConfirmedChange = (vendor, whenUtc) => {
-scripts/check-policies.js:3900:  const getConfiguredSourceUrl = (vendorConfig) => {
-scripts/check-policies.js:3910:  const getVendorVolatilityTier = (vendorConfig, sourceUrl = "") => {
-scripts/check-policies.js:3946:  const clearBlockedRetryQueueEntry = (vendor) => {
+scripts/check-policies.js:3882:  const ensureCoverageEntry = (vendor) => {
+scripts/check-policies.js:3889:  const markSuccessfulFetch = (vendor, whenUtc, fetchLane = "") => {
+scripts/check-policies.js:3897:  const markConfirmedChange = (vendor, whenUtc) => {
+scripts/check-policies.js:3902:  const getConfiguredSourceUrl = (vendorConfig) => {
+scripts/check-policies.js:3912:  const getVendorVolatilityTier = (vendorConfig, sourceUrl = "") => {
+scripts/check-policies.js:3948:  const clearBlockedRetryQueueEntry = (vendor) => {
 scripts/check-policies.js:400:function jitter(ms) {
 scripts/check-policies.js:406:function normalizeFetchLane(value) {
 scripts/check-policies.js:410:function normalizeFetchLaneList(values) {
@@ -676,12 +680,12 @@ scripts/check-policies.js:504:function toDateOnlyUtc(date = new Date()) {
 scripts/check-policies.js:508:function addUtcDays(value = "", days = 0) {
 scripts/check-policies.js:515:function toZeroPolicyCounts() {
 scripts/check-policies.js:519:function buildZeroChangeContinuityAlert(dateUtc = "") {
-scripts/check-policies.js:5534:async function main() {
+scripts/check-policies.js:5553:async function main() {
 scripts/check-policies.js:565:function summarizePolicyCounts(changedItems) {
 scripts/check-policies.js:574:function toPolicyCountObject(changedItems) {
 scripts/check-policies.js:584:function getPolicyAlertFeedMaxEntries() {
-scripts/check-policies.js:5900:  const toPolicyCountString = (items) => Object.entries(summarizePolicyCounts(items))
 scripts/check-policies.js:590:function getPolicyAlertIncludeZeroChange() {
+scripts/check-policies.js:5919:  const toPolicyCountString = (items) => Object.entries(summarizePolicyCounts(items))
 scripts/check-policies.js:595:function buildRunUrl() {
 scripts/check-policies.js:602:function sortAlertsByGeneratedUtcDesc(alerts = []) {
 scripts/check-policies.js:610:function removeAlertsForDate(alerts = [], dateUtc = "") {
@@ -997,7 +1001,7 @@ scripts/test-policy-alerts-api.js:45:function assertCommonPayload(result, expect
 scripts/test-policy-alerts-api.js:58:function assertNoLegacySourceObject(result) {
 scripts/test-policy-alerts-api.js:63:function assertAlertShapeIfPresent(result) {
 scripts/test-policy-alerts-api.js:86:function testAppliesRecordedPolicyEventReviews() {
-scripts/test-policy-coverage-scorecard.js:115:function testCandidateMetadataAndProductionIdsAreValidated() {
+scripts/test-policy-coverage-scorecard.js:118:function testCandidateMetadataAndProductionIdsAreValidated() {
 scripts/test-policy-coverage-scorecard.js:12:function buildFixture() {
 scripts/test-policy-coverage-scorecard.js:97:function testScorecardSeparatesTrackedFromAdmittedCoverage() {
 scripts/test-policy-evidence-snapshot.js:34:const fetchImpl = async (url, init) => {
@@ -1016,29 +1020,29 @@ scripts/test-policy-funnel.js:15:function createResponse() {
 scripts/test-policy-funnel.js:29:function buildsMinimalAllowlistedEvent() {
 scripts/test-policy-funnel.js:61:async function persistsOnlyMinimalFields() {
 scripts/test-policy-mcp.js:108:async function testCallsCancellationTool() {
-scripts/test-policy-mcp.js:131:async function testRoutesAmbiguousCancellationContextToReview() {
-scripts/test-policy-mcp.js:178:async function testRoutesVariableTrialOfferToReview() {
+scripts/test-policy-mcp.js:132:async function testRoutesAmbiguousCancellationContextToReview() {
+scripts/test-policy-mcp.js:179:async function testRoutesVariableTrialOfferToReview() {
 scripts/test-policy-mcp.js:21:async function testListsAllPolicyNotaryTools() {
-scripts/test-policy-mcp.js:227:async function testRoutesDynamicTrialsToReview() {
-scripts/test-policy-mcp.js:272:async function testRoutesConditionalRefundToReview() {
-scripts/test-policy-mcp.js:324:async function testKeepsApprovalBasedRefundsInManualReview() {
-scripts/test-policy-mcp.js:368:async function testPublicPolicyRoutesFailClosed() {
-scripts/test-policy-mcp.js:393:function testPolicyAutomationModesAreExplicit() {
-scripts/test-policy-mcp.js:452:function testPolicySourceHashTracksReviewedPolicyNotMonitorTime() {
+scripts/test-policy-mcp.js:228:async function testRoutesDynamicTrialsToReview() {
+scripts/test-policy-mcp.js:273:async function testRoutesConditionalRefundToReview() {
+scripts/test-policy-mcp.js:325:async function testKeepsApprovalBasedRefundsInManualReview() {
+scripts/test-policy-mcp.js:369:async function testPublicPolicyRoutesFailClosed() {
+scripts/test-policy-mcp.js:394:function testPolicyAutomationModesAreExplicit() {
+scripts/test-policy-mcp.js:453:function testPolicySourceHashTracksReviewedPolicyNotMonitorTime() {
 scripts/test-policy-mcp.js:45:async function testSupportsLifecyclePingAndProtocolNegotiation() {
-scripts/test-policy-mcp.js:474:async function testRoutesConditionalReturnToReview() {
-scripts/test-policy-mcp.js:526:async function testCallsEveryPolicyTool() {
-scripts/test-policy-mcp.js:594:async function testLabelsSourceAndRuleFreshnessPrecisely() {
-scripts/test-policy-mcp.js:620:async function testRejectsArgumentsOutsidePublishedSchema() {
-scripts/test-policy-mcp.js:647:async function testRejectsUnexpectedBrowserOrigin() {
-scripts/test-policy-mcp.js:667:async function testAcceptsInitializedNotificationWithoutResponseBody() {
-scripts/test-policy-mcp.js:682:async function testRejectsGetWhenSseIsNotImplemented() {
-scripts/test-policy-mcp.js:695:async function testRejectsNonJsonRpcTwoRequests() {
-scripts/test-policy-mcp.js:712:async function testRejectsUnsupportedProtocolVersionHeader() {
-scripts/test-policy-mcp.js:731:function readJson(relativePath) {
-scripts/test-policy-mcp.js:735:function testPublishesCanonicalDiscoveryMetadata() {
-scripts/test-policy-mcp.js:789:async function testPublishesOnePolicyMcpVersion() {
-scripts/test-policy-mcp.js:819:async function testRoutesCanonicalPolicyHostname() {
+scripts/test-policy-mcp.js:475:async function testRoutesConditionalReturnToReview() {
+scripts/test-policy-mcp.js:527:async function testCallsEveryPolicyTool() {
+scripts/test-policy-mcp.js:595:async function testLabelsSourceAndRuleFreshnessPrecisely() {
+scripts/test-policy-mcp.js:621:async function testRejectsArgumentsOutsidePublishedSchema() {
+scripts/test-policy-mcp.js:648:async function testRejectsUnexpectedBrowserOrigin() {
+scripts/test-policy-mcp.js:668:async function testAcceptsInitializedNotificationWithoutResponseBody() {
+scripts/test-policy-mcp.js:683:async function testRejectsGetWhenSseIsNotImplemented() {
+scripts/test-policy-mcp.js:696:async function testRejectsNonJsonRpcTwoRequests() {
+scripts/test-policy-mcp.js:713:async function testRejectsUnsupportedProtocolVersionHeader() {
+scripts/test-policy-mcp.js:732:function readJson(relativePath) {
+scripts/test-policy-mcp.js:736:function testPublishesCanonicalDiscoveryMetadata() {
+scripts/test-policy-mcp.js:790:async function testPublishesOnePolicyMcpVersion() {
+scripts/test-policy-mcp.js:820:async function testRoutesCanonicalPolicyHostname() {
 scripts/test-policy-mcp.js:92:function testPublishesReadOnlyToolContracts() {
 scripts/test-policy-review.js:22:function testRulebookUpdateRequiresVersion() {
 scripts/test-policy-review.js:7:function testBuildsAuditableNoRuleChangeReview() {
@@ -1111,6 +1115,9 @@ api/policy-mcp.js:3:import { MCP_TOOL_CONFIG as returnTool } from "./return-mcp.
 api/policy-mcp.js:4:import { MCP_TOOL_CONFIG as trialTool } from "./trial-mcp.js";
 api/policy-mcp.js:5:import { createMcpHandler } from "../lib/mcp-handler.js";
 api/policy-mcp.js:6:import { POLICY_MCP_SERVER_INFO } from "../lib/policy-mcp-metadata.js";
+api/policy-support.js:1:import { loadPolicyEvidenceSnapshot } from '../lib/policy-evidence-snapshot.js';
+api/policy-support.js:2:import { buildPolicySupportCatalogue } from '../lib/policy-support-catalogue.js';
+api/policy-support.js:3:import { parseRequestQuery } from '../lib/request-query.js';
 api/return-mcp.js:1:import { compute, getSupportedVendors } from "../lib/return-compute.js";
 api/return-mcp.js:2:import { createMcpHandler } from "../lib/mcp-handler.js";
 api/return-mcp.js:3:import { loadPolicyEvidenceSnapshot } from "../lib/policy-evidence-snapshot.js";
@@ -1168,6 +1175,8 @@ lib/mcp-handler.js:3:import { validateJsonSchema } from "./json-schema-lite.js";
 lib/mcp-handler.js:4:import { buildMcpTelemetryEvent, persistMcpTelemetryEvent } from "./mcp-telemetry.js";
 lib/mcp-telemetry.js:1:import { timingSafeEqual } from "node:crypto";
 lib/mcp-telemetry.js:3:import { buildPseudonymousCallerId } from "./privacy-identifiers.js";
+lib/policy-coverage-scorecard.js:1:import { buildPolicySourceHash } from "./lineage.js";
+lib/policy-coverage-scorecard.js:2:import { evaluatePolicyEvidence } from "./policy-runtime-evidence.js";
 lib/policy-evidence-snapshot.js:1:import { readFileSync } from "node:fs";
 lib/policy-evidence-snapshot.js:2:import { createHash } from "node:crypto";
 lib/policy-evidence-snapshot.js:3:import { buildPolicySourceHash } from "./lineage.js";
@@ -1179,6 +1188,8 @@ lib/policy-growth-store.js:1:import {
 lib/policy-growth-store.js:6:import { fetchPolicyMcpEvents } from "./mcp-adoption-store.js";
 lib/policy-growth-store.js:7:import {
 lib/policy-state-integrity.js:1:import { createHash } from 'node:crypto';
+lib/policy-support-catalogue.js:1:import { readPolicyEvidenceCatalog } from './policy-evidence-snapshot.js';
+lib/policy-support-catalogue.js:2:import { evaluatePolicyEvidence } from './policy-runtime-evidence.js';
 lib/policy-vendor-candidate-monitor.js:1:import { createHash } from "node:crypto";
 lib/privacy-identifiers.js:1:import { createHmac } from "node:crypto";
 lib/refund-compute.js:1:import { readFileSync } from "node:fs";
@@ -1487,6 +1498,14 @@ scripts/test-policy-mcp.js:6:import { MCP_TOOL_CONFIG as refundTool } from "../a
 scripts/test-policy-mcp.js:7:import { MCP_TOOL_CONFIG as cancelTool } from "../api/cancel-mcp.js";
 scripts/test-policy-mcp.js:8:import { MCP_TOOL_CONFIG as returnTool } from "../api/return-mcp.js";
 scripts/test-policy-mcp.js:9:import { MCP_TOOL_CONFIG as trialTool } from "../api/trial-mcp.js";
+scripts/test-policy-readiness.js:1:import { testPolicyEvidenceSnapshot } from './test-helpers/install-policy-evidence-fixture.js';
+scripts/test-policy-readiness.js:2:import assert from 'node:assert/strict';
+scripts/test-policy-readiness.js:3:import { readFileSync } from 'node:fs';
+scripts/test-policy-readiness.js:4:import { buildPolicyCoverageScorecard } from '../lib/policy-coverage-scorecard.js';
+scripts/test-policy-retired-monitor.js:1:import assert from 'node:assert/strict';
+scripts/test-policy-retired-monitor.js:2:import { mkdtempSync, writeFileSync, readFileSync } from 'node:fs';
+scripts/test-policy-retired-monitor.js:3:import { tmpdir } from 'node:os';
+scripts/test-policy-retired-monitor.js:4:import { join } from 'node:path';
 scripts/test-policy-review.js:3:import assert from "node:assert/strict";
 scripts/test-policy-review.js:5:import { buildPolicyReviewUpdate } from "../lib/policy-review.js";
 scripts/test-policy-runtime-evidence.js:1:import assert from "node:assert/strict";
@@ -1500,6 +1519,13 @@ scripts/test-policy-scoped-admission.js:5:import { readPolicyEvidenceCatalog } f
 scripts/test-policy-state-integrity.js:1:import assert from 'node:assert/strict';
 scripts/test-policy-state-integrity.js:2:import { createHash } from 'node:crypto';
 scripts/test-policy-state-integrity.js:3:import { validatePolicyStateArtifacts } from '../lib/policy-state-integrity.js';
+scripts/test-policy-support-catalogue.js:1:import { testPolicyEvidenceSnapshot } from './test-helpers/install-policy-evidence-fixture.js';
+scripts/test-policy-support-catalogue.js:2:import assert from 'node:assert/strict';
+scripts/test-policy-support-catalogue.js:3:import { invokeJson } from './test-helpers/http-harness.js';
+scripts/test-policy-support-safety.js:1:import { testPolicyEvidenceSnapshot } from './test-helpers/install-policy-evidence-fixture.js';
+scripts/test-policy-support-safety.js:2:import assert from 'node:assert/strict';
+scripts/test-policy-support-safety.js:3:import policyMcp from '../api/policy-mcp.js';
+scripts/test-policy-support-safety.js:4:import { invokeJson } from './test-helpers/http-harness.js';
 scripts/test-policy-vendor-candidates.js:3:import assert from "node:assert/strict";
 scripts/test-policy-vendor-candidates.js:5:import {
 scripts/test-policy-vendor-lifecycle.js:3:import assert from "node:assert/strict";

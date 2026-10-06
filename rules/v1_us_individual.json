@@ -1,5 +1,5 @@
 {
-  "rules_version": "2026-07-16",
+  "rules_version": "2026-10-06",
   "scope": {
     "region": "US",
     "plan": "individual"
@@ -58,7 +58,8 @@
     },
     "canva": {
       "window_days": 0,
-      "decision_mode": "deterministic"
+      "decision_mode": "review_only",
+      "review_reason": "Refund exceptions, purchase channel and product type require manual review; a zero-day default is not a blanket denial."
     },
     "chatgpt_plus": {
       "window_days": 0,
@@ -201,7 +202,8 @@
     },
     "netflix": {
       "window_days": 0,
-      "decision_mode": "deterministic"
+      "decision_mode": "review_only",
+      "review_reason": "The former source was a plan-change article. The replacement terms require regional and payment-channel qualification before modeled decisions resume."
     },
     "nintendo_switch_online": {
       "window_days": 0,
@@ -265,7 +267,8 @@
     },
     "spotify": {
       "window_days": 0,
-      "decision_mode": "deterministic"
+      "decision_mode": "review_only",
+      "review_reason": "Premium, partner payments, gift cards and audiobook or podcast refunds are distinct scopes not modeled by the current input."
     },
     "squarespace": {
       "window_days": 14,

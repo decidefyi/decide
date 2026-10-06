@@ -227,7 +227,7 @@ async function main() {
   );
 
   await runCase(
-    "cancel workflow => penalty escalation",
+    "incomplete Adobe cancellation => policy owner review",
     zendeskWorkflowRoute,
     {
       method: "POST",
@@ -250,9 +250,10 @@ async function main() {
       expect(statusCode === 200, "expected 200");
       expect(json.ok === true, "expected ok=true");
       expect(json.decision?.c === "yes", "expected decision yes");
-      expect(json.policy?.verdict === "PENALTY", "expected policy PENALTY");
-      expect(json.action?.type === "escalate_with_penalty_disclosure", "expected escalation with penalty");
-      expect(json.action.zendesk_tags.includes("cancel_penalty"), "expected cancel_penalty tag");
+      expect(json.policy?.verdict === "UNKNOWN", "expected incomplete contract review");
+      expect(json.policy?.automation_safe === false, "review-only must not authorize automation");
+      expect(json.action?.type === "escalate_policy_owner", "expected policy owner escalation");
+      expect(json.action.zendesk_tags.includes("cancel_unknown"), "expected cancel_unknown tag");
     }
   );
 

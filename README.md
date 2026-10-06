@@ -397,13 +397,23 @@ Evaluates a refund only when the versioned rule and supplied source-specific fac
 
 Checks cancellation penalties — early termination fees, contract locks, or free cancellation.
 
+Adobe cancellation is review-only: billing cadence cannot identify its contract,
+timing, state-specific or renewal branch. This example is a safe review response,
+not a fee quote. Retired or non-current policy evidence also requires review.
+
 **Input:** `vendor`, `region`, `plan`, and conditionally `billing_cadence`
 
 ```json
-{"verdict":"PENALTY","code":"EARLY_TERMINATION_FEE","message":"adobe charges an early termination fee: 50% of remaining months on annual plan.","vendor":"adobe","policy":"etf","billing_cadence":"annual","automation_safe":true}
+{"verdict":"UNKNOWN","code":"MISSING_REQUIRED_CONTEXT","vendor":"adobe","billing_cadence":"annual","policy_decision_mode":"review_only","required_context":["manual_policy_review"],"automation_safe":false}
 ```
 
 **Codes:** `NO_PENALTY`, `EARLY_TERMINATION_FEE`, `CONTRACT_LOCKED`, `MISSING_REQUIRED_CONTEXT`, `UNSUPPORTED_VENDOR`
+
+Known vendor IDs are not a promise that every scope can be automated. Check
+`automation_safe`, `policy_decision_mode` and `policy_evidence` on each response.
+WeightWatchers refund, cancellation and return sources are retired; their history
+remains available, but they are no longer actively fetched or usable for new
+automated decisions. See [scope reliability and admission](docs/POLICY_VENDOR_LIFECYCLE.md).
 
 ## Return Notary
 
@@ -465,7 +475,7 @@ Each policy family has versioned rules and source metadata. Cancellation has 101
 The source tracker monitors official vendor documentation and terms of service;
 it does not automatically promote page text into a verdict.
 
-- **Six-hour source checks** — The `Daily Policy Check` workflow runs every six hours across refund, cancellation, return, and trial sources. Material signals enter a human review queue.
+- **Daily source checks** — The `Daily Policy Check` workflow runs once daily across refund, cancellation, return, and trial sources. Material signals enter a human review queue; fetching does not renew applicability verification.
 - **Human-verification freshness**: `npm run audit:policy-freshness` reports reviewed-source age independently from tracker uptime. New policy evaluations also require [current, request-bound evidence](docs/POLICY_EVIDENCE_HARDENING.md); missing or stale evidence routes to review.
 - **Policy source URLs tracked** — Each policy family has its own sources file in `rules/` linking to official policy pages.
 - **Compliance export** — `GET /api/compliance-export` returns a CSV snapshot of tracked sources, hashes, and pending candidate changes (`?format=json` for machine-readable output).
@@ -562,6 +572,14 @@ it does not automatically promote page text into a verdict.
 ## Public Policy APIs And Protected Decision API
 
 All 4 policy servers are free to use. No authentication. No API keys.
+
+The read-only [policy support catalogue](https://policy.decide.fyi/api/policy-support)
+lists per-policy US individual scopes as supported, review-only, observed-offer,
+retired or degraded. Filter with `?policy=cancel&vendor=adobe`. A known vendor
+identifier is not a support promise: inspect the current scope status and the
+actual decision's `automation_safe`, evidence and required context. Catalogue
+reads neither evaluate a tool nor execute an action. Missing monitoring is
+explicit, not reported as healthy. See [the catalogue contract](docs/POLICY_SUPPORT_CATALOGUE.md).
 
 `/api/decide` requires a trusted proxy or API credential in production. Local and preview deployments can opt into the same boundary with `DECIDE_API_AUTH_REQUIRED=1`; configuring `DECIDE_API_KEY` or `DECIDE_PROXY_SHARED_TOKEN` also enables it.
 

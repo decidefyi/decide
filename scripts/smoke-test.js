@@ -118,8 +118,9 @@ async function main() {
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
-      expect(json.verdict === "PENALTY", "expected PENALTY");
-      expect(json.code === "EARLY_TERMINATION_FEE", "expected EARLY_TERMINATION_FEE");
+      expect(json.verdict === "UNKNOWN", "expected Adobe contract review");
+      expect(json.code === "MISSING_REQUIRED_CONTEXT", "expected MISSING_REQUIRED_CONTEXT");
+      expect(json.automation_safe === false, "unsupported contract is unsafe to automate");
       expect(
         json.rulebook_result?.engine === "decide_rulebook_v1",
         "expected cancel Rulebook v1 result"
@@ -265,7 +266,7 @@ async function main() {
     },
     ({ statusCode, json }) => {
       expect(statusCode === 200, "expected 200");
-      expect(json.result?.structuredContent?.verdict === "PENALTY", "expected structured PENALTY verdict");
+      expect(json.result?.structuredContent?.verdict === "UNKNOWN", "expected structured contract review");
       expect(
         json.result?.structuredContent?.rulebook_result?.engine === "decide_rulebook_v1",
         "expected structured cancel Rulebook v1 result"
@@ -393,8 +394,8 @@ async function main() {
       expect(statusCode === 200, "expected 200");
       expect(json.ok === true, "expected ok=true");
       expect(json.decision?.c === "yes", "expected decision yes");
-      expect(json.policy?.verdict === "PENALTY", "expected PENALTY policy");
-      expect(json.action?.type === "escalate_with_penalty_disclosure", "expected penalty escalation action");
+      expect(json.policy?.verdict === "UNKNOWN", "expected contract review policy");
+      expect(json.action?.type === "escalate_policy_owner", "expected policy-owner review action");
     }
   );
 

@@ -1,5 +1,5 @@
 {
-  "rules_version": "2026-07-16",
+  "rules_version": "2026-10-06",
   "scope": {
     "region": "US",
     "plan": "individual"
@@ -96,8 +96,9 @@
       "return_window_days": 0,
       "return_type": "none",
       "method": "n/a",
-      "conditions": "No refunds per terms of use",
-      "decision_mode": "deterministic"
+      "conditions": "Subscription, print-product, purchase-channel and refund exceptions require manual review",
+      "decision_mode": "review_only",
+      "review_reason": "The broad vendor identifier does not distinguish a subscription refund from a print-product return."
     },
     "chatgpt_plus": {
       "return_window_days": 0,
@@ -338,8 +339,9 @@
       "return_window_days": 0,
       "return_type": "none",
       "method": "n/a",
-      "conditions": "No refunds; account saved for 10 months after cancellation",
-      "decision_mode": "deterministic"
+      "conditions": "Review the applicable regional subscription and payment-partner terms",
+      "decision_mode": "review_only",
+      "review_reason": "The former source was a plan-change article; regional terms and payment-channel applicability need requalification."
     },
     "nintendo_switch_online": {
       "return_window_days": 0,
@@ -448,8 +450,9 @@
       "return_window_days": 0,
       "return_type": "none",
       "method": "n/a",
-      "conditions": "No refunds; reverts to free tier on cancellation",
-      "decision_mode": "deterministic"
+      "conditions": "Product type and payment channel require manual review",
+      "decision_mode": "review_only",
+      "review_reason": "Premium payments, retail gift cards and digital content have different refund or return routes."
     },
     "squarespace": {
       "return_window_days": 14,

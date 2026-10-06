@@ -77,7 +77,7 @@
     },
     "canva": {
       "url": "https://www.canva.com/policies/terms-of-use/",
-      "notes": "No refunds",
+      "notes": "Review-only: non-refundability has legal, discretionary and product/channel exceptions. Supporting reference: https://www.canva.com/help/subscription-refunds/ .",
       "backup_urls": [
         "https://www.canva.com/policies/terms-of-use/",
         "https://www.canva.com/help/"
@@ -301,8 +301,9 @@
       ]
     },
     "netflix": {
-      "url": "https://help.netflix.com/en/node/22",
-      "notes": "No refunds"
+      "url": "https://help.netflix.com/legal/termsofuse",
+      "last_verified_utc": "",
+      "notes": "Review-only pending regional qualification and source burn-in. The previous node/22 URL covers plan changes, not refund eligibility; its old verification does not apply to this replacement."
     },
     "nintendo_switch_online": {
       "url": "https://www.nintendo.com/us/refund-return-policy/digital-products/",
@@ -383,7 +384,7 @@
     },
     "spotify": {
       "url": "https://www.spotify.com/us/legal/end-user-agreement/",
-      "notes": "No refunds"
+      "notes": "Review-only: product and payment-channel exceptions are not represented in the input. Supporting reference: https://support.spotify.com/us/article/refund-policy/ ."
     },
     "squarespace": {
       "url": "https://support.squarespace.com/hc/en-us/articles/360000623648-Refund-policies",
@@ -489,7 +490,11 @@
     },
     "weightwatchers": {
       "url": "https://www.weightwatchers.com/us/terms-and-conditions",
-      "notes": "Refund eligibility depends on selected plan and commitment."
+      "notes": "Retired from active monitoring and automated decisions. Plan-specific historical rules are retained for reference only.",
+      "monitoring_status": "retired",
+      "retired_on": "2026-10-06",
+      "retirement_reason": "No successful source fetch since 2026-08-05; direct 404, mirror 403 and browser-hook timeout. Requalify a primary source and review the specific plan before reopening.",
+      "retirement_evidence": "https://github.com/decidefyi/decide/actions/runs/37263127260"
     },
     "siriusxm": {
       "url": "https://www.siriusxm.com/customeragreement/",

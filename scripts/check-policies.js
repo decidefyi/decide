@@ -3843,7 +3843,9 @@ export async function checkPolicySet({
     };
   }
 
-  const vendors = Object.entries(sources.vendors);
+  const knownVendors = Object.entries(sources.vendors);
+  const retiredVendors = knownVendors.filter(([, config]) => config?.monitoring_status === "retired");
+  const vendors = knownVendors.filter(([, config]) => config?.monitoring_status !== "retired");
   const observedChanged = [];
   const materialChanged = [];
   const materialRepeatSuppressed = [];
@@ -5222,7 +5224,7 @@ export async function checkPolicySet({
     ...qualityGateHeldPending,
   ]);
   const provisionalVendors = [...provisionalVendorSet].sort((a, b) => a.localeCompare(b));
-  const trackedVendorSet = new Set(vendors.map(([vendor]) => vendor));
+  const trackedVendorSet = new Set(knownVendors.map(([vendor]) => vendor));
   for (const queueVendor of Object.keys(newBlockedRetryQueue)) {
     if (!trackedVendorSet.has(queueVendor)) {
       delete newBlockedRetryQueue[queueVendor];
@@ -5265,6 +5267,10 @@ export async function checkPolicySet({
   }
 
   // Write updated hashes and state artifacts.
+  // Retiring stops work, not historical retention or prior candidate evidence.
+  for (const [vendor] of retiredVendors) {
+    if (Object.hasOwn(storedCandidates, vendor)) newCandidates[vendor] = storedCandidates[vendor];
+  }
   writeFileSync(hashesPath, JSON.stringify(newHashes, null, 2) + "\n");
   writeFileSync(candidatesPath, JSON.stringify(newCandidates, null, 2) + "\n");
   writeFileSync(
@@ -5364,9 +5370,21 @@ export async function checkPolicySet({
   const fallbackSignalSetForReport = new Set(fallbackSignalChangedSet);
   const fallbackSignalActionableSetForReport = new Set(fallbackSignalActionableSet);
 
-  const vendorStatusRows = vendors
+  const vendorStatusRows = knownVendors
     .map(([vendor, vendorConfig]) => {
       const coverage = ensureCoverageEntry(vendor);
+      if (vendorConfig?.monitoring_status === "retired") {
+        return {
+          policy: name, vendor, status: "retired", status_order: 9,
+          reason: vendorConfig.retirement_reason || "source_retired_by_catalogue_review",
+          flags: ["source_retired"], source_url: getConfiguredSourceUrl(vendorConfig),
+          monitoring_status: "retired", retirement_evidence: vendorConfig.retirement_evidence || "",
+          last_successful_fetch_utc: String(coverage.last_successful_fetch_utc || ""),
+          consecutive_fetch_failures: Number(coverage.consecutive_fetch_failures || 0),
+          last_confirmed_change_utc: String(coverage.last_confirmed_change_utc || ""),
+          last_runtime_evidence_reset_utc: String(coverage.last_runtime_evidence_reset_utc || ""),
+        };
+      }
       const candidate = newCandidates[vendor];
       const materialEntry = materialByVendor.get(vendor);
       const observedEntry = observedByVendor.get(vendor);
@@ -5474,6 +5492,7 @@ export async function checkPolicySet({
             : (typeof vendorConfig === "string" ? vendorConfig : ""),
         source_volatility_tier: sourceVolatilityTier,
         last_successful_fetch_utc: String(coverage.last_successful_fetch_utc || ""),
+        consecutive_fetch_failures: Number(coverage.consecutive_fetch_failures || 0),
         last_confirmed_change_utc: String(coverage.last_confirmed_change_utc || ""),
         last_runtime_evidence_reset_utc: String(coverage.last_runtime_evidence_reset_utc || ""),
         pending_candidate: Boolean(candidate),
@@ -6103,6 +6122,9 @@ async function main() {
     console.log(`::warning::Candidate vendor monitor failed without affecting current notaries: ${String(error?.message || error)}`);
   }
 
+  const statusReport = writePolicyStatusReports(allVendorStatusRows, generatedAtUtc);
+  const evidenceSnapshot = buildPolicyEvidenceSnapshot(statusReport);
+  const evidenceText = JSON.stringify(evidenceSnapshot, null, 2) + "\n";
   const vendorLifecycleReport = buildPolicyVendorLifecycleReport({
     rows: allVendorStatusRows,
     candidateRegistry,
@@ -6125,12 +6147,12 @@ async function main() {
     ),
     candidateRegistry,
     lifecycleReport: vendorLifecycleReport,
+    evidenceSnapshot: { ...evidenceSnapshot, snapshot_hash: createHash("sha256").update(evidenceText).digest("hex") },
     now: new Date(generatedAtUtc),
   });
   writePolicyCoverageScorecard(policyCoverageScorecard);
-  const statusReport = writePolicyStatusReports(allVendorStatusRows, generatedAtUtc);
   writeFileSync(join(__dirname, "..", POLICY_EVIDENCE_ARTIFACT_PATH),
-    JSON.stringify(buildPolicyEvidenceSnapshot(statusReport), null, 2) + "\n");
+    evidenceText);
   writeWeeklyTriageReports(allVendorStatusRows, generatedAtUtc);
   const changedDateUtc = generatedAtUtc.slice(0, 10);
   let alertFeedPublishState = {

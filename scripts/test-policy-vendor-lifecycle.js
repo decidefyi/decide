@@ -165,4 +165,17 @@ assert.ok(runtimeMarkdown.includes(runtimeReport.runtime_enforcement_mode));
 assert.ok(runtimeMarkdown.includes(runtimeReport.runtime_enforcement_basis));
 assert.equal(runtimeMarkdown.includes("disabled (audit-only)"), false);
 console.log("PASS lifecycle Markdown reports the same enforcement contract and verification limits as JSON");
-console.log("Policy vendor lifecycle tests passed: 4/4");
+const maintenance = buildPolicyVendorLifecycleReport({ now: new Date('2026-10-06T12:00:00Z'), rows: [
+  { policy: 'refund', vendor: 'mixed', status: 'retired', monitoring_status: 'retired' },
+  { policy: 'cancel', vendor: 'mixed', status: 'unchanged', last_successful_fetch_utc: '2026-10-06T06:00:00Z' },
+  { policy: 'return', vendor: 'persistent', status: 'fetch_failed', consecutive_fetch_failures: 8, last_successful_fetch_utc: '2026-10-01T06:00:00Z' },
+  { policy: 'refund', vendor: 'temporary', status: 'fetch_failed', consecutive_fetch_failures: 1, last_successful_fetch_utc: '2026-10-05T06:00:00Z' },
+] });
+assert.equal(maintenance.totals.retired_policy_count, 1);
+assert.equal(maintenance.totals.active_policy_count, 3);
+assert.equal(maintenance.monitored_vendors.find(row => row.vendor === 'mixed').lifecycle, 'partially_retired');
+assert.deepEqual(maintenance.retirement_review_queue.map(row => `${row.policy}:${row.vendor}`), ['return:persistent']);
+assert.equal(maintenance.monitored_vendors.find(row => row.vendor === 'mixed').policies.find(row => row.policy === 'cancel').lifecycle, 'monitored');
+assert.equal(maintenance.automatic_policy_retirement, false);
+console.log('PASS: scoped retirement and persistent failure review do not remove healthy policies or transient failures');
+console.log("Policy vendor lifecycle tests passed: 5/5");
