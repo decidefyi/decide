@@ -12,7 +12,7 @@ export default async function policySupport(req, res) {
   if (req.method !== 'GET') return send(405, { error: 'METHOD_NOT_ALLOWED' });
   const query = parseRequestQuery(req);
   if (Object.keys(query).some(key => !['policy', 'vendor'].includes(key))
-    || Object.values(query).some(value => typeof value !== 'string' || !/^[a-z][a-z0-9_-]{0,63}$/.test(value))
+    || Object.values(query).some(value => typeof value !== 'string' || !/^[a-z0-9][a-z0-9_-]{0,63}$/.test(value))
     || (query.policy && !['refund', 'cancel', 'return', 'trial'].includes(query.policy))) {
     return send(400, { error: 'INVALID_FILTER', message: 'Use one policy and/or vendor filter. No caller evidence or clock is accepted.' });
   }
