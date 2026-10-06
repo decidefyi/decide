@@ -14,6 +14,17 @@ The daily checker derives lifecycle state per vendor-policy pair:
 - `degraded`: the current source is blocked, failed, missing, or held by the quality gate.
 - `expired`: the last successful fetch is older than the policy-specific freshness limit.
 - `deprecated`: a reviewed configuration explicitly retires the vendor.
+- `retired`: an explicit `monitoring_status: retired` source entry stops this
+  policy's fetch/retry work and withholds evidence for new decisions. It retains
+  historical state. Other scopes remain independent; the vendor summary uses
+  `partially_retired` when only some scopes are retired.
+
+`retirement_review_queue` identifies current failures with at least seven
+consecutive failed checks or source freshness at its expiry boundary. This is a
+repair-or-retirement review queue, not an automatic removal mechanism. A single
+temporary outage with valid reviewed evidence does not qualify. Reopening needs
+a qualified official source and a reviewed, bounded policy scope; changing a
+timestamp is not requalification.
 
 New policy API and MCP evaluations require validated runtime evidence. The server reads a checksum-validated, complete snapshot through the service-only database boundary. It never uses a checked-in file as a runtime fallback. Missing, expired, changed, corrupt or unavailable evidence selects `UNKNOWN` with `automation_safe: false` through Rulebook v1. A failed source fetch alone does not invalidate a still-current reviewed evidence window.
 
@@ -51,7 +62,14 @@ The coverage scorecard keeps three numbers separate:
 
 - `tracked`: distinct vendors across admitted and candidate policy surfaces.
 - `admitted`: vendors with at least one reviewed policy present in production rulebooks.
-- `decision-ready`: production policy surfaces with deterministic or conditional decision modes.
+- `decision-ready`: configured production policy surfaces with deterministic or
+  conditional decision modes, not a promise of fresh evidence or a safe request.
+- `runtime_readiness.evidence_ready_surface_count`: configured decision-capable
+  scopes with current snapshot evidence and an active source. Request context is
+  still required. This is report-time evidence, not a live availability probe.
+
+`runtime_readiness.review_queue` exposes missing/invalid, expired and due-within-
+14-days verification. Source fetching never renews the recorded verification.
 
 ### Typeform cancellation admission
 
@@ -77,4 +95,4 @@ Each daily run writes:
 - `rules/policy-coverage-scorecard.json`
 - `rules/policy-coverage-scorecard.md`
 
-The lifecycle report identifies unreliable current vendor-policy pairs and candidates that have earned review. It does not remove vendors or rename public IDs. The separate runtime snapshot supplies freshness facts to the notary rulebooks; historical replay retains the original facts and verdict.
+The lifecycle report identifies unreliable current vendor-policy pairs and candidates that have earned review. It does not remove vendors or rename public IDs automatically. Explicit retired source entries stop scheduling and withhold runtime authority for the selected scopes. The separate runtime snapshot supplies freshness facts to the notary rulebooks; historical replay retains the original facts and verdict.

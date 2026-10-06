@@ -13,7 +13,7 @@ export const TOOL = {
   name: "cancellation_penalty",
   title: "Check cancellation penalty",
   description:
-    "Check US subscription cancellation terms without executing cancellation. Typeform requires Basic, direct/self-serve platform subscription scope and returns CANCEL_AT_PERIOD_END, not an immediate cancellation or refund. Missing scope or current evidence returns UNKNOWN.",
+    "Check US subscription cancellation terms without executing cancellation. Known vendors include review-only and retired scopes: their presence is not automation support. Adobe requires manual contract review. Typeform requires Basic, direct/self-serve platform scope and returns CANCEL_AT_PERIOD_END, not an immediate cancellation or refund. Missing scope, retired sources or unavailable current evidence return UNKNOWN.",
   inputSchema: {
     type: "object",
     additionalProperties: false,

@@ -121,7 +121,8 @@ async function testCallsCancellationTool() {
   });
 
   assert.equal(response.statusCode, 200);
-  assert.equal(response.json?.result?.structuredContent?.verdict, "PENALTY");
+  assert.equal(response.json?.result?.structuredContent?.verdict, "UNKNOWN");
+  assert.equal(response.json?.result?.structuredContent?.automation_safe, false);
   assert.equal(
     response.json?.result?.structuredContent?.rulebook_result?.engine,
     "decide_rulebook_v1"
@@ -171,8 +172,8 @@ async function testRoutesAmbiguousCancellationContextToReview() {
     },
   });
 
-  assert.equal(monthly.json?.result?.structuredContent?.verdict, "FREE_CANCEL");
-  assert.equal(monthly.json?.result?.structuredContent?.code, "NO_PENALTY");
+  assert.equal(monthly.json?.result?.structuredContent?.verdict, "UNKNOWN");
+  assert.equal(monthly.json?.result?.structuredContent?.code, "MISSING_REQUIRED_CONTEXT");
 }
 
 async function testRoutesVariableTrialOfferToReview() {
@@ -539,7 +540,7 @@ async function testCallsEveryPolicyTool() {
     {
       name: "cancellation_penalty",
       arguments: { vendor: "adobe", region: "US", plan: "individual", billing_cadence: "annual" },
-      verdict: "PENALTY",
+      verdict: "UNKNOWN",
     },
     {
       name: "return_eligibility",

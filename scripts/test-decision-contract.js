@@ -3669,7 +3669,7 @@ async function testRefundPolicyRulebookOutcomes() {
   const cases = [
     {
       label: "vendor without refunds",
-      body: { vendor: "netflix", days_since_purchase: 1, region: "US", plan: "individual" },
+      body: { vendor: "disney_plus", days_since_purchase: 1, region: "US", plan: "individual" },
       verdict: "DENIED",
       code: "NO_REFUNDS",
       matchedRuleId: "deny_vendor_without_refunds",
@@ -3743,7 +3743,7 @@ async function testRefundPolicyRulebookBindsEvidenceIdentity() {
       body: { vendor, days_since_purchase: 5, region: "US", plan: "individual" },
     });
 
-  const netflix = await evaluate("netflix");
+  const netflix = await evaluate("disney_plus");
   const hulu = await evaluate("hulu");
   assert.equal(netflix.json?.window_days, hulu.json?.window_days, "evidence-binding comparison requires equal windows");
   assert.equal(
@@ -4080,8 +4080,8 @@ async function testCancelPolicyRulebookFixture() {
     body: { vendor: "adobe", region: "US", plan: "individual", billing_cadence: "annual" },
   });
   assert.equal(result.statusCode, 200, "cancel policy status mismatch");
-  assert.equal(result.json?.verdict, "PENALTY", "cancel policy legacy verdict mismatch");
-  assert.equal(result.json?.code, "EARLY_TERMINATION_FEE", "cancel policy legacy reason code mismatch");
+  assert.equal(result.json?.verdict, "UNKNOWN", "unsupported Adobe contract must require review");
+  assert.equal(result.json?.code, "MISSING_REQUIRED_CONTEXT", "cancel policy reason code mismatch");
   assertLineage(result.json, "cancel_policy_v1");
   assert.equal(result.json?.rulebook_result?.engine, "decide_rulebook_v1", "cancel policy should use Rulebook v1");
   assert.equal(
@@ -4091,17 +4091,17 @@ async function testCancelPolicyRulebookFixture() {
   );
   assert.equal(
     result.json?.rulebook_result?.application_verdict,
-    "PENALTY",
+    "UNKNOWN",
     "cancel policy Rulebook v1 application verdict mismatch"
   );
   assert.equal(
     result.json?.rulebook_result?.reason_code,
-    "EARLY_TERMINATION_FEE",
+    "MISSING_REQUIRED_CONTEXT",
     "cancel policy Rulebook v1 reason code mismatch"
   );
   assert.equal(
     result.json?.rulebook_result?.matched_rule_id,
-    "penalty_early_termination_fee",
+    "review_missing_context",
     "cancel policy Rulebook v1 matched rule mismatch"
   );
   assert.equal(result.json?.rulebook_result?.trusted_adapter, undefined, "cancel policy should not use a trusted adapter");
@@ -4118,11 +4118,11 @@ async function testCancelPolicyRulebookOutcomes() {
       matchedRuleId: "allow_free_cancel",
     },
     {
-      label: "early termination fee",
+      label: "Adobe contract review",
       body: { vendor: "adobe", region: "US", plan: "individual", billing_cadence: "annual" },
-      verdict: "PENALTY",
-      code: "EARLY_TERMINATION_FEE",
-      matchedRuleId: "penalty_early_termination_fee",
+      verdict: "UNKNOWN",
+      code: "MISSING_REQUIRED_CONTEXT",
+      matchedRuleId: "review_missing_context",
     },
     {
       label: "unsupported vendor",
@@ -4331,7 +4331,7 @@ async function testReturnPolicyRulebookOutcomes() {
     },
     {
       label: "vendor without returns",
-      body: { vendor: "netflix", days_since_purchase: 1, region: "US", plan: "individual" },
+      body: { vendor: "disney_plus", days_since_purchase: 1, region: "US", plan: "individual" },
       verdict: "NON_RETURNABLE",
       code: "NO_RETURNS",
       matchedRuleId: "deny_no_returns",
@@ -4405,7 +4405,7 @@ async function testReturnPolicyRulebookBindsEvidenceIdentity() {
       body: { vendor, days_since_purchase: 5, region: "US", plan: "individual" },
     });
 
-  const netflix = await evaluate("netflix");
+  const netflix = await evaluate("disney_plus");
   const hulu = await evaluate("hulu");
   assert.equal(netflix.json?.return_window_days, hulu.json?.return_window_days, "evidence-binding comparison requires equal return windows");
   assert.equal(netflix.json?.return_type, hulu.json?.return_type, "evidence-binding comparison requires equal return type");

@@ -64,8 +64,11 @@ assert_jsonrpc_success "refund MCP" "$refund"
 assert_contains "refund MCP verdict" "$refund" '"verdict":"ALLOWED"'
 
 cancel="$(post_json "/api/cancel-mcp" '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"cancellation_penalty","arguments":{"vendor":"adobe","region":"US","plan":"individual","billing_cadence":"annual"}}}')"
-assert_jsonrpc_success "cancel MCP" "$cancel"
-assert_contains "cancel MCP verdict" "$cancel" '"verdict":"PENALTY"'
+assert_contains "cancel MCP content" "$cancel" '"content":[{"type":"text"'
+assert_contains "cancel MCP review" "$cancel" '"isError":true'
+assert_contains "cancel MCP verdict" "$cancel" '"verdict":"UNKNOWN"'
+assert_contains "cancel MCP context" "$cancel" '"code":"MISSING_REQUIRED_CONTEXT"'
+assert_contains "cancel MCP safety" "$cancel" '"automation_safe":false'
 
 returns="$(post_json "/api/return-mcp" '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"return_eligibility","arguments":{"vendor":"adobe","days_since_purchase":5,"region":"US","plan":"individual","qualifying_conditions_met":true}}}')"
 assert_jsonrpc_success "return MCP" "$returns"

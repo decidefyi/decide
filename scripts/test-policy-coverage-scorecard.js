@@ -96,6 +96,9 @@ function buildFixture() {
 
 function testScorecardSeparatesTrackedFromAdmittedCoverage() {
   const scorecard = buildPolicyCoverageScorecard(buildFixture());
+  assert.equal(scorecard.production.runtime_readiness.evidence_snapshot_available, false);
+  assert.equal(scorecard.production.runtime_readiness.evidence_ready_surface_count, 0);
+  assert.match(scorecard.counting_contract.decision_ready, /not.*current evidence/);
 
   assert.equal(scorecard.production.admitted_vendor_count, 2);
   assert.equal(scorecard.production.configured_policy_surface_count, 8);
