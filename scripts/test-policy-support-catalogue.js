@@ -22,6 +22,9 @@ assert.equal(filtered.json.total, 1);
 assert.equal(filtered.json.rows[0].verified_at, null);
 assert.equal(filtered.json.rows[0].review_status, 'missing_or_invalid');
 assert.equal(filtered.json.rows[0].support_status, 'unsupported');
+const numeric = await invokeJson(support, { method: 'GET', url: '/api/policy-support?vendor=1password' });
+assert.equal(numeric.statusCode, 200, 'Real vendor identifiers may start with a digit');
+assert.equal(numeric.json.total, 4);
 for (const url of ['/api/policy-support?policy=other', '/api/policy-support?now=2026-10-01',
   '/api/policy-support?policy=refund&policy=cancel']) {
   assert.equal((await invokeJson(support, { method: 'GET', url })).statusCode, 400);
