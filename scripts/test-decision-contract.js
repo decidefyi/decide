@@ -4773,7 +4773,7 @@ function testRulebookRuntimeManifest() {
       workflow.includes("actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6"),
       `${label} must pin the reviewed setup-node v6 commit`
     );
-    assert.ok(workflow.includes('node-version: "24"'), `${label} must run tests on Node 24`);
+    assert.ok(workflow.includes('node-version: "24.22.1"'), `${label} must run tests on patched Node 24.22.1`);
     assert.equal(workflow.includes("actions/checkout@v"), false, `${label} must not use a mutable checkout tag`);
     assert.equal(workflow.includes("actions/setup-node@v"), false, `${label} must not use a mutable setup-node tag`);
     assert.equal(workflow.includes('node-version: "20"'), false, `${label} must not pin Node 20`);
