@@ -27,7 +27,7 @@ jobs:
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: "24"
+          node-version: "24.22.1"
 
       - name: Verify CI cost policy
         run: node --test scripts/ci-cost-controls.test.cjs scripts/ci-preflight.test.cjs
