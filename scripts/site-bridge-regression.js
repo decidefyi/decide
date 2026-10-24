@@ -33,6 +33,12 @@ assert(!html.includes("Krafthaus"), "home page should stay Decide-only");
 assert(!html.includes("krafthaus"), "home page should not mention external product brand");
 pass("Decide root positions engine and proof applications");
 
+const head = html.split(/<\/head>/i)[0];
+const robots = head.match(/<meta\s+name=["']robots["']\s+content=["']([^"']+)["']/i)?.[1] || "";
+assert(robots.split(/[,\s]+/).includes("noindex"), "duplicate engine HTML should stay out of the search index");
+assert(robots.split(/[,\s]+/).includes("follow"), "engine HTML should retain crawlable links to public documentation");
+pass("duplicate engine landing HTML is noindex without blocking documentation links");
+
 assert(html.includes("This Decide URL remains the stable MCP and REST runtime"), "notary subdomain copy should preserve stable runtime message");
 assert(html.includes("policy-check reference applications"), "notary subdomain copy should frame reference applications");
 pass("notary subdomain runtime copy is present");
