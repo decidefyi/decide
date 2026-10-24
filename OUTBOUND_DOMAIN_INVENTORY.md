@@ -1,6 +1,6 @@
 # Outbound Domain Inventory (Exhaustive)
 
-Generated: 2026-10-06T01:21:13.714Z
+Generated: 2026-10-24T17:35:45.493Z
 
 Repository: `decide`
 
@@ -316,7 +316,7 @@ These are domains tagged as runtime/ops critical (`vercel`, `github`, `stripe`, 
 | www.twitch.tv | 17 | 15 | config_or_data, data_source | T3-content-static | third_party | public/rules/cancel-policy-sources.json:458, public/rules/cancel-policy-sources.json:467, public/rules/policy-sources.json:422 |
 | www.uber.com | 32 | 16 | config_or_data, data_source | T3-content-static | third_party | public/rules/cancel-policy-sources.json:471, public/rules/cancel-policy-sources.json:474, public/rules/cancel-policy-sources.json:475 |
 | www.ubisoft.com | 5 | 5 | config_or_data, data_source, other | T3-content-static | third_party | public/rules/cancel-policy-sources.json:577, rules/cancel-policy-confirmed-baseline.json:584, rules/cancel-policy-semantic-state.json:1244 |
-| www.w3.org | 1 | 1 | frontend | T3-content-static | third_party | public/index.html:9 |
+| www.w3.org | 1 | 1 | frontend | T3-content-static | third_party | public/index.html:10 |
 | www.walmart.com | 16 | 16 | config_or_data, data_source | T3-content-static | third_party | public/rules/cancel-policy-sources.json:479, public/rules/policy-sources.json:434, public/rules/return-policy-sources.json:434 |
 | www.washingtonpost.com | 9 | 9 | config_or_data, data_source | T3-content-static | third_party | public/rules/policy-sources.json:552, public/rules/return-policy-sources.json:552, public/rules/trial-policy-sources.json:519 |
 | www.weightwatchers.com | 22 | 21 | config_or_data, data_source, other | T3-content-static | third_party | public/rules/cancel-policy-sources.json:549, public/rules/policy-sources.json:492, public/rules/return-policy-sources.json:492 |
