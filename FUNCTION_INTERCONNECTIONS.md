@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-10-24 19:35:45 CEST
+Generated: 2026-10-26 13:19:41 CET
 
 ## Scope
 
@@ -1431,6 +1431,11 @@ scripts/test-mcp-telemetry.js:3:import assert from "node:assert/strict";
 scripts/test-mcp-telemetry.js:5:import { createMcpHandler } from "../lib/mcp-handler.js";
 scripts/test-mcp-telemetry.js:6:import { buildMcpTelemetryEvent, persistMcpTelemetryEvent } from "../lib/mcp-telemetry.js";
 scripts/test-mcp-telemetry.js:7:import { createReq, createRes } from "./test-helpers/http-harness.js";
+scripts/test-origin-guard.js:1:import assert from "node:assert/strict";
+scripts/test-origin-guard.js:2:import { createHash } from "node:crypto";
+scripts/test-origin-guard.js:3:import { test, afterEach } from "node:test";
+scripts/test-origin-guard.js:4:import middleware from "../middleware.js";
+scripts/test-origin-guard.js:5:import metrics from "../api/metrics.js";
 scripts/test-policy-alerts-api.js:3:import assert from "node:assert/strict";
 scripts/test-policy-alerts-api.js:5:import handler, {
 scripts/test-policy-candidate-review-packet.js:1:import assert from 'node:assert/strict';
