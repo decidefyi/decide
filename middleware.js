@@ -1,4 +1,29 @@
 export default async function middleware(request) {
+  // Apply before host shortcuts and rewrites, including direct Vercel aliases.
+  // Store only a digest at the origin; Cloudflare owns the dedicated raw token.
+  const originGuard = process.env.DECIDE_ORIGIN_GUARD;
+  if (originGuard !== undefined && originGuard !== "off") {
+    const expectedHash = process.env.DECIDE_ORIGIN_TOKEN_SHA256 || "";
+    if (originGuard !== "required" || !/^[a-f0-9]{64}$/.test(expectedHash)) {
+      return Response.json({ error: "ORIGIN_PROTECTION_UNAVAILABLE" }, {
+        status: 503,
+        headers: { "Cache-Control": "no-store" },
+      });
+    }
+    const token = request.headers.get("x-decide-origin-token") || "";
+    let tokenHash = "";
+    if (/^[a-f0-9]{64}$/.test(token)) {
+      const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
+      tokenHash = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+    }
+    // A digest comparison does not reveal a useful prefix of the raw token.
+    if (!tokenHash || tokenHash !== expectedHash) {
+      return Response.json({ error: "ORIGIN_ACCESS_DENIED" }, {
+        status: 403,
+        headers: { "Cache-Control": "no-store" },
+      });
+    }
+  }
   const url = new URL(request.url);
   const host = request.headers.get("host") || "";
   const { pathname } = url;
