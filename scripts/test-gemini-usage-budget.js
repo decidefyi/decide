@@ -25,7 +25,7 @@ assert.deepEqual(GEMINI_USAGE_HARD_CAPS, {
 });
 assert.deepEqual(GEMINI_REQUEST_HARD_CAPS, {
   promptChars: 4096,
-  timeoutMs: { single: 2000, multi: 8000, runtime: 8000 },
+  timeoutMs: { single: 2000, multi: 8000, runtime: 15000 },
   outputTokens: { single: 32, multi: 128, runtime: 512 },
   thinkingLevel: "minimal",
 });
@@ -52,7 +52,7 @@ assert.deepEqual(
   }),
   {
     maxPromptChars: 4096,
-    timeoutMs: 8000,
+    timeoutMs: 15000,
     maxOutputTokens: 512,
     thinkingLevel: "minimal",
   }
@@ -72,6 +72,11 @@ assert.deepEqual(
     thinkingLevel: "minimal",
   }
 );
+
+assert.equal(resolveGeminiRequestPolicy({ mode: "runtime", env: { DECIDE_GEMINI_TIMEOUT_MS: "8000" } }).timeoutMs, 8000,
+  "An explicitly lower runtime deadline remains in force");
+assert.equal(resolveGeminiRequestPolicy({ mode: "multi", env: { DECIDE_GEMINI_TIMEOUT_MS: "999999" } }).timeoutMs, 8000,
+  "The runtime-only deadline trial cannot raise the multi deadline");
 
 const defaults = resolveGeminiUsageBudgetConfig({
   env: BUDGET_ENV,
