@@ -1,6 +1,6 @@
 # Function Inventory + Interconnection Map
 
-Generated: 2026-10-26 13:19:41 CET
+Generated: 2026-11-01 16:15:55 CET
 
 ## Scope
 
@@ -1415,7 +1415,10 @@ scripts/test-gemini-usage-budget.js:3:import assert from "node:assert/strict";
 scripts/test-gemini-usage-budget.js:4:import {
 scripts/test-helpers/install-policy-evidence-fixture.js:2:import { mock } from "node:test";
 scripts/test-helpers/install-policy-evidence-fixture.js:3:import { createHash } from "node:crypto";
-scripts/test-helpers/install-policy-evidence-fixture.js:4:import { buildPolicyEvidenceSnapshot, readPolicyEvidenceCatalog, POLICY_EVIDENCE_ARTIFACT_PATH } from "../../lib/policy-evidence-snapshot.js";
+scripts/test-helpers/install-policy-evidence-fixture.js:4:import fs from "node:fs";
+scripts/test-helpers/install-policy-evidence-fixture.js:5:import { syncBuiltinESMExports } from "node:module";
+scripts/test-helpers/install-policy-evidence-fixture.js:6:import { fileURLToPath } from "node:url";
+scripts/test-helpers/install-policy-evidence-fixture.js:7:import { resolve } from "node:path";
 scripts/test-mcp-adoption-api.js:3:import assert from "node:assert/strict";
 scripts/test-mcp-adoption-api.js:5:import handler, { resetMcpAdoptionCacheForTests } from "../api/metrics.js";
 scripts/test-mcp-adoption-report.js:3:import assert from "node:assert/strict";

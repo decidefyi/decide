@@ -12,7 +12,9 @@
     },
     "adobe": {
       "url": "https://www.adobe.com/legal/subscription-terms.html",
-      "notes": "14-day refund window for annual/monthly plans"
+      "notes": "US Creative Cloud individual monthly, annual billed monthly and annual prepaid plans: full refund within 14 days of the initial order when the applicable product, purchase and channel conditions are verified. Renewals, reseller purchases and other Adobe products are not assumed to qualify.",
+      "last_verified_utc": "2026-11-01T14:46:18.592Z",
+      "reviewed_by": "nodeblur"
     },
     "amazon_music_unlimited": {
       "url": "https://www.amazon.com/music/unlimited",
